@@ -22,26 +22,29 @@ app:
           - url: https://discord.gg/MUpMjP2
             title: '#backstage'
 
+permission:
+  enable: true
+  
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
   # See https://backstage.io/docs/tutorials/backend-to-backend-auth for
   # information on the format
-  # auth:
-  #   keys:
-  #     - secret: ${BACKEND_SECRET}
+  auth:
+    keys:
+      - secret: _jW_Z28nY9OthVxuxtCPX0gWpxUciYBta_DR9oaC
   baseUrl: http://localhost:7007
   listen:
     port: 7007
-  # database:
-  #      client: pg
-  #      connection:
-  #         host: localhost
-  #         port: 5432
-  #         user: seuusuario
-  #         password: suasenha
   database:
-    client: better-sqlite3
-    connection: ':memory:'
+       client: pg
+       connection:
+          host: localhost
+          port: 5432
+          user: seuusuario
+          password: suasenha
+  # database:
+  #   client: better-sqlite3
+  #   connection: ':memory:'
 
   cache:
     store: memory

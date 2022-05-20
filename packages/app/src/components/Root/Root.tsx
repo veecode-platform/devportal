@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import { MyGroupsSidebarItem } from '@backstage/plugin-org';
+import GroupIcon from '@material-ui/icons/People';
 import React, { useContext, PropsWithChildren } from 'react';
 import { Link, makeStyles } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
@@ -90,6 +91,9 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
         <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
         <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
+        <MyGroupsSidebarItem singularTitle="My Squad" pluralTitle="My Squads"
+        icon={GroupIcon}
+     />
         {/* End global nav */}
         <SidebarDivider />
         <SidebarScrollWrapper>

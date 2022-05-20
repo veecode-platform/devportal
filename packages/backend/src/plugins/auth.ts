@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import { getDefaultOwnershipEntityRefs } from '@backstage/plugin-auth-backend';
 import { DEFAULT_NAMESPACE, stringifyEntityRef } from '@backstage/catalog-model';
 import {
   createRouter,
@@ -69,26 +69,25 @@ export default async function createPlugin(
       }),
       okta: providers.okta.create({
         signIn: {
-          resolver:async ({ profile }, ctx) => {
-            if (!profile.email) {
+          resolver:async (params , ctx) => {
+            console.log(`CTX=========>>${JSON.stringify(params)}`)
+            if (!params.profile.email) {
               throw new Error(
                 'Login failed, user profile does not contain an email',
               );
             }
             // We again use the local part of the email as the user name.
-            const [localPart] = profile.email.split('@');
-          
-            // By using `stringifyEntityRef` we ensure that the reference is formatted correctly
-            const userEntityRef = stringifyEntityRef({
-              kind: 'User',
-              name: localPart,
-              namespace: DEFAULT_NAMESPACE,
-            });
-          
+             const email = params.profile.email
+             const { entity } =  await ctx.findCatalogUser({filter: [
+                 { 'spec.profile.email': email }
+              ] })
+            // console.log(`user=====>${JSON.stringify(entity)}`)
+            const ownershipRefs = getDefaultOwnershipEntityRefs(entity);
+            console.log(`ownershipref======>>>${JSON.stringify(ownershipRefs)}`)
             return ctx.issueToken({
               claims: {
-                sub: userEntityRef,
-                ent: [userEntityRef],
+                sub: stringifyEntityRef(entity),
+                ent: ownershipRefs,
               },
             });
           },
