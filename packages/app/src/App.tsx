@@ -32,6 +32,7 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { PermissionedRoute } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { providers } from './identityProviders';
+import SafeRoute from './components/Routing/SafeRoute';
 
 const app = createApp({
   apis,
@@ -80,8 +81,12 @@ const routes = (
       path="/docs/:namespace/:kind/:name/*"
       element={<TechDocsReaderPage />}
     />
-    <Route path="/create" element={<ScaffolderPage />} />
-    <Route path="/api-docs" element={<ApiExplorerPage />} />
+    <Route path="/create" element={<SafeRoute allow={["default/builder"]}/>}>
+      <Route 
+        path="/create" 
+        element={<ScaffolderPage />} 
+      />
+    </Route>    <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
       path="/tech-radar"
       element={<TechRadarPage width={1500} height={800} />}

@@ -31,7 +31,7 @@ backend:
   # information on the format
   auth:
     keys:
-      - secret: _jW_Z28nY9OthVxuxtCPX0gWpxUciYBta_DR9oaC
+      - secret: ${BACKEND_SECRET_KEY}
   baseUrl: http://localhost:7007
   listen:
     port: 7007
