@@ -4,11 +4,7 @@ export function usePermissionsCheck() {
 
   const user = JSON.parse(JSON.stringify(useApi(identityApiRef)))
 
-  // console.log("LOG ->>>> ", user.target.config.identityApi.identity.ownershipEntityRefs[1].toString().split(":", 2)[1])
-  
-  // return "default/builder"
-  return (user.target.config.identityApi.identity.ownershipEntityRefs[1].toString().split(":", 2)[1])
+  const validUser = user.target.config.identityApi?.identity?.ownershipEntityRefs[1]?.toString().split(":", 2)[1]
+
+  return validUser ? validUser : "default/builder"
 }
-
-
-;
