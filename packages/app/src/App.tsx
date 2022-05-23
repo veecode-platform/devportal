@@ -1,11 +1,21 @@
 import React from 'react';
-import { Navigate, Route } from 'react-router';
-import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
+import { Route } from 'react-router';
+import { 
+   apiDocsPlugin,
+  //  ApiExplorerPage  // change for custom page
+  } from '@backstage/plugin-api-docs';
+
+  //custom page - API explorer
+  import { ApiExplorerPage } from './components/api-docs/apiExplorerPage/ApiExplorerPage';
+
 import {
   CatalogEntityPage,
-  CatalogIndexPage,
+  // CatalogIndexPage, // change for custom page
   catalogPlugin,
 } from '@backstage/plugin-catalog';
+//custom page - catalog
+import { CatalogPage as CatalogIndexPage } from './components/catalog/catalogPage';
+
 import {
   CatalogImportPage,
   catalogImportPlugin,
@@ -31,6 +41,17 @@ import { FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { PermissionedRoute } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
+
+
+//custom
+import { HomepageCompositionRoot } from '@backstage/plugin-home';
+import { HomePage } from './components/home/HomePage';
+import {Light, Dark } from './components/theme/Theme';
+import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+
 import { providers } from './identityProviders';
 import SafeRoute from './components/Routing/SafeRoute';
 
@@ -61,6 +82,28 @@ const app = createApp({
       catalogIndex: catalogPlugin.routes.catalogIndex,
     });
   },
+  themes: [{
+    id: 'Light',
+    title: 'Light Mode',
+    variant: 'light',
+    icon: <Brightness7Icon />,
+    Provider: ({ children }) => (
+      <ThemeProvider theme={Light}>
+        <CssBaseline>{children}</CssBaseline>
+      </ThemeProvider>
+    ),
+  },
+  {  
+    id: 'Dark',
+     title: 'Dark Mode',
+     variant: 'dark',
+     icon: <Brightness4Icon/>,
+     Provider: ({ children }) => (
+     <ThemeProvider theme={Dark}>
+      <CssBaseline>{children}</CssBaseline>
+     </ThemeProvider>
+  ),
+}]
 });
 
 const AppProvider = app.getProvider();
@@ -68,7 +111,11 @@ const AppRouter = app.getRouter();
 
 const routes = (
   <FlatRoutes>
-    <Navigate key="/" to="catalog" />
+    
+    <Route path="/" element={<HomepageCompositionRoot />}>
+     <HomePage />
+    </Route>
+
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"

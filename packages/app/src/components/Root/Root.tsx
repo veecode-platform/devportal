@@ -43,6 +43,8 @@ import {
 } from '@backstage/core-components';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import CategoryIcon from '@material-ui/icons/Category';
+
 import RenderItem from '../Routing/RenderItem';
 
 const useSidebarLogoStyles = makeStyles({
@@ -88,15 +90,19 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
       <SidebarDivider />
       <SidebarGroup label="Menu" icon={<MenuIcon />}>
         {/* Global nav, not org-specific */}
-        <SidebarItem icon={HomeIcon} to="catalog" text="Home" />
+        <SidebarItem icon={HomeIcon} to="/" text="Home" />
+        < MyGroupsSidebarItem
+            singularTitle="My Squad"
+            pluralTitle="My Squads"
+            icon={GroupIcon}
+          />
+        <SidebarItem icon={CategoryIcon} to="catalog" text="Catalog" />
         <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
         <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
         <RenderItem allow={["default/builder"]}>
           <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
         </RenderItem>
-        <MyGroupsSidebarItem singularTitle="My Squad" pluralTitle="My Squads"
-        icon={GroupIcon}
-     />
+
         {/* End global nav */}
         <SidebarDivider />
         <SidebarScrollWrapper>

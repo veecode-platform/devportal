@@ -31,7 +31,7 @@ backend:
   # information on the format
   auth:
     keys:
-      - secret: ${BACKEND_SECRET_KEY}
+      - secret: 5_hfrXtM44bCrzgjXXLIMysyblxvPHxvo-4OWf6a
   baseUrl: http://localhost:7007
   listen:
     port: 7007
@@ -337,9 +337,9 @@ auth:
     #   cert: 'fake-cert-base64'
     okta:
       development:
-        clientId: ${AUTH_OKTA_CLIENT_ID}
-        clientSecret: ${AUTH_OKTA_CLIENT_SECRET}
-        audience: ${AUTH_OKTA_DOMAIN}
+        clientId: 0oavf1l0oAcTq59IT696
+        clientSecret: 5_hfrXtM44bCrzgjXXLIMysyblxvPHxvo-4OWf6a
+        audience: https://trial-4629247.okta.com
     # oauth2:
     #   development:
     #     clientId: ${AUTH_OAUTH2_CLIENT_ID}
