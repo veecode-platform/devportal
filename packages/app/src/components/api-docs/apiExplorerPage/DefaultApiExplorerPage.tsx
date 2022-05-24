@@ -79,7 +79,7 @@ import {
     return (
       <PageWithHeader
         themeId="apis"
-        title="APIs"
+        title="Devportal Ipaas"
         subtitle={generatedSubtitle}
         pageTitleOverride="APIs"
       >
