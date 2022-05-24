@@ -21,10 +21,10 @@ import {
   stringifyEntityRef,
 } from '@backstage/catalog-model';
 import {
-  HeaderIconLinkRow,
+  // HeaderIconLinkRow,
   IconLinkVerticalProps,
   InfoCardVariants,
-  Link,
+  // Link,
 } from '@backstage/core-components';
 import { alertApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
 import {
@@ -46,7 +46,7 @@ import {
 } from '@material-ui/core';
 import CachedIcon from '@material-ui/icons/Cached';
 import DocsIcon from '@material-ui/icons/Description';
-import EditIcon from '@material-ui/icons/Edit';
+// import EditIcon from '@material-ui/icons/Edit';
 import React, { useCallback } from 'react';
 import { viewTechDocRouteRef } from '../routes';
 import { AboutContent } from './AboutContent';
@@ -169,7 +169,7 @@ export function AboutCard(props: AboutCardProps) {
             </IconButton> */}
           </>
         }
-        subheader={<HeaderIconLinkRow links={[viewInSource, viewInTechDocs]} />}
+        // subheader={<HeaderIconLinkRow links={[viewInSource, viewInTechDocs]} />}
       />
       <Divider />
       <CardContent className={cardContentClass}>
