@@ -62,7 +62,7 @@ const app = createApp({
       return (
         <SignInPage
           {...props}
-          providers={['guest', 'custom', ...providers]}
+          providers={[providers[4]]}
         />
       );
     },
