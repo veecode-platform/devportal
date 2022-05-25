@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Navigate, Route } from 'react-router';
 import { 
    apiDocsPlugin,
   //  ApiExplorerPage  // change for custom page
@@ -62,7 +62,7 @@ const app = createApp({
       return (
         <SignInPage
           {...props}
-          providers={['guest', 'custom', ...providers]}
+          providers={[...providers]}
         />
       );
     },
@@ -111,17 +111,22 @@ const AppRouter = app.getRouter();
 
 const routes = (
   <FlatRoutes>
-    
-    <Route path="/" element={<HomepageCompositionRoot />}>
-     <HomePage />
-    </Route>
+    <Navigate key="/home" to="api-docs" />
 
     <Route path="/catalog" element={<CatalogIndexPage />} />
+    <Route path="/api-docs" element={<ApiExplorerPage />} />
+    <Route path="/settings" element={<UserSettingsPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
     >
       {entityPage}
+    </Route>
+
+    {
+      /*
+      <Route path="/" element={<HomepageCompositionRoot />}>
+     <HomePage />
     </Route>
     <Route path="/docs" element={<TechDocsIndexPage />} />
     <Route
@@ -133,7 +138,7 @@ const routes = (
         path="/create" 
         element={<ScaffolderPage />} 
       />
-    </Route>    <Route path="/api-docs" element={<ApiExplorerPage />} />
+    </Route>
     <Route
       path="/tech-radar"
       element={<TechRadarPage width={1500} height={800} />}
@@ -146,8 +151,10 @@ const routes = (
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
-    <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+      */ 
+    }
+    
   </FlatRoutes>
 );
 
