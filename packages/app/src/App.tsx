@@ -1,5 +1,8 @@
 import React from 'react';
-import { Navigate, Route } from 'react-router';
+import { 
+  // Navigate, 
+  Route
+ } from 'react-router';
 import { 
    apiDocsPlugin,
   //  ApiExplorerPage  // change for custom page
@@ -17,13 +20,16 @@ import {
 import { CatalogPage as CatalogIndexPage } from './components/catalog/catalogPage';
 
 import {
-  CatalogImportPage,
+  // CatalogImportPage,
   catalogImportPlugin,
 } from '@backstage/plugin-catalog-import';
-import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
+import { 
+  // ScaffolderPage, 
+  scaffolderPlugin
+ } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
-import { TechRadarPage } from '@backstage/plugin-tech-radar';
+// import { TechRadarPage } from '@backstage/plugin-tech-radar';
 import {
   TechDocsIndexPage,
   techdocsPlugin,
@@ -39,13 +45,13 @@ import { AlertDisplay, OAuthRequestDialog, SignInPage } from '@backstage/core-co
 import { createApp } from '@backstage/app-defaults';
 import { FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-import { PermissionedRoute } from '@backstage/plugin-permission-react';
-import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
+// import { PermissionedRoute } from '@backstage/plugin-permission-react';
+// import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 
 
 //custom
-// import { HomepageCompositionRoot } from '@backstage/plugin-home';
-// import { HomePage } from './components/home/HomePage';
+import { HomepageCompositionRoot } from '@backstage/plugin-home';
+import { HomePage } from './components/home/HomePage';
 import {Light, Dark } from './components/theme/Theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -53,7 +59,7 @@ import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 
 import { providers } from './identityProviders';
-import SafeRoute from './components/Routing/SafeRoute';
+// import SafeRoute from './components/Routing/SafeRoute';
 
 const app = createApp({
   apis,
@@ -112,31 +118,32 @@ const AppRouter = app.getRouter();
 const routes = (
   <FlatRoutes>
 
-    <Navigate key="/" to="api-docs" />
+    {/* <Navigate key="/" to="api-docs" /> */}
     
-    {/* <Route path="/" element={<HomepageCompositionRoot />}>
+    <Route path="/" element={<HomepageCompositionRoot />}>
      <HomePage />
-    </Route> */}
+    </Route>
 
-    <Route path="/catalog" element={<CatalogIndexPage />} />
+     <Route path="/catalog" element={<CatalogIndexPage />} /> 
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
     >
       {entityPage}
     </Route>
-    <Route path="/docs" element={<TechDocsIndexPage />} />
+    <Route path="/docs" element={<TechDocsIndexPage />} /> 
     <Route
       path="/docs/:namespace/:kind/:name/*"
       element={<TechDocsReaderPage />}
     />
-    <Route path="/create" element={<SafeRoute allow={["default/builder"]}/>}>
+   {/* <Route path="/create" element={<SafeRoute allow={["default/builder"]}/>}>
       <Route 
         path="/create" 
         element={<ScaffolderPage />} 
       />
-    </Route>    <Route path="/api-docs" element={<ApiExplorerPage />} />
-    <Route
+    </Route>   */}
+    <Route path="/api-docs" element={<ApiExplorerPage />} />
+    {/* <Route
       path="/tech-radar"
       element={<TechRadarPage width={1500} height={800} />}
     />
@@ -144,7 +151,7 @@ const routes = (
       path="/catalog-import"
       permission={catalogEntityCreatePermission}
       element={<CatalogImportPage />}
-    />
+    /> */}
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
