@@ -120,7 +120,7 @@ export const HomePage = () => {
               />
             </Grid>
             <Grid container item xs={12}>
-              <Grid item lg={12}>
+              <Grid item lg={6}>
                 <HomePageStarredEntities />
               </Grid>
               {/* <Grid item xs={12} md={6}>

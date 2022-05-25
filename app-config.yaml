@@ -322,10 +322,10 @@ auth:
     #   development:
     #     clientId: ${AUTH_GOOGLE_CLIENT_ID}
     #     clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
-    github:
-      development:
-        clientId: ${GIT_CLIENT_ID}
-        clientSecret: ${GIT_CLIENT_SECRET}
+    # github:
+    #   development:
+    #     clientId: ${GIT_CLIENT_ID}
+    #     clientSecret: ${GIT_CLIENT_SECRET}
         # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
     # gitlab:
     #   development:
