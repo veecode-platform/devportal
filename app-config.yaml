@@ -1,5 +1,5 @@
 app:
-  title: Backstage Devportal
+  title:  Devportal IpaaS
   baseUrl: http://localhost:3000
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
@@ -128,7 +128,7 @@ proxy:
       Authorization: Basic ${GOCD_AUTH_CREDENTIALS}
 
 organization:
-  name: Backstage-devportal
+  name: Devportal-IpaaS
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
@@ -144,10 +144,10 @@ techdocs:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
 
 sentry:
-  organization: Backstage_admin
+  organization: Devportal-IpaaS
 
 rollbar:
-  organization: Backstage_admin
+  organization: Devportal-IpaaS
   # NOTE: The rollbar-backend & accountToken key may be deprecated in the future (replaced by a proxy config)
   accountToken: my-rollbar-account-token
 
@@ -340,7 +340,7 @@ auth:
       development:
         clientId: ${OKTA_CLIENT_ID}
         clientSecret: ${OKTA_CLIENT_SECRET}
-        audience: ${OKTA_CLIENT_AUDIENCE}
+        audience: ${OKTA_CLIENT_DOMAIN}
     # oauth2:
     #   development:
     #     clientId: ${AUTH_OAUTH2_CLIENT_ID}
