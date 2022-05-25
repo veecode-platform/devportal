@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Navigate, Route } from 'react-router';
 import { 
    apiDocsPlugin,
   //  ApiExplorerPage  // change for custom page
@@ -44,8 +44,8 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 
 
 //custom
-import { HomepageCompositionRoot } from '@backstage/plugin-home';
-import { HomePage } from './components/home/HomePage';
+// import { HomepageCompositionRoot } from '@backstage/plugin-home';
+// import { HomePage } from './components/home/HomePage';
 import {Light, Dark } from './components/theme/Theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -62,7 +62,7 @@ const app = createApp({
       return (
         <SignInPage
           {...props}
-          providers={['guest', 'custom', ...providers]}
+          providers={[providers[4]]}
         />
       );
     },
@@ -111,10 +111,12 @@ const AppRouter = app.getRouter();
 
 const routes = (
   <FlatRoutes>
+
+    <Navigate key="/" to="api-docs" />
     
-    <Route path="/" element={<HomepageCompositionRoot />}>
+    {/* <Route path="/" element={<HomepageCompositionRoot />}>
      <HomePage />
-    </Route>
+    </Route> */}
 
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route

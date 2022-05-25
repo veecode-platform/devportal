@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getDefaultOwnershipEntityRefs } from '@backstage/plugin-auth-backend';
-import { DEFAULT_NAMESPACE, stringifyEntityRef } from '@backstage/catalog-model';
+
+import { stringifyEntityRef } from '@backstage/catalog-model';
 import {
   createRouter,
   providers,
@@ -69,25 +69,28 @@ export default async function createPlugin(
       }),
       okta: providers.okta.create({
         signIn: {
-          resolver:async (params , ctx) => {
-            console.log(`CTX=========>>${JSON.stringify(params)}`)
+          resolver:async (params, ctx) => {
             if (!params.profile.email) {
               throw new Error(
                 'Login failed, user profile does not contain an email',
               );
             }
             // We again use the local part of the email as the user name.
-             const email = params.profile.email
-             const { entity } =  await ctx.findCatalogUser({filter: [
-                 { 'spec.profile.email': email }
-              ] })
-            // console.log(`user=====>${JSON.stringify(entity)}`)
-            const ownershipRefs = getDefaultOwnershipEntityRefs(entity);
-            console.log(`ownershipref======>>>${JSON.stringify(ownershipRefs)}`)
+            // const [localPart] = params.profile.email.split('@');
+          
+            // By using `stringifyEntityRef` we ensure that the reference is formatted correctly
+            const userEntityRef = stringifyEntityRef({
+              kind: 'Group',
+              name: 'consumer',
+              // namespace: DEFAULT_NAMESPACE,
+            });
+
+            // console.log(`Esse é o teste 2 ${userEntityRef}`);
+          
             return ctx.issueToken({
               claims: {
-                sub: stringifyEntityRef(entity),
-                ent: ownershipRefs,
+                sub: userEntityRef,
+                ent: [userEntityRef],
               },
             });
           },

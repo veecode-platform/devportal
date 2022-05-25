@@ -1,5 +1,5 @@
 app:
-  title: Ipaas-Devportal
+  title:  Devportal IpaaS
   baseUrl: http://localhost:3000
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
@@ -22,9 +22,10 @@ app:
           - url: https://discord.gg/MUpMjP2
             title: '#backstage'
 
+#add permission
 permission:
-  enable: true
-  
+  enabled: true
+
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
   # See https://backstage.io/docs/tutorials/backend-to-backend-auth for
@@ -35,16 +36,16 @@ backend:
   baseUrl: http://localhost:7007
   listen:
     port: 7007
-  database:
-       client: pg
-       connection:
-          host: localhost
-          port: 5432
-          user: seuusuario
-          password: suasenha
   # database:
-  #   client: better-sqlite3
-  #   connection: ':memory:'
+  #      client: pg
+  #      connection:
+  #         host: localhost
+  #         port: 5432
+  #         user: seuusuario
+  #         password: suasenha
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
 
   cache:
     store: memory
@@ -127,7 +128,7 @@ proxy:
       Authorization: Basic ${GOCD_AUTH_CREDENTIALS}
 
 organization:
-  name: My Company
+  name: Devportal-IpaaS
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
@@ -143,10 +144,10 @@ techdocs:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
 
 sentry:
-  organization: my-company
+  organization: Devportal-IpaaS
 
 rollbar:
-  organization: my-company
+  organization: Devportal-IpaaS
   # NOTE: The rollbar-backend & accountToken key may be deprecated in the future (replaced by a proxy config)
   accountToken: my-rollbar-account-token
 
@@ -321,11 +322,11 @@ auth:
     #   development:
     #     clientId: ${AUTH_GOOGLE_CLIENT_ID}
     #     clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
-    # github:
-    #   development:
-    #     clientId: ${AUTH_GITHUB_CLIENT_ID}
-    #     clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
-    #     enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
+    github:
+      development:
+        clientId: "200205"
+        clientSecret: Iv1.0dae4514332fc51a
+        # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
     # gitlab:
     #   development:
     #     clientId: ${AUTH_GITLAB_CLIENT_ID}
@@ -339,7 +340,7 @@ auth:
       development:
         clientId: ${OKTA_CLIENT_ID}
         clientSecret: ${OKTA_CLIENT_SECRET}
-        audience: ${OKTA_DOMAIN}
+        audience: ${OKTA_CLIENT_DOMAIN}
     # oauth2:
     #   development:
     #     clientId: ${AUTH_OAUTH2_CLIENT_ID}
@@ -367,9 +368,9 @@ auth:
     #     prompt: ${AUTH_OIDC_PROMPT} # default=none (allowed values: auto, none, consent, login)
     # auth0:
     #   development:
-    #     clientId: ${AUTH_AUTH0_CLIENT_ID}
-    #     clientSecret: ${AUTH_AUTH0_CLIENT_SECRET}
-    #     domain: ${AUTH_AUTH0_DOMAIN}
+    #     clientId: JkquD4NdEidlIfBcoeHjVtMrOUR9fdFt
+    #     clientSecret: JkquD4NdEidlIfBcoeHjVtMrOUR9fdFt
+    #     domain: dev--f6ruoye.us.auth0.com
     # microsoft:
     #   development:
     #     clientId: ${AUTH_MICROSOFT_CLIENT_ID}
