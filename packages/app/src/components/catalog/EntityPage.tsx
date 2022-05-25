@@ -24,7 +24,6 @@ import {
   EntityProvidingComponentsCard,
 } from '@backstage/plugin-api-docs';
 import {
-  EntityAboutCard,
   EntityDependsOnComponentsCard,
   EntityDependsOnResourcesCard,
   EntityHasComponentsCard,
@@ -41,6 +40,10 @@ import {
   hasCatalogProcessingErrors,
   isOrphan,
 } from '@backstage/plugin-catalog';
+
+//custom
+import {AboutCard as EntityAboutCard} from "../catalog/AboutCard";
+
 import {
   isGithubActionsAvailable,
   EntityGithubActionsContent,

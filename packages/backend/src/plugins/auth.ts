@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createOktaProvider, getDefaultOwnershipEntityRefs } from '@backstage/plugin-auth-backend';
+//import { createOktaProvider, getDefaultOwnershipEntityRefs } from '@backstage/plugin-auth-backend';
 import { DEFAULT_NAMESPACE, stringifyEntityRef } from '@backstage/catalog-model';
+
 import {
   createRouter,
   providers,
@@ -120,8 +121,8 @@ export default async function createPlugin(
             console.log(`ownershipref======>>>${JSON.stringify(ownershipRefs)}`)
             return ctx.issueToken({
               claims: {
-                sub: stringifyEntityRef(entity),
-                ent: ownershipRefs,
+                sub: userEntityRef,
+                ent: [userEntityRef],
               },
             });
           },

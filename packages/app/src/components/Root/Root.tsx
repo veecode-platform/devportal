@@ -45,7 +45,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import CategoryIcon from '@material-ui/icons/Category';
 
-import RenderItem from '../Routing/RenderItem';
+// import RenderItem from '../Routing/RenderItem';
 
 const useSidebarLogoStyles = makeStyles({
   root: {

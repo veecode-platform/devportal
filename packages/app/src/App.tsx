@@ -44,8 +44,8 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 
 
 //custom
-import { HomepageCompositionRoot } from '@backstage/plugin-home';
-import { HomePage } from './components/home/HomePage';
+// import { HomepageCompositionRoot } from '@backstage/plugin-home';
+// import { HomePage } from './components/home/HomePage';
 import {Light, Dark } from './components/theme/Theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';

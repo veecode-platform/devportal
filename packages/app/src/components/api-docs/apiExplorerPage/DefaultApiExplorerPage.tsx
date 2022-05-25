@@ -24,7 +24,9 @@ import {
     TableProps,
   } from '@backstage/core-components';
   import { configApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
-  import { CatalogTable, CatalogTableRow } from '@backstage/plugin-catalog';
+  import { CatalogTableRow } from '@backstage/plugin-catalog';
+  //custom
+  import { CatalogTable } from '../../catalog/catalogTable';
   import {
     EntityKindPicker,
     EntityLifecyclePicker,
@@ -77,7 +79,7 @@ import {
     return (
       <PageWithHeader
         themeId="apis"
-        title="APIs"
+        title="Devportal Ipaas"
         subtitle={generatedSubtitle}
         pageTitleOverride="APIs"
       >
