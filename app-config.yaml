@@ -32,7 +32,7 @@ backend:
   # information on the format
   auth:
     keys:
-      - secret: 5_hfrXtM44bCrzgjXXLIMysyblxvPHxvo-4OWf6a
+      - secret: ${OKTA_CLIENT_SECRET}
   baseUrl: http://localhost:7007
   listen:
     port: 7007
@@ -324,8 +324,8 @@ auth:
     #     clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
     github:
       development:
-        clientId: "200205"
-        clientSecret: Iv1.0dae4514332fc51a
+        clientId: ${GIT_CLIENT_ID}
+        clientSecret: ${GIT_CLIENT_SECRET}
         # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
     # gitlab:
     #   development:
@@ -338,9 +338,9 @@ auth:
     #   cert: 'fake-cert-base64'
     okta:
       development:
-        clientId: 0oavf1l0oAcTq59IT696
-        clientSecret: 5_hfrXtM44bCrzgjXXLIMysyblxvPHxvo-4OWf6a
-        audience: https://trial-4629247.okta.com
+        clientId: ${OKTA_CLIENT_ID}
+        clientSecret: ${OKTA_CLIENT_SECRET}
+        audience: ${OKTA_CLIENT_DOMAIN}
     # oauth2:
     #   development:
     #     clientId: ${AUTH_OAUTH2_CLIENT_ID}
