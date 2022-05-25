@@ -1,6 +1,6 @@
 app:
   title:  Devportal IpaaS
-  baseUrl: http://localhost:3000
+  baseUrl: https://backstage-keisuke169.cloud.okteto.net
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
   #  clientToken: '123456789'
@@ -33,7 +33,7 @@ backend:
   auth:
     keys:
       - secret: ${OKTA_CLIENT_SECRET}
-  baseUrl: http://localhost:7007
+  baseUrl: https://backstage-keisuke169.cloud.okteto.net
   listen:
     port: 7007
   # database:
@@ -266,8 +266,8 @@ catalog:
     # backend, for example packages/backend/.
 
     # Backstage example components
-    - type: file
-      target: ../catalog-model/examples/all-components.yaml
+    - type: github-discovery
+      target: ${GITHUB_SPECHOUSE_URL}
     # Example component for github-actions and TechDocs
     - type: file
       target: ../../plugins/github-actions/examples/sample.yaml
@@ -322,10 +322,10 @@ auth:
     #   development:
     #     clientId: ${AUTH_GOOGLE_CLIENT_ID}
     #     clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
-    github:
-      development:
-        clientId: "200205"
-        clientSecret: Iv1.0dae4514332fc51a
+    # github:
+    #   development:
+    #     clientId: ${GITHUB_CLIENT_ID}
+    #     clientSecret: ${GITHUB_CLIENT_SECRET}
         # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
     # gitlab:
     #   development:

@@ -14,7 +14,8 @@ coverage
 
 # Dependencies
 node_modules/
-
+# k8s-local
+k8s-local/
 # Node version directives
 .nvmrc
 
