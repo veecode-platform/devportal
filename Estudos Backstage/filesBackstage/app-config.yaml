@@ -1,5 +1,5 @@
 app:
-  title:  Devportal IpaaS
+  title: Backstage Example App
   baseUrl: http://localhost:3000
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
@@ -22,17 +22,13 @@ app:
           - url: https://discord.gg/MUpMjP2
             title: '#backstage'
 
-#add permission
-permission:
-  enabled: true
-
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
   # See https://backstage.io/docs/tutorials/backend-to-backend-auth for
   # information on the format
-  auth:
-    keys:
-      - secret: ${OKTA_CLIENT_SECRET}
+  # auth:
+  #   keys:
+  #     - secret: ${BACKEND_SECRET}
   baseUrl: http://localhost:7007
   listen:
     port: 7007
@@ -128,7 +124,7 @@ proxy:
       Authorization: Basic ${GOCD_AUTH_CREDENTIALS}
 
 organization:
-  name: Devportal-IpaaS
+  name: My Company
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
@@ -144,10 +140,10 @@ techdocs:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
 
 sentry:
-  organization: Devportal-IpaaS
+  organization: my-company
 
 rollbar:
-  organization: Devportal-IpaaS
+  organization: my-company
   # NOTE: The rollbar-backend & accountToken key may be deprecated in the future (replaced by a proxy config)
   accountToken: my-rollbar-account-token
 
@@ -174,7 +170,7 @@ allure:
 integrations:
   github:
     - host: github.com
-      token: ${GITHUB_TOKEN_SECRET}
+      token: ${GITHUB_TOKEN}
     ### Example for how to add your GitHub Enterprise instance using the API:
     # - host: ghe.example.net
     #   apiBaseUrl: https://ghe.example.net/api/v3
@@ -266,35 +262,35 @@ catalog:
     # backend, for example packages/backend/.
 
     # Backstage example components
-    - type: github-discovery
-      target: https://github.com/vfipaas/devportal-spechouse/blob/master/*.yaml
+    - type: file
+      target: ../catalog-model/examples/all-components.yaml
     # Example component for github-actions and TechDocs
-    # - type: file
-    #   target: ../../plugins/github-actions/examples/sample.yaml
-    # # Example component for TechDocs
-    # - type: file
-    #   target: ../../plugins/techdocs-backend/examples/documented-component/catalog-info.yaml
-    # # Backstage example APIs
-    # - type: file
-    #   target: ../catalog-model/examples/all-apis.yaml
-    # # Backstage example resources
-    # - type: file
-    #   target: ../catalog-model/examples/all-resources.yaml
-    # # Backstage example systems
-    # - type: file
-    #   target: ../catalog-model/examples/all-systems.yaml
-    # # Backstage example domains
-    # - type: file
-    #   target: ../catalog-model/examples/all-domains.yaml
-    # # Backstage example templates
-    # - type: file
-    #   target: ../../plugins/scaffolder-backend/sample-templates/all-templates.yaml
-    # # Backstage example groups and users
-    # - type: file
-    #   target: ../catalog-model/examples/acme-corp.yaml
-    # # Backstage end-to-end tests of TechDocs
-    # - type: file
-    #   target: ../../cypress/e2e-fixture.catalog.info.yaml
+    - type: file
+      target: ../../plugins/github-actions/examples/sample.yaml
+    # Example component for TechDocs
+    - type: file
+      target: ../../plugins/techdocs-backend/examples/documented-component/catalog-info.yaml
+    # Backstage example APIs
+    - type: file
+      target: ../catalog-model/examples/all-apis.yaml
+    # Backstage example resources
+    - type: file
+      target: ../catalog-model/examples/all-resources.yaml
+    # Backstage example systems
+    - type: file
+      target: ../catalog-model/examples/all-systems.yaml
+    # Backstage example domains
+    - type: file
+      target: ../catalog-model/examples/all-domains.yaml
+    # Backstage example templates
+    - type: file
+      target: ../../plugins/scaffolder-backend/sample-templates/all-templates.yaml
+    # Backstage example groups and users
+    - type: file
+      target: ../catalog-model/examples/acme-corp.yaml
+    # Backstage end-to-end tests of TechDocs
+    - type: file
+      target: ../../cypress/e2e-fixture.catalog.info.yaml
 scaffolder:
   # Use to customize default commit author info used when new components are created
   # defaultAuthor:
@@ -324,9 +320,9 @@ auth:
     #     clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
     # github:
     #   development:
-    #     clientId: ${GIT_CLIENT_ID}
-    #     clientSecret: ${GIT_CLIENT_SECRET}
-        # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
+    #     clientId: ${AUTH_GITHUB_CLIENT_ID}
+    #     clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+    #     enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
     # gitlab:
     #   development:
     #     clientId: ${AUTH_GITLAB_CLIENT_ID}
@@ -338,9 +334,9 @@ auth:
     #   cert: 'fake-cert-base64'
     okta:
       development:
-        clientId: ${OKTA_CLIENT_ID}
-        clientSecret: ${OKTA_CLIENT_SECRET}
-        audience: ${OKTA_AUDIENCE}
+        clientId: 0oatrdryqSfF01VqD696
+        clientSecret: _jW_Z28nY9OthVxuxtCPX0gWpxUciYBta_DR9oaC
+        audience: https://trial-4077350.okta.com/
     # oauth2:
     #   development:
     #     clientId: ${AUTH_OAUTH2_CLIENT_ID}
@@ -368,9 +364,9 @@ auth:
     #     prompt: ${AUTH_OIDC_PROMPT} # default=none (allowed values: auto, none, consent, login)
     # auth0:
     #   development:
-    #     clientId: JkquD4NdEidlIfBcoeHjVtMrOUR9fdFt
-    #     clientSecret: JkquD4NdEidlIfBcoeHjVtMrOUR9fdFt
-    #     domain: dev--f6ruoye.us.auth0.com
+    #     clientId: ${AUTH_AUTH0_CLIENT_ID}
+    #     clientSecret: ${AUTH_AUTH0_CLIENT_SECRET}
+    #     domain: ${AUTH_AUTH0_DOMAIN}
     # microsoft:
     #   development:
     #     clientId: ${AUTH_MICROSOFT_CLIENT_ID}
