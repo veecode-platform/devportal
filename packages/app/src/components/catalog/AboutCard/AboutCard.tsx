@@ -15,25 +15,29 @@
  */
 
 import {
-  ANNOTATION_EDIT_URL,
+  // ANNOTATION_EDIT_URL,
   ANNOTATION_LOCATION,
-  DEFAULT_NAMESPACE,
+  // DEFAULT_NAMESPACE,
   stringifyEntityRef,
 } from '@backstage/catalog-model';
 import {
   // HeaderIconLinkRow,
-  IconLinkVerticalProps,
+  // IconLinkVerticalProps,
   InfoCardVariants,
   // Link,
 } from '@backstage/core-components';
-import { alertApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
 import {
-  ScmIntegrationIcon,
-  scmIntegrationsApiRef,
-} from '@backstage/integration-react';
+   alertApiRef, 
+   useApi,
+    // useRouteRef 
+  } from '@backstage/core-plugin-api';
+// import {
+//   // ScmIntegrationIcon,
+//   scmIntegrationsApiRef,
+// } from '@backstage/integration-react';
 import {
   catalogApiRef,
-  getEntitySourceLocation,
+  // getEntitySourceLocation,
   useEntity,
 } from '@backstage/plugin-catalog-react';
 import {
@@ -45,10 +49,10 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import CachedIcon from '@material-ui/icons/Cached';
-import DocsIcon from '@material-ui/icons/Description';
+// import DocsIcon from '@material-ui/icons/Description';
 // import EditIcon from '@material-ui/icons/Edit';
 import React, { useCallback } from 'react';
-import { viewTechDocRouteRef } from '../routes';
+// import { viewTechDocRouteRef } from '../routes';
 import { AboutContent } from './AboutContent';
 
 const useStyles = makeStyles({
@@ -87,38 +91,38 @@ export function AboutCard(props: AboutCardProps) {
   const { variant } = props;
   const classes = useStyles();
   const { entity } = useEntity();
-  const scmIntegrationsApi = useApi(scmIntegrationsApiRef);
+  // const scmIntegrationsApi = useApi(scmIntegrationsApiRef);
   const catalogApi = useApi(catalogApiRef);
   const alertApi = useApi(alertApiRef);
-  const viewTechdocLink = useRouteRef(viewTechDocRouteRef);
+  // const viewTechdocLink = useRouteRef(viewTechDocRouteRef);
 
-  const entitySourceLocation = getEntitySourceLocation(
-    entity,
-    scmIntegrationsApi,
-  );
-  const entityMetadataEditUrl =
-    entity.metadata.annotations?.[ANNOTATION_EDIT_URL];
+  // const entitySourceLocation = getEntitySourceLocation(
+  //   entity,
+  //   scmIntegrationsApi,
+  // );
+  // const entityMetadataEditUrl =
+  //   entity.metadata.annotations?.[ANNOTATION_EDIT_URL];
 
-  const viewInSource: IconLinkVerticalProps = {
-    label: 'View Source',
-    disabled: !entitySourceLocation,
-    icon: <ScmIntegrationIcon type={entitySourceLocation?.integrationType} />,
-    href: entitySourceLocation?.locationTargetUrl,
-  };
-  const viewInTechDocs: IconLinkVerticalProps = {
-    label: 'View TechDocs',
-    disabled:
-      !entity.metadata.annotations?.['backstage.io/techdocs-ref'] ||
-      !viewTechdocLink,
-    icon: <DocsIcon />,
-    href:
-      viewTechdocLink &&
-      viewTechdocLink({
-        namespace: entity.metadata.namespace || DEFAULT_NAMESPACE,
-        kind: entity.kind,
-        name: entity.metadata.name,
-      }),
-  };
+  // const viewInSource: IconLinkVerticalProps = {
+  //   label: 'View Source',
+  //   disabled: !entitySourceLocation,
+  //   icon: <ScmIntegrationIcon type={entitySourceLocation?.integrationType} />,
+  //   href: entitySourceLocation?.locationTargetUrl,
+  // };
+  // const viewInTechDocs: IconLinkVerticalProps = {
+  //   label: 'View TechDocs',
+  //   disabled:
+  //     !entity.metadata.annotations?.['backstage.io/techdocs-ref'] ||
+  //     !viewTechdocLink,
+  //   icon: <DocsIcon />,
+  //   href:
+  //     viewTechdocLink &&
+  //     viewTechdocLink({
+  //       namespace: entity.metadata.namespace || DEFAULT_NAMESPACE,
+  //       kind: entity.kind,
+  //       name: entity.metadata.name,
+  //     }),
+  // };
 
   let cardClass = '';
   if (variant === 'gridItem') {

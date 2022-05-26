@@ -1,6 +1,6 @@
 app:
   title:  Devportal IpaaS
-  baseUrl: http://localhost:3000
+  baseUrl: http://localhost:7007
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
   #  clientToken: '123456789'
@@ -322,11 +322,11 @@ auth:
     #   development:
     #     clientId: ${AUTH_GOOGLE_CLIENT_ID}
     #     clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
-    github:
-      development:
-        clientId: "200205"
-        clientSecret: Iv1.0dae4514332fc51a
-        # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
+    #github:
+    #  development:
+    #    clientId: ${GITHUB_CLIENT_ID}
+    #    clientSecret: ${GITHUB_CLIENT_SECRET}
+    #    # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
     # gitlab:
     #   development:
     #     clientId: ${AUTH_GITLAB_CLIENT_ID}

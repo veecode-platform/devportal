@@ -31,4 +31,9 @@ RUN yarn install --frozen-lockfile --production --network-timeout 300000 && rm -
 COPY packages/backend/dist/bundle.tar.gz app-config.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
+
+ENV OKTA_CLIENT_ID "0oavf1l0oAcTq59IT696"
+ENV OKTA_CLIENT_SECRET "5_hfrXtM44bCrzgjXXLIMysyblxvPHxvo-4OWf6a"
+ENV OKTA_CLIENT_DOMAIN "https://trial-4629247.okta.com/"
+
 CMD ["node", "packages/backend", "--config", "app-config.yaml"]
