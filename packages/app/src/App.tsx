@@ -44,7 +44,7 @@ import { Root } from './components/Root';
 import { AlertDisplay, OAuthRequestDialog, SignInPage } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
 import { FlatRoutes } from '@backstage/core-app-api';
-import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
+//import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 // import { PermissionedRoute } from '@backstage/plugin-permission-react';
 // import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 

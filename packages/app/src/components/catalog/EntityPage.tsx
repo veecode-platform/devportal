@@ -18,10 +18,10 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityConsumedApisCard,
-  EntityConsumingComponentsCard,
+  //EntityConsumingComponentsCard,
   EntityHasApisCard,
   EntityProvidedApisCard,
-  EntityProvidingComponentsCard,
+  //EntityProvidingComponentsCard,
 } from '@backstage/plugin-api-docs';
 import {
   EntityDependsOnComponentsCard,
