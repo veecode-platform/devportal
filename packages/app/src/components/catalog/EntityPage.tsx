@@ -237,7 +237,14 @@ const componentPage = (
 
 const apiPage = (
   <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
+    <EntityLayout.Route path="/" title="Definition">
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <EntityApiDefinitionCard />
+        </Grid>
+      </Grid>
+    </EntityLayout.Route>
+    {/*<EntityLayout.Route path="/overview" title="Overview">
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid item md={6}>
@@ -258,15 +265,7 @@ const apiPage = (
           </Grid>
         </Grid>
       </Grid>
-    </EntityLayout.Route>
-
-    <EntityLayout.Route path="/definition" title="Definition">
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <EntityApiDefinitionCard />
-        </Grid>
-      </Grid>
-    </EntityLayout.Route>
+</EntityLayout.Route>*/}
   </EntityLayout>
 );
 

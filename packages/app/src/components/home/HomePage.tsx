@@ -1,11 +1,15 @@
 import {
-  HomePageToolkit,
+  // HomePageToolkit,
   HomePageCompanyLogo,
   HomePageStarredEntities,
 } from '@backstage/plugin-home';
 
 import { wrapInTestApp, TestApiProvider } from '@backstage/test-utils';
-import { Content, Page, InfoCard } from '@backstage/core-components';
+import { 
+          Content,
+           Page, 
+          //  InfoCard 
+  } from '@backstage/core-components';
 import {
   starredEntitiesApiRef,
   MockStarredEntitiesApi,
@@ -18,12 +22,15 @@ import {
   searchApiRef,
   SearchContextProvider,
 } from '@backstage/plugin-search-react';
-import { HomePageStackOverflowQuestions } from '@backstage/plugin-stack-overflow';
+// import { HomePageStackOverflowQuestions } from '@backstage/plugin-stack-overflow';
 import { Grid, makeStyles } from '@material-ui/core';
 import React, { ComponentType } from 'react';
 
 // custom
-import { Logo , Icon } from '../ipaasLogo/IpaasLogo';
+import {
+           Logo , 
+          //  Icon 
+          } from '../ipaasLogo/IpaasLogo';
 
 
 
@@ -113,10 +120,10 @@ export const HomePage = () => {
               />
             </Grid>
             <Grid container item xs={12}>
-              <Grid item xs={12} md={6}>
+              <Grid item lg={12}>
                 <HomePageStarredEntities />
               </Grid>
-              <Grid item xs={12} md={6}>
+              {/* <Grid item xs={12} md={6}>
                 <HomePageToolkit
                   tools={Array(8).fill({
                     url: '#',
@@ -124,11 +131,11 @@ export const HomePage = () => {
                     icon: <Icon />,
                   })}
                 />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <InfoCard  title="Composable Section">
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
+                <InfoCard  title="Composable Section"> */}
                   {/* placeholder for content */}
-                  <div style={{ height: 370 }} />
+                  {/* <div style={{ height: 370 }} />
                 </InfoCard>
               </Grid>
               <Grid item xs={12} md={6}>
@@ -139,7 +146,7 @@ export const HomePage = () => {
                     pagesize: 5,
                   }}
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
         </Content>
