@@ -18,7 +18,7 @@
 import React, { useContext, PropsWithChildren } from 'react';
 import { Link, makeStyles } from '@material-ui/core';
 // import HomeIcon from '@material-ui/icons/Home';
-import ExtensionIcon from '@material-ui/icons/Extension';
+// import ExtensionIcon from '@material-ui/icons/Extension';
 // import MapIcon from '@material-ui/icons/MyLocation';
 // import LibraryBooks from '@material-ui/icons/LibraryBooks';
 // import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
@@ -42,6 +42,8 @@ import {
   SidebarSpace,
 } from '@backstage/core-components';
 import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
+import CatalogIcon from '@material-ui/icons/MenuBook';
 // import SearchIcon from '@material-ui/icons/Search';
 // import CategoryIcon from '@material-ui/icons/Category';
 
@@ -84,8 +86,9 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
     <Sidebar>
       <SidebarLogo />     
       <SidebarDivider />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>       
-        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />          
+      <SidebarGroup label="Menu" icon={<MenuIcon />}>
+        <SidebarItem icon={HomeIcon} to="/" text="Home" />    
+        <SidebarItem icon={CatalogIcon} to="api-docs" text="Catálogo" />          
         <SidebarDivider />
       </SidebarGroup>
       <SidebarSpace />
