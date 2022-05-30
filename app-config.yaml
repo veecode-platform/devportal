@@ -1,6 +1,6 @@
 app:
   title:  Devportal IpaaS
-  baseUrl: https://backstage-keisuke169.cloud.okteto.net
+  baseUrl: ${BACKSTAGE_BASEURL}
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
   #  clientToken: '123456789'
@@ -33,7 +33,7 @@ backend:
   auth:
     keys:
       - secret: ${OKTA_CLIENT_SECRET}
-  baseUrl: https://backstage-keisuke169.cloud.okteto.net
+  baseUrl: ${BACKSTAGE_BASEURL}
   listen:
     port: 7007
   # database:
