@@ -17,8 +17,8 @@
 // import GroupIcon from '@material-ui/icons/People';
 import React, { useContext, PropsWithChildren } from 'react';
 import { Link, makeStyles } from '@material-ui/core';
-//import HomeIcon from '@material-ui/icons/Home';
-//import ExtensionIcon from '@material-ui/icons/Extension';
+// import HomeIcon from '@material-ui/icons/Home';
+// import ExtensionIcon from '@material-ui/icons/Extension';
 // import MapIcon from '@material-ui/icons/MyLocation';
 // import LibraryBooks from '@material-ui/icons/LibraryBooks';
 // import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
@@ -105,7 +105,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
   </SidebarPage>
 );
 
-//export const Root = ({ children }: PropsWithChildren<{}>) => (
+// export const Root = ({ children }: PropsWithChildren<{}>) => (
 //  <SidebarPage>
 //    <Sidebar>
 //      <SidebarLogo />
@@ -146,4 +146,4 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
 //    </Sidebar>
 //    {children}
 //  </SidebarPage>
-//);
+// );

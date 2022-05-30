@@ -15,17 +15,17 @@
  */
 
 import {
-  //googleAuthApiRef,
-  //gitlabAuthApiRef,
+  // googleAuthApiRef,
+  // gitlabAuthApiRef,
   oktaAuthApiRef,
-  //githubAuthApiRef,
-  //microsoftAuthApiRef,
-  //oneloginAuthApiRef,
-  //bitbucketAuthApiRef,
+  // githubAuthApiRef,
+  // microsoftAuthApiRef,
+  // oneloginAuthApiRef,
+  // bitbucketAuthApiRef,
 } from '@backstage/core-plugin-api';
 
 export const providers = [
-  /*{
+  /* {
     id: 'google-auth-provider',
     title: 'Google',
     message: 'Sign In using Google',

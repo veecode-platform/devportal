@@ -1,6 +1,6 @@
 app:
   title:  Devportal IpaaS
-  baseUrl: http://localhost:3000
+  baseUrl: ${BACKSTAGE_BASEURL}
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
   #  clientToken: '123456789'
@@ -33,7 +33,7 @@ backend:
   auth:
     keys:
       - secret: ${OKTA_CLIENT_SECRET}
-  baseUrl: http://localhost:7007
+  baseUrl: ${BACKSTAGE_BASEURL}
   listen:
     port: 7007
   # database:
@@ -267,7 +267,7 @@ catalog:
 
     # Backstage example components
     - type: github-discovery
-      target: https://github.com/vfipaas/devportal-spechouse/blob/master/*.yaml
+      target: ${GITHUB_SPECHOUSE_URL}
     # Example component for github-actions and TechDocs
     # - type: file
     #   target: ../../plugins/github-actions/examples/sample.yaml
