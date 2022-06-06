@@ -35,4 +35,7 @@ RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 # ENV OKTA_CLIENT_ID ""
 # ENV OKTA_CLIENT_SECRET ""
 # ENV OKTA_CLIENT_DOMAIN ""
+# ENV  GITHUB_SPECHOUSE_URL ""
+# ENV  GITHUB_TOKEN ""
+# ENV  BACKSTAGE_BASEURL ""
 CMD ["node", "packages/backend", "--config", "app-config.yaml"]
