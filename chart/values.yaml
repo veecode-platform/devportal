@@ -21,8 +21,8 @@ appConfig:
     baseUrl: https://devportal-mockserver-keisuke169.cloud.okteto.net
 auth:
   okta:
-    clientId: 0oa55dv9emqUhrDZv5d7
-    clientSecret: aJwAL-3WLEuY2lLgbLr33pmN3p7OX4OWC30j4cZW
-    audience: https://dev-09963056.okta.com/
-githubToken: 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
-githubSpecHouseURL: https://github.com/vfipaas/devportal-spechouse/blob/master/*.yaml
+    clientId: 
+    clientSecret: 
+    audience: 
+githubToken: 
+githubSpecHouseURL: 
