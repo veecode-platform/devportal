@@ -16,9 +16,9 @@ resources:
     memory: 1024Mi
 appConfig:
   app:
-    baseUrl: https://devportal-mockserver-keisuke169.cloud.okteto.net
+    baseUrl: 
   backend:
-    baseUrl: https://devportal-mockserver-keisuke169.cloud.okteto.net
+    baseUrl: 
 auth:
   okta:
     clientId: 
