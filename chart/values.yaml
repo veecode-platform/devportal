@@ -1,9 +1,9 @@
 replicaCount: 1
-namespace:  
 image:
   repository: 
   tag: 1.0.5
   pullPolicy: IfNotPresent
+imagePullSecrets:
 nodeEnv: development
 service:
   name: devportal
