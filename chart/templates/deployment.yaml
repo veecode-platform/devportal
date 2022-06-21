@@ -12,9 +12,9 @@ spec:
       labels:
         app: devportal
     spec:
-      {{- if .Values.dockerRegistrySecretName }}
+      {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-        - name: {{ .Values.dockerRegistrySecretName }}
+        - name: {{ .Values.imagePullSecrets }}
       {{- end}}
       containers:
         - name: {{ .Chart.Name }}
