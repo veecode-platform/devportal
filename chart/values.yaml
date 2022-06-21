@@ -9,6 +9,15 @@ service:
   name: devportal
   type: ClusterIP
   containerPort: 7007
+ingress:
+  enabled: false
+  #  ingressClassName: "nginx"
+  annotations: {}
+  hosts:
+    - host: 
+      paths:
+        - path: /
+          pathType: 
 resources:
   requests:
     memory: 512Mi
