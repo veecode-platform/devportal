@@ -1,9 +1,9 @@
 replicaCount: 1
 image:
-  repository: 
+  repository: keisuke1693/devportal
   tag: 1.0.5
   pullPolicy: IfNotPresent
-imagePullSecrets:
+#imagePullSecrets:
 nodeEnv: development
 service:
   name: devportal
@@ -11,18 +11,18 @@ service:
   containerPort: 7007
 ingress:
   enabled: false
-  #  ingressClassName: "nginx"
-  annotations: {}
-  hosts:
-    - host: 
-      paths:
-        - path: /
-          pathType: 
-resources:
-  requests:
-    memory: 512Mi
-  limits:
-    memory: 1024Mi
+    ingressClassName: "nginx"
+  #annotations: {}
+  #hosts:
+    #- host: 
+      #paths:
+        #- path: /
+          #pathType: 
+#resources:
+  #requests:
+    #memory: 512Mi
+  #limits:
+    #memory: 1024Mi
 appConfig:
   app:
     baseUrl: 
