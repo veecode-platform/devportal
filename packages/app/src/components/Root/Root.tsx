@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MyGroupsSidebarItem } from '@backstage/plugin-org';
-import GroupIcon from '@material-ui/icons/People';
+// import { MyGroupsSidebarItem } from '@backstage/plugin-org';
+// import GroupIcon from '@material-ui/icons/People';
 import React, { useContext, PropsWithChildren } from 'react';
 import { Link, makeStyles } from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
-import ExtensionIcon from '@material-ui/icons/Extension';
-import MapIcon from '@material-ui/icons/MyLocation';
-import LibraryBooks from '@material-ui/icons/LibraryBooks';
-import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
+// import HomeIcon from '@material-ui/icons/Home';
+// import ExtensionIcon from '@material-ui/icons/Extension';
+// import MapIcon from '@material-ui/icons/MyLocation';
+// import LibraryBooks from '@material-ui/icons/LibraryBooks';
+// import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 import { NavLink } from 'react-router-dom';
@@ -29,7 +29,7 @@ import {
   Settings as SidebarSettings,
   UserSettingsSignInAvatar,
 } from '@backstage/plugin-user-settings';
-import { SidebarSearchModal } from '@backstage/plugin-search';
+// import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
   Sidebar,
   sidebarConfig,
@@ -38,14 +38,16 @@ import {
   SidebarGroup,
   SidebarItem,
   SidebarPage,
-  SidebarScrollWrapper,
+  // SidebarScrollWrapper,
   SidebarSpace,
 } from '@backstage/core-components';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import CategoryIcon from '@material-ui/icons/Category';
+import HomeIcon from '@material-ui/icons/Home';
+import CatalogIcon from '@material-ui/icons/MenuBook';
+// import SearchIcon from '@material-ui/icons/Search';
+// import CategoryIcon from '@material-ui/icons/Category';
 
-import RenderItem from '../Routing/RenderItem';
+// import RenderItem from '../Routing/RenderItem';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -79,35 +81,15 @@ const SidebarLogo = () => {
     </div>
   );
 };
-
 export const Root = ({ children }: PropsWithChildren<{}>) => (
   <SidebarPage>
     <Sidebar>
-      <SidebarLogo />
-      <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
-        <SidebarSearchModal />
-      </SidebarGroup>
+      <SidebarLogo />     
       <SidebarDivider />
       <SidebarGroup label="Menu" icon={<MenuIcon />}>
-        {/* Global nav, not org-specific */}
-        <SidebarItem icon={HomeIcon} to="/" text="Home" />
-        < MyGroupsSidebarItem
-            singularTitle="My Squad"
-            pluralTitle="My Squads"
-            icon={GroupIcon}
-          />
-        <SidebarItem icon={CategoryIcon} to="catalog" text="Catalog" />
-        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
-        <RenderItem allow={["default/builder"]}>
-          <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
-        </RenderItem>
-
-        {/* End global nav */}
+        <SidebarItem icon={HomeIcon} to="/" text="Home" />    
+        <SidebarItem icon={CatalogIcon} to="api-docs" text="Catálogo" />          
         <SidebarDivider />
-        <SidebarScrollWrapper>
-          <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />
-        </SidebarScrollWrapper>
       </SidebarGroup>
       <SidebarSpace />
       <SidebarDivider />
@@ -122,3 +104,46 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
     {children}
   </SidebarPage>
 );
+
+// export const Root = ({ children }: PropsWithChildren<{}>) => (
+//  <SidebarPage>
+//    <Sidebar>
+//      <SidebarLogo />
+//      <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
+//        <SidebarSearchModal />
+//      </SidebarGroup>
+//      <SidebarDivider />
+//      <SidebarGroup label="Menu" icon={<MenuIcon />}>
+//        {/* Global nav, not org-specific */}
+//        <SidebarItem icon={HomeIcon} to="/" text="Home" />
+//        < MyGroupsSidebarItem
+//            singularTitle="My Squad"
+//            pluralTitle="My Squads"
+//            icon={GroupIcon}
+//          />
+//        <SidebarItem icon={CategoryIcon} to="catalog" text="Catalog" />
+//        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
+//        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+//        <RenderItem allow={["default/builder"]}>
+//          <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
+//        </RenderItem>
+//
+//        {/* End global nav */}
+//        <SidebarDivider />
+//        <SidebarScrollWrapper>
+//          <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />
+//        </SidebarScrollWrapper>
+//      </SidebarGroup>
+//      <SidebarSpace />
+//      <SidebarDivider />
+//      <SidebarGroup
+//        label="Settings"
+//        icon={<UserSettingsSignInAvatar />}
+//        to="/settings"
+//      >
+//        <SidebarSettings />
+//      </SidebarGroup>
+//    </Sidebar>
+//    {children}
+//  </SidebarPage>
+// );

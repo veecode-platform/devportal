@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getDefaultOwnershipEntityRefs } from '@backstage/plugin-auth-backend';
+// import { createOktaProvider, getDefaultOwnershipEntityRefs } from '@backstage/plugin-auth-backend';
 import { DEFAULT_NAMESPACE, stringifyEntityRef } from '@backstage/catalog-model';
+
 import {
   createRouter,
   providers,
@@ -38,7 +39,7 @@ export default async function createPlugin(
       // NOTE: DO NOT add this many resolvers in your own instance!
       //       It is important that each real user always gets resolved to
       //       the same sign-in identity. The code below will not do that.
-      //       It is here for demo purposes only.
+      //       It is here for demo purposes only.   
       github: providers.github.create({
         signIn: {
           resolver: providers.github.resolvers.usernameMatchingUserEntityName(),
@@ -67,10 +68,43 @@ export default async function createPlugin(
             providers.google.resolvers.emailLocalPartMatchingUserEntityName(),
         },
       }),
+
+      okta: providers.okta.create({
+        signIn:{
+          resolver: async ({ profile }, ctx) => {
+            if (!profile.email) {
+              throw new Error(
+                'Login failed, user profile does not contain an email',
+              );
+            }
+            // We again use the local part of the email as the user name.
+            const [localPart] = profile.email.split('@');
+          
+            // By using `stringifyEntityRef` we ensure that the reference is formatted correctly
+            const userEntityRef = stringifyEntityRef({
+              kind: 'User',
+              name: localPart,
+              namespace: DEFAULT_NAMESPACE,
+            });
+          
+            return ctx.issueToken({
+              claims: {
+                sub: userEntityRef,
+                ent: [userEntityRef],
+              },
+            });
+          },
+
+        },
+
+      }),
+      /*
+      solucao original
       okta: providers.okta.create({
         signIn: {
+          
           resolver:async (params , ctx) => {
-            console.log(`CTX=========>>${JSON.stringify(params)}`)
+            console.log("CTX=========>>",ctx)
             if (!params.profile.email) {
               throw new Error(
                 'Login failed, user profile does not contain an email',
@@ -78,6 +112,7 @@ export default async function createPlugin(
             }
             // We again use the local part of the email as the user name.
              const email = params.profile.email
+             
              const { entity } =  await ctx.findCatalogUser({filter: [
                  { 'spec.profile.email': email }
               ] })
@@ -86,13 +121,13 @@ export default async function createPlugin(
             console.log(`ownershipref======>>>${JSON.stringify(ownershipRefs)}`)
             return ctx.issueToken({
               claims: {
-                sub: stringifyEntityRef(entity),
-                ent: ownershipRefs,
+                sub: userEntityRef,
+                ent: [userEntityRef],
               },
             });
           },
         },
-      }),
+      }),*/
       bitbucket: providers.bitbucket.create({
         signIn: {
           resolver:

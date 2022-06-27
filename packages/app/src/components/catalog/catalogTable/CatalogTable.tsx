@@ -25,8 +25,8 @@ import {
     useEntityList,
     useStarredEntities,
   } from '@backstage/plugin-catalog-react';
-  import Edit from '@material-ui/icons/Edit';
-  import OpenInNew from '@material-ui/icons/OpenInNew';
+  // import Edit from '@material-ui/icons/Edit';
+  // import OpenInNew from '@material-ui/icons/OpenInNew';
   import { capitalize } from 'lodash';
   import React, { useMemo } from 'react';
   import { columnFactories } from './columns';
@@ -121,8 +121,8 @@ import {
         return {
           icon: () => (
             <>
-              <Typography variant="srOnly">{title}</Typography>
-              <OpenInNew fontSize="small" />
+              {/* <Typography variant="srOnly">{title}</Typography>
+              <OpenInNew fontSize="small" /> */}
             </>
           ),
           tooltip: title,
@@ -135,13 +135,13 @@ import {
       },
       ({ entity }) => {
         const url = entity.metadata.annotations?.[ANNOTATION_EDIT_URL];
-        const title = 'Edit';
+        const title = 'edit';
   
         return {
           icon: () => (
             <>
               <Typography variant="srOnly">{title}</Typography>
-              <Edit fontSize="small" />
+              {/* <Edit fontSize="small" /> */}
             </>
           ),
           tooltip: title,

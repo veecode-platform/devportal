@@ -15,17 +15,17 @@
  */
 
 import {
-  googleAuthApiRef,
-  gitlabAuthApiRef,
+  // googleAuthApiRef,
+  // gitlabAuthApiRef,
   oktaAuthApiRef,
-  githubAuthApiRef,
-  microsoftAuthApiRef,
-  oneloginAuthApiRef,
-  bitbucketAuthApiRef,
+  // githubAuthApiRef,
+  // microsoftAuthApiRef,
+  // oneloginAuthApiRef,
+  // bitbucketAuthApiRef,
 } from '@backstage/core-plugin-api';
 
 export const providers = [
-  {
+  /* {
     id: 'google-auth-provider',
     title: 'Google',
     message: 'Sign In using Google',
@@ -50,12 +50,6 @@ export const providers = [
     apiRef: githubAuthApiRef,
   },
   {
-    id: 'okta-auth-provider',
-    title: 'Okta',
-    message: 'Sign In using Okta',
-    apiRef: oktaAuthApiRef,
-  },
-  {
     id: 'onelogin-auth-provider',
     title: 'OneLogin',
     message: 'Sign In using OneLogin',
@@ -66,5 +60,12 @@ export const providers = [
     title: 'Bitbucket',
     message: 'Sign In using Bitbucket',
     apiRef: bitbucketAuthApiRef,
+  },*/
+  {
+    id: 'okta-auth-provider',
+    title: 'Okta',
+    message: 'Sign In using Okta',
+    apiRef: oktaAuthApiRef,
   },
+  
 ];
