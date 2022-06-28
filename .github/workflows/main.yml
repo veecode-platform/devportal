@@ -23,11 +23,11 @@ jobs:
     - name: Build the Docker image
       env:
         
-        REGISTRY_USER: $(( secrets.DOCKER_USER }}
+        REGISTRY_USER: ${{ secrets.DOCKER_USER }}
         REGISTRY_PASSWORD: ${{ secrets.DOCKER_PASS }}
         
       run: |
-        docker login -u ${{ env.REGISTRY_USER }} -p $(( env.REGISTRY_PASSWORD }} 
+        docker login -u ${{ env.REGISTRY_USER }} -p ${{ env.REGISTRY_PASSWORD }} 
         cp devportal/packages/backend/Dockerfile ./
         VERSION=`jq '.version' package.json
         docker build -t ipaasvertigo/devportal:$VERSION .
