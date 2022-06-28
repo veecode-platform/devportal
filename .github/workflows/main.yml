@@ -1,0 +1,53 @@
+name: Publish Devportal Docker/Heml
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Pre Requisitos
+      run: |
+          wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod a+x /usr/local/bin/yq
+          yq --version
+          apt install -y jq
+
+    - name: Build the Docker image
+      env:
+        
+        REGISTRY_USER: $(( secrets.DOCKER_USER }}
+        REGISTRY_PASSWORD: ${{ secrets.DOCKER_PASS }}
+        
+      run: |
+        docker login -u ${{ env.REGISTRY_USER }} -p $(( env.REGISTRY_PASSWORD }} 
+        cp devportal/packages/backend/Dockerfile ./
+        VERSION=`jq '.version' package.json
+        docker build -t ipaasvertigo/devportal:$VERSION .
+        docker push ipaasvertigo/devportal:$VERSION
+        echo "versao=$VERSION " >$GITHUB_ENV
+
+    - name: publish helm ghpages
+      run: |
+        git clone https://github.com/vfipaas/public-charts.git
+        cd public-charts
+        yq e '.image.repository = "ipaasvertigo/devportal" ' -i devportal/values.yaml
+        yq e '.image.tag = "${{ env.versao }}" ' -i devportal/values.yaml
+        yq e '.appVersion= "${{ env.versao }}" ' -i devportal/Chart.yaml
+        helm package devportal
+        mv *tgz charts/
+        helm repo index .
+        git config --global user.email "github-actions@vee.codes"
+        git config --global user.name "github-actions[bot]"
+        git add .
+        git commit -m "commit helm via pipeline"
+        git push --set-upstream origin gh-pages
+        
