@@ -28,7 +28,7 @@ jobs:
         
       run: |
         docker login -u ${{ env.REGISTRY_USER }} -p ${{ env.REGISTRY_PASSWORD }} 
-        cp devportal/packages/backend/Dockerfile ./
+        cp /packages/backend/Dockerfile ./
         VERSION=`jq '.version' package.json
         docker build -t ipaasvertigo/devportal:$VERSION .
         docker push ipaasvertigo/devportal:$VERSION
