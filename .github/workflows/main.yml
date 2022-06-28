@@ -19,20 +19,21 @@ jobs:
           wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           chmod a+x /usr/local/bin/yq
           yq --version
+          cp packages/backend/Dockerfile ./
+          VERSION=`jq '.version' package.json
+          echo "versao=$VERSION " >$GITHUB_ENV
           
-    - name: Build the Docker image
+    - name: Publish to Docker Hub
+      uses: docker/build-push-action@v1
       env:
-        
         REGISTRY_USER: ${{ secrets.DOCKER_USER }}
         REGISTRY_PASSWORD: ${{ secrets.DOCKER_PASS }}
-        
-      run: |
-        docker login -u ${{ env.REGISTRY_USER }} -p ${{ env.REGISTRY_PASSWORD }} 
-        cp packages/backend/Dockerfile ./
-        VERSION=`jq '.version' package.json
-        docker build -t ipaasvertigo/devportal:$VERSION .
-        docker push ipaasvertigo/devportal:$VERSION
-        echo "versao=$VERSION " >$GITHUB_ENV
+      with:
+       path: ./
+       username: ${{ secrets.DOCKER_USER}}
+       password: ${{ secrets.DOCKER_PASS }}
+       repository: ${{ env.versao }}
+       tags: ${{ env.versao }}
 
     - name: publish helm ghpages
       run: |
