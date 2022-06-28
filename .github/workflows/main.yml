@@ -43,7 +43,7 @@ jobs:
 
     - name: publish helm ghpages
       run: |
-        git clone https://github.com/vfipaas/public-charts.git
+        git clone -b gh-pages https://github.com/vfipaas/public-charts.git
         cd public-charts
         yq e '.image.repository = "ipaasvertigo/devportal" ' -i devportal/values.yaml
         yq e '.image.tag = "${{ env.versao }}" ' -i devportal/values.yaml
