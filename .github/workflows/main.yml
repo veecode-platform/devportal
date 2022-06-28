@@ -16,10 +16,12 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install Pre Requisitos
       run: |
-          apt update
           wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          wget -qO /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
           chmod a+x /usr/local/bin/yq
+          chmod a+x /usr/local/bin/Jq
           yq --version
+          jq --version
           cp packages/backend/Dockerfile ./
           VERSION=`jq '.version' package.json
           echo " versao=$VERSION " > $GITHUB_ENV
