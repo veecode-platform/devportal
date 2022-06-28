@@ -25,6 +25,9 @@ jobs:
           cp packages/backend/Dockerfile ./
           VERSION=`jq -r '.version' package.json`
           echo " versao=$VERSION " > $GITHUB_ENV
+          yarn install --frozen-lockfile
+          yarn tsc
+          yarn build
           
     - name: Publish to Docker Hub
       uses: docker/build-push-action@v1
