@@ -23,7 +23,7 @@ jobs:
           yq --version
           jq --version
           cp packages/backend/Dockerfile ./
-          VERSION=`jq '.version' package.json
+          VERSION=`jq '.version' package.json`
           echo " versao=$VERSION " > $GITHUB_ENV
           
     - name: Publish to Docker Hub
