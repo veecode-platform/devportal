@@ -51,8 +51,8 @@ jobs:
         helm package devportal
         mv *tgz charts/
         helm repo index .
-        git config --global user.email "github-actions@vee.codes"
-        git config --global user.name "github-actions[bot]"
+        git config --global user.email "${{ secrets.GIT_MAIL }}"
+        git config --global user.name "${{ secrets.GIT_USER }}"
         git add .
         git commit -m "commit helm via pipeline"
         git push --set-upstream origin gh-pages
