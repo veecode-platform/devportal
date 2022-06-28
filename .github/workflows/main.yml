@@ -21,7 +21,7 @@ jobs:
           yq --version
           cp packages/backend/Dockerfile ./
           VERSION=`jq '.version' package.json
-          echo "versao=$VERSION " >$GITHUB_ENV
+          echo " versao=$VERSION " > $GITHUB_ENV
           
     - name: Publish to Docker Hub
       uses: docker/build-push-action@v1
