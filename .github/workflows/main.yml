@@ -24,7 +24,7 @@ jobs:
           jq --version
           cp packages/backend/Dockerfile ./
           VERSION=`jq -r '.version' package.json`
-          echo " versao=$VERSION " > $GITHUB_ENV
+          echo " versao=$VERSION " >> $GITHUB_ENV
           yarn install --frozen-lockfile
           yarn tsc
           yarn build
@@ -35,7 +35,7 @@ jobs:
        path: ./
        username: ${{ secrets.DOCKER_USER}}
        password: ${{ secrets.DOCKER_PASS }}
-       repository: 'ipaasvertigo/devportal'
+       repository: ${{ secrets.DOCKER_REPO }}
        tags: ${{ env.versao }}
 
     - name: build package helm
@@ -43,6 +43,7 @@ jobs:
         yq e '.image.repository = "ipaasvertigo/devportal" ' -i devportal/values.yaml
         yq e '.image.tag = "${{ env.versao }}" ' -i devportal/values.yaml
         yq e '.appVersion= "${{ env.versao }}" ' -i devportal/Chart.yaml
+        cat devportal/Chart.yaml
         helm package devportal
         mkdir charts
         mv *tgz charts/
