@@ -31,14 +31,11 @@ jobs:
           
     - name: Publish to Docker Hub
       uses: docker/build-push-action@v1
-      env:
-        REGISTRY_USER: ${{ secrets.DOCKER_USER }}
-        REGISTRY_PASSWORD: ${{ secrets.DOCKER_PASS }}
       with:
        path: ./
        username: ${{ secrets.DOCKER_USER}}
        password: ${{ secrets.DOCKER_PASS }}
-       repository: ipaasvertigo/devportal
+       repository: 'ipaasvertigo/devportal'
        tags: ${{ env.versao }}
 
     - name: build package helm
