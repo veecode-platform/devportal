@@ -49,17 +49,18 @@ jobs:
         helm package devportal
         mkdir charts
         mv *tgz charts/
+        ls -ltrh charts
 
     - name: Publish Helm Charts
       uses: dmnemec/copy_file_to_another_repo_action@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
 
-
       with:
          source_file: "charts/*.tgz"
          destination_repo: 'vfipaas/public-charts'
          destination_folder: 'charts'
+         destination_branch: 'gh-pages'
          user_email: '${{ secrets.GIT_EMAIL }}'
          user_name: ${{ secrets.GIT_USER }}'
          commit_message: 'Commit via Pipeline Devportal'
