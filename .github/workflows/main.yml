@@ -54,13 +54,12 @@ jobs:
       uses: dmnemec/copy_file_to_another_repo_action@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        GIT_USER: ${{ secrets.GIT_USER }}
-        GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+
 
       with:
          source_file: "charts/*.tgz"
          destination_repo: 'vfipaas/public-charts'
          destination_folder: 'charts'
-         user_email: '${{ GIT_EMAIL }}'
-         user_name: ${{ GIT_USER }}'
+         user_email: '${{ secrets.GIT_EMAIL }}'
+         user_name: ${{ secrets.GIT_USER }}'
          commit_message: 'Commit via Pipeline Devportal'
