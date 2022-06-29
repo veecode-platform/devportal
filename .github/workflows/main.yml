@@ -59,7 +59,7 @@ jobs:
 
       with:
          source_file: "charts/*.tgz"
-         destination_repo: '${{ env.REPO_DEST }}'
+         destination_repo: 'vfipaas/public-charts'
          destination_folder: 'charts'
          user_email: '${{ GIT_EMAIL }}'
          user_name: ${{ GIT_USER }}'
