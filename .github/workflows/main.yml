@@ -49,7 +49,8 @@ jobs:
         helm package devportal
         mkdir charts
         mv *tgz charts/
-        ls -ltrh charts
+        CHART=`ls charts`
+        echo "chart=$CHART" >> $GITHUB_ENV
 
     - name: Publish Helm Charts
       uses: dmnemec/copy_file_to_another_repo_action@main
@@ -57,7 +58,7 @@ jobs:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
 
       with:
-         source_file: "charts/*.tgz"
+         source_file: "charts/${{ env.chart }}"
          destination_repo: 'vfipaas/public-charts'
          destination_folder: 'charts'
          destination_branch: 'gh-pages'
