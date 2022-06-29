@@ -39,7 +39,7 @@ jobs:
        repository: ${{ secrets.DOCKER_REPO }}
        tags: ${{ env.versao }}
 
-    - name: build package helm
+    - name: Build Package Helm
       run: |
         yq e '.image.repository = "ipaasvertigo/devportal" ' -i devportal/values.yaml
         yq e '.image.tag = "${{ env.versao }}" ' -i devportal/values.yaml
