@@ -38,7 +38,7 @@ jobs:
        path: ./
        username: ${{ secrets.DOCKER_USER}}
        password: ${{ secrets.DOCKER_PASS }}
-       repository: ${{ env.versao }}
+       repository: ipaasvertigo/devportal
        tags: ${{ env.versao }}
 
     - name: build package helm
