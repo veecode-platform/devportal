@@ -24,7 +24,8 @@ jobs:
           jq --version
           cp packages/backend/Dockerfile ./
           VERSION=`jq -r '.version' package.json`
-          echo " versao=$VERSION " >> $GITHUB_ENV
+          echo $VERSION
+          echo "versao=$VERSION" >> $GITHUB_ENV
           yarn install --frozen-lockfile
           yarn tsc
           yarn build
