@@ -44,6 +44,7 @@ jobs:
         yq e '.image.tag = "${{ env.versao }}" ' -i devportal/values.yaml
         yq e '.appVersion= "${{ env.versao }}" ' -i devportal/Chart.yaml
         cat devportal/Chart.yaml
+        cat devportal/values.yaml
         helm package devportal
         mkdir charts
         mv *tgz charts/
