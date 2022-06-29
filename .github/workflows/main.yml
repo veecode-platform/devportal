@@ -15,6 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install Pre Requisitos
+      env:
+        VERSION: ""
       run: |
           wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           wget -qO /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
@@ -25,7 +27,7 @@ jobs:
           cp packages/backend/Dockerfile ./
           VERSION=`jq -r '.version' package.json`
           echo $VERSION
-          echo "versao=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_ENV
           yarn install --frozen-lockfile
           yarn tsc
           yarn build
@@ -37,13 +39,13 @@ jobs:
        username: ${{ secrets.DOCKER_USER}}
        password: ${{ secrets.DOCKER_PASS }}
        repository: ${{ secrets.DOCKER_REPO }}
-       tags: ${{ env.versao }}
+       tags: ${{ env.version }}
 
     - name: Build Package Helm
       run: |
         yq e '.image.repository = "ipaasvertigo/devportal" ' -i devportal/values.yaml
-        yq e '.image.tag = "${{ env.versao }}" ' -i devportal/values.yaml
-        yq e '.appVersion= "${{ env.versao }}" ' -i devportal/Chart.yaml
+        yq e '.image.tag = "${{ env.version }}" ' -i devportal/values.yaml
+        yq e '.appVersion= "${{ env.version }}" ' -i devportal/Chart.yaml
         cat devportal/Chart.yaml
         cat devportal/values.yaml
         helm package devportal
