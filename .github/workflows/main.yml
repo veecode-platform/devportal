@@ -43,11 +43,11 @@ jobs:
 
     - name: Build Package Helm
       run: |
-        yq e '.image.repository = "ipaasvertigo/devportal" ' -i devportal/values.yaml
-        yq e '.image.tag = "${{ env.version }}" ' -i devportal/values.yaml
-        yq e '.appVersion= "${{ env.version }}" ' -i devportal/Chart.yaml
-        cat devportal/Chart.yaml
-        cat devportal/values.yaml
+        yq e '.image.repository = "ipaasvertigo/devportal" ' -i chart/values.yaml
+        yq e '.image.tag = "${{ env.version }}" ' -i chart/values.yaml
+        yq e '.appVersion= "${{ env.version }}" ' -i chart/Chart.yaml
+        cat chart/Chart.yaml
+        cat chart/values.yaml
         helm package devportal
         mkdir charts
         mv *tgz charts/
