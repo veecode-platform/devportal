@@ -6,7 +6,7 @@ metadata:
     dev.okteto.com/auto-ingress: "true"
 spec:
   ports:
-    - port: 80
+    - port: {{ .Values.service.containerPort }}
       targetPort: {{ .Values.service.containerPort }}
   selector:
     app: devportal

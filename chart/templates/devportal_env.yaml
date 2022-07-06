@@ -3,5 +3,6 @@ kind: ConfigMap
 metadata:
   name: {{ include "devportal-charts.fullname" . }}-app-env
 data:
-  APP_CONFIG_app_baseUrl: {{ .Values.appConfig.app.baseUrl | quote | quote }}
-  APP_CONFIG_backend_baseUrl: {{ .Values.appConfig.backend.baseUrl | quote | quote }}
+  APP_CONFIG_app_baseUrl: {{ .Values.appConfig.app.baseUrl | quote }}
+  APP_CONFIG_backend_baseUrl: {{ .Values.appConfig.backend.baseUrl | quote }}
+  APP_CONFIG_cors_baseUrl: {{ .Values.appConfig.backend.baseUrl | quote }}

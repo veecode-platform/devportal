@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
-  repository: keisuke1693/devportal
-  tag: 1.0.5
+  repository: ipaasvertigo/devportal
+  tag: 0.2.0
   pullPolicy: IfNotPresent
 #imagePullSecrets:
 nodeEnv: development
@@ -11,13 +11,19 @@ service:
   containerPort: 7007
 ingress:
   enabled: false
-    ingressClassName: "nginx"
-  #annotations: {}
-  #hosts:
-    #- host: 
-      #paths:
-        #- path: /
-          #pathType: 
+  tls: false
+  ingressClassName: "kong"
+  annotations: {}
+  hosts:
+    - host:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: devportal
+              port:
+                number: 80
 #resources:
   #requests:
     #memory: 512Mi

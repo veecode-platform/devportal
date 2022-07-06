@@ -1,6 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $svcName := .Values.service.name -}}
-{{- $svcPort := .Values.service.containerPort-}}
+{{- $svcPort := .Values.service.containerPort -}}
 {{- if and .Values.ingress.ingressClassName (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.ingressClassName}}

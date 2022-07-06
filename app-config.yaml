@@ -1,6 +1,6 @@
 app:
   title:  Devportal IpaaS
-  baseUrl: http://localhost:3000/
+  baseUrl: http://localhost:3000
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
   #  clientToken: '123456789'
@@ -33,7 +33,7 @@ backend:
   auth:
     keys:
       - secret: ${OKTA_CLIENT_SECRET}
-  baseUrl: http://localhost:7007/
+  baseUrl: http://localhost:7007
   listen:
     port: 7007
   # database:
