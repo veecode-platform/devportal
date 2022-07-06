@@ -48,7 +48,7 @@ jobs:
         yq e '.appVersion= "${{ env.version }}" ' -i chart/Chart.yaml
         cat chart/Chart.yaml
         cat chart/values.yaml
-        helm package devportal
+        helm package chart
         mkdir charts
         mv *tgz charts/
         CHART=`ls charts`
