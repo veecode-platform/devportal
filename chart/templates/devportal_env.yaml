@@ -1,8 +1,10 @@
+{{- $app_path_without_last_slash := trimSuffix "/" .Values.appConfig.app.baseUrl}} 
+{{- $backend_path_without_last_slash := trimSuffix "/" .Values.appConfig.backend.baseUrl}} 
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "devportal-charts.fullname" . }}-app-env
 data:
-  APP_CONFIG_app_baseUrl: {{ .Values.appConfig.app.baseUrl | quote }}
-  APP_CONFIG_backend_baseUrl: {{ .Values.appConfig.backend.baseUrl | quote }}
-  APP_CONFIG_cors_baseUrl: {{ .Values.appConfig.backend.baseUrl | quote }}
+  APP_CONFIG_app_baseUrl: {{ $app_path_without_last_slash }}
+  APP_CONFIG_backend_baseUrl: {{ $backend_path_without_last_slash }}
+  APP_CONFIG_cors_baseUrl: {{ $backend_path_without_last_slash }}
