@@ -9,7 +9,7 @@
 #
 # Once the commands have been run, you can build the image using `yarn build-image`
 
-FROM node:16.16.0-slim
+FROM node:16.16.0-bullseye-slim
 
 WORKDIR /app
 
