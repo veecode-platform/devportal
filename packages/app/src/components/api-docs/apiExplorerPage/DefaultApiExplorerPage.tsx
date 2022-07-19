@@ -19,7 +19,7 @@ import {
     ContentHeader,
     CreateButton,
     PageWithHeader,
-    SupportButton,
+    //SupportButton,
     TableColumn,
     TableProps,
   } from '@backstage/core-components';
@@ -89,7 +89,7 @@ import {
               title="Register Existing API"
               to={registerComponentLink?.()}
             />
-            <SupportButton>All your APIs</SupportButton>
+            {/*<SupportButton>All your APIs</SupportButton>*/}
           </ContentHeader>
           <EntityListProvider>
             <CatalogFilterLayout>
