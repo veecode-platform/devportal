@@ -35,7 +35,9 @@ import {
   techdocsPlugin,
   // TechDocsReaderPage,
 } from '@backstage/plugin-techdocs';
-import { UserSettingsPage } from '@backstage/plugin-user-settings';
+// import { UserSettingsPage } from '@backstage/plugin-user-settings';
+//custom user-settings
+import { UserSettingsPage } from './components/user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 // import { searchPage } from './components/search/SearchPage';
