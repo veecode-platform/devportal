@@ -51,15 +51,15 @@ import {
     fontFamily: 'Overpass, sans-serif',
     /* below drives the header colors */
     pageTheme: {
-      home: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      documentation: genPageTheme(['#054496', '#2B73D2'], shapes.wave2),
-      tool: genPageTheme(['#054496', '#2B73D2'], shapes.round),
-      service: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      website: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      library: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      other: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      app: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      apis: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
+      home: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      documentation: genPageTheme({colors: ['#054496', '#2B73D2'], shape: shapes.wave2}),
+      tool: genPageTheme({colors: ['#054496', '#2B73D2'], shape: shapes.round}),
+      service: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      website: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      library: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      other: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      app: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      apis: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
     },
   });
 
@@ -109,15 +109,15 @@ import {
     fontFamily: 'Overpass, sans-serif',
     /* below drives the header colors */
     pageTheme: {
-      home: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      documentation: genPageTheme(['#054496', '#2B73D2'], shapes.wave2),
-      tool: genPageTheme(['#054496', '#2B73D2'], shapes.round),
-      service: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      website: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      library: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      other: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      app: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
-      apis: genPageTheme(['#054496', '#2B73D2'], shapes.wave),
+      home: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      documentation: genPageTheme({colors: ['#054496', '#2B73D2'], shape: shapes.wave2}),
+      tool: genPageTheme({colors: ['#054496', '#2B73D2'], shape: shapes.round}),
+      service: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      website: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      library: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      other: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      app: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
+      apis: genPageTheme({colors:['#054496', '#2B73D2'], shape: shapes.wave}),
     },
   });
 

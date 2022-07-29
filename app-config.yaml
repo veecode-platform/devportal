@@ -390,81 +390,81 @@ auth:
     #     clientId: ${AUTH_ATLASSIAN_CLIENT_ID}
     #     clientSecret: ${AUTH_ATLASSIAN_CLIENT_SECRET}
     #     scopes: ${AUTH_ATLASSIAN_SCOPES}
-costInsights:
-  engineerCost: 200000
-  products:
-    computeEngine:
-      name: Compute Engine
-      icon: compute
-    cloudDataflow:
-      name: Cloud Dataflow
-      icon: data
-    cloudStorage:
-      name: Cloud Storage
-      icon: storage
-    bigQuery:
-      name: BigQuery
-      icon: search
-    events:
-      name: Events
-      icon: data
-  metrics:
-    DAU:
-      name: Daily Active Users
-      default: true
-    MSC:
-      name: Monthly Subscribers
-  currencies:
-    engineers:
-      label: 'Engineers 🛠'
-      unit: 'engineer'
-    usd:
-      label: 'US Dollars 💵'
-      kind: 'USD'
-      unit: 'dollar'
-      prefix: '$'
-      rate: 1
-    carbonOffsetTons:
-      label: 'Carbon Offset Tons ♻️⚖️s'
-      kind: 'CARBON_OFFSET_TONS'
-      unit: 'carbon offset ton'
-      rate: 3.5
-    beers:
-      label: 'Beers 🍺'
-      kind: 'BEERS'
-      unit: 'beer'
-      rate: 4.5
-    pintsIceCream:
-      label: 'Pints of Ice Cream 🍦'
-      kind: 'PINTS_OF_ICE_CREAM'
-      unit: 'ice cream pint'
-      rate: 5.5
-homepage:
-  clocks:
-    - label: UTC
-      timezone: UTC
-    - label: NYC
-      timezone: 'America/New_York'
-    - label: STO
-      timezone: 'Europe/Stockholm'
-    - label: TYO
-      timezone: 'Asia/Tokyo'
-pagerduty:
-  eventsBaseUrl: 'https://events.pagerduty.com/v2'
-jenkins:
-  instances:
-    - name: default
-      baseUrl: https://jenkins.example.com
-      username: backstage-bot
-      apiKey: 123456789abcdef0123456789abcedf012
-
-azureDevOps:
-  host: dev.azure.com
-  token: my-token
-  organization: my-company
-
-apacheAirflow:
-  baseUrl: https://your.airflow.instance.com
-
-gocd:
-  baseUrl: https://your.gocd.instance.com
+#costInsights:
+#  engineerCost: 200000
+#  products:
+#    computeEngine:
+#      name: Compute Engine
+#      icon: compute
+#    cloudDataflow:
+#      name: Cloud Dataflow
+#      icon: data
+#    cloudStorage:
+#      name: Cloud Storage
+#      icon: storage
+#    bigQuery:
+#      name: BigQuery
+#      icon: search
+#    events:
+#      name: Events
+#      icon: data
+#  metrics:
+#    DAU:
+#      name: Daily Active Users
+#      default: true
+#    MSC:
+#      name: Monthly Subscribers
+#  currencies:
+#    engineers:
+#      label: 'Engineers 🛠'
+#      unit: 'engineer'
+#    usd:
+#      label: 'US Dollars 💵'
+#      kind: 'USD'
+#      unit: 'dollar'
+#      prefix: '$'
+#      rate: 1
+#    carbonOffsetTons:
+#      label: 'Carbon Offset Tons ♻️⚖️s'
+#      kind: 'CARBON_OFFSET_TONS'
+#      unit: 'carbon offset ton'
+#      rate: 3.5
+#    beers:
+#      label: 'Beers 🍺'
+#      kind: 'BEERS'
+#      unit: 'beer'
+#      rate: 4.5
+#    pintsIceCream:
+#      label: 'Pints of Ice Cream 🍦'
+#      kind: 'PINTS_OF_ICE_CREAM'
+#      unit: 'ice cream pint'
+#      rate: 5.5
+#homepage:
+#  clocks:
+#    - label: UTC
+#      timezone: UTC
+#    - label: NYC
+#      timezone: 'America/New_York'
+#    - label: STO
+#      timezone: 'Europe/Stockholm'
+#    - label: TYO
+#      timezone: 'Asia/Tokyo'
+#pagerduty:
+#  eventsBaseUrl: 'https://events.pagerduty.com/v2'
+#jenkins:
+#  instances:
+#    - name: default
+#      baseUrl: https://jenkins.example.com
+#      username: backstage-bot
+#      apiKey: 123456789abcdef0123456789abcedf012
+#
+#azureDevOps:
+#  host: dev.azure.com
+#  token: my-token
+#  organization: my-company
+#
+#apacheAirflow:
+#  baseUrl: https://your.airflow.instance.com
+#
+#gocd:
+#  baseUrl: https://your.gocd.instance.com

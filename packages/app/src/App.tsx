@@ -38,7 +38,6 @@ import {
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
-// import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
 
 import { AlertDisplay, OAuthRequestDialog, SignInPage } from '@backstage/core-components';
@@ -137,9 +136,6 @@ const routes = (
     </Route>
     {
       /*
-      <Route path="/" element={<HomepageCompositionRoot />}>
-     <HomePage />
-    </Route>
     <Route path="/docs" element={<TechDocsIndexPage />} />
     <Route
       path="/docs/:namespace/:kind/:name/*"
