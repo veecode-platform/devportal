@@ -266,7 +266,7 @@ catalog:
     # backend, for example packages/backend/.
 
     # Backstage example components
-    - type: github-discovery
+    - type: url
       target: ${GITHUB_SPECHOUSE_URL}
     # Example component for github-actions and TechDocs
     # - type: file
