@@ -10,5 +10,6 @@
   "compilerOptions": {
     "outDir": "dist-types",
     "rootDir": "."
-  }
+  },
+  "esModuleInterop":true
 }
