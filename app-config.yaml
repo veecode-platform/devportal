@@ -36,16 +36,16 @@ backend:
   baseUrl: http://localhost:7007
   listen:
     port: 7007
-  # database:
-  #      client: pg
-  #      connection:
-  #         host: localhost
-  #         port: 5432
-  #         user: youruser
-  #         password: yourpassword
   database:
-    client: better-sqlite3
-    connection: ':memory:'
+       client: pg
+       connection:
+          host: localhost
+          port: 5432
+          user: youruser
+          password: yourpassword
+  # database:
+  #   client: better-sqlite3
+  #   connection: ':memory:'
 
   cache:
     store: memory

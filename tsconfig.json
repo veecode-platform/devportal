@@ -11,5 +11,7 @@
     "outDir": "dist-types",
     "rootDir": "."
   },
-  "esModuleInterop":true
+  "esModuleInterop":true,
+  "strictPropertyInitialization": false,
+  "module": "commonjs",
 }
