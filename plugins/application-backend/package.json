@@ -25,19 +25,20 @@
   "dependencies": {
     "@backstage/backend-common": "^0.13.3",
     "@backstage/config": "^1.0.1",
-    "@internal/plugin-application-backend": "^0.1.0",
     "@types/express": "*",
     "express": "^4.17.1",
     "express-promise-router": "^4.1.0",
-    "winston": "^3.2.1",
     "node-fetch": "^2.6.7",
-    "yn": "^4.0.0"
+    "winston": "^3.2.1",
+    "yn": "^4.0.0",
+    "uuid":"8.3.4"
   },
   "devDependencies": {
     "@backstage/cli": "^0.17.0",
     "@types/supertest": "^2.0.8",
-    "supertest": "^4.0.2",
-    "msw": "^0.35.0"
+    "@types/uuid": "^8.3.4",
+    "msw": "^0.35.0",
+    "supertest": "^4.0.2"
   },
   "files": [
     "dist"

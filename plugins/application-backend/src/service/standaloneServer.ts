@@ -1,23 +1,16 @@
-/*
- * Copyright 2020 The Backstage Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-import { createServiceBuilder } from '@backstage/backend-common';
+
+import {
+  createServiceBuilder,
+  DatabaseManager,
+  loadBackendConfig,
+  useHotMemoize,
+} from '@backstage/backend-common';
 import { Server } from 'http';
 import { Logger } from 'winston';
 import { createRouter } from './router';
+import { Config, ConfigReader } from '@backstage/config';
+import knexFactory from 'knex';
 
 export interface ServerOptions {
   port: number;
@@ -29,9 +22,31 @@ export async function startStandaloneServer(
   options: ServerOptions,
 ): Promise<Server> {
   const logger = options.logger.child({ service: 'application-backend' });
-  logger.debug('Starting application server...');
+  const config = await loadBackendConfig({ logger, argv: process.argv });
+  const db = useHotMemoize(module, () => {
+    const knex = knexFactory({
+      client: 'pg',
+      connection: {
+        user: config.getString('backend.database.connection.user'),
+        database:"",
+        password: config.getString('backend.database.connection.password'),
+        port: config.getNumber('backend.database.connection.port'),
+        host: config.getString('backend.database.connection.host'),
+      },
+      // useNullAsDefault: true,
+    });
+
+    knex.client.pool.on('createSuccess', (_eventId: any, resource: any) => {
+      resource.run('PRAGMA foreign_keys = ON', () => {});
+    });
+
+    return knex;
+  });
+
   const router = await createRouter({
     logger,
+    database: { getClient: async () => db },
+    config: config,
   });
 
   let service = createServiceBuilder(module)
