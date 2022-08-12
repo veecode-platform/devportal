@@ -33,7 +33,7 @@ export interface Service{
 name: string;
 description?: string;
 }
-export const services = [
+export const services :Service[]= [
 {name:"google"},
 {name:"manager-kong"},
 {name:"manager-kubernetes"},
@@ -68,6 +68,16 @@ export async function createRouter(
       response.json({ status: 'ok', services: [] });
     }
   });
+
+  router.get('/list-application', async (_, response) => {
+    const applicationStore = await dbHandler.getApplication();
+    if (applicationStore?.length) {
+      response.json({ status: 'ok', applications: applicationStore });
+    } else {
+      response.json({ status: 'ok', applications: [] });
+    }
+  });
+
   router.post('/create-application', (request, response) => {
     const data: ApplicationDto = request.body.application
     if (!data) {
@@ -77,6 +87,7 @@ export async function createRouter(
     const result = dbHandler.createApplication(data)
     response.send({ status: data,result:result });
   });
+  
   // router.put('/projects/:id/member/:userId', async (request, response) => {
   //   const { id, userId } = request.params;
   //   await dbHandler.addMember(parseInt(id, 10), userId, request.body?.picture);

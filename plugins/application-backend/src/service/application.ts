@@ -1,25 +1,47 @@
+import { application } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import { Entity } from './entity';
 // application  class using uuid npm dependency as primary key and contructor
-export class Application {
-  id?: string;
+ export type ApplicationProps = {
   creator: string;
   name: string;
   serviceName: string[];
   description: string;
-  active: boolean;
+  active?: boolean;
   statusKong?: string;
   createdAt?: Date;
   updatedAt?: Date;
   consumerName?: string[];
+}
 
-  constructor(id:string,creator: string,name: string,serviceName: string[],description: string,active: boolean,statusKong: string,updatedAt?: Date,createdAt?: Date,consumerName?: string[]) {
-    
-    if (!id) {
-      this.id = uuidv4();
+export class Application{
+  creator: string;
+  name: string;
+  serviceName: string[];
+  description: string;
+  statusKong?: string;
+  active?: boolean;
+  id?:string;
+  consumerName?: string[];
+  updatedAt?: Date;
+  createdAt?: Date;
+  constructor(
+    creator: string,
+    name: string,
+    serviceName: string[],
+    description: string,
+    statusKong?: string,
+    active?: boolean,
+    id?:string,
+    consumerName?: string[],
+    updatedAt?: Date,
+    createdAt?: Date,
+    ) 
+    {
+    if(!id){
+        this.id = uuidv4();
     }
-    if (!createdAt) {
-      this.createdAt = new Date();
-    }
+    this.createdAt = createdAt ?? new Date();
     this.creator = creator;
     this.name = name;
     this.serviceName = serviceName;
@@ -29,10 +51,5 @@ export class Application {
     this.updatedAt = updatedAt;
     this.consumerName = consumerName;
   }
-}
-export enum Status{
-  active,
-  inactive,
-  pending,
-  deleted,
+
 }

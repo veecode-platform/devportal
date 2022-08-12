@@ -16,14 +16,12 @@
 
 import { getRootLogger } from '@backstage/backend-common';
 import yn from 'yn';
-import { Application } from './service/application';
+import { ApplicationDto } from './service/application-dto';
 import { startStandaloneServer } from './service/standaloneServer';
 
 const port = process.env.PLUGIN_PORT ? Number(process.env.PLUGIN_PORT) : 7007;
 const enableCors = yn(process.env.PLUGIN_CORS, { default: false });
 const logger = getRootLogger();
-const gatu = new Application("","germano","app",["alo"],"alo",true,"pending")
-console.log(gatu)
 startStandaloneServer({ port, enableCors, logger }).catch(err => {
   logger.error(err);
   process.exit(1);

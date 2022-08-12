@@ -1,11 +1,10 @@
-import { Status } from "./application";
-
 export class ApplicationDto {
+
   creator:string;
   name:string;
   serviceName:string[];
   description:string;
-  active:boolean;
+  active?:boolean;
   statusKong?:string;
   createdAt?:Date;
   updatedAt?:Date;

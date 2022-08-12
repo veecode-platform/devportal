@@ -5,7 +5,7 @@
  */
  exports.up = async function up(knex) {
   await knex.schema.createTable('application', (table) => {
-    table.uuid('id').primary();
+    table.uuid('_id').primary();
     table.string('creator');
     table.string('name');
     table.string('serviceName');
