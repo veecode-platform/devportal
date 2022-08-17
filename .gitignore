@@ -11,7 +11,7 @@ lerna-debug.log*
 pgdata/
 # Coverage directory generated when running tests with coverage
 coverage
-plugins/
+
 # Dependencies
 node_modules/
 # k8s-local
