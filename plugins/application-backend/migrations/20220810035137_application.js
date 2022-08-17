@@ -1,20 +1,18 @@
-
-
 /**
  * @param {import('knex').Knex} knex
  */
  exports.up = async function up(knex) {
   await knex.schema.createTable('application', (table) => {
-    table.uuid('_id').primary();
+    table.uuid('id').primary();
     table.string('creator');
     table.string('name');
-    table.string('serviceName');
+    table.specificType('serviceName', 'TEXT[]');
     table.string('description');
     table.boolean('active');
-    table.enum('statusKong', ['active', 'inactive']);
+    table.string('statusKong', ['active', 'inactive']);
     table.timestamp('createdAt').defaultTo(knex.fn.now());
     table.timestamp('updatedAt').defaultTo(knex.fn.now());
-    table.string('consumerName');
+    table.specificType('consumerName', 'TEXT[]');
   }).then(() => {
     console.log('Table application created!');
   }).catch((err) => {

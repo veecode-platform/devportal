@@ -15,4 +15,4 @@
  */
 
 export * from './service/router';
-export * from './service/application-dto'
+export * from './modules/applications/dtos/ApplicationDto'

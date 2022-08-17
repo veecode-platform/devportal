@@ -15,13 +15,14 @@
  */
 
 import { errorHandler, PluginDatabaseManager } from '@backstage/backend-common';
-import { InputError, NotFoundError, } from '@backstage/errors';
+import { InputError } from '@backstage/errors';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { Config } from '@backstage/config';
-import { DatabaseHandler } from './DatabaseHandler';
-import { ApplicationDto } from './application-dto';
+import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
+import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
+import { KongHandler } from '../modules/kong-control/KongHandler';
 
 /** @public */
 export interface RouterOptions {
@@ -33,36 +34,27 @@ export interface Service{
 name: string;
 description?: string;
 }
-export const services :Service[]= [
-{name:"google"},
-{name:"manager-kong"},
-{name:"manager-kubernetes"},
-{name:"manager-kubernetes-helm"},
-{name:"manager-kubernetes-kubectl"},
-{name:"manager-kubernetes-kustomize"},
-{name:"manager-kubernetes-minikube"},
-{name:"manager-kubernetes-minikube-kustomize"},
-{name:"manager-kubernetes-minikube-kustom"}
-]
+
 /** @public */
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { logger, database } = options;
-  const dbHandler = await DatabaseHandler.create(
+  const { logger, database} = options;
+  const applicationRepository = await PostgresApplicationRepository.create(
     await database.getClient(),
   );
 
-  // const dbHandler = await DatabaseHandler.create({ database: db });
+    const kongHandler = new KongHandler();
+
 
   logger.info('Initializing application backend');
 
   const router = Router();
   router.use(express.json());
 
-  router.get('/service', async (request, response) => {
-    const serviceStore = services
-    if (serviceStore?.length) {
+  router.get('/service', async (_, response) => {
+   const serviceStore = await kongHandler.listServices(false,"api.manager.localhost:8000");
+    if (serviceStore){
       response.json({ status: 'ok', services: serviceStore });
     } else {
       response.json({ status: 'ok', services: [] });
@@ -70,90 +62,56 @@ export async function createRouter(
   });
 
   router.get('/list-application', async (_, response) => {
-    const applicationStore = await dbHandler.getApplication();
-    if (applicationStore?.length) {
-      response.json({ status: 'ok', applications: applicationStore });
-    } else {
-      response.json({ status: 'ok', applications: [] });
-    }
+    const responseData = await applicationRepository.getApplication();
+    return response.json({ status: 'ok', applications: responseData });
   });
 
-  router.post('/create-application', (request, response) => {
+  router.post('/create-application', async (request, response) => {
     const data: ApplicationDto = request.body.application
     if (!data) {
       throw new InputError(`the request body is missing the application field`);
     }
     logger.info(JSON.stringify(data))
-    const result = dbHandler.createApplication(data)
+    const result = await applicationRepository.createApplication(data)
+    response.send({ status: "ok",result:result });
+  });
+
+  router.post('/save', async (request, response) => {
+    const data: ApplicationDto = request.body.application
+    if (!data) {
+      throw new InputError(`the request body is missing the application field`);
+    }
+    // logger.info(JSON.stringify(data))
+    const result = await applicationRepository.createApplication(data)
     response.send({ status: data,result:result });
   });
-  
-  // router.put('/projects/:id/member/:userId', async (request, response) => {
-  //   const { id, userId } = request.params;
-  //   await dbHandler.addMember(parseInt(id, 10), userId, request.body?.picture);
 
-  //   response.json({ status: 'ok' });
-  // });
+  router.get('/get-application/:id', async (request, response) => {
+    const code = request.params.id
+    if (!code) {
+      throw new InputError(`the request body is missing the application field`);
+    }
+    const result = await applicationRepository.getApplicationById(code)
+    response.send({ status: "ok",application:result });
+  });
 
-  // router.delete('/projects/:id/member/:userId', async (request, response) => {
-  //   const { id, userId } = request.params;
+  router.delete('/delete-application/:id', async (request, response) => {
+    const code = request.params.id
+    if (!code) {
+      throw new InputError(`the request body is missing the application field`);
+    }
+    const result = await applicationRepository.deleteApplication(code)  
+    response.send({ status: "ok",result:result });
+  } );
 
-  //   const count = await dbHandler.deleteMember(parseInt(id, 10), userId);
-
-  //   if (count) {
-  //     response.json({ status: 'ok' });
-  //   } else {
-  //     response.status(404).json({ message: 'Record not found' });
-  //   }
-  // });
-
-  // router.get('/projects/:idOrRef', async (request, response) => {
-  //   const idOrRef = decodeURIComponent(request.params.idOrRef);
-  //   let data;
-
-  //   if (/^-?\d+$/.test(idOrRef)) {
-  //     data = await dbHandler.getMetadataById(parseInt(idOrRef, 10));
-  //   } else {
-  //     data = await dbHandler.getMetadataByRef(idOrRef);
-  //   }
-
-  //   response.json({ status: 'ok', data: data });
-  // });
-
-  // router.get('/projects', async (_, response) => {
-  //   const data = await dbHandler.getProjects();
-
-  //   response.json({ status: 'ok', data: data });
-  // });
-
-  // router.put('/projects', async (request, response) => {
-  //   const bazaarProject = request.body;
-
-  //   const count = await dbHandler.updateMetadata(bazaarProject);
-
-  //   if (count) {
-  //     response.json({ status: 'ok' });
-  //   }
-  // });
-
-  // router.post('/projects', async (request, response) => {
-  //   const bazaarProject = request.body;
-
-  //   await dbHandler.insertMetadata(bazaarProject);
-  //   response.json({ status: 'ok' });
-  // });
-
-  // router.delete('/projects/:id', async (request, response) => {
-  //   const id = decodeURIComponent(request.params.id);
-
-  //   const count = await dbHandler.deleteMetadata(parseInt(id, 10));
-
-  //   if (count) {
-  //     response.json({ status: 'ok' });
-  //   } else {
-  //     response.status(404).json({ message: 'Record not found' });
-  //   }
-  // });
+  router.put('/update-application/:id', async (request, response) => {
+    const code = request.params.id
+    if (!code) {
+      throw new InputError(`the request body is missing the application field`);
+    }
+    // const result = await applicationRepository.updateApplication(code);
+    response.send({ status: "ok",result:"result" });
+  } );
 
   router.use(errorHandler());
   return router;
