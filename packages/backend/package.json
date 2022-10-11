@@ -36,6 +36,7 @@
     "@backstage/plugin-search-backend-node": "^0.6.0",
     "@backstage/plugin-techdocs-backend": "^1.1.0",
     "@internal/plugin-application-backend": "0.1.0",
+    "@internal/plugin-devservice-backend": "0.1.0",
     "app": "link:../app",
     "better-sqlite3": "^7.5.0",
     "dockerode": "^3.3.1",

@@ -341,6 +341,7 @@ auth:
         clientId: ${OKTA_CLIENT_ID}
         clientSecret: ${OKTA_CLIENT_SECRET}
         audience: ${OKTA_AUDIENCE}
+        apiToken: ${OKTA_API_TOKEN}
     # oauth2:
     #   development:
     #     clientId: ${AUTH_OAUTH2_CLIENT_ID}

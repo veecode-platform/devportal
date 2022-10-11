@@ -19,7 +19,7 @@ export class Application extends Entity<ApplicationProps>{
   ) {
     super(props,id);
   }
-  static create(props: ApplicationProps,id?:string,): Application {
+  static create(props: ApplicationProps,id?:string): Application {
     props.createdAt = props.createdAt || new Date();
     return new Application(props,id);
   }

@@ -3,6 +3,7 @@ import { Application } from "../domain/Application";
 
 export interface IApplicationRepository {
   getApplication(): Promise<Application[]>;
+  getApplicationByUser(email:string): Promise<Application[] | void>;
   getApplicationById(id: string): Promise<Application| string>;
   saveApplication(applicationDto: ApplicationDto): Promise<Application>;
   deleteApplication(id: string): Promise<void>;

@@ -6,13 +6,20 @@ type Service = {
 }
 export class KongHandler {
   
-  public async listServices(tls:false,kongUrl:string): Promise<Service[]> {
+  public async listServices(kongUrl:string,tls?:false): Promise<Service[]> {
     const url = tls ? `https://${kongUrl}/services` : `http://${kongUrl}/services`;
     const response = await axios.get(url);
     const servicesStore = response.data.data;
     return response ? servicesStore.map((service:Service)=> service.name) : [];
   }
 
+  public async applyPluginToRoute(tls:false,kongUrl:string): Promise<Service[]> {
+    const url = tls ? `https://${kongUrl}/services` : `http://${kongUrl}/services`;
+    const response = await axios.get(url);
+    const servicesStore = response.data.data;
+    return response ? servicesStore.map((service:Service)=> service.name) : [];
+  }
+  
   public async listPlugins(tls:false,kongUrl:string): Promise<Service[]> {
     const url = tls ? `https://${kongUrl}/services` : `http://${kongUrl}/services`;
     const response = await axios.get(url);

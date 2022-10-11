@@ -9,10 +9,8 @@
     table.specificType('serviceName', 'TEXT[]');
     table.string('description');
     table.boolean('active');
-    table.string('statusKong', ['active', 'inactive']);
     table.timestamp('createdAt').defaultTo(knex.fn.now());
     table.timestamp('updatedAt').defaultTo(knex.fn.now());
-    table.specificType('consumerName', 'TEXT[]');
   }).then(() => {
     console.log('Table application created!');
   }).catch((err) => {

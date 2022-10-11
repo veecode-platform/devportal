@@ -16,10 +16,10 @@ export class ApplicationMapper{
     }
   }
   static async listAllApplicationsToResource(applicationResponseDto : ApplicationResponseDto){
-   return {
-   applications: applicationResponseDto.props.applications ?? [],
-   application: applicationResponseDto.props.application ?? "",
-   services: applicationResponseDto.props.services ?? [],
-   }
+    return {
+      applications: applicationResponseDto.props.applications ?? [],
+      application: applicationResponseDto.props.application ?? "",
+      services: applicationResponseDto.props.services ?? [],
+    }
   }
 }

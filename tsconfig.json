@@ -15,5 +15,4 @@
   "esModuleInterop":true,
   "strictPropertyInitialization": false,
   "module": "commonjs",
-  
 }
