@@ -7,6 +7,7 @@ import { Config } from '@backstage/config';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { KongHandler } from '../modules/kong-control/KongHandler';
+import { OktaHandler } from '../modules/okta-control/oktaHandler';
 
 /** @public */
 export interface RouterOptions {
@@ -30,11 +31,26 @@ export async function createRouter(
   );
 
   const kongHandler = new KongHandler();
+  const oktaHandler = new OktaHandler();
 
   logger.info('Initializing application backend');
 
   const router = Router();
   router.use(express.json());
+
+
+
+  router.get('/users/:group', async (request, response) => {
+    
+  
+    
+    const service = await oktaHandler.listUserByGroup('dev-44479866-admin.okta.com', request.params.group, `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`);
+    response.json({status: 'ok', service: service})
+
+  }
+  
+  
+  );
 
   router.get('/kong-services', async (_, response) => {
    const serviceStore = await kongHandler.listServices("api.manager.localhost:8000",false);
