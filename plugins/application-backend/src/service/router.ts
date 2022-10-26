@@ -40,13 +40,11 @@ export async function createRouter(
 
 
 
-  router.get('/users/:group', async (request, response) => {
-    
-  
-    
-    const service = await oktaHandler.listUserByGroup('dev-44479866-admin.okta.com', request.params.group, `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`);
-    response.json({status: 'ok', service: service})
-
+  router.get('/users/:group/:status', async (request, response) => {
+    let status = request.params.status.toUpperCase();
+    const service = await oktaHandler.listUserByGroup('dev-44479866-admin.okta.com', request.params.group, `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, status);
+    console.log(status)
+    response.json({status: 'ok', Users: service})
   }
   
   
