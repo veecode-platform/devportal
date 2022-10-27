@@ -1,6 +1,6 @@
 import { errorHandler, PluginDatabaseManager } from '@backstage/backend-common';
 import { InputError } from '@backstage/errors';
-import express from 'express';
+import express, { request } from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { Config } from '@backstage/config';
@@ -40,15 +40,19 @@ export async function createRouter(
 
 
 
-  router.get('/users/:group/:status', async (request, response) => {
+  router.get('/usersbygroup/:group/:status', async (request, response) => {
     let status = request.params.status.toUpperCase();
     const service = await oktaHandler.listUserByGroup('dev-44479866-admin.okta.com', request.params.group, `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, status);
     console.log(status)
     response.json({status: 'ok', Users: service})
-  }
+  });
+
+  router.get('/users/:query', async (request, response) => {
+    const service = await oktaHandler.listUser('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, request.params.query)
+    response.json({status: 'ok', Users: service})
+    
+  })
   
-  
-  );
 
   router.get('/kong-services', async (_, response) => {
    const serviceStore = await kongHandler.listServices("api.manager.localhost:8000",false);

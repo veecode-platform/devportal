@@ -36,12 +36,12 @@ export class OktaHandler{
                 'Authorization': `SSWS ${token}`
             }
         });
-        const user = []
+        const users = []
         for(let i = 0; i< response.data.length; i++){
-            user.push(response.data[i]);
+            users.push(response.data[i]);
         }
 
-        const result = user.filter((objt => {
+        const result = users.filter((objt => {
             return objt.status === `${status}`
         }))
         result.filter((objt) => {
@@ -52,5 +52,27 @@ export class OktaHandler{
        
         return (result as Users[]);
     }
+
+    public async listUser(urlOkta: string, token:string, busca:string): Promise<Users[]>{
+            const url = `https://${urlOkta}/api/v1/users?q=${busca}`;
+ 
+            const response = await axios.get(url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `SSWS ${token}`
+                }
+            });
+            const users = []
+            for(let i = 0; i< response.data.length; i++){
+                users.push(response.data[i]);
+            }
+            users.filter((objt) => {
+                objt.credentials = undefined
+                objt._links = undefined
+            })
+            return users as Users[];
+        
+        }
+
 
 }
