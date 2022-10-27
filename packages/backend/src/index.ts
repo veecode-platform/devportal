@@ -28,6 +28,7 @@ import scaffolder from './plugins/scaffolder';
 import proxy from './plugins/proxy';
 import techdocs from './plugins/techdocs';
 import search from './plugins/search';
+import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
 
 //custom permission
 import permission from './plugins/permission';
@@ -55,6 +56,9 @@ function makeCreateEnv(config: Config) {
     const database = databaseManager.forPlugin(plugin);
     const cache = cacheManager.forPlugin(plugin);
     const scheduler = taskScheduler.forPlugin(plugin);
+    const identity = DefaultIdentityClient.create({
+      discovery,
+    });
     return {
       logger,
       database,
@@ -65,6 +69,7 @@ function makeCreateEnv(config: Config) {
       tokenManager,
       scheduler,
       permissions,
+      identity
     };
   };
 }
