@@ -28,11 +28,6 @@ type Users = {
   }
   
 export class OktaHandler{
-
-
- 
-
-
     public async listUserByGroup(urlOkta: string, groupId: string, token:string, status:string): Promise<Users[]> {
         const url = `https://${urlOkta}/api/v1/groups/${groupId}/users`;
         const response = await axios.get(url, {
@@ -41,12 +36,12 @@ export class OktaHandler{
                 'Authorization': `SSWS ${token}`
             }
         });
-        const users = []
+        const user = []
         for(let i = 0; i< response.data.length; i++){
-            users.push(response.data[i]);
+            user.push(response.data[i]);
         }
 
-        const result = users.filter((objt => {
+        const result = user.filter((objt => {
             return objt.status === `${status}`
         }))
         result.filter((objt) => {
@@ -54,9 +49,8 @@ export class OktaHandler{
          objt._links = undefined;
     }
         )
-        
-        return result as Users[];
-    
+       
+        return (result as Users[]);
     }
 
 }
