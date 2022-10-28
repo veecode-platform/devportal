@@ -48,9 +48,20 @@ export async function createRouter(
   });
 
   router.get('/users/:query', async (request, response) => {
-    const service = await oktaHandler.listUser('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, request.params.query)
-    response.json({status: 'ok', Users: service})
-    
+    try{
+      const service = await oktaHandler.listUser('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, request.params.query)
+      return response.json({users: service})
+  }catch(error){
+    let date = new Date();
+    return response
+      .status(error.response.status)
+      .json({
+      status: 'ERROR',
+      message: error.response.data.errorSummary, 
+      timestamp: new Date(date).toISOString()
+    });
+  }
+  
   })
   
 
