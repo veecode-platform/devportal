@@ -2,13 +2,14 @@ import { errorHandler, PluginDatabaseManager } from '@backstage/backend-common';
 import { InputError } from '@backstage/errors';
 import express, { request } from 'express';
 import Router from 'express-promise-router';
-import { Logger } from 'winston';
+import { Logger, profile } from 'winston';
 import { Config } from '@backstage/config';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { KongHandler } from '../modules/kong-control/KongHandler';
 import { OktaHandler } from '../modules/okta-control/oktaHandler';
 import { AxiosError } from 'axios';
+import { Profile, User } from '../modules/applications/dtos/User';
 
 /** @public */
 export interface RouterOptions {
@@ -40,12 +41,18 @@ export async function createRouter(
   router.use(express.json());
 
 
+  router.post('/invite/user', async (request, response) => {
+  let body = request.body.profile;
+  let user = new User(body.email, body.firstName, body.lastName, body.login);
+  let service = oktaHandler.inviteUserByEmail('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, user);
+  response.json({service: service})
+  });
 
   router.get('/usersbygroup/:group/:status', async (request, response) => {
     let status = request.params.status.toUpperCase();
     try{
 
-      var service = await oktaHandler.listUserByGroup('dev-44479866-admin.okta.com', request.params.group, `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, status);
+      let service = await oktaHandler.listUserByGroup('dev-44479866-admin.okta.com', request.params.group, `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, status);
       if(service.length > 0) response.json({status: 'ok', Users: service})
         response.status(404).json({status: 'OK', message: 'Not found'})
     }catch(error){
