@@ -1,4 +1,4 @@
-export class User{
+export class UserInvite{
 
     email:string;
     firstName:string;
@@ -17,6 +17,8 @@ export class User{
     this.lastName = lastName
     this.login = login
   }
+
+
 
 
 

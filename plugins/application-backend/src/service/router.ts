@@ -7,9 +7,11 @@ import { Config } from '@backstage/config';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { KongHandler } from '../modules/kong-control/KongHandler';
-import { OktaHandler } from '../modules/okta-control/oktaHandler';
-import { AxiosError } from 'axios';
-import { Profile, User } from '../modules/applications/dtos/User';
+import { OktaHandler } from '../modules/okta-control/service/oktaHandler';
+
+import { GroupService} from '../modules/okta-control/service/GroupService';
+import { UserService } from '../modules/okta-control/service/UserService';
+import { UserInvite } from '../modules/okta-control/model/UserInvite';
 
 /** @public */
 export interface RouterOptions {
@@ -33,26 +35,37 @@ export async function createRouter(
   );
 
   const kongHandler = new KongHandler();
-  const oktaHandler = new OktaHandler();
+  const userService = new UserService();
 
   logger.info('Initializing application backend');
 
   const router = Router();
   router.use(express.json());
 
+                  //  /user
 
-  router.post('/invite/user', async (request, response) => {
+  router.post('/user/invite', async (request, response) => {
   let body = request.body.profile;
-  let user = new User(body.email, body.firstName, body.lastName, body.login);
-  let service = oktaHandler.inviteUserByEmail('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, user);
-  response.json({service: service})
-  });
+  let user = new UserInvite(body.email, body.firstName, body.lastName, body.login);
+  try{
+    let service = await userService.inviteUserByEmail('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, user);
+    response.json({service: service})
+  }catch(error){
+    let date = new Date();
+    response
+    .status(error.response.status)
+    .json({
+      status: 'ERROR',
+      message: error.response.data.errorSummary,
+      timestamp: new Date(date).toISOString()
+    })
+  }});
 
-  router.get('/usersbygroup/:group/:status', async (request, response) => {
+  router.get('/user/:group/:status', async (request, response) => {
     let status = request.params.status.toUpperCase();
     try{
 
-      let service = await oktaHandler.listUserByGroup('dev-44479866-admin.okta.com', request.params.group, `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, status);
+      let service = await userService.listUserByGroup('dev-44479866-admin.okta.com', request.params.group, `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, status);
       if(service.length > 0) response.json({status: 'ok', Users: service})
         response.status(404).json({status: 'OK', message: 'Not found'})
     }catch(error){
@@ -62,13 +75,13 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString
+        timestamp: new Date(date).toISOString()
       })
     }});
 
-  router.get('/users/:query', async (request, response) => {
+  router.get('/user/:query', async (request, response) => {
     try{
-      const service = await oktaHandler.listUser('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, request.params.query)
+      const service = await userService.listUser('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, request.params.query)
       if(service.length > 0)response.json({users: service})
          response.status(404).json({status: 'ok', message: 'Not found'})
     }catch(error){
@@ -83,6 +96,8 @@ export async function createRouter(
   }})
   
 
+  // /kong-services
+
   router.get('/kong-services', async (_, response) => {
   try{
     const serviceStore = await kongHandler.listServices("api.manager.localhost:8000",false);
@@ -95,7 +110,7 @@ export async function createRouter(
     .json({
       status: 'ERROR',
       message: error.response.data.errorSummary,
-      timestamp: new Date(date)
+      timestamp: new Date(date).toISOString()
     })
   }
 
@@ -112,7 +127,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date)
+        timestamp: new Date(date).toISOString()
       })
     }
   });
@@ -133,7 +148,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date)
+        timestamp: new Date(date).toISOString()
       })
     }
   });
@@ -156,7 +171,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString
+        timestamp: new Date(date).toISOString()
       })
     }});
 
@@ -176,7 +191,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString
+        timestamp: new Date(date).toISOString()
       })
     }});
 
@@ -197,7 +212,7 @@ export async function createRouter(
     .json({
       status: 'ERROR',
       message: error.response.data.errorSummary,
-      timestamp: new Date(date).toISOString
+      timestamp: new Date(date).toISOString()
     })
   }});
    
@@ -216,7 +231,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString
+        timestamp: new Date(date).toISOString()
       })
     }});
 
