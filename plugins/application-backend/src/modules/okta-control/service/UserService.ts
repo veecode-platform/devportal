@@ -49,7 +49,6 @@ export class UserService{
          objt._links = undefined;
     }
         )
-       
         return (result as User[]);
     }
 
@@ -69,7 +68,6 @@ export class UserService{
                 'Authorization': `SSWS ${token}`
             }
           })
-        console.log(`User da service: ${user}`);
         return response.data.profile;
     }
 }

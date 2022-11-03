@@ -56,7 +56,7 @@ export async function createRouter(
     .status(error.response.status)
     .json({
       status: 'ERROR',
-      message: error.response.data.errorSummary,
+      message: error.response.data.errorCauses[0].errorSummary,
       timestamp: new Date(date).toISOString()
     })
   }});
