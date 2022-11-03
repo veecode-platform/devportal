@@ -60,7 +60,8 @@ export class UserService{
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
-                login: user.login    
+                login: user.login,    
+                mobilePhone: user.mobilePhone
                 }
           }, {
             headers: {

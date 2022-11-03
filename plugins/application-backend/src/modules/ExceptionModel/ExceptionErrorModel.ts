@@ -1,16 +1,15 @@
+import { AxiosError } from "axios";
 
-export class ErrorModel {
-    status: string;
-    message: string;
-    httpCode: number
-
+export class ErrorModel extends AxiosError{
+  
 
 
-  constructor(status: string, message: string, httpCode: number) {
-    this.status = status
-    this.message = message
-    this.httpCode = httpCode
+  constructor() {
+    super();
   }
+
+
+
 
 
 

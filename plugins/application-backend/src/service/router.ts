@@ -1,17 +1,19 @@
 import { errorHandler, PluginDatabaseManager } from '@backstage/backend-common';
 import { InputError } from '@backstage/errors';
-import express, { request } from 'express';
+import express from 'express';
 import Router from 'express-promise-router';
-import { Logger, profile } from 'winston';
+import { Logger} from 'winston';
 import { Config } from '@backstage/config';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { KongHandler } from '../modules/kong-control/KongHandler';
-import { OktaHandler } from '../modules/okta-control/service/oktaHandler';
 
-import { GroupService} from '../modules/okta-control/service/GroupService';
+
+
 import { UserService } from '../modules/okta-control/service/UserService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
+
+
 
 /** @public */
 export interface RouterOptions {
@@ -23,6 +25,12 @@ export interface Service{
 name: string;
 description?: string;
 }
+
+export function assertIsError(error: unknown): asserts error is Error {
+  if (!(error instanceof Error)) {
+      throw error
+  }
+} 
 
 /** @public */
 export async function createRouter(
@@ -46,11 +54,11 @@ export async function createRouter(
 
   router.post('/user/invite', async (request, response) => {
   let body = request.body.profile;
-  let user = new UserInvite(body.email, body.firstName, body.lastName, body.login);
+  let user = new UserInvite(body.email, body.firstName, body.lastName, body.login, body.mobilePhone);
   try{
     let service = await userService.inviteUserByEmail('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, user);
     response.json({service: service})
-  }catch(error){
+  }catch(error: any){
     let date = new Date();
     response
     .status(error.response.status)
@@ -68,13 +76,13 @@ export async function createRouter(
       let service = await userService.listUserByGroup('dev-44479866-admin.okta.com', request.params.group, `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, status);
       if(service.length > 0) response.json({status: 'ok', Users: service})
         response.status(404).json({status: 'OK', message: 'Not found'})
-    }catch(error){
+    }catch(error: any){
       let date = new Date();
       response
       .status(error.response.status)
       .json({
         status: 'ERROR',
-        message: error.response.data.errorSummary,
+        message:    error.response.data.errorSummary,
         timestamp: new Date(date).toISOString()
       })
     }});
@@ -84,7 +92,7 @@ export async function createRouter(
       const service = await userService.listUser('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, request.params.query)
       if(service.length > 0)response.json({users: service})
          response.status(404).json({status: 'ok', message: 'Not found'})
-    }catch(error){
+    }catch(error: any){
     let date = new Date();
     return response
       .status( error.response.status  )
@@ -103,7 +111,7 @@ export async function createRouter(
     const serviceStore = await kongHandler.listServices("api.manager.localhost:8000",false);
     if (serviceStore) response.json({ status: 'ok', services: serviceStore });
     response.json({ status: 'ok', services: [] });
-  }catch(error){
+  }catch(error: any){
     let date = new Date();
     response
     .status(error.response.status)
@@ -120,7 +128,7 @@ export async function createRouter(
     try{
       const responseData = await applicationRepository.getApplication();
       return response.json({ status: 'ok', applications: responseData });
-    }catch(error){
+    }catch(error: any){
       let date = new Date();
       response
       .status(error.response.status)
@@ -141,7 +149,7 @@ export async function createRouter(
       logger.info(JSON.stringify(data))
       const result = await applicationRepository.createApplication(data)
       response.send({ status: "ok",result:result });
-    }catch(error){
+    }catch(error: any){
       let date = new Date();
       response
       .status(error.response.status)
@@ -164,7 +172,7 @@ export async function createRouter(
       // logger.info(JSON.stringify(data))
       const result = await applicationRepository.createApplication(data)
       response.send({ status: data,result:result });
-    }catch(error){
+    }catch(error: any){
       let date = new Date();
       response
       .status(error.response.status)
@@ -184,7 +192,7 @@ export async function createRouter(
       }
       const result = await applicationRepository.getApplicationById(code)
       response.send({ status: "ok",application:result });
-    }catch(error){
+    }catch(error: any){
       let date = new Date();
       response
       .status(error.response.status)
@@ -205,7 +213,7 @@ export async function createRouter(
      const result = await applicationRepository.deleteApplication(code)  
      response.send({ status: "ok",result:result });
 
-   }catch(error){
+   }catch(error: any){
     let date = new Date();
     response
     .status(error.response.status)
@@ -224,7 +232,7 @@ export async function createRouter(
       }
       // const result = await applicationRepository.updateApplication(code);
       response.send({ status: "ok",result:"result" });
-    }catch(error){
+    }catch(error: any){
       let date = new Date();
       response
       .status(error.response.status)
