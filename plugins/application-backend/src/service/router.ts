@@ -55,7 +55,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString
+        timestamp: new Date(date).toISOString()
       })
     }});
 
@@ -88,7 +88,7 @@ export async function createRouter(
     .json({
       status: 'ERROR',
       message: error.response.data.errorSummary,
-      timestamp: new Date(date)
+      timestamp: new Date(date).toISOString()
     })
   }
 
@@ -105,7 +105,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date)
+        timestamp: new Date(date).toISOString()
       })
     }
   });
@@ -126,7 +126,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date)
+        timestamp: new Date(date).toISOString()
       })
     }
   });
@@ -149,7 +149,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString
+        timestamp: new Date(date).toISOString()
       })
     }});
 
@@ -169,7 +169,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString
+        timestamp: new Date(date).toISOString()
       })
     }});
 
@@ -190,7 +190,7 @@ export async function createRouter(
     .json({
       status: 'ERROR',
       message: error.response.data.errorSummary,
-      timestamp: new Date(date).toISOString
+      timestamp: new Date(date).toISOString()
     })
   }});
    
@@ -209,7 +209,7 @@ export async function createRouter(
       .json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString
+        timestamp: new Date(date).toISOString()
       })
     }});
 
