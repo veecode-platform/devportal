@@ -3,8 +3,8 @@ services:
   postgres-compose:
     image: postgres
     environment:
-      - POSTGRES_USER=seuusuario
-      - POSTGRES_PASSWORD=suasenha
+      - POSTGRES_USER=youruser
+      - POSTGRES_PASSWORD=yourpassword
       - POSTGRES_DB=demo
     ports:
       - "5432:5432"
@@ -15,8 +15,8 @@ services:
   pgadmin-compose:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: "seuemail@gmail.com"
-      PGADMIN_DEFAULT_PASSWORD: "suasenha"
+      PGADMIN_DEFAULT_EMAIL: "youremail@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "yourpassword"
     ports:
       - "16543:80"
     depends_on:

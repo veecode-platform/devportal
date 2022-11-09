@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 // import { MyGroupsSidebarItem } from '@backstage/plugin-org';
-// import GroupIcon from '@material-ui/icons/People';
 import React, { useContext, PropsWithChildren } from 'react';
 import { Link, makeStyles } from '@material-ui/core';
-// import HomeIcon from '@material-ui/icons/Home';
-// import ExtensionIcon from '@material-ui/icons/Extension';
-// import MapIcon from '@material-ui/icons/MyLocation';
-// import LibraryBooks from '@material-ui/icons/LibraryBooks';
-// import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 import { NavLink } from 'react-router-dom';
 import {
-  Settings as SidebarSettings,
+  // Settings as SidebarSettings,
   UserSettingsSignInAvatar,
 } from '@backstage/plugin-user-settings';
+// custom user-settings
+import { Settings as SidebarSettings } from '../user-settings';
 // import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
   Sidebar,
@@ -44,9 +40,10 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import CatalogIcon from '@material-ui/icons/MenuBook';
+import AppsIcon from '@material-ui/icons/Apps';
 // import SearchIcon from '@material-ui/icons/Search';
-// import CategoryIcon from '@material-ui/icons/Category';
-
+import CategoryIcon from '@material-ui/icons/Category';
+//import ClassIcon from '@material-ui/icons/Class';
 // import RenderItem from '../Routing/RenderItem';
 
 const useSidebarLogoStyles = makeStyles({
@@ -88,7 +85,13 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
       <SidebarDivider />
       <SidebarGroup label="Menu" icon={<MenuIcon />}>
         <SidebarItem icon={HomeIcon} to="/" text="Home" />    
-        <SidebarItem icon={CatalogIcon} to="api-docs" text="Catálogo" />          
+        <SidebarItem icon={CatalogIcon} to="api-docs" text="Catalog" />   
+        <SidebarDivider />
+      </SidebarGroup>
+      <SidebarGroup label="Application" icon={<AppsIcon />}>
+        <SidebarItem icon={AppsIcon} to="/services" text="Services" />
+        <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />     
+     
         <SidebarDivider />
       </SidebarGroup>
       <SidebarSpace />
@@ -104,46 +107,3 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
     {children}
   </SidebarPage>
 );
-
-// export const Root = ({ children }: PropsWithChildren<{}>) => (
-//  <SidebarPage>
-//    <Sidebar>
-//      <SidebarLogo />
-//      <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
-//        <SidebarSearchModal />
-//      </SidebarGroup>
-//      <SidebarDivider />
-//      <SidebarGroup label="Menu" icon={<MenuIcon />}>
-//        {/* Global nav, not org-specific */}
-//        <SidebarItem icon={HomeIcon} to="/" text="Home" />
-//        < MyGroupsSidebarItem
-//            singularTitle="My Squad"
-//            pluralTitle="My Squads"
-//            icon={GroupIcon}
-//          />
-//        <SidebarItem icon={CategoryIcon} to="catalog" text="Catalog" />
-//        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-//        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
-//        <RenderItem allow={["default/builder"]}>
-//          <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
-//        </RenderItem>
-//
-//        {/* End global nav */}
-//        <SidebarDivider />
-//        <SidebarScrollWrapper>
-//          <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />
-//        </SidebarScrollWrapper>
-//      </SidebarGroup>
-//      <SidebarSpace />
-//      <SidebarDivider />
-//      <SidebarGroup
-//        label="Settings"
-//        icon={<UserSettingsSignInAvatar />}
-//        to="/settings"
-//      >
-//        <SidebarSettings />
-//      </SidebarGroup>
-//    </Sidebar>
-//    {children}
-//  </SidebarPage>
-// );

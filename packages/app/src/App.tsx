@@ -35,7 +35,9 @@ import {
   techdocsPlugin,
   // TechDocsReaderPage,
 } from '@backstage/plugin-techdocs';
-import { UserSettingsPage } from '@backstage/plugin-user-settings';
+// import { UserSettingsPage } from '@backstage/plugin-user-settings';
+// custom user-settings
+import { UserSettingsPage } from './components/user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';
@@ -60,6 +62,7 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 import { providers } from './identityProviders';
 import { searchPage } from './components/search/SearchPage';
 // import SafeRoute from './components/Routing/SafeRoute';
+import { ServicesPage, PartnersPage} from '@internal/plugin-application';
 
 const app = createApp({
   apis,
@@ -134,31 +137,9 @@ const routes = (
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
-    {
-      /*
-    <Route path="/docs" element={<TechDocsIndexPage />} />
-    <Route
-      path="/docs/:namespace/:kind/:name/*"
-      element={<TechDocsReaderPage />}
-    />
-   {/* <Route path="/create" element={<SafeRoute allow={["default/builder"]}/>}>
-      <Route 
-        path="/create" 
-        element={<ScaffolderPage />} 
-      />
-    </Route>
-    <Route
-      path="/tech-radar"
-      element={<TechRadarPage width={1500} height={800} />}
-    />
-    <PermissionedRoute
-      path="/catalog-import"
-      permission={catalogEntityCreatePermission}
-      element={<CatalogImportPage />}
-    /> 
-    <Route path="/catalog-graph" element={<CatalogGraphPage />} />*/}
-    
-    
+    <Route path="/services" element={<ServicesPage />}/>
+    <Route path="/partners" element={<PartnersPage />}/>
+
   </FlatRoutes>
 );
 
@@ -173,3 +154,27 @@ const App = () => (
 );
 
 export default App;
+
+
+  /*
+<Route path="/docs" element={<TechDocsIndexPage />} />
+<Route
+  path="/docs/:namespace/:kind/:name/*"
+  element={<TechDocsReaderPage />}
+/>
+{/* <Route path="/create" element={<SafeRoute allow={["default/builder"]}/>}>
+  <Route 
+    path="/create" 
+    element={<ScaffolderPage />} 
+  />
+</Route>
+<Route
+  path="/tech-radar"
+  element={<TechRadarPage width={1500} height={800} />}
+/>
+<PermissionedRoute
+  path="/catalog-import"
+  permission={catalogEntityCreatePermission}
+  element={<CatalogImportPage />}
+/> 
+<Route path="/catalog-graph" element={<CatalogGraphPage />} />*/

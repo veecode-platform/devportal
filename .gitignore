@@ -8,7 +8,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
+pgdata/
 # Coverage directory generated when running tests with coverage
 coverage
 
@@ -39,4 +39,3 @@ site
 # Sensitive credentials
 *-credentials.yaml
 
-pgdata/

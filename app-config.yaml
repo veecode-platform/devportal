@@ -1,7 +1,7 @@
 app:
-  title:  Devportal IpaaS
+  title: Devportal 
   baseUrl: http://localhost:3000
-  googleAnalyticsTrackingId: # UA-000000-0
+  #googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
   #  clientToken: '123456789'
   #  applicationId: qwerty
@@ -36,13 +36,13 @@ backend:
   baseUrl: http://localhost:7007
   listen:
     port: 7007
-  # database:
-  #      client: pg
-  #      connection:
-  #         host: localhost
-  #         port: 5432
-  #         user: seuusuario
-  #         password: suasenha
+  #database:
+  #     client: pg
+  #     connection:
+  #        host: localhost
+  #        port: ${DB_PORT}
+  #        user: ${DB_USER}
+  #        password: ${DB_PASSWORD}
   database:
     client: better-sqlite3
     connection: ':memory:'
@@ -128,7 +128,7 @@ proxy:
       Authorization: Basic ${GOCD_AUTH_CREDENTIALS}
 
 organization:
-  name: Devportal-IpaaS
+  name: Devportal
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
@@ -144,10 +144,10 @@ techdocs:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
 
 sentry:
-  organization: Devportal-IpaaS
+  organization: Devportal
 
 rollbar:
-  organization: Devportal-IpaaS
+  organization: Devportal
   # NOTE: The rollbar-backend & accountToken key may be deprecated in the future (replaced by a proxy config)
   accountToken: my-rollbar-account-token
 
@@ -179,12 +179,12 @@ integrations:
 catalog:
   providers:
     github:
-      providerId: # the provider ID can be any camelCase string
-        organization: veecode-platform # string
-        catalogPath: /catalog-info.yaml # string
-        filters:
-          branch: master # string
-          repository: devportal-spechouse # Regex
+      #providerId: # the provider ID can be any camelCase string
+      #  organization: veecode-platform # string
+      #  catalogPath: /catalog-info.yaml # string
+      #  filters:
+      #    branch: master # string
+      #    repository: devportal-spechouse # Regex
       validateLocationsExist:
         organization: veecode-platform # string
         catalogPath: /catalog-info.yaml # string

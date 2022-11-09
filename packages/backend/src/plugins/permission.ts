@@ -1,4 +1,4 @@
-//basic policy
+// basic policy
 
 //import { IdentityClient } from '@backstage/plugin-auth-node';
 import { BackstageIdentityResponse } from '@backstage/plugin-auth-node';

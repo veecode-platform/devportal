@@ -49,13 +49,7 @@ export default async function createPlugin(
       okta: providers.okta.create({
         signIn:{
           resolver: async ({profile, result}, ctx) => {
-            //console.log("profile: ", profile, )
-            //console.log("result: ", result)
-            //console.log("token: ", JSON.parse(Buffer.from(result.accessToken.split('.')[1], 'base64').toString()))
-            //console.log("ctx: ", ctx)
-
             const groups = JSON.parse(Buffer.from(result.accessToken.split('.')[1], 'base64').toString()).groups;
-            console.log("groups: ", groups)
 
             if (!profile.email) {
               throw new Error(
