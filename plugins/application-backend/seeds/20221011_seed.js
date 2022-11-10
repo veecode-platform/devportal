@@ -30,6 +30,16 @@
             description: "application 1",
             createdAt: new Date(),
             updatedAt: new Date()
+          },
+          {
+            id: "c59dcd58-4970-11ed-b878-0242ac120003",
+            creator:"lima@email.com",
+            name: 'application 4',
+            serviceName: ['dorwssap'],
+            description: "application 1",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            consumerName: ['teste']
           }
         ]);
       });
