@@ -6,7 +6,7 @@
         return knex('application').insert([
           {
             id: "ad94b906-4970-11ed-b878-0242ac120002",
-            creator:"nigel@email.com",
+            creator:"teste1@email.com",
             name: 'application 1',
             serviceName: ['dorwssap'],
             description: "application 1",
@@ -15,7 +15,7 @@
           },
           {
             id: "bbc3936c-4970-11ed-b878-0242ac120002",
-            creator:"nigel2@email.com",
+            creator:"teste2@email.com",
             name: 'application 2',
             serviceName: ['dorwssap'],
             description: "application 1",
@@ -24,7 +24,7 @@
           },
           {
             id: "c59dcd58-4970-11ed-b878-0242ac120002",
-            creator:"nigel3@email.com",
+            creator:"nigel2@email.com",
             name: 'application 3',
             serviceName: ['dorwssap'],
             description: "application 1",
@@ -33,7 +33,7 @@
           },
           {
             id: "c59dcd58-4970-11ed-b878-0242ac120003",
-            creator:"lima@email.com",
+            creator:"teste4@email.com",
             name: 'application 4',
             serviceName: ['dorwssap'],
             description: "application 1",

@@ -40,4 +40,7 @@ export class KongHandler {
     const servicesStore = response.data.data;
     return response ? servicesStore.map((service:Service)=> service.name) : [];
   }
+
+
+  
 }    
