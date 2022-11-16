@@ -117,7 +117,8 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       statusKong: applicationDto.statusKong,
     });
     const data =await ApplicationMapper.toPersistence(application);
-    const patchedApplication = await this.db('application').where('id', id).update(data).catch(error => console.error(error));
+    
+    const patchedApplication = await this.db('application').where('id', id).update(applicationDto).catch(error => console.error(error));
     return patchedApplication ? application : "cannot patch application";
   }
 

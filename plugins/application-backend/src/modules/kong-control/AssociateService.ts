@@ -18,9 +18,7 @@ export class AssociateService{
 
   async associate(routerOptions: RouterOptions, id: string, consumerName: string[] ) {
     const applicationRepository = await PostgresApplicationRepository.create(
-      await routerOptions.database.getClient(),
-
-    
+      await routerOptions.database.getClient(),    
     );
        const application = await applicationRepository.getApplicationById(id);
       const arrayConsumerName = application.consumerName
@@ -33,14 +31,7 @@ export class AssociateService{
       console.log('before update',application);
       await applicationRepository.patchApplication(id, application as any);
       console.log('aqui')
-       
-
-
-
-    
   }
-
-  
 }
 
 // /** @public */
