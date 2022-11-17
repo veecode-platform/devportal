@@ -50,7 +50,7 @@ export const CreateComponent = () => {
       body:JSON.stringify(dataTest)
     };
   
-    const response = await fetch('http://localhost:7007/api/application/create-application', config);
+    const response = await fetch('http://localhost:7007/api/application', config);
     const data = await response.json();
     //console.log("data test: ", data)
     setShow(true)
@@ -134,7 +134,7 @@ export const CreateComponent = () => {
               
               <Grid item xs={12} >
                 <Grid container justifyContent='center' alignItems='center'>
-                  <Button component={RouterLink} to={'/create-app'} style={{margin:"16px"}} size='large' variant='outlined'>Cancel</Button>
+                  <Button component={RouterLink} to={'/partners'} style={{margin:"16px"}} size='large' variant='outlined'>Cancel</Button>
                   <Button style={{margin:"16px"}} size='large' color='primary' type='submit' variant='contained' disabled={show} onClick={handleSubmit}>Create</Button>
                 </Grid>
               </Grid>

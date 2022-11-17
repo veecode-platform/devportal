@@ -7,9 +7,6 @@ import { Config } from '@backstage/config';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { KongHandler } from '../modules/kong-control/KongHandler';
-
-
-
 import { UserService } from '../modules/okta-control/service/UserService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
 import { AssociateService } from '../modules/kong-control/AssociateService';
@@ -52,9 +49,6 @@ export async function createRouter(
   router.use(express.json());
 
                   //  /user
-
-
-
   router.patch('/associate/:id', async (request, response) => {
     await associateService.associate(options, request.params.id, request.body.consumerName);
     response.json({status: 'ok'})
@@ -98,8 +92,8 @@ export async function createRouter(
   router.get('/user/:query', async (request, response) => {
     try{
       const service = await userService.listUser('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, request.params.query)
-      if(service.length > 0)response.json({users: service})
-         response.status(404).json({status: 'ok', message: 'Not found'})
+      if(service.length > 0) return response.json({users: service})
+      return response.status(404).json({status: 'ok', message: 'Not found'})
     }catch(error: any){
     let date = new Date();
     return response
@@ -138,7 +132,7 @@ export async function createRouter(
       return response.json({ status: 'ok', applications: responseData });
     }catch(error: any){
       let date = new Date();
-      response
+      return response
       .status(error.response.status)
       .json({
         status: 'ERROR',
@@ -148,7 +142,7 @@ export async function createRouter(
     }
   });
 
-  router.post('/create-application', async (request, response) => {
+  router.post('/', async (request, response) => {
     const data: ApplicationDto = request.body.application
     try{
       if (!data) {
@@ -192,7 +186,7 @@ export async function createRouter(
     }});
 
 
-  router.get('/get-application/:id', async (request, response) => {
+  router.get('/:id', async (request, response) => {
     const code = request.params.id
     try{
       if (!code) {
@@ -212,7 +206,7 @@ export async function createRouter(
     }});
 
 
-  router.delete('/delete-application/:id', async (request, response) => {
+  router.delete('/:id', async (request, response) => {
     const code = request.params.id
    try{
      if (!code) {
@@ -232,7 +226,7 @@ export async function createRouter(
     })
   }});
    
-  router.put('/update-application/:id', async (request, response) => {
+  router.put('/:id', async (request, response) => {
     const code = request.params.id
     try{
       if (!code) {

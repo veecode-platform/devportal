@@ -16,7 +16,7 @@
     "build-image": "docker build ../.. -f Dockerfile --tag backstage"
   },
   "dependencies": {
-    "@backstage/backend-common": "^0.15.2",
+    "@backstage/backend-common": "^0.16.0",
     "@backstage/backend-tasks": "^0.3.0",
     "@backstage/catalog-client": "^1.0.1",
     "@backstage/catalog-model": "^1.0.1",
@@ -36,7 +36,6 @@
     "@backstage/plugin-search-backend-node": "^1.0.0",
     "@backstage/plugin-techdocs-backend": "^1.1.0",
     "@internal/plugin-application-backend": "0.1.0",
-    "@internal/plugin-devservice-backend": "0.1.0",
     "app": "link:../app",
     "better-sqlite3": "^7.5.0",
     "dockerode": "^3.3.1",

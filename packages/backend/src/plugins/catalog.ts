@@ -1,6 +1,5 @@
 import { GithubEntityProvider } from '@backstage/plugin-catalog-backend-module-github';
 import { CatalogBuilder} from '@backstage/plugin-catalog-backend';
-//import { ScaffolderEntitiesProcessor } from '@backstage/plugin-scaffolder-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 
@@ -20,7 +19,6 @@ builder.addEntityProvider(
   }),
 );
 
-//builder.addProcessor(new ScaffolderEntitiesProcessor());
 const { processingEngine, router } = await builder.build();
 await processingEngine.start();
 return router;

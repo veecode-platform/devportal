@@ -68,7 +68,7 @@ const Details = ({ application }: Application) => {
   
             <Grid style={{margin: "2vw"}} item xs={12} >
               <Grid container justifyContent='center' alignItems='center' spacing={2}>
-                <Grid item><Button component={RouterLink} to={'/create-app'} variant='contained' size='large'>Cancel</Button></Grid>
+                <Grid item><Button component={RouterLink} to={'/partners'} variant='contained' size='large'>Cancel</Button></Grid>
               </Grid>
                 
             </Grid>
@@ -89,7 +89,7 @@ export const DetailsComponent = () => {
   const id = location.search.split("?id=")[1];
 
   const { value, loading, error } = useAsync(async (): Promise<App> => {
-    const response = await fetch(`http://localhost:7007/api/application/get-application/${id}`);
+    const response = await fetch(`http://localhost:7007/api/application/${id}`);
     const data = await response.json();
     //console.log(data.application)
     return data.application;

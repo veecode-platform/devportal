@@ -32,7 +32,7 @@ backend:
   # information on the format
   auth:
     keys:
-      - secret: ${OKTA_CLIENT_SECRET}
+      - secret: xVpPY_fYoDT1K0QiqmezZVrRDpavqip8DJnnAJ8d
   baseUrl: http://localhost:7007
   listen:
     port: 7007
@@ -40,9 +40,9 @@ backend:
        client: pg
        connection:
           host: localhost
-          port: ${DB_PORT}
-          user: ${DB_USER}
-          password: ${DB_PASSWORD}
+          port: 5432
+          user: youruser
+          password: yourpassword
   #database:
   #  client: better-sqlite3
   #  connection: ':memory:'
@@ -174,7 +174,7 @@ allure:
 integrations:
   github:
     - host: github.com
-      token: ${GITHUB_TOKEN_SECRET}
+      token: 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
 
 catalog:
   providers:
@@ -201,8 +201,8 @@ auth:
   providers:  
     okta:
       development:
-        clientId: ${OKTA_CLIENT_ID}
-        clientSecret: ${OKTA_CLIENT_SECRET}
-        audience: ${OKTA_AUDIENCE}
-        authServerId: ${OKTA_AUTH_SERVER_ID}
+        clientId: 0oa6lu3tezfEUiOkt5d7
+        clientSecret: xVpPY_fYoDT1K0QiqmezZVrRDpavqip8DJnnAJ8d
+        audience: https://dev-07408441.okta.com
+        authServerId: aus70nlnojXLozfFa5d7
         apiToken: ${OKTA_API_TOKEN}

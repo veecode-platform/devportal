@@ -3,17 +3,17 @@ import { ApplicationMapper } from '../../mappers/ApplicationMapper';
 import { IApplicationRepository } from '../IApplicationRepository'
 import { Application } from '../../domain/Application';
 import { Knex } from 'knex';
-import { resolvePackagePath } from '@backstage/backend-common';
+//import { resolvePackagePath } from '@backstage/backend-common';
 import { ApplicationResponseDto } from '../../dtos/ApplicationResponseDto';
 
-const migrationsDir = resolvePackagePath(
+/*const migrationsDir = resolvePackagePath(
   '@internal/plugin-application-backend',
   'migrations',
 );
 const seedsDir = resolvePackagePath(
   '@internal/plugin-application-backend',
   'seeds',
-);
+);*/
 
 export class PostgresApplicationRepository implements IApplicationRepository {
 
@@ -22,10 +22,10 @@ export class PostgresApplicationRepository implements IApplicationRepository {
 
   static async create(knex: Knex<any, any[]>): Promise<IApplicationRepository> {
     
-    await knex.migrate.latest({
+    /*await knex.migrate.latest({
       directory: migrationsDir,
     });
-    await knex.seed.run({ directory: seedsDir });
+    await knex.seed.run({ directory: seedsDir });*/
     return new PostgresApplicationRepository(knex);
   }
 
@@ -115,8 +115,8 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       description: applicationDto.description,
       active: applicationDto.active,
       statusKong: applicationDto.statusKong,
-    });
-    const data =await ApplicationMapper.toPersistence(application);
+    });// try add ,id on application create
+    //const data =await ApplicationMapper.toPersistence(application);
     
     const patchedApplication = await this.db('application').where('id', id).update(applicationDto).catch(error => console.error(error));
     return patchedApplication ? application : "cannot patch application";

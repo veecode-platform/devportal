@@ -38,7 +38,7 @@ export const DenseTable = ({ users }: DenseTableProps) => {
       name: user.name,
       id: user.id,
       created: user.createdAt,
-      details: <Button variant='outlined' component={RouterLink} to={`/partner/partner-details?id=${user.id}`}>&gt;&gt;&gt;</Button>
+      details: <Button variant='outlined' component={RouterLink} to={`/partners/partner-details?id=${user.id}`}>&gt;&gt;&gt;</Button>
     };
   });
 
@@ -54,7 +54,7 @@ export const DenseTable = ({ users }: DenseTableProps) => {
 
 export const FetchComponent = () => {
   const { value, loading, error } = useAsync(async (): Promise<User[]> => {
-    const response = await fetch('http://localhost:7007/api/application/list-application');
+    const response = await fetch('http://localhost:7007/api/application');
     const data = await response.json();
     //console.log(data)
     return data.applications;
