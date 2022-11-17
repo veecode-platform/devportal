@@ -28,10 +28,8 @@ import scaffolder from './plugins/scaffolder';
 import proxy from './plugins/proxy';
 import techdocs from './plugins/techdocs';
 import search from './plugins/search';
-import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
-
-//custom permission
 import application from './plugins/application'
+import devservice from './plugins/devService'
 // custom permission
 import permission from './plugins/permission';
 
@@ -83,6 +81,7 @@ async function main() {
   });
   const createEnv = makeCreateEnv(config);
   const applicationEnv = useHotMemoize(module, () => createEnv('application'));
+  const devServiceEnv = useHotMemoize(module, () => createEnv('devservice'));
   const catalogEnv = useHotMemoize(module, () => createEnv('catalog'));
   const scaffolderEnv = useHotMemoize(module, () => createEnv('scaffolder'));
   const authEnv = useHotMemoize(module, () => createEnv('auth'));
@@ -94,6 +93,7 @@ async function main() {
   
   const apiRouter = Router();
   apiRouter.use('/application', await application(applicationEnv));
+  apiRouter.use('/devservice', await devservice(devServiceEnv));
   apiRouter.use('/catalog', await catalog(catalogEnv));
   apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));
   apiRouter.use('/auth', await auth(authEnv));

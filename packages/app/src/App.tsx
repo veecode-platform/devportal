@@ -155,26 +155,3 @@ const App = () => (
 
 export default App;
 
-
-  /*
-<Route path="/docs" element={<TechDocsIndexPage />} />
-<Route
-  path="/docs/:namespace/:kind/:name/*"
-  element={<TechDocsReaderPage />}
-/>
-{/* <Route path="/create" element={<SafeRoute allow={["default/builder"]}/>}>
-  <Route 
-    path="/create" 
-    element={<ScaffolderPage />} 
-  />
-</Route>
-<Route
-  path="/tech-radar"
-  element={<TechRadarPage width={1500} height={800} />}
-/>
-<PermissionedRoute
-  path="/catalog-import"
-  permission={catalogEntityCreatePermission}
-  element={<CatalogImportPage />}
-/> 
-<Route path="/catalog-graph" element={<CatalogGraphPage />} />*/

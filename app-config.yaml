@@ -205,3 +205,4 @@ auth:
         clientSecret: ${OKTA_CLIENT_SECRET}
         audience: ${OKTA_AUDIENCE}
         authServerId: ${OKTA_AUTH_SERVER_ID}
+        apiToken: ${OKTA_API_TOKEN}
