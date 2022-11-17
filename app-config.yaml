@@ -174,7 +174,7 @@ allure:
 integrations:
   github:
     - host: github.com
-      token: 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
+      token: ${GITHUB_TOKEN_SECRET}
 
 catalog:
   providers:
