@@ -23,7 +23,7 @@ import {
   // Settings as SidebarSettings,
   UserSettingsSignInAvatar,
 } from '@backstage/plugin-user-settings';
-// custom user-settings
+//custom user-settings
 import { Settings as SidebarSettings } from '../user-settings';
 // import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
