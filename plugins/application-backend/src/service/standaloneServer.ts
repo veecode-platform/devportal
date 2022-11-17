@@ -1,16 +1,13 @@
 
 
 import {
-  createServiceBuilder,
-  DatabaseManager,
-  loadBackendConfig,
-  useHotMemoize,
+  createServiceBuilder, loadBackendConfig,
+  useHotMemoize
 } from '@backstage/backend-common';
 import { Server } from 'http';
+import knexFactory from 'knex';
 import { Logger } from 'winston';
 import { createRouter } from './router';
-import { Config, ConfigReader } from '@backstage/config';
-import knexFactory from 'knex';
 
 export interface ServerOptions {
   port: number;

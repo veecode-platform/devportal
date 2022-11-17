@@ -2,7 +2,7 @@
     // Deletes ALL existing entries
     return await knex('application').truncate()
       .then(function () {
-        console.log('teste seed QUALQUE OASKCpOAKSMFPOINMAEFpoINSEGFUNWGEPoiasnf')
+        console.log('RODEEEEEEEEEEEEEEEEEEEEEEEEEEI')
         // Inserts seed entries
         return knex('application').insert([
           {
@@ -40,7 +40,7 @@
             description: "application 1",
             createdAt: new Date(),
             updatedAt: new Date(),
-            consumerName: ['teste']
+            consumerName: ['teste', 'teste1']
           }
         ]);
       });

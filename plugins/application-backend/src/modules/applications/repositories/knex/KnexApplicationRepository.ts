@@ -25,7 +25,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     await knex.migrate.latest({
       directory: migrationsDir,
     });
-    await knex.seed.run({ directory: seedsDir });
+    // await knex.seed.run({ directory: seedsDir });
     return new PostgresApplicationRepository(knex);
   }
 

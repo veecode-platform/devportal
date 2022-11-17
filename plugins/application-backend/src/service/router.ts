@@ -58,7 +58,18 @@ export async function createRouter(
   router.patch('/associate/:id', async (request, response) => {
     await associateService.associate(options, request.params.id, request.body.consumerName);
     response.json({status: 'ok'})
-  }  );              
+  }  );   
+  
+  router.get('/associate/:id', async (request, response) => {
+    const services = await associateService.findAllAssociate(options, request.params.id);
+    response.json({status: 'ok', associates: {services}})
+  }  ); 
+
+  // 
+  router.delete('/associate/:id/', async (request, response) => {
+    const services = await associateService.removeAssociate(options, request.params.id, request.query.service as string);
+    response.json({status: 'ok', associates: {services}})
+  }  ); 
 
   router.post('/user/invite', async (request, response) => {
   let body = request.body.profile;
