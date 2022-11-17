@@ -34,10 +34,11 @@ export class AssociateService{
       await routerOptions.database.getClient(),    
     );
     const application = await applicationRepository.getApplicationById(id)
-
+      let posicao;
       for (let index = 0; index < application.consumerName.length; index++) {
         if(application.consumerName[index] == consumerName){
-          application.consumerName.splice(index, 1)
+           application.consumerName.splice(index, 1)
+          break
         }
       }
       await applicationRepository.patchApplication(id, application as any);
