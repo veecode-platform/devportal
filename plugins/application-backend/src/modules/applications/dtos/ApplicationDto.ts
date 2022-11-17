@@ -11,6 +11,7 @@ export class ApplicationDto {
   consumerName?:string[];
   
   constructor(creator:string,name:string,serviceName:string[],description:string,active:boolean,createdAt:Date,updatedAt:Date,statusKong?:string,consumerName?:string[]) {
+
     this.creator = creator;
     this.name = name;
     this.serviceName = serviceName;

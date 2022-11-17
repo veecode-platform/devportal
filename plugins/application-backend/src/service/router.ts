@@ -12,6 +12,7 @@ import { KongHandler } from '../modules/kong-control/KongHandler';
 
 import { UserService } from '../modules/okta-control/service/UserService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
+import { AssociateService } from '../modules/kong-control/AssociateService';
 
 
 
@@ -44,13 +45,20 @@ export async function createRouter(
 
   const kongHandler = new KongHandler();
   const userService = new UserService();
-
+  const associateService = new AssociateService()
   logger.info('Initializing application backend');
 
   const router = Router();
   router.use(express.json());
 
                   //  /user
+
+
+
+  router.patch('/associate/:id', async (request, response) => {
+    await associateService.associate(options, request.params.id, request.body.consumerName);
+    response.json({status: 'ok'})
+  }  );              
 
   router.post('/user/invite', async (request, response) => {
   let body = request.body.profile;

@@ -78,7 +78,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       active: applicationDto.active,
       statusKong: applicationDto.statusKong,
     });
-    const data =await ApplicationMapper.toPersistence(application);
+    const data = await ApplicationMapper.toPersistence(application);
     const createdApplication = await this.db('application').insert(data).catch(error => console.error(error));
     return createdApplication ? application : "cannot create application";
    }
@@ -97,12 +97,17 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       const updatedApplication = await this.db('application').where('id', id).update(data).catch(error => console.error(error));
       return updatedApplication ? application : "cannot update application";
       }
+
+
+
+    
     // async updateApplication(code: string, applicationDto: ApplicationDto): Promise<Application | null> {
     //     return null;
     // }
  // async function to patch partial  application object partial class type
   async patchApplication(id: string, applicationDto: ApplicationDto): Promise<Application | string> {
     const application: Application = Application.create({
+
       creator: applicationDto.creator,
       name: applicationDto.name,
       serviceName: applicationDto.serviceName,
@@ -112,7 +117,8 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       statusKong: applicationDto.statusKong,
     });
     const data =await ApplicationMapper.toPersistence(application);
-    const patchedApplication = await this.db('application').where('id', id).update(data).catch(error => console.error(error));
+    
+    const patchedApplication = await this.db('application').where('id', id).update(applicationDto).catch(error => console.error(error));
     return patchedApplication ? application : "cannot patch application";
   }
 
