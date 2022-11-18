@@ -1,30 +1,44 @@
-version: '3'
+version: '3.5'
+
 services:
-  postgres-compose:
-    image: postgres
+  postgres:
+    container_name: postgres_container
+    image: postgres:latest
     environment:
-      - POSTGRES_USER=youruser
-      - POSTGRES_PASSWORD=yourpassword
-      - POSTGRES_DB=demo
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
     ports:
       - "5432:5432"
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data 
     networks:
       - postgres-compose-network
-  pgadmin-compose:
+    restart: unless-stopped
+  
+  pgadmin:
+    container_name: pgadmin_container
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: "youremail@gmail.com"
-      PGADMIN_DEFAULT_PASSWORD: "yourpassword"
+      PGADMIN_DEFAULT_EMAIL: youremail@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadmin:/var/lib/pgadmin
+
     ports:
       - "16543:80"
     depends_on:
-      - postgres-compose
+      - postgres
     networks:
       - postgres-compose-network
+    restart: unless-stopped
 
-networks: 
+networks:
   postgres-compose-network:
     driver: bridge
+
+volumes:
+    postgres:
+    pgadmin:
     
