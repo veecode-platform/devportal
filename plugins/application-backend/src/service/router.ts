@@ -1,4 +1,4 @@
-import { errorHandler, PluginDatabaseManager } from '@backstage/backend-common';
+import { errorHandler, loadBackendConfig, PluginDatabaseManager } from '@backstage/backend-common';
 import { InputError } from '@backstage/errors';
 import express from 'express';
 import Router from 'express-promise-router';
@@ -39,7 +39,7 @@ export async function createRouter(
   const applicationRepository = await PostgresApplicationRepository.create(
     await database.getClient(),
   );
-
+  const config = await loadBackendConfig({ logger, argv: process.argv });
   const kongHandler = new KongHandler();
   const userService = new UserService();
   const associateService = new AssociateService()
@@ -69,7 +69,7 @@ export async function createRouter(
   let body = request.body.profile;
   let user = new UserInvite(body.email, body.firstName, body.lastName, body.login, body.mobilePhone);
   try{
-    let service = await userService.inviteUserByEmail('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, user);
+    let service = await userService.inviteUserByEmail(config.getString('okta.host'), config.getString('okta.token'), user);
     response.json({service: service})
   }catch(error: any){
     let date = new Date();
@@ -86,7 +86,7 @@ export async function createRouter(
     let status = request.params.status.toUpperCase();
     try{
 
-      let service = await userService.listUserByGroup('dev-44479866-admin.okta.com', request.params.group, `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, status);
+      let service = await userService.listUserByGroup(config.getString('okta.host'), request.params.group, config.getString('okta.token'), status);
       if(service.length > 0) response.json({status: 'ok', Users: service})
         response.status(404).json({status: 'OK', message: 'Not found'})
     }catch(error: any){
@@ -102,7 +102,7 @@ export async function createRouter(
 
   router.get('/user/:query', async (request, response) => {
     try{
-      const service = await userService.listUser('dev-44479866-admin.okta.com', `00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd`, request.params.query)
+      const service = await userService.listUser(config.getString('okta.host'), config.getString('okta.token'), request.params.query)
       if(service.length > 0) return response.json({users: service})
       return response.status(404).json({status: 'ok', message: 'Not found'})
     }catch(error: any){
@@ -121,7 +121,7 @@ export async function createRouter(
 
   router.get('/kong-services', async (_, response) => {
   try{
-    const serviceStore = await kongHandler.listServices("api.manager.localhost:8000",false);
+    const serviceStore = await kongHandler.listServices(config.getString('kong.api-manager'),false);
     if (serviceStore) response.json({ status: 'ok', services: serviceStore });
     response.json({ status: 'ok', services: [] });
   }catch(error: any){

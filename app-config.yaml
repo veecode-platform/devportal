@@ -40,9 +40,9 @@ backend:
     client: pg
     connection:
       host: localhost
-      port: ${DB_PORT}
-      user: ${DB_USER}
-      password: ${DB_PASSWORD}
+      port: 5432
+      user: user
+      password: password
   #database:
   #  client: better-sqlite3
   #  connection: ':memory:'
@@ -206,3 +206,9 @@ auth:
         audience: ${OKTA_AUDIENCE}
         authServerId: ${OKTA_AUTH_SERVER_ID}
         apiToken: ${OKTA_API_TOKEN}
+okta:
+  host: dev-44479866-admin.okta.com
+  token: 00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd
+
+kong: 
+  api-manager: api.manager.localhost:8000
