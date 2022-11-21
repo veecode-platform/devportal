@@ -206,6 +206,8 @@ auth:
         audience: ${OKTA_AUDIENCE}
         authServerId: ${OKTA_AUTH_SERVER_ID}
         apiToken: ${OKTA_API_TOKEN}
+
+#todo put into env 
 okta:
   host: dev-44479866-admin.okta.com
   token: 00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd
