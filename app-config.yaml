@@ -209,8 +209,8 @@ auth:
 
 #todo put into env 
 okta:
-  host:
-  token:
+  host: dev-44479866-admin.okta.com
+  token: 00FHyibLyC5PuT31zelP_JpDo-lpclVcK0o44cULpd
 
 kong: 
-  api-manager: 
+  api-manager: api.manager.localhost:8000
