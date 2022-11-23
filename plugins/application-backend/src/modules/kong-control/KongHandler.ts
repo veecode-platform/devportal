@@ -41,6 +41,12 @@ export class KongHandler {
     return response ? servicesStore.map((service:Service)=> service.name) : [];
   }
 
+  public async generateCredential(tls:false, kongUrl: string, workspace: string, idConsumer: string){
+    const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth`
+    const response = await axios.post(url);
+    return response.data;
+  }
+
 
   
 }    
