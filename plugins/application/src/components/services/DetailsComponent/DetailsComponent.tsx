@@ -4,6 +4,7 @@ import Alert from '@material-ui/lab/Alert';
 import {Progress} from '@backstage/core-components';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
+import { PartnerListComponent } from './PartnerListComponent';
 
 import {
   InfoCard,
@@ -41,7 +42,7 @@ const Details = ({ application }: Application) => {
           <InfoCard variant="gridItem">
   
             <Grid style={{margin: "2vw"}} item xs={12}>
-              <Grid container spacing={3} >
+              <Grid container spacing={3} style={{marginBottom: "6vh"}} >
                 <ContentHeader title="Details"><Button variant='contained' size='large' color='primary'>Edit</Button></ContentHeader>
                 <Grid item lg={3} xs={6}>
                   <h1>App id</h1>
@@ -64,11 +65,18 @@ const Details = ({ application }: Application) => {
                   <p>{application?.description}</p>
                 </Grid>         
               </Grid>
+              <Grid container spacing={3} >
+                <ContentHeader title="Partners"></ContentHeader>
+                <Grid item lg={6} xs={12}>
+                <PartnerListComponent/>
+                </Grid>  
+              </Grid>
             </Grid>
   
             <Grid style={{margin: "2vw"}} item xs={12} >
               <Grid container justifyContent='center' alignItems='center' spacing={2}>
                 <Grid item><Button component={RouterLink} to={'/services'} variant='contained' size='large'>Cancel</Button></Grid>
+                <Grid item><Button disabled variant='contained' size='large'>Save</Button></Grid>
               </Grid>
                 
             </Grid>
