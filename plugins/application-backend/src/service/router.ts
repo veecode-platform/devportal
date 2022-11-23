@@ -137,6 +137,24 @@ export async function createRouter(
 });
 
 
+router.get('/consumers', async (_, response) => {
+  try{
+    const serviceStore = await kongHandler.listConsumers(config.getString('kong.api-manager'),false);
+    if (serviceStore) response.status(200).json({ status: 'ok', costumer: serviceStore });
+    response.status(404).json({ status: 'Not found', services: [] });
+  }catch(error: any){
+    let date = new Date();
+    response
+    .status(error.response.status)
+    .json({
+      status: 'ERROR',
+      message: error.response.data.errorSummary,
+      timestamp: new Date(date).toISOString()
+    })
+  }
+});
+
+
   router.post('/credencial/:id', async (request, response) => {
     try{
       const workspace = request.query.workspace as string;
@@ -154,6 +172,27 @@ export async function createRouter(
       })
     }
   });
+
+  router.get('/credencial/:id', async (request, response) => {
+    try{
+      const workspace = request.query.workspace as string;
+      const id = request.params.id;
+      const serviceStore = await kongHandler.listCredential(false, config.getString('kong.api-manager'), workspace as string, id)
+      response.status(200).json({ status: 'ok',    credentials: serviceStore })
+    }catch(error: any){
+      let date = new Date();
+      return response
+      .status(error.response.status)
+      .json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString()
+      })
+    }
+  });
+
+
+
 
 
 

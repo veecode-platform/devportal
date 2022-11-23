@@ -34,11 +34,10 @@ export class KongHandler {
     return response ? servicesStore.map((service:Service)=> service.name) : [];
   }
 
-  public async listConsumers(tls:false,kongUrl:string): Promise<Service[]> {
-    const url = tls ? `https://${kongUrl}/services` : `http://${kongUrl}/services`;
+  public async listConsumers(kongUrl:string, tls:false) {
+    const url = tls ? `https://${kongUrl}/consumers` : `http://${kongUrl}/consumers`;
     const response = await axios.get(url);
-    const servicesStore = response.data.data;
-    return response ? servicesStore.map((service:Service)=> service.name) : [];
+    return response.data.data;
   }
 
   public async generateCredential(tls:false, kongUrl: string, workspace: string, idConsumer: string){
@@ -47,6 +46,19 @@ export class KongHandler {
     return response.data;
   }
 
+
+  public async listCredential(tls:false, kongUrl: string, workspace: string, idConsumer: string){
+    const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth`
+    const response = await axios.get(url);
+    const list = response.data.data;
+    const keys = []
+    for (let index = 0; index < list.length; index++) {
+       keys.push(list[index].key);
+    }
+
+    console.log(keys)
+    return keys;
+  }
 
   
 }    
