@@ -20,20 +20,6 @@
   }).finally(() => {
     knex.destroy();
   })
-  await knex.schema.createTable('partner', (table)  => {
-    table.uuid('id').primary();
-    table.string('username');
-    table.string('custom_id');
-    table.timestamp('createdAt').defaultTo(knex.fn.now());
-    table.timestamp('updatedAt').defaultTo(knex.fn.now());
-    table.specificType('key_authentication', 'TEXT[]')
-  }).then(() => {
-    console.log('Table application created!');
-  }).catch((err) => {
-    console.log(err);
-  }).finally(() => {
-    knex.destroy();
-  })
 };
 
 /**

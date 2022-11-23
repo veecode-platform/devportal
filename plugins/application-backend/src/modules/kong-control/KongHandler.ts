@@ -34,10 +34,11 @@ export class KongHandler {
     return response ? servicesStore.map((service:Service)=> service.name) : [];
   }
 
-  public async listConsumers(kongUrl:string, tls:false) {
-    const url = tls ? `https://${kongUrl}/consumers` : `http://${kongUrl}/consumers`;
+  public async listConsumers(tls:false,kongUrl:string): Promise<Service[]> {
+    const url = tls ? `https://${kongUrl}/services` : `http://${kongUrl}/services`;
     const response = await axios.get(url);
-    return response.data.data;
+    const servicesStore = response.data.data;
+    return response ? servicesStore.map((service:Service)=> service.name) : [];
   }
 
   public async generateCredential(tls:false, kongUrl: string, workspace: string, idConsumer: string){
