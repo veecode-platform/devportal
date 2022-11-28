@@ -8,7 +8,6 @@ export class ServiceDto {
     updatedAt?:Date;
     
     constructor(name:string,description:string,kongServicename:string,kongServiceId:string, createdAt:Date,updatedAt:Date) {
-  
       this.name = name;
       this.description = description;
       this.kongServiceName = kongServicename;

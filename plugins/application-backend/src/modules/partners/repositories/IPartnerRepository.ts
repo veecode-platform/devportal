@@ -9,5 +9,5 @@ export interface IPartnerRepository {
   deletePartner(id: string): Promise<void>;
   createPartner(partnerDto: PartnerDto): Promise<Partner | string>;
   patchPartner(id: string, partnerDto: PartnerDto): Promise<Partner | string>;
-  // updatePartner(code:string,partnerDto:PartnerDto): Promise<Partner>;
+ // updatePartner(code:string,partnerDto:PartnerDto): Promise<Partner>;
 }
