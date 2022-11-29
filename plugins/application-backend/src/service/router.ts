@@ -103,8 +103,13 @@ export async function createRouter(
     const partners = await partnerRepository.getPartnerById(code);
     response.status(200).json({ status: 'ok', partners: partners })
   });
+  router.get('/partner/applications/:id', async (request, response) => {
+    const code = request.params.id;
+    const applications = await partnerRepository.findApplications(code);
+    response.status(200).json({ status: 'ok', applications: applications })
+  });
 
-  router.post('partner/save', async (request, response) => {
+  router.post('/partner/save', async (request, response) => {
     const partner: PartnerDto = request.body.partner;
     const result = await partnerRepository.createPartner(partner);
     response.status(201).json({ status: 'ok', partner: result })
