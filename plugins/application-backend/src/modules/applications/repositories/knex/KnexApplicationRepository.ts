@@ -34,6 +34,22 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     return application;
   }
 
+  async associate(id: string, servicesId: string[] ){
+    const application = await this.getApplicationById(id);
+   const arrayConsumerName = application.servicesId
+   if(arrayConsumerName != null){
+     for (let index = 0; index < servicesId.length; index++) {
+       application.servicesId.push(servicesId[index])
+     }
+   }else{
+     application.servicesId = consumerName;
+   }
+   await this.patchApplication(id, application as any);
+   return application;
+}
+
+  
+
   async getApplication(): Promise<Application[]> {
     const application = await this.db<Application>('applications').select('*').catch(error => console.error(error));
     const applicationsDomain = ApplicationResponseDto.create({ applications: application});
