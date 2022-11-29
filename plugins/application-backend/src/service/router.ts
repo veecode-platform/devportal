@@ -213,7 +213,7 @@ export async function createRouter(
         throw new InputError(`the request body is missing the application field`);
       }
       const result = await applicationRepository.deleteApplication(code)
-      response.send({ status: "ok", result: result });
+      response.status(204).send({ status: "ok", result: result });
 
     } catch (error: any) {
       let date = new Date();
@@ -227,13 +227,14 @@ export async function createRouter(
     }
   });
 
-  router.put('/:id', async (request, response) => {
+  router.patch('/:id', async (request, response) => {
     const code = request.params.id
+    const application: ApplicationDto = request.body.application;
     try {
       if (!code) {
         throw new InputError(`the request body is missing the application field`);
       }
-      // const result = await applicationRepository.updateApplication(code);
+      const result = await applicationRepository.patchApplication(code, application);
       response.send({ status: "ok", result: "result" });
     } catch (error: any) {
       let date = new Date();
