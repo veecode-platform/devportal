@@ -3,6 +3,7 @@ import { Entity } from '../../../core/domain/Entity';
 export type ServiceProps = {
   name: string;
   description: string;
+  redirectUrl: string;
   kongServiceName: string;
   kongServiceId: string;
   createdAt?: Date;

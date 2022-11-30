@@ -8,6 +8,7 @@
       table.uuid("id").primary();
       table.string("name");
       table.string("description");
+      table.string("redirectUrl");
       table.string("kongServiceName");
       table.string("kongServiceId");
       table.timestamp('createdAt').defaultTo(knex.fn.now());

@@ -62,9 +62,9 @@ const PartnersList = ({partners}:PartnerListProps) =>{
 
 export const PartnerListComponent = () => {
     const { value, loading, error } = useAsync(async (): Promise<Partner[]> => {
-      const response = await fetch('http://localhost:7007/api/application');
+      const response = await fetch('http://localhost:7007/api/application/partners');
       const data = await response.json();
-      return data.applications;
+      return data.partners;
     }, []);
   
     if (loading) {

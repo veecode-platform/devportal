@@ -39,6 +39,7 @@ export class PostgresServiceRepository implements IServiceRepository {
     const service: Service = Service.create({
       name: serviceDto.name,
       description: serviceDto.description,
+      redirectUrl: serviceDto.redirectUrl,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
     });
@@ -56,6 +57,7 @@ export class PostgresServiceRepository implements IServiceRepository {
     const service: Service = Service.create({
         name: serviceDto.name,
         description: serviceDto.description,
+        redirectUrl: serviceDto.redirectUrl,
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
       });
@@ -68,6 +70,7 @@ export class PostgresServiceRepository implements IServiceRepository {
         const service: Service = Service.create({
             name: serviceDto.name,
             description: serviceDto.description,
+            redirectUrl: serviceDto.redirectUrl,
             kongServiceName: serviceDto.kongServiceName,
             kongServiceId: serviceDto.kongServiceId,
         });
@@ -87,6 +90,7 @@ export class PostgresServiceRepository implements IServiceRepository {
     const service: Service = Service.create({
         name: serviceDto.name,
         description: serviceDto.description,
+        redirectUrl: serviceDto.redirectUrl,
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
       });// try add ,id on service create

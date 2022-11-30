@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import { Grid, TextField, Button, Select, MenuItem} from '@material-ui/core';
-import { Link as RouterLink} from 'react-router-dom';
+import { useLocation, Link as RouterLink} from 'react-router-dom';
 import AlertComponent from '../../Alert/Alert';
+import useAsync from 'react-use/lib/useAsync';
+import Alert from '@material-ui/lab/Alert';
+import {Progress} from '@backstage/core-components';
 
 import {
   InfoCard,
@@ -11,13 +14,30 @@ import {
   ContentHeader, 
 } from '@backstage/core-components';
 
+type Service = {
+  id: string; 
+  name: string; 
+  description: string;
+  redirectUrl: string;
+  kongServiceName: string;
+  kongServiceId: string; 
+  createdAt: string; 
+  updatedAt: string;
+};
 
-export const CreateComponent = () => {
-  const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
-  const [description, setDescription] = useState("");
-  const [service, setService] = useState("");
+type ServiceProps = {
+  service: Service | undefined;
+}
+
+
+ const EditPageComponent = ({service}:ServiceProps) => {
+
+  const [name, setName] = useState(service?.name);
+  const [url, setUrl] = useState(service?.redirectUrl);
+  const [description, setDescription] = useState(service?.description);
+  const [serviceName, setServiceName] = useState("");
   const [show, setShow] = useState(false);
+
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') {
@@ -28,7 +48,7 @@ export const CreateComponent = () => {
     setName("")
     setUrl("")
     setDescription("")
-    setService("")
+    setServiceName("")
   };
 
   const handleSubmit = async() =>{
@@ -38,8 +58,8 @@ export const CreateComponent = () => {
         name: name,
         description: description,
         redirectUrl: url,
-        kongServiceName:service,
-        kongServiceId :service,
+        kongServiceName:serviceName,
+        kongServiceId :serviceName,
       }
     }
     const config = {
@@ -50,21 +70,20 @@ export const CreateComponent = () => {
       body:JSON.stringify(dataTest)
     };
   
-    const response = await fetch('http://localhost:7007/api/application/service', config);
+    const response = await fetch(`http://localhost:7007/api/application/service/${service?.id}`, config);
     const data = await response.json();
     //console.log("data test: ", data)
     setShow(true)
     return data
     
-  
   }
 
   return(
   <Page themeId="tool">
-    <Header title="Services"></Header>
+    <Header title="Service"></Header>
     <Content>
-    <ContentHeader title='New Service'></ContentHeader>
-    <AlertComponent open={show} close={handleClose} message={"Service cadastrada!"}/>
+    <ContentHeader title='Edit Service'></ContentHeader>
+    <AlertComponent open={show} close={handleClose} message={"Service editada!"}/>
 
       <Grid container direction="row" justifyContent="center">
       <Grid item sm={12} lg={5}>
@@ -74,10 +93,10 @@ export const CreateComponent = () => {
                 <Select
                   fullWidth
                   variant="outlined"
-                  value={service}
+                  value={serviceName}
                   displayEmpty         
                   onChange={(e)=>{
-                    setService(e.target.value as string);
+                    setServiceName(e.target.value as string);
                   }}>
                     <MenuItem value=""><em>Service name</em></MenuItem>
                     <MenuItem value={"google"}>Google</MenuItem>
@@ -135,7 +154,7 @@ export const CreateComponent = () => {
               <Grid item xs={12} >
                 <Grid container justifyContent='center' alignItems='center'>
                   <Button component={RouterLink} to={'/services'} style={{margin:"16px"}} size='large' variant='outlined'>Cancel</Button>
-                  <Button style={{margin:"16px"}} size='large' color='primary' type='submit' variant='contained' disabled={show} onClick={handleSubmit}>Create</Button>
+                  <Button style={{margin:"16px"}} size='large' color='primary' type='submit' variant='contained' disabled={show} onClick={handleSubmit}>Save</Button>
                 </Grid>
               </Grid>
               
@@ -147,5 +166,28 @@ export const CreateComponent = () => {
     </Content>
   </Page>
 )};
+
+
+export const EditComponent = () => {
+  const location = useLocation();
+  const id = location.search.split("?id=")[1];
+
+  const { value, loading, error } = useAsync(async (): Promise<Service> => {
+    const response = await fetch(`http://localhost:7007/api/application/service/${id}`);
+    const data = await response.json();
+    //console.log(data)
+    return data.services;
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return <EditPageComponent service={value}/>
+}
+
+
+
 
 

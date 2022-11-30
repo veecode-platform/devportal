@@ -61,7 +61,7 @@ export async function createRouter(
 
 
   // SERVICE
-  router.get('/services', async (request, response) => {
+  router.get('/services', async (_, response) => {
     const services = await serviceRepository.getService();
     response.status(200).json({ status: 'ok', services: services })
   });
@@ -72,8 +72,7 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', services: service })
   });
 
-
-  router.post('/service/save', async (request, response) => {
+  router.post('/service', async (request, response) => {
     const service: ServiceDto = request.body.service;
     const result = await serviceRepository.createService(service);
     response.status(201).json({ status: 'ok', service: result })
@@ -85,7 +84,7 @@ export async function createRouter(
     response.status(204).json({ status: 'ok', service: result })
   });
 
-  router.patch('/service/:id', async (request, response) => {
+  router.post('/service/:id', async (request, response) => {
     const code = request.params.id;
     const service: ServiceDto = request.body.service;
 
@@ -104,7 +103,7 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', partners: partners })
   });
 
-  router.post('partner/save', async (request, response) => {
+  router.post('/partner', async (request, response) => {
     const partner: PartnerDto = request.body.partner;
     const result = await partnerRepository.createPartner(partner);
     response.status(201).json({ status: 'ok', partner: result })

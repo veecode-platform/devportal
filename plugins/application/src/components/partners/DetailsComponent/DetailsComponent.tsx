@@ -13,28 +13,23 @@ import {
   ContentHeader,
 } from '@backstage/core-components';
 
-type App = {
+type Partner = {
   id: string; 
-  creator: string;
-  name: string; 
-  serviceName: Array<string>; 
-  description: string; 
-  active: boolean; 
-  statusKong?: string; 
+  name: string;
+  applicationId: Array<string>; 
   createdAt: string; 
   updatedAt: string; 
-  consumerName?: string; 
 };
 
 
-type Application = {
-  application: App | undefined;
+type PartnerProps = {
+  partner: Partner | undefined;
 }
 
-const Details = ({ application }: Application) => {
+const Details = ({ partner }: PartnerProps) => {
   return (
     <Page themeId="tool">
-      <Header title="My Service"></Header>
+      <Header title="Partner"></Header>
   
       <Content>
         <Grid container direction='column' spacing={6}>
@@ -44,25 +39,17 @@ const Details = ({ application }: Application) => {
               <Grid container spacing={3} >
                 <ContentHeader title="Details"><Button variant='contained' size='large' color='primary'>Edit</Button></ContentHeader>
                 <Grid item lg={3} xs={6}>
-                  <h1>App id</h1>
-                  <p>{application?.id}</p>
+                  <h1>Id</h1>
+                  <p>{partner?.id}</p>
+                </Grid>
+                <Grid item lg={3} xs={6}>
+                  <h1>Name</h1>
+                  <p>{partner?.name}</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
                   <h1>Created</h1>
-                  <p>{application?.createdAt}</p>
-                </Grid>
-                <Grid item lg={3} xs={6}>
-                  <h1>Redirect Url</h1>
-                  <p>https://example.com</p>
-                </Grid>
-                <Grid item lg={3} xs={6}>
-                  <h1>Service name</h1>
-                  <p>{application?.serviceName}</p>
-                </Grid>
-                <Grid item lg={3} xs={6}>
-                  <h1>Description</h1>
-                  <p>{application?.description}</p>
-                </Grid>         
+                  <p>{partner?.createdAt}</p>
+                </Grid> 
               </Grid>
             </Grid>
   
@@ -88,11 +75,11 @@ export const DetailsComponent = () => {
   const location = useLocation();
   const id = location.search.split("?id=")[1];
 
-  const { value, loading, error } = useAsync(async (): Promise<App> => {
-    const response = await fetch(`http://localhost:7007/api/application/${id}`);
+  const { value, loading, error } = useAsync(async (): Promise<Partner> => {
+    const response = await fetch(`http://localhost:7007/api/application/partner/${id}`);
     const data = await response.json();
-    //console.log(data.application)
-    return data.application;
+    //console.log(data)
+    return data.partners;
   }, []);
 
   if (loading) {
@@ -100,6 +87,6 @@ export const DetailsComponent = () => {
   } else if (error) {
     return <Alert severity="error">{error.message}</Alert>;
   }
-  return <Details application={value}/>
+  return <Details partner={value}/>
   
 }

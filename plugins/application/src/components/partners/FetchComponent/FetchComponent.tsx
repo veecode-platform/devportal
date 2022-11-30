@@ -6,25 +6,19 @@ import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 
 
-type User = {
+type Partner = {
   id: string; 
-  creator: string;
-  name: string; 
-  serviceName: string; 
-  description: string; 
-  active: string; 
-  statusKong: string; 
+  name: string;
+  applicationId: Array<string>; 
   createdAt: string; 
   updatedAt: string; 
-  consumerName: string;
-
 };
 
 type DenseTableProps = {
-  users: User[];
+  partners: Partner[];
 };
 
-export const DenseTable = ({ users }: DenseTableProps) => {
+export const DenseTable = ({ partners }: DenseTableProps) => {
 
   const columns: TableColumn[] = [
     { title: 'Name', field: 'name' },
@@ -33,18 +27,18 @@ export const DenseTable = ({ users }: DenseTableProps) => {
     { title: 'Details', field: 'details' },
   ];
 
-  const data = users.map(user => {
+  const data = partners.map(partner => {
     return {
-      name: user.name,
-      id: user.id,
-      created: user.createdAt,
-      details: <Button variant='outlined' component={RouterLink} to={`/partners/partner-details?id=${user.id}`}>&gt;&gt;&gt;</Button>
+      name: partner.name,
+      id: partner.id,
+      created: partner.createdAt,
+      details: <Button variant='outlined' component={RouterLink} to={`/partners/partner-details?id=${partner.id}`}>&gt;&gt;&gt;</Button>
     };
   });
 
   return (
     <Table
-      title="All services"
+      title="All partners"
       options={{ search: false, paging: true }}
       columns={columns}
       data={data}
@@ -53,11 +47,11 @@ export const DenseTable = ({ users }: DenseTableProps) => {
 };
 
 export const FetchComponent = () => {
-  const { value, loading, error } = useAsync(async (): Promise<User[]> => {
-    const response = await fetch('http://localhost:7007/api/application');
+  const { value, loading, error } = useAsync(async (): Promise<Partner[]> => {
+    const response = await fetch('http://localhost:7007/api/application/partners');
     const data = await response.json();
     //console.log(data)
-    return data.applications;
+    return data.partners;
   }, []);
 
   if (loading) {
@@ -66,5 +60,5 @@ export const FetchComponent = () => {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  return <DenseTable users={value || []} />;
+  return <DenseTable partners={value || []} />;
 };
