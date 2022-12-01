@@ -1,6 +1,6 @@
 import { createPlugin, createRoutableExtension } from '@backstage/core-plugin-api';
 
-import { servicesRootRouteRef, servicesDetailsRouteRef, createServicesRouteRef, partnersRootRouteRef, partnersDetailsRouteRef, createPartnerRouteRef } from './routes';
+import { servicesRootRouteRef, servicesDetailsRouteRef, createServicesRouteRef, partnersRootRouteRef, partnersDetailsRouteRef, createPartnerRouteRef, applicationRouteRef } from './routes';
 
 export const applicationPlugin = createPlugin({
   id: 'application',
@@ -29,5 +29,14 @@ export const PartnersPage = applicationPlugin.provide(
     component: () =>
       import('./components/partners/PartnersPageComponent').then(m => m.PartnersPageComponent),
     mountPoint: partnersRootRouteRef,
+  }),
+);
+
+export const ApplicationPage = applicationPlugin.provide(
+  createRoutableExtension({
+    name: 'ApplicationPage',
+    component: () =>
+    import('./components/devApplication/HomepageComponent').then(m => m.HomePageComponent),
+    mountPoint: applicationRouteRef,
   }),
 );

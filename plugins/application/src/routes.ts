@@ -1,7 +1,7 @@
 import { createRouteRef, createSubRouteRef } from '@backstage/core-plugin-api';
 
 
-//services routes
+// services routes
 export const servicesRootRouteRef = createRouteRef({
   id: 'services',
 });
@@ -23,7 +23,7 @@ export const editServicesRouteRef = createSubRouteRef({
   path: '/edit-service'
 });
 
-//partners routes
+// partners routes
 export const partnersRootRouteRef = createRouteRef({
   id: 'partners',
 });
@@ -38,4 +38,21 @@ export const createPartnerRouteRef = createSubRouteRef({
   id: 'partners-create',
   parent: partnersRootRouteRef,
   path: '/create-partner'
+});
+
+// dev-application routes
+export const applicationRouteRef = createRouteRef({
+  id: 'application',
+});
+
+export const detailsRouteRef = createSubRouteRef({
+  id: 'application-details',
+  parent: applicationRouteRef,
+  path: '/details'
+});
+
+export const newAppRouteRef = createSubRouteRef({
+  id: 'application-new',
+  parent: applicationRouteRef,
+  path: '/new-app'
 });

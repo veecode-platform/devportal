@@ -1,0 +1,38 @@
+[
+    {
+        "id": "ad94b906-4970-11ed-b878-0242ac120002",
+        "creator": "nigel@email.com",
+        "name": "application 1",
+        "serviceName": [
+            "dorwssap"
+        ],
+        "description": "application 1",
+        "url":"http://globo.com",
+        "createdAt": "2022-12-01T11:17:45.794Z",
+        "updatedAt": "2022-12-01T11:17:45.794Z"
+    },
+    {
+        "id": "bbc3936c-4970-11ed-b878-0242ac120002",
+        "creator": "nigel2@email.com",
+        "name": "application 2",
+        "serviceName": [
+            "dorwssap"
+        ],
+        "description": "application 1",
+        "url":"http://globo.com",
+        "createdAt": "2022-12-01T11:17:45.794Z",
+        "updatedAt": "2022-12-01T11:17:45.794Z"
+    },
+    {
+        "id": "c59dcd58-4970-11ed-b878-0242ac120002",
+        "creator": "nigel3@email.com",
+        "name": "application 3",
+        "serviceName": [
+            "dorwssap"
+        ],
+        "description": "application 1",
+        "url":"http://globo.com",
+        "createdAt": "2022-12-01T11:17:45.794Z",
+        "updatedAt": "2022-12-01T11:17:45.794Z"
+    }
+]
