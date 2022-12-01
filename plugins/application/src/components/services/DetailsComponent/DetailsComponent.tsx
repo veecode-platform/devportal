@@ -19,6 +19,7 @@ type Service = {
   name: string; 
   description: string;
   redirectUrl: string;
+  partnersId: string[];
   kongServiceName: string;
   kongServiceId: string; 
   createdAt: string; 
@@ -65,24 +66,19 @@ const Details = ({ service }: Services) => {
                   <p>{service?.description}</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
+                  <h1>Security</h1>
+                  <p>Api key</p>
+                </Grid>   
+                <Grid item lg={3} xs={6}>
                   <h1>Created</h1>
                   <p>{service?.createdAt}</p>
                 </Grid>      
               </Grid>
               <Grid container spacing={3} >
-                <ContentHeader title="Partners"></ContentHeader>
-                <Grid item lg={6} xs={12}>
-                <PartnerListComponent/>
+                <Grid item lg={12} xs={12}>
+                <PartnerListComponent servicePartnerId={service?.partnersId} serviceId={service?.id}/>
                 </Grid>  
               </Grid>
-            </Grid>
-  
-            <Grid style={{margin: "2vw"}} item xs={12} >
-              <Grid container justifyContent='center' alignItems='center' spacing={2}>
-                <Grid item><Button component={RouterLink} to={'/services'} variant='contained' size='large'>Cancel</Button></Grid>
-                <Grid item><Button disabled variant='contained' size='large'>Save</Button></Grid>
-              </Grid>
-                
             </Grid>
   
           </InfoCard>
@@ -103,7 +99,6 @@ export const DetailsComponent = () => {
   const { value, loading, error } = useAsync(async (): Promise<Service> => {
     const response = await fetch(`http://localhost:7007/api/application/service/${id}`);
     const data = await response.json();
-    //console.log(data)
     return data.services;
   }, []);
 

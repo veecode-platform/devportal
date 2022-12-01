@@ -16,6 +16,9 @@ import {
 type Partner = {
   id: string; 
   name: string;
+  email: string;
+  celular: string;
+  servicesId: Array<string>;
   applicationId: Array<string>; 
   createdAt: string; 
   updatedAt: string; 
@@ -45,6 +48,14 @@ const Details = ({ partner }: PartnerProps) => {
                 <Grid item lg={3} xs={6}>
                   <h1>Name</h1>
                   <p>{partner?.name}</p>
+                </Grid>
+                <Grid item lg={3} xs={6}>
+                  <h1>Email</h1>
+                  <p>{partner?.email}</p>
+                </Grid>
+                <Grid item lg={3} xs={6}>
+                  <h1>Celular</h1>
+                  <p>{partner?.celular}</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
                   <h1>Created</h1>

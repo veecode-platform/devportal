@@ -11,6 +11,7 @@ type User = {
   name: string; 
   description: string;
   redirectUrl: string;
+  partnersId: string[];
   kongServiceName: string;
   kongServiceId: string; 
   createdAt: string; 
@@ -53,7 +54,6 @@ export const FetchComponent = () => {
   const { value, loading, error } = useAsync(async (): Promise<User[]> => {
     const response = await fetch('http://localhost:7007/api/application/services');
     const data = await response.json();
-    //console.log(data)
     return data.services;
   }, []);
 

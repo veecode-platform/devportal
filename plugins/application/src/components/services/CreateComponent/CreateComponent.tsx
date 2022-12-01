@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import { Grid, TextField, Button, Select, MenuItem} from '@material-ui/core';
-import { Link as RouterLink} from 'react-router-dom';
+import { Link as RouterLink, useNavigate} from 'react-router-dom';
 import AlertComponent from '../../Alert/Alert';
+import useAsync from 'react-use/lib/useAsync';
+import Alert from '@material-ui/lab/Alert';
+import {Progress} from '@backstage/core-components';
 
 import {
   InfoCard,
@@ -11,11 +14,24 @@ import {
   ContentHeader, 
 } from '@backstage/core-components';
 
+type KongServices = {
+  id: string;
+  name: string;
+}
+
+type KongServicesArray = {
+  services: KongServices[];
+  value: any;
+  setValue:any;
+}
+
 
 export const CreateComponent = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
+  //const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
+  const [security, setSecurity] = useState("");
   const [service, setService] = useState("");
   const [show, setShow] = useState(false);
 
@@ -26,7 +42,7 @@ export const CreateComponent = () => {
 
     setShow(false);
     setName("")
-    setUrl("")
+    //setUrl("")
     setDescription("")
     setService("")
   };
@@ -37,7 +53,8 @@ export const CreateComponent = () => {
       service:{
         name: name,
         description: description,
-        redirectUrl: url,
+        //redirectUrl: url,
+        partnersId: [],
         kongServiceName:service,
         kongServiceId :service,
       }
@@ -50,13 +67,13 @@ export const CreateComponent = () => {
       body:JSON.stringify(dataTest)
     };
   
-    const response = await fetch('http://localhost:7007/api/application/service', config);
-    const data = await response.json();
-    //console.log("data test: ", data)
+    await fetch('http://localhost:7007/api/application/service', config);
     setShow(true)
-    return data
+    new Promise (() =>{
+      setTimeout(()=>{navigate("/services")}, 400);
+    }) 
+    return true
     
-  
   }
 
   return(
@@ -71,25 +88,7 @@ export const CreateComponent = () => {
           <InfoCard>
             <Grid container spacing={3} direction='column' justifyContent="center">
               <Grid item xs={12} >
-                <Select
-                  fullWidth
-                  variant="outlined"
-                  value={service}
-                  displayEmpty         
-                  onChange={(e)=>{
-                    setService(e.target.value as string);
-                  }}>
-                    <MenuItem value=""><em>Service name</em></MenuItem>
-                    <MenuItem value={"google"}>Google</MenuItem>
-                    <MenuItem value={"manager-kong"}>Kong</MenuItem>
-                    <MenuItem value={"manager-kubernetes"}>Kubernetes</MenuItem>
-                    <MenuItem value={"manager-kubernetes-helm"}>Kubernetes helm</MenuItem>
-                    <MenuItem value={"manager-kubernetes-kubectl"}>Kubernetes kubectl</MenuItem>
-                    <MenuItem value={"manager-kubernetes-kustomize"}>Kubernetes kustomize</MenuItem>
-                    <MenuItem value={"manager-kubernetes-minikube"}>Kubernetes minikube</MenuItem>
-                    <MenuItem value={"manager-kubernetes-minikube-kustomize"}>Kubernetes minikube kustomize</MenuItem>
-                    <MenuItem value={"manager-kubernetes-minikube-kustom"}>Kubernetes minikube kustom</MenuItem>
-                </Select>
+               <FetchKongServices valueName={service} setValue={setService}/>
               </Grid>
               <Grid item xs={12} >
                 <TextField
@@ -104,7 +103,7 @@ export const CreateComponent = () => {
                 </TextField>
               </Grid>
               
-              <Grid item xs={12} >
+              {/*<Grid item xs={12} >
                 <TextField
                   fullWidth
                   variant="outlined"
@@ -115,7 +114,7 @@ export const CreateComponent = () => {
                     setUrl(e.target.value)
                   }}>
                 </TextField>
-              </Grid>
+                </Grid>*/}
               
               <Grid item xs={12} >
                 <TextField
@@ -130,6 +129,22 @@ export const CreateComponent = () => {
                     setDescription(e.target.value)
                   }}>
                 </TextField>
+              </Grid>
+
+              <Grid item xs={12} >
+                <Select
+                  fullWidth
+                  variant="outlined"
+                  value={security}
+                  displayEmpty         
+                  onChange={(e)=>{
+                    setSecurity(e.target.value as string);
+                  }}>
+                    <MenuItem value=""><em>Security</em></MenuItem>
+                    <MenuItem value="none"><em>None</em></MenuItem>
+                    <MenuItem value={"api key"}>Api Key</MenuItem>
+                    
+                </Select>
               </Grid>
               
               <Grid item xs={12} >
@@ -147,5 +162,42 @@ export const CreateComponent = () => {
     </Content>
   </Page>
 )};
+
+const FetchKongServices = ({valueName, setValue}:any) => {
+
+  const { value, loading, error } = useAsync(async (): Promise<KongServices[]> => {
+    const response = await fetch(`http://localhost:7007/api/application/kong-services`);
+    const data = await response.json();
+    return data.services;
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return <KongServicesListComponent services={value || []} value={valueName} setValue={setValue}/>
+}
+
+const KongServicesListComponent = ({services, value, setValue}:KongServicesArray) =>{
+
+return(
+  <Select
+    fullWidth
+    variant="outlined"
+    value={value}
+    displayEmpty         
+    onChange={(e)=>{
+      setValue(e.target.value as string);
+    }}>
+      <MenuItem value=""><em>Service name</em></MenuItem>
+      {services.map((service)=>{
+        return(
+          <MenuItem key={service.id} value={service.id}>{service.name}</MenuItem>
+        )
+      })}
+  </Select>
+)
+}
 
 

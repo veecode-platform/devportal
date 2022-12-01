@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Grid, TextField, Button, Select, MenuItem} from '@material-ui/core';
-import { useLocation, Link as RouterLink} from 'react-router-dom';
+import { useLocation, Link as RouterLink, useNavigate} from 'react-router-dom';
 import AlertComponent from '../../Alert/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import Alert from '@material-ui/lab/Alert';
@@ -31,6 +31,8 @@ type ServiceProps = {
 
 
  const EditPageComponent = ({service}:ServiceProps) => {
+
+  const navigate = useNavigate();
 
   const [name, setName] = useState(service?.name);
   const [url, setUrl] = useState(service?.redirectUrl);
@@ -70,11 +72,12 @@ type ServiceProps = {
       body:JSON.stringify(dataTest)
     };
   
-    const response = await fetch(`http://localhost:7007/api/application/service/${service?.id}`, config);
-    const data = await response.json();
-    //console.log("data test: ", data)
+    await fetch(`http://localhost:7007/api/application/service/${service?.id}`, config);
     setShow(true)
-    return data
+    new Promise (() =>{
+      setTimeout(()=>{navigate("/services")}, 400);
+    }) 
+    return true
     
   }
 

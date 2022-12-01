@@ -11,6 +11,7 @@ exports.seed = async function(knex) {
                 name:"test Service",
                 description: 'test description',
                 redirectUrl: "https://test.com.br",
+                partnersId: ["ad94b906-4970-11ed-b878-0242ac120001", "27447ec1-d67f-4233-bfb1-0f11f7ccca28"],
                 kongServiceName: "kong service test",
                 kongServiceId: "916723c1-b79c-4b32-929e-2ea1327f0525",
                 createdAt: new Date(),
@@ -21,6 +22,7 @@ exports.seed = async function(knex) {
                 name:"test service 2",
                 description: 'test description',
                 redirectUrl: "https://test.com.br",
+                partnersId: ["ad94b906-4970-11ed-b878-0242ac120001", "27447ec1-d67f-4233-bfb1-0f11f7ccca28"],
                 kongServiceName: "kong service test 2",
                 kongServiceId: "89dbedab-5b38-460c-a0eb-92898f45090b",
                 createdAt: new Date(),
@@ -31,6 +33,7 @@ exports.seed = async function(knex) {
                 name:"test Service 3",
                 description: 'test description',
                 redirectUrl: "https://test.com.br",
+                partnersId: ["ad94b906-4970-11ed-b878-0242ac120001", "27447ec1-d67f-4233-bfb1-0f11f7ccca28"],
                 kongServiceName: "kong service test 3",
                 kongServiceId: "491f34e7-15bc-4d68-add1-e0b8a71762b0",
                 createdAt: new Date(),
@@ -41,6 +44,9 @@ exports.seed = async function(knex) {
             {
                 id: "ad94b906-4970-11ed-b878-0242ac120001",
                 name:"nome testador",
+                email: "teste@email.com",
+                celular: "21 999999999",
+                servicesId: ["0754b73e-9c27-4713-963b-3eecb38be72e", "102a725c-e7a6-437d-8167-606af722c2e6"],
                 applicationId: ["0754b73e-9c27-4713-963b-3eecb38be72e", "102a725c-e7a6-437d-8167-606af722c2e6"],
                 createdAt: new Date(),
                 updatedAt: new Date()
@@ -48,6 +54,9 @@ exports.seed = async function(knex) {
             {
                 id: "27447ec1-d67f-4233-bfb1-0f11f7ccca28",
                 name:"nome testador segundo",
+                email: "teste@email.com",
+                celular: "21 999999999",
+                servicesId: ["0754b73e-9c27-4713-963b-3eecb38be72e", "102a725c-e7a6-437d-8167-606af722c2e6"],
                 applicationId: ["0e3d3798-dd82-4d15-802b-6e4b75244334", "0754b73e-9c27-4713-963b-3eecb38be72e"],
                 createdAt: new Date(),
                 updatedAt: new Date()
@@ -55,6 +64,9 @@ exports.seed = async function(knex) {
             {
                 id: "44a67075-649c-4f3f-9c2a-c198765d4656",
                 name:"nome testador terceiro",
+                email: "teste@email.com",
+                celular: "21 999999999",
+                servicesId: ["0754b73e-9c27-4713-963b-3eecb38be72e", "102a725c-e7a6-437d-8167-606af722c2e6"],
                 applicationId: ["102a725c-e7a6-437d-8167-606af722c2e6"],
                 createdAt: new Date(),
                 updatedAt: new Date()

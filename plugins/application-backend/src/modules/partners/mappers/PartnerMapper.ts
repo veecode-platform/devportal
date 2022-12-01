@@ -6,6 +6,9 @@ export class PartnerMapper{
     return {
       id: partner._id,
       name: partner.props.name,
+      email: partner.props.email,
+      celular: partner.props.celular,
+      servicesId: partner.props.servicesId,
       applicationId: partner.props.applicationId,
       createdAt: partner.props.createdAt,
     }

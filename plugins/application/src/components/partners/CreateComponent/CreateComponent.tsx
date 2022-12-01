@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import { Grid, TextField, Button, Select, MenuItem} from '@material-ui/core';
-import { Link as RouterLink} from 'react-router-dom';
+import { Grid, TextField, Button} from '@material-ui/core';
+import { Link as RouterLink, useNavigate} from 'react-router-dom';
 import AlertComponent from '../../Alert/Alert';
 
 import {
@@ -13,7 +13,11 @@ import {
 
 
 export const CreateComponent = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [cel, setCel] = useState("");
   const [show, setShow] = useState(false);
 
   const handleClose = (reason: string) => {
@@ -22,13 +26,17 @@ export const CreateComponent = () => {
     }
     setShow(false);
     setName("")
+    setEmail("")
+    setCel("")
   };
 
   const handleSubmit = async() =>{
   
     const dataPartner = {
       partner:{
-        name: name,     
+        name: name,
+        email: email,
+        celular: cel  
       }
     }
     const config = {
@@ -39,11 +47,12 @@ export const CreateComponent = () => {
       body:JSON.stringify(dataPartner)
     };
   
-    const response = await fetch('http://localhost:7007/api/application/partner', config);
-    const data = await response.json();
-    console.log("data test: ", data)
+    await fetch('http://localhost:7007/api/application/partner', config);
     setShow(true)
-    return data
+    new Promise (() =>{
+      setTimeout(()=>{navigate("/partners")}, 400);
+    }) 
+    return true
     
   
   }
@@ -72,7 +81,32 @@ export const CreateComponent = () => {
                     setName(e.target.value)
                   }}>
                 </TextField>
-              </Grid>            
+              </Grid>
+              <Grid item xs={12} >
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label="Email"
+                  value={email}
+                  required
+                  onChange={(e)=>{
+                    setEmail(e.target.value)
+                  }}>
+                </TextField>
+              </Grid>
+              <Grid item xs={12} >
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label="Celular"
+                  value={cel}
+                  required
+                  onChange={(e)=>{
+                    setCel(e.target.value)
+                  }}>
+                </TextField>
+              </Grid>
+                          
               <Grid item xs={12} >
                 <Grid container justifyContent='center' alignItems='center'>
                   <Button component={RouterLink} to={'/partners'} style={{margin:"16px"}} size='large' variant='outlined'>Cancel</Button>
