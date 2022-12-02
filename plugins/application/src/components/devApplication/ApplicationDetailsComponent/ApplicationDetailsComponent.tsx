@@ -51,12 +51,20 @@ const Details = ({ application }: Application) => {
                   <p>https://example.com</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
-                  <h1>Service name</h1>
-                  <p>{application?.serviceName}</p>
+                  <h1>Services</h1>
+                  <p>{application?.servicesId}</p>
+                </Grid>
+                <Grid item lg={3} xs={6}>
+                  <h1>Kong Consumer Name</h1>
+                  <p>{application?.kongConsumerName}</p>
+                </Grid>
+                <Grid item lg={3} xs={6}>
+                  <h1>Kong Consumer Id</h1>
+                  <p>{application?.kongConsumerId}</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
                   <h1>Description</h1>
-                  <p>{application?.description}</p>
+                  <p>{application?.description ?? 'Some Description for Application...'}</p>
                 </Grid>         
               </Grid>
             </Grid>

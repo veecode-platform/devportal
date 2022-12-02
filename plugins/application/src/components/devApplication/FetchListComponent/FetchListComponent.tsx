@@ -17,6 +17,7 @@ export const DenseTable = ({ applications }: DenseTableProps) => {
   const columns: TableColumn[] = [
     { title: 'Name', field: 'name' },
     { title: 'Id', field: 'id' },
+    {title: 'creator', field: 'creator'},
     { title: "Created At", field: "created"},
     {title: "Created By", field:"creator"},
     { title: 'Details', field: 'details' },
@@ -35,7 +36,7 @@ export const DenseTable = ({ applications }: DenseTableProps) => {
   return (
     <Table
       title="All Applications"
-      options={{ search: false, paging: true }}
+      options={{ search: true, paging: true }}
       columns={columns}
       data={data}
     />
@@ -46,8 +47,6 @@ export const FetchListComponent = () => {
   const { value, loading, error } = useAsync(async (): Promise<IApplication[]> => {
     const response = await fetch('http://localhost:7007/api/application/');
     const data = await response.json();
-    // eslint-disable-next-line no-console
-    // console.log(data.applications[0])
     return data.applications;
   }, []);
 

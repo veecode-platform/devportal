@@ -1,21 +1,21 @@
 export interface IApplication  {
     id: string,
-    creator: string,
-    name: string,
-    serviceName: string[],
-    active: boolean | null,
-    description?:string,           // check prop
-    statusKong?: string,           // check prop
-    consumerName?: string,         // check prop
-    url:string,
-    createdAt: string,
-    updateAt: string
+    name: string;
+    creator: string;
+    servicesId: string[];
+    active?: boolean | null;
+    kongConsumerName?: string;
+    description?: string;
+    kongConsumerId?: string;
+    createdAt: Date;
+    updateAt: Date;
   }
+
 export interface ICreateApp{
   name: string,
   creator: string,
-  url: string,
-  description: string,
-  serviceName: string[],
+  servicesId: string[],
+  kongConsumerName: string,
+  kongConsumerId: string,
 }
 

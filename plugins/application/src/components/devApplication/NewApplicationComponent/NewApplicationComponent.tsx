@@ -10,19 +10,19 @@ import { InfoCard, Header, Page, Content, ContentHeader} from '@backstage/core-c
 import { ICreateApp } from '../interfaces';
 
 export const NewApplicationComponent = () => {
-  const [application, setApplication] = useState<ICreateApp>({ name: "", creator: "", url: "", description: "", serviceName: [] });
+  const [application, setApplication] = useState<ICreateApp>({ name: "", creator: "", servicesId: [], kongConsumerName:"",kongConsumerId:"" });
   const [show, setShow] = useState<boolean>(false);
 
   // mock data
   useEffect(() => {
-    return setApplication({ ...application, creator: "valberjr@teste.com", serviceName:['devportal', 'safira-cli', 'vkpr'] })
+    return setApplication({ ...application, creator: "valberjr@teste.com", servicesId:['12324345465', '123432546r34', '43243245436546'] })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); 
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
     setShow(false);
-    setApplication({ name: "", creator: "", url: "", description: "", serviceName: [] });
+    setApplication({ name: "", creator: "", servicesId: [], kongConsumerName:"", kongConsumerId:"" });
   };
 
   const handleSubmit = async () => {
@@ -78,7 +78,7 @@ export const NewApplicationComponent = () => {
                         multiple
                         name="Application Services"
                         label="Select the services"
-                        values={application.serviceName}
+                        values={application.servicesId}
                       />
                     </Paper>
                   </SearchContextProvider>
@@ -87,24 +87,22 @@ export const NewApplicationComponent = () => {
                   <TextField
                     fullWidth
                     variant="outlined"
-                    label="Url"
+                    label="Kong Consumer Name"
+                    value={application.kongConsumerName ?? ''}
                     required
-                    value={application.url ?? ''}
                     onChange={(e) => {
-                      setApplication({ ...application, url: e.target.value })
+                      setApplication({ ...application, kongConsumerName: e.target.value })
                     }} />
                 </Grid>
                 <Grid item xs={12} >
                   <TextField
                     fullWidth
                     variant="outlined"
-                    label="Description"
-                    multiline
-                    value={application.description ?? ''}
-                    minRows={3}
+                    label="Kong Consumer Id"
+                    value={application.name ?? ''}
                     required
                     onChange={(e) => {
-                      setApplication({ ...application, description: e.target.value })
+                      setApplication({ ...application, kongConsumerId: e.target.value })
                     }} />
                 </Grid>
                 <Grid item xs={12} >
