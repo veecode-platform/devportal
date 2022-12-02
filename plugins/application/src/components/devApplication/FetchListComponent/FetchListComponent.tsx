@@ -7,8 +7,6 @@ import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import { IApplication } from '../interfaces';
 import More from '@material-ui/icons/MoreHorizOutlined';
-// mock
-import MOCK from '../mock/mock.json';
 
 type DenseTableProps = {
   applications: IApplication[];
@@ -24,27 +22,15 @@ export const DenseTable = ({ applications }: DenseTableProps) => {
     { title: 'Details', field: 'details' },
   ];
 
-  // const data = applications.map(application => {
-  //   return {
-  //     name: application.name,
-  //     id: application.id,
-  //     created: application.createdAt,
-  //     creator: application.creator,
-  //     details: <Button variant='outlined' component={RouterLink} to={`/application/details?id=${application.id}`}> <More/> </Button>
-  //   };
-  // });
-
-    const data = MOCK.map(application => {
+  const data = applications.map(application => {
     return {
       name: application.name,
       id: application.id,
       created: application.createdAt,
       creator: application.creator,
-      // details: <Button variant='outlined' component={RouterLink} to={`/application/details?id=${application.id}`}> <More/> </Button>
-      details: <Button variant='outlined' component={RouterLink} to="/details"> <More/> </Button>
+      details: <Button variant='outlined' component={RouterLink} to={`/application/details?id=${application.id}`}> <More/> </Button>
     };
   });
-  
 
   return (
     <Table

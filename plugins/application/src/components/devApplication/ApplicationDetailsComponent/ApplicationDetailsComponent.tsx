@@ -5,8 +5,6 @@ import {Progress} from '@backstage/core-components';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
-// MOCK
-import MOCK from "../mock/mock.json";
 
 import {
   InfoCard,
@@ -24,8 +22,8 @@ type Application = {
 const Details = ({ application }: Application) => {
   return (
     <Page themeId="tool">
-      {/* <Header title={application?.name}> </Header> */}
-      <Header title={MOCK[0].name}> </Header>
+      <Header title={application?.name}> </Header>
+  
       <Content>
         <Grid container direction='column' spacing={6}>
           <InfoCard variant="gridItem">
@@ -42,13 +40,11 @@ const Details = ({ application }: Application) => {
                 </ContentHeader>
                 <Grid item lg={3} xs={6}>
                   <h1>App id</h1>
-                  {/* <p>{application?.id}</p> */}
-                  <p>{MOCK[0].id}</p>
+                  <p>{application?.id}</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
                   <h1>Created</h1>
-                  {/* <p>{application?.createdAt}</p> */}
-                  <p>{MOCK[0].createdAt}</p>
+                  <p>{application?.createdAt}</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
                   <h1>Redirect Url</h1>
@@ -56,18 +52,16 @@ const Details = ({ application }: Application) => {
                 </Grid>
                 <Grid item lg={3} xs={6}>
                   <h1>Service name</h1>
-                  {/* <p>{application?.serviceName}</p> */}
-                  <p>{MOCK[0].serviceName}</p>
+                  <p>{application?.serviceName}</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
                   <h1>Description</h1>
-                  {/* <p>{application?.description}</p> */}
-                  <p>{MOCK[0].description}</p>
+                  <p>{application?.description}</p>
                 </Grid>         
               </Grid>
             </Grid>
   
-            <Grid style={{margin: "2vw"}} item xs={12} >
+            {/* <Grid style={{margin: "2vw"}} item xs={12} >
               <Grid container spacing={3} >
                 <ContentHeader title="Authentication"> </ContentHeader>
                 <Grid item lg={4} xs={6}>
@@ -79,7 +73,7 @@ const Details = ({ application }: Application) => {
                   <p>***********</p>
                 </Grid>
               </Grid>
-            </Grid>
+            </Grid> */}
   
             <Grid style={{margin: "2vw"}} item xs={12} >
               <Grid container justifyContent='center' alignItems='center' spacing={2}>
@@ -104,9 +98,10 @@ export const ApplicationDetailsComponent = () => {
   const id = location.search.split("?id=")[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
-    const response = await fetch(`http://localhost:7007/api/application/get-application/${id}`);
+    const response = await fetch(`http://localhost:7007/api/application/${id}`);
     const data = await response.json();
-    // console.log(data.application)
+    // eslint-disable-next-line no-console
+    console.log(data.application)
     return data.application;
   }, []);
 

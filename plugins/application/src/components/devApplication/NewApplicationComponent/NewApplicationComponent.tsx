@@ -33,7 +33,7 @@ export const NewApplicationComponent = () => {
       },
       body: JSON.stringify(application)
     };
-    const response = await fetch('http://localhost:7007/api/application/create-application', config); // check endpoint
+    const response = await fetch('http://localhost:7007/api/application/', config); // check endpoint
     const data = await response.json();
     // console.log("aplication: ", data)
     setShow(true)
