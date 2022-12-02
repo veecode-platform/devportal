@@ -6,23 +6,24 @@ import { Link as RouterLink } from 'react-router-dom';
 import AlertComponent from '../Alert/Alert';
 import { SearchFilter } from '@backstage/plugin-search-react';
 import { SearchContextProvider } from '@backstage/plugin-search-react';
-import { InfoCard, Header, Page, Content, ContentHeader} from '@backstage/core-components';
+import { InfoCard, Header, Page, Content, ContentHeader } from '@backstage/core-components';
 import { ICreateApp } from '../interfaces';
 
 export const NewApplicationComponent = () => {
-  const [application, setApplication] = useState<ICreateApp>({ name: "", creator: "", servicesId: [], kongConsumerName:"",kongConsumerId:"" });
+  const [application, setApplication] = useState<ICreateApp>({ name: "", creator: "", servicesId: [], kongConsumerName: "", kongConsumerId: "" });
   const [show, setShow] = useState<boolean>(false);
 
   // mock data
   useEffect(() => {
-    return setApplication({ ...application, creator: "valberjr@teste.com", servicesId:['12324345465', '123432546r34', '43243245436546'] })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); 
+    return setApplication({ ...application, creator: "valberjr@teste.com", servicesId: ['12324345465', '123432546r34', '43243245436546'] })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
     setShow(false);
-    setApplication({ name: "", creator: "", servicesId: [], kongConsumerName:"", kongConsumerId:"" });
+    setApplication({ name: "", creator: "", servicesId: [], kongConsumerName: "", kongConsumerId: "" });
+
   };
 
   const handleSubmit = async () => {
@@ -108,7 +109,7 @@ export const NewApplicationComponent = () => {
                 <Grid item xs={12} >
                   <Grid container justifyContent='center' alignItems='center'>
                     <Button component={RouterLink} to='/application' style={{ margin: "16px" }} size='large' color="primary" variant='contained'>Cancel</Button>
-                    <Button style={{ margin: "16px" , background: "#20a082", color:"#fff"}}size='large' type='submit' variant='contained' disabled={show} onClick={handleSubmit}>Create</Button>
+                    <Button style={{ margin: "16px", background: "#20a082", color: "#fff" }} size='large' type='submit' variant='contained' disabled={show} onClick={handleSubmit}>Create</Button>
                   </Grid>
                 </Grid>
               </Grid>
