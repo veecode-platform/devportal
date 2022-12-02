@@ -99,7 +99,7 @@ export const NewApplicationComponent = () => {
                     fullWidth
                     variant="outlined"
                     label="Kong Consumer Id"
-                    value={application.name ?? ''}
+                    value={application.kongConsumerId ?? ''}
                     required
                     onChange={(e) => {
                       setApplication({ ...application, kongConsumerId: e.target.value })
