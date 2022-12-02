@@ -28,6 +28,11 @@ export class PostgresPartnerRepository implements IPartnerRepository {
     return responseData.partners ?? [];
   }
 
+  async findApplications(id: string){
+    const associates = await this.getPartnerById(id);
+    return associates.applicationId;
+  }
+
 // method get one partner by id
   async getPartnerById(id: string): Promise<Partner | string> {
     const partner = await this.db<Partner>('partners').where('id', id).limit(1).select().catch(error => console.error(error));

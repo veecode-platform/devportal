@@ -102,8 +102,13 @@ export async function createRouter(
     const partners = await partnerRepository.getPartnerById(code);
     response.status(200).json({ status: 'ok', partners: partners })
   });
+  router.get('/partner/applications/:id', async (request, response) => {
+    const code = request.params.id;
+    const applications = await partnerRepository.findApplications(code);
+    response.status(200).json({ status: 'ok', applications: applications })
+  });
 
-  router.post('/partner', async (request, response) => {
+  router.post('/partner/save', async (request, response) => {
     const partner: PartnerDto = request.body.partner;
     const result = await partnerRepository.createPartner(partner);
     response.status(201).json({ status: 'ok', partner: result })
@@ -205,6 +210,14 @@ export async function createRouter(
   });
 
 
+  router.patch('/associate/:id', async (request, response) => {
+    const code = request.params.id;
+    const listServicesId: string[] = request.body.services;
+    await applicationRepository.associate(code, listServicesId);
+    response.status(200).json({status: 'ok', application: applicationRepository})
+  });
+
+
   router.delete('/:id', async (request, response) => {
     const code = request.params.id
     try {
@@ -212,7 +225,7 @@ export async function createRouter(
         throw new InputError(`the request body is missing the application field`);
       }
       const result = await applicationRepository.deleteApplication(code)
-      response.send({ status: "ok", result: result });
+      response.status(204).send({ status: "ok", result: result });
 
     } catch (error: any) {
       let date = new Date();
@@ -226,13 +239,14 @@ export async function createRouter(
     }
   });
 
-  router.put('/:id', async (request, response) => {
+  router.patch('/:id', async (request, response) => {
     const code = request.params.id
+    const application: ApplicationDto = request.body.application;
     try {
       if (!code) {
         throw new InputError(`the request body is missing the application field`);
       }
-      // const result = await applicationRepository.updateApplication(code);
+      const result = await applicationRepository.patchApplication(code, application);
       response.send({ status: "ok", result: "result" });
     } catch (error: any) {
       let date = new Date();
@@ -246,10 +260,6 @@ export async function createRouter(
     }
   });
 
-  router.patch('/associate/:id', async (request, response) => {
-    await associateService.associate(options, request.params.id, request.body.consumerName);
-    response.json({ status: 'ok' })
-  });
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(options, request.params.id);
