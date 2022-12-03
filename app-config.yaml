@@ -38,8 +38,10 @@ backend:
     port: 7007
   database:
     client: pg
+    pluginDivisionMode: schema
     connection:
       host: localhost
+      database: platform_devportal
       port: ${DB_PORT}
       user: ${DB_USER}
       password: ${DB_PASSWORD}
