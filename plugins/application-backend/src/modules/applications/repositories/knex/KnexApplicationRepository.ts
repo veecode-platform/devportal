@@ -30,12 +30,12 @@ export class PostgresApplicationRepository implements IApplicationRepository {
   }
 
   async getApplicationByUser(email:string): Promise<Application[] | void> {
-    const application = await this.db<Application>('application').where("email", email).select('*').catch(error => console.error(error));
+    const application = await this.db<Application>('applications').where("email", email).select('*').catch(error => console.error(error));
     return application;
   }
 
   async getApplication(): Promise<Application[]> {
-    const application = await this.db<Application>('application').select('*').catch(error => console.error(error));
+    const application = await this.db<Application>('applications').select('*').catch(error => console.error(error));
     const applicationsDomain = ApplicationResponseDto.create({ applications: application});
     const responseData = await ApplicationMapper.listAllApplicationsToResource(applicationsDomain)
     return responseData.applications ?? [];
@@ -43,7 +43,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
 
 // method get one application by id
   async getApplicationById(id: string): Promise<Application | string> {
-    const application = await this.db<Application>('application').where('id', id).limit(1).select().catch(error => console.error(error));
+    const application = await this.db<Application>('applications').where('id', id).limit(1).select().catch(error => console.error(error));
     const applicationDomain = ApplicationResponseDto.create({ applicationIt: application});
     const responseData = await ApplicationMapper.listAllApplicationsToResource(applicationDomain)
     return   responseData.application ?? "cannot find application";
@@ -65,7 +65,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
 
 // method to delete application
   async deleteApplication(id: string): Promise<void> {
-   await this.db<Application>('application').where('id', id).del().catch(error => console.error(error));
+   await this.db<Application>('applications').where('id', id).del().catch(error => console.error(error));
   }
 
   async createApplication(applicationDto: ApplicationDto): Promise<Application | string> {
@@ -79,7 +79,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       statusKong: applicationDto.statusKong,
     });
     const data = await ApplicationMapper.toPersistence(application);
-    const createdApplication = await this.db('application').insert(data).catch(error => console.error(error));
+    const createdApplication = await this.db('applications').insert(data).catch(error => console.error(error));
     return createdApplication ? application : "cannot create application";
    }
     // asyn function to update full application object
@@ -94,7 +94,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
         statusKong: applicationDto.statusKong,
       });
       const data =await ApplicationMapper.toPersistence(application);
-      const updatedApplication = await this.db('application').where('id', id).update(data).catch(error => console.error(error));
+      const updatedApplication = await this.db('applications').where('id', id).update(data).catch(error => console.error(error));
       return updatedApplication ? application : "cannot update application";
       }
 
@@ -118,7 +118,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     });// try add ,id on application create
     //const data =await ApplicationMapper.toPersistence(application);
     
-    const patchedApplication = await this.db('application').where('id', id).update(applicationDto).catch(error => console.error(error));
+    const patchedApplication = await this.db('applications').where('id', id).update(applicationDto).catch(error => console.error(error));
     return patchedApplication ? application : "cannot patch application";
   }
 

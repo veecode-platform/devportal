@@ -4,6 +4,7 @@ import Alert from '@material-ui/lab/Alert';
 import {Progress} from '@backstage/core-components';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
+import { PartnerListComponent } from './PartnerListComponent';
 
 import {
   InfoCard,
@@ -13,25 +14,26 @@ import {
   ContentHeader,
 } from '@backstage/core-components';
 
-type App = {
+type Service = {
   id: string; 
-  creator: string;
   name: string; 
-  serviceName: Array<string>; 
-  description: string; 
-  active: boolean; 
-  statusKong?: string; 
+  description: string;
+  redirectUrl: string;
+  partnersId: string[];
+  kongServiceName: string;
+  kongServiceId: string; 
   createdAt: string; 
   updatedAt: string; 
-  consumerName?: string; 
 };
 
 
-type Application = {
-  application: App | undefined;
+type Services = {
+  service: Service | undefined;
 }
 
-const Details = ({ application }: Application) => {
+const Details = ({ service }: Services) => {
+  const location = useLocation();
+  const id = location.search.split("?id=")[1];
   return (
     <Page themeId="tool">
       <Header title="My Service"></Header>
@@ -41,36 +43,42 @@ const Details = ({ application }: Application) => {
           <InfoCard variant="gridItem">
   
             <Grid style={{margin: "2vw"}} item xs={12}>
-              <Grid container spacing={3} >
-                <ContentHeader title="Details"><Button variant='contained' size='large' color='primary'>Edit</Button></ContentHeader>
+              <Grid container spacing={3} style={{marginBottom: "6vh"}} >
+                <ContentHeader title="Details"><Button variant='contained' size='large' color='primary' component={RouterLink} to={`/services/edit-service?id=${id}`}>Edit</Button></ContentHeader>
                 <Grid item lg={3} xs={6}>
                   <h1>App id</h1>
-                  <p>{application?.id}</p>
-                </Grid>
-                <Grid item lg={3} xs={6}>
-                  <h1>Created</h1>
-                  <p>{application?.createdAt}</p>
+                  <p>{service?.id}</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
                   <h1>Redirect Url</h1>
-                  <p>https://example.com</p>
+                  <p>{service?.redirectUrl}</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
                   <h1>Service name</h1>
-                  <p>{application?.serviceName}</p>
+                  <p>{service?.name}</p>
+                </Grid>
+                <Grid item lg={3} xs={6}>
+                  <h1>Kong service name</h1>
+                  <p>{service?.kongServiceName}</p>
                 </Grid>
                 <Grid item lg={3} xs={6}>
                   <h1>Description</h1>
-                  <p>{application?.description}</p>
-                </Grid>         
+                  <p>{service?.description}</p>
+                </Grid>
+                <Grid item lg={3} xs={6}>
+                  <h1>Security</h1>
+                  <p>Api key</p>
+                </Grid>   
+                <Grid item lg={3} xs={6}>
+                  <h1>Created</h1>
+                  <p>{service?.createdAt}</p>
+                </Grid>      
               </Grid>
-            </Grid>
-  
-            <Grid style={{margin: "2vw"}} item xs={12} >
-              <Grid container justifyContent='center' alignItems='center' spacing={2}>
-                <Grid item><Button component={RouterLink} to={'/services'} variant='contained' size='large'>Cancel</Button></Grid>
+              <Grid container spacing={3} >
+                <Grid item lg={12} xs={12}>
+                <PartnerListComponent servicePartnerId={service?.partnersId} serviceId={service?.id}/>
+                </Grid>  
               </Grid>
-                
             </Grid>
   
           </InfoCard>
@@ -88,11 +96,10 @@ export const DetailsComponent = () => {
   const location = useLocation();
   const id = location.search.split("?id=")[1];
 
-  const { value, loading, error } = useAsync(async (): Promise<App> => {
-    const response = await fetch(`http://localhost:7007/api/application/${id}`);
+  const { value, loading, error } = useAsync(async (): Promise<Service> => {
+    const response = await fetch(`http://localhost:7007/api/application/service/${id}`);
     const data = await response.json();
-    //console.log(data.application)
-    return data.application;
+    return data.services;
   }, []);
 
   if (loading) {
@@ -100,6 +107,6 @@ export const DetailsComponent = () => {
   } else if (error) {
     return <Alert severity="error">{error.message}</Alert>;
   }
-  return <Details application={value}/>
+  return <Details service={value}/>
   
 }

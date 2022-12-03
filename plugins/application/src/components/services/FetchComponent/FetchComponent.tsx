@@ -8,16 +8,14 @@ import useAsync from 'react-use/lib/useAsync';
 
 type User = {
   id: string; 
-  creator: string;
   name: string; 
-  serviceName: string; 
-  description: string; 
-  active: string; 
-  statusKong: string; 
+  description: string;
+  redirectUrl: string;
+  partnersId: string[];
+  kongServiceName: string;
+  kongServiceId: string; 
   createdAt: string; 
   updatedAt: string; 
-  consumerName: string;
-
 };
 
 type DenseTableProps = {
@@ -54,10 +52,9 @@ export const DenseTable = ({ users }: DenseTableProps) => {
 
 export const FetchComponent = () => {
   const { value, loading, error } = useAsync(async (): Promise<User[]> => {
-    const response = await fetch('http://localhost:7007/api/application');
+    const response = await fetch('http://localhost:7007/api/application/services');
     const data = await response.json();
-    //console.log(data)
-    return data.applications;
+    return data.services;
   }, []);
 
   if (loading) {
