@@ -38,11 +38,13 @@ backend:
     port: 7007
   database:
     client: pg
+    pluginDivisionMode: schema
     connection:
       host: localhost
-      port: 5432
-      user: user
-      password: password
+      database: platform_devportal
+      port: ${DB_PORT}
+      user: ${DB_USER}
+      password: ${DB_PASSWORD}
   #database:
   #  client: better-sqlite3
   #  connection: ':memory:'
