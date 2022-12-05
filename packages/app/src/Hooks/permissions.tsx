@@ -8,3 +8,8 @@ export function usePermissionsCheck() {
 
   return validUser ? validUser : "default/builder"
 }
+
+/* todo change json stringify to getString
+https://backstage.io/docs/auth/#sign-in-with-proxy-providers
+const configApi = useApi(configApiRef);
+      if (configApi.getString('auth.environment') === 'development') {*/

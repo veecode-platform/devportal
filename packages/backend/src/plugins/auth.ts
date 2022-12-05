@@ -36,15 +36,28 @@ export default async function createPlugin(
     providerFactories: {
       ...defaultAuthProviderFactories,
 
-      // NOTE: DO NOT add this many resolvers in your own instance!
-      //       It is important that each real user always gets resolved to
-      //       the same sign-in identity. The code below will not do that.
-      //       It is here for demo purposes only.   
-      //github: providers.github.create({
-      //  signIn: {
-      //    resolver: providers.github.resolvers.usernameMatchingUserEntityName(),
-      //  },
-      //}),
+      oauth2Proxy: providers.oauth2Proxy.create({
+        signIn: {
+          resolver: async ({result}, ctx) =>{
+            const name = result.getHeader("x-forwarded-use");
+            if(!name){
+              throw new Error('Request did not contain a user')
+            }
+            return ctx.signInWithCatalogUser({
+              entityRef:{name},
+            })
+          }
+          //async resolver({ result }, ctx) {
+          //  const name = result.getHeader('x-forwarded-user');
+          //  if (!name) {
+          //    throw new Error('Request did not contain a user')
+          //  }
+          //  return ctx.signInWithCatalogUser({
+          //    entityRef: { name },
+          //  });
+          //},
+        },
+      }),
 
       okta: providers.okta.create({
         signIn:{

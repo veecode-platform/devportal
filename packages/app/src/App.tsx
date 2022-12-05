@@ -59,15 +59,19 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 
-import { providers } from './identityProviders';
+
 import { searchPage } from './components/search/SearchPage';
 // import SafeRoute from './components/Routing/SafeRoute';
 import { ServicesPage, PartnersPage} from '@internal/plugin-application';
+//login
+import { providers } from './identityProviders';
+import { ProxiedSignInPage } from '@backstage/core-components';
 
 const app = createApp({
   apis,
   components: {
     SignInPage: props => {
+      //return <ProxiedSignInPage {...props} provider="oauth2Proxy" />
       return (
         <SignInPage
           {...props}

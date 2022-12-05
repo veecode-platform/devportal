@@ -15,7 +15,7 @@
  */
 
 import {
-  oktaAuthApiRef,
+  oktaAuthApiRef
 } from '@backstage/core-plugin-api';
 
 export const providers = [
@@ -24,6 +24,5 @@ export const providers = [
     title: 'Okta',
     message: 'Sign In using Okta',
     apiRef: oktaAuthApiRef,
-  },
-  
+  } 
 ];
