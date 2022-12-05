@@ -4,6 +4,7 @@ services:
 ### POSTGRES ###
   postgres:
     profiles:
+      - postgres
       - complete
       - basic
     container_name: postgres_devportal
@@ -11,6 +12,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      IDLE_SESSION_TIMEOUT: 2147483647
     volumes:
        - ./.docker-data/postgres:/var/lib/postgresql/data
        - ./docker-compose-init/sql:/docker-entrypoint-initdb.d
@@ -54,9 +56,9 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
-      KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: keycloak
-      KC_FEATURES: authorization,token-exchange,docker,impersonation,scripts,upload-scripts,web-authn,client-policies,dynamic-scopes
+      KC_DB_USERNAME: keycloak_adm
+      KC_DB_PASSWORD: keycloak_adm
+      # KC_FEATURES: authorization,token-exchange,docker,impersonation,scripts,upload-scripts,web-authn,client-policies,dynamic-scopes
       #KC_DB_URL_PROPERTIES: "verifyServerCertificate=false&ssl=allow"
       # KC_HOSTNAME: keycloak.local:8443
       # KC_HOSTNAME_STRICT: "false"
