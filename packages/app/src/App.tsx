@@ -65,13 +65,11 @@ import { searchPage } from './components/search/SearchPage';
 import { ServicesPage, PartnersPage} from '@internal/plugin-application';
 //login
 import { providers } from './identityProviders';
-import { ProxiedSignInPage } from '@backstage/core-components';
 
 const app = createApp({
   apis,
   components: {
     SignInPage: props => {
-      //return <ProxiedSignInPage {...props} provider="oauth2Proxy" />
       return (
         <SignInPage
           {...props}

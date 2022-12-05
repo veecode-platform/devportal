@@ -36,27 +36,23 @@ export default async function createPlugin(
     providerFactories: {
       ...defaultAuthProviderFactories,
 
-      oauth2Proxy: providers.oauth2Proxy.create({
+      "keycloack-auth-provider": providers.oidc.create({
         signIn: {
-          resolver: async ({result}, ctx) =>{
-            const name = result.getHeader("x-forwarded-user");
-            if(!name){
-              throw new Error('Request did not contain a user')
-            }
-            return ctx.signInWithCatalogUser({
-              entityRef:{name},
-            })
-          }
-          //async resolver({ result }, ctx) {
-          //  const name = result.getHeader('x-forwarded-user');
-          //  if (!name) {
-          //    throw new Error('Request did not contain a user')
-          //  }
-          //  return ctx.signInWithCatalogUser({
-          //    entityRef: { name },
-          //  });
-          //},
+          resolver(info, ctx) {
+            const userRef = stringifyEntityRef({
+              kind: 'User',
+              name: info.result.userinfo.sub,
+              namespace: "user",
+            });
+            return ctx.issueToken({
+              claims: {
+                sub: userRef, // The user's own identity
+                ent: [userRef], // A list of identities that the user claims ownership through
+              },
+            });
+          },
         },
+
       }),
 
       okta: providers.okta.create({

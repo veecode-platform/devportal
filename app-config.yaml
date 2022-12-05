@@ -208,7 +208,12 @@ auth:
         audience: ${OKTA_AUDIENCE}
         authServerId: ${OKTA_AUTH_SERVER_ID}
         apiToken: ${OKTA_API_TOKEN}
-    oauth2Proxy: {}
+
+    keycloack-auth-provider:
+      development:
+        metadataUrl: https://example.com/.well-known/openid-configuration
+        clientId: ${KEYCLOACK_CLIENT_ID}
+        clientSecret: ${KEYCLOAK_CLIENT_SECRET}
 
 #todo put into env 
 okta:
