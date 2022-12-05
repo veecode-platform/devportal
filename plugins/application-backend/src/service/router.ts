@@ -11,6 +11,7 @@ import { Config } from '@backstage/config';
 //import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 //import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { KongHandler } from '../modules/kong-control/KongHandler';
+import { ConsumerService } from '../modules/kong/services/ConsumerService';
 import { UserService } from '../modules/okta-control/service/UserService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
 import { AssociateService } from '../modules/kong-control/AssociateService';
@@ -55,6 +56,7 @@ export async function createRouter(
 
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const kongHandler = new KongHandler();
+  const consumerService = new ConsumerService();
   const userService = new UserService();
   const associateService = new AssociateService();
   logger.info('Initializing application backend');
@@ -354,7 +356,7 @@ export async function createRouter(
   // kong-consumer
   router.get('/consumer/:consumerName', async (request, response) => {
     try {
-      const consumer = await kongHandler.listConsumerByName(
+      const consumer = await consumerService.listConsumerByName(
         false,
         config.getString('kong.api-manager'),
         request.params.consumerName,
@@ -372,7 +374,7 @@ export async function createRouter(
 
   router.delete('/consumer/:id', async (request, response) => {
     try {
-      const consumer = await kongHandler.deleteConsumerById(
+      const consumer = await consumerService.deleteConsumerById(
         false,
         config.getString('kong.api-manager'),
         request.params.id,
@@ -391,7 +393,7 @@ export async function createRouter(
   router.post('/consumer', async (request, response) => {
     try {
       const consumer: Consumer = request.body;
-      const result = await kongHandler.createConsumer(
+      const result = await consumerService.createConsumer(
         false,
         config.getString('kong.api-manager'),
         consumer,
@@ -410,7 +412,7 @@ export async function createRouter(
   router.put('/consumer/:id', async (request, response) => {
     try {
       const consumer: Consumer = request.body;
-      const result = await kongHandler.updateConsumer(
+      const result = await consumerService.updateConsumer(
         false,
         config.getString('kong.api-manager'),
         request.params.id,
