@@ -19,6 +19,23 @@ export class KongHandler {
     const servicesStore = response.data.data;
     return response ? servicesStore.map((service:Service)=> service.name) : [];
   }
+
+  public async applyPluginToService(tls:false,kongUrl:string, serviceName: string, pluginName: string): Promise<Service[]> {
+    const url = tls ? `https://${kongUrl}/services/${serviceName}/plugins` : `http://${kongUrl}/services/${serviceName}/plugins`;
+    console.log('antes da request')
+    const response = await axios.post(url, 
+    {
+        name: `${pluginName}`
+      }
+    , {
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    } );
+    const servicesStore = response.data
+    return servicesStore;
+  }
+  
   
   public async listPlugins(tls:false,kongUrl:string): Promise<Service[]> {
     const url = tls ? `https://${kongUrl}/services` : `http://${kongUrl}/services`;
