@@ -1,1 +1,0 @@
-export {NewApplicationComponent} from "./NewApplicationComponent"

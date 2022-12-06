@@ -1,1 +1,0 @@
-export { ApplicationDetailsComponent } from './ApplicationDetailsComponent';

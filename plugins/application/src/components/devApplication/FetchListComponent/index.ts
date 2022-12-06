@@ -1,1 +1,0 @@
-export { FetchListComponent } from './FetchListComponent';

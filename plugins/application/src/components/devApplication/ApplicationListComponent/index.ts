@@ -1,1 +1,0 @@
-export { ApplicationListComponent } from './ApplicationListComponent';
