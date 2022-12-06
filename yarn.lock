@@ -1987,6 +1987,24 @@
     qs "^6.10.1"
     react-use "^17.2.4"
 
+"@backstage/plugin-org@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-org/-/plugin-org-0.6.1.tgz#39f67b91cdc19f38c9a3f70fac5ecd1fee8f978e"
+  integrity sha512-JBoPleGGoUb/ICZOmalc/7UnZrgXIbR8CmshEZGCIOgSNxPLdgAy8psvg1uJ+kuqdDEqP3pi2y58PLLKpxD8/Q==
+  dependencies:
+    "@backstage/catalog-model" "^1.1.3"
+    "@backstage/core-components" "^0.12.0"
+    "@backstage/core-plugin-api" "^1.1.0"
+    "@backstage/plugin-catalog-react" "^1.2.1"
+    "@backstage/theme" "^0.2.16"
+    "@material-ui/core" "^4.12.2"
+    "@material-ui/icons" "^4.9.1"
+    "@material-ui/lab" "4.0.0-alpha.57"
+    p-limit "^3.1.0"
+    pluralize "^8.0.0"
+    qs "^6.10.1"
+    react-use "^17.2.4"
+
 "@backstage/plugin-permission-backend@^0.5.13":
   version "0.5.13"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-permission-backend/-/plugin-permission-backend-0.5.13.tgz#fd396621ec11811b59d7fe96b3d5aef24de64605"
@@ -5580,7 +5598,7 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
-"@types/react-dom@*", "@types/react-dom@<18.0.0", "@types/react-dom@^17":
+"@types/react-dom@*", "@types/react-dom@<18.0.0":
   version "17.0.18"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.18.tgz#8f7af38f5d9b42f79162eea7492e5a1caff70dc2"
   integrity sha512-rLVtIfbwyur2iFKykP2w0pl/1unw26b5td16d5xMgp7/yjTHomkyxPYChFoCr/FtEX1lN9wY6lFj1qvKdS5kDw==
