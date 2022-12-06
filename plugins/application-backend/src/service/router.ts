@@ -347,10 +347,10 @@ export async function createRouter(
   });
 
 
-  router.post('/kong-service/:id', async (request, response) => {
+  router.post('/kong-service-plugin/:serviceName', async (request, response) => {
     try {
 
-      const serviceStore = await kongHandler.applyPluginToService(false, config.getString('kong.api-manager'), request.params.id, request.query.pluginName as string);
+      const serviceStore = await kongHandler.applyPluginToService(false, config.getString('kong.api-manager'), request.params.serviceName, request.query.pluginName as string);
       if (serviceStore) response.json({ status: 'ok', services: serviceStore });
       response.json({ status: 'ok', services: [] });
     } catch (error: any) {
