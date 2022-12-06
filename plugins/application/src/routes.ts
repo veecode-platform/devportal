@@ -45,14 +45,48 @@ export const applicationRouteRef = createRouteRef({
   id: 'application',
 });
 
-export const detailsRouteRef = createSubRouteRef({
+export const applicationDetailsRouteRef = createSubRouteRef({
   id: 'application-details',
   parent: applicationRouteRef,
   path: '/details'
 });
 
-export const newAppRouteRef = createSubRouteRef({
+export const newApplicationRouteRef = createSubRouteRef({
   id: 'application-new',
   parent: applicationRouteRef,
-  path: '/new-app'
+  path: '/new-application'
 });
+
+export const editApplicationRouteRef = createSubRouteRef({
+  id: 'application-edit',
+  parent: applicationRouteRef,
+  path: '/edit-application'
+});
+
+// credentials
+export const credentialRouteRef = createRouteRef({
+  id: 'credentials',
+});
+export const credentialDetailsRouteRef = createSubRouteRef({
+  id: 'credentials-details',
+  parent: credentialRouteRef,
+  path: '/details'
+});
+
+export const newCredentialRouteRef = createSubRouteRef({
+  id: 'credentials-new',
+  parent: credentialRouteRef,
+  path: '/new-credential'
+});
+
+// export const editCredentialRouteRef = createSubRouteRef({
+//   id: 'credential-edit',
+//   parent: credentialRouteRef,
+//   path: '/edit-credential'
+// });
+
+// export const removeCredentialRouteRef = createSubRouteRef({
+//   id: 'credential-edit',
+//   parent: credentialRouteRef,
+//   path: '/remove-credential'
+// });
