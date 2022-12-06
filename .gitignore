@@ -16,6 +16,7 @@ coverage
 node_modules/
 
 # Yarn 3 files
+## Check if backstage team are recomending upgrade to yarn 3
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -50,4 +51,5 @@ site
 # vscode database functionality support files
 *.session.sql
 
-pgdata/
+.docker/
+.docker-data/

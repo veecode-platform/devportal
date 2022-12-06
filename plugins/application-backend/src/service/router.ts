@@ -327,7 +327,7 @@ export async function createRouter(
       let date = new Date();
       response.status(error.response.status).json({
           status: 'ERROR',
-          message: error.response.data.errorSummary,
+          message: error,
           timestamp: new Date(date).toISOString()
         })
     }
