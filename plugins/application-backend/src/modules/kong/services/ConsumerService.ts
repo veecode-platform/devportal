@@ -4,7 +4,7 @@ import { kongHeaders } from '../../utils/KongHeaders';
 import { KongConsumerBase } from '../model/KongConsumerBase';
 
 export class ConsumerService extends KongConsumerBase {
-  public async findConsumer(consumerName: string) {
+  public async findConsumer(consumerName: string): Promise<Consumer> {
     const url = `${this._kongUrl}/consumers/${consumerName}`;
     const response = await axios.get(url, {
       headers: kongHeaders(this._kongAdminToken),
