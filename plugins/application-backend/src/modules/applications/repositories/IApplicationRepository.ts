@@ -9,7 +9,5 @@ export interface IApplicationRepository {
   deleteApplication(id: string): Promise<void>;
   createApplication(applicationDto: ApplicationDto): Promise<Application | string>;
   patchApplication(id: string, applicationDto: ApplicationDto): Promise<Application | string>;
-  associate(id: string, servicesId: string[]): any;
-  
   // updateApplication(code:string,applicationDto:ApplicationDto): Promise<Application>;
 }

@@ -7,9 +7,11 @@ export class ApplicationMapper{
       id: application._id,
       creator: application.props.creator,
       name: application.props.name,
-      servicesId: application.props.servicesId,
-      kongConsumerName: application.props.kongConsumerName,
-      kongConsumerId: application.props.kongConsumerId,
+      serviceName: application.props.serviceName,
+      consumerName: application.props.consumerName,
+      description: application.props.description,
+      active: application.props.active,
+      statusKong: application.props.statusKong,
       createdAt: application.props.createdAt,
     }
   }

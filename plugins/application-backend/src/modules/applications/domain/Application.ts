@@ -1,14 +1,15 @@
 import { Entity } from '../../../core/domain/Entity';
 
 export type ApplicationProps = {
-  name: string;
   creator: string;
-  servicesId: string[];
-  kongConsumerName: string;
-  kongConsumerId: string;
-  createdAt: Date;
-  updateAt: Date;
-
+  name: string;
+  serviceName: string[];
+  description: string;
+  active?: boolean;
+  statusKong?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  consumerName?: string[];
 }
 
 export class Application extends Entity<ApplicationProps>{

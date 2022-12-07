@@ -1,38 +1,39 @@
 export class ApplicationDto {
 
-
-  name: string;
-  creator: string;
-  servicesId: string[];
-  kongConsumerName: string;
-  kongConsumerId: string;
-  createdAt: Date;
-  updateAt: Date;
-
-
-  constructor(
-    name: string,
-    creator: string,
-    servicesId: string[],
-    kongConsumerName: string,
-    kongConsumerId: string,
-    createdAt: Date,
-    updateAt: Date,
-  ) {
-    this.name = name
-    this.creator = creator
-    this.servicesId = servicesId
-    this.kongConsumerName = kongConsumerName
-    this.kongConsumerId = kongConsumerId
-    this.createdAt = createdAt
-    this.updateAt = updateAt
+  creator:string;
+  name:string;
+  serviceName:string[];
+  description:string;
+  active?:boolean;
+  statusKong?:string;
+  createdAt?:Date;
+  updatedAt?:Date;
+  consumerName?:string[];
+  
+  constructor(creator:string,name:string,serviceName:string[],description:string,active:boolean,createdAt:Date,updatedAt:Date,statusKong?:string,consumerName?:string[]) {
+    this.creator = creator;
+    this.name = name;
+    this.serviceName = serviceName;
+    this.description = description;
+    this.active = active;
+    this.statusKong = statusKong;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.consumerName = consumerName;
   }
 }
 // kong consumer class
-// export type Consumer = {
-//   id: string;
-//   username: string;
-//   custom_id: string;
-//   created_at: Date;
-//   updated_at: Date;
-// }
+export type Consumer = {
+  id:string;
+  username:string;
+  custom_id:string;
+  created_at:Date;
+  updated_at:Date;
+  key_authentication: KeyAuthentication[]
+}
+
+export type KeyAuthentication = {
+  id:string;
+  key:string;
+  created_at: Date;
+}

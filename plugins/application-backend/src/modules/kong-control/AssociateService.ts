@@ -13,18 +13,18 @@ export interface RouterOptions {
 
 export class AssociateService{
 
-  async associate(routerOptions: RouterOptions, id: string, servicesId: string[] ) {
+  async associate(routerOptions: RouterOptions, id: string, consumerName: string[] ) {
     const applicationRepository = await PostgresApplicationRepository.create(
       await routerOptions.database.getClient(),    
     );
        const application = await applicationRepository.getApplicationById(id);
-      const arrayConsumerName = application.servicesId
+      const arrayConsumerName = application.consumerName
       if(arrayConsumerName != null){
-        for (let index = 0; index < servicesId.length; index++) {
-          application.servicesId.push(servicesId[index])
+        for (let index = 0; index < consumerName.length; index++) {
+          application.consumerName.push(consumerName[index])
         }
       }else{
-        application.servicesId = consumerName;
+        application.consumerName = consumerName;
       }
       await applicationRepository.patchApplication(id, application as any);
   }
