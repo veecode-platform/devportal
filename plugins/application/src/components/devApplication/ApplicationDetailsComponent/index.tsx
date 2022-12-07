@@ -80,7 +80,7 @@ const Details = ({ application }: Application) => {
                 }
               />
               <Grid container direction='column' spacing={6}  lg={12}>
-                <DefaultDetailsComponent metadata={application} back="/application" remove="/application"/>
+                <DefaultDetailsComponent metadata={application} back="/application"/>
               </Grid>
             </Grid>
           </Card>

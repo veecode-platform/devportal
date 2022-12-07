@@ -16,7 +16,7 @@ const Wrapper = ({ children }: PropsWithChildren<{}>) => (
 type Props = {
     metadata : any[] | any;
     back: string;
-    remove: string
+    remove?: string
 }
 
 export const DefaultDetailsComponent = ({metadata, back, remove}:Props) => (
@@ -26,7 +26,7 @@ export const DefaultDetailsComponent = ({metadata, back, remove}:Props) => (
         </div>
         <Grid container justifyContent='center' alignItems='center' spacing={2} style={{ marginTop: "3em", paddingBottom: '1em' }}>
             <Grid item><Button component={RouterLink} to={back} variant='contained' size='large'>Cancel</Button></Grid>
-            <Grid item><Button component={RouterLink} to={remove} variant='contained' size='large'>Remove</Button></Grid>
+            {remove && <Grid item><Button component={RouterLink} to={remove} variant='contained' size='large'>Remove</Button></Grid>}
         </Grid>
     </Wrapper>
 );
