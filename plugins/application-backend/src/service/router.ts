@@ -56,7 +56,7 @@ export async function createRouter(
 
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const kongHandler = new KongHandler();
-  const consumerService = new ConsumerService();
+  const consumerService = new ConsumerService(config);
   const userService = new UserService();
   const associateService = new AssociateService();
   logger.info('Initializing application backend');
@@ -357,10 +357,7 @@ export async function createRouter(
   router.get('/consumer/:consumerName', async (request, response) => {
     try {
       const consumer = await consumerService.findConsumerByName(
-        false,
-        config.getString('kong.api-manager'),
         request.params.consumerName,
-        config.getString('kong.admin-token'),
       );
       response.status(200).json({ status: 'ok', associates: { consumer } });
     } catch (error: any) {
@@ -376,10 +373,7 @@ export async function createRouter(
   router.delete('/consumer/:id', async (request, response) => {
     try {
       const consumer = await consumerService.deleteConsumerById(
-        false,
-        config.getString('kong.api-manager'),
         request.params.id,
-        config.getString('kong.admin-token'),
       );
       response.status(204).json({ status: 'ok', associates: { consumer } });
     } catch (error: any) {
@@ -395,12 +389,7 @@ export async function createRouter(
   router.post('/consumer', async (request, response) => {
     try {
       const consumer: Consumer = request.body;
-      const result = await consumerService.createConsumer(
-        false,
-        config.getString('kong.api-manager'),
-        consumer,
-        config.getString('kong.admin-token'),
-      );
+      const result = await consumerService.createConsumer(consumer);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
       let date = new Date();
@@ -416,11 +405,8 @@ export async function createRouter(
     try {
       const consumer: Consumer = request.body;
       const result = await consumerService.updateConsumer(
-        false,
-        config.getString('kong.api-manager'),
         request.params.id,
         consumer,
-        config.getString('kong.admin-token'),
       );
       response.status(200).json({ status: 'ok', service: result });
     } catch (error: any) {
