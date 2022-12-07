@@ -356,12 +356,13 @@ export async function createRouter(
   // kong-consumer
   router.get('/consumer/:consumerName', async (request, response) => {
     try {
-      const consumer = await consumerService.listConsumerByName(
+      const consumer = await consumerService.findConsumerByName(
         false,
         config.getString('kong.api-manager'),
         request.params.consumerName,
+        config.getString('kong.admin-token'),
       );
-      response.json({ status: 'ok', associates: { consumer } });
+      response.status(200).json({ status: 'ok', associates: { consumer } });
     } catch (error: any) {
       let date = new Date();
       response.status(error.response.status).json({
@@ -378,6 +379,7 @@ export async function createRouter(
         false,
         config.getString('kong.api-manager'),
         request.params.id,
+        config.getString('kong.admin-token'),
       );
       response.status(204).json({ status: 'ok', associates: { consumer } });
     } catch (error: any) {
@@ -397,6 +399,7 @@ export async function createRouter(
         false,
         config.getString('kong.api-manager'),
         consumer,
+        config.getString('kong.admin-token'),
       );
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
@@ -417,8 +420,9 @@ export async function createRouter(
         config.getString('kong.api-manager'),
         request.params.id,
         consumer,
+        config.getString('kong.admin-token'),
       );
-      response.status(201).json({ status: 'ok', service: result });
+      response.status(200).json({ status: 'ok', service: result });
     } catch (error: any) {
       let date = new Date();
       response.status(error.response.status).json({
