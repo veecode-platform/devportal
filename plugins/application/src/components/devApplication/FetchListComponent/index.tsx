@@ -29,7 +29,7 @@ export const DenseTable = ({ applications }: DenseTableProps) => {
       id: application.id,
       created: application.createdAt,
       creator: application.creator,
-      details: <Button variant='outlined' component={RouterLink} to={`/application/details?id=${application.id}`}> <More/> </Button>
+      details: <Button variant='outlined' component={RouterLink} to={`/application/details/?id=${application.id}`}> <More/> </Button>
     };
   });
 
