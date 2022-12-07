@@ -1,18 +1,10 @@
 import axios from 'axios';
 import { Consumer } from '../model/Consumer';
 import { kongHeaders } from '../../utils/KongHeaders';
-import { Config } from '@backstage/config';
+import { KongConsumerBase } from '../model/KongConsumerBase';
 
-export class ConsumerService {
-  private _kongUrl: string;
-  private _kongAdminToken;
-
-  constructor(private _config: Config) {
-    this._kongUrl = _config.getString('kong.api-manager');
-    this._kongAdminToken = this._config.getString('kong.admin-token');
-  }
-
-  public async findConsumerByName(consumerName: string) {
+export class ConsumerService extends KongConsumerBase {
+  public async findConsumer(consumerName: string) {
     const url = `${this._kongUrl}/consumers/${consumerName}`;
     const response = await axios.get(url, {
       headers: kongHeaders(this._kongAdminToken),
@@ -21,7 +13,7 @@ export class ConsumerService {
     return consumer;
   }
 
-  public async deleteConsumerById(consumerId: string): Promise<Consumer> {
+  public async deleteConsumer(consumerId: string): Promise<Consumer> {
     const url = `${this._kongUrl}/consumers/${consumerId}`;
     const response = await axios.delete(url, {
       headers: kongHeaders(this._kongAdminToken),

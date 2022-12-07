@@ -356,7 +356,7 @@ export async function createRouter(
   // kong-consumer
   router.get('/consumer/:consumerName', async (request, response) => {
     try {
-      const consumer = await consumerService.findConsumerByName(
+      const consumer = await consumerService.findConsumer(
         request.params.consumerName,
       );
       response.status(200).json({ status: 'ok', associates: { consumer } });
@@ -372,9 +372,7 @@ export async function createRouter(
 
   router.delete('/consumer/:id', async (request, response) => {
     try {
-      const consumer = await consumerService.deleteConsumerById(
-        request.params.id,
-      );
+      const consumer = await consumerService.deleteConsumer(request.params.id);
       response.status(204).json({ status: 'ok', associates: { consumer } });
     } catch (error: any) {
       let date = new Date();
