@@ -46,6 +46,19 @@ const Details = ({ application }: Application) => {
     window.location.reload()
   }
 
+  const ApplicationData = {
+    id: application?.id ?? '...',
+    name: application?.name ?? '...',
+    creator: application?.creator ?? '...',
+    servicesId: application?.servicesId ?? '...',
+    active: application?.active ?? true,
+    kongConsumerName: application?.kongConsumerName ?? '...',
+    description: application?.description ?? '...',
+    kongConsumerId: application?.kongConsumerId ?? '...',
+    createdAt: application?.createdAt ?? '...',
+    updateAt: application?.updateAt ?? '...'
+  }
+
   return (
     <Page themeId="tool" >
       <Header title={application?.name}> </Header>
@@ -79,7 +92,7 @@ const Details = ({ application }: Application) => {
                 }
               />
               <Grid container direction='column' spacing={6}  lg={12}>
-                <DefaultDetailsComponent metadata={application} back="/application"/>
+                <DefaultDetailsComponent metadata={ApplicationData} back="/application"/>
               </Grid>
             </Grid>
           </Card>
