@@ -48,7 +48,9 @@ export class KongHandler {
 
 
   public async listCredential(tls:false, kongUrl: string, workspace: string, idConsumer: string){
+    console.log("aquiiiiia")
     const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth`
+    console.log("AQUI ")
     const response = await axios.get(url);
     const list = response.data.data;
     const keys = []

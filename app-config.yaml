@@ -213,4 +213,4 @@ okta:
   token:
 
 kong: 
-  api-manager: 
+  api-manager: ${KONG_TESTE_HOST}
