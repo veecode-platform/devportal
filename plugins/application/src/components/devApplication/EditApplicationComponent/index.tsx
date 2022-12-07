@@ -32,13 +32,21 @@ const EditApplicationComponent = ({ application }: Application) => {
   };
 
   const handleSubmit = async () => {
-    setApp({...app, updateAt: Date()});
+    const applicationData = {
+      application:{
+        name: app.name,
+        creator: app.name,
+        servicesId: app.servicesId,
+        kongServiceName: app.kongConsumerName,
+        kongServiceId : app.kongConsumerId,
+      }
+    }
     const config = {
-      method: 'PATCH',
+      method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       },
-      body: JSON.stringify(app)
+      body: JSON.stringify(applicationData)
     };
     const response = await fetch(`http://localhost:7007/api/application/${app?.id}`, config); // check endpoint
     const data = await response.json();

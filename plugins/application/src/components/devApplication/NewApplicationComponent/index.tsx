@@ -10,7 +10,7 @@ import { InfoCard, Header, Page, Content, ContentHeader } from '@backstage/core-
 import { ICreateApplication } from '../interfaces';
 
 export const NewApplicationComponent = () => {
-  const [application, setApplication] = useState<ICreateApplication>({ name: "", creator: "", servicesId: [], kongConsumerName: "", kongConsumerId: "", createdAt:"",updateAt:"" });
+  const [application, setApplication] = useState<ICreateApplication>({ name: "", creator: "", servicesId: [], kongConsumerName: "", kongConsumerId: "" });
   const [show, setShow] = useState<boolean>(false);
 
   // mock data
@@ -22,21 +22,28 @@ export const NewApplicationComponent = () => {
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
     setShow(false);
-    setApplication({ name: "", creator: "", servicesId: [], kongConsumerName: "", kongConsumerId: "", createdAt:"", updateAt:"" });
+    setApplication({ name: "", creator: "", servicesId: [], kongConsumerName: "", kongConsumerId: "" });
   };
 
   const handleSubmit = async () => {
-    setApplication({...application, createdAt: Date(), updateAt: Date()});
+    const applicationData = {
+        application:{
+          name: application.name,
+          creator: application.name,
+          servicesId: application.servicesId,
+          kongServiceName: application.kongConsumerName,
+          kongServiceId : application.kongConsumerId,
+        }
+      }
     const config = {
       method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       },
-      body: JSON.stringify(application)
+      body: JSON.stringify(applicationData)
     };
     const response = await fetch('http://localhost:7007/api/application/', config); // check endpoint
     const data = await response.json();
-    // console.log("aplication: ", data)
     setShow(true)
     return data
   }

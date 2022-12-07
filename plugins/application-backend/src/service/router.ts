@@ -239,7 +239,7 @@ export async function createRouter(
     }
   });
 
-  router.patch('/:id', async (request, response) => {
+  router.post('/:id', async (request, response) => {
     const code = request.params.id
     const application: ApplicationDto = request.body.application;
     try {

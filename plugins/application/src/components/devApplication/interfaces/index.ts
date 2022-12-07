@@ -17,7 +17,5 @@ export interface ICreateApplication{
   servicesId: string[],
   kongConsumerName: string,
   kongConsumerId: string,
-  createdAt: Date | string;
-  updateAt: Date | string;
 }
 
