@@ -7,15 +7,17 @@ export interface IApplication  {
     kongConsumerName?: string;
     description?: string;
     kongConsumerId?: string;
-    createdAt: Date;
-    updateAt: Date;
+    createdAt: Date | string;
+    updateAt: Date | string;
   }
 
-export interface ICreateApp{
+export interface ICreateApplication{
   name: string,
   creator: string,
   servicesId: string[],
   kongConsumerName: string,
   kongConsumerId: string,
+  createdAt: Date | string;
+  updateAt: Date | string;
 }
 
