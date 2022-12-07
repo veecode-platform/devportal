@@ -1,15 +1,13 @@
 import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 
+
+/*export function usePermissionsCheck() {
+  const user = useApi(identityApiRef);
+  const validUser = await user.getBackstageIdentity()
+  return validUser.userEntityRef.split(":")[0]  
+}*/
 export function usePermissionsCheck() {
-
-  const user = JSON.parse(JSON.stringify(useApi(identityApiRef)))
-
-  const validUser = user.target.config.identityApi?.identity?.ownershipEntityRefs[1]?.toString().split(":", 2)[1]
-
-  return validUser ? validUser : "default/builder"
+  const user = useApi(identityApiRef);
+  const validUser = JSON.parse(JSON.stringify(user)).target.config.identityApi.identity.userEntityRef.split(":")[0]
+  return validUser
 }
-
-/* todo change json stringify to getString
-https://backstage.io/docs/auth/#sign-in-with-proxy-providers
-const configApi = useApi(configApiRef);
-      if (configApi.getString('auth.environment') === 'development') {*/

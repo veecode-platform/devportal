@@ -61,7 +61,7 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 
 
 import { searchPage } from './components/search/SearchPage';
-// import SafeRoute from './components/Routing/SafeRoute';
+//import SafeRoute from './components/Routing/SafeRoute';
 import { ServicesPage, PartnersPage} from '@internal/plugin-application';
 //login
 import { providers } from './identityProviders';
@@ -120,6 +120,7 @@ const app = createApp({
 const AppProvider = app.getProvider();
 const AppRouter = app.getRouter();
 
+
 const routes = (
   <FlatRoutes>
     
@@ -139,6 +140,13 @@ const routes = (
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
+    
+    {/*<Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
+      <Route 
+        path="/services" 
+        element={<ServicesPage />} 
+      />
+    </Route>*/}
     <Route path="/services" element={<ServicesPage />}/>
     <Route path="/partners" element={<PartnersPage />}/>
 

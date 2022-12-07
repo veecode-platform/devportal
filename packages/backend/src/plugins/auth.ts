@@ -38,18 +38,33 @@ export default async function createPlugin(
 
       "keycloack-auth-provider": providers.oidc.create({
         signIn: {
-          resolver(info, ctx) {
-            const userRef = stringifyEntityRef({
-              kind: 'User',
-              name: info.result.userinfo.sub,
-              namespace: "user",
-            });
-            return ctx.issueToken({
-              claims: {
-                sub: userRef, // The user's own identity
-                ent: [userRef], // A list of identities that the user claims ownership through
-              },
-            });
+          resolver({result}, ctx) {
+
+              if(!result.userinfo.email_verified){
+                throw new Error('Email not verified');
+              }
+              
+              const groups = result.userinfo.groups as Array<string>;
+              const admin = groups.includes("admin");
+              const user = groups.includes("user");
+
+              if(!admin && !user){
+                throw new Error('Group not authorized');
+              }
+
+              const userName = result.userinfo.preferred_username;
+              
+              const userEntityRef = stringifyEntityRef({
+                kind: admin ? "Admin" : "User",
+                name: userName || result.userinfo.sub,
+                namespace: "user"
+              });
+              return ctx.issueToken({
+                claims: {
+                  sub: userEntityRef, // The user's own identity
+                  ent: [userEntityRef], // A list of identities that the user claims ownership through
+                },
+              });           
           },
         },
 

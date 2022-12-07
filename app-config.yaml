@@ -38,7 +38,8 @@ backend:
     port: 7007
   database:
     client: pg
-    pluginDivisionMode: schema
+    #verificar com luan 
+    #pluginDivisionMode: schema
     connection:
       host: localhost
       database: platform_devportal
@@ -198,8 +199,9 @@ catalog:
 auth:
   environment: development
   ### Providing an auth.session.secret will enable session support in the auth-backend
-  # session:
-  #   secret: custom session secret
+
+  session:
+    secret: ${AUTH_USER_SESSION_SECRET}
   providers:  
     okta:
       development:
@@ -211,9 +213,10 @@ auth:
 
     keycloack-auth-provider:
       development:
-        metadataUrl: https://example.com/.well-known/openid-configuration
-        clientId: ${KEYCLOACK_CLIENT_ID}
+        metadataUrl: ${KEYCLOAK_METADATA_URL}
+        clientId: ${KEYCLOAK_CLIENT_ID}
         clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+        prompt: auto
 
 #todo put into env 
 okta:
