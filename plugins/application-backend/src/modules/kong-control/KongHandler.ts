@@ -1,6 +1,7 @@
 // class to access kong api manager service
 import axios from 'axios'
 
+
 type Service = {
   name: string;
 }
@@ -38,34 +39,25 @@ export class KongHandler {
 
   public async applyPluginToService(tls:false,kongUrl:string, serviceName: string, pluginName: string): Promise<Service[]> {
     const url = tls ? `https://${kongUrl}/services/${serviceName}/plugins` : `http://${kongUrl}/services/${serviceName}/plugins`;
-    console.log('antes da request')
     const response = await axios.post(url, 
     {
         name: `${pluginName}`
       }
-    , {
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    } );
+    ,);
     const servicesStore = response.data
     return servicesStore;
   }
   public async updatePluginService(tls:false,kongUrl:string, serviceName: string, pluginName: string): Promise<Service[]> {
     const url = tls ? `https://${kongUrl}/services/${serviceName}/plugins` : `http://${kongUrl}/services/${serviceName}/plugins`;
-    console.log('antes da request')
     const response = await axios.post(url, 
     {
         name: `${pluginName}`
-      }
-    , {
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    } );
+      } );
     const servicesStore = response.data
     return servicesStore;
   }
+
+
   
   
   public async listPluginsService(tls:false,kongUrl:string, serviceName: string): Promise<Service[]> {
@@ -73,6 +65,12 @@ export class KongHandler {
     const response = await axios.get(url);
     const servicesStore = response.data.data;
     return response ? servicesStore.map((service:Service)=> service.name) : [];
+  }
+  public async deletePluginsService(tls:false,kongUrl:string, serviceName: string, pluginId:string): Promise<Service[]> {
+    const url = tls ? `https://${kongUrl}/services/${serviceName}/plugins/${pluginId}` : `http://${kongUrl}/services/${serviceName}/plugins/${pluginId}`;
+    const response = await axios.delete(url);
+    const servicesStore = response.data;
+    return servicesStore;
   }
   
 }    

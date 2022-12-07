@@ -360,10 +360,7 @@ export async function createRouter(
           timestamp: new Date(date).toISOString()
         })
     }
-
   });
-
-
   router.post('/kong-service/plugin/:serviceName', async (request, response) => {
     try {
       const serviceStore = await kongHandler.applyPluginToService(false, config.getString('kong.api-manager'), request.params.serviceName, request.query.pluginName as string);
@@ -379,7 +376,39 @@ export async function createRouter(
           timestamp: new Date(date).toISOString()
         })
     }
+  });
+  router.put('/kong-service/plugin/:serviceName', async (request, response) => {
+    try {
+      const serviceStore = await kongHandler.applyPluginToService(false, config.getString('kong.api-manager'), request.params.serviceName, request.query.pluginName as string);
+      if (serviceStore) response.json({ status: 'ok', plugins: serviceStore });
+      response.json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
 
+  router.delete('/kong-services/plugins/:serviceName', async (request, response) => {
+    try {
+      const serviceStore = await kongHandler.deletePluginsService(false, config.getString('kong.api-manager'), request.params.serviceName, request.query.pluginName as string)
+      if (serviceStore) response.json({ status: 'ok', services: serviceStore });
+      response.json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
   });
 
 
