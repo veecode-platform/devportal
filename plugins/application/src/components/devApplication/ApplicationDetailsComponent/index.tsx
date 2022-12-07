@@ -49,7 +49,6 @@ const Details = ({ application }: Application) => {
   return (
     <Page themeId="tool" >
       <Header title={application?.name}> </Header>
-      {/* TESTE */}
       <TabbedLayout>
         <TabbedLayout.Route path="/" title="OVERVIEW">
           <Card className={classes.gridItemCard} >
@@ -109,6 +108,7 @@ export const ApplicationDetailsComponent = () => {
   } else if (error) {
     return <Alert severity="error">{error.message}</Alert>;
   }
+  
   return <Details application={value} />
 
 }
