@@ -1,12 +1,11 @@
 import React from 'react';
-import { Grid, Button, makeStyles, Card, CardHeader, IconButton, Divider } from '@material-ui/core';
+import { Grid, makeStyles, Card, CardHeader, IconButton } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { Link, Progress, TabbedLayout } from '@backstage/core-components';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useLocation, Link as RouterLink } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
 import {
-  InfoCard,
   Header,
   Page,
 } from '@backstage/core-components';
@@ -81,47 +80,7 @@ const Details = ({ application }: Application) => {
                 }
               />
               <Grid container direction='column' spacing={6}  lg={12}>
-                {/* <InfoCard variant="gridItem">
-
-                  <Grid style={{ margin: "2vw" }} item xs={12}>
-                    <Grid container spacing={6} >
-                      <Grid item lg={3} xs={6}>
-                        <h1>App id</h1>
-                        <p>{application?.id}</p>
-                      </Grid>
-                      <Grid item lg={3} xs={6}>
-                        <h1>Created</h1>
-                        <p>{application?.createdAt}</p>
-                      </Grid>
-                      <Grid item lg={3} xs={6}>
-                        <h1>Redirect Url</h1>
-                        <p>https://example.com</p>
-                      </Grid>
-                      <Grid item lg={3} xs={6}>
-                        <h1>Services</h1>
-                        <p>{application?.servicesId}</p>
-                      </Grid>
-                      <Grid item lg={3} xs={6}>
-                        <h1>Kong Consumer Name</h1>
-                        <p>{application?.kongConsumerName}</p>
-                      </Grid>
-                      <Grid item lg={3} xs={6}>
-                        <h1>Kong Consumer Id</h1>
-                        <p>{application?.kongConsumerId}</p>
-                      </Grid>
-                      <Grid item lg={3} xs={6}>
-                        <h1>Description</h1>
-                        <p>{application?.description ?? 'Some Description for Application...'}</p>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid style={{ margin: "2vw" }} item xs={12} >
-                    <Grid container justifyContent='center' alignItems='center' spacing={2}>
-                      <Grid item><Button component={RouterLink} to='/application' variant='contained' size='large'>Cancel</Button></Grid>
-                    </Grid>
-                  </Grid>
-                </InfoCard> */}
-                <DefaultDetailsComponent metadata={application}/>
+                <DefaultDetailsComponent metadata={application} back="/application" remove="/application"/>
               </Grid>
             </Grid>
           </Card>
