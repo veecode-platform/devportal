@@ -14,6 +14,7 @@ import { PostgresServiceRepository } from '../modules/services/repositories/Knex
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
+import { PluginService, pluginService } from '../modules/kong-control/PluginService';
 
 
 
@@ -54,6 +55,7 @@ export async function createRouter(
   const kongHandler = new KongHandler();
   const userService = new UserService();
   const associateService = new AssociateService()
+  const pluginService = new PluginService()
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -406,6 +408,25 @@ export async function createRouter(
         .json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+  router.post('/kong-service/acl/:serviceName', async (request, response) => {
+    try {
+      const allowed = request.body.allowed
+      const hide = request.body.hide_groups_header
+      const serviceStore = await pluginService.configAclPluginKongService(config.getString('kong.api-manager'), request.params.serviceName, allowed, hide);
+      if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
+      response.json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.message,
           timestamp: new Date(date).toISOString()
         })
     }
