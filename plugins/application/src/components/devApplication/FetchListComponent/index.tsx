@@ -16,7 +16,7 @@ export const DenseTable = ({ applications }: DenseTableProps) => {
 
   const columns: TableColumn[] = [
     { title: 'Name', field: 'name' },
-    { title: 'Id', field: 'id' },
+    { title: 'Id', field: 'id'},
     {title: 'creator', field: 'creator'},
     { title: "Created At", field: "created"},
     {title: "Created By", field:"creator"},
