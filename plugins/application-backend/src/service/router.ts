@@ -417,7 +417,7 @@ export async function createRouter(
     try {
       const allowed = request.body.allowed
       const hide = request.body.hide_groups_header
-      const serviceStore = await pluginService.configAclPluginKongService(config.getString('kong.api-manager'), request.params.serviceName, allowed, hide);
+      const serviceStore = await pluginService.configAclKongService(config.getString('kong.api-manager'), request.params.serviceName, allowed, hide);
       if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
       response.json({ status: 'ok', services: [] });
     } catch (error: any) {

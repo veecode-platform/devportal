@@ -1,7 +1,7 @@
 import axios from "axios";
 export class PluginService{
 
-    public async configAclPluginKongService(kongUrl: string,serviceName: string, allowed: string[], hidegroupsheader: boolean){
+    public async configAclKongService(kongUrl: string,serviceName: string, allowed: string[], hidegroupsheader: boolean){
         const url = `http://${kongUrl}/services/${serviceName}/plugins`
          const response = await axios.post(url, {
             enabled: true,
@@ -13,4 +13,6 @@ export class PluginService{
         })
         return response.data;
     }
+
+    
 }
