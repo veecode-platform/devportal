@@ -41,6 +41,27 @@ export class KongHandler {
     return response ? servicesStore.map((service:Service)=> service.name) : [];
   }
 
+  public async generateCredential(tls:false, kongUrl: string, workspace: string, idConsumer: string){
+    const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth`
+    const response = await axios.post(url);
+    return response.data;
+  }
+
+
+  public async listCredential(tls:false, kongUrl: string, workspace: string, idConsumer: string){
+    console.log("aquiiiiia")
+    const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth`
+    console.log("AQUI ")
+    const response = await axios.get(url);
+    const list = response.data.data;
+    const keys = []
+    for (let index = 0; index < list.length; index++) {
+       keys.push(list[index].key);
+    }
+
+    console.log(keys)
+    return keys;
+  }
 
   
 }    
