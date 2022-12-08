@@ -14,6 +14,9 @@ import { PostgresServiceRepository } from '../modules/services/repositories/Knex
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
+import { PermissionEvaluator, AuthorizeResult } from '@backstage/plugin-permission-common';
+import { adminAccessPermission } from '../permissions';
+import { NotAllowedError } from '@backstage/errors';
 
 
 
@@ -22,6 +25,7 @@ export interface RouterOptions {
   logger: Logger;
   database: PluginDatabaseManager;
   config: Config;
+  permissions: PermissionEvaluator;
 }
 export interface Service {
   name: string;
@@ -38,7 +42,7 @@ export function assertIsError(error: unknown): asserts error is Error {
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { logger, database } = options;
+  const { logger, database, permissions } = options;
 
   //const applicationRepository = await PostgresApplicationRepository.create(
   //  await database.getClient(),
@@ -62,6 +66,10 @@ export async function createRouter(
 
   // SERVICE
   router.get('/services', async (_, response) => {
+    const decision = (await permissions.authorize([{ permission: adminAccessPermission }]))[0];
+    if (decision.result === AuthorizeResult.DENY) {
+      throw new NotAllowedError('Unauthorized');
+    }
     const services = await serviceRepository.getService();
     response.status(200).json({ status: 'ok', services: services })
   });
@@ -93,6 +101,10 @@ export async function createRouter(
   });
   // PARTNER 
   router.get('/partners', async (_, response) => {
+    const decision = (await permissions.authorize([{ permission: adminAccessPermission }]))[0];
+    if (decision.result === AuthorizeResult.DENY) {
+      throw new NotAllowedError('Unauthorized');
+    }
     const partners = await partnerRepository.getPartner();
     response.status(200).json({ status: 'ok', partners: partners })
   });

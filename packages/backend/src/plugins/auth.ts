@@ -55,9 +55,9 @@ export default async function createPlugin(
               const userName = result.userinfo.preferred_username;
               
               const userEntityRef = stringifyEntityRef({
-                kind: admin ? "Admin" : "User",
+                kind: admin ? "admin" : "user",
                 name: userName || result.userinfo.sub,
-                namespace: "user"
+                namespace: "devportal",
               });
               return ctx.issueToken({
                 claims: {

@@ -65,6 +65,8 @@ import { searchPage } from './components/search/SearchPage';
 import { ServicesPage, PartnersPage} from '@internal/plugin-application';
 //login
 import { providers } from './identityProviders';
+import { RequirePermission } from '@backstage/plugin-permission-react';
+import { adminAccessPermission } from '@internal/plugin-application-backend';
 
 const app = createApp({
   apis,
@@ -147,7 +149,13 @@ const routes = (
         element={<ServicesPage />} 
       />
     </Route>*/}
-    <Route path="/services" element={<ServicesPage />}/>
+
+    {/*<Route path="/services" element={
+      <RequirePermission permission={adminAccessPermission}>
+        <ServicesPage />
+     </RequirePermission>
+    }
+    />*/}
     <Route path="/partners" element={<PartnersPage />}/>
 
   </FlatRoutes>

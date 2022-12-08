@@ -24,7 +24,7 @@ app:
 
 #add permission
 permission:
-  enabled: false
+  enabled: true
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
