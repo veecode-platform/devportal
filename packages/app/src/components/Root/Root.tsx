@@ -44,7 +44,6 @@ import AppsIcon from '@material-ui/icons/Apps';
 // import SearchIcon from '@material-ui/icons/Search';
 import CategoryIcon from '@material-ui/icons/Category';
 import LayersIcon from '@material-ui/icons/Layers';
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 // import RenderItem from '../Routing/RenderItem';
 
 const useSidebarLogoStyles = makeStyles({
@@ -93,7 +92,6 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarItem icon={AppsIcon} to="/services" text="Services" />
         <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />   
         <SidebarItem icon={LayersIcon} to="application" text="Application"> </SidebarItem>  
-        <SidebarItem icon={AssignmentIndIcon}  to="credentials" text="Credentials"> </SidebarItem>
         <SidebarDivider />
       </SidebarGroup>
       <SidebarSpace />
