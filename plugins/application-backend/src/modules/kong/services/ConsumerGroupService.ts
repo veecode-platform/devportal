@@ -13,4 +13,16 @@ export class ConsumerGroupService extends KongServiceBase {
             })
         return response.data.consumerGroup;
     }
+    
+    public async deleteConsumerGroup(consumerGroupId: string): Promise<ConsumerGroup> {
+        const url = `${this.url}/consumer_groups/${consumerGroupId}`;
+        const response = await axios
+          .delete(url, {
+            headers: kongHeaders(this.adminToken),
+          })
+        const consumerGroup = response.data;
+        return consumerGroup;
+      }
+
+
 }
