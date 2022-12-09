@@ -6,7 +6,7 @@ import { KongServiceBase } from './KongServiceBase';
 export class ConsumerGroupService extends KongServiceBase {
 
     public async createConsumerGroup(consumerGroup: ConsumerGroup): Promise<ConsumerGroup> {
-        const url = `${this.url}/consumer_groups`;
+        const url = `${this.url}/${this.workspace}/consumer_groups`;
         const response = await axios
             .post(url, consumerGroup, {
                 headers: kongHeaders(this.adminToken),
@@ -34,10 +34,10 @@ export class ConsumerGroupService extends KongServiceBase {
         return consumerGroup;
     }
 
-    public async addConsumerToGroup(consumerGroupId:string) {
+    public async addConsumerToGroup(consumerGroupId:string, consumerId:string) {
         const url = `${this.url}/consumer_groups/${consumerGroupId}/consumers`;
         const response = await axios
-            .post(url, consumerGroupId, {
+            .post(url, consumerId, {
                 headers: kongHeaders(this.adminToken),
             })
         return response.data;

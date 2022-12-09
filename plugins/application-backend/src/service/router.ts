@@ -435,6 +435,21 @@ export async function createRouter(
     }
   });
 
+  router.post('/consumer_groups/:id/consumers', async (request, response) => {
+    try {
+      const consumerGroup: ConsumerGroup = request.body;
+      const result = await consumerGroupService.addConsumerToGroup(request.params.id, consumerGroup);
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
   router.get('/consumer_groups', async (request, response) => {
     try {
       const consumerGroups = await consumerGroupService.listConsumerGroups();
@@ -461,9 +476,9 @@ export async function createRouter(
     }
   });
 
-  router.delete('/consumers/:id/consumer_groups/:id', async (request, response) => {
+  router.delete('/consumers/:consumerId/consumer_groups/:groupId', async (request, response) => {
     try {
-      const consumerGroup = await consumerGroupService.removeConsumerFromGroup(request.params.id, request.params.id);
+      const consumerGroup = await consumerGroupService.removeConsumerFromGroup(request.params.consumerId, request.params.groupId);
       response.status(204).json({ status: 'ok', group: { consumerGroup } });
     } catch (error: any) {
       let date = new Date();
