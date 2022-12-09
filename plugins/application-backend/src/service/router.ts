@@ -1,11 +1,11 @@
 import { errorHandler, loadBackendConfig, PluginDatabaseManager } from '@backstage/backend-common';
-//import { InputError } from '@backstage/errors';
+import { InputError } from '@backstage/errors';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { Config } from '@backstage/config';
-//import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
-//import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
+import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
+import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { KongHandler } from '../modules/kong-control/KongHandler';
 import { UserService } from '../modules/okta-control/service/UserService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
@@ -40,9 +40,9 @@ export async function createRouter(
 ): Promise<express.Router> {
   const { logger, database } = options;
 
-  //const applicationRepository = await PostgresApplicationRepository.create(
-  //  await database.getClient(),
-  //);
+  const applicationRepository = await PostgresApplicationRepository.create(
+    await database.getClient(),
+  );
   const serviceRepository = await PostgresServiceRepository.create(
     await database.getClient(),
   );
@@ -123,128 +123,129 @@ export async function createRouter(
   })
 
   // APPLICATION
-  //router.get('/', async (_, response) => {
-  //  try {
-  //    const responseData = await applicationRepository.getApplication();
-  //    return response.json({ status: 'ok', applications: responseData });
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    return response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
+  router.get('/', async (_, response) => {
+    try {
+      const responseData = await applicationRepository.getApplication();
+      return response.json({ status: 'ok', applications: responseData });
+    } catch (error: any) {
+      let date = new Date();
+      return response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
 
-  //router.post('/', async (request, response) => {
-  //  const data: ApplicationDto = request.body.application
-  //  try {
-  //    if (!data) {
-  //      throw new InputError(`the request body is missing the application field`);
-  //    }
-  //    logger.info(JSON.stringify(data))
-  //    const result = await applicationRepository.createApplication(data)
-  //    response.send({ status: "ok", result: result });
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
-//
-//
-  //router.post('/save', async (request, response) => {
-  //  const data: ApplicationDto = request.body.application
-  //  try {
-//
-  //    if (!data) {
-  //      throw new InputError(`the request body is missing the application field`);
-  //    }
-  //    // logger.info(JSON.stringify(data))
-  //    const result = await applicationRepository.createApplication(data)
-  //    response.send({ status: data, result: result });
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
+  router.post('/', async (request, response) => {
+    const data: ApplicationDto = request.body.application
+    try {
+      if (!data) {
+        throw new InputError(`the request body is missing the application field`);
+      }
+      logger.info(JSON.stringify(data))
+      const result = await applicationRepository.createApplication(data)
+      response.send({ status: "ok", result: result });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
 
 
-  //router.get('/:id', async (request, response) => {
-  //  const code = request.params.id
-  //  try {
-  //    if (!code) {
-  //      throw new InputError(`the request body is missing the application field`);
-  //    }
-  //    const result = await applicationRepository.getApplicationById(code)
-  //    response.send({ status: "ok", application: result });
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
+  router.post('/save', async (request, response) => {
+    const data: ApplicationDto = request.body.application
+    try {
+
+      if (!data) {
+        throw new InputError(`the request body is missing the application field`);
+      }
+      // logger.info(JSON.stringify(data))
+      const result = await applicationRepository.createApplication(data)
+      response.send({ status: data, result: result });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
 
 
-  //router.delete('/:id', async (request, response) => {
-  //  const code = request.params.id
-  //  try {
-  //    if (!code) {
-  //      throw new InputError(`the request body is missing the application field`);
-  //    }
-  //    const result = await applicationRepository.deleteApplication(code)
-  //    response.send({ status: "ok", result: result });
-//
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
-//
-  //router.put('/:id', async (request, response) => {
-  //  const code = request.params.id
-  //  try {
-  //    if (!code) {
-  //      throw new InputError(`the request body is missing the application field`);
-  //    }
-  //    // const result = await applicationRepository.updateApplication(code);
-  //    response.send({ status: "ok", result: "result" });
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
+  router.get('/:id', async (request, response) => {
+    const code = request.params.id
+    try {
+      if (!code) {
+        throw new InputError(`the request body is missing the application field`);
+      }
+      const result = await applicationRepository.getApplicationById(code)
+      response.send({ status: "ok", application: result });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+
+  router.delete('/:id', async (request, response) => {
+    const code = request.params.id
+    try {
+      if (!code) {
+        throw new InputError(`the request body is missing the application field`);
+      }
+      const result = await applicationRepository.deleteApplication(code)
+      response.status(204).send({ status: "ok", result: result });
+
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+  router.patch('/:id', async (request, response) => {
+    const code = request.params.id
+    const application: ApplicationDto = request.body.application;
+    try {
+      if (!code) {
+        throw new InputError(`the request body is missing the application field`);
+      }
+      const result = await applicationRepository.patchApplication(code, application);
+      response.send({ status: "ok", result: "result" });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
 
   router.patch('/associate/:id', async (request, response) => {
     await associateService.associate(options, request.params.id, request.body.consumerName);
