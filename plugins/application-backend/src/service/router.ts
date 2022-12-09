@@ -382,6 +382,25 @@ export async function createRouter(
       })
     }
   });
+  router.delete('/credencial/:idConsumer', async (request, response) => {
+    try{
+      const workspace = request.query.workspace as string;
+      const idCredencial= request.query.idCredencial as string;
+      const idConsumer = request.params.idConsumer;
+      const serviceStore = await kongHandler.removeCredencial(true, config.getString('kong.api-manager'), workspace, idConsumer, idCredencial)
+      response.status(204).json({ status: 'ok',    credentials: serviceStore })
+    }catch(error: any){
+      let date = new Date();
+      return response
+      .status(error.response.status)
+      .json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString()
+      })
+    }
+  });
+
 
   router.use(errorHandler());
   return router;

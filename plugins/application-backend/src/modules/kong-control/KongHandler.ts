@@ -41,14 +41,14 @@ export class KongHandler {
     return response ? servicesStore.map((service:Service)=> service.name) : [];
   }
 
-  public async generateCredential(tls:false, kongUrl: string, workspace: string, idConsumer: string){
+  public async generateCredential(tls:boolean, kongUrl: string, workspace: string, idConsumer: string){
     const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth`
     const response = await axios.post(url);
     return response.data;
   }
 
 
-  public async listCredential(tls:true, kongUrl: string, workspace: string, idConsumer: string){
+  public async listCredential(tls:boolean, kongUrl: string, workspace: string, idConsumer: string){
     console.log("aquiiiiia")
     const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth`
     console.log("AQUI ", url)
@@ -61,6 +61,13 @@ export class KongHandler {
 
     console.log(keys)
     return keys;
+  }
+
+  public async removeCredencial(tls: boolean, kongUrl: string, workspace: string, idConsumer: string, idCredencial: string){
+    const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth/${idCredencial}` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth/${idCredencial}`
+    
+    const response = await axios.delete(url);
+    return response.data;
   }
 
   
