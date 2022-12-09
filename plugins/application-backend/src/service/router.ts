@@ -102,6 +102,11 @@ export async function createRouter(
     const partners = await partnerRepository.getPartnerById(code);
     response.status(200).json({ status: 'ok', partners: partners })
   });
+  router.get('/partner/applications/:id', async (request, response) => {
+    const code = request.params.id;
+    const applications = await partnerRepository.findApplications(code);
+    response.status(200).json({ status: 'ok', applications: applications })
+  });
 
   router.post('/partner', async (request, response) => {
     const partner: PartnerDto = request.body.partner;
@@ -242,7 +247,7 @@ export async function createRouter(
         throw new InputError(`the request body is missing the application field`);
       }
       const result = await applicationRepository.patchApplication(code, application);
-      response.send({ status: "ok", result: "result" });
+      response.send({ status: "ok", result: result });
     } catch (error: any) {
       let date = new Date();
       response
