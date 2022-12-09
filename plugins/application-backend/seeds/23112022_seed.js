@@ -8,7 +8,7 @@ exports.seed = async function(knex) {
         await knex('services').insert([
             {
                 id: "ad94b906-4970-11ed-b878-0242ac120001",
-                name:"test Service",
+                name:"service with ",
                 description: 'test description',
                 redirectUrl: "https://test.com.br",
                 partnersId: ["ad94b906-4970-11ed-b878-0242ac120001", "27447ec1-d67f-4233-bfb1-0f11f7ccca28"],
@@ -75,11 +75,11 @@ exports.seed = async function(knex) {
         await knex('applications').insert([
             {
                 id: "0754b73e-9c27-4713-963b-3eecb38be72e",
-                name:"application teste",
+                name:"application teste with kong consumer okteto",
                 creator: 'nome creator teste',
-                servicesId: ["ad94b906-4970-11ed-b878-0242ac120001", "78fdef0b-1c66-4b59-8b7c-6ecbcf9f289e"],
-                kongConsumerName: "nome kong consumer",
-                kongConsumerId: "623af5d4-0740-4f12-b2bd-3965090b8703",
+                servicesId: ["fed8971d-b83f-4901-991d-0620f7c3b9f1"],
+                kongConsumerName: "consumer",
+                kongConsumerId: "7135150b-500c-40e1-bee5-cedcbaeefecd",
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
