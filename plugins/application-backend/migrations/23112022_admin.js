@@ -1,7 +1,7 @@
 /**
  * @param {import('knex').Knex} knex
  */
- exports.up = async function up(knex) {
+exports.up = async function up(knex) {
   
   try{
     await knex.schema.createTable("services", (table) =>{
@@ -112,4 +112,3 @@ exports.down = async function down(knex) {
   }).finally(() => {
     knex.destroy();
   })*/
-

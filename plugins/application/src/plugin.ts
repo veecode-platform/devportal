@@ -14,9 +14,6 @@ import {
   applicationDetailsRouteRef,
   newApplicationRouteRef,
   editApplicationRouteRef,
-  // credentialRouteRef,
-  // newCredentialRouteRef,
-  // credentialDetailsRouteRef
 } from './routes';
 
 export const applicationPlugin = createPlugin({
@@ -32,9 +29,6 @@ export const applicationPlugin = createPlugin({
     devApplicationDetails: applicationDetailsRouteRef,
     devApplicationCreate: newApplicationRouteRef,
     devApplicationEdit: editApplicationRouteRef,
-    // credentialRoot: credentialRouteRef,
-    // credentialCreate: newCredentialRouteRef,
-    // credentialDetails: credentialDetailsRouteRef
   },
 });
 
