@@ -20,6 +20,8 @@ import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
 import { Consumer } from '../modules/kong-control/model/Consumer';
+import { ConsumerGroupService } from '../modules/kong/services/ConsumerGroupService';
+import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
 
 /** @public */
 export interface RouterOptions {
@@ -386,6 +388,21 @@ export async function createRouter(
     try {
       const consumer: Consumer = request.body;
       const result = await consumerService.createConsumer(consumer);
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.post('/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroup: ConsumerGroup = request.body;
+      const result = await ConsumerGroupService.createConsumerGroup(consumerGroup);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
       let date = new Date();
