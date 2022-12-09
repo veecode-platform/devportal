@@ -215,3 +215,4 @@ okta:
 kong: 
   api-manager: ${KONG_OKTETO_HOST}
   admin-token: ${KONG_ADMIN_TOKEN}
+  

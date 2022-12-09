@@ -361,11 +361,9 @@ export async function createRouter(
       );
       response.status(200).json({ status: 'ok', associates: { consumer } });
     } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
+      response.status(error.status).json({
+        message: error.message,
+        timestamp: error.timestamp,
       });
     }
   });

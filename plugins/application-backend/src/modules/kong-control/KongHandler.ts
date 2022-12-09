@@ -1,6 +1,5 @@
 // class to access kong api manager service
 import axios from 'axios';
-import { Consumer } from "./model/Consumer";
 
 type Service = {
   name: string;
