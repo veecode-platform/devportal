@@ -66,7 +66,7 @@ import { ServicesPage, PartnersPage} from '@internal/plugin-application';
 //login
 import { providers } from './identityProviders';
 import { RequirePermission } from '@backstage/plugin-permission-react';
-import { adminAccessPermission } from '@internal/plugin-application-backend';
+import { adminAccessPermission} from '@internal/plugin-application-common';
 
 const app = createApp({
   apis,
@@ -155,7 +155,8 @@ const routes = (
         <ServicesPage />
      </RequirePermission>
     }
-    />*/}
+  />*/}
+    <Route path="/services" element={<ServicesPage />}/>
     <Route path="/partners" element={<PartnersPage />}/>
 
   </FlatRoutes>

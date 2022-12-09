@@ -39,7 +39,6 @@ export default async function createPlugin(
       "keycloack-auth-provider": providers.oidc.create({
         signIn: {
           resolver({result}, ctx) {
-
               if(!result.userinfo.email_verified){
                 throw new Error('Email not verified');
               }

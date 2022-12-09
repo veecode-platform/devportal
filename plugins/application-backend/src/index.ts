@@ -16,4 +16,3 @@
 
 export * from './service/router';
 export * from './modules/applications/dtos/ApplicationDto'
-export * from "./permissions"

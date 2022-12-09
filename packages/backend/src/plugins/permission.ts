@@ -7,8 +7,8 @@ import { PluginEnvironment } from '../types';
 
 class AdminPermissionPolicy implements PermissionPolicy {
   async handle(request: PolicyQuery, user: BackstageIdentityResponse): Promise<PolicyDecision> {
-    //console.log("Request policy: ", request, "User: ", user)
-    if (request.permission.name === 'admin.access.view' && user.identity.userEntityRef.split(":")[0] === "user") {
+    console.log("Request policy: ", request, "User: ", user)
+    if (request.permission.name === 'admin.access.read' && user.identity.userEntityRef.split(":")[0] === "user") {
       return {
         result: AuthorizeResult.DENY,
       };

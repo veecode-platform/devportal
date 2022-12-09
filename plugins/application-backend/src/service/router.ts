@@ -15,8 +15,9 @@ import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
 import { PermissionEvaluator, AuthorizeResult } from '@backstage/plugin-permission-common';
-import { adminAccessPermission } from '../permissions';
+import { adminAccessPermission } from '@internal/plugin-application-common';
 import { NotAllowedError } from '@backstage/errors';
+//import { IdentityApi, getBearerTokenFromAuthorizationHeader } from '@backstage/plugin-auth-node';
 
 
 
@@ -26,6 +27,7 @@ export interface RouterOptions {
   database: PluginDatabaseManager;
   config: Config;
   permissions: PermissionEvaluator;
+  //identity: IdentityApi;
 }
 export interface Service {
   name: string;
@@ -42,7 +44,7 @@ export function assertIsError(error: unknown): asserts error is Error {
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { logger, database, permissions } = options;
+  const { logger, database, permissions} = options;
 
   //const applicationRepository = await PostgresApplicationRepository.create(
   //  await database.getClient(),
@@ -66,7 +68,8 @@ export async function createRouter(
 
   // SERVICE
   router.get('/services', async (_, response) => {
-    const decision = (await permissions.authorize([{ permission: adminAccessPermission }]))[0];
+    //todo token
+    const decision = (await permissions.authorize([{ permission: adminAccessPermission }], {token:"eyJhbGciOiJFUzI1NiIsImtpZCI6ImNlMzc2ZDcxLTRkMzUtNDg4Zi1hYTM4LTZlNTFiYTljMTdiOSJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwMDcvYXBpL2F1dGgiLCJzdWIiOiJhZG1pbjpkZXZwb3J0YWwvbHVjY2FzIiwiZW50IjpbImFkbWluOmRldnBvcnRhbC9sdWNjYXMiXSwiYXVkIjoiYmFja3N0YWdlIiwiaWF0IjoxNjcwNTg5MDE3LCJleHAiOjE2NzA1OTI2MTd9.d4W6ttUVu56vSBXX9SI4elhJcK39z19zbh8LB5q6IF2Wq1ZPnNKoi24GTgj3DAN4nISnuLgOR9ruJaP0bgEN3w"}))[0];
     if (decision.result === AuthorizeResult.DENY) {
       throw new NotAllowedError('Unauthorized');
     }
@@ -101,7 +104,7 @@ export async function createRouter(
   });
   // PARTNER 
   router.get('/partners', async (_, response) => {
-    const decision = (await permissions.authorize([{ permission: adminAccessPermission }]))[0];
+    const decision = (await permissions.authorize([{ permission: adminAccessPermission }], {token:"eyJhbGciOiJFUzI1NiIsImtpZCI6ImNlMzc2ZDcxLTRkMzUtNDg4Zi1hYTM4LTZlNTFiYTljMTdiOSJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwMDcvYXBpL2F1dGgiLCJzdWIiOiJhZG1pbjpkZXZwb3J0YWwvbHVjY2FzIiwiZW50IjpbImFkbWluOmRldnBvcnRhbC9sdWNjYXMiXSwiYXVkIjoiYmFja3N0YWdlIiwiaWF0IjoxNjcwNTg5MDE3LCJleHAiOjE2NzA1OTI2MTd9.d4W6ttUVu56vSBXX9SI4elhJcK39z19zbh8LB5q6IF2Wq1ZPnNKoi24GTgj3DAN4nISnuLgOR9ruJaP0bgEN3w"}))[0];
     if (decision.result === AuthorizeResult.DENY) {
       throw new NotAllowedError('Unauthorized');
     }

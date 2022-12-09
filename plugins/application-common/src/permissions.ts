@@ -1,8 +1,11 @@
 import { createPermission } from '@backstage/plugin-permission-common';
 
+export const ADMIN_RESOURCE_TYPE = 'admin-entities';
+
 export const adminAccessPermission = createPermission({
-    name: 'admin.access.view',
+    name: 'admin.access.read',
     attributes: { action: 'read' },
+    //resourceType: ADMIN_RESOURCE_TYPE,
 });
 
 /*export const adminPartnersAccessPermission = createPermission({
@@ -10,5 +13,5 @@ export const adminAccessPermission = createPermission({
     attributes: { action: 'read' },
 });*/
 
-export const adminServicesPermissions = [adminAccessPermission];
+export const adminAccessPermissions = [adminAccessPermission];
     
