@@ -7,22 +7,22 @@ function Alert(props: any) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     '& > * + *': {
-      marginBottom: theme.spacing(2)
+      marginBottom: theme.spacing(2),
     },
   },
 }));
 
-export default function AlertComponent({open, close, message}:any) {
+export default function AlertComponent({ open, close, message, status }: any) {
   const classes = useStyles();
-  
+
   return (
     <div className={classes.root}>
       <Snackbar open={open} autoHideDuration={2000} onClose={close}>
-        <Alert onClose={close} severity="success">
+        <Alert onClose={close} severity={status ?? 'success'}>
           {message}
         </Alert>
       </Snackbar>
