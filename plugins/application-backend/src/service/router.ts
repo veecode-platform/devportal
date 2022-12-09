@@ -205,6 +205,14 @@ export async function createRouter(
   });
 
 
+  router.patch('/associate/:id', async (request, response) => {
+    const code = request.params.id;
+    const listServicesId: string[] = request.body.services;
+    await applicationRepository.associate(code, listServicesId);
+    response.status(200).json({status: 'ok', application: applicationRepository})
+  });
+
+
   router.delete('/:id', async (request, response) => {
     const code = request.params.id
     try {
@@ -247,10 +255,6 @@ export async function createRouter(
     }
   });
 
-  router.patch('/associate/:id', async (request, response) => {
-    await associateService.associate(options, request.params.id, request.body.consumerName);
-    response.json({ status: 'ok' })
-  });
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(options, request.params.id);
