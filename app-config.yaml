@@ -32,7 +32,7 @@ backend:
   # information on the format
   auth:
     keys:
-      - secret: ${OKTA_CLIENT_SECRET}
+      - secret: ${BACKEND_AUTH_SECRET_KEY}
   baseUrl: http://localhost:7007
   listen:
     port: 7007

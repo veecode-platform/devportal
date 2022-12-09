@@ -1,4 +1,4 @@
-import { errorHandler, loadBackendConfig, PluginDatabaseManager } from '@backstage/backend-common';
+import { errorHandler, loadBackendConfig, PluginDatabaseManager} from '@backstage/backend-common';
 //import { InputError } from '@backstage/errors';
 import express from 'express';
 import Router from 'express-promise-router';
@@ -17,8 +17,7 @@ import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
 import { PermissionEvaluator, AuthorizeResult } from '@backstage/plugin-permission-common';
 import { adminAccessPermission } from '@internal/plugin-application-common';
 import { NotAllowedError } from '@backstage/errors';
-//import { IdentityApi, getBearerTokenFromAuthorizationHeader } from '@backstage/plugin-auth-node';
-
+import { getBearerTokenFromAuthorizationHeader } from '@backstage/plugin-auth-node';
 
 
 /** @public */
@@ -67,9 +66,10 @@ export async function createRouter(
 
 
   // SERVICE
-  router.get('/services', async (_, response) => {
-    //todo token
-    const decision = (await permissions.authorize([{ permission: adminAccessPermission }], {token:"eyJhbGciOiJFUzI1NiIsImtpZCI6ImNlMzc2ZDcxLTRkMzUtNDg4Zi1hYTM4LTZlNTFiYTljMTdiOSJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwMDcvYXBpL2F1dGgiLCJzdWIiOiJhZG1pbjpkZXZwb3J0YWwvbHVjY2FzIiwiZW50IjpbImFkbWluOmRldnBvcnRhbC9sdWNjYXMiXSwiYXVkIjoiYmFja3N0YWdlIiwiaWF0IjoxNjcwNTg5MDE3LCJleHAiOjE2NzA1OTI2MTd9.d4W6ttUVu56vSBXX9SI4elhJcK39z19zbh8LB5q6IF2Wq1ZPnNKoi24GTgj3DAN4nISnuLgOR9ruJaP0bgEN3w"}))[0];
+  router.get('/services', async (request, response) => {
+
+    const token = getBearerTokenFromAuthorizationHeader(request.header('authorization'));
+    const decision = (await permissions.authorize([{ permission: adminAccessPermission }], {token: token}))[0];
     if (decision.result === AuthorizeResult.DENY) {
       throw new NotAllowedError('Unauthorized');
     }
@@ -103,8 +103,9 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', service: result })
   });
   // PARTNER 
-  router.get('/partners', async (_, response) => {
-    const decision = (await permissions.authorize([{ permission: adminAccessPermission }], {token:"eyJhbGciOiJFUzI1NiIsImtpZCI6ImNlMzc2ZDcxLTRkMzUtNDg4Zi1hYTM4LTZlNTFiYTljMTdiOSJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwMDcvYXBpL2F1dGgiLCJzdWIiOiJhZG1pbjpkZXZwb3J0YWwvbHVjY2FzIiwiZW50IjpbImFkbWluOmRldnBvcnRhbC9sdWNjYXMiXSwiYXVkIjoiYmFja3N0YWdlIiwiaWF0IjoxNjcwNTg5MDE3LCJleHAiOjE2NzA1OTI2MTd9.d4W6ttUVu56vSBXX9SI4elhJcK39z19zbh8LB5q6IF2Wq1ZPnNKoi24GTgj3DAN4nISnuLgOR9ruJaP0bgEN3w"}))[0];
+  router.get('/partners', async (request, response) => {
+    const token = getBearerTokenFromAuthorizationHeader(request.header('authorization'));
+    const decision = (await permissions.authorize([{ permission: adminAccessPermission }], {token:token}))[0];
     if (decision.result === AuthorizeResult.DENY) {
       throw new NotAllowedError('Unauthorized');
     }

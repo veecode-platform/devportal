@@ -5,7 +5,7 @@ import { PermissionPolicy, PolicyQuery} from '@backstage/plugin-permission-node'
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 
-class AdminPermissionPolicy implements PermissionPolicy {
+class DefaultPermissionPolicy implements PermissionPolicy {
   async handle(request: PolicyQuery, user: BackstageIdentityResponse): Promise<PolicyDecision> {
     console.log("Request policy: ", request, "User: ", user)
     if (request.permission.name === 'admin.access.read' && user.identity.userEntityRef.split(":")[0] === "user") {
@@ -29,7 +29,7 @@ export default async function createPlugin(
     config: env.config,
     logger: env.logger,
     discovery: env.discovery,
-    policy: new AdminPermissionPolicy(),
+    policy: new DefaultPermissionPolicy(),
     identity: env.identity,
   });
 }
