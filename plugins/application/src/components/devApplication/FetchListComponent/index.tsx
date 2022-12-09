@@ -15,12 +15,12 @@ type DenseTableProps = {
 export const DenseTable = ({ applications }: DenseTableProps) => {
 
   const columns: TableColumn[] = [
-    { title: 'Name', field: 'name' },
-    { title: 'Id', field: 'id'},
-    {title: 'creator', field: 'creator'},
-    { title: "Created At", field: "created"},
-    {title: "Created By", field:"creator"},
-    { title: 'Details', field: 'details' },
+    { title: 'Name', field: 'name', width:'1fr' },
+    { title: 'Id', field: 'id', width:'1fr'},
+    {title: 'creator', field: 'creator', width:'1fr'},
+    { title: "Created At", field: "created",width:'1fr'},
+    {title: "Created By", field:"creator",width:'1fr'},
+    { title: 'Details', field: 'details',width:'1fr' },
   ];
 
   const data = applications.map(application => {

@@ -64,20 +64,20 @@ export const editApplicationRouteRef = createSubRouteRef({
 });
 
 // credentials
-export const credentialRouteRef = createRouteRef({
-  id: 'credentials',
-});
-export const credentialDetailsRouteRef = createSubRouteRef({
-  id: 'credentials-details',
-  parent: credentialRouteRef,
-  path: '/details'
-});
+// export const credentialRouteRef = createRouteRef({
+//   id: 'credentials',
+// });
+// export const credentialDetailsRouteRef = createSubRouteRef({
+//   id: 'credentials-details',
+//   parent: credentialRouteRef,
+//   path: '/details'
+// });
 
-export const newCredentialRouteRef = createSubRouteRef({
-  id: 'credentials-new',
-  parent: credentialRouteRef,
-  path: '/new-credential'
-});
+// export const newCredentialRouteRef = createSubRouteRef({
+//   id: 'credentials-new',
+//   parent: credentialRouteRef,
+//   path: '/new-credential'
+// });
 
 // export const editCredentialRouteRef = createSubRouteRef({
 //   id: 'credential-edit',

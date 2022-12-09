@@ -14,9 +14,9 @@ import {
   applicationDetailsRouteRef,
   newApplicationRouteRef,
   editApplicationRouteRef,
-  credentialRouteRef,
-  newCredentialRouteRef,
-  credentialDetailsRouteRef
+  // credentialRouteRef,
+  // newCredentialRouteRef,
+  // credentialDetailsRouteRef
 } from './routes';
 
 export const applicationPlugin = createPlugin({
@@ -32,9 +32,9 @@ export const applicationPlugin = createPlugin({
     devApplicationDetails: applicationDetailsRouteRef,
     devApplicationCreate: newApplicationRouteRef,
     devApplicationEdit: editApplicationRouteRef,
-    credentialRoot: credentialRouteRef,
-    credentialCreate: newCredentialRouteRef,
-    credentialDetails: credentialDetailsRouteRef
+    // credentialRoot: credentialRouteRef,
+    // credentialCreate: newCredentialRouteRef,
+    // credentialDetails: credentialDetailsRouteRef
   },
 });
 
@@ -71,13 +71,13 @@ export const ApplicationPage = applicationPlugin.provide(
   }),
 );
 
-export const CredentialsPage = applicationPlugin.provide(
-  createRoutableExtension({
-    name: 'CredentialsPage',
-    component: () =>
-      import('./components/credentials/CredentialsComponent').then(
-        m => m.CredentialsComponent,
-      ),
-    mountPoint: credentialRouteRef,
-  }),
-);
+// export const CredentialsPage = applicationPlugin.provide(
+//   createRoutableExtension({
+//     name: 'CredentialsPage',
+//     component: () =>
+//       import('./components/credentials/CredentialsComponent').then(
+//         m => m.CredentialsComponent,
+//       ),
+//     mountPoint: credentialRouteRef,
+//   }),
+// );

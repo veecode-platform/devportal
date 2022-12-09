@@ -12,7 +12,7 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 import { IApplication } from '../interfaces';
 import CachedIcon from '@material-ui/icons/Cached';
-import { DefaultDetailsComponent } from '../../shared';
+import { DetailsComponent } from './DetailsComponent';
 
 type Application = {
   application: IApplication | undefined;
@@ -92,7 +92,7 @@ const Details = ({ application }: Application) => {
                 }
               />
               <Grid container direction='column' spacing={6}  lg={12}>
-                <DefaultDetailsComponent metadata={ApplicationData} back="/application"/>
+                <DetailsComponent metadata={ApplicationData} back="/application"/>
               </Grid>
             </Grid>
           </Card>
