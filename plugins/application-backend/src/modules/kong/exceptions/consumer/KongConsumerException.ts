@@ -3,14 +3,14 @@ import {
   KongBadRequestException,
   KongForbiddenException,
   KongInternalServerException,
-  KongNotFoudException,
+  KongNotFoundException,
   KongUnauthorizedException
 } from '../KongException';
 
 export class KongConsumerBadRequest extends KongBadRequestException {}
 export class KongConsumerForbidden extends KongForbiddenException {}
 export class KongConsumerUnauthorized extends KongUnauthorizedException {}
-export class KongConsumerNotFoud extends KongNotFoudException {}
+export class KongConsumerNotFound extends KongNotFoundException {}
 export class KongConsumerInternalServer extends KongInternalServerException {}
 
 export const kongConsumerExceptions = (error: AxiosError) => {
@@ -24,7 +24,7 @@ export const kongConsumerExceptions = (error: AxiosError) => {
     case 403:
       throw new KongConsumerForbidden(message ?? '', status);
     case 404:
-      throw new KongConsumerNotFoud(message ?? '', status);
+      throw new KongConsumerNotFound(message ?? '', status);
     case 500:
       throw new KongConsumerInternalServer(message ?? '', status);
     default:

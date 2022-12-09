@@ -12,5 +12,5 @@ export class KongException extends Error {
 export class KongBadRequestException extends KongException {}
 export class KongUnauthorizedException extends KongException {}
 export class KongForbiddenException extends KongException {}
-export class KongNotFoudException extends KongException {}
+export class KongNotFoundException extends KongException {}
 export class KongInternalServerException extends KongException {}
