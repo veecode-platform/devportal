@@ -1,9 +1,17 @@
 import { AxiosError } from 'axios';
-import { KongConsumerBadRequest } from '../consumer/KongConsumerBadRequest';
-import { KongConsumerForbidden } from '../consumer/KongConsumerForbidden';
-import { KongConsumerInternalServer } from '../consumer/KongConsumerInternalServer';
-import { KongConsumerNotFoud } from '../consumer/KongConsumerNotFoud';
-import { KongConsumerUnauthorized } from '../consumer/KongConsumerUnauthorized';
+import {
+  KongBadRequestException,
+  KongForbiddenException,
+  KongInternalServerException,
+  KongNotFoudException,
+  KongUnauthorizedException
+} from '../KongException';
+
+export class KongConsumerBadRequest extends KongBadRequestException {}
+export class KongConsumerForbidden extends KongForbiddenException {}
+export class KongConsumerUnauthorized extends KongUnauthorizedException {}
+export class KongConsumerNotFoud extends KongNotFoudException {}
+export class KongConsumerInternalServer extends KongInternalServerException {}
 
 export const kongConsumerExceptions = (error: AxiosError) => {
   const status = error.response?.status;

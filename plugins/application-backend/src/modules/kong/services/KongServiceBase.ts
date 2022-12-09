@@ -11,4 +11,3 @@ export class KongServiceBase {
     this.adminToken = this._config.getString('kong.admin-token');
   }
 }
-
