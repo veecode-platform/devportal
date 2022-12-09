@@ -1,1 +1,1 @@
-export { applicationPlugin, ServicesPage, PartnersPage , ApplicationPage, CredentialsPage} from './plugin'; 
+export { applicationPlugin, ServicesPage, PartnersPage , ApplicationPage} from './plugin'; 
