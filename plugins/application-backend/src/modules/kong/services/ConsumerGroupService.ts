@@ -13,6 +13,16 @@ export class ConsumerGroupService extends KongServiceBase {
             })
         return response.data.consumerGroup;
     }
+
+    public async listConsumerGroups(): Promise<ConsumerGroup[]> {
+        const url = `${this.url}/consumer_groups`;
+        const response = await axios
+            .get(url, {
+                headers: kongHeaders(this.adminToken),
+            })
+        const groups = response.data.data;
+        return groups.map((group:ConsumerGroup) => group);
+    }
     
     public async deleteConsumerGroup(consumerGroupId: string): Promise<ConsumerGroup> {
         const url = `${this.url}/consumer_groups/${consumerGroupId}`;
@@ -45,7 +55,7 @@ export class ConsumerGroupService extends KongServiceBase {
 
     public async removeConsumerFromGroup(consumerId:string, consumerGroupId:string){
         // Remove a consumer from a consumer group
-        
+
         const url = `${this.url}/consumers/${consumerId}/consumer_groups/${consumerGroupId}`;
         const response = await axios
           .delete(url, {
