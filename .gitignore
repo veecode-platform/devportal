@@ -48,3 +48,6 @@ site
 *.session.sql
 
 pgdata/
+
+# Docker data
+.docker-data/
