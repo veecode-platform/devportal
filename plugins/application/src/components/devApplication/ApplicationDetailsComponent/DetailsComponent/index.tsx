@@ -69,16 +69,16 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
       },
     };
     const response = await fetch(
-      `http://localhost:7007/api/application/credential/${ID}`,
+      `http://localhost:7007/api/application/credencial/${ID}?workspace=default`,  // ====>>> TO DO
       config,
     );
-    if (response.status === 200) {
+    console.log("A RESPOOOOOOOOOOOSTAAA",response);
+    if (response.ok) {
       setShow(true);
       setStatus('success');
       setMessageStatus('Credential created!');
     }
-    // eslint-disable-next-line no-alert
-    if (response.status !== 200) {
+    else {
       setShow(true);
       setStatus('error');
       setMessageStatus('An error has occurred');

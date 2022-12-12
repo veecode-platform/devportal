@@ -24,7 +24,7 @@ export const DenseTable = ({ credentials }: DenseTableProps) => {
   };
 
   const columns: TableColumn[] = [
-    { title: 'Id', field: 'id', width: '1fr' },
+    // { title: 'Id', field: 'id', width: '1fr' },
     { title: 'Key', field: 'key', width: '1fr' },
     { title: 'Actions', field: 'actions', width: '1fr' },
   ];
@@ -38,7 +38,7 @@ export const DenseTable = ({ credentials }: DenseTableProps) => {
       },
     };
     const response = await fetch(
-      `http://localhost:7007/api/application/credential/${ID}`,
+      `http://localhost:7007/api/application/credencial/${ID}`,
       config,
     );
     if (response.status === 200) {
@@ -56,8 +56,8 @@ export const DenseTable = ({ credentials }: DenseTableProps) => {
 
   const data = credentials.map(item => {
     return {
-      id: item.id,
-      key: item.key,
+      // id: item.id,
+      key: item,
       actions: (
         <Button
           variant="outlined"
@@ -98,7 +98,7 @@ export const FetchListComponent = ({ idConsumer }: { idConsumer: string }) => {
     ICredentials[]
   > => {
     const response = await fetch(
-      `http://localhost:7007/api/application/credencial/${idConsumer}`,
+      `http://localhost:7007/api/application/credencial/${idConsumer}?workspace=default`,  // TO DO
     );
     const data = await response.json();
     return data.credentials;
