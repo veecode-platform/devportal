@@ -37,14 +37,10 @@ export class KongServiceBase {
    * @returns {string} - url + workspace
    */
   public get baseUrl(): string {
-    return `${this.url}/${this.workspace}`;
+    return `${this._url}/${this._workspace}`;
   }
 
   public getAuthHeader(): { [key: string]: string } {
-    return {
-      'Kong-Admin-Token': this.token,
-    };
+    return this._token ? { 'Kong-Admin-Token': this._token } : {};
   }
-
-
 }
