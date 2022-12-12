@@ -35,7 +35,7 @@ export const DenseTable = ({ applications }: DenseTableProps) => {
 
   return (
     <Table
-      title="All Applications"
+    title={`All Applications (${applications.length})`}
       options={{ search: true, paging: true }}
       columns={columns}
       data={data}
