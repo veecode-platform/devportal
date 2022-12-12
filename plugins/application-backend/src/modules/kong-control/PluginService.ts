@@ -14,5 +14,5 @@ export class PluginService{
         return response.data;
     }
 
-    
+
 }
