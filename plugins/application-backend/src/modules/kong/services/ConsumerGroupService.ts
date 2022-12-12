@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { kongConsumerGroupExceptions } from '../exceptions/consumerGroup/KongConsumerGroupException';
 import { ConsumerGroup } from '../model/ConsumerGroup';
 import { KongServiceBase } from './KongServiceBase';
 
@@ -10,6 +11,7 @@ export class ConsumerGroupService extends KongServiceBase {
             .post(url, consumerGroup, {
                 headers: this.getAuthHeader(),
             })
+            .catch(kongConsumerGroupExceptions);
         return response.data.consumerGroup;
     }
 
@@ -19,6 +21,7 @@ export class ConsumerGroupService extends KongServiceBase {
             .get(url, {
                 headers: this.getAuthHeader(),
             })
+            .catch(kongConsumerGroupExceptions);
         const groups = response.data.data;
         return groups.map((group:ConsumerGroup) => group);
     }
@@ -29,6 +32,7 @@ export class ConsumerGroupService extends KongServiceBase {
           .delete(url, {
             headers: this.getAuthHeader(),
           })
+          .catch(kongConsumerGroupExceptions);
         const consumerGroup = response.data;
         return consumerGroup;
     }
@@ -39,6 +43,7 @@ export class ConsumerGroupService extends KongServiceBase {
             .post(url, consumerId, {
                 headers: this.getAuthHeader(),
             })
+            .catch(kongConsumerGroupExceptions);
         return response.data;
     }
 
@@ -48,6 +53,8 @@ export class ConsumerGroupService extends KongServiceBase {
           .delete(url, {
             headers: this.getAuthHeader(),
           })
+          .catch(kongConsumerGroupExceptions);
+
         const consumerGroup = response.data;
         return consumerGroup;
     }
@@ -60,6 +67,8 @@ export class ConsumerGroupService extends KongServiceBase {
           .delete(url, {
             headers: this.getAuthHeader(),
           })
+          .catch(kongConsumerGroupExceptions);
+
         const consumerGroup = response.data;
         return consumerGroup;
     }
