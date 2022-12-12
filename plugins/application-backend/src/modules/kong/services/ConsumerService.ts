@@ -1,15 +1,14 @@
 import axios from 'axios';
-import { kongHeaders } from '../../utils/KongHeaders';
 import { kongConsumerExceptions } from '../exceptions/consumer/KongConsumerException';
 import { Consumer } from '../model/Consumer';
 import { KongServiceBase } from './KongServiceBase';
 
 export class ConsumerService extends KongServiceBase {
   public async findConsumer(consumerName: string) {
-    const url = `${this.url}/${this.workspace}/consumers/${consumerName}`;
+    const url = `${this.baseUrl}/consumers/${consumerName}`;
     const response = await axios
       .get(url, {
-        headers: kongHeaders(this.adminToken),
+        headers: this.getAuthHeader(),
       })
       .catch(kongConsumerExceptions);
 
@@ -17,10 +16,10 @@ export class ConsumerService extends KongServiceBase {
   }
 
   public async deleteConsumer(consumerId: string): Promise<Consumer> {
-    const url = `${this.url}/consumers/${consumerId}`;
+    const url = `${this.baseUrl}/consumers/${consumerId}`;
     const response = await axios
       .delete(url, {
-        headers: kongHeaders(this.adminToken),
+        headers: this.getAuthHeader(),
       })
       .catch(kongConsumerExceptions);
     const consumer = response.data;
@@ -28,10 +27,10 @@ export class ConsumerService extends KongServiceBase {
   }
 
   public async createConsumer(consumer: Consumer): Promise<Consumer> {
-    const url = `${this.url}/consumers`;
+    const url = `${this.baseUrl}/consumers`;
     const response = await axios
       .post(url, consumer, {
-        headers: kongHeaders(this.adminToken),
+        headers: this.getAuthHeader(),
       })
       .catch(kongConsumerExceptions);
     return response.data.consumer;
@@ -41,10 +40,10 @@ export class ConsumerService extends KongServiceBase {
     consumerId: string,
     consumer: Consumer,
   ): Promise<Consumer> {
-    const url = `${this.url}/consumers/${consumerId}`;
+    const url = `${this.baseUrl}/consumers/${consumerId}`;
     const response = await axios
       .put(url, consumer, {
-        headers: kongHeaders(this.adminToken),
+        headers: this.getAuthHeader(),
       })
       .catch(kongConsumerExceptions);
     return response.data.consumer;

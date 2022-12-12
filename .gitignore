@@ -24,9 +24,6 @@ node_modules/
 !.yarn/sdks
 !.yarn/versions
 
-# Node version directives
-.nvmrc
-
 # dotenv environment variables file
 .env
 .env.test
@@ -51,3 +48,6 @@ site
 *.session.sql
 
 pgdata/
+
+# Docker data
+.docker-data/
