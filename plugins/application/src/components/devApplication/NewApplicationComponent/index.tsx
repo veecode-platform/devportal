@@ -44,14 +44,16 @@ export const NewApplicationComponent = () => {
     };
     const response = await fetch('http://localhost:7007/api/application/', config); // check endpoint
     const data = await response.json();
-    setShow(true)
+    setShow(true);
+    setTimeout(()=>{
+      window.location.replace('/application');
+    }, 2000);
     return data
   }
   return (
     <Page themeId="tool">
       <Header title="New Application"> </Header>
       <Content>
-        {/* <StepByStep/> */}
         <ContentHeader title='Create a new Application'> </ContentHeader>
         <AlertComponent open={show} close={handleClose} message="Application created!" />
         <Grid container direction="row" justifyContent="center">

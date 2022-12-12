@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Button, TextField, Paper} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import {Progress} from '@backstage/core-components';
@@ -26,6 +26,16 @@ const EditApplicationComponent = ({ application }: Application) => {
   const [app, setApp] = useState<IApplication | any>(application);
   const [show, setShow] = useState<boolean>(false);
 
+  useEffect(()=>{
+    setApp({
+      name: application?.name,
+      creator: application?.creator,
+      servicesId: application?.servicesId,
+      kongConsumerName: application?.kongConsumerName,
+      kongConsumerId: application?.kongConsumerId
+    })
+  },[application]);
+
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
     setShow(false);
@@ -50,7 +60,10 @@ const EditApplicationComponent = ({ application }: Application) => {
     };
     const response = await fetch(`http://localhost:7007/api/application/${app?.id}`, config); // check endpoint
     const data = await response.json();
-    setShow(true)
+    setShow(true);
+    setTimeout(()=>{
+      window.location.replace('/application');
+    }, 2000);
     return data
   }
   return (
