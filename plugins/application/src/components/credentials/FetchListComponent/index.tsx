@@ -82,7 +82,7 @@ export const DenseTable = ({ credentials }: DenseTableProps) => {
         status={status}
       />
       <Table
-        title="All Credentials"
+        title={`All Credentials (${credentials.length})`}
         options={{ search: true, paging: true }}
         columns={columns}
         data={data}
