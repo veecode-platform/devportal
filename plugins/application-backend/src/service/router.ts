@@ -369,7 +369,7 @@ export async function createRouter(
     try{
       const workspace = request.query.workspace as string;
       const id = request.params.id;
-      const serviceStore = await kongHandler.listCredential(true, config.getString('kong.api-manager'), workspace, id)
+      const serviceStore = await kongHandler.listCredential(false, config.getString('kong.api-manager'), workspace, id)
       response.status(200).json({ status: 'ok',    credentials: serviceStore })
     }catch(error: any){
       let date = new Date();

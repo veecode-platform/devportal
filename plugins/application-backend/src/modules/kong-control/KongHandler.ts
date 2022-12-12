@@ -1,5 +1,6 @@
 // class to access kong api manager service
 import axios from 'axios'
+import { credential } from './Credential';
 
 type Service = {
   name: string;
@@ -54,13 +55,16 @@ export class KongHandler {
     console.log("AQUI ", url)
     const response = await axios.get(url);
     const list = response.data.data;
-    const keys = []
+    const credentials: credential[] = []
     for (let index = 0; index < list.length; index++) {
-       keys.push(list[index].key);
+      let credencial = new credential(list[index].id, list[index].key)
+      credentials.push(credencial);
+ 
+       
     }
 
-    console.log(keys)
-    return keys;
+    console.log(credentials)
+    return credentials;
   }
 
   public async removeCredencial(tls: boolean, kongUrl: string, workspace: string, idConsumer: string, idCredencial: string){
