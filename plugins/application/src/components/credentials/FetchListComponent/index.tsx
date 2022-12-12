@@ -10,10 +10,11 @@ import AlertComponent from '../../Alert/Alert';
 import { ICredentials } from '../interfaces';
 
 type DenseTableProps = {
+  consumer: string,
   credentials: ICredentials[];
 };
 
-export const DenseTable = ({ credentials }: DenseTableProps) => {
+export const DenseTable = ({consumer, credentials }: DenseTableProps) => {
   const [show, setShow] = useState<boolean>(false);
   const [status, setStatus] = useState<string>('');
   const [messageStatus, setMessageStatus] = useState<string>('');
@@ -30,24 +31,26 @@ export const DenseTable = ({ credentials }: DenseTableProps) => {
   ];
 
   // remove Credential    ======================================================================================> //TO DO
-  const removeCredential = async (ID: string) => {
+  const removeCredential = async (consumerID: string, credentialID: string) => {
     const config = {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
-      },
+      }
     };
     const response = await fetch(
-      `http://localhost:7007/api/application/credencial/${ID}`,
+      `http://localhost:7007/api/application/credencial/${consumerID}?workspace=default&idCredencial=${credentialID}`,
       config,
     );
-    if (response.status === 200) {
+    if (response.ok) {
       setShow(true);
       setStatus('success');
-      setMessageStatus('Credential created!');
+      setMessageStatus('Credential deleted!');
+      setTimeout(()=>{
+        window.location.replace('/application'); // to do
+      }, 2000);
     }
-    // eslint-disable-next-line no-alert
-    if (response.status !== 200) {
+    else{
       setShow(true);
       setStatus('error');
       setMessageStatus('An error has occurred');
@@ -61,7 +64,7 @@ export const DenseTable = ({ credentials }: DenseTableProps) => {
       actions: (
         <Button
           variant="outlined"
-          onClick={() => removeCredential(item.id)}
+          onClick={() => removeCredential(consumer,item.id)}
           component={RouterLink}
           to=""
           style={{ border: 'none' }}
@@ -110,5 +113,5 @@ export const FetchListComponent = ({ idConsumer }: { idConsumer: string }) => {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  return <DenseTable credentials={value || []} />;
+  return <DenseTable  consumer={idConsumer} credentials={value || []} />;
 };
