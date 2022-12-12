@@ -431,6 +431,23 @@ export async function createRouter(
         })
     }
   });
+  router.delete('/kong-service/acl/:serviceName', async (request, response) => {
+    try {
+      const serviceStore = await pluginService.removeAclKongService(config.getString('kong.api-manager'), request.params.serviceName, request.query.idAcl);
+      if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
+      response.status(204).json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
 
 
 
