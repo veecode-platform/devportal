@@ -14,6 +14,26 @@ export class PluginService{
         return response.data;
     }
 
+
+    public async updateclKongService(kongUrl: string,serviceName: string, allowed: string[], idPluginAcl:string, hidegroupsheader: boolean){
+        const url = `http://${kongUrl}/services/${serviceName}/plugins/${idPluginAcl}`
+         const response = await axios.post(url, {
+            enabled: true,
+            name: 'acl',
+            config: {
+                allow: allowed,
+                hide_groups_header: hidegroupsheader
+            }
+        })
+        return response.data;
+    }
+    
+ 
+
+
+
+
+
     public async removeAclKongService(kongUrl: string, serviceName: string, idAcl: string){
         const url = `http://${kongUrl}/services/${serviceName}/plugins/${idAcl}`
         const response = await axios.delete(url)
