@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Grid, TextField, Button, Select, MenuItem} from '@material-ui/core';
-import { Link as RouterLink, useNavigate} from 'react-router-dom';
+import { useLocation, Link as RouterLink, useNavigate} from 'react-router-dom';
 import AlertComponent from '../../Alert/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import Alert from '@material-ui/lab/Alert';
@@ -14,26 +14,32 @@ import {
   ContentHeader, 
 } from '@backstage/core-components';
 
-type KongServices = {
-  id: string;
-  name: string;
+type Service = {
+  id: string; 
+  name: string; 
+  description: string;
+  redirectUrl: string;
+  kongServiceName: string;
+  kongServiceId: string; 
+  createdAt: string; 
+  updatedAt: string;
+};
+
+type ServiceProps = {
+  service: Service | undefined;
 }
 
-type KongServicesArray = {
-  services: KongServices[];
-  value: any;
-  setValue:any;
-}
 
+ const EditPageComponent = ({service}:ServiceProps) => {
 
-export const CreateComponent = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  //const [url, setUrl] = useState("");
-  const [description, setDescription] = useState("");
-  const [security, setSecurity] = useState("");
-  const [service, setService] = useState("");
+
+  const [name, setName] = useState(service?.name);
+  const [url, setUrl] = useState(service?.redirectUrl);
+  const [description, setDescription] = useState(service?.description);
+  const [serviceName, setServiceName] = useState("");
   const [show, setShow] = useState(false);
+
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') {
@@ -42,9 +48,9 @@ export const CreateComponent = () => {
 
     setShow(false);
     setName("")
-    //setUrl("")
+    setUrl("")
     setDescription("")
-    setService("")
+    setServiceName("")
   };
 
   const handleSubmit = async() =>{
@@ -53,10 +59,9 @@ export const CreateComponent = () => {
       service:{
         name: name,
         description: description,
-        //redirectUrl: url,
-        partnersId: [],
-        kongServiceName:service,
-        kongServiceId :service,
+        redirectUrl: url,
+        kongServiceName:serviceName,
+        kongServiceId :serviceName,
       }
     }
     const config = {
@@ -67,7 +72,7 @@ export const CreateComponent = () => {
       body:JSON.stringify(dataTest)
     };
   
-    await fetch('http://localhost:7007/api/application/service', config);
+    await fetch(`http://localhost:7007/api/application/service/${service?.id}`, config);
     setShow(true)
     new Promise (() =>{
       setTimeout(()=>{navigate("/services")}, 400);
@@ -78,17 +83,35 @@ export const CreateComponent = () => {
 
   return(
   <Page themeId="tool">
-    <Header title="Services"></Header>
+    <Header title="Service"></Header>
     <Content>
-    <ContentHeader title='New Service'></ContentHeader>
-    <AlertComponent open={show} close={handleClose} message={"Service cadastrada!"}/>
+    <ContentHeader title='Edit Service'></ContentHeader>
+    <AlertComponent open={show} close={handleClose} message={"Service editada!"}/>
 
       <Grid container direction="row" justifyContent="center">
       <Grid item sm={12} lg={5}>
           <InfoCard>
             <Grid container spacing={3} direction='column' justifyContent="center">
               <Grid item xs={12} >
-               <FetchKongServices valueName={service} setValue={setService}/>
+                <Select
+                  fullWidth
+                  variant="outlined"
+                  value={serviceName}
+                  displayEmpty         
+                  onChange={(e)=>{
+                    setServiceName(e.target.value as string);
+                  }}>
+                    <MenuItem value=""><em>Service name</em></MenuItem>
+                    <MenuItem value={"google"}>Google</MenuItem>
+                    <MenuItem value={"manager-kong"}>Kong</MenuItem>
+                    <MenuItem value={"manager-kubernetes"}>Kubernetes</MenuItem>
+                    <MenuItem value={"manager-kubernetes-helm"}>Kubernetes helm</MenuItem>
+                    <MenuItem value={"manager-kubernetes-kubectl"}>Kubernetes kubectl</MenuItem>
+                    <MenuItem value={"manager-kubernetes-kustomize"}>Kubernetes kustomize</MenuItem>
+                    <MenuItem value={"manager-kubernetes-minikube"}>Kubernetes minikube</MenuItem>
+                    <MenuItem value={"manager-kubernetes-minikube-kustomize"}>Kubernetes minikube kustomize</MenuItem>
+                    <MenuItem value={"manager-kubernetes-minikube-kustom"}>Kubernetes minikube kustom</MenuItem>
+                </Select>
               </Grid>
               <Grid item xs={12} >
                 <TextField
@@ -103,7 +126,7 @@ export const CreateComponent = () => {
                 </TextField>
               </Grid>
               
-              {/*<Grid item xs={12} >
+              <Grid item xs={12} >
                 <TextField
                   fullWidth
                   variant="outlined"
@@ -114,7 +137,7 @@ export const CreateComponent = () => {
                     setUrl(e.target.value)
                   }}>
                 </TextField>
-                </Grid>*/}
+              </Grid>
               
               <Grid item xs={12} >
                 <TextField
@@ -130,27 +153,11 @@ export const CreateComponent = () => {
                   }}>
                 </TextField>
               </Grid>
-
-              <Grid item xs={12} >
-                <Select
-                  fullWidth
-                  variant="outlined"
-                  value={security}
-                  displayEmpty         
-                  onChange={(e)=>{
-                    setSecurity(e.target.value as string);
-                  }}>
-                    <MenuItem value=""><em>Security</em></MenuItem>
-                    <MenuItem value="none"><em>None</em></MenuItem>
-                    <MenuItem value={"api key"}>Api Key</MenuItem>
-                    
-                </Select>
-              </Grid>
               
               <Grid item xs={12} >
                 <Grid container justifyContent='center' alignItems='center'>
                   <Button component={RouterLink} to={'/services'} style={{margin:"16px"}} size='large' variant='outlined'>Cancel</Button>
-                  <Button style={{margin:"16px"}} size='large' color='primary' type='submit' variant='contained' disabled={show} onClick={handleSubmit}>Create</Button>
+                  <Button style={{margin:"16px"}} size='large' color='primary' type='submit' variant='contained' disabled={show} onClick={handleSubmit}>Save</Button>
                 </Grid>
               </Grid>
               
@@ -163,11 +170,15 @@ export const CreateComponent = () => {
   </Page>
 )};
 
-const FetchKongServices = ({valueName, setValue}:any) => {
 
-  const { value, loading, error } = useAsync(async (): Promise<KongServices[]> => {
-    const response = await fetch(`http://localhost:7007/api/application/kong-services`);
+export const EditComponent = () => {
+  const location = useLocation();
+  const id = location.search.split("?id=")[1];
+
+  const { value, loading, error } = useAsync(async (): Promise<Service> => {
+    const response = await fetch(`http://localhost:7007/api/application/service/${id}`);
     const data = await response.json();
+    //console.log(data)
     return data.services;
   }, []);
 
@@ -176,28 +187,10 @@ const FetchKongServices = ({valueName, setValue}:any) => {
   } else if (error) {
     return <Alert severity="error">{error.message}</Alert>;
   }
-  return <KongServicesListComponent services={value || []} value={valueName} setValue={setValue}/>
+  return <EditPageComponent service={value}/>
 }
 
-const KongServicesListComponent = ({services, value, setValue}:KongServicesArray) =>{
 
-return(
-  <Select
-    fullWidth
-    variant="outlined"
-    value={value}
-    displayEmpty         
-    onChange={(e)=>{
-      setValue(e.target.value as string);
-    }}>
-      <MenuItem value=""><em>Service name</em></MenuItem>
-      {services.map((service)=>{
-        return(
-          <MenuItem key={service.id} value={service.id}>{service.name}</MenuItem>
-        )
-      })}
-  </Select>
-)
-}
+
 
 

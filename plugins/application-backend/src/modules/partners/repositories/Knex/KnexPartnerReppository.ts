@@ -44,6 +44,9 @@ export class PostgresPartnerRepository implements IPartnerRepository {
   async savePartner(partnerDto: PartnerDto): Promise<Partner> {
     const partner: Partner = Partner.create({
       name: partnerDto.name,
+      email: partnerDto.email,
+      celular: partnerDto.celular,
+      servicesId: partnerDto.servicesId,
       applicationId: partnerDto.applicationId
     });
     const data = PartnerMapper.toPersistence(partner);
@@ -59,6 +62,9 @@ export class PostgresPartnerRepository implements IPartnerRepository {
   async createPartner(partnerDto: PartnerDto): Promise<Partner | string> {
     const partner: Partner = Partner.create({
         name: partnerDto.name,
+        email: partnerDto.email,
+        celular: partnerDto.celular,
+        servicesId: partnerDto.servicesId,
         applicationId: partnerDto.applicationId
       });
     const data = await PartnerMapper.toPersistence(partner);
@@ -69,6 +75,9 @@ export class PostgresPartnerRepository implements IPartnerRepository {
     async updatePartner(id: string, partnerDto: PartnerDto): Promise<Partner | string> {
         const partner: Partner = Partner.create({
             name: partnerDto.name,
+            email: partnerDto.email,
+            celular: partnerDto.celular,
+            servicesId: partnerDto.servicesId,
             applicationId: partnerDto.applicationId
           });
       const data =await PartnerMapper.toPersistence(partner);
@@ -83,6 +92,9 @@ export class PostgresPartnerRepository implements IPartnerRepository {
   async patchPartner(id: string, partnerDto: PartnerDto): Promise<Partner | string> {
     const partner: Partner = Partner.create({
         name: partnerDto.name,
+        email: partnerDto.email,
+        celular: partnerDto.celular,
+        servicesId: partnerDto.servicesId,
         applicationId: partnerDto.applicationId
       });// try add ,id on partner create
     //const data =await PartnerMapper.toPersistence(partner);

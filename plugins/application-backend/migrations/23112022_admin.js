@@ -8,6 +8,8 @@
       table.uuid("id").primary();
       table.string("name");
       table.string("description");
+      table.string("redirectUrl");
+      table.specificType('partnersId', 'TEXT[]');
       table.string("kongServiceName");
       table.string("kongServiceId");
       table.timestamp('createdAt').defaultTo(knex.fn.now());
@@ -16,6 +18,9 @@
     await knex.schema.createTable("partners", (table) =>{
       table.uuid("id").primary;
       table.string("name");
+      table.string("email");
+      table.string("celular");
+      table.specificType('servicesId', 'TEXT[]');
       table.specificType('applicationId', 'TEXT[]');//lista de applications criadas
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());

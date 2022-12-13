@@ -2,6 +2,9 @@ import { Entity } from '../../../core/domain/Entity';
 
 export type PartnerProps = {
   name: string;
+  email:string;
+  celular: string;
+  servicesId: string[];
   applicationId: string[];
   createdAt?: Date;
   updatedAt?: Date;

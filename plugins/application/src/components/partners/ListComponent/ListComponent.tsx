@@ -14,10 +14,10 @@ import { FetchComponent } from '../FetchComponent';
 export const ListComponent = () => (
   
   <Page themeId="tool">
-    <Header title="Services"></Header>
+    <Header title="Partners"></Header>
     <Content>
       <ContentHeader title=''>
-        <CreateButton title="Create Service" to={"/partners/create-partner"}/>
+        <CreateButton title="Create Partner" to={"/partners/create-partner"}/>
       </ContentHeader>
 
       <Grid container spacing={5} direction="column">
