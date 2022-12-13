@@ -48,7 +48,7 @@ export async function createRouter(
   const { logger, database } = options;
 
   const applicationRepository = await PostgresApplicationRepository.create(
-   await database.getClient(),
+    await database.getClient(),
   );
   const serviceRepository = await PostgresServiceRepository.create(
     await database.getClient(),
@@ -113,7 +113,7 @@ export async function createRouter(
   router.get('/partner/applications/:id', async (request, response) => {
     const code = request.params.id;
     const applications = await partnerRepository.findApplications(code);
-    response.status(200).json({ status: 'ok', applications: applications })
+    response.status(200).json({ status: 'ok', applications: applications });
   });
 
   router.post('/partner/save', async (request, response) => {
@@ -257,8 +257,6 @@ export async function createRouter(
   //  }
   //});
 
-
-
   router.patch('/associate/:id', async (request, response) => {
     await associateService.associate(
       options,
@@ -310,21 +308,20 @@ export async function createRouter(
     }
   });
 
-
   router.patch('/associate/:id', async (request, response) => {
     const code = request.params.id;
     const listServicesId: string[] = request.body.services;
     await applicationRepository.associate(code, listServicesId);
-    response.status(200).json({status: 'ok', application: applicationRepository})
+    response
+      .status(200)
+      .json({ status: 'ok', application: applicationRepository });
   });
 
-
   router.delete('/:id', async (request, response) => {
-    const code = request.params.id
+    const code = request.params.id;
     try {
-      const result = await applicationRepository.deleteApplication(code)
-      response.status(204).send({ status: "ok", result: result });
-
+      const result = await applicationRepository.deleteApplication(code);
+      response.status(204).send({ status: 'ok', result: result });
     } catch (error: any) {
       let date = new Date();
       return response.status(error.response.status).json({
@@ -336,12 +333,14 @@ export async function createRouter(
   });
 
   router.patch('/:id', async (request, response) => {
-    const code = request.params.id
+    const code = request.params.id;
     const application: ApplicationDto = request.body.application;
     try {
-
-      const result = await applicationRepository.patchApplication(code, application);
-      response.send({ status: "ok", result: "result" });
+      const result = await applicationRepository.patchApplication(
+        code,
+        application,
+      );
+      response.send({ status: 'ok', result: 'result' });
     } catch (error: any) {
       let date = new Date();
       response.status(error.response.status).json({
@@ -352,31 +351,37 @@ export async function createRouter(
     }
   });
 
-
   router.get('/associate/:id', async (request, response) => {
-    const services = await associateService.findAllAssociate(options, request.params.id);
-    response.json({ status: 'ok', associates: { services } })
+    const services = await associateService.findAllAssociate(
+      options,
+      request.params.id,
+    );
+    response.json({ status: 'ok', associates: { services } });
   });
   router.delete('/associate/:id/', async (request, response) => {
-    const services = await associateService.removeAssociate(options, request.params.id, request.query.service as string);
-    response.json({ status: 'ok', associates: { services } })
+    const services = await associateService.removeAssociate(
+      options,
+      request.params.id,
+      request.query.service as string,
+    );
+    response.json({ status: 'ok', associates: { services } });
   });
 
-  router.post('/user/invite', async (request, response) => {
-    let body = request.body.profile;
-    let user = new UserInvite(body.email, body.firstName, body.lastName, body.login, body.mobilePhone);
-    try {
-      const consumer = await consumerService.findConsumer(
-        request.params.consumerName,
-      );
-      response.status(200).json({ status: 'ok', associates: { consumer } });
-    } catch (error: any) {
-      response.status(error.status).json({
-        message: error.message,
-        timestamp: error.timestamp,
-      });
-    }
-  });
+  // router.post('/user/invite', async (request, response) => {
+  //   let body = request.body.profile;
+  //   let user = new UserInvite(body.email, body.firstName, body.lastName, body.login, body.mobilePhone);
+  //   try {
+  //     const consumer = await consumerService.findConsumer(
+  //       request.params.consumerName,
+  //     );
+  //     response.status(200).json({ status: 'ok', associates: { consumer } });
+  //   } catch (error: any) {
+  //     response.status(error.status).json({
+  //       message: error.message,
+  //       timestamp: error.timestamp,
+  //     });
+  //   }
+  // });
 
   router.delete('/consumer/:id', async (request, response) => {
     try {
@@ -425,97 +430,118 @@ export async function createRouter(
     }
   });
 
-
-   // PLUGINS
-
-   router.post('/kong-service/plugin/:serviceName/:pluginName', async (request, response) => {
-    try {
-      const config = request.body;
-      console.log(config)
-      const serviceStore = await pluginService.applyPluginKongService(request.params.serviceName, request.params.pluginName, config)
-      if (serviceStore) response.json({ status: 'ok', plugins: serviceStore });
-      response.json({ status: 'ok', services: [] });
-    } catch (error: any) {
-      let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
+  // PLUGINS
+  router.post(
+    '/kong-service/plugin/:serviceName/:pluginName',
+    async (request, response) => {
+      try {
+        const serviceStore = await pluginService.applyPluginKongService(
+          request.params.serviceName,
+          request.params.pluginName,
+          request.body.config
+        );
+        if (serviceStore)
+          response.json({ status: 'ok', plugins: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
-    }
-  });
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
 
-
-
-  router.get('/kong-services/plugins/:serviceName', async (request, response) => {
-    try {
-      const serviceStore = await kongHandler.listPluginsService(false, config.getString('kong.api-manager'), request.params.serviceName)
-      if (serviceStore) response.json({ status: 'ok', services: serviceStore });
-      response.json({ status: 'ok', services: [] });
-    } catch (error: any) {
-      let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
+  router.get(
+    '/kong-services/plugins/:serviceName',
+    async (request, response) => {
+      try {
+        const serviceStore = await kongHandler.listPluginsService(
+          false,
+          config.getString('kong.api-manager'),
+          request.params.serviceName,
+        );
+        if (serviceStore)
+          response.json({ status: 'ok', services: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
-    }
-  });
-  router.post('/kong-service/plugin/:serviceName', async (request, response) => {
-    try {
-      const serviceStore = await kongHandler.applyPluginToService(false, config.getString('kong.api-manager'), request.params.serviceName, request.query.pluginName as string);
-      if (serviceStore) response.json({ status: 'ok', plugins: serviceStore });
-      response.json({ status: 'ok', services: [] });
-    } catch (error: any) {
-      let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+  router.post(
+    '/kong-service/plugin/:serviceName',
+    async (request, response) => {
+      try {
+        const serviceStore = await kongHandler.applyPluginToService(
+          false,
+          config.getString('kong.api-manager'),
+          request.params.serviceName,
+          request.query.pluginName as string,
+        );
+        if (serviceStore)
+          response.json({ status: 'ok', plugins: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
-    }
-  });
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
   router.put('/kong-service/plugin/:serviceName', async (request, response) => {
     try {
-      const serviceStore = await kongHandler.applyPluginToService(false, config.getString('kong.api-manager'), request.params.serviceName, request.query.pluginName as string);
+      const serviceStore = await kongHandler.applyPluginToService(
+        false,
+        config.getString('kong.api-manager'),
+        request.params.serviceName,
+        request.query.pluginName as string,
+      );
       if (serviceStore) response.json({ status: 'ok', plugins: serviceStore });
       response.json({ status: 'ok', services: [] });
     } catch (error: any) {
       let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
 
-  router.delete('/kong-services/plugins/:serviceName', async (request, response) => {
-    try {
-      const serviceStore = await kongHandler.deletePluginsService(false, config.getString('kong.api-manager'), request.params.serviceName, request.query.pluginName as string)
-      if (serviceStore) response.json({ status: 'ok', services: serviceStore });
-      response.json({ status: 'ok', services: [] });
-    } catch (error: any) {
-      let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
+  router.delete(
+    '/kong-services/plugins/:serviceName',
+    async (request, response) => {
+      try {
+        const serviceStore = await kongHandler.deletePluginsService(
+          false,
+          config.getString('kong.api-manager'),
+          request.params.serviceName,
+          request.query.pluginName as string,
+        );
+        if (serviceStore)
+          response.json({ status: 'ok', services: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
-    }
-  });
-
-
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
 
   router.use(errorHandler());
   return router;
