@@ -27,13 +27,6 @@ export class PluginService{
         })
         return response.data;
     }
-    
- 
-
-
-
-
-
     public async removeAclKongService(kongUrl: string, serviceName: string, idAcl: string){
         const url = `http://${kongUrl}/services/${serviceName}/plugins/${idAcl}`
         const response = await axios.delete(url)

@@ -449,7 +449,7 @@ export async function createRouter(
     }
   });
 
-  router.post('/kong-service/acl/:serviceName', async (request, response) => {
+  router.post('/kong-service/acl-update/:serviceName', async (request, response) => {
     try {
       const hide = request.body.hide_groups_header
       const allowed = request.body.allowed
