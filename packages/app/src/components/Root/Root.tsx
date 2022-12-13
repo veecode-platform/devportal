@@ -41,6 +41,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import CatalogIcon from '@material-ui/icons/MenuBook';
 import AppsIcon from '@material-ui/icons/Apps';
+import LibraryBooks from "@material-ui/icons/LibraryBooks";
 // import SearchIcon from '@material-ui/icons/Search';
 import CategoryIcon from '@material-ui/icons/Category';
 //import ClassIcon from '@material-ui/icons/Class';
@@ -87,7 +88,8 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
       <SidebarDivider />
       <SidebarGroup label="Menu" icon={<MenuIcon />}>
         <SidebarItem icon={HomeIcon} to="/" text="Home" />    
-        <SidebarItem icon={CatalogIcon} to="api-docs" text="Catalog" />   
+        <SidebarItem icon={CatalogIcon} to="api-docs" text="Catalog" />
+        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
         <SidebarDivider />
       </SidebarGroup>
       <RequirePermission permission={adminAccessPermission} errorPage={<></>}>

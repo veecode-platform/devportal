@@ -31,9 +31,10 @@ import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 // import { TechRadarPage } from '@backstage/plugin-tech-radar';
 import {
-  // TechDocsIndexPage,
+  TechDocsIndexPage,
   techdocsPlugin,
-  // TechDocsReaderPage,
+  TechDocsReaderPage,
+  DefaultTechDocsHome
 } from '@backstage/plugin-techdocs';
 // import { UserSettingsPage } from '@backstage/plugin-user-settings';
 // custom user-settings
@@ -142,6 +143,13 @@ const routes = (
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
+    <Route path="/docs" element={<TechDocsIndexPage />}>
+      <DefaultTechDocsHome />
+    </Route>
+    <Route
+      path="/docs/:namespace/:kind/:name/*"
+      element={<TechDocsReaderPage />}
+    />
     
     {/*<Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
       <Route 
