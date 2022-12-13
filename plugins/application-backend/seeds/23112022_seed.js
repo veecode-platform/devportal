@@ -16,6 +16,7 @@ exports.seed = async function(knex) {
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
+            
             {
                 id: "78fdef0b-1c66-4b59-8b7c-6ecbcf9f289e",
                 name:"test service 2",
@@ -92,12 +93,22 @@ exports.seed = async function(knex) {
                 updatedAt: new Date()
             },
             {
-                id: "0754b73e-9c27-4713-963b-3eecb38be72e",
+                id: "102a725c-e7a6-437d-8167-606af722c2e6",
+                name:"application teste 3",
+                creator: 'nome creator teste 3',
+                servicesId: ["78fdef0b-1c66-4b59-8b7c-6ecbcf9f289e"],
+                kongConsumerName: "nome kong consumer 3",
+                kongConsumerId: "06ef54bf-08f4-4f5f-9527-9862709fa9c9",
+                createdAt: new Date(),
+                updatedAt: new Date()
+            },
+            {
+                id: "0754b73e-9c27-4713-963b-3eecb38be72f",
                 name:"application teste with kong consumer okteto",
-                creator: 'nome creator teste',
+                creator: 'teste',
                 servicesId: ["fed8971d-b83f-4901-991d-0620f7c3b9f1"],
-                kongConsumerName: "consumer",
-                kongConsumerId: "7135150b-500c-40e1-bee5-cedcbaeefecd",
+                kongConsumerName: "felix",
+                kongConsumerId: "828aadb5-e1a2-463b-b627-437f1431fb68",
                 createdAt: new Date(),
                 updatedAt: new Date()
             }
