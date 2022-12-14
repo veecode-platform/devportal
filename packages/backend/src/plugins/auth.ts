@@ -103,7 +103,32 @@ export default async function createPlugin(
             }
           },
         }
-      })
+      }),
+      github: providers.github.create({
+        signIn: {
+          async resolver({ result: { fullProfile } }, ctx) {
+            const userId = fullProfile.username;
+            if (!userId) {
+              throw new Error(
+                `GitHub user profile does not contain a username`,
+              );
+            }
+
+            const userEntityRef = stringifyEntityRef({
+              kind: 'User',
+              name: userId,
+              namespace: 'DEFAULT_NAMESPACE',
+            });
+
+            return ctx.issueToken({
+              claims: {
+                sub: userEntityRef,
+                ent: [userEntityRef],
+              },
+            });
+          },
+        },
+      }),
 
     },
   });

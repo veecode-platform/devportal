@@ -61,11 +61,11 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 
 
 import { searchPage } from './components/search/SearchPage';
-//import SafeRoute from './components/Routing/SafeRoute';
+// import SafeRoute from './components/Routing/SafeRoute';
 import { ServicesPage, PartnersPage} from '@internal/plugin-application';
-//login
+// login
 import { providers } from './identityProviders';
-/*import { RequirePermission } from '@backstage/plugin-permission-react';
+/* import { RequirePermission } from '@backstage/plugin-permission-react';
 import { adminAccessPermission } from '@internal/plugin-application-common';*/
 
 const app = createApp({
@@ -143,19 +143,19 @@ const routes = (
       {searchPage}
     </Route>
     
-    {/*<Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
+    {/* <Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
       <Route 
         path="/services" 
         element={<ServicesPage />} 
       />
     </Route>*/}
 
-    {//not working following docs
-    /*<Route path='/services' element={
+    {// not working following docs
+    /* <Route path='/services' element={
       <RequirePermission permission={adminAccessPermission}>
         <ServicesPage />
       </RequirePermission>
-    }/>*/
+    }/> */
     }
     <Route path="/services" element={<ServicesPage />}/>
     <Route path="/partners" element={<PartnersPage />}/>
