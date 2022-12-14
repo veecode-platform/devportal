@@ -303,8 +303,8 @@ export async function createRouter(
   });
 
   router.post('/user/invite', async (request, response) => {
-    let body = request.body.profile;
-    let user = new UserInvite(
+    const body = request.body.profile;
+    const user = new UserInvite(
       body.email,
       body.firstName,
       body.lastName,
@@ -312,14 +312,14 @@ export async function createRouter(
       body.mobilePhone,
     );
     try {
-      let service = await userService.inviteUserByEmail(
+      const service = await userService.inviteUserByEmail(
         config.getString('okta.host'),
         config.getString('okta.token'),
         user,
       );
       response.json({ service: service });
     } catch (error: any) {
-      let date = new Date();
+      const date = new Date();
       response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.errorCauses[0].errorSummary,
@@ -357,7 +357,7 @@ export async function createRouter(
       if (service.length > 0) return response.json({ users: service });
       return response.status(404).json({ status: 'ok', message: 'Not found' });
     } catch (error: any) {
-      let date = new Date();
+      const date = new Date();
       return response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
@@ -374,7 +374,7 @@ export async function createRouter(
       if (serviceStore)
         response.json({ status: 'ok', services: serviceStore ?? [] });
     } catch (error: any) {
-      let date = new Date();
+      const date = new Date();
       response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.errorSummary,
