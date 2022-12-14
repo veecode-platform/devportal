@@ -19,13 +19,13 @@ export class PluginService extends KongServiceBase {
 
   public async updatePluginKongService(
     serviceName: string,
-    pluginName: string,
+    pluginId: string,
     config?: Map<string, string>,
   ) {
-    const url = `${this.baseUrl}/services/${serviceName}/plugins`;
+    const url = `${this.baseUrl}/services/${serviceName}/plugins/${pluginId}`;
     const response = await axios.put(url, {
       service: serviceName,
-      name: pluginName,
+      pluginId: pluginId,
       config: config,
     });
 
@@ -35,6 +35,12 @@ export class PluginService extends KongServiceBase {
   public async listPluginsKongService(serviceName: string) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
+    return response;
+  }
+
+  public async removePluginKongService(serviceName: string, pluginId: string) {
+    const url = `${this.baseUrl}/services/${serviceName}/plugins/${pluginId}`;
+    const response = await axios.delete(url);
     return response;
   }
 }
