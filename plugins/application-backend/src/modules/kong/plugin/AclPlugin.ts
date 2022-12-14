@@ -11,8 +11,7 @@ export class AclPlugin extends PluginService{
         map.set("allow", 'teste')
         const testeMap = map;
          testeMap;
-        this.applyPluginKongService(serviceName, PluginName.ACL, map)
-    }
+        return this.applyPluginKongService(serviceName, PluginName.ACL, map);    }
 
 
 }

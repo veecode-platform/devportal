@@ -7,8 +7,12 @@ export class PluginService extends KongServiceBase {
     pluginName: PluginName,
     config?: Map<string, string>,
   ) {
+
+
+    const teste = {service: serviceName, name: pluginName,  config: config}
+
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
-    console.log('esses são os config', config)
+    console.log('AQUI ESTÀ O MAP ->', teste)
     const response = await axios.post(url, {
       service: serviceName,
       name: pluginName,
