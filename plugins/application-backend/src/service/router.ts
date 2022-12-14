@@ -224,6 +224,7 @@ router.get('/consumers', async (_, response) => {
 
   router.post('/', async (request, response) => {
     const data: ApplicationDto = request.body.application
+    console.log(data);
     try {
       if (!data) {
         throw new InputError(`the request body is missing the application field`);

@@ -28,6 +28,7 @@
     await knex.schema.createTable("applications", (table) =>{
       table.uuid("id").primary;
       table.string("name");
+      table.boolean("active");
       table.string("creator");
       table.specificType('servicesId', 'TEXT[]');//lista de services que a application usa
       table.string("kongConsumerName");

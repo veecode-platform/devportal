@@ -70,6 +70,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       creator: applicationDto.creator,
       name: applicationDto.name,
       servicesId: applicationDto.servicesId,
+      active: applicationDto.active,
       kongConsumerName: applicationDto.kongConsumerName,
       kongConsumerId: applicationDto.kongConsumerId,
       createdAt: applicationDto.createdAt,
@@ -89,6 +90,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     const application: Application = Application.create({
       creator: applicationDto.creator,
       name: applicationDto.name,
+      active: applicationDto.active,
       servicesId: applicationDto.servicesId,
       kongConsumerName: applicationDto.kongConsumerName,
       kongConsumerId: applicationDto.kongConsumerId,
