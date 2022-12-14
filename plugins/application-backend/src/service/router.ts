@@ -23,6 +23,7 @@ import { Consumer } from '../modules/kong-control/model/Consumer';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { PluginService } from '../modules/kong/services/PluginService';
+import { AclPlugin } from '../modules/kong/plugin/AclPlugin';
 
 /** @public */
 export interface RouterOptions {
@@ -63,6 +64,7 @@ export async function createRouter(
   const userService = new UserService();
   const associateService = new AssociateService();
   const pluginService = new PluginService(config);
+  const aclPlugin = new AclPlugin(config);
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -432,18 +434,17 @@ export async function createRouter(
 
   // PLUGINS
   router.post(
-    '/kong-service/plugin/:serviceName/:pluginName',
+    '/kong-service/plugin/:serviceName',
     async (request, response) => {
       
       try {
-        const serviceStore = await pluginService.applyPluginKongService(
+        const serviceStore = await aclPlugin.configAclKongService(
           request.params.serviceName,
-          request.params.pluginName,
           request.body.config
         );
         if (serviceStore)
-          response.json({ status: 'ok', plugins: serviceStore });
-        response.json({ status: 'ok', services: [] });
+           response.json({ status: 'ok', plugins: serviceStore });
+         response.json({ status: 'ok', services: [] });
       } catch (error: any) {
         let date = new Date();
         response.status(error.response.status).json({

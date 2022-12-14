@@ -4,14 +4,15 @@ import { KongServiceBase } from './KongServiceBase';
 export class PluginService extends KongServiceBase {
   public async applyPluginKongService(
     serviceName: string,
-    pluginName: string,
+    pluginName: PluginName,
     config?: Map<string, string>,
   ) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
+    console.log('esses são os config', config)
     const response = await axios.post(url, {
       service: serviceName,
       name: pluginName,
-      config: config,
+      config: config
     });
     return response;
   }
@@ -37,8 +38,8 @@ export class PluginService extends KongServiceBase {
     const response = await axios.get(url);
     return response;
   }
-
-
-
-
+}
+export enum PluginName {
+  ACL = 'acl',
+  OAUTH = ''
 }
