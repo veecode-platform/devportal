@@ -437,14 +437,13 @@ export async function createRouter(
     '/kong-service/plugin/:serviceName',
     async (request, response) => {
       try {
-        console.log('Body: ', typeof request.body.config.allow)
         const serviceStore = await aclPlugin.configAclKongService(
           request.params.serviceName,
-          request.body
+          request.body.config.allow,
         );
         if (serviceStore)
-           response.json({ status: 'ok', plugins: serviceStore });
-         response.json({ status: 'ok', services: [] });
+          response.json({ status: 'ok', plugins: serviceStore });
+        response.json({ status: 'ok', services: [] });
       } catch (error: any) {
         let date = new Date();
         response.status(error.response.status).json({

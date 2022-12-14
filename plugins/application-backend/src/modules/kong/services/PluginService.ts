@@ -7,15 +7,13 @@ export class PluginService extends KongServiceBase {
     pluginName: PluginName,
     config: Map<string, any>,
   ) {
-
-
-    console.log('MAP TO OBJECT: ', Object.fromEntries(config))
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
     const response = await axios.post(url, {
       service: serviceName,
       name: pluginName,
-      config: Object.fromEntries(config)
+      config: Object.fromEntries(config),
     });
+
     return response;
   }
 
@@ -25,23 +23,23 @@ export class PluginService extends KongServiceBase {
     config?: Map<string, string>,
   ) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
-    const response = await axios.post(url, {
+    const response = await axios.put(url, {
       service: serviceName,
       name: pluginName,
       config: config,
     });
+
     return response;
   }
 
-  public async findAllPluginKongService(
-    serviceName: string,
-  ) {
+  public async listPluginsKongService(serviceName: string) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
     return response;
   }
 }
+
 export enum PluginName {
   ACL = 'acl',
-  OAUTH = ''
+  KEYAUTH = 'key-auth',
 }
