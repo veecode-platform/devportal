@@ -68,6 +68,8 @@ import { ServicesPage, PartnersPage} from '@internal/plugin-application';
 import { providers } from './identityProviders';
 /*import { RequirePermission } from '@backstage/plugin-permission-react';
 import { adminAccessPermission } from '@internal/plugin-application-common';*/
+import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
+import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 
 const app = createApp({
   apis,
@@ -149,7 +151,11 @@ const routes = (
     <Route
       path="/docs/:namespace/:kind/:name/*"
       element={<TechDocsReaderPage />}
-    />
+    >
+      <TechDocsAddons>
+        <ReportIssue />
+      </TechDocsAddons>
+    </Route>
     
     {/*<Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
       <Route 

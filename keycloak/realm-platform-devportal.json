@@ -806,18 +806,7 @@
           }
         ],
         "policies": [
-          {
-            "id": "efbfae70-04ac-4b42-a92f-321f96e2d057",
-            "name": "Default Permission",
-            "description": "A permission that applies to the default resource type",
-            "type": "resource",
-            "logic": "POSITIVE",
-            "decisionStrategy": "UNANIMOUS",
-            "config": {
-              "defaultResourceType": "urn:devportal:resources:default",
-              "applyPolicies": "[\"Default Policy\"]"
-            }
-          }
+
         ],
         "scopes": [],
         "decisionStrategy": "UNANIMOUS"

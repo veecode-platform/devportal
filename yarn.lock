@@ -2325,6 +2325,24 @@
     p-limit "^3.1.0"
     winston "^3.2.1"
 
+"@backstage/plugin-techdocs-module-addons-contrib@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-techdocs-module-addons-contrib/-/plugin-techdocs-module-addons-contrib-1.0.6.tgz#886e565960d49dc4c68c62ab63bdd0acba4f1790"
+  integrity sha512-2ZV8ke6VdPXx3HPD9OIEwntQV9V3nmSLTeLS0AyI9OrA+Jcj+YexSijafAQ8gqlufCBs66y+I/Y1tWoydG98Tg==
+  dependencies:
+    "@backstage/core-components" "^0.12.0"
+    "@backstage/core-plugin-api" "^1.1.0"
+    "@backstage/integration" "^1.4.0"
+    "@backstage/integration-react" "^1.1.6"
+    "@backstage/plugin-techdocs-react" "^1.0.6"
+    "@backstage/theme" "^0.2.16"
+    "@material-ui/core" "^4.9.13"
+    "@material-ui/icons" "^4.9.1"
+    "@material-ui/lab" "4.0.0-alpha.57"
+    "@react-hookz/web" "^15.0.0"
+    git-url-parse "^13.0.0"
+    react-use "^17.2.4"
+
 "@backstage/plugin-techdocs-node@^1.4.2":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-techdocs-node/-/plugin-techdocs-node-1.4.2.tgz#949e2d114ee7611c1dfbeb95e818481deae21656"
@@ -3926,7 +3944,7 @@
     react-double-scrollbar "0.0.15"
     uuid "^3.4.0"
 
-"@material-ui/core@^4.12.2":
+"@material-ui/core@^4.12.2", "@material-ui/core@^4.9.13":
   version "4.12.4"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.12.4.tgz#4ac17488e8fcaf55eb6a7f5efb2a131e10138a73"
   integrity sha512-tr7xekNlM9LjA6pagJmL8QCgZXaubWUwkJnoYcMKd4gw/t4XiyvnTkjdGrUVicyB2BsdaAv1tvow45bPM4sSwQ==
@@ -6387,9 +6405,11 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@backstage/plugin-search-react" "^1.2.1"
     "@backstage/plugin-tech-radar" "^0.5.18"
     "@backstage/plugin-techdocs" "^1.4.0"
+    "@backstage/plugin-techdocs-react" "^1.0.6"
     "@backstage/plugin-user-settings" "^0.5.1"
     "@backstage/theme" "^0.2.16"
     "@internal/plugin-application" "^0.1.0"
+    "@internal/plugin-application-common" "^0.1.0"
     "@material-ui/core" "^4.12.2"
     "@material-ui/icons" "^4.9.1"
     history "^5.0.0"
