@@ -7,6 +7,7 @@
     await knex.schema.createTable("services", (table) =>{
       table.uuid("id").primary();
       table.string("name");
+      table.boolean("active");
       table.string("description");
       table.string("redirectUrl");
       table.specificType('partnersId', 'TEXT[]');
@@ -18,6 +19,7 @@
     await knex.schema.createTable("partners", (table) =>{
       table.uuid("id").primary;
       table.string("name");
+      table.boolean("active");
       table.string("email");
       table.string("celular");
       table.specificType('servicesId', 'TEXT[]');

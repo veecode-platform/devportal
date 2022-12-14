@@ -74,7 +74,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       kongConsumerName: applicationDto.kongConsumerName,
       kongConsumerId: applicationDto.kongConsumerId,
       createdAt: applicationDto.createdAt,
-      updateAt: applicationDto.updateAt
+      updateAt: applicationDto.updatedAt
     });
     const data = ApplicationMapper.toPersistence(application);
     console.log(data)
@@ -95,7 +95,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       kongConsumerName: applicationDto.kongConsumerName,
       kongConsumerId: applicationDto.kongConsumerId,
       createdAt: applicationDto.createdAt,
-      updateAt: applicationDto.updateAt
+      updateAt: applicationDto.updatedAt
     });
     const data = await ApplicationMapper.toPersistence(application);
     const createdApplication = await this.db('applications').insert(data).catch(error => console.error(error));
@@ -106,6 +106,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       const application: Application = Application.create({
         creator: applicationDto.creator,
         name: applicationDto.name,
+        active: applicationDto.active,
         servicesId: applicationDto.servicesId,
         kongConsumerName: applicationDto.kongConsumerName,
         kongConsumerId: applicationDto.kongConsumerId,
@@ -128,11 +129,12 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     const application: Application = Application.create({
       creator: applicationDto.creator,
       name: applicationDto.name,
+      active: applicationDto.active,
       servicesId: applicationDto.servicesId,
       kongConsumerName: applicationDto.kongConsumerName,
       kongConsumerId: applicationDto.kongConsumerId,
       createdAt: applicationDto.createdAt,
-      updateAt: applicationDto.updateAt
+      updateAt: applicationDto.updatedAt
     });// try add ,id on application create
     //const data =await ApplicationMapper.toPersistence(application);
     

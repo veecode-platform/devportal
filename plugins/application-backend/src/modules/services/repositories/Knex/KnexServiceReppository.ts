@@ -13,7 +13,7 @@ export class PostgresServiceRepository implements IServiceRepository {
 
   static async create(knex: Knex<any, any[]>): Promise<IServiceRepository> {
     return new PostgresServiceRepository(knex);
-  }
+  } 
 
   async getServiceByUser(name:string): Promise<Service[] | void> {
     const service = await this.db<Service>('services').where("email", name).select('*').catch(error => console.error(error));
@@ -38,12 +38,13 @@ export class PostgresServiceRepository implements IServiceRepository {
   async saveService(serviceDto: ServiceDto): Promise<Service> {
     const service: Service = Service.create({
       name: serviceDto.name,
+      active: serviceDto.active,
       description: serviceDto.description,
       redirectUrl: serviceDto.redirectUrl,
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
-    });
+    }); 
     const data = ServiceMapper.toPersistence(service);
     console.log(data)
     return service;
@@ -57,6 +58,7 @@ export class PostgresServiceRepository implements IServiceRepository {
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
     const service: Service = Service.create({
         name: serviceDto.name,
+        active: serviceDto.active,
         description: serviceDto.description,
         redirectUrl: serviceDto.redirectUrl,
         partnersId: serviceDto.partnersId,
@@ -71,6 +73,7 @@ export class PostgresServiceRepository implements IServiceRepository {
     async updateService(id: string, serviceDto: ServiceDto): Promise<Service | string> {
         const service: Service = Service.create({
             name: serviceDto.name,
+            active: serviceDto.active,            
             description: serviceDto.description,
             redirectUrl: serviceDto.redirectUrl,
             partnersId: serviceDto.partnersId,
@@ -92,6 +95,7 @@ export class PostgresServiceRepository implements IServiceRepository {
   async patchService(id: string, serviceDto: ServiceDto): Promise<Service | string> {
     const service: Service = Service.create({
         name: serviceDto.name,
+        active: serviceDto.active,
         description: serviceDto.description,
         redirectUrl: serviceDto.redirectUrl,
         partnersId: serviceDto.partnersId,

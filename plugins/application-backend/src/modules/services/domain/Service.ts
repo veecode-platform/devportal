@@ -5,9 +5,10 @@ export type ServiceProps = {
   description: string;
   redirectUrl: string;
   partnersId: string[];
+  active:boolean;
   kongServiceName: string;
   kongServiceId: string;
-  createdAt?: Date;
+  createdAt?: Date; 
   updatedAt?: Date;
 }
 
