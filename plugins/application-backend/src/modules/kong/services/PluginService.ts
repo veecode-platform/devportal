@@ -5,18 +5,16 @@ export class PluginService extends KongServiceBase {
   public async applyPluginKongService(
     serviceName: string,
     pluginName: PluginName,
-    config?: Map<string, string>,
+    config: Map<string, any>,
   ) {
 
 
-    const teste = {service: serviceName, name: pluginName,  config: config}
-
+    console.log('MAP TO OBJECT: ', Object.fromEntries(config))
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
-    console.log('AQUI ESTÀ O MAP ->', teste)
     const response = await axios.post(url, {
       service: serviceName,
       name: pluginName,
-      config: config
+      config: Object.fromEntries(config)
     });
     return response;
   }

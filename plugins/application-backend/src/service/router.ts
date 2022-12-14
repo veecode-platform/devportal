@@ -436,11 +436,11 @@ export async function createRouter(
   router.post(
     '/kong-service/plugin/:serviceName',
     async (request, response) => {
-      
       try {
+        console.log('Body: ', typeof request.body.config.allow)
         const serviceStore = await aclPlugin.configAclKongService(
           request.params.serviceName,
-          request.body.config
+          request.body
         );
         if (serviceStore)
            response.json({ status: 'ok', plugins: serviceStore });
