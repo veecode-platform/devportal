@@ -8,8 +8,6 @@ export class PluginService extends KongServiceBase {
     config?: Map<string, string>,
   ) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
-    console.log("VVVVVVVVVVVVVVV")
-    console.log(config);
     const response = await axios.post(url, {
       service: serviceName,
       name: pluginName,
@@ -17,4 +15,30 @@ export class PluginService extends KongServiceBase {
     });
     return response;
   }
+
+  public async updatePluginKongService(
+    serviceName: string,
+    pluginName: string,
+    config?: Map<string, string>,
+  ) {
+    const url = `${this.baseUrl}/services/${serviceName}/plugins`;
+    const response = await axios.post(url, {
+      service: serviceName,
+      name: pluginName,
+      config: config,
+    });
+    return response;
+  }
+
+  public async findAllPluginKongService(
+    serviceName: string,
+  ) {
+    const url = `${this.baseUrl}/services/${serviceName}/plugins`;
+    const response = await axios.get(url);
+    return response;
+  }
+
+
+
+
 }

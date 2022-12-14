@@ -434,6 +434,7 @@ export async function createRouter(
   router.post(
     '/kong-service/plugin/:serviceName/:pluginName',
     async (request, response) => {
+      
       try {
         const serviceStore = await pluginService.applyPluginKongService(
           request.params.serviceName,
@@ -447,7 +448,7 @@ export async function createRouter(
         let date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
-          message: error.response.data.errorSummary,
+          message: error.response.data.message,
           timestamp: new Date(date).toISOString(),
         });
       }
