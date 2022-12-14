@@ -71,6 +71,8 @@ import { searchPage } from './components/search/SearchPage';
 import { ServicesPage, PartnersPage } from '@internal/plugin-application';
 // login
 import { providers } from './identityProviders';
+import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
+import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 // import { RequirePermission } from '@backstage/plugin-permission-react';
 /* import { RequirePermission } from '@backstage/plugin-permission-react';
 import { adminAccessPermission } from '@internal/plugin-application-common';*/
@@ -165,6 +167,28 @@ const routes = (
         <ReportIssue />
       </TechDocsAddons>
     </Route>
+    <Route
+      path="/catalog-graph"
+      element={
+        <CatalogGraphPage
+          initialState={{
+            selectedKinds: ['component', 'domain', 'system', 'api', 'group'],
+            selectedRelations: [
+              RELATION_OWNER_OF,
+              RELATION_OWNED_BY,
+              RELATION_CONSUMES_API,
+              RELATION_API_CONSUMED_BY,
+              RELATION_PROVIDES_API,
+              RELATION_API_PROVIDED_BY,
+              RELATION_HAS_PART,
+              RELATION_PART_OF,
+              RELATION_DEPENDS_ON,
+              RELATION_DEPENDENCY_OF,
+            ],
+          }}
+        />
+      }
+    />
     
     {/*<Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
 
