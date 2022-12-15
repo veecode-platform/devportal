@@ -16,7 +16,7 @@ export class KeyAuthPlugin extends PluginService {
     let map: Map<string, any> = new Map<string, any>();
     map.set('key_names', keyNamesList);
 
-    return this.applyPluginKongService(serviceName, PluginName.KEYAUTH, map);
+    return this.applyPluginKongService(serviceName, PluginName.KEY_AUTH, map);
   }
 
   public async updateKeyAuthKongService(

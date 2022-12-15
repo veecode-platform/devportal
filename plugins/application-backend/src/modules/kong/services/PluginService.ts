@@ -46,5 +46,5 @@ export class PluginService extends KongServiceBase {
 
 export enum PluginName {
   ACL = 'acl',
-  KEYAUTH = 'key-auth',
+  KEY_AUTH = 'key-auth',
 }
