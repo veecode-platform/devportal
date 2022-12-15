@@ -10,7 +10,7 @@ export class PluginService extends KongServiceBase {
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
 
     const response = await axios.post(url, {
-      service: serviceName, 
+      service: serviceName,
       name: pluginName,
       config: Object.fromEntries(config),
     });

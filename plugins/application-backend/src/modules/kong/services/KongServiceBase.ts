@@ -7,7 +7,8 @@ export class KongServiceBase {
 
   constructor(private _config: Config) {
     this._url = _config.getString('kong.api-manager');
-    this._workspace = this._config.getOptionalString('kong.workspace') ?? 'default';
+    this._workspace =
+      this._config.getOptionalString('kong.workspace') ?? 'default';
     this._token = this._config.getString('kong.admin-token');
   }
 
