@@ -24,6 +24,7 @@ import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { PluginService } from '../modules/kong/services/PluginService';
 import { AclPlugin } from '../modules/kong/plugin/AclPlugin';
+import { KeyAuthPlugin } from '../modules/kong/plugin/KeyAuthPlugin';
 
 /** @public */
 export interface RouterOptions {
@@ -64,8 +65,10 @@ export async function createRouter(
   const userService = new UserService();
   const associateService = new AssociateService();
   const pluginService = new PluginService(config);
-  // const aclPlugin = new AclPlugin(config);
-  const aclPlugin = AclPlugin.Instance;
+  const aclPlugin = new AclPlugin(config);
+  // const aclPlugin = AclPlugin.Instance;
+  // const keyAuthPlugin = KeyAuthPlugin.Instance;
+  const keyAuthPlugin = new KeyAuthPlugin(config);
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -518,6 +521,30 @@ export async function createRouter(
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  // KEY-AUTH - TEST ROUTER
+  router.post(
+    '/kong-service/plugin/keyauth/:serviceName',
+    async (request, response) => {
+      try {
+        const serviceStore = await keyAuthPlugin.configKeyAuthKongService(
+          request.params.serviceName,
+          request.body.config.key_names,
+        );
+        if (serviceStore)
+          response.json({ status: 'ok', plugins: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
           timestamp: new Date(date).toISOString(),
         });
       }
