@@ -575,6 +575,27 @@ export async function createRouter(
     },
   );
 
+  router.delete(
+    '/kong-service/plugin/keyauth/:serviceName/:pluginId',
+    async (request, response) => {
+      try {
+        const serviceStore = await keyAuthPlugin.removeKeyAuthKongService(
+          request.params.serviceName,
+          request.params.pluginId,
+        );
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
   router.use(errorHandler());
   return router;
 }
