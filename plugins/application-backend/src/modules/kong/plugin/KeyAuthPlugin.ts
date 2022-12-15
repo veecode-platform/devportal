@@ -1,37 +1,37 @@
 import { Config } from '@backstage/config';
 import { PluginName, PluginService } from '../services/PluginService';
 
-export class AclPlugin extends PluginService {
-  private static _instance: AclPlugin;
+export class KeyAuthPlugin extends PluginService {
+  private static _instance: KeyAuthPlugin;
   private static _config: Config;
 
   private constructor(_config: Config) {
     super(_config);
   }
 
-  public async configAclKongService(
+  public async configKeyAuthKongService(
     serviceName: string,
-    allowedList: Array<string>,
+    keyNamesList: Array<string>,
   ) {
     let map: Map<string, any> = new Map<string, any>();
     map.set('hide_groups_header', true);
-    map.set('allow', allowedList);
+    map.set('key_names', keyNamesList);
 
-    return this.applyPluginKongService(serviceName, PluginName.ACL, map);
+    return this.applyPluginKongService(serviceName, PluginName.KEYAUTH, map);
   }
 
-  public async updateAclKongService(
+  public async updateKeyAuthKongService(
     serviceName: string,
-    allowedList: Array<string>,
+    keyNamesList: Array<string>,
   ) {
     let map: Map<string, any> = new Map<string, any>();
     map.set('hide_groups_header', true);
-    map.set('allow', allowedList);
+    map.set('key_names', keyNamesList);
 
-    return this.applyPluginKongService(serviceName, PluginName.ACL, map);
+    return this.applyPluginKongService(serviceName, PluginName.KEYAUTH, map);
   }
 
-  public async removeAclKongService(serviceName: string, pluginId: string) {
+  public async removeKeyAuthKongService(serviceName: string, pluginId: string) {
     this.removePluginKongService(serviceName, pluginId);
   }
 
