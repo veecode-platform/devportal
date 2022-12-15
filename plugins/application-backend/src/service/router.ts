@@ -64,8 +64,8 @@ export async function createRouter(
   const userService = new UserService();
   const associateService = new AssociateService();
   const pluginService = new PluginService(config);
-  // const aclPlugin = new AclPlugin(config);
-  const aclPlugin = AclPlugin.Instance;
+  const aclPlugin = new AclPlugin(config);
+  // const aclPlugin = AclPlugin.Instance;
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -442,6 +442,31 @@ export async function createRouter(
           request.params.serviceName,
           request.body.config.allow,
         );
+        if (serviceStore)
+          response.json({ status: 'ok', plugins: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  router.patch(
+    '/kong-service/plugin/:serviceName/:pluginId',
+    async (request, response) => {
+      try {
+        const serviceStore = await aclPlugin.updateAclKongService(
+          request.params.serviceName,
+          request.params.pluginId,
+          request.body.config.allow,
+        );
+       
         if (serviceStore)
           response.json({ status: 'ok', plugins: serviceStore });
         response.json({ status: 'ok', services: [] });

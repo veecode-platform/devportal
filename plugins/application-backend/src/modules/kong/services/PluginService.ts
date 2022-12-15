@@ -12,7 +12,7 @@ export class PluginService extends KongServiceBase {
     const response = await axios.post(url, {
       service: serviceName,
       name: pluginName,
-      config: Object.fromEntries(config),
+      config:  Object.fromEntries(config)
     });
     console.log('config: ');
     return response.data;
@@ -21,13 +21,11 @@ export class PluginService extends KongServiceBase {
   public async updatePluginKongService(
     serviceName: string,
     pluginId: string,
-    config?: Map<string, string>,
+    config: Map<string, any>,
   ) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins/${pluginId}`;
-    const response = await axios.put(url, {
-      service: serviceName,
-      pluginId: pluginId,
-      config: config,
+    const response = await axios.patch(url, {
+      config: Object.fromEntries(config),
     });
 
     return response.data;
@@ -36,13 +34,13 @@ export class PluginService extends KongServiceBase {
   public async listPluginsKongService(serviceName: string) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
-    return response.data;
+    return response;
   }
 
   public async removePluginKongService(serviceName: string, pluginId: string) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins/${pluginId}`;
     const response = await axios.delete(url);
-    return response.data;
+    return response;
   }
 }
 
