@@ -21,13 +21,11 @@ export class PluginService extends KongServiceBase {
   public async updatePluginKongService(
     serviceName: string,
     pluginId: string,
-    config?: Map<string, string>,
+    config: Map<string, string>,
   ) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins/${pluginId}`;
-    const response = await axios.put(url, {
-      service: serviceName,
-      pluginId: pluginId,
-      config: config,
+    const response = await axios.patch(url, {
+      config: Object.fromEntries(config),
     });
 
     return response.data;

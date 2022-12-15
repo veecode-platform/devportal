@@ -551,6 +551,30 @@ export async function createRouter(
     },
   );
 
+  router.patch(
+    '/kong-service/plugin/keyauth/:serviceName/:pluginId',
+    async (request, response) => {
+      try {
+        const serviceStore = await keyAuthPlugin.updateKeyAuthKongService(
+          request.params.serviceName,
+          request.params.pluginId,
+          request.body.config.key_names,
+        );
+        if (serviceStore)
+          response.json({ status: 'ok', plugins: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
   router.use(errorHandler());
   return router;
 }
