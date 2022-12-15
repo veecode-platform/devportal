@@ -67,8 +67,7 @@ export async function createRouter(
   const pluginService = new PluginService(config);
   const aclPlugin = new AclPlugin(config);
   // const aclPlugin = AclPlugin.Instance;
-  // const keyAuthPlugin = KeyAuthPlugin.Instance;
-  const keyAuthPlugin = new KeyAuthPlugin(config);
+  const keyAuthPlugin = KeyAuthPlugin.instance(config);
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -536,8 +535,10 @@ export async function createRouter(
           request.params.serviceName,
           request.body.config.key_names,
         );
-        if (serviceStore)
+        if (serviceStore) {
           response.json({ status: 'ok', plugins: serviceStore });
+          return;
+        }
         response.json({ status: 'ok', services: [] });
       } catch (error: any) {
         let date = new Date();

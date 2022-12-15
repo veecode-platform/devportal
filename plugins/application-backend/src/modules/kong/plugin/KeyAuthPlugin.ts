@@ -2,12 +2,11 @@ import { Config } from '@backstage/config';
 import { PluginName, PluginService } from '../services/PluginService';
 
 export class KeyAuthPlugin extends PluginService {
-//   private static _instance: KeyAuthPlugin;
-//   private static _config: Config;
+  private static _instance: KeyAuthPlugin;
 
-//   private constructor(_config: Config) {
-//     super(_config);
-//   }
+  private constructor(_config: Config) {
+    super(_config);
+  }
 
   public async configKeyAuthKongService(
     serviceName: string,
@@ -34,7 +33,7 @@ export class KeyAuthPlugin extends PluginService {
     this.removePluginKongService(serviceName, pluginId);
   }
 
-//   public static get Instance() {
-//     return this._instance || (this._instance = new this(this._config));
-//   }
+  public static instance(config: Config) {
+    return this._instance || (this._instance = new this(config));
+  }
 }
