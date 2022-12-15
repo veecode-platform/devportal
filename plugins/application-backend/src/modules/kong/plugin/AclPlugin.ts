@@ -1,6 +1,18 @@
+import { Config } from '@backstage/config';
 import { PluginName, PluginService } from '../services/PluginService';
 
 export class AclPlugin extends PluginService {
+  private static _instance: AclPlugin;
+  private static _config: Config;
+
+  private constructor(_config: Config) {
+    super(_config);
+  }
+
+  public static get Instance() {
+    return this._instance || (this._instance = new this(this._config));
+  }
+
   public async configAclKongService(
     serviceName: string,
     allowedList: Array<string>,

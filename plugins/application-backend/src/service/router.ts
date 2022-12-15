@@ -64,7 +64,8 @@ export async function createRouter(
   const userService = new UserService();
   const associateService = new AssociateService();
   const pluginService = new PluginService(config);
-  const aclPlugin = new AclPlugin(config);
+  // const aclPlugin = new AclPlugin(config);
+  const aclPlugin = AclPlugin.Instance;
   logger.info('Initializing application backend');
 
   const router = Router();
