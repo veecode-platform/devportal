@@ -42,9 +42,6 @@ import { UserSettingsPage } from './components/user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';
-import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
-import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
-
 import {
   AlertDisplay,
   OAuthRequestDialog,
@@ -52,10 +49,6 @@ import {
 } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
 import { FlatRoutes } from '@backstage/core-app-api';
-// import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-// import { PermissionedRoute } from '@backstage/plugin-permission-react';
-// import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
-// import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 
 // custom
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
@@ -73,9 +66,6 @@ import { ServicesPage, PartnersPage } from '@internal/plugin-application';
 import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-// import { RequirePermission } from '@backstage/plugin-permission-react';
-/* import { RequirePermission } from '@backstage/plugin-permission-react';
-import { adminAccessPermission } from '@internal/plugin-application-common';*/
 
 const app = createApp({
   apis,
@@ -94,6 +84,7 @@ const app = createApp({
     });
     bind(scaffolderPlugin.externalRoutes, {
       registerComponent: catalogImportPlugin.routes.importPage,
+      viewTechDoc: techdocsPlugin.routes.docRoot,
     });
     bind(orgPlugin.externalRoutes, {
       catalogIndex: catalogPlugin.routes.catalogIndex,
@@ -133,10 +124,7 @@ const routes = (
     <Route path="/" element={<HomepageCompositionRoot />}>
       <HomePage />
     </Route>
-
     <Route path="/catalog" element={<CatalogIndexPage />} />
-    <Route path="/create" element={<ScaffolderPage />} />
-    <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
       path="/catalog-import"
       element={
@@ -145,27 +133,11 @@ const routes = (
         // </RequirePermission>
       }
     />
-    <Route path="/settings" element={<UserSettingsPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
     >
       {entityPage}
-    </Route>
-    <Route path="/search" element={<SearchPage />}>
-      {searchPage}
-    </Route>
-    <Route path="/docs" element={<TechDocsIndexPage />}>
-      <DefaultTechDocsHome />
-    </Route>
-    <Route path="/docs" element={<TechDocsIndexPage />} />
-    <Route
-      path="/docs/:namespace/:kind/:name/*"
-      element={<TechDocsReaderPage />}
-    >
-      <TechDocsAddons>
-        <ReportIssue />
-      </TechDocsAddons>
     </Route>
     <Route
       path="/catalog-graph"
@@ -189,26 +161,19 @@ const routes = (
         />
       }
     />
-    
-    {/*<Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
-
-    {/* <Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
-      <Route 
-        path="/services" 
-        element={<ServicesPage />} 
-      />
-    </Route>*/}
-
-    {
-      // not working following docs
-      /* <Route path='/services' element={
-      <RequirePermission permission={adminAccessPermission}>
-        <ServicesPage />
-      </RequirePermission>
-    }/> */
-    }
+    <Route path="/docs" element={<TechDocsIndexPage />}>
+      <DefaultTechDocsHome />
+    </Route>
+    <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />}/>
+    <Route path="/api-docs" element={<ApiExplorerPage />} />   
+    <Route path="/create" element={<ScaffolderPage />} />   
+    <Route path="/search" element={<SearchPage />}>
+      {searchPage}
+    </Route>
+   
     <Route path="/services" element={<ServicesPage />} />
     <Route path="/partners" element={<PartnersPage />} />
+    <Route path="/settings" element={<UserSettingsPage />} />
   </FlatRoutes>
 );
 

@@ -182,30 +182,21 @@ integrations:
 catalog:
   providers:
     github:
-      #providerId: # the provider ID can be any camelCase string
-      #  organization: veecode-platform # string
-      #  catalogPath: /catalog-info.yaml # string
-      #  filters:
-      #    branch: master # string
-      #    repository: devportal-spechouse # Regex
-      validateLocationsExist:
+      providerId: # the provider ID can be any camelCase string
         organization: veecode-platform # string
         catalogPath: /catalog-info.yaml # string
         filters:
           branch: master # string
           repository: devportal-spechouse # Regex
-        validateLocationsExist: true # optional boolean
-  import:
+          validateLocationsExist: true
+
   locations:
-    # Local example template
-    - type: file
-      target: ../../examples/template/template.yaml
-      rules:
-        - allow: [Template]
-    - type: url
-      target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/all-templates.yaml
-      rules:
-        - allow: [Template]
+  - type: url
+    target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/all-templates.yaml
+    rules:
+      - allow: [Template]
+  - type: url
+    target: https://github.com/backstage/backstage/blob/master/catalog-info.yaml
 
 auth:
   environment: development
