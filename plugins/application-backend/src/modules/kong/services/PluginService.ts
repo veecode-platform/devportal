@@ -10,9 +10,9 @@ export class PluginService extends KongServiceBase {
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
 
     const response = await axios.post(url, {
-      service: serviceName,
+      service: serviceName, 
       name: pluginName,
-      config:  Object.fromEntries(config)
+      config: Object.fromEntries(config),
     });
     console.log('config: ');
     return response.data;
@@ -30,19 +30,19 @@ export class PluginService extends KongServiceBase {
       config: config,
     });
 
-    return response;
+    return response.data;
   }
 
   public async listPluginsKongService(serviceName: string) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
-    return response;
+    return response.data;
   }
 
   public async removePluginKongService(serviceName: string, pluginId: string) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins/${pluginId}`;
     const response = await axios.delete(url);
-    return response;
+    return response.data;
   }
 }
 

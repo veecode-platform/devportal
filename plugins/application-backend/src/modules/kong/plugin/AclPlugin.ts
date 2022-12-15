@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { PluginName, PluginService } from '../services/PluginService';
 
 export class AclPlugin extends PluginService {
@@ -25,7 +24,6 @@ export class AclPlugin extends PluginService {
   }
 
   public async removeAclKongService(serviceName: string, pluginId: string) {
-      this.removePluginKongService(serviceName, pluginId);
+    this.removePluginKongService(serviceName, pluginId);
   }
-
 }
