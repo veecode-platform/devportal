@@ -64,9 +64,7 @@ export async function createRouter(
   const consumerService = new ConsumerService(config);
   const userService = new UserService();
   const associateService = new AssociateService();
-  const pluginService = new PluginService(config);
-  const aclPlugin = new AclPlugin(config);
-  // const aclPlugin = AclPlugin.Instance;
+  const aclPlugin = AclPlugin.instance(config);
   const keyAuthPlugin = KeyAuthPlugin.instance(config);
   logger.info('Initializing application backend');
 
