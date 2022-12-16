@@ -1,6 +1,12 @@
 import axios from 'axios';
 import { KongServiceBase } from './KongServiceBase';
 
+export enum PluginName {
+  acl = 'acl',
+  key_auth = 'key-auth',
+  rate_limiting = 'rate-limiting',
+}
+
 export class PluginService extends KongServiceBase {
   public async applyPluginKongService(
     serviceName: string,
@@ -42,10 +48,4 @@ export class PluginService extends KongServiceBase {
     const response = await axios.delete(url);
     return response.data;
   }
-}
-
-export enum PluginName {
-  ACL = 'acl',
-  KEY_AUTH = 'key-auth',
-  RATE_LIMITING = 'rate-limiting',
 }

@@ -26,7 +26,7 @@ export class RateLimitingPlugin extends PluginService {
     map.set(rateLimitingType.toString(), rateLimiting);
     return this.applyPluginKongService(
       serviceName,
-      PluginName.RATE_LIMITING,
+      PluginName.rate_limiting,
       map,
     );
   }
