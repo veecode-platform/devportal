@@ -23,9 +23,9 @@ import { Consumer } from '../modules/kong-control/model/Consumer';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { PluginService } from '../modules/kong/services/PluginService';
-import { AclPlugin } from '../modules/kong/plugin/AclPlugin';
-import { KeyAuthPlugin } from '../modules/kong/plugin/KeyAuthPlugin';
-import { RateLimitingPlugin } from '../modules/kong/plugin/RateLimitingPlugin';
+import { AclPlugin } from '../modules/kong/plugins/AclPlugin';
+import { KeyAuthPlugin } from '../modules/kong/plugins/KeyAuthPlugin';
+import { RateLimitingPlugin } from '../modules/kong/plugins/RateLimitingPlugin';
 
 /** @public */
 export interface RouterOptions {
