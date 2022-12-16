@@ -1,6 +1,15 @@
 import { Config } from '@backstage/config';
 import { PluginName, PluginService } from '../services/PluginService';
 
+export enum RateLimitingType {
+  second = 'second',
+  minute = 'minute',
+  hour = 'hour',
+  day = 'day',
+  month = 'month',
+  year = 'year',
+}
+
 export class RateLimitingPlugin extends PluginService {
   private static _instance: RateLimitingPlugin;
 
@@ -10,17 +19,11 @@ export class RateLimitingPlugin extends PluginService {
 
   public async configRateLimitingKongService(
     serviceName: string,
-    second: number,
-    minute?: number,
-    hour?: number,
-    day?: number,
+    rateLimitingType: RateLimitingType,
+    rateLimiting: number,
   ) {
     let map: Map<string, any> = new Map<string, any>();
-    map.set('second', second);
-    map.set('minute', minute);
-    map.set('hour', hour);
-    map.set('day', day);
-
+    map.set(rateLimitingType.toString(), rateLimiting);
     return this.applyPluginKongService(
       serviceName,
       PluginName.RATE_LIMITING,
@@ -31,17 +34,11 @@ export class RateLimitingPlugin extends PluginService {
   public async updateRateLimitingKongService(
     serviceName: string,
     pluginId: string,
-    second: number,
-    minute?: number,
-    hour?: number,
-    day?: number,
+    rateLimitingType: RateLimitingType,
+    rateLimiting: number,
   ) {
     let map: Map<string, any> = new Map<string, any>();
-    map.set('second', second);
-    map.set('minute', minute);
-    map.set('hour', hour);
-    map.set('day', day);
-
+    map.set(rateLimitingType.toString(), rateLimiting);
     return this.updatePluginKongService(serviceName, pluginId, map);
   }
 
