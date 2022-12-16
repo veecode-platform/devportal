@@ -9,17 +9,14 @@ export type ServiceProps = {
   kongServiceId: string;
   createdAt?: Date;
   updatedAt?: Date;
-}
+};
 
-export class Service extends Entity<ServiceProps>{
-  private constructor(
-    props: ServiceProps,
-    id?: string,
-  ) {
-    super(props,id);
+export class Service extends Entity<ServiceProps> {
+  private constructor(props: ServiceProps, id?: string) {
+    super(props, id);
   }
-  static create(props: ServiceProps,id?:string): Service {
+  static create(props: ServiceProps, id?: string): Service {
     props.createdAt = props.createdAt || new Date();
-    return new Service(props,id);
+    return new Service(props, id);
   }
 }

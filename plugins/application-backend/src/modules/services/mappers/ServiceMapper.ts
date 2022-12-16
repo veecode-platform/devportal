@@ -1,7 +1,7 @@
-import { Service } from "../domain/Service";
-import { ServiceResponseDto } from "../dtos/ServiceResponseDto";
+import { Service } from '../domain/Service';
+import { ServiceResponseDto } from '../dtos/ServiceResponseDto';
 
-export class ServiceMapper{
+export class ServiceMapper {
   static async toPersistence(service: Service) {
     return {
       id: service._id,
@@ -12,12 +12,14 @@ export class ServiceMapper{
       kongServiceName: service.props.kongServiceName,
       kongServiceId: service.props.kongServiceId,
       createdAt: service.props.createdAt,
-    }
+    };
   }
-  static async listAllServicesToResource(serviceResponseDto : ServiceResponseDto){
+  static async listAllServicesToResource(
+    serviceResponseDto: ServiceResponseDto,
+  ) {
     return {
       services: serviceResponseDto.props.services ?? [],
-      service: serviceResponseDto.props.service ?? "",
-    }
+      service: serviceResponseDto.props.service ?? '',
+    };
   }
 }
