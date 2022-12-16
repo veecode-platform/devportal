@@ -22,7 +22,7 @@
     "prettier:check": "prettier --check .",
     "create-plugin": "backstage-cli create-plugin --scope internal",
     "remove-plugin": "backstage-cli remove-plugin",
-    "clear-deps": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
+    "clear-deps": "find .  -path ./.docker-data -prune -o -name node_modules -type d -exec rm -rf '{}' +"
   },
   "workspaces": {
     "packages": [
