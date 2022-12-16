@@ -14,6 +14,7 @@ type User = {
   partnersId: string[];
   kongServiceName: string;
   kongServiceId: string; 
+  rateLimiting: number;
   createdAt: string; 
   updatedAt: string; 
 };

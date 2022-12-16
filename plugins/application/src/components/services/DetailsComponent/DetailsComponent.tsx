@@ -22,6 +22,7 @@ type Service = {
   partnersId: string[];
   kongServiceName: string;
   kongServiceId: string; 
+  rateLimiting: number;
   createdAt: string; 
   updatedAt: string; 
 };
@@ -65,6 +66,10 @@ const Details = ({ service }: Services) => {
                   <h1>Description</h1>
                   <p>{service?.description}</p>
                 </Grid>
+                <Grid item lg={3} xs={6}>
+                  <h1>Rate Limit</h1>
+                  <p>{service?.rateLimiting}</p>
+                </Grid> 
                 <Grid item lg={3} xs={6}>
                   <h1>Security</h1>
                   <p>Api key</p>
