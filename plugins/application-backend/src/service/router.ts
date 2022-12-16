@@ -607,10 +607,8 @@ export async function createRouter(
         const serviceStore =
           await rateLimitingPlugin.configRateLimitingKongService(
             request.params.serviceName,
-            request.body.config.second,
-            request.body.config.minute,
-            request.body.config.hour,
-            request.body.config.day,
+            request.body.config.rateLimitingType,
+            request.body.config.rateLimiting,
           );
         if (serviceStore) {
           response.json({ status: 'ok', plugins: serviceStore });
@@ -659,10 +657,8 @@ export async function createRouter(
           await rateLimitingPlugin.updateRateLimitingKongService(
             request.params.serviceName,
             request.params.pluginId,
-            request.body.config.second,
-            request.body.config.minute,
-            request.body.config.hour,
-            request.body.config.day,
+            request.body.config.rateLimitingType,
+            request.body.config.rateLimiting,
           );
         if (serviceStore) {
           response.json({ status: 'ok', plugins: serviceStore });
