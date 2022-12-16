@@ -7,6 +7,7 @@ export type ServiceProps = {
   partnersId: string[];
   kongServiceName: string;
   kongServiceId: string;
+  rateLimiting: number;
   createdAt?: Date;
   updatedAt?: Date;
 };

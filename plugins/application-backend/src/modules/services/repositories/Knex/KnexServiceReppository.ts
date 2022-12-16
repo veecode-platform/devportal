@@ -53,6 +53,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
+      rateLimiting: serviceDto.rateLimiting,
     });
     const data = ServiceMapper.toPersistence(service);
     console.log(data);
@@ -75,6 +76,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
+      rateLimiting: serviceDto.rateLimiting,
     });
     const data = await ServiceMapper.toPersistence(service);
     const createdService = await this.db('services')
@@ -94,6 +96,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
+      rateLimiting: serviceDto.rateLimiting,
     });
     const data = await ServiceMapper.toPersistence(service);
     const updatedService = await this.db('services')
@@ -118,6 +121,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
+      rateLimiting: serviceDto.rateLimiting,
     }); // try add ,id on service create
     //const data =await ServiceMapper.toPersistence(service);
 

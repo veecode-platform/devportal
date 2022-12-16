@@ -5,6 +5,7 @@ export class ServiceDto {
   partnersId: string[];
   kongServiceName: string;
   kongServiceId: string;
+  rateLimiting: number;
   createdAt?: Date;
   updatedAt?: Date;
 
@@ -15,6 +16,7 @@ export class ServiceDto {
     redirectUrl: string,
     kongServicename: string,
     kongServiceId: string,
+    rateLimiting: number,
     createdAt: Date,
     updatedAt: Date,
   ) {
@@ -24,6 +26,7 @@ export class ServiceDto {
     this.partnersId = partnersId;
     this.kongServiceName = kongServicename;
     this.kongServiceId = kongServiceId;
+    this.rateLimiting = rateLimiting;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
