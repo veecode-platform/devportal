@@ -25,8 +25,7 @@ export class TestGroups {
   public async getGroup(){
     const kcAdminClient = await new KeycloakAdminClient().getClient();
     const groups = await kcAdminClient.groups.find();
-    console.log(groups);
+    return groups;
   }
 }
 
-new TestGroups().getGroup();

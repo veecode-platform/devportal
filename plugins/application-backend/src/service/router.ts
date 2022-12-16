@@ -14,7 +14,7 @@ import { PostgresServiceRepository } from '../modules/services/repositories/Knex
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
-import { KeycloakAdminClient, TestGroups } from '../modules/keycloak/adminClient';
+import { TestGroups } from '../modules/keycloak/adminClient';
 
 
 /** @public */
@@ -60,8 +60,9 @@ export async function createRouter(
 
   const router = Router();
   router.use(express.json());
+
   // KEYCLOAK
-  router.get('keycloak/groups', async (_, response) => {
+  router.get('/keycloak/groups', async (_, response) => {
     const groups = await adminClientKeycloak.getGroup();
     response.status(200).json({ status: 'ok', groups: groups })
   })
