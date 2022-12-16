@@ -11,7 +11,7 @@ exports.up = async function up(knex) {
       table.specificType('partnersId', 'TEXT[]');
       table.string('kongServiceName');
       table.string('kongServiceId');
-      table.numeric('rateLimiting');
+      table.integer('rateLimiting');
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     });
