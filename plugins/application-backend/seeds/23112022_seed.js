@@ -14,6 +14,7 @@ exports.seed = async function(knex) {
                 partnersId: ["ad94b906-4970-11ed-b878-0242ac120001", "27447ec1-d67f-4233-bfb1-0f11f7ccca28"],
                 kongServiceName: "kong service test",
                 kongServiceId: "916723c1-b79c-4b32-929e-2ea1327f0525",
+                rateLimiting: "120",
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
@@ -26,6 +27,7 @@ exports.seed = async function(knex) {
                 partnersId: ["ad94b906-4970-11ed-b878-0242ac120001", "27447ec1-d67f-4233-bfb1-0f11f7ccca28"],
                 kongServiceName: "kong service test 2",
                 kongServiceId: "89dbedab-5b38-460c-a0eb-92898f45090b",
+                rateLimiting: "120",
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
@@ -37,6 +39,7 @@ exports.seed = async function(knex) {
                 partnersId: ["ad94b906-4970-11ed-b878-0242ac120001", "27447ec1-d67f-4233-bfb1-0f11f7ccca28"],
                 kongServiceName: "kong service test 3",
                 kongServiceId: "491f34e7-15bc-4d68-add1-e0b8a71762b0",
+                rateLimiting: "120",
                 createdAt: new Date(),
                 updatedAt: new Date()
             },

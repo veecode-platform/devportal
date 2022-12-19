@@ -2,65 +2,60 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  
-  try{
-    await knex.schema.createTable("services", (table) =>{
-      table.uuid("id").primary();
-      table.string("name");
-      table.string("description");
-      table.string("redirectUrl");
+  try {
+    await knex.schema.createTable('services', table => {
+      table.uuid('id').primary();
+      table.string('name');
+      table.string('description');
+      table.string('redirectUrl');
       table.specificType('partnersId', 'TEXT[]');
-      table.string("kongServiceName");
-      table.string("kongServiceId");
+      table.string('kongServiceName');
+      table.string('kongServiceId');
+      table.integer('rateLimiting');
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
-    })
-    await knex.schema.createTable("partners", (table) =>{
-      table.uuid("id").primary;
-      table.string("name");
-      table.string("email");
-      table.string("celular");
+    });
+    await knex.schema.createTable('partners', table => {
+      table.uuid('id').primary;
+      table.string('name');
+      table.string('email');
+      table.string('celular');
       table.specificType('servicesId', 'TEXT[]');
-      table.specificType('applicationId', 'TEXT[]');//lista de applications criadas
+      table.specificType('applicationId', 'TEXT[]'); //lista de applications criadas
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
-    })
-    await knex.schema.createTable("applications", (table) =>{
-      table.uuid("id").primary;
-      table.string("name");
-      table.string("creator");
-      table.specificType('servicesId', 'TEXT[]');//lista de services que a application usa
-      table.string("kongConsumerName");
-      table.string("kongConsumerId");
+    });
+    await knex.schema.createTable('applications', table => {
+      table.uuid('id').primary;
+      table.string('name');
+      table.string('creator');
+      table.specificType('servicesId', 'TEXT[]'); //lista de services que a application usa
+      table.string('kongConsumerName');
+      table.string('kongConsumerId');
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
-    })
-  }
-  catch(e){
-    console.log("ERROR MIGRATE:UP ", e);
+    });
+  } catch (e) {
+    console.log('ERROR MIGRATE:UP ', e);
     return false;
-  }
-  finally{
+  } finally {
     knex.destroy();
     return true;
   }
-
 };
 
 /**
  * @param {import('knex').Knex} knex
  */
 exports.down = async function down(knex) {
-  try{
-    await knex.schema.dropTable('services')
-    await knex.schema.dropTable('partners')
-    await knex.schema.dropTable('applications')
-
-  }catch(e){
+  try {
+    await knex.schema.dropTable('services');
+    await knex.schema.dropTable('partners');
+    await knex.schema.dropTable('applications');
+  } catch (e) {
     console.log('ERROR MIGRATE:DOWN', e);
     return false;
-  }
-  finally{
+  } finally {
     knex.destroy();
     return true;
   }
@@ -86,7 +81,6 @@ exports.down = async function down(knex) {
 //     knex.destroy();
 //   })
 // }
-
 
 // export async function down(knex: Knex): Promise<void> {
 //   await knex.schema.dropTable('application').then(() => {

@@ -22,8 +22,9 @@ import { Consumer } from '../modules/kong-control/model/Consumer';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { PluginService } from '../modules/kong/services/PluginService';
-import { AclPlugin } from '../modules/kong/plugin/AclPlugin';
-import { KeyAuthPlugin } from '../modules/kong/plugin/KeyAuthPlugin';
+import { AclPlugin } from '../modules/kong/plugins/AclPlugin';
+import { KeyAuthPlugin } from '../modules/kong/plugins/KeyAuthPlugin';
+import { RateLimitingPlugin } from '../modules/kong/plugins/RateLimitingPlugin';
 
 /** @public */
 export interface RouterOptions {
@@ -68,6 +69,7 @@ export async function createRouter(
   // const aclPlugin = AclPlugin.Instance;
   const aclPlugin = AclPlugin.instance(config);
   const keyAuthPlugin = KeyAuthPlugin.instance(config);
+  const rateLimitingPlugin = RateLimitingPlugin.instance(config);
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -780,8 +782,10 @@ router.get('/consumers', async (_, response) => {
           request.params.pluginId,
           request.body.config.key_names,
         );
-        if (serviceStore)
+        if (serviceStore) {
           response.json({ status: 'ok', plugins: serviceStore });
+          return;
+        }
         response.json({ status: 'ok', services: [] });
       } catch (error: any) {
         let date = new Date();
@@ -803,6 +807,84 @@ router.get('/consumers', async (_, response) => {
           request.params.serviceName,
           request.params.pluginId,
         );
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  // RATE LIMITING - TEST ROUTER
+  router.post(
+    '/kong-service/plugin/ratelimiting/:serviceName',
+    async (request, response) => {
+      try {
+        const serviceStore =
+          await rateLimitingPlugin.configRateLimitingKongService(
+            request.params.serviceName,
+            request.body.config.rateLimitingType,
+            request.body.config.rateLimiting,
+          );
+        if (serviceStore) {
+          response.json({ status: 'ok', plugins: serviceStore });
+          return;
+        }
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  router.delete(
+    '/kong-service/plugin/ratelimiting/:serviceName/:pluginId',
+    async (request, response) => {
+      try {
+        const serviceStore =
+          await rateLimitingPlugin.removeRateLimitingKongService(
+            request.params.serviceName,
+            request.params.pluginId,
+          );
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  router.patch(
+    '/kong-service/plugin/ratelimiting/:serviceName/:pluginId',
+    async (request, response) => {
+      try {
+        const serviceStore =
+          await rateLimitingPlugin.updateRateLimitingKongService(
+            request.params.serviceName,
+            request.params.pluginId,
+            request.body.config.rateLimitingType,
+            request.body.config.rateLimiting,
+          );
+        if (serviceStore) {
+          response.json({ status: 'ok', plugins: serviceStore });
+          return;
+        }
         response.json({ status: 'ok', services: [] });
       } catch (error: any) {
         let date = new Date();
