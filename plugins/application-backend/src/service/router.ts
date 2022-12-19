@@ -21,6 +21,9 @@ import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
 import { Consumer } from '../modules/kong-control/model/Consumer';
+import { PluginService } from '../modules/kong-control/PluginService';
+
+
 
 /** @public */
 export interface RouterOptions {
@@ -60,6 +63,7 @@ export async function createRouter(
   const consumerService = new ConsumerService(config);
   const userService = new UserService();
   const associateService = new AssociateService();
+  const pluginService = new PluginService()
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -552,6 +556,62 @@ router.get('/consumers', async (_, response) => {
       });
     }
   });
+  router.post('/kong-service/acl/:serviceName', async (request, response) => {
+    try {
+      const allowed = request.body.allowed
+      const hide = request.body.hide_groups_header
+      const serviceStore = await pluginService.configAclKongService(config.getString('kong.api-manager'), request.params.serviceName, allowed, hide);
+      if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
+      response.json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+  router.delete('/kong-service/acl/:serviceName', async (request, response) => {
+    try {
+
+      const serviceStore = await pluginService.removeAclKongService(config.getString('kong.api-manager'), request.params.serviceName,  request.query.idAcl as string);
+      if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
+      response.status(204).json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+  router.post('/kong-service/acl-update/:serviceName', async (request, response) => {
+    try {
+      const hide = request.body.hide_groups_header
+      const allowed = request.body.allowed
+      const serviceStore = await pluginService.updateclKongService(config.getString('kong.api-manager'), request.params.serviceName, allowed, request.query.idAcl as string, hide);
+      if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
+      response.status(204).json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+
 
 
 
