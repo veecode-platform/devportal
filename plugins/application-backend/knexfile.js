@@ -2,9 +2,9 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      user: 'user',
+      user: 'postgres',
       database: 'backstage_plugin_application',
-      password: 'password',
+      password: 'postgres',
     },
   },
   production: {

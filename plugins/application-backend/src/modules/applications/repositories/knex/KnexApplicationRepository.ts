@@ -22,10 +22,10 @@ export class PostgresApplicationRepository implements IApplicationRepository {
 
   static async create(knex: Knex<any, any[]>): Promise<IApplicationRepository> {
     
-    await knex.migrate.latest({
-      directory: migrationsDir,
-    });
-    await knex.seed.run({ directory: seedsDir });
+    // await knex.migrate.latest({
+    //   directory: migrationsDir,
+    // });
+    // // await knex.seed.run({ directory: seedsDir });
     return new PostgresApplicationRepository(knex);
   }
 
