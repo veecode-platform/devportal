@@ -44,6 +44,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
   async savePartner(partnerDto: PartnerDto): Promise<Partner> {
     const partner: Partner = Partner.create({
       name: partnerDto.name,
+      active: partnerDto.active,
       email: partnerDto.email,
       celular: partnerDto.celular,
       servicesId: partnerDto.servicesId,
@@ -62,6 +63,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
   async createPartner(partnerDto: PartnerDto): Promise<Partner | string> {
     const partner: Partner = Partner.create({
         name: partnerDto.name,
+        active: partnerDto.active,
         email: partnerDto.email,
         celular: partnerDto.celular,
         servicesId: partnerDto.servicesId,
@@ -75,6 +77,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
     async updatePartner(id: string, partnerDto: PartnerDto): Promise<Partner | string> {
         const partner: Partner = Partner.create({
             name: partnerDto.name,
+            active: partnerDto.active,
             email: partnerDto.email,
             celular: partnerDto.celular,
             servicesId: partnerDto.servicesId,
@@ -92,6 +95,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
   async patchPartner(id: string, partnerDto: PartnerDto): Promise<Partner | string> {
     const partner: Partner = Partner.create({
         name: partnerDto.name,
+        active: partnerDto.active,
         email: partnerDto.email,
         celular: partnerDto.celular,
         servicesId: partnerDto.servicesId,

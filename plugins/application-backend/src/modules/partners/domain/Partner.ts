@@ -3,6 +3,7 @@ import { Entity } from '../../../core/domain/Entity';
 export type PartnerProps = {
   name: string;
   email:string;
+  active: boolean;
   celular: string;
   servicesId: string[];
   applicationId: string[];

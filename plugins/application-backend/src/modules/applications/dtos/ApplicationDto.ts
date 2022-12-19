@@ -4,7 +4,7 @@ export class ApplicationDto {
   name:string;
   serviceName:string[];
   description:string;
-  active?:boolean;
+  active: boolean;
   statusKong?:string;
   createdAt?:Date;
   updatedAt?:Date;

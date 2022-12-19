@@ -8,6 +8,7 @@ export class ServiceDto {
   rateLimiting: number;
   createdAt?: Date;
   updatedAt?: Date;
+  active: boolean;
 
   constructor(
     name: string,
@@ -19,6 +20,7 @@ export class ServiceDto {
     rateLimiting: number,
     createdAt: Date,
     updatedAt: Date,
+    active: boolean
   ) {
     this.name = name;
     this.description = description;
@@ -29,5 +31,6 @@ export class ServiceDto {
     this.rateLimiting = rateLimiting;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.active = active;
   }
 }

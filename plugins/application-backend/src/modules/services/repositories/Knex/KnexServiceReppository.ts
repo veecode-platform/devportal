@@ -10,7 +10,7 @@ export class PostgresServiceRepository implements IServiceRepository {
 
   static async create(knex: Knex<any, any[]>): Promise<IServiceRepository> {
     return new PostgresServiceRepository(knex);
-  }
+  } 
 
   async getServiceByUser(name: string): Promise<Service[] | void> {
     const service = await this.db<Service>('services')
@@ -48,6 +48,7 @@ export class PostgresServiceRepository implements IServiceRepository {
   async saveService(serviceDto: ServiceDto): Promise<Service> {
     const service: Service = Service.create({
       name: serviceDto.name,
+      active: serviceDto.active,
       description: serviceDto.description,
       redirectUrl: serviceDto.redirectUrl,
       partnersId: serviceDto.partnersId,
@@ -70,41 +71,37 @@ export class PostgresServiceRepository implements IServiceRepository {
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
     const service: Service = Service.create({
-      name: serviceDto.name,
-      description: serviceDto.description,
-      redirectUrl: serviceDto.redirectUrl,
-      partnersId: serviceDto.partnersId,
-      kongServiceName: serviceDto.kongServiceName,
-      kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: serviceDto.rateLimiting,
-    });
+        name: serviceDto.name,
+        active: serviceDto.active,
+        description: serviceDto.description,
+        redirectUrl: serviceDto.redirectUrl,
+        partnersId: serviceDto.partnersId,
+        kongServiceName: serviceDto.kongServiceName,
+        kongServiceId: serviceDto.kongServiceId,
+        rateLimiting: serviceDto.rateLimiting
+      });
     const data = await ServiceMapper.toPersistence(service);
-    const createdService = await this.db('services')
-      .insert(data)
-      .catch(error => console.error(error));
-    return createdService ? service : 'cannot create service';
-  }
-  // asyn function to update full service object
-  async updateService(
-    id: string,
-    serviceDto: ServiceDto,
-  ): Promise<Service | string> {
-    const service: Service = Service.create({
-      name: serviceDto.name,
-      description: serviceDto.description,
-      redirectUrl: serviceDto.redirectUrl,
-      partnersId: serviceDto.partnersId,
-      kongServiceName: serviceDto.kongServiceName,
-      kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: serviceDto.rateLimiting,
-    });
-    const data = await ServiceMapper.toPersistence(service);
-    const updatedService = await this.db('services')
-      .where('id', id)
-      .update(data)
-      .catch(error => console.error(error));
-    return updatedService ? service : 'cannot update service';
-  }
+    const createdService = await this.db('services').insert(data).catch(error => console.error(error));
+    return createdService ? service : "cannot create service";
+   }
+    // asyn function to update full service object
+    async updateService(id: string, serviceDto: ServiceDto): Promise<Service | string> {
+      const service: Service = Service.create({
+        name: serviceDto.name,
+        active: serviceDto.active,
+        description: serviceDto.description,
+        redirectUrl: serviceDto.redirectUrl,
+        partnersId: serviceDto.partnersId,
+        kongServiceName: serviceDto.kongServiceName,
+        kongServiceId: serviceDto.kongServiceId,
+        rateLimiting: serviceDto.rateLimiting
+      });
+      const data =await ServiceMapper.toPersistence(service);
+      const updatedService = await this.db('services').where('id', id).update(data).catch(error => console.error(error));
+      return updatedService ? service : "cannot update service";
+      }
+
+
 
   // async updateService(code: string, serviceDto: ServiceDto): Promise<Service | null> {
   //     return null;
@@ -116,13 +113,14 @@ export class PostgresServiceRepository implements IServiceRepository {
   ): Promise<Service | string> {
     const service: Service = Service.create({
       name: serviceDto.name,
+      active: serviceDto.active,
       description: serviceDto.description,
       redirectUrl: serviceDto.redirectUrl,
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: serviceDto.rateLimiting,
-    }); // try add ,id on service create
+      rateLimiting: serviceDto.rateLimiting
+    });
     //const data =await ServiceMapper.toPersistence(service);
 
     const patchedService = await this.db('services')

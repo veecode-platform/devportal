@@ -4,6 +4,7 @@ export type ApplicationProps = {
   name: string;
   creator: string;
   servicesId: string[];
+  active: boolean;
   kongConsumerName: string;
   kongConsumerId: string;
   createdAt: Date;

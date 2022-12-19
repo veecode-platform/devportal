@@ -6,6 +6,7 @@ export class ServiceMapper {
     return {
       id: service._id,
       name: service.props.name,
+      active: service.props.active,
       description: service.props.description,
       partnersId: service.props.partnersId,
       redirectUrl: service.props.redirectUrl,

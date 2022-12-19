@@ -88,9 +88,21 @@ export async function createRouter(
   });
 
   router.post('/service', async (request, response) => {
-    const service: ServiceDto = request.body.service;
-    const result = await serviceRepository.createService(service);
-    response.status(201).json({ status: 'ok', service: result });
+    try {
+      const service: ServiceDto = request.body.service;
+      const result = await serviceRepository.createService(service);
+      response.status(201).json({ status: 'ok', service: result })
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+    
   });
 
   router.delete('/service/:id', async (request, response) => {
@@ -239,6 +251,7 @@ router.get('/consumers', async (_, response) => {
 
   router.post('/', async (request, response) => {
     const data: ApplicationDto = request.body.application
+    console.log(data);
     try {
       if (!data) {
         throw new InputError(`the request body is missing the application field`);
