@@ -9,7 +9,7 @@ export type ServiceProps = {
   kongServiceId: string;
   createdAt?: Date;
   updatedAt?: Date;
-  security: SECURITY;
+  securityPlugin: SECURITY;
 }
 
 export class Service extends Entity<ServiceProps>{

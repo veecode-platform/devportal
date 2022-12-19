@@ -12,7 +12,7 @@ export class ServiceMapper{
       kongServiceName: service.props.kongServiceName,
       kongServiceId: service.props.kongServiceId,
       createdAt: service.props.createdAt,
-      security: service.props.security
+      securityPlugin: service.props.securityPlugin
     }
   }
   static async listAllServicesToResource(serviceResponseDto : ServiceResponseDto){

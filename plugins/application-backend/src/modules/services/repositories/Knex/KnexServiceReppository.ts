@@ -43,7 +43,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
-      security: serviceDto.security
+      securityPlugin: serviceDto.securityPlugin
     });
     const data = ServiceMapper.toPersistence(service);
     console.log(data)
@@ -57,13 +57,13 @@ export class PostgresServiceRepository implements IServiceRepository {
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
     const service: Service = Service.create({
-        name: serviceDto.name,
-        description: serviceDto.description,
-        redirectUrl: serviceDto.redirectUrl,
-        partnersId: serviceDto.partnersId,
-        kongServiceName: serviceDto.kongServiceName,
-        kongServiceId: serviceDto.kongServiceId,
-        security: serviceDto.security
+      name: serviceDto.name,
+      description: serviceDto.description,
+      redirectUrl: serviceDto.redirectUrl,
+      partnersId: serviceDto.partnersId,
+      kongServiceName: serviceDto.kongServiceName,
+      kongServiceId: serviceDto.kongServiceId,
+      securityPlugin: serviceDto.securityPlugin
       });
       const data = await ServiceMapper.toPersistence(service);
       console.log('aqui é a services', data)
@@ -73,13 +73,13 @@ export class PostgresServiceRepository implements IServiceRepository {
     // asyn function to update full service object
     async updateService(id: string, serviceDto: ServiceDto): Promise<Service | string> {
         const service: Service = Service.create({
-            name: serviceDto.name,
-            description: serviceDto.description,
-            redirectUrl: serviceDto.redirectUrl,
-            partnersId: serviceDto.partnersId,
-            kongServiceName: serviceDto.kongServiceName,
-            kongServiceId: serviceDto.kongServiceId,
-            security: serviceDto.security
+          name: serviceDto.name,
+          description: serviceDto.description,
+          redirectUrl: serviceDto.redirectUrl,
+          partnersId: serviceDto.partnersId,
+          kongServiceName: serviceDto.kongServiceName,
+          kongServiceId: serviceDto.kongServiceId,
+          securityPlugin: serviceDto.securityPlugin
         });
       const data =await ServiceMapper.toPersistence(service);
       const updatedService = await this.db('services').where('id', id).update(data).catch(error => console.error(error));
@@ -95,13 +95,13 @@ export class PostgresServiceRepository implements IServiceRepository {
  // async function to patch partial  service object partial class type
   async patchService(id: string, serviceDto: ServiceDto): Promise<Service | string> {
     const service: Service = Service.create({
-        name: serviceDto.name,
-        description: serviceDto.description,
-        redirectUrl: serviceDto.redirectUrl,
-        partnersId: serviceDto.partnersId,
-        kongServiceName: serviceDto.kongServiceName,
-        kongServiceId: serviceDto.kongServiceId,
-        security: serviceDto.security
+      name: serviceDto.name,
+      description: serviceDto.description,
+      redirectUrl: serviceDto.redirectUrl,
+      partnersId: serviceDto.partnersId,
+      kongServiceName: serviceDto.kongServiceName,
+      kongServiceId: serviceDto.kongServiceId,
+      securityPlugin: serviceDto.securityPlugin
       });// try add ,id on service create
     //const data =await ServiceMapper.toPersistence(service);
     

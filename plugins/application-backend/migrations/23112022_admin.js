@@ -12,9 +12,10 @@
       table.specificType('partnersId', 'TEXT[]');
       table.string("kongServiceName");
       table.string("kongServiceId");
-      table.string('security')
+      table.enu("securityPlugin", ['none','acl', 'key-auth', 'ouath2'],{useNative: true, enumName:'securityPlugin'} ).defaultTo('none')
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
+    
     })
     await knex.schema.createTable("partners", (table) =>{
       table.uuid("id").primary;
@@ -36,6 +37,7 @@
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     })
+    // knex.raw(`CREATE TYPE securityPlugin AS ENUM ('ouath2', 'key-auth', 'acl' )`)
   }
   catch(e){
     console.log("ERROR MIGRATE:UP ", e);
