@@ -25,6 +25,8 @@ import { PluginService } from '../modules/kong/services/PluginService';
 import { AclPlugin } from '../modules/kong/plugins/AclPlugin';
 import { KeyAuthPlugin } from '../modules/kong/plugins/KeyAuthPlugin';
 import { RateLimitingPlugin } from '../modules/kong/plugins/RateLimitingPlugin';
+import { ConsumerGroupService } from '../modules/kong/services/ConsumerGroupService';
+import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
 
 /** @public */
 export interface RouterOptions {
@@ -62,6 +64,7 @@ export async function createRouter(
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const kongHandler = new KongHandler();
   const consumerService = new ConsumerService(config);
+  const consumerGroupService = new ConsumerGroupService(config);
   const userService = new UserService();
   const associateService = new AssociateService();
   const pluginService = new PluginService(config);
@@ -910,6 +913,93 @@ router.get('/consumers', async (_, response) => {
       }
     },
   );
+
+  //consumerGroup
+
+  router.post('/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroup: ConsumerGroup = request.body;
+      const result = await consumerGroupService.createConsumerGroup(consumerGroup);
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.post('/consumer_groups/:id/consumers', async (request, response) => {
+    try {
+      const consumerGroup: ConsumerGroup = request.body;
+      const result = await consumerGroupService.addConsumerToGroup(request.params.id, consumerGroup);
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.get('/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroups = await consumerGroupService.listConsumerGroups();
+      response.status(200).json({ status: 'ok', groups: { consumerGroups } });
+    } catch (error: any) {
+      response.status(error.status).json({
+        message: error.message,
+        timestamp: error.timestamp,
+      });
+    }
+  });
+
+  router.delete('/consumer_groups/:id', async (request, response) => {
+    try {
+      const consumerGroup = await consumerGroupService.deleteConsumerGroup(request.params.id);
+      response.status(204).json({ status: 'ok', group: { consumerGroup } });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.delete('/consumers/:consumerId/consumer_groups/:groupId', async (request, response) => {
+    try {
+      const consumerGroup = await consumerGroupService.removeConsumerFromGroup(request.params.consumerId, request.params.groupId);
+      response.status(204).json({ status: 'ok', group: { consumerGroup } });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+  // remove consumer from all
+  router.delete('/consumers/:id/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroup = await consumerGroupService.removeConsumerFromGroups(request.params.id);
+      response.status(204).json({ status: 'ok', group: { consumerGroup } });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
 
   router.use(errorHandler());
   return router;

@@ -41,8 +41,8 @@ backend:
     connection:
       host: localhost
       port: 5432
-      user: user
-      password: password
+      user: postgres
+      password: postgres
   #database:
   #  client: better-sqlite3
   #  connection: ':memory:'
