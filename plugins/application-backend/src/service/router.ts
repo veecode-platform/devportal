@@ -88,8 +88,10 @@ export async function createRouter(
   })
 
   // SERVICE
-  router.get('/services', async (_, response) => {
-    const services = await serviceRepository.getService();
+  router.get('/services', async (request, response) => {
+    const limit: number = request.query.limit as any;
+    const offset: number = request.query.offset as any;
+    const services = await serviceRepository.getService(limit, offset);
     response.status(200).json({ status: 'ok', services: services });
   });
 

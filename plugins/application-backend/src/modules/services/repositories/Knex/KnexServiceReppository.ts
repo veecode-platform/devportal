@@ -20,9 +20,9 @@ export class PostgresServiceRepository implements IServiceRepository {
     return service;
   }
 
-  async getService(): Promise<Service[]> {
+  async getService(limit: number, offset:number): Promise<Service[]> {
     const service = await this.db<Service>('services')
-      .select('*')
+      .select('*').limit(limit).offset(offset)
       .catch(error => console.error(error));
     const servicesDomain = ServiceResponseDto.create({ services: service });
     const responseData = await ServiceMapper.listAllServicesToResource(

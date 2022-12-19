@@ -2,7 +2,7 @@ import { ServiceDto } from '../dtos/ServiceDto';
 import { Service } from '../domain/Service';
 
 export interface IServiceRepository {
-  getService(): Promise<Service[]>;
+  getService(limit: number, offset:number): Promise<Service[]>;
   getServiceByUser(email: string): Promise<Service[] | void>;
   getServiceById(id: string): Promise<Service | string>;
   saveService(serviceDto: ServiceDto): Promise<Service>;
