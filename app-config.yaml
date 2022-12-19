@@ -213,4 +213,6 @@ okta:
   token: ${OKTA_TESTE_TOKEN}
 
 kong: 
-  api-manager: ${KONG_TESTE_HOST}
+  api-manager: ${KONG_OKTETO_HOST}
+  admin-token: ${KONG_ADMIN_TOKEN}
+  

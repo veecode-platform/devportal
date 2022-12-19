@@ -1,11 +1,12 @@
 // class to access kong api manager service
-import axios from 'axios'
+import axios from 'axios';
 
 
 type Service = {
   name: string;
   id: string;
 }
+
 export class KongHandler {
   
   public async listServices(): Promise<Service[]> {

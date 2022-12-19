@@ -1,5 +1,10 @@
-import { errorHandler, loadBackendConfig, PluginDatabaseManager } from '@backstage/backend-common';
 import { InputError } from '@backstage/errors';
+import {
+  errorHandler,
+  loadBackendConfig,
+  PluginDatabaseManager,
+} from '@backstage/backend-common';
+//import { InputError } from '@backstage/errors';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
@@ -7,6 +12,7 @@ import { Config } from '@backstage/config';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { KongHandler } from '../modules/kong-control/KongHandler';
+import { ConsumerService } from '../modules/kong/services/ConsumerService';
 import { UserService } from '../modules/okta-control/service/UserService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
 import { AssociateService } from '../modules/kong-control/AssociateService';
@@ -14,8 +20,7 @@ import { PostgresServiceRepository } from '../modules/services/repositories/Knex
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
-
-
+import { Consumer } from '../modules/kong-control/model/Consumer';
 
 /** @public */
 export interface RouterOptions {
@@ -30,7 +35,7 @@ export interface Service {
 
 export function assertIsError(error: unknown): asserts error is Error {
   if (!(error instanceof Error)) {
-    throw error
+    throw error;
   }
 }
 
@@ -52,55 +57,55 @@ export async function createRouter(
 
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const kongHandler = new KongHandler();
+  const consumerService = new ConsumerService(config);
   const userService = new UserService();
-  const associateService = new AssociateService()
+  const associateService = new AssociateService();
   logger.info('Initializing application backend');
 
   const router = Router();
   router.use(express.json());
 
-
   // SERVICE
   router.get('/services', async (_, response) => {
     const services = await serviceRepository.getService();
-    response.status(200).json({ status: 'ok', services: services })
+    response.status(200).json({ status: 'ok', services: services });
   });
 
   router.get('/service/:id', async (request, response) => {
     const code = request.params.id;
     const service = await serviceRepository.getServiceById(code);
-    response.status(200).json({ status: 'ok', services: service })
+    response.status(200).json({ status: 'ok', services: service });
   });
 
   router.post('/service', async (request, response) => {
     const service: ServiceDto = request.body.service;
     const result = await serviceRepository.createService(service);
-    response.status(201).json({ status: 'ok', service: result })
+    response.status(201).json({ status: 'ok', service: result });
   });
 
   router.delete('/service/:id', async (request, response) => {
     const code = request.params.id;
     const result = await serviceRepository.deleteService(code);
-    response.status(204).json({ status: 'ok', service: result })
+    response.status(204).json({ status: 'ok', service: result });
   });
 
   router.post('/service/:id', async (request, response) => {
     const code = request.params.id;
     const service: ServiceDto = request.body.service;
 
-    const result = await serviceRepository.patchService(code, service)
-    response.status(200).json({ status: 'ok', service: result })
+    const result = await serviceRepository.patchService(code, service);
+    response.status(200).json({ status: 'ok', service: result });
   });
-  // PARTNER 
+  // PARTNER
   router.get('/partners', async (_, response) => {
     const partners = await partnerRepository.getPartner();
-    response.status(200).json({ status: 'ok', partners: partners })
+    response.status(200).json({ status: 'ok', partners: partners });
   });
 
   router.get('/partner/:id', async (request, response) => {
     const code = request.params.id;
     const partners = await partnerRepository.getPartnerById(code);
-    response.status(200).json({ status: 'ok', partners: partners })
+    response.status(200).json({ status: 'ok', partners: partners });
   });
   router.get('/partner/applications/:id', async (request, response) => {
     const code = request.params.id;
@@ -111,21 +116,21 @@ export async function createRouter(
   router.post('/partner', async (request, response) => {
     const partner: PartnerDto = request.body.partner;
     const result = await partnerRepository.createPartner(partner);
-    response.status(201).json({ status: 'ok', partner: result })
-  })
+    response.status(201).json({ status: 'ok', partner: result });
+  });
 
   router.delete('/partner/:id', async (request, response) => {
     const code = request.params.id;
     const result = await partnerRepository.deletePartner(code);
-    response.status(204).json({ status: 'ok', partner: result })
+    response.status(204).json({ status: 'ok', partner: result });
   });
 
   router.patch('/partner/:id', async (request, response) => {
     const code = request.params.id;
     const partner: PartnerDto = request.body.partner;
     const result = await partnerRepository.patchPartner(code, partner);
-    response.status(200).json({status: 'ok', partner: result})
-  })
+    response.status(200).json({ status: 'ok', partner: result });
+  });
 
   // APPLICATION
   /*router.get('/kong-services', async (_, response) => {
@@ -340,36 +345,51 @@ router.get('/consumers', async (_, response) => {
 
 
   router.get('/associate/:id', async (request, response) => {
-    const services = await associateService.findAllAssociate(options, request.params.id);
-    response.json({ status: 'ok', associates: { services } })
+    const services = await associateService.findAllAssociate(
+      options,
+      request.params.id,
+    );
+    response.json({ status: 'ok', associates: { services } });
   });
   router.delete('/associate/:id/', async (request, response) => {
-    const services = await associateService.removeAssociate(options, request.params.id, request.query.service as string);
-    response.json({ status: 'ok', associates: { services } })
+    const services = await associateService.removeAssociate(
+      options,
+      request.params.id,
+      request.query.service as string,
+    );
+    response.json({ status: 'ok', associates: { services } });
   });
 
   router.post('/user/invite', async (request, response) => {
     let body = request.body.profile;
-    let user = new UserInvite(body.email, body.firstName, body.lastName, body.login, body.mobilePhone);
+    let user = new UserInvite(
+      body.email,
+      body.firstName,
+      body.lastName,
+      body.login,
+      body.mobilePhone,
+    );
     try {
-      let service = await userService.inviteUserByEmail(config.getString('okta.host'), config.getString('okta.token'), user);
-      response.json({ service: service })
+      let service = await userService.inviteUserByEmail(
+        config.getString('okta.host'),
+        config.getString('okta.token'),
+        user,
+      );
+      response.json({ service: service });
     } catch (error: any) {
       let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorCauses[0].errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorCauses[0].errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
-//todo 
+  //todo
   //router.get('/user/:group/:status', async (request, response) => {
   //  let status = request.params.status.toUpperCase();
   //  try {
-//
+  //
   //    let service = await userService.listUserByGroup(config.getString('okta.host'), request.params.group, config.getString('okta.token'), status);
   //    if (service.length > 0) response.json({ status: 'ok', Users: service })
   //    response.status(404).json({ status: 'OK', message: 'Not found' })
@@ -384,33 +404,61 @@ router.get('/consumers', async (_, response) => {
   //      })
   //  }
   //});
-//
+  //
   router.get('/user/:query', async (request, response) => {
     try {
-      const service = await userService.listUser(config.getString('okta.host'), config.getString('okta.token'), request.params.query)
-      if (service.length > 0) return response.json({ users: service })
-      return response.status(404).json({ status: 'ok', message: 'Not found' })
+      const service = await userService.listUser(
+        config.getString('okta.host'),
+        config.getString('okta.token'),
+        request.params.query,
+      );
+      if (service.length > 0) return response.json({ users: service });
+      return response.status(404).json({ status: 'ok', message: 'Not found' });
     } catch (error: any) {
       let date = new Date();
-      return response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        });
+      return response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
     }
-  })
-
+  });
 
   // kong-services
-
   router.get('/kong-services', async (_, response) => {
     try {
       const serviceStore = await kongHandler.listServices();
       if (serviceStore)
-      response.json({ status: 'ok', services: serviceStore ?? [] });
+        response.json({ status: 'ok', services: serviceStore ?? [] });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
 
+  // kong-consumer
+  router.get('/consumer/:consumerName', async (request, response) => {
+    try {
+      const consumer = await consumerService.findConsumer(
+        request.params.consumerName,
+      );
+      response.status(200).json({ status: 'ok', associates: { consumer } });
+    } catch (error: any) {
+      response.status(error.status).json({
+        message: error.message,
+        timestamp: error.timestamp,
+      });
+    }
+  });
+
+  router.delete('/consumer/:id', async (request, response) => {
+    try {
+      const consumer = await consumerService.deleteConsumer(request.params.id);
+      response.status(204).json({ status: 'ok', associates: { consumer } });
     } catch (error: any) {
       let date = new Date();
       response.status(error.response.status).json({
@@ -487,6 +535,23 @@ router.get('/consumers', async (_, response) => {
     }
   });
 
+  router.put('/consumer/:id', async (request, response) => {
+    try {
+      const consumer: Consumer = request.body;
+      const result = await consumerService.updateConsumer(
+        request.params.id,
+        consumer,
+      );
+      response.status(200).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
 
 
 
