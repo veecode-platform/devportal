@@ -1,4 +1,4 @@
-import { Config } from '@backstage/config';
+
 import { PluginName, PluginService } from '../services/PluginService';
 import axios from 'axios';
 export class AclPlugin extends PluginService {
