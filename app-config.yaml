@@ -1,5 +1,5 @@
 app:
-  title: Devportal 
+  title: Devportal
   baseUrl: http://localhost:3000
   #googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
@@ -38,7 +38,7 @@ backend:
     port: 7007
   database:
     client: pg
-    #verificar com luan 
+    #verificar com luan
     #pluginDivisionMode: schema
     connection:
       host: localhost
@@ -182,19 +182,21 @@ integrations:
 catalog:
   providers:
     github:
-      #providerId: # the provider ID can be any camelCase string
-      #  organization: veecode-platform # string
-      #  catalogPath: /catalog-info.yaml # string
-      #  filters:
-      #    branch: master # string
-      #    repository: devportal-spechouse # Regex
-      validateLocationsExist:
+      providerId: # the provider ID can be any camelCase string
         organization: veecode-platform # string
         catalogPath: /catalog-info.yaml # string
         filters:
           branch: master # string
           repository: devportal-spechouse # Regex
-        validateLocationsExist: true # optional boolean
+          validateLocationsExist: true
+
+  locations:
+  - type: url
+    target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/all-templates.yaml
+    rules:
+      - allow: [Template]
+  - type: url
+    target: https://github.com/backstage/backstage/blob/master/catalog-info.yaml
 
 auth:
   environment: development
@@ -202,7 +204,7 @@ auth:
 
   session:
     secret: ${AUTH_USER_SESSION_SECRET}
-  providers:  
+  providers:
     okta:
       development:
         clientId: ${OKTA_CLIENT_ID}
@@ -218,10 +220,15 @@ auth:
         clientSecret: ${KEYCLOAK_CLIENT_SECRET}
         prompt: auto
 
-#todo put into env 
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+
+#todo put into env
 okta:
   host: ${OKTA_TESTE_HOST}
   token: ${OKTA_TESTE_TOKEN}
 
-kong: 
+kong:
   api-manager: ${KONG_TESTE_HOST}

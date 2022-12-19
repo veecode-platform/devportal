@@ -23,7 +23,7 @@ import {
   // Settings as SidebarSettings,
   UserSettingsSignInAvatar,
 } from '@backstage/plugin-user-settings';
-//custom user-settings
+// custom user-settings
 import { Settings as SidebarSettings } from '../user-settings';
 // import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
@@ -41,9 +41,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import CatalogIcon from '@material-ui/icons/MenuBook';
 import AppsIcon from '@material-ui/icons/Apps';
+import LibraryBooks from "@material-ui/icons/LibraryBooks";
 // import SearchIcon from '@material-ui/icons/Search';
+import ExtensionIcon from '@material-ui/icons/Extension';
 import CategoryIcon from '@material-ui/icons/Category';
-//import ClassIcon from '@material-ui/icons/Class';
+import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
+// import ClassIcon from '@material-ui/icons/Class';
 // import RenderItem from '../Routing/RenderItem';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { adminAccessPermission } from '@internal/plugin-application-common';
@@ -87,7 +90,10 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
       <SidebarDivider />
       <SidebarGroup label="Menu" icon={<MenuIcon />}>
         <SidebarItem icon={HomeIcon} to="/" text="Home" />    
-        <SidebarItem icon={CatalogIcon} to="api-docs" text="Catalog" />   
+        <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" /> 
+        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
+        <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />
+        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
         <SidebarDivider />
       </SidebarGroup>
       <RequirePermission permission={adminAccessPermission} errorPage={<></>}>

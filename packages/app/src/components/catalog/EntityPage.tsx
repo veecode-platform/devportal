@@ -18,10 +18,10 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityConsumedApisCard,
-  //EntityConsumingComponentsCard,
+  // EntityConsumingComponentsCard,
   EntityHasApisCard,
   EntityProvidedApisCard,
-  //EntityProvidingComponentsCard,
+  // EntityProvidingComponentsCard,
 } from '@backstage/plugin-api-docs';
 import {
   EntityDependsOnComponentsCard,
@@ -41,7 +41,7 @@ import {
   isOrphan,
 } from '@backstage/plugin-catalog';
 
-//custom
+// custom
 import {AboutCard as EntityAboutCard} from "../catalog/AboutCard";
 
 import {
@@ -244,7 +244,7 @@ const apiPage = (
         </Grid>
       </Grid>
     </EntityLayout.Route>
-    {/*<EntityLayout.Route path="/overview" title="Overview">
+    {/* <EntityLayout.Route path="/overview" title="Overview">
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid item md={6}>
