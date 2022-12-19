@@ -39,7 +39,6 @@ export default async function createPlugin(
       "keycloack-auth-provider": providers.oidc.create({
         signIn: {
           resolver({result}, ctx) {
-
               if(!result.userinfo.email_verified){
                 throw new Error('Email not verified');
               }
@@ -55,9 +54,9 @@ export default async function createPlugin(
               const userName = result.userinfo.preferred_username;
               
               const userEntityRef = stringifyEntityRef({
-                kind: admin ? "Admin" : "User",
+                kind: admin ? "admin" : "user",
                 name: userName || result.userinfo.sub,
-                namespace: "user"
+                namespace: "devportal",
               });
               return ctx.issueToken({
                 claims: {

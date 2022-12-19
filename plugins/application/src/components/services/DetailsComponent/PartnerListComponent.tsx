@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Grid, Button} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
+import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 //import CheckBoxIcon from '@material-ui/icons/CheckBox';
 //import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 
@@ -131,8 +132,10 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
 }
 
 export const PartnerListComponent = ({servicePartnerId, serviceId}:any) => {
+  const user = useApi(identityApiRef);
     const { value, loading, error } = useAsync(async (): Promise<Partner[]> => {
-      const response = await fetch('http://localhost:7007/api/application/partners');
+      const validUser = await user.getCredentials()
+      const response = await fetch('http://localhost:7007/api/application/partners', {headers:{ Authorization: `Bearer ${validUser.token}`}});
       const data = await response.json();
       return data.partners;
     }, []);

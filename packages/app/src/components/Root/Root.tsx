@@ -45,6 +45,8 @@ import AppsIcon from '@material-ui/icons/Apps';
 import CategoryIcon from '@material-ui/icons/Category';
 //import ClassIcon from '@material-ui/icons/Class';
 // import RenderItem from '../Routing/RenderItem';
+import { RequirePermission } from '@backstage/plugin-permission-react';
+import { adminAccessPermission } from '@internal/plugin-application-common';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -88,12 +90,14 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarItem icon={CatalogIcon} to="api-docs" text="Catalog" />   
         <SidebarDivider />
       </SidebarGroup>
-      <SidebarGroup label="Application" icon={<AppsIcon />}>
-        <SidebarItem icon={AppsIcon} to="/services" text="Services" />
-        <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />     
-     
-        <SidebarDivider />
-      </SidebarGroup>
+      <RequirePermission permission={adminAccessPermission} errorPage={<></>}>
+        <SidebarGroup label="Admin Flow" icon={<AppsIcon />}>
+          <SidebarItem icon={AppsIcon} to="/services" text="Services" />
+          <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />     
+          <SidebarDivider />
+        </SidebarGroup>
+      </RequirePermission>
+
       <SidebarSpace />
       <SidebarDivider />
       <SidebarGroup

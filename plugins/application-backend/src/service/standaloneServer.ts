@@ -1,9 +1,9 @@
 
 
 import {
-  createServiceBuilder, loadBackendConfig,
-  useHotMemoize
-} from '@backstage/backend-common';
+  createServiceBuilder, loadBackendConfig, useHotMemoize, ServerTokenManager, SingleHostDiscovery} from '@backstage/backend-common';
+import { ServerPermissionClient } from '@backstage/plugin-permission-node';
+//import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
 import { Server } from 'http';
 import knexFactory from 'knex';
 import { Logger } from 'winston';
@@ -20,6 +20,9 @@ export async function startStandaloneServer(
 ): Promise<Server> {
   const logger = options.logger.child({ service: 'application-backend' });
   const config = await loadBackendConfig({ logger, argv: process.argv });
+  const tokenManager = ServerTokenManager.fromConfig(config, {logger,});
+  const discovery = SingleHostDiscovery.fromConfig(config);
+  const permissions = ServerPermissionClient.fromConfig(config, {discovery,tokenManager,});
   const db = useHotMemoize(module, () => {
     const knex = knexFactory({
       client: 'pg',
@@ -44,6 +47,11 @@ export async function startStandaloneServer(
     logger,
     database: { getClient: async () => db },
     config: config,
+    permissions,
+    /*identity: DefaultIdentityClient.create({
+      discovery,
+      issuer: await discovery.getExternalBaseUrl('auth'),
+    }),*/
   });
 
   let service = createServiceBuilder(module)

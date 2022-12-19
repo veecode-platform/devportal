@@ -1,4 +1,4 @@
-import { errorHandler, loadBackendConfig, PluginDatabaseManager } from '@backstage/backend-common';
+import { errorHandler, loadBackendConfig, PluginDatabaseManager} from '@backstage/backend-common';
 //import { InputError } from '@backstage/errors';
 import express from 'express';
 import Router from 'express-promise-router';
@@ -14,7 +14,10 @@ import { PostgresServiceRepository } from '../modules/services/repositories/Knex
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
-
+import { PermissionEvaluator, AuthorizeResult } from '@backstage/plugin-permission-common';
+import { adminAccessPermission } from '@internal/plugin-application-common';
+import { NotAllowedError } from '@backstage/errors';
+import { getBearerTokenFromAuthorizationHeader } from '@backstage/plugin-auth-node';
 
 
 /** @public */
@@ -22,6 +25,8 @@ export interface RouterOptions {
   logger: Logger;
   database: PluginDatabaseManager;
   config: Config;
+  permissions: PermissionEvaluator;
+  //identity: IdentityApi;
 }
 export interface Service {
   name: string;
@@ -38,7 +43,7 @@ export function assertIsError(error: unknown): asserts error is Error {
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { logger, database } = options;
+  const { logger, database, permissions} = options;
 
   //const applicationRepository = await PostgresApplicationRepository.create(
   //  await database.getClient(),
@@ -61,7 +66,13 @@ export async function createRouter(
 
 
   // SERVICE
-  router.get('/services', async (_, response) => {
+  router.get('/services', async (request, response) => {
+
+    const token = getBearerTokenFromAuthorizationHeader(request.header('authorization'));
+    const decision = (await permissions.authorize([{ permission: adminAccessPermission }], {token: token}))[0];
+    if (decision.result === AuthorizeResult.DENY) {
+      throw new NotAllowedError('Unauthorized');
+    }
     const services = await serviceRepository.getService();
     response.status(200).json({ status: 'ok', services: services })
   });
@@ -92,7 +103,12 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', service: result })
   });
   // PARTNER 
-  router.get('/partners', async (_, response) => {
+  router.get('/partners', async (request, response) => {
+    const token = getBearerTokenFromAuthorizationHeader(request.header('authorization'));
+    const decision = (await permissions.authorize([{ permission: adminAccessPermission }], {token:token}))[0];
+    if (decision.result === AuthorizeResult.DENY) {
+      throw new NotAllowedError('Unauthorized');
+    }
     const partners = await partnerRepository.getPartner();
     response.status(200).json({ status: 'ok', partners: partners })
   });

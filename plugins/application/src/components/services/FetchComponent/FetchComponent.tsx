@@ -4,7 +4,7 @@ import { Link as RouterLink} from 'react-router-dom';
 import { Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
-
+import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 
 type User = {
   id: string; 
@@ -51,8 +51,11 @@ export const DenseTable = ({ users }: DenseTableProps) => {
 };
 
 export const FetchComponent = () => {
+  const user = useApi(identityApiRef);
   const { value, loading, error } = useAsync(async (): Promise<User[]> => {
-    const response = await fetch('http://localhost:7007/api/application/services');
+    const validUser = await user.getCredentials()
+    //console.log("User: ", validUser.token)
+    const response = await fetch('http://localhost:7007/api/application/services', {headers:{ Authorization: `Bearer ${validUser.token}`}});
     const data = await response.json();
     return data.services;
   }, []);
