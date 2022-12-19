@@ -15,6 +15,7 @@ import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
 import { TestGroups } from '../modules/keycloak/adminClient';
+import { KeycloakUserService } from '../modules/keycloak/service/UserService';
 
 
 /** @public */
@@ -53,6 +54,7 @@ export async function createRouter(
 
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const adminClientKeycloak = new TestGroups();
+  const userServiceKeycloak = new KeycloakUserService();
   const kongHandler = new KongHandler();
   const userService = new UserService();
   const associateService = new AssociateService()
@@ -65,6 +67,28 @@ export async function createRouter(
   router.get('/keycloak/groups', async (_, response) => {
     const groups = await adminClientKeycloak.getGroup();
     response.status(200).json({ status: 'ok', groups: groups })
+  })
+
+  router.get('/keycloak/users', async (_, response) => {
+    const users = await userServiceKeycloak.listAll();
+    response.status(200).json({ status: 'ok', users: users })
+  })
+
+  router.post('/keycloak/token', async(request, response) => {
+    const body = request.body.username;
+    const result = await userServiceKeycloak.getToken();
+    response.status(200).json({ status: 'ok', token: result }) 
+  })
+
+  router.post('/keycloak/users', async(request, response) => {
+    const user = request.body.username;
+    const result = await userServiceKeycloak.createUser();
+    response.status(201).json({ status: 'ok', partner: result }) 
+  })
+
+  router.delete('/keycloak/users/:id', async(_, response) => {
+    const result = await userServiceKeycloak.deleteUser();
+    response.status(204).json({ status: 'ok', result: result }) 
   })
 
   // SERVICE
