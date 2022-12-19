@@ -326,7 +326,7 @@ router.get('/consumers', async (_, response) => {
     }
   });
 
-  router.patch('/:id', async (request, response) => {
+  router.post('/:id', async (request, response) => {
     const code = request.params.id
     const application: ApplicationDto = request.body.application;
     try {
@@ -614,7 +614,64 @@ router.get('/consumers', async (_, response) => {
 
 
 
+  // credentials
+
+  router.post('/credencial/:id', async (request, response) => {
+    try{
+      const workspace = request.query.workspace as string;
+      const id = request.params.id;
+      const serviceStore = await kongHandler.generateCredential(false, config.getString('kong.api-manager'), workspace as string, id)
+      response.status(201).json({ status: 'ok',    response: serviceStore })
+    }catch(error:any){
+      const date = new Date();
+      return response
+      .status(error.response.status)
+      .json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString()
+      })
+    }
+  });
+
+  router.get('/credencial/:id', async (request, response) => {
+    try{
+      const workspace = request.query.workspace as string;
+      const id = request.params.id;
+      const serviceStore = await kongHandler.listCredentialWithApplication(database,id,workspace, config.getString('kong.api-manager'), false)
+      response.status(200).json({ status: 'ok',    credentials: serviceStore })
+    }catch(error: any){
+      let date = new Date();
+      return response
+      .status(error.response.status)
+      .json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString()
+      })
+    }
+  });
+  router.delete('/credencial/:idConsumer', async (request, response) => {
+    try{
+      const workspace = request.query.workspace as string;
+      const idCredencial= request.query.idCredencial as string;
+      const idConsumer = request.params.idConsumer;
+      const serviceStore = await kongHandler.removeCredencial(true, config.getString('kong.api-manager'), workspace, idConsumer, idCredencial)
+      response.status(204).json({ status: 'ok',    credentials: serviceStore })
+    }catch(error: any){
+      let date = new Date();
+      return response
+      .status(error.response.status)
+      .json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString()
+      })
+    }
+  });
+
 
   router.use(errorHandler());
   return router;
 }
+

@@ -1,6 +1,20 @@
-import { createPlugin, createRoutableExtension } from '@backstage/core-plugin-api';
+import {
+  createPlugin,
+  createRoutableExtension,
+} from '@backstage/core-plugin-api';
 
-import { servicesRootRouteRef, servicesDetailsRouteRef, createServicesRouteRef, partnersRootRouteRef, partnersDetailsRouteRef, createPartnerRouteRef } from './routes';
+import {
+  servicesRootRouteRef,
+  servicesDetailsRouteRef,
+  createServicesRouteRef,
+  partnersRootRouteRef,
+  partnersDetailsRouteRef,
+  createPartnerRouteRef,
+  applicationRouteRef,
+  applicationDetailsRouteRef,
+  newApplicationRouteRef,
+  editApplicationRouteRef,
+} from './routes';
 
 export const applicationPlugin = createPlugin({
   id: 'application',
@@ -10,7 +24,11 @@ export const applicationPlugin = createPlugin({
     servicesCreate: createServicesRouteRef,
     partnersRoot: partnersRootRouteRef,
     partnersDetails: partnersDetailsRouteRef,
-    partnersCreate: createPartnerRouteRef
+    partnersCreate: createPartnerRouteRef,
+    devApplicationRoot: applicationRouteRef,
+    devApplicationDetails: applicationDetailsRouteRef,
+    devApplicationCreate: newApplicationRouteRef,
+    devApplicationEdit: editApplicationRouteRef,
   },
 });
 
@@ -18,7 +36,9 @@ export const ServicesPage = applicationPlugin.provide(
   createRoutableExtension({
     name: 'ServicesPage',
     component: () =>
-      import('./components/services/ServicesPageComponent').then(m => m.ServicesPageComponent),
+      import('./components/services/ServicesPageComponent').then(
+        m => m.ServicesPageComponent,
+      ),
     mountPoint: servicesRootRouteRef,
   }),
 );
@@ -27,7 +47,31 @@ export const PartnersPage = applicationPlugin.provide(
   createRoutableExtension({
     name: 'PartnersPage',
     component: () =>
-      import('./components/partners/PartnersPageComponent').then(m => m.PartnersPageComponent),
+      import('./components/partners/PartnersPageComponent').then(
+        m => m.PartnersPageComponent,
+      ),
     mountPoint: partnersRootRouteRef,
   }),
 );
+
+export const ApplicationPage = applicationPlugin.provide(
+  createRoutableExtension({
+    name: 'ApplicationPage',
+    component: () =>
+      import('./components/devApplication/HomepageComponent').then(
+        m => m.HomePageComponent,
+      ),
+    mountPoint: applicationRouteRef,
+  }),
+);
+
+// export const CredentialsPage = applicationPlugin.provide(
+//   createRoutableExtension({
+//     name: 'CredentialsPage',
+//     component: () =>
+//       import('./components/credentials/CredentialsComponent').then(
+//         m => m.CredentialsComponent,
+//       ),
+//     mountPoint: credentialRouteRef,
+//   }),
+// );

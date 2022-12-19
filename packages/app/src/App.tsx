@@ -62,7 +62,7 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 import { providers } from './identityProviders';
 import { searchPage } from './components/search/SearchPage';
 // import SafeRoute from './components/Routing/SafeRoute';
-import { ServicesPage, PartnersPage} from '@internal/plugin-application';
+import { ServicesPage, PartnersPage, ApplicationPage} from '@internal/plugin-application';
 
 const app = createApp({
   apis,
@@ -139,7 +139,7 @@ const routes = (
     </Route>
     <Route path="/services" element={<ServicesPage />}/>
     <Route path="/partners" element={<PartnersPage />}/>
-
+    <Route path="/application" element={<ApplicationPage />}/>
   </FlatRoutes>
 );
 

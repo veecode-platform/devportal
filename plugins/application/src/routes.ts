@@ -1,7 +1,7 @@
 import { createRouteRef, createSubRouteRef } from '@backstage/core-plugin-api';
 
 
-//services routes
+// services routes
 export const servicesRootRouteRef = createRouteRef({
   id: 'services',
 });
@@ -23,7 +23,7 @@ export const editServicesRouteRef = createSubRouteRef({
   path: '/edit-service'
 });
 
-//partners routes
+// partners routes
 export const partnersRootRouteRef = createRouteRef({
   id: 'partners',
 });
@@ -39,3 +39,54 @@ export const createPartnerRouteRef = createSubRouteRef({
   parent: partnersRootRouteRef,
   path: '/create-partner'
 });
+
+// dev-application routes
+export const applicationRouteRef = createRouteRef({
+  id: 'application',
+});
+
+export const applicationDetailsRouteRef = createSubRouteRef({
+  id: 'application-details',
+  parent: applicationRouteRef,
+  path: '/details'
+});
+
+export const newApplicationRouteRef = createSubRouteRef({
+  id: 'application-new',
+  parent: applicationRouteRef,
+  path: '/new-application'
+});
+
+export const editApplicationRouteRef = createSubRouteRef({
+  id: 'application-edit',
+  parent: applicationRouteRef,
+  path: '/edit-application'
+});
+
+// credentials
+// export const credentialRouteRef = createRouteRef({
+//   id: 'credentials',
+// });
+// export const credentialDetailsRouteRef = createSubRouteRef({
+//   id: 'credentials-details',
+//   parent: credentialRouteRef,
+//   path: '/details'
+// });
+
+// export const newCredentialRouteRef = createSubRouteRef({
+//   id: 'credentials-new',
+//   parent: credentialRouteRef,
+//   path: '/new-credential'
+// });
+
+// export const editCredentialRouteRef = createSubRouteRef({
+//   id: 'credential-edit',
+//   parent: credentialRouteRef,
+//   path: '/edit-credential'
+// });
+
+// export const removeCredentialRouteRef = createSubRouteRef({
+//   id: 'credential-edit',
+//   parent: credentialRouteRef,
+//   path: '/remove-credential'
+// });
