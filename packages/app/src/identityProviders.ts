@@ -15,8 +15,9 @@
  */
 
 import {
-  oktaAuthApiRef,
+  oktaAuthApiRef
 } from '@backstage/core-plugin-api';
+import { keycloakOIDCAuthApiRef } from './apis';
 
 export const providers = [
   {
@@ -25,5 +26,10 @@ export const providers = [
     message: 'Sign In using Okta',
     apiRef: oktaAuthApiRef,
   },
-  
+  {
+    id: "keycloack-auth-provider",
+    title: "Keycloak",
+    message: "Sign in using Keycloak",
+    apiRef: keycloakOIDCAuthApiRef,
+  }
 ];

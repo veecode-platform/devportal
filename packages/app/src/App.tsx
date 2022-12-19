@@ -59,10 +59,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 
-import { providers } from './identityProviders';
+
 import { searchPage } from './components/search/SearchPage';
 // import SafeRoute from './components/Routing/SafeRoute';
 import { ServicesPage, PartnersPage, ApplicationPage} from '@internal/plugin-application';
+//import SafeRoute from './components/Routing/SafeRoute';
+//login
+import { providers } from './identityProviders';
 
 const app = createApp({
   apis,
@@ -118,6 +121,7 @@ const app = createApp({
 const AppProvider = app.getProvider();
 const AppRouter = app.getRouter();
 
+
 const routes = (
   <FlatRoutes>
     
@@ -137,6 +141,13 @@ const routes = (
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
+    
+    {/*<Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
+      <Route 
+        path="/services" 
+        element={<ServicesPage />} 
+      />
+    </Route>*/}
     <Route path="/services" element={<ServicesPage />}/>
     <Route path="/partners" element={<PartnersPage />}/>
     <Route path="/application" element={<ApplicationPage />}/>

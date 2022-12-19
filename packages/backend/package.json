@@ -36,6 +36,7 @@
     "@backstage/plugin-search-backend-node": "^1.0.4",
     "@backstage/plugin-techdocs-backend": "^1.4.1",
     "@internal/plugin-application-backend": "0.1.0",
+    "@keycloak/keycloak-admin-client": "18.0.2",
     "app": "link:../app",
     "better-sqlite3": "^7.5.0",
     "dockerode": "^3.3.1",

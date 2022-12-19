@@ -38,11 +38,14 @@ backend:
     port: 7007
   database:
     client: pg
+    #verificar com luan 
+    #pluginDivisionMode: schema
     connection:
       host: localhost
-      port: 5432
-      user: postgres
-      password: postgres
+      database: platform_devportal
+      port: ${DB_PORT}
+      user: ${DB_USER}
+      password: ${DB_PASSWORD}
   #database:
   #  client: better-sqlite3
   #  connection: ':memory:'
@@ -196,8 +199,9 @@ catalog:
 auth:
   environment: development
   ### Providing an auth.session.secret will enable session support in the auth-backend
-  # session:
-  #   secret: custom session secret
+
+  session:
+    secret: ${AUTH_USER_SESSION_SECRET}
   providers:  
     okta:
       development:
@@ -206,6 +210,13 @@ auth:
         audience: ${OKTA_AUDIENCE}
         authServerId: ${OKTA_AUTH_SERVER_ID}
         apiToken: ${OKTA_API_TOKEN}
+
+    keycloack-auth-provider:
+      development:
+        metadataUrl: ${KEYCLOAK_METADATA_URL}
+        clientId: ${KEYCLOAK_CLIENT_ID}
+        clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+        prompt: auto
 
 #todo put into env 
 okta:

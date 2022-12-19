@@ -25,7 +25,7 @@ export async function startStandaloneServer(
       client: 'pg',
       connection: {
         user: config.getString('backend.database.connection.user'),
-        database:"",
+        database: config.getString('backend.database.connection.database'),
         password: config.getString('backend.database.connection.password'),
         port: config.getNumber('backend.database.connection.port'),
         host: config.getString('backend.database.connection.host'),

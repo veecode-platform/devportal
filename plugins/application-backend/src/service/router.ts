@@ -27,6 +27,8 @@ import { KeyAuthPlugin } from '../modules/kong/plugins/KeyAuthPlugin';
 import { RateLimitingPlugin } from '../modules/kong/plugins/RateLimitingPlugin';
 import { ConsumerGroupService } from '../modules/kong/services/ConsumerGroupService';
 import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
+import { TestGroups } from '../modules/keycloak/adminClient';
+
 
 /** @public */
 export interface RouterOptions {
@@ -62,6 +64,7 @@ export async function createRouter(
   );
 
   const config = await loadBackendConfig({ logger, argv: process.argv });
+  const adminClientKeycloak = new TestGroups();
   const kongHandler = new KongHandler();
   const consumerService = new ConsumerService(config);
   const consumerGroupService = new ConsumerGroupService(config);
@@ -77,6 +80,12 @@ export async function createRouter(
 
   const router = Router();
   router.use(express.json());
+
+  // KEYCLOAK
+  router.get('/keycloak/groups', async (_, response) => {
+    const groups = await adminClientKeycloak.getGroup();
+    response.status(200).json({ status: 'ok', groups: groups })
+  })
 
   // SERVICE
   router.get('/services', async (_, response) => {

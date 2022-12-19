@@ -36,15 +36,39 @@ export default async function createPlugin(
     providerFactories: {
       ...defaultAuthProviderFactories,
 
-      // NOTE: DO NOT add this many resolvers in your own instance!
-      //       It is important that each real user always gets resolved to
-      //       the same sign-in identity. The code below will not do that.
-      //       It is here for demo purposes only.   
-      //github: providers.github.create({
-      //  signIn: {
-      //    resolver: providers.github.resolvers.usernameMatchingUserEntityName(),
-      //  },
-      //}),
+      "keycloack-auth-provider": providers.oidc.create({
+        signIn: {
+          resolver({result}, ctx) {
+
+              if(!result.userinfo.email_verified){
+                throw new Error('Email not verified');
+              }
+              
+              const groups = result.userinfo.groups as Array<string>;
+              const admin = groups.includes("admin");
+              const user = groups.includes("user");
+
+              if(!admin && !user){
+                throw new Error('Group not authorized');
+              }
+
+              const userName = result.userinfo.preferred_username;
+              
+              const userEntityRef = stringifyEntityRef({
+                kind: admin ? "Admin" : "User",
+                name: userName || result.userinfo.sub,
+                namespace: "user"
+              });
+              return ctx.issueToken({
+                claims: {
+                  sub: userEntityRef, // The user's own identity
+                  ent: [userEntityRef], // A list of identities that the user claims ownership through
+                },
+              });           
+          },
+        },
+
+      }),
 
       okta: providers.okta.create({
         signIn:{
