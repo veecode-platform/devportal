@@ -9,6 +9,7 @@ export type ServiceProps = {
   kongServiceId: string;
   createdAt?: Date;
   updatedAt?: Date;
+  security: SECURITY;
 }
 
 export class Service extends Entity<ServiceProps>{
@@ -22,4 +23,9 @@ export class Service extends Entity<ServiceProps>{
     props.createdAt = props.createdAt || new Date();
     return new Service(props,id);
   }
+}
+export enum SECURITY{
+  ACL = 'acl',
+  KEYAUTH = 'key-auth',
+  OAUTH2= 'oauth2'
 }

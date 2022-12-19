@@ -12,6 +12,7 @@
       table.specificType('partnersId', 'TEXT[]');
       table.string("kongServiceName");
       table.string("kongServiceId");
+      table.string('security')
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     })

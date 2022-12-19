@@ -1,3 +1,5 @@
+import { SECURITY } from "../domain/Service";
+
 export class ServiceDto {
 
     name:string;
@@ -8,8 +10,9 @@ export class ServiceDto {
     kongServiceId:string;
     createdAt?:Date;
     updatedAt?:Date;
+    security: SECURITY;
     
-    constructor(name:string,description:string,partnersId:string[], redirectUrl:string, kongServicename:string,kongServiceId:string, createdAt:Date,updatedAt:Date) {
+    constructor(name:string,description:string,partnersId:string[], redirectUrl:string, kongServicename:string,kongServiceId:string, createdAt:Date,updatedAt:Date, security:SECURITY) {
       this.name = name;
       this.description = description;
       this.redirectUrl = redirectUrl;
@@ -18,5 +21,6 @@ export class ServiceDto {
       this.kongServiceId = kongServiceId;
       this.createdAt = createdAt;
       this.updatedAt = updatedAt;
+      this.security = security;
     }
   }
