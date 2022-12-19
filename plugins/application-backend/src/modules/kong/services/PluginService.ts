@@ -21,7 +21,7 @@ export class PluginService extends KongServiceBase {
   public async updatePluginKongService(
     serviceName: string,
     pluginId: string,
-    config: Map<string, any>,
+    config: Map<string, string>,
   ) {
     const url = `${this.baseUrl}/services/${serviceName}/plugins/${pluginId}`;
     const response = await axios.patch(url, {
@@ -46,5 +46,5 @@ export class PluginService extends KongServiceBase {
 
 export enum PluginName {
   ACL = 'acl',
-  KEYAUTH = 'key-auth',
+  KEY_AUTH = 'key-auth',
 }

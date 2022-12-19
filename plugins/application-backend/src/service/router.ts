@@ -23,6 +23,7 @@ import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { PluginService } from '../modules/kong/services/PluginService';
 import { AclPlugin } from '../modules/kong/plugin/AclPlugin';
+import { KeyAuthPlugin } from '../modules/kong/plugin/KeyAuthPlugin';
 
 /** @public */
 export interface RouterOptions {
@@ -63,8 +64,10 @@ export async function createRouter(
   const userService = new UserService();
   const associateService = new AssociateService();
   const pluginService = new PluginService(config);
-  const aclPlugin = new AclPlugin(config);
+  //const aclPlugin = new AclPlugin(config);
   // const aclPlugin = AclPlugin.Instance;
+  const aclPlugin = AclPlugin.instance(config);
+  const keyAuthPlugin = KeyAuthPlugin.instance(config);
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -741,6 +744,77 @@ router.get('/consumers', async (_, response) => {
     }
   });
 
+
+  // KEY-AUTH - TEST ROUTER
+  router.post(
+    '/kong-service/plugin/keyauth/:serviceName',
+    async (request, response) => {
+      try {
+        const serviceStore = await keyAuthPlugin.configKeyAuthKongService(
+          request.params.serviceName,
+          request.body.config.key_names,
+        );
+        if (serviceStore) {
+          response.json({ status: 'ok', plugins: serviceStore });
+          return;
+        }
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  router.patch(
+    '/kong-service/plugin/keyauth/:serviceName/:pluginId',
+    async (request, response) => {
+      try {
+        const serviceStore = await keyAuthPlugin.updateKeyAuthKongService(
+          request.params.serviceName,
+          request.params.pluginId,
+          request.body.config.key_names,
+        );
+        if (serviceStore)
+          response.json({ status: 'ok', plugins: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  router.delete(
+    '/kong-service/plugin/keyauth/:serviceName/:pluginId',
+    async (request, response) => {
+      try {
+        const serviceStore = await keyAuthPlugin.removeKeyAuthKongService(
+          request.params.serviceName,
+          request.params.pluginId,
+        );
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
 
   router.use(errorHandler());
   return router;
