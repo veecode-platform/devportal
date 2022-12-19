@@ -13,13 +13,12 @@ export interface IService {
 }
 
 export interface ICreateService{
+    serviceId: string,
     name: string,
-    creator: string,
     active: boolean | null;
-    servicesId: string[],
+    description: string,
+    security: string,
     rateLimiting: number,
-    kongConsumerName: string,
-    kongConsumerId: string,
 }
 
 export interface IPartner {
@@ -29,4 +28,10 @@ export interface IPartner {
   celular: string;
   servicesId: string[];
 }
+
+export interface IKongServices {
+  id: string;
+  name: string;
+}
+
 
