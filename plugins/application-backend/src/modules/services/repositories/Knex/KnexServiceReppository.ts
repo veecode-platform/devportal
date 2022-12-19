@@ -55,6 +55,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
       rateLimiting: serviceDto.rateLimiting,
+      securityPlugin: serviceDto.securityPlugin
     });
     const data = ServiceMapper.toPersistence(service);
     console.log(data);
@@ -78,9 +79,11 @@ export class PostgresServiceRepository implements IServiceRepository {
         partnersId: serviceDto.partnersId,
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: serviceDto.rateLimiting
+        rateLimiting: serviceDto.rateLimiting,
+        securityPlugin: serviceDto.securityPlugin
       });
-    const data = await ServiceMapper.toPersistence(service);
+      const data = await ServiceMapper.toPersistence(service);
+      console.log('aqui é a services', data)
     const createdService = await this.db('services').insert(data).catch(error => console.error(error));
     return createdService ? service : "cannot create service";
    }
@@ -94,7 +97,8 @@ export class PostgresServiceRepository implements IServiceRepository {
         partnersId: serviceDto.partnersId,
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: serviceDto.rateLimiting
+        rateLimiting: serviceDto.rateLimiting,
+        securityPlugin: serviceDto.securityPlugin
       });
       const data =await ServiceMapper.toPersistence(service);
       const updatedService = await this.db('services').where('id', id).update(data).catch(error => console.error(error));
@@ -119,8 +123,9 @@ export class PostgresServiceRepository implements IServiceRepository {
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
+      securityPlugin: serviceDto.securityPlugin,
       rateLimiting: serviceDto.rateLimiting
-    });
+      });// try add ,id on service create
     //const data =await ServiceMapper.toPersistence(service);
 
     const patchedService = await this.db('services')

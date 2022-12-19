@@ -11,7 +11,8 @@ export type ServiceProps = {
   rateLimiting: number;
   createdAt?: Date;
   updatedAt?: Date;
-};
+  securityPlugin: SECURITY;
+}
 
 export class Service extends Entity<ServiceProps> {
   private constructor(props: ServiceProps, id?: string) {
@@ -21,4 +22,9 @@ export class Service extends Entity<ServiceProps> {
     props.createdAt = props.createdAt || new Date();
     return new Service(props, id);
   }
+}
+export enum SECURITY{
+  ACL = 'acl',
+  KEYAUTH = 'key-auth',
+  OAUTH2= 'oauth2'
 }

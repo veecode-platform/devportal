@@ -11,11 +11,13 @@
       table.string("description");
       table.string("redirectUrl");
       table.specificType('partnersId', 'TEXT[]');
-      table.string('kongServiceName');
-      table.string('kongServiceId');
       table.integer('rateLimiting');
+      table.string("kongServiceName");
+      table.string("kongServiceId");
+      table.enu("securityPlugin", ['none','acl', 'key-auth', 'ouath2'],{useNative: true, enumName:'securityPlugin'} ).defaultTo('none')
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
+    
     })
     await knex.schema.createTable("partners", (table) =>{
       table.uuid("id").primary;
