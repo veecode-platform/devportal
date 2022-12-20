@@ -1,8 +1,8 @@
 import { Entity } from '../../../core/domain/Entity';
 
 export type UserProps = {
-    // id?:string;
-    // enabled: Boolean;
+    id?:string;
+    enabled: Boolean | true;
     username: string;
     realm: string;
     // email?: string;
