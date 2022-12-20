@@ -139,7 +139,7 @@ const overviewContent = (
 
 const serviceEntityPage = (
   <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
+    <EntityLayout.Route path="/" title="Overview">{/*plugin github actions*/}
       {overviewContent}
     </EntityLayout.Route>
 
