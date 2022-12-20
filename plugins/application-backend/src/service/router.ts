@@ -89,9 +89,8 @@ export async function createRouter(
   })
 
   router.delete('/keycloak/users/:id', async(_, response) => {
-    // const code = request.params.id;
     const result = await userServiceKeycloak.deleteUser();
-    response.status(204).json({ status: 'ok', result: result }) 
+    response.status(204).json({ status: 'User Deleted', result: result }) 
   })
 
   // SERVICE
