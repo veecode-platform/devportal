@@ -7,15 +7,15 @@ export class KeycloakUserService {
     
     public async createUser(user:UserDto) {
         const kcAdminClient = await new KeycloakAdminClient().getClient();
-        const res = await kcAdminClient.users.create(user); 
-        return res
+        const user_id = await kcAdminClient.users.create(user); 
+        return user_id
     }
 
-    // public async listAll() {
-    //     const kcAdminClient = await new KeycloakAdminClient().getClient();
-    //     const users = await kcAdminClient.users.find();
-    //     return users
-    // }
+    public async listUsers() {
+        const kcAdminClient = await new KeycloakAdminClient().getClient();
+        const users = await kcAdminClient.users.find();
+        return users
+    }
     
     // public async updateUser(user:User){
     //     const updated = await kcAdminClient.users.update({

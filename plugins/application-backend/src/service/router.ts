@@ -72,15 +72,14 @@ export async function createRouter(
 
   router.post('/keycloak/users', async (request, response) => {
     const user: UserDto = request.body;
-
     const id = await userServiceKeycloak.createUser(user);
     response.status(201).json({ status: 'ok', id: id })
   })
 
-  // router.get('/keycloak/users', async (_, response) => {
-  //   const users = await userServiceKeycloak.listAll();
-  //   response.status(200).json({ status: 'ok', users: users })
-  // })
+  router.get('/keycloak/users', async (_, response) => {
+    const users = await userServiceKeycloak.listUsers();
+    response.status(200).json({ status: 'ok', users: users })
+  })
 
   // router.post('/keycloak/token', async(request, response) => {
   //   const body = request.body.username;
