@@ -21,8 +21,8 @@ export class PostgresPartnerRepository implements IPartnerRepository {
     return partner;
   }
 
-  async getPartner(): Promise<Partner[]> {
-    const partner = await this.db<Partner>('partners').select('*').catch(error => console.error(error));
+  async getPartner(limit: number, offset: number): Promise<Partner[]> {
+    const partner = await this.db<Partner>('partners').select('*').limit(limit).offset(offset).catch(error => console.error(error));
     const partnersDomain = PartnerResponseDto.create({ partners: partner});
     const responseData = await PartnerMapper.listAllPartnersToResource(partnersDomain)
     return responseData.partners ?? [];

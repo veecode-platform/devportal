@@ -133,8 +133,10 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', service: result });
   });
   // PARTNER
-  router.get('/partners', async (_, response) => {
-    const partners = await partnerRepository.getPartner();
+  router.get('/partners', async (request, response) => {
+    const offset:number = request.query.offset as any;
+    const limit:number = request.query.limit as any;
+    const partners = await partnerRepository.getPartner(limit, offset);
     response.status(200).json({ status: 'ok', partners: partners });
   });
 
