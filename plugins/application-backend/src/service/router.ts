@@ -16,6 +16,7 @@ import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
 import { TestGroups } from '../modules/keycloak/adminClient';
 import { KeycloakUserService } from '../modules/keycloak/service/UserService';
+import { UserDto } from '../modules/keycloak/dtos/UserDto';
 
 
 /** @public */
@@ -69,27 +70,34 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', groups: groups })
   })
 
-  router.get('/keycloak/users', async (_, response) => {
-    const users = await userServiceKeycloak.listAll();
-    response.status(200).json({ status: 'ok', users: users })
+  router.post('/keycloak/users', async (request, response) => {
+    const user: UserDto = request.body;
+
+    const id = await userServiceKeycloak.createUser(user);
+    response.status(201).json({ status: 'ok', id: id })
   })
 
-  router.post('/keycloak/token', async(request, response) => {
-    const body = request.body.username;
-    const result = await userServiceKeycloak.getToken();
-    response.status(200).json({ status: 'ok', token: result }) 
-  })
+  // router.get('/keycloak/users', async (_, response) => {
+  //   const users = await userServiceKeycloak.listAll();
+  //   response.status(200).json({ status: 'ok', users: users })
+  // })
 
-  router.post('/keycloak/users', async(request, response) => {
-    const user = request.body.username;
-    const result = await userServiceKeycloak.createUser();
-    response.status(201).json({ status: 'ok', partner: result }) 
-  })
+  // router.post('/keycloak/token', async(request, response) => {
+  //   const body = request.body.username;
+  //   const result = await userServiceKeycloak.getToken();
+  //   response.status(200).json({ status: 'ok', token: result }) 
+  // })
 
-  router.delete('/keycloak/users/:id', async(_, response) => {
-    const result = await userServiceKeycloak.deleteUser();
-    response.status(204).json({ status: 'ok', result: result }) 
-  })
+  // router.post('/keycloak/users', async(request, response) => {
+  //   const user = request.body.username;
+  //   const result = await userServiceKeycloak.createUser();
+  //   response.status(201).json({ status: 'ok', partner: result }) 
+  // })
+
+  // router.delete('/keycloak/users/:id', async(_, response) => {
+  //   const result = await userServiceKeycloak.deleteUser();
+  //   response.status(204).json({ status: 'ok', result: result }) 
+  // })
 
   // SERVICE
   router.get('/services', async (_, response) => {
