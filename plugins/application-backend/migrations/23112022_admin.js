@@ -14,7 +14,7 @@
       table.integer('rateLimiting');
       table.string("kongServiceName");
       table.string("kongServiceId");
-      table.enu("securityPlugin", ['none','acl', 'key-auth', 'ouath2'],{useNative: true, enumName:'securityPlugin'} ).defaultTo('none')
+      table.enu("securityType", ['none', 'key-auth', 'ouath2'],{useNative: true, enumName:'security_type'} ).defaultTo('none')
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     
@@ -55,9 +55,10 @@
  */
 exports.down = async function down(knex) {
   try {
-    await knex.schema.dropTable('services');
+    await knex.schema.dropTable('services').raw('DROP TYPE security_type');
     await knex.schema.dropTable('partners');
     await knex.schema.dropTable('applications');
+
   } catch (e) {
     console.log('ERROR MIGRATE:DOWN', e);
     return false;

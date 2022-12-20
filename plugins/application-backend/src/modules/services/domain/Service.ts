@@ -11,7 +11,7 @@ export type ServiceProps = {
   rateLimiting: number;
   createdAt?: Date;
   updatedAt?: Date;
-  securityPlugin: SECURITY;
+  securityType: SECURITY;
 }
 
 export class Service extends Entity<ServiceProps> {
@@ -24,7 +24,6 @@ export class Service extends Entity<ServiceProps> {
   }
 }
 export enum SECURITY{
-  ACL = 'acl',
-  KEYAUTH = 'key-auth',
+  KEY_AUTH = 'key-auth',
   OAUTH2= 'oauth2'
 }

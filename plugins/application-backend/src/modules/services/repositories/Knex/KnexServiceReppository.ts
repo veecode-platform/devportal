@@ -5,6 +5,7 @@ import { Service } from '../../domain/Service';
 import { Knex } from 'knex';
 import { ServiceResponseDto } from '../../dtos/ServiceResponseDto';
 
+
 export class PostgresServiceRepository implements IServiceRepository {
   constructor(private readonly db: Knex) {}
 
@@ -28,6 +29,7 @@ export class PostgresServiceRepository implements IServiceRepository {
     const responseData = await ServiceMapper.listAllServicesToResource(
       servicesDomain,
     );
+    console.log("Aqui são as services", service)
     return responseData.services ?? [];
   }
 
@@ -55,7 +57,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
       rateLimiting: serviceDto.rateLimiting,
-      securityPlugin: serviceDto.securityPlugin
+      securityType: serviceDto.securityType
     });
     const data = ServiceMapper.toPersistence(service);
     console.log(data);
@@ -80,12 +82,17 @@ export class PostgresServiceRepository implements IServiceRepository {
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
         rateLimiting: serviceDto.rateLimiting,
-        securityPlugin: serviceDto.securityPlugin
-      });
+        securityType: serviceDto.securityType
+      }
+
+ 
+      );
+      if(serviceDto.securityType.valueOf() != "none" ){
+        
+      }
       const data = await ServiceMapper.toPersistence(service);
-      console.log('aqui é a services', data)
     const createdService = await this.db('services').insert(data).catch(error => console.error(error));
-    return createdService ? service : "cannot create service";
+    return createdService ? service : "cannot create service"
    }
     // asyn function to update full service object
     async updateService(id: string, serviceDto: ServiceDto): Promise<Service | string> {
@@ -98,7 +105,7 @@ export class PostgresServiceRepository implements IServiceRepository {
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
         rateLimiting: serviceDto.rateLimiting,
-        securityPlugin: serviceDto.securityPlugin
+        securityType: serviceDto.securityType
       });
       const data =await ServiceMapper.toPersistence(service);
       const updatedService = await this.db('services').where('id', id).update(data).catch(error => console.error(error));
@@ -123,7 +130,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
-      securityPlugin: serviceDto.securityPlugin,
+      securityType: serviceDto.securityType,
       rateLimiting: serviceDto.rateLimiting
       });// try add ,id on service create
     //const data =await ServiceMapper.toPersistence(service);

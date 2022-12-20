@@ -13,7 +13,7 @@ export class ServiceMapper {
       kongServiceName: service.props.kongServiceName,
       kongServiceId: service.props.kongServiceId,
       createdAt: service.props.createdAt,
-      securityPlugin: service.props.securityPlugin,
+      securityType: service.props.securityType,
       rateLimiting: service.props.rateLimiting
     }
   }

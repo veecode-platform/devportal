@@ -11,7 +11,7 @@ export class ServiceDto {
   createdAt?: Date;
   updatedAt?: Date;
   active: boolean;
-  securityPlugin: SECURITY;
+  securityType: SECURITY;
 
   constructor(
     name: string,
@@ -24,7 +24,7 @@ export class ServiceDto {
     createdAt: Date,
     updatedAt: Date,
     active: boolean,
-    securityPlugin: SECURITY
+    securityType: SECURITY
   ) {
     this.name = name;
     this.description = description;
@@ -36,6 +36,6 @@ export class ServiceDto {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.active = active;
-    this.securityPlugin = securityPlugin;
+    this.securityType = securityType;
   }
 }

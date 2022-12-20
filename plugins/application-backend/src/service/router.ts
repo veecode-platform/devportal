@@ -7,7 +7,7 @@ import {
 //import { InputError } from '@backstage/errors';
 import express from 'express';
 import Router from 'express-promise-router';
-import { Logger } from 'winston';
+import winston, { Logger } from 'winston';
 import { Config } from '@backstage/config';
 import { KongHandler } from '../modules/kong-control/KongHandler';
 import { ConsumerService } from '../modules/kong/services/ConsumerService';
@@ -28,6 +28,7 @@ import { RateLimitingPlugin } from '../modules/kong/plugins/RateLimitingPlugin';
 import { ConsumerGroupService } from '../modules/kong/services/ConsumerGroupService';
 import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
 import { TestGroups } from '../modules/keycloak/adminClient';
+import { getRootLogger } from '@backstage/backend-common';
 
 
 /** @public */
@@ -62,8 +63,7 @@ export async function createRouter(
   const partnerRepository = await PostgresPartnerRepository.create(
     await database.getClient(),
   );
-
-  const config = await loadBackendConfig({ logger, argv: process.argv });
+  const config = await loadBackendConfig({  logger: getRootLogger() , argv: process.argv });
   const adminClientKeycloak = new TestGroups();
   const kongHandler = new KongHandler();
   const consumerService = new ConsumerService(config);
@@ -136,7 +136,7 @@ export async function createRouter(
   router.get('/partners', async (request, response) => {
     const offset:number = request.query.offset as any;
     const limit:number = request.query.limit as any;
-    const partners = await partnerRepository.getPartner(limit, offset);
+    const partners = await partnerRepository.getPartner(offset, limit);
     response.status(200).json({ status: 'ok', partners: partners });
   });
 
