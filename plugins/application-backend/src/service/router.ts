@@ -168,7 +168,7 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', partner: result });
   });
 
-  // APPLICATION
+
   /*router.get('/kong-services', async (_, response) => {
   try{
     const serviceStore = await kongHandler.listServices(config.getString('kong.api-manager'),false);
@@ -246,10 +246,12 @@ router.get('/consumers', async (_, response) => {
 
 
 
-
-  router.get('/', async (_, response) => {
+  // APPLICATION
+  router.get('/', async (request, response) => {
     try {
-      const responseData = await applicationRepository.getApplication();
+      const limit: number = request.query.limit as any;
+      const offset: number = request.query.offset as any;
+      const responseData = await applicationRepository.getApplication(limit, offset);
       return response.json({ status: 'ok', applications: responseData });
     } catch (error: any) {
       let date = new Date();

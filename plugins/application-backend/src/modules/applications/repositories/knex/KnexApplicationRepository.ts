@@ -50,8 +50,8 @@ export class PostgresApplicationRepository implements IApplicationRepository {
 
   
 
-  async getApplication(): Promise<Application[]> {
-    const application = await this.db<Application>('applications').select('*').catch(error => console.error(error));
+  async getApplication(limit: number, offset: number): Promise<Application[]> {
+    const application = await this.db<Application>('applications').select('*').limit(limit).offset(offset).catch(error => console.error(error));
     const applicationsDomain = ApplicationResponseDto.create({ applications: application});
     const responseData = await ApplicationMapper.listAllApplicationsToResource(applicationsDomain)
     return responseData.applications ?? [];
