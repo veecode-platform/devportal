@@ -123,7 +123,7 @@ export async function createRouter(
     response.status(204).json({ status: 'ok', service: result });
   });
 
-  router.post('/service/:id', async (request, response) => {
+  router.patch('/service/:id', async (request, response) => {
     const code = request.params.id;
     const service: ServiceDto = request.body.service;
 

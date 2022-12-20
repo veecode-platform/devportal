@@ -56,7 +56,7 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
       }
     }
     const config = {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       },
