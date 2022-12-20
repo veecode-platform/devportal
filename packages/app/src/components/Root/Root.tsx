@@ -40,16 +40,15 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import CatalogIcon from '@material-ui/icons/MenuBook';
-import AppsIcon from '@material-ui/icons/Apps';
+//import AppsIcon from '@material-ui/icons/Apps';
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 // import SearchIcon from '@material-ui/icons/Search';
 import ExtensionIcon from '@material-ui/icons/Extension';
-import CategoryIcon from '@material-ui/icons/Category';
+//import CategoryIcon from '@material-ui/icons/Category';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
-// import ClassIcon from '@material-ui/icons/Class';
-// import RenderItem from '../Routing/RenderItem';
-import { RequirePermission } from '@backstage/plugin-permission-react';
-import { adminAccessPermission } from '@internal/plugin-application-common';
+
+//import { RequirePermission } from '@backstage/plugin-permission-react';
+//import { adminAccessPermission } from '@internal/plugin-application-common';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -96,13 +95,13 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
         <SidebarDivider />
       </SidebarGroup>
-      <RequirePermission permission={adminAccessPermission} errorPage={<></>}>
+      {/*<RequirePermission permission={adminAccessPermission} errorPage={<></>}>
         <SidebarGroup label="Admin Flow" icon={<AppsIcon />}>
           <SidebarItem icon={AppsIcon} to="/services" text="Services" />
           <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />     
           <SidebarDivider />
         </SidebarGroup>
-      </RequirePermission>
+</RequirePermission>*/}
 
       <SidebarSpace />
       <SidebarDivider />
