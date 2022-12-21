@@ -107,6 +107,13 @@ export async function createRouter(
     response.status(200).json({ status: 'User added to group!', add: add})
   })
 
+  router.delete('/keycloak/users/:id/groups/:groupId', async(request, response) => {
+    const user_id = request.params.id;
+    const groupId = request.params.groupId
+    const res = await userServiceKeycloak.removeUserFromGroup(user_id, groupId);
+    response.status(204).json({ status: 'User Removed From Group!', res:res }) 
+  })
+
   // SERVICE
   router.get('/services', async (_, response) => {
     const services = await serviceRepository.getService();

@@ -46,12 +46,12 @@ export class KeycloakUserService {
         return result
     }
 
-    // public async removeUserFromGroup(group:Group, user:User){
-    //     const result = await kcAdminClient.users.delFromGroup({
-    //         groupId: group.id,
-    //         id: user.id
-    //     })
-    //     return result
-
-    // }   
+    public async removeUserFromGroup(id:string, groupId: string){
+        const kcAdminClient = await new KeycloakAdminClient().getClient();
+        const result = await kcAdminClient.users.delFromGroup({
+            id: id,
+            groupId: groupId,
+        });
+        return result
+    }   
 }
