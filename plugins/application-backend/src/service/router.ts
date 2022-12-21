@@ -29,6 +29,7 @@ import { ConsumerGroupService } from '../modules/kong/services/ConsumerGroupServ
 import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
 import { TestGroups } from '../modules/keycloak/adminClient';
 import { getRootLogger } from '@backstage/backend-common';
+import { PlatformConfig } from '../modules/utils/PlataformConfig';
 
 
 /** @public */
@@ -66,14 +67,16 @@ export async function createRouter(
   const config = await loadBackendConfig({  logger: getRootLogger() , argv: process.argv });
   const adminClientKeycloak = new TestGroups();
   const kongHandler = new KongHandler();
-  const consumerService = new ConsumerService(config);
-  const consumerGroupService = new ConsumerGroupService(config);
+  const consumerService = new ConsumerService();
+  
+  
+  const consumerGroupService = new ConsumerGroupService();
   const userService = new UserService();
   const associateService = new AssociateService();
-  const pluginService = new PluginService(config);
+  const pluginService = new PluginService();
   //const aclPlugin = new AclPlugin(config);
   // const aclPlugin = AclPlugin.Instance;
-  const aclPlugin = AclPlugin.instance(config);
+  const aclPlugin = new AclPlugin();
   const keyAuthPlugin = KeyAuthPlugin.instance(config);
   const rateLimitingPlugin = RateLimitingPlugin.instance(config);
   logger.info('Initializing application backend');
@@ -212,7 +215,7 @@ router.get('/consumers', async (_, response) => {
     try{
       const workspace = request.query.workspace as string;
       const id = request.params.id;
-      const serviceStore = await kongHandler.generateCredential(false, config.getString('kong.api-manager'), workspace as string, id)
+      const serviceStore = await kongHandler.generateCredential(false,  config.getString('kong.api-manager'), workspace as string, id)
       response.status(201).json({ status: 'ok',    response: serviceStore })
     }catch(error: any){
       let date = new Date();
@@ -667,10 +670,13 @@ router.get('/consumers', async (_, response) => {
     try {
       const allowed = request.body.allowed
       const hide = request.body.hide_groups_header
-      const serviceStore = await pluginService.configAclKongService(config.getString('kong.api-manager'), request.params.serviceName, allowed, hide);
+
+      
+      const serviceStore = await aclPlugin.configAclKongService(request.params.serviceName, allowed);
       if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
       response.json({ status: 'ok', services: [] });
     } catch (error: any) {
+      console.log(error)
       let date = new Date();
       response
         .status(error.response.status)

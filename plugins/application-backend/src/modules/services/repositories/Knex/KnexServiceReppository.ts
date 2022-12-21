@@ -63,7 +63,7 @@ export class PostgresServiceRepository implements IServiceRepository {
     console.log(data);
     return service;
   }
-
+    
   // method to delete service
   async deleteService(id: string): Promise<void> {
     await this.db<Service>('services')

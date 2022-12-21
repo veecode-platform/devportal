@@ -1,12 +1,11 @@
 
-import { Config } from '@backstage/config';
 import { PluginName, PluginService } from '../services/PluginService';
 import axios from 'axios';
 export class AclPlugin extends PluginService {
-  private static _instance: AclPlugin;
+ 
 
-  private constructor(_config: Config) {
-    super(_config);
+  public constructor() {
+    super();
   }
 
   public async configAclKongService(
@@ -17,7 +16,7 @@ export class AclPlugin extends PluginService {
     map.set('hide_groups_header', true);
     map.set('allow', allowedList);
 
-    return this.applyPluginKongService(serviceName, PluginName.ACL, map);
+    return this.applyPluginKongService(serviceName, PluginName.acl, map);
   }
 
   public async updateAclKongService(
@@ -25,7 +24,7 @@ export class AclPlugin extends PluginService {
     pluginId: string,
     allowedList: Array<string>,
   ) {
-    const response = await axios.get(`${this.baseUrl}/services/${serviceName}/plugins/${pluginId}`);
+    const response = await axios.get(`${await this.getBaseUrl()}/services/${serviceName}/plugins/${pluginId}`);
     let array: String[] = response.data.config.allow;
     for (let index = 0; index < allowedList.length; index++) {
       array.push(allowedList[index]);
@@ -39,7 +38,5 @@ export class AclPlugin extends PluginService {
     this.removePluginKongService(serviceName, pluginId);
   }
 
-  public static instance(config: Config) {
-    return this._instance || (this._instance = new this(config));
-  }
+
 }

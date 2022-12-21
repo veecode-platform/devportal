@@ -13,7 +13,7 @@ export class PluginService extends KongServiceBase {
     pluginName: PluginName,
     config: Map<string, any>,
   ) {
-    const url = `${this.baseUrl}/services/${serviceName}/plugins`;
+    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins`;
 
     const response = await axios.post(url, {
       service: serviceName,
@@ -29,7 +29,7 @@ export class PluginService extends KongServiceBase {
     pluginId: string,
     config: Map<string, string>,
   ) {
-    const url = `${this.baseUrl}/services/${serviceName}/plugins/${pluginId}`;
+    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins/${pluginId}`;
     const response = await axios.patch(url, {
       config: Object.fromEntries(config),
     });
@@ -38,20 +38,15 @@ export class PluginService extends KongServiceBase {
   }
 
   public async listPluginsKongService(serviceName: string) {
-    const url = `${this.baseUrl}/services/${serviceName}/plugins`;
+    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
     return response.data;
   }
 
   public async removePluginKongService(serviceName: string, pluginId: string) {
-    const url = `${this.baseUrl}/services/${serviceName}/plugins/${pluginId}`;
+    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins/${pluginId}`;
     const response = await axios.delete(url);
     return response.data;
   }
 }
 
-export enum PluginName {
-  ACL = 'acl',
-  KEYAUTH = 'key-auth',
-  OAUTH2= 'oauth2'
-}

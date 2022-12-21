@@ -6,20 +6,20 @@ import { KongServiceBase } from './KongServiceBase';
 export class ConsumerGroupService extends KongServiceBase {
 
     public async createConsumerGroup(consumerGroup: ConsumerGroup): Promise<ConsumerGroup> {
-        const url = `${this.baseUrl}/consumer_groups`;
+        const url = `${await this.getBaseUrl()}/consumer_groups`;
         const response = await axios
             .post(url, consumerGroup, {
-                headers: this.getAuthHeader(),
+                headers: await this.getAuthHeader(),
             })
             .catch(kongConsumerGroupExceptions);
         return response.data.consumerGroup;
     }
 
     public async listConsumerGroups(): Promise<ConsumerGroup[]> {
-        const url = `${this.baseUrl}/consumer_groups`;
+        const url = `${await this.getBaseUrl()}/consumer_groups`;
         const response = await axios
             .get(url, {
-                headers: this.getAuthHeader(),
+                headers: await this.getAuthHeader(),
             })
             .catch(kongConsumerGroupExceptions);
         const groups = response.data.data;
@@ -27,10 +27,10 @@ export class ConsumerGroupService extends KongServiceBase {
     }
     
     public async deleteConsumerGroup(consumerGroupId: string): Promise<ConsumerGroup> {
-        const url = `${this.baseUrl}/consumer_groups/${consumerGroupId}`;
+        const url = `${await this.getBaseUrl()}/consumer_groups/${consumerGroupId}`;
         const response = await axios
           .delete(url, {
-            headers: this.getAuthHeader(),
+            headers: await this.getAuthHeader(),
           })
           .catch(kongConsumerGroupExceptions);
         const consumerGroup = response.data;
@@ -38,20 +38,20 @@ export class ConsumerGroupService extends KongServiceBase {
     }
 
     public async addConsumerToGroup(consumerGroupId:string, consumerId:string) {
-        const url = `${this.baseUrl}/consumer_groups/${consumerGroupId}/consumers`;
+        const url = `${await this.getBaseUrl()}/consumer_groups/${consumerGroupId}/consumers`;
         const response = await axios
             .post(url, consumerId, {
-                headers: this.getAuthHeader(),
+                headers: await this.getAuthHeader(),
             })
             .catch(kongConsumerGroupExceptions);
         return response.data;
     }
 
     public async removeConsumerFromGroups(consumerId:string){
-        const url = `${this.baseUrl}/consumers/${consumerId}/consumer_groups`;
+        const url = `${await this.getBaseUrl()}/consumers/${consumerId}/consumer_groups`;
         const response = await axios
           .delete(url, {
-            headers: this.getAuthHeader(),
+            headers: await this.getAuthHeader(),
           })
           .catch(kongConsumerGroupExceptions);
 
@@ -62,10 +62,10 @@ export class ConsumerGroupService extends KongServiceBase {
     public async removeConsumerFromGroup(consumerId:string, consumerGroupId:string){
         // Remove a consumer from a consumer group
 
-        const url = `${this.baseUrl}/consumers/${consumerId}/consumer_groups/${consumerGroupId}`;
+        const url = `${await this.getBaseUrl()}/consumers/${consumerId}/consumer_groups/${consumerGroupId}`;
         const response = await axios
           .delete(url, {
-            headers: this.getAuthHeader(),
+            headers: await this.getAuthHeader(),
           })
           .catch(kongConsumerGroupExceptions);
 
