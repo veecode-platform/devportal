@@ -29,9 +29,9 @@ export class KeycloakUserService {
         return updated
     }
 
-    public async deleteUser(){
+    public async deleteUser(id: string){
         const kcAdminClient = await new KeycloakAdminClient().getClient();
-        const deleted = await kcAdminClient.users.del();
+        const deleted = await kcAdminClient.users.del({id:id});
         return deleted
     }
 
