@@ -84,8 +84,8 @@ export async function createRouter(
   router.put('/keycloak/users/:id', async (request, response) => {
     const code = request.params.id;
     const user: UpdateUserDto = request.body.user;
-    const updated = await userServiceKeycloak.updateUser(code, user);
-    response.status(200).json({ status: 'ok', updated: updated })
+    await userServiceKeycloak.updateUser(code, user);
+    response.status(200).json({ status: 'User Updated!'})
   })
 
   router.delete('/keycloak/users/:id', async(_, response) => {
