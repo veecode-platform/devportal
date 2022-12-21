@@ -1,7 +1,9 @@
+import { Knex } from 'knex';
 import { Plugin } from '../../domain/Plugin';
 import { PluginDto } from '../../dtos/PluginDto';
+import { PluginResponseDto } from '../../dtos/PluginResponseDto';
+import { PluginMapper } from '../../mappers/PluginMapper';
 import { IPluginRepository } from '../IPluginRepository';
-import { Knex } from 'knex';
 
 export class PostgresPluginRepository implements IPluginRepository {
   constructor(private readonly db: Knex) {}
@@ -10,22 +12,98 @@ export class PostgresPluginRepository implements IPluginRepository {
     return new PostgresPluginRepository(knex);
   }
 
-  getPlugins(): Promise<Plugin[]> {
-    throw new Error('Method not implemented.');
+  /**
+   * Returns an array of plugins from the database
+   * @returns {Promise<Plugin[]>}
+   */
+  async getPlugins(): Promise<Plugin[]> {
+    const plugin = await this.db<Plugin>('plugins')
+      .select('*')
+      .catch(error => console.log(error));
+    const pluginDomain = PluginResponseDto.create({ plugins: plugin });
+    const responseData = await PluginMapper.listAllServicesToResource(
+      pluginDomain,
+    );
+    return responseData.plugins ?? [];
   }
-  getPluginById(id: string): Promise<string | Plugin> {
-    throw new Error('Method not implemented.');
+
+  /**
+   * Return a plugin by id
+   * @returns {Promise<string | Plugin>}
+   */
+  async getPluginById(id: string): Promise<string | Plugin> {
+    const plugin = await this.db<Plugin>('plugins')
+      .where('id', id)
+      .limit(1)
+      .select()
+      .catch(error => console.log(error));
+    const pluginDomain = PluginResponseDto.create({ pluginIt: plugin });
+    const responseData = await PluginMapper.listAllServicesToResource(
+      pluginDomain,
+    );
+    return responseData.plugin ?? 'cannot find plugin';
   }
-  savePlugin(pluginDto: PluginDto): Promise<Plugin> {
-    throw new Error('Method not implemented.');
+
+  /**
+   * Save a plugin in database
+   * @returns {Promise<Plugin>}
+   */
+  async savePlugin(pluginDto: PluginDto): Promise<Plugin> {
+    const plugin: Plugin = Plugin.create({
+      name: pluginDto.name,
+      active: pluginDto.active,
+      service: pluginDto.service,
+    });
+    const data = PluginMapper.toPersistence(plugin);
+    console.log(data);
+    return plugin;
   }
-  deletePlugin(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  /**
+   * Delete a plugin
+   * @returns {Promise<void>}
+   */
+  async deletePlugin(id: string): Promise<void> {
+    await this.db<Plugin>('plugins')
+      .where('id', id)
+      .del()
+      .catch(error => console.error(error));
   }
-  createPlugin(pluginDto: PluginDto): Promise<string | Plugin> {
-    throw new Error('Method not implemented.');
+
+  /**
+   * Create a plugin
+   * @returns {Promise<string | Plugin>}
+   */
+  async createPlugin(pluginDto: PluginDto): Promise<string | Plugin> {
+    const plugin: Plugin = Plugin.create({
+      name: pluginDto.name,
+      active: pluginDto.active,
+      service: pluginDto.service,
+    });
+    const data = await PluginMapper.toPersistence(plugin);
+    const createdPlugin = await this.db('plugins')
+      .insert(data)
+      .catch(error => console.error(error));
+    return createdPlugin ? plugin : 'cannot create plugin';
   }
-  patchPlugin(id: string, pluginDto: PluginDto): Promise<string | Plugin> {
-    throw new Error('Method not implemented.');
+
+  /**
+   * Patch a plugin by id
+   * @returns {Promise<string | Plugin>}
+   */
+  async patchPlugin(
+    id: string,
+    pluginDto: PluginDto,
+  ): Promise<string | Plugin> {
+    const plugin: Plugin = Plugin.create({
+      name: pluginDto.name,
+      active: pluginDto.active,
+      service: pluginDto.service,
+    });
+    const patchedPlugin = await this.db('plugins')
+      .where('id', id)
+      .update(pluginDto)
+      .catch(error => console.log(error));
+    return patchedPlugin ? plugin : 'cannot patch plugin';
   }
 }
