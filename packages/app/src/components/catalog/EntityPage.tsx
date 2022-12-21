@@ -235,7 +235,7 @@ const componentPage = (
   </EntitySwitch>
 );
 
-const apiPage = (
+const apiPage = ( 
   <EntityLayout>
     <EntityLayout.Route path="/" title="Definition">
       <Grid container spacing={3}>

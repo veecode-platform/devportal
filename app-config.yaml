@@ -180,6 +180,8 @@ integrations:
       token: ${GITHUB_TOKEN_SECRET}
 
 catalog:
+  rules:
+    - allow: [Component, API, Location, Template]
   providers:
     github:
       providerId: # the provider ID can be any camelCase string
@@ -191,10 +193,10 @@ catalog:
           validateLocationsExist: true
 
   locations:
-  - type: url
-    target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/all-templates.yaml
-    rules:
-      - allow: [Template]
+  #- type: url
+  #  target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/all-templates.yaml
+  #  rules:
+  #    - allow: [Template]
   - type: url
     target: https://github.com/backstage/backstage/blob/master/catalog-info.yaml
 
