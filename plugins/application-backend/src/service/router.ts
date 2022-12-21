@@ -29,7 +29,8 @@ import { ConsumerGroupService } from '../modules/kong/services/ConsumerGroupServ
 import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
 import { TestGroups } from '../modules/keycloak/adminClient';
 import { getRootLogger } from '@backstage/backend-common';
-import { PlatformConfig } from '../modules/utils/PlataformConfig';
+import { ControllPlugin } from '../modules/services/service/ControllPlugin';
+
 
 
 /** @public */
@@ -69,16 +70,16 @@ export async function createRouter(
   const kongHandler = new KongHandler();
   const consumerService = new ConsumerService();
   
-  
+  const controllPlugin = new ControllPlugin();
   const consumerGroupService = new ConsumerGroupService();
   const userService = new UserService();
   const associateService = new AssociateService();
   const pluginService = new PluginService();
   //const aclPlugin = new AclPlugin(config);
   // const aclPlugin = AclPlugin.Instance;
-  const aclPlugin = new AclPlugin();
-  const keyAuthPlugin = KeyAuthPlugin.instance(config);
-  const rateLimitingPlugin = RateLimitingPlugin.instance(config);
+  const aclPlugin = AclPlugin.instance()
+  const keyAuthPlugin = KeyAuthPlugin.Instance;
+  const rateLimitingPlugin = RateLimitingPlugin.instance();
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -107,6 +108,7 @@ export async function createRouter(
   router.post('/service', async (request, response) => {
     try {
       const service: ServiceDto = request.body.service;
+      controllPlugin.applyOuath(service);
       const result = await serviceRepository.createService(service);
       response.status(201).json({ status: 'ok', service: result })
     } catch (error: any) {
@@ -690,7 +692,7 @@ router.get('/consumers', async (_, response) => {
   router.delete('/kong-service/acl/:serviceName', async (request, response) => {
     try {
 
-      const serviceStore = await pluginService.removeAclKongService(config.getString('kong.api-manager'), request.params.serviceName,  request.query.idAcl as string);
+      const serviceStore = await aclPlugin.removeAclKongService( request.params.serviceName,  request.query.idAcl as string);
       if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
       response.status(204).json({ status: 'ok', services: [] });
     } catch (error: any) {
@@ -709,7 +711,7 @@ router.get('/consumers', async (_, response) => {
     try {
       const hide = request.body.hide_groups_header
       const allowed = request.body.allowed
-      const serviceStore = await pluginService.updateclKongService(config.getString('kong.api-manager'), request.params.serviceName, allowed, request.query.idAcl as string, hide);
+      const serviceStore = await aclPlugin.updateAclKongService(request.params.serviceName, request.query.idAcl as string, allowed);
       if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
       response.status(204).json({ status: 'ok', services: [] });
     } catch (error: any) {

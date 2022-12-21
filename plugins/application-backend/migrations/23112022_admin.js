@@ -14,7 +14,7 @@
       table.integer('rateLimiting');
       table.string("kongServiceName");
       table.string("kongServiceId");
-      table.enu("securityType", ['none', 'key-auth', 'ouath2'],{useNative: true, enumName:'security_type'} ).defaultTo('none')
+      table.enu("securityType", ['none', 'key-auth', 'oauth2'],{useNative: true, enumName:'security_type'} ).defaultTo('none')
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     

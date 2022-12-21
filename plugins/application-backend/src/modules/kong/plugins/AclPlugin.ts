@@ -2,7 +2,10 @@
 import { PluginName, PluginService } from '../services/PluginService';
 import axios from 'axios';
 export class AclPlugin extends PluginService {
- 
+
+  
+  private static _instance: AclPlugin;
+
 
   public constructor() {
     super();
@@ -35,8 +38,11 @@ export class AclPlugin extends PluginService {
   }
 
   public async removeAclKongService(serviceName: string, pluginId: string) {
-    this.removePluginKongService(serviceName, pluginId);
+    return this.removePluginKongService(serviceName, pluginId);
   }
 
+  public static instance() {
+    return this._instance || (this._instance = new this());
+  }
 
 }

@@ -5,6 +5,7 @@ export enum PluginName {
   acl = 'acl',
   key_auth = 'key-auth',
   rate_limiting = 'rate-limiting',
+  oauth2 = 'oauth2'
 }
 
 export class PluginService extends KongServiceBase {

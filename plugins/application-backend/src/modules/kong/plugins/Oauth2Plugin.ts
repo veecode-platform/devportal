@@ -2,14 +2,13 @@ import { PluginName, PluginService } from "../services/PluginService";
 
 export class Oauth2Plugin  extends PluginService {
 
-    public async configureOauth(serviceName: string, authHeaderName: string,authorizationCode: boolean, implictGrant: boolean, clienteCredential: boolean, passwordGrant: boolean){
+    private static _instance: Oauth2Plugin;
+
+    public async configureOauth(serviceName: string){
         let map: Map<string, any> = new Map<string, any>();
-        map.set("auth_header_name", authHeaderName)
-        map.set("enable_authorization_code", authorizationCode)
-        map.set('enable_implicit_grant', implictGrant)
-        map.set('enable_client_credentials', clienteCredential)
-        map.set('enable_password_grant', passwordGrant)
-        return this.applyPluginKongService(serviceName, PluginName.OAUTH2, map); 
+        map.set("auth_header_name", 'authorization')
+        map.set("enable_authorization_code", true)
+        return this.applyPluginKongService(serviceName, PluginName.oauth2, map); 
     }
 
 
@@ -20,11 +19,14 @@ export class Oauth2Plugin  extends PluginService {
         map.set('enable_implicit_grant', implictGrant)
         map.set('enable_client_credentials', clienteCredential)
         map.set('enable_password_grant', passwordGrant)
-        return this.updatePluginKongService(serviceName, PluginName.OAUTH2, map); 
+        return this.updatePluginKongService(serviceName, PluginName.oauth2, map); 
     }
 
     public async removeOauth(serviceId: string, pluginId: string){
         return this.removePluginKongService(serviceId, pluginId);
     }
  
+    public static instance() {
+        return this._instance || (this._instance = new this());
+      }
 }
