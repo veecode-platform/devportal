@@ -12,7 +12,7 @@ export class PluginMapper {
       updatedAt: plugin.props.updatedAt,
     };
   }
-  static async listAllServicesToResource(pluginResponseDto: PluginResponseDto) {
+  static async listAllPluginsToResource(pluginResponseDto: PluginResponseDto) {
     return {
       plugins: pluginResponseDto.props.plugins ?? [],
       plugin: pluginResponseDto.props.plugin ?? '',

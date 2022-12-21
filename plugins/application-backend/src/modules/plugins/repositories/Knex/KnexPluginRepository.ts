@@ -17,11 +17,12 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<Plugin[]>}
    */
   async getPlugins(): Promise<Plugin[]> {
+    console.log('AQUI')
     const plugin = await this.db<Plugin>('plugins')
       .select('*')
       .catch(error => console.log(error));
     const pluginDomain = PluginResponseDto.create({ plugins: plugin });
-    const responseData = await PluginMapper.listAllServicesToResource(
+    const responseData = await PluginMapper.listAllPluginsToResource(
       pluginDomain,
     );
     return responseData.plugins ?? [];
@@ -38,7 +39,7 @@ export class PostgresPluginRepository implements IPluginRepository {
       .select()
       .catch(error => console.log(error));
     const pluginDomain = PluginResponseDto.create({ pluginIt: plugin });
-    const responseData = await PluginMapper.listAllServicesToResource(
+    const responseData = await PluginMapper.listAllPluginsToResource(
       pluginDomain,
     );
     return responseData.plugin ?? 'cannot find plugin';

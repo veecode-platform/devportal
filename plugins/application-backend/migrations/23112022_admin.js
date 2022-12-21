@@ -17,7 +17,7 @@ exports.up = async function up(knex) {
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     });
     await knex.schema.createTable('partners', table => {
-      table.uuid('id').primary;
+      table.uuid('id').primary();
       table.string('name');
       table.boolean('active');
       table.string('email');
@@ -28,7 +28,7 @@ exports.up = async function up(knex) {
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     });
     await knex.schema.createTable('applications', table => {
-      table.uuid('id').primary;
+      table.uuid('id').primary();
       table.string('name');
       table.boolean('active');
       table.string('creator');
@@ -39,7 +39,7 @@ exports.up = async function up(knex) {
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     });
     await knex.schema.createTable('plugins', table => {
-      table.uuid('id').primary;
+      table.uuid('id').primary();
       table.string('name');
       table.boolean('active');
       table.uuid('service');
