@@ -172,7 +172,6 @@ export async function createRouter(
   // PLUGINS
   router.get('/plugins', async (_, response) => {
     const plugins = await pluginRepository.getPlugins();
-    console.log(plugins);
     response.status(200).json({ status: 'ok', plugins: plugins });
   });
 
