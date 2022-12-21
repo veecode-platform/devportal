@@ -171,9 +171,7 @@ export async function createRouter(
 
   // PLUGINS
   router.get('/plugins', async (_, response) => {
-    console.log('CAIU AQUI VVVVVVVVVVVVVVV');
     const plugins = await pluginRepository.getPlugins();
-    console.log('VVVVVVVVVVVVV');
     console.log(plugins);
     response.status(200).json({ status: 'ok', plugins: plugins });
   });

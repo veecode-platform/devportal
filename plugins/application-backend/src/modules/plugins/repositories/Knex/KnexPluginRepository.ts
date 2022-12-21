@@ -17,7 +17,6 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<Plugin[]>}
    */
   async getPlugins(): Promise<Plugin[]> {
-    console.log('AQUI')
     const plugin = await this.db<Plugin>('plugins')
       .select('*')
       .catch(error => console.log(error));
