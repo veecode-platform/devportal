@@ -114,6 +114,12 @@ export async function createRouter(
     response.status(204).json({ status: 'User Removed From Group!', res:res }) 
   })
 
+  router.get('/keycloak/users/:id/groups', async (request, response) => {
+    const user_id = request.params.id;
+    const groups = await userServiceKeycloak.listUserGroups(user_id);
+    response.status(200).json({ status: 'ok', groups: groups })
+  })
+
   // SERVICE
   router.get('/services', async (_, response) => {
     const services = await serviceRepository.getService();

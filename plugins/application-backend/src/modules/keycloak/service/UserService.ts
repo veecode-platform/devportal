@@ -1,7 +1,5 @@
 import { KeycloakAdminClient } from "../adminClient";
 import { UpdateUserDto, UserDto } from "../dtos/UserDto";
-// import { User } from "../domain/User";
-// const kcAdminClient = await new KeycloakAdminClient().getClient();
 
 export class KeycloakUserService {
     
@@ -35,6 +33,14 @@ export class KeycloakUserService {
         const kcAdminClient = await new KeycloakAdminClient().getClient();
         const deleted = await kcAdminClient.users.del();
         return deleted
+    }
+
+    public async listUserGroups(id: string){
+        const kcAdminClient = await new KeycloakAdminClient().getClient();
+        const result = await kcAdminClient.users.listGroups({
+            id: id,
+        });
+        return result
     }
 
     public async addUserToGroup(id:string, groupId: string){
