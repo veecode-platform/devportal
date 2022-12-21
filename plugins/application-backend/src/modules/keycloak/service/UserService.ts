@@ -16,6 +16,14 @@ export class KeycloakUserService {
         const users = await kcAdminClient.users.find();
         return users
     }
+
+    public async findUser(id: string) {
+        const kcAdminClient = await new KeycloakAdminClient().getClient();
+        const user = await kcAdminClient.users.findOne({
+            id: id
+        });
+        return user
+    }
     
     public async updateUser(id:string, user:UpdateUserDto){
         const kcAdminClient = await new KeycloakAdminClient().getClient();
@@ -25,17 +33,18 @@ export class KeycloakUserService {
 
     public async deleteUser(){
         const kcAdminClient = await new KeycloakAdminClient().getClient();
-        const delUser = await kcAdminClient.users.del();
-        return delUser
+        const deleted = await kcAdminClient.users.del();
+        return deleted
     }
 
-    // public async addUserToGroup(group:Group, user:User){
-    //     const result = await kcAdminClient.users.addToGroup({
-    //         groupId: group.id,
-    //         id: user.id
-    //     })
-    //     return result
-    // }
+    public async addUserToGroup(id:string, groupId: string){
+        const kcAdminClient = await new KeycloakAdminClient().getClient();
+        const result = await kcAdminClient.users.addToGroup({
+            id: id,
+            groupId: groupId,
+        });
+        return result
+    }
 
     // public async removeUserFromGroup(group:Group, user:User){
     //     const result = await kcAdminClient.users.delFromGroup({
