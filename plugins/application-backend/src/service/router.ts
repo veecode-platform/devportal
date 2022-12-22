@@ -133,7 +133,7 @@ export async function createRouter(
   router.post('/service', async (request, response) => {
     try {
       const service: ServiceDto = request.body.service;
-      controllPlugin.applyOuath(service);
+      controllPlugin.applySecurityType(service);
       const result = await serviceRepository.createService(service);
       response.status(201).json({ status: 'ok', service: result })
     } catch (error: any) {
@@ -155,8 +155,20 @@ export async function createRouter(
     response.status(204).json({ status: 'ok', service: result });
   });
 
+  // UPDATE
   router.post('/service/:id', async (request, response) => {
     const code = request.params.id;
+    const service: ServiceDto = request.body.service;
+
+    const result = await serviceRepository.patchService(code, service);
+    response.status(200).json({ status: 'ok', service: result });
+  });
+
+  // PROGRESSO DE ATUALIZAÇÃO
+  router.post('/service/:id', async (request, response) => {
+    const code = request.params.id;
+    const body = request.body;
+
     const service: ServiceDto = request.body.service;
 
     const result = await serviceRepository.patchService(code, service);
