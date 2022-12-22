@@ -14,12 +14,12 @@ export class ControllPlugin{
         try{
             if(service.securityType.toString() == SECURITY.OAUTH2.toString()){
                 await Oauth2Plugin.instance().configureOauth(service.kongServiceName)
-                const consumerGroup: ConsumerGroup = new ConsumerGroup(service.kongServiceName + 'group')
+                const consumerGroup: ConsumerGroup = new ConsumerGroup(service.kongServiceName + '-group')
                 await consumerGroupService.createConsumerGroup(consumerGroup);
                 await AclPlugin.Instance.configAclKongService(service.kongServiceName, [`${service.kongServiceName + '-group'}`])
             }else if(service.securityType.toString() == SECURITY.KEY_AUTH.toString()){
                 await  KeyAuthPlugin.Instance.configKeyAuthKongService(service.kongServiceName)
-                const consumerGroup: ConsumerGroup = new ConsumerGroup(service.kongServiceName + 'group')
+                const consumerGroup: ConsumerGroup = new ConsumerGroup(service.kongServiceName + '-group')
                 await consumerGroupService.createConsumerGroup(consumerGroup);
                 await AclPlugin.Instance.configAclKongService(service.kongServiceName, [`${service.kongServiceName + '-group'}`])
             }
