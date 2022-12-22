@@ -227,7 +227,14 @@ auth:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 
-#todo put into env
+vault:
+  baseUrl: http://localhost:8200
+  token: hvs.CAESIIdqgqsHpkaGt-VLGGf_YpbgKdmEzcswo8FjO0uoKSf7Gh4KHGh2cy55ejVxTW8yblJnU2poMGVCZ2ZGRnh1YUs
+  #publicUrl: http://127.0.0.1:8200
+  #token: vault-plaintext-root-token
+  #secretEngine: teste # Optional. By default it uses 'secrets'
+  #kvVersion: 1
+
 okta:
   host: ${OKTA_TESTE_HOST}
   token: ${OKTA_TESTE_TOKEN}

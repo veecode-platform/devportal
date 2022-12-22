@@ -31,6 +31,8 @@ import search from './plugins/search';
 import application from './plugins/application'
 // custom permission
 import permission from './plugins/permission';
+import vault from './plugins/vault';
+
 
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
@@ -89,6 +91,7 @@ async function main() {
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
+  const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
   
   const apiRouter = Router();
   apiRouter.use('/application', await application(applicationEnv));
@@ -100,6 +103,7 @@ async function main() {
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
+  apiRouter.use('/vault', await vault(vaultEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());

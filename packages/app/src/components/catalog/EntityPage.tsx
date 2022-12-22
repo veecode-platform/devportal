@@ -70,6 +70,7 @@ import {
   RELATION_PART_OF,
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
+import { EntityVaultCard } from '@backstage/plugin-vault';
 
 const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
@@ -127,7 +128,6 @@ const overviewContent = (
     <Grid item md={6} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
-
     <Grid item md={4} xs={12}>
       <EntityLinksCard />
     </Grid>
@@ -242,6 +242,11 @@ const apiPage = (
         <Grid item xs={12}>
           <EntityApiDefinitionCard />
         </Grid>
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="vault" title="Vault">
+      <Grid item md={6} xs={12}>
+        <EntityVaultCard />
       </Grid>
     </EntityLayout.Route>
     {/* <EntityLayout.Route path="/overview" title="Overview">
