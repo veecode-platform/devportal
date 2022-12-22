@@ -74,9 +74,6 @@ export async function createRouter(
   const consumerGroupService = new ConsumerGroupService();
   const userService = new UserService();
   const associateService = new AssociateService();
-  const pluginService = new PluginService();
-  //const aclPlugin = new AclPlugin(config);
-  // const aclPlugin = AclPlugin.Instance;
   const aclPlugin = AclPlugin.Instance
   const keyAuthPlugin = KeyAuthPlugin.Instance;
   const rateLimitingPlugin = RateLimitingPlugin.instance();
