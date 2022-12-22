@@ -9,18 +9,14 @@ export type ApplicationProps = {
   kongConsumerId: string;
   createdAt: Date;
   updateAt: Date;
+};
 
-}
-
-export class Application extends Entity<ApplicationProps>{
-  private constructor(
-    props: ApplicationProps,
-    id?: string,
-  ) {
-    super(props,id);
+export class Application extends Entity<ApplicationProps> {
+  private constructor(props: ApplicationProps, id?: string) {
+    super(props, id);
   }
-  static create(props: ApplicationProps,id?:string): Application {
+  static create(props: ApplicationProps, id?: string): Application {
     props.createdAt = props.createdAt || new Date();
-    return new Application(props,id);
+    return new Application(props, id);
   }
 }

@@ -51,9 +51,7 @@ export function assertIsError(error: unknown): asserts error is Error {
 }
 
 /** @public */
-export async function createRouter(
-  options: RouterOptions,
-): Promise<express.Router> {
+export async function createRouter(options: RouterOptions,): Promise<express.Router> {
   const { logger, database } = options;
 
   const applicationRepository = await PostgresApplicationRepository.create(
@@ -79,7 +77,7 @@ export async function createRouter(
   // const aclPlugin = AclPlugin.Instance;
   const aclPlugin = AclPlugin.Instance
   const keyAuthPlugin = KeyAuthPlugin.Instance;
-  const rateLimitingPlugin = RateLimitingPlugin.instance();
+  const rateLimitingPlugin = RateLimitingPlugin.Instance;
   logger.info('Initializing application backend');
 
   const router = Router();

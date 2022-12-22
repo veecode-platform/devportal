@@ -48,7 +48,7 @@ export class RateLimitingPlugin extends PluginService {
     this.removePluginKongService(serviceName, pluginId);
   }
 
-  public static instance() {
+  public static get Instance() {
     return this._instance || (this._instance = new this());
   }
 }

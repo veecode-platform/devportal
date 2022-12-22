@@ -26,7 +26,7 @@ export class Oauth2Plugin  extends PluginService {
         return this.removePluginKongService(serviceId, pluginId);
     }
  
-    public static instance() {
+    public static get Instance() {
         return this._instance || (this._instance = new this());
       }
 }
