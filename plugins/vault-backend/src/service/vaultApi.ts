@@ -132,8 +132,6 @@ export class VaultClient implements VaultApi {
       teste2.push(key)
     }
 
-  console.log(teste2)
-
     await Promise.all(
       teste2.map(async secret => {
         if (secret.endsWith('/')) {
@@ -148,8 +146,8 @@ export class VaultClient implements VaultApi {
           secrets.push({
             name: secret,
             path: secretPath,
-            editUrl: `${vaultUrl}/ui/vault/secrets/${this.vaultConfig.secretEngine}/edit/${secretPath}/${secret}`,
-            showUrl: `${vaultUrl}/ui/vault/secrets/${this.vaultConfig.secretEngine}/show/${secretPath}/${secret}`,
+            editUrl: `${vaultUrl}/ui/vault/secrets/${this.vaultConfig.secretEngine}/edit/${secretPath}`,
+            showUrl: `${vaultUrl}/ui/vault/secrets/${this.vaultConfig.secretEngine}/show/${secretPath}`,
           });
         }
       }),
