@@ -12,7 +12,8 @@ export class ConsumerGroupService extends KongServiceBase {
                 headers: await this.getAuthHeader(),
             })
             .catch(kongConsumerGroupExceptions);
-        return response.data.consumerGroup;
+        console.log(response.data)
+        return response.data
     }
 
     public async listConsumerGroups(): Promise<ConsumerGroup[]> {

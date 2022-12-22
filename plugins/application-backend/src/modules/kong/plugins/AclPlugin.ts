@@ -41,7 +41,7 @@ export class AclPlugin extends PluginService {
     return this.removePluginKongService(serviceName, pluginId);
   }
 
-  public static instance() {
+  public static get Instance() {
     return this._instance || (this._instance = new this());
   }
 

@@ -77,7 +77,7 @@ export async function createRouter(
   const pluginService = new PluginService();
   //const aclPlugin = new AclPlugin(config);
   // const aclPlugin = AclPlugin.Instance;
-  const aclPlugin = AclPlugin.instance()
+  const aclPlugin = AclPlugin.Instance
   const keyAuthPlugin = KeyAuthPlugin.Instance;
   const rateLimitingPlugin = RateLimitingPlugin.instance();
   logger.info('Initializing application backend');
@@ -90,6 +90,34 @@ export async function createRouter(
     const groups = await adminClientKeycloak.getGroup();
     response.status(200).json({ status: 'ok', groups: groups })
   })
+
+  router.post('/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroup: ConsumerGroup = request.body;
+      const result = await consumerGroupService.createConsumerGroup(consumerGroup);
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      console.log(error)
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.get('/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroups = await consumerGroupService.listConsumerGroups();
+      response.status(200).json({ status: 'ok', groups: { consumerGroups } });
+    } catch (error: any) {
+      response.status(error.status).json({
+        message: error.message,
+        timestamp: error.timestamp,
+      });
+    }
+  });
 
   // SERVICE
   router.get('/services', async (request, response) => {
@@ -388,6 +416,7 @@ router.get('/consumers', async (_, response) => {
         })
     }
   });
+
 
 
   router.get('/associate/:id', async (request, response) => {
@@ -939,20 +968,7 @@ router.get('/consumers', async (_, response) => {
 
   //consumerGroup
 
-  router.post('/consumer_groups', async (request, response) => {
-    try {
-      const consumerGroup: ConsumerGroup = request.body;
-      const result = await consumerGroupService.createConsumerGroup(consumerGroup);
-      response.status(201).json({ status: 'ok', service: result });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
+
 
   router.post('/consumer_groups/:id/consumers', async (request, response) => {
     try {
@@ -969,17 +985,7 @@ router.get('/consumers', async (_, response) => {
     }
   });
 
-  router.get('/consumer_groups', async (request, response) => {
-    try {
-      const consumerGroups = await consumerGroupService.listConsumerGroups();
-      response.status(200).json({ status: 'ok', groups: { consumerGroups } });
-    } catch (error: any) {
-      response.status(error.status).json({
-        message: error.message,
-        timestamp: error.timestamp,
-      });
-    }
-  });
+
 
   router.delete('/consumer_groups/:id', async (request, response) => {
     try {
