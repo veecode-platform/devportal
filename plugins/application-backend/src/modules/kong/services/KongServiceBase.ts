@@ -1,12 +1,7 @@
 import { PlatformConfig } from '../../utils/PlatformConfig';
 
 export class KongServiceBase {
-
- 
-
-   constructor() {
-
-  }
+  constructor() {}
 
   /**
    * Get the base url for the Kong Admin API, including the workspace
@@ -18,7 +13,6 @@ export class KongServiceBase {
     const workspace = 'default';
     return `${url}/${workspace}`;
   }
-
 
   /**
    * Get the url for the Kong Admin API
@@ -47,12 +41,9 @@ export class KongServiceBase {
   /**
    * Get the Kong Auth Header selected
    */
-  public async getAuthHeader(): Promise<
-    | {
-        
-      [key:string]: string;
-      }
-  > {
+  public async getAuthHeader(): Promise<{
+    [key: string]: string;
+  }> {
     const config = await PlatformConfig.Instance.getConfig();
     const token = config.getString('kong.admin-token');
     return token ? { 'Kong-Admin-Token': token } : {};
