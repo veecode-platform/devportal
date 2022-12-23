@@ -160,7 +160,7 @@ export async function createRouter(
     const code = request.params.id;
     const service: ServiceDto = request.body.service;
 
-    const result = await serviceRepository.patchService(code, service);
+    // const result = await serviceRepository.patchService(code, service as Service);
     response.status(200).json({ status: 'ok', service: result });
   });
 
@@ -171,7 +171,7 @@ export async function createRouter(
 
     const service: ServiceDto = request.body.service;
 
-    const result = await serviceRepository.patchService(code, service);
+    // const result = await serviceRepository.patchService(code, service);
     response.status(200).json({ status: 'ok', service: result });
   });
   // PARTNER
