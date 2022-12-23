@@ -30,6 +30,7 @@ const EditApplicationComponent = ({ application }: Application) => {
     setApp({
       name: application?.name,
       creator: application?.creator,
+      active: application?.active,
       servicesId: application?.servicesId,
       kongConsumerName: application?.kongConsumerName,
       kongConsumerId: application?.kongConsumerId
@@ -46,6 +47,7 @@ const EditApplicationComponent = ({ application }: Application) => {
       application:{
         name: app.name,
         creator: app.name,
+        active: app.active,
         servicesId: app.servicesId,
         kongServiceName: app.kongConsumerName,
         kongServiceId : app.kongConsumerId,
@@ -98,6 +100,18 @@ const EditApplicationComponent = ({ application }: Application) => {
                     onChange={(e) => {
                       setApp({ ...app, creator: e.target.value })
                     }} />
+                </Grid>
+                <Grid item xs={12} >
+                  <SearchContextProvider>
+                    <Paper>
+                      <SearchFilter.Autocomplete
+                        multiple
+                        name="Status"
+                        label="Select the Application Status"
+                        values={["active", "disable"]}
+                      />
+                    </Paper>
+                  </SearchContextProvider>
                 </Grid>
                 <Grid item xs={12} >
                   <SearchContextProvider>

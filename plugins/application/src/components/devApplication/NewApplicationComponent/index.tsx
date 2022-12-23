@@ -1,28 +1,33 @@
+/* eslint-disable no-unreachable */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from 'react';
 import { Grid, TextField, Button, Paper } from '@material-ui/core';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Link as RouterLink } from 'react-router-dom';
 import AlertComponent from '../../Alert/Alert';
 import { SearchFilter } from '@backstage/plugin-search-react';
 import { SearchContextProvider } from '@backstage/plugin-search-react';
 import { InfoCard, Header, Page, Content, ContentHeader } from '@backstage/core-components';
 import { ICreateApplication } from '../interfaces';
+import { useUserProfile } from '../../../hooks/useUserProfile';
+
 
 export const NewApplicationComponent = () => {
-  const [application, setApplication] = useState<ICreateApplication>({ name: "", creator: "", servicesId: [], kongConsumerName: "", kongConsumerId: "" });
+  
+  const {name} = useUserProfile();
+  const [application, setApplication] = useState<ICreateApplication>({ name: "", creator: '', active: true, servicesId: [], kongConsumerName: "", kongConsumerId: "" });
   const [show, setShow] = useState<boolean>(false);
+ 
 
   // mock data
   useEffect(() => {
-    return setApplication({ ...application, creator: "valberjr@teste.com", servicesId: ['12324345465', '123432546r34', '43243245436546'] })
+    return setApplication({ ...application, creator: name, servicesId: ['12324345465', '123432546r34', '43243245436546'] })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
     setShow(false);
-    setApplication({ name: "", creator: "", servicesId: [], kongConsumerName: "", kongConsumerId: "" });
+    setApplication({ name: "", creator: "", active: true , servicesId: [], kongConsumerName: "", kongConsumerId: "" });
   };
 
   const handleSubmit = async () => {
@@ -30,6 +35,7 @@ export const NewApplicationComponent = () => {
         application:{
           name: application.name,
           creator: application.name,
+          active: application.active,
           servicesId: application.servicesId,
           kongServiceName: application.kongConsumerName,
           kongServiceId : application.kongConsumerId,
