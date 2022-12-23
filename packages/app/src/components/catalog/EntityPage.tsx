@@ -71,6 +71,7 @@ import {
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
 import { EntityVaultCard } from '@backstage/plugin-vault';
+import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 
 const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
@@ -244,9 +245,19 @@ const apiPage = (
         </Grid>
       </Grid>
     </EntityLayout.Route>
-    <EntityLayout.Route path="vault" title="Vault">
+    <EntityLayout.Route path="/vault" title="Vault">
       <Grid item md={6} xs={12}>
         <EntityVaultCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana" title="Grafana">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaDashboardsCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana-alerts" title="Grafana-alerts">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaAlertsCard />
       </Grid>
     </EntityLayout.Route>
     {/* <EntityLayout.Route path="/overview" title="Overview">

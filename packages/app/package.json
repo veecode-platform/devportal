@@ -37,6 +37,7 @@
     "@backstage/theme": "^0.2.16",
     "@internal/plugin-application": "^0.1.0",
     "@internal/plugin-application-common": "^0.1.0",
+    "@k-phoen/backstage-plugin-grafana": "^0.1.17",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.9.1",
     "@react-hookz/web": "^20.0.3",
