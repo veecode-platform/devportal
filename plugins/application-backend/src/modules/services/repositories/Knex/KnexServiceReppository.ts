@@ -34,7 +34,7 @@ export class PostgresServiceRepository implements IServiceRepository {
   }
 
   // method get one service by id
-  async getServiceById(id: string): Promise<Service | string> {
+  async getServiceById(id: string): Promise<Service> {
     const service = await this.db<Service>('services')
       .where('id', id)
       .limit(1)
@@ -44,7 +44,7 @@ export class PostgresServiceRepository implements IServiceRepository {
     const responseData = await ServiceMapper.listAllServicesToResource(
       serviceDomain,
     );
-    return responseData.service ?? 'cannot find service';
+    return responseData.services[0];
   }
 
   async saveService(serviceDto: ServiceDto): Promise<Service> {

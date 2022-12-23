@@ -8,5 +8,5 @@ export interface IServiceRepository {
   saveService(serviceDto: ServiceDto): Promise<Service>;
   deleteService(id: string): Promise<void>;
   createService(serviceDto: ServiceDto): Promise<Service | string>;
-  patchService(id: string, serviceDto: Service): Promise<Service | string>;
+  patchService(id: string, serviceDto: ServiceDto): Promise<Service | string>;
 }

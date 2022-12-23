@@ -63,7 +63,7 @@ exports.up = async function up(knex) {
 exports.down = async function down(knex) {
   try {
     await knex.schema.dropTable('plugins');
-    await knex.schema.dropTable('services');
+    await knex.schema.dropTable('services').raw('DROP TYPE security_type');
     await knex.schema.dropTable('partners');
     await knex.schema.dropTable('applications');
 
