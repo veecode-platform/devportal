@@ -21,7 +21,6 @@ export class ApplicationServices {
     try {
       const consumer = new Consumer(application.name);
       ConsumerService.Instance.createConsumer(consumer);
-      let serviceNames: string[] = [];
 
       const serviceRepository = await PostgresServiceRepository.create(
         await options.database.getClient(),
@@ -29,24 +28,18 @@ export class ApplicationServices {
 
       const servicesId: string[] = application.servicesId;
 
-      servicesId.forEach(x => {
-        const service = serviceRepository.getServiceById(x);
-        service
-          .then(result => {
-            if (result instanceof Object) {
-              serviceNames.push(result.props.name + '-group');
-            }
-          })
-          .catch(error => {
-            throw new Error(error);
-          });
-      });
-
-      serviceNames.forEach(consumerGroupName => {
-        ConsumerGroupService.Instance.addConsumerToGroup(
-          consumerGroupName,
-          consumer.username,
-        );
+      servicesId.forEach(async x => {
+        try {
+          const service = await serviceRepository.getServiceById(x);
+          if (service instanceof Object) {
+            ConsumerGroupService.Instance.addConsumerToGroup(
+              service.name + '-group',
+              consumer.username,
+            );
+          }
+        } catch (error) {
+          console.log(error);
+        }
       });
     } catch (error) {
       console.log(error);

@@ -8,7 +8,7 @@ exports.seed = async function(knex) {
         await knex('services').insert([
             {
                 id: "ad94b906-4970-11ed-b878-0242ac120001",
-                name:"service with ",
+                name:"app",
                 description: 'test description',
                 redirectUrl: "https://test.com.br",
                 partnersId: ["ad94b906-4970-11ed-b878-0242ac120002", "27447ec1-d67f-4233-bfb1-0f11f7ccca29"],

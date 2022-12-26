@@ -305,7 +305,7 @@ router.get('/consumers', async (_, response) => {
 
   router.post('/', async (request, response) => {
     const data = request.body.application;
-    ApplicationServices.Instance.createApplication(data, options);
+    await ApplicationServices.Instance.createApplication(data, options);
     try {
       if (!data) {
         throw new InputError(
