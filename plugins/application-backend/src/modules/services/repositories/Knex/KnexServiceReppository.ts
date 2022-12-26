@@ -1,17 +1,16 @@
+import { Knex } from 'knex';
+import { Service } from '../../domain/Service';
 import { ServiceDto } from '../../dtos/ServiceDto';
+import { ServiceResponseDto } from '../../dtos/ServiceResponseDto';
 import { ServiceMapper } from '../../mappers/ServiceMapper';
 import { IServiceRepository } from '../IServiceRepository';
-import { Service } from '../../domain/Service';
-import { Knex } from 'knex';
-import { ServiceResponseDto } from '../../dtos/ServiceResponseDto';
-
 
 export class PostgresServiceRepository implements IServiceRepository {
   constructor(private readonly db: Knex) {}
 
   static async create(knex: Knex<any, any[]>): Promise<IServiceRepository> {
     return new PostgresServiceRepository(knex);
-  } 
+  }
 
   async getServiceByUser(name: string): Promise<Service[] | void> {
     const service = await this.db<Service>('services')
@@ -21,15 +20,17 @@ export class PostgresServiceRepository implements IServiceRepository {
     return service;
   }
 
-  async getService(limit: number, offset:number): Promise<Service[]> {
+  async getService(limit: number, offset: number): Promise<Service[]> {
     const service = await this.db<Service>('services')
-      .select('*').limit(limit).offset(offset)
+      .select('*')
+      .limit(limit)
+      .offset(offset)
       .catch(error => console.error(error));
     const servicesDomain = ServiceResponseDto.create({ services: service });
     const responseData = await ServiceMapper.listAllServicesToResource(
       servicesDomain,
     );
-    console.log("Aqui são as services", service)
+    console.log('Aqui são as services', service);
     return responseData.services ?? [];
   }
 
@@ -57,13 +58,13 @@ export class PostgresServiceRepository implements IServiceRepository {
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
       rateLimiting: serviceDto.rateLimiting,
-      securityType: serviceDto.securityType
+      securityType: serviceDto.securityType,
     });
     const data = ServiceMapper.toPersistence(service);
     console.log(data);
     return service;
   }
-    
+
   // method to delete service
   async deleteService(id: string): Promise<void> {
     await this.db<Service>('services')
@@ -74,45 +75,47 @@ export class PostgresServiceRepository implements IServiceRepository {
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
     const service: Service = Service.create({
-        name: serviceDto.name,
-        active: serviceDto.active,
-        description: serviceDto.description,
-        redirectUrl: serviceDto.redirectUrl,
-        partnersId: serviceDto.partnersId,
-        kongServiceName: serviceDto.kongServiceName,
-        kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: serviceDto.rateLimiting,
-        securityType: serviceDto.securityType
-      }
-
- 
-      );
-      if(serviceDto.securityType.valueOf() != "none" ){
-        
-      }
-      const data = await ServiceMapper.toPersistence(service);
-    const createdService = await this.db('services').insert(data).catch(error => console.error(error));
-    return createdService ? service : "cannot create service"
-   }
-    // asyn function to update full service object
-    async updateService(id: string, serviceDto: ServiceDto): Promise<Service | string> {
-      const service: Service = Service.create({
-        name: serviceDto.name,
-        active: serviceDto.active,
-        description: serviceDto.description,
-        redirectUrl: serviceDto.redirectUrl,
-        partnersId: serviceDto.partnersId,
-        kongServiceName: serviceDto.kongServiceName,
-        kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: serviceDto.rateLimiting,
-        securityType: serviceDto.securityType
-      });
-      const data =await ServiceMapper.toPersistence(service);
-      const updatedService = await this.db('services').where('id', id).update(data).catch(error => console.error(error));
-      return updatedService ? service : "cannot update service";
-      }
-
-
+      name: serviceDto.name,
+      active: serviceDto.active,
+      description: serviceDto.description,
+      redirectUrl: serviceDto.redirectUrl,
+      partnersId: serviceDto.partnersId,
+      kongServiceName: serviceDto.kongServiceName,
+      kongServiceId: serviceDto.kongServiceId,
+      rateLimiting: serviceDto.rateLimiting,
+      securityType: serviceDto.securityType,
+    });
+    if (serviceDto.securityType.valueOf() != 'none') {
+    }
+    const data = await ServiceMapper.toPersistence(service);
+    const createdService = await this.db('services')
+      .insert(data)
+      .catch(error => console.error(error));
+    return createdService ? service : 'cannot create service';
+  }
+  // asyn function to update full service object
+  async updateService(
+    id: string,
+    serviceDto: ServiceDto,
+  ): Promise<Service | string> {
+    const service: Service = Service.create({
+      name: serviceDto.name,
+      active: serviceDto.active,
+      description: serviceDto.description,
+      redirectUrl: serviceDto.redirectUrl,
+      partnersId: serviceDto.partnersId,
+      kongServiceName: serviceDto.kongServiceName,
+      kongServiceId: serviceDto.kongServiceId,
+      rateLimiting: serviceDto.rateLimiting,
+      securityType: serviceDto.securityType,
+    });
+    const data = await ServiceMapper.toPersistence(service);
+    const updatedService = await this.db('services')
+      .where('id', id)
+      .update(data)
+      .catch(error => console.error(error));
+    return updatedService ? service : 'cannot update service';
+  }
 
   // async updateService(code: string, serviceDto: ServiceDto): Promise<Service | null> {
   //     return null;
@@ -131,8 +134,8 @@ export class PostgresServiceRepository implements IServiceRepository {
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
       securityType: serviceDto.securityType,
-      rateLimiting: serviceDto.rateLimiting
-      });// try add ,id on service create
+      rateLimiting: serviceDto.rateLimiting,
+    }); // try add ,id on service create
     //const data =await ServiceMapper.toPersistence(service);
 
     const patchedService = await this.db('services')

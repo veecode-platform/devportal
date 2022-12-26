@@ -13,7 +13,7 @@ export class PlatformConfig {
   }
 
   public async getConfig(): Promise<Config> {
-    return  this.loadBackend;
+    return this.loadBackend;
   }
 
   public static get Instance() {
