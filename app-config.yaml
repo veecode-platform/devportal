@@ -130,6 +130,15 @@ proxy:
     headers:
       Authorization: Basic ${GOCD_AUTH_CREDENTIALS}
 
+  '/argocd/api':
+    target: http://localhost:8081/api/v1/
+    changeOrigin: true
+    # only if your argocd api has self-signed cert
+    secure: false
+    headers:
+      Cookie:
+        $env: KCFf4aHPXRpXSY9N
+
 organization:
   name: Devportal
 
@@ -173,6 +182,16 @@ kafka:
 
 allure:
   baseUrl: http://localhost:5050/allure-docker-service
+
+argocd:
+  username: admin
+  password: uc67M4Yxb9J9j0UW
+  appLocatorMethods:
+    - type: 'config'
+      instances:
+        - name: argoInstance1
+          url: http://localhost:8081
+          token: KCFf4aHPXRpXSY9N
 
 integrations:
   github:

@@ -31,10 +31,11 @@ import search from './plugins/search';
 import application from './plugins/application'
 // custom permission
 import permission from './plugins/permission';
-
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
+// argocd
+import argocd from './plugins/argocd';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -89,6 +90,7 @@ async function main() {
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
+  const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
   
   const apiRouter = Router();
   apiRouter.use('/application', await application(applicationEnv));
@@ -100,6 +102,7 @@ async function main() {
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
+  apiRouter.use('/argocd', await argocd(argocdEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());

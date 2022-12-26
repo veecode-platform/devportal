@@ -61,7 +61,7 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 
 import { searchPage } from './components/search/SearchPage';
 // import SafeRoute from './components/Routing/SafeRoute';
-//import { ServicesPage, PartnersPage } from '@internal/plugin-application';
+// import { ServicesPage, PartnersPage } from '@internal/plugin-application';
 // login
 import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
@@ -173,7 +173,7 @@ const routes = (
       {searchPage}
     </Route>
    
-    {/*<Route path="/services" element={<ServicesPage />} />
+    {/* <Route path="/services" element={<ServicesPage />} />
     <Route path="/partners" element={<PartnersPage />} />*/}
     <Route path="/settings" element={<UserSettingsPage />} />
   </FlatRoutes>

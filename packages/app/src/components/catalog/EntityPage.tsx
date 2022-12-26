@@ -46,6 +46,7 @@ import {AboutCard as EntityAboutCard} from "../catalog/AboutCard";
 
 import {
   isGithubActionsAvailable,
+  EntityRecentGithubActionsRunsCard,
   EntityGithubActionsContent,
 } from '@backstage/plugin-github-actions';
 import {
@@ -70,6 +71,26 @@ import {
   RELATION_PART_OF,
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
+// argocd plugin
+import {
+  EntityArgoCDOverviewCard,
+  isArgocdAvailable
+} from '@roadiehq/backstage-plugin-argo-cd';
+// github actions
+import {
+  EntityGithubInsightsContent,
+  EntityGithubInsightsLanguagesCard,
+  EntityGithubInsightsReadmeCard,
+  EntityGithubInsightsReleasesCard,
+  isGithubInsightsAvailable,
+} from '@roadiehq/backstage-plugin-github-insights';
+import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
+import { ReportIssue, TextSize } from '@backstage/plugin-techdocs-module-addons-contrib';
+// gitpull request
+import {
+  EntityGithubPullRequestsContent
+} from '@roadiehq/backstage-plugin-github-pull-requests';
+
 
 const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
@@ -98,6 +119,16 @@ const cicdContent = (
   </EntitySwitch>
 );
 
+const cicdCard = (
+  <EntitySwitch>
+  <EntitySwitch.Case if={isGithubActionsAvailable}>
+    <Grid item sm={6}>
+      <EntityRecentGithubActionsRunsCard limit={4} variant="gridItem" />
+    </Grid>
+  </EntitySwitch.Case>
+</EntitySwitch>
+)
+
 const entityWarningContent = (
   <>
     <EntitySwitch>
@@ -115,7 +146,39 @@ const entityWarningContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
+
   </>
+);
+
+const argoCdContent = (
+  <>
+  <EntitySwitch>
+  <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
+    <Grid item lg={12} xs={12} >
+      <EntityArgoCDOverviewCard />
+    </Grid>
+  </EntitySwitch.Case>
+</EntitySwitch>
+
+</>
+
+);
+
+const techdocsContent = (
+  <EntityTechdocsContent>
+    <TechDocsAddons>
+      <TextSize />
+      <ReportIssue />
+    </TechDocsAddons>
+  </EntityTechdocsContent>
+);
+
+const pullRequestsContent = (
+  <EntitySwitch>
+    <EntitySwitch.Case>
+      <EntityGithubPullRequestsContent />
+    </EntitySwitch.Case>
+  </EntitySwitch>
 );
 
 const overviewContent = (
@@ -128,24 +191,44 @@ const overviewContent = (
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
 
-    <Grid item md={4} xs={12}>
+    {cicdCard}
+
+    <EntitySwitch>
+        <EntitySwitch.Case if={isGithubInsightsAvailable}>
+          <Grid item md={6}>
+            <EntityGithubInsightsLanguagesCard />
+            <EntityGithubInsightsReleasesCard />
+          </Grid>
+          <Grid item md={6}>
+            <EntityGithubInsightsReadmeCard maxHeight={350} />
+          </Grid>
+        </EntitySwitch.Case>
+      </EntitySwitch>
+
+    <Grid item md={6} xs={12}>
       <EntityLinksCard />
     </Grid>
-    <Grid item md={8} xs={12}>
+
+    <Grid item md={12} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
-    </Grid>
+    </Grid>  
+
   </Grid>
 );
 
 const serviceEntityPage = (
   <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">{/*plugin github actions*/}
+    <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
+
+    <EntityLayout.Route path="/code-insights" title="Code Insights">
+        <EntityGithubInsightsContent />
+      </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">
       <Grid container spacing={3} alignItems="stretch">
@@ -170,8 +253,12 @@ const serviceEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
-      <EntityTechdocsContent />
-    </EntityLayout.Route>
+        {techdocsContent}
+      </EntityLayout.Route>
+
+      <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+        {pullRequestsContent}
+      </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -183,6 +270,10 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/argo-cd" title="ArgoCD">
+      {argoCdContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/dependencies" title="Dependencies">
@@ -199,6 +290,10 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
       <EntityTechdocsContent />
     </EntityLayout.Route>
+
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+        {pullRequestsContent}
+      </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -216,8 +311,8 @@ const defaultEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
-      <EntityTechdocsContent />
-    </EntityLayout.Route>
+        {techdocsContent}
+      </EntityLayout.Route>
   </EntityLayout>
 );
 
