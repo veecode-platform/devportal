@@ -24,8 +24,8 @@ import {
   // EntityProvidingComponentsCard,
 } from '@backstage/plugin-api-docs';
 import {
-  EntityDependsOnComponentsCard,
-  EntityDependsOnResourcesCard,
+  //EntityDependsOnComponentsCard,
+  //EntityDependsOnResourcesCard,
   EntityHasComponentsCard,
   EntityHasResourcesCard,
   EntityHasSubcomponentsCard,
@@ -159,7 +159,23 @@ const serviceEntityPage = (
       </Grid>
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/dependencies" title="Dependencies">
+    <EntityLayout.Route path="/vault" title="Vault">
+      <Grid item md={6} xs={12}>
+        <EntityVaultCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana" title="Grafana">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaDashboardsCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana-alerts" title="Grafana-alerts">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaAlertsCard />
+      </Grid>
+    </EntityLayout.Route>
+
+    {/*<EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
           <EntityDependsOnComponentsCard variant="gridItem" />
@@ -168,7 +184,7 @@ const serviceEntityPage = (
           <EntityDependsOnResourcesCard variant="gridItem" />
         </Grid>
       </Grid>
-    </EntityLayout.Route>
+</EntityLayout.Route>*/}
 
     <EntityLayout.Route path="/docs" title="Docs">
       <EntityTechdocsContent />
@@ -186,7 +202,23 @@ const websiteEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/dependencies" title="Dependencies">
+    <EntityLayout.Route path="/vault" title="Vault">
+      <Grid item md={6} xs={12}>
+        <EntityVaultCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana" title="Grafana">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaDashboardsCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana-alerts" title="Grafana-alerts">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaAlertsCard />
+      </Grid>
+    </EntityLayout.Route>
+
+    {/*<EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
           <EntityDependsOnComponentsCard variant="gridItem" />
@@ -195,7 +227,7 @@ const websiteEntityPage = (
           <EntityDependsOnResourcesCard variant="gridItem" />
         </Grid>
       </Grid>
-    </EntityLayout.Route>
+</EntityLayout.Route>*/}
 
     <EntityLayout.Route path="/docs" title="Docs">
       <EntityTechdocsContent />
