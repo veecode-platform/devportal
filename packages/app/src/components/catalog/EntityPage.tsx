@@ -91,6 +91,8 @@ import {
   EntityGithubPullRequestsContent
 } from '@roadiehq/backstage-plugin-github-pull-requests';
 
+import { EntityVaultCard } from '@backstage/plugin-vault';
+import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 
 const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
@@ -206,6 +208,7 @@ const overviewContent = (
       </EntitySwitch>
 
     <Grid item md={6} xs={12}>
+    <Grid item md={4} xs={12}>
       <EntityLinksCard />
     </Grid>
 
@@ -213,6 +216,7 @@ const overviewContent = (
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>  
 
+  </Grid>
   </Grid>
 );
 
@@ -337,6 +341,21 @@ const apiPage = (
         <Grid item xs={12}>
           <EntityApiDefinitionCard />
         </Grid>
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/vault" title="Vault">
+      <Grid item md={6} xs={12}>
+        <EntityVaultCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana" title="Grafana">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaDashboardsCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana-alerts" title="Grafana-alerts">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaAlertsCard />
       </Grid>
     </EntityLayout.Route>
     {/* <EntityLayout.Route path="/overview" title="Overview">
