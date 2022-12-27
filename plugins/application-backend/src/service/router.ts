@@ -109,8 +109,8 @@ export async function createRouter(
     }
   });
 
-  router.delete('/teste/:idService', async (request, response) => {
-    const teste = controllPlugin.remove(options, request.params.idService as string)
+  router.put('/teste/:idService', async (request, response) => {
+    const teste = controllPlugin.removePlugin(options, request.params.idService as string)
     response.status(404).json(teste)
   });
 

@@ -41,7 +41,7 @@ export class ControllPlugin{
   
     }
 
-    public async remove(routerOptions: RouterOptions, serviceId: string){
+    public async removePlugin(routerOptions: RouterOptions, serviceId: string){
         const ServiceRepository = await PostgresServiceRepository.create(
             await routerOptions.database.getClient(),    
           );
@@ -51,15 +51,39 @@ export class ControllPlugin{
 
         let service = await ServiceRepository.getServiceById(serviceId)
         service = Object.values(service)[0];
-        console.log('Essa é a service', service)
+  
         service.securityType = SECURITY.NONE;
         const kongServiceId = service.id;
         console.log('Kong service Id', kongServiceId)
         const plugin: Plugin = await PluginRepository.getPluginByServiceId(kongServiceId);
         await AclPlugin.Instance.removePluginKongService(service.kongServiceName, plugin.pluginId)
-        console.log('before remove plugin', service)
         // PluginRepository.deletePlugin(plugin.id);
         ServiceRepository.updateService(serviceId, service)
+    }
+
+
+    public async changeToOauth2(routerOptions: RouterOptions, serviceId: string){
+        const ServiceRepository = await PostgresServiceRepository.create(
+            await routerOptions.database.getClient(),    
+          );
+          let service = await ServiceRepository.getServiceById(serviceId)
+          service = Object.values(service)[0];
+
+          service.securityType = SECURITY.OAUTH2;
+
+          Oauth2Plugin.instance().configureOauth(service.KongServiceName);
+          ServiceRepository.updateService(serviceId, service);
+    }
+
+    public async changeStatus(routerOptions: RouterOptions, serviceId: string, status: boolean){
+        const ServiceRepository = await PostgresServiceRepository.create(
+            await routerOptions.database.getClient(),    
+          );
+          let service = await ServiceRepository.getServiceById(serviceId)
+          service = Object.values(service)[0];
+
+          service.status = status;
+          ServiceRepository.updateService(serviceId, service);
     }
 
 }
