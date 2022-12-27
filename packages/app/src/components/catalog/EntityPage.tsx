@@ -28,7 +28,7 @@ import {
   // EntityDependsOnResourcesCard,
   EntityHasComponentsCard,
   EntityHasResourcesCard,
-  EntityHasSubcomponentsCard,
+  //EntityHasSubcomponentsCard,
   EntityHasSystemsCard,
   EntityLayout,
   EntityLinksCard,
@@ -211,9 +211,9 @@ const overviewContent = (
       <EntityLinksCard />
     </Grid>
 
-    <Grid item md={12} xs={12}>
+    {/*<Grid item md={12} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
-    </Grid>  
+</Grid> */}
   </Grid>
 );
 
@@ -225,6 +225,10 @@ const serviceEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+        {pullRequestsContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/code-insights" title="Code Insights">
@@ -274,10 +278,6 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
         {techdocsContent}
       </EntityLayout.Route>
-
-      <EntityLayout.Route path="/pull-requests" title="Pull Requests">
-        {pullRequestsContent}
-      </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -289,6 +289,10 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+        {pullRequestsContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/vault" title="Vault">
@@ -327,9 +331,6 @@ const websiteEntityPage = (
       <EntityTechdocsContent />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
-        {pullRequestsContent}
-      </EntityLayout.Route>
   </EntityLayout>
 );
 
