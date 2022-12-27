@@ -12,6 +12,7 @@ import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
+import { ApplicationServices } from '../modules/applications/services/ApplicationServices';
 import { TestGroups } from '../modules/keycloak/adminClient';
 import { AssociateService } from '../modules/kong-control/AssociateService';
 import { KongHandler } from '../modules/kong-control/KongHandler';
@@ -30,8 +31,6 @@ import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
-import { Application } from '../modules/applications/domain/Application';
-import { ApplicationServices } from '../modules/applications/services/ApplicationServices';
 
 /** @public */
 export interface RouterOptions {
@@ -377,6 +376,7 @@ router.get('/consumers', async (_, response) => {
 
   router.delete('/:id', async (request, response) => {
     const code = request.params.id;
+    await ApplicationServices.Instance.removeApplication(code, options);
     try {
       if (!code) {
         throw new InputError(

@@ -12,6 +12,14 @@ export type ApplicationProps = {
 };
 
 export class Application extends Entity<ApplicationProps> {
+  name?: string;
+  creator?: string;
+  servicesId?: string[];
+  active?: boolean;
+  kongConsumerName?: string;
+  kongConsumerId?: string;
+  createdAt?: Date;
+  updateAt?: Date;
   private constructor(props: ApplicationProps, id?: string) {
     super(props, id);
   }

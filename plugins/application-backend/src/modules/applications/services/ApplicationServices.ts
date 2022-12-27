@@ -4,6 +4,7 @@ import { ConsumerGroupService } from '../../kong/services/ConsumerGroupService';
 import { ConsumerService } from '../../kong/services/ConsumerService';
 import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
 import { ApplicationDto } from '../dtos/ApplicationDto';
+import { PostgresApplicationRepository } from '../repositories/knex/KnexApplicationRepository';
 
 export class ApplicationServices {
   private static _instance: ApplicationServices;
@@ -20,27 +21,43 @@ export class ApplicationServices {
   ) {
     try {
       const consumer = new Consumer(application.name);
-      ConsumerService.Instance.createConsumer(consumer);
-
+      const servicesId: string[] = application.servicesId;
       const serviceRepository = await PostgresServiceRepository.create(
         await options.database.getClient(),
       );
 
-      const servicesId: string[] = application.servicesId;
-
+      ConsumerService.Instance.createConsumer(consumer);
       servicesId.forEach(async x => {
-        try {
-          const service = await serviceRepository.getServiceById(x);
-          if (service instanceof Object) {
-            ConsumerGroupService.Instance.addConsumerToGroup(
-              service.name + '-group',
-              consumer.username,
-            );
-          }
-        } catch (error) {
-          console.log(error);
+        const service = await serviceRepository.getServiceById(x);
+        if (service instanceof Object) {
+          ConsumerGroupService.Instance.addConsumerToGroup(
+            service.name + '-group',
+            consumer.username,
+          );
         }
       });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  public async removeApplication(
+    applicationId: string,
+    options: RouterOptions,
+  ) {
+    try {
+      const applicationRepository = await PostgresApplicationRepository.create(
+        await options.database.getClient(),
+      );
+      const application = await applicationRepository.getApplicationById(
+        applicationId,
+      );
+      if (application instanceof Object) {
+        ConsumerGroupService.Instance.removeConsumerFromGroups(
+          application.name as string,
+        );
+      }
+      applicationRepository.deleteApplication(applicationId);
     } catch (error) {
       console.log(error);
     }
