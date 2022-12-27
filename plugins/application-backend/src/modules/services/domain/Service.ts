@@ -15,6 +15,17 @@ export type ServiceProps = {
 };
 
 export class Service extends Entity<ServiceProps> {
+  name?: string;
+  description?: string;
+  redirectUrl?: string;
+  partnersId?: string[];
+  active?: boolean;
+  kongServiceName?: string;
+  kongServiceId?: string;
+  rateLimiting?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  securityType?: SECURITY;
   private constructor(props: ServiceProps, id?: string) {
     super(props, id);
   }
