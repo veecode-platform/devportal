@@ -101,7 +101,7 @@ const useStyles = makeStyles(theme => ({
     margin: '10px 0px'
   },
   footerWrapper:{
-    width: '100%',
+    //width: '100%',
     position: 'absolute',
     bottom: '0',
     display: 'flex',
