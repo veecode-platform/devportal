@@ -42,6 +42,7 @@ exports.up = async function up(knex) {
     await knex.schema.createTable('plugins', table => {
       table.uuid('id').primary();
       table.string('name');
+      table.string('pluginId');
       table.boolean('active');
       table.uuid('service');
       table.timestamp('createdAt').defaultTo(knex.fn.now());

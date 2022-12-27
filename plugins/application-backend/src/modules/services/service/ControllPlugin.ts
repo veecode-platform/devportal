@@ -1,6 +1,5 @@
 
 import { PluginDatabaseManager } from "@backstage/backend-common";
-import { Consumer } from "../../kong/model/Consumer";
 import { ConsumerGroup } from "../../kong/model/ConsumerGroup";
 import { AclPlugin } from "../../kong/plugins/AclPlugin";
 import { KeyAuthPlugin } from "../../kong/plugins/KeyAuthPlugin";
@@ -9,6 +8,8 @@ import { ConsumerGroupService } from "../../kong/services/ConsumerGroupService";
 import { SECURITY, Service } from "../domain/Service";
 import { ServiceDto } from "../dtos/ServiceDto";
 import { PostgresServiceRepository } from "../repositories/Knex/KnexServiceReppository";
+import { PostgresPluginRepository } from "../../plugins/repositories/Knex/KnexPluginRepository";
+import { Plugin } from "../../plugins/domain/Plugin";
 
 
 
@@ -18,7 +19,7 @@ export interface RouterOptions {
   }
 export class ControllPlugin{
 
-    private aclPlugin = AclPlugin.Instance;
+
 
     public async applySecurityType(service: ServiceDto){
         const consumerGroupService = new ConsumerGroupService();
@@ -44,11 +45,21 @@ export class ControllPlugin{
         const ServiceRepository = await PostgresServiceRepository.create(
             await routerOptions.database.getClient(),    
           );
+          const PluginRepository = await PostgresPluginRepository.create(
+            await routerOptions.database.getClient(),
+          );
 
-        const service: Service = await ServiceRepository.getServiceById(serviceId)
-        service.props.securityType = SECURITY.NONE;
-       // this.aclPlugin.removePluginKongService(service.props.kongServiceName, )
-        ServiceRepository.patchService(service._id as string, service)
+        let service = await ServiceRepository.getServiceById(serviceId)
+        service = Object.values(service)[0];
+        console.log('Essa é a service', service)
+        service.securityType = SECURITY.NONE;
+        const kongServiceId = service.id;
+        console.log('Kong service Id', kongServiceId)
+        const plugin: Plugin = await PluginRepository.getPluginByServiceId(kongServiceId);
+        await AclPlugin.Instance.removePluginKongService(service.kongServiceName, plugin.pluginId)
+        console.log('before remove plugin', service)
+        // PluginRepository.deletePlugin(plugin.id);
+        ServiceRepository.updateService(serviceId, service)
     }
 
 }

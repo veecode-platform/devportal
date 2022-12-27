@@ -6,7 +6,7 @@ import {
 import { InputError } from '@backstage/errors';
 //import { InputError } from '@backstage/errors';
 import { Config } from '@backstage/config';
-import express from 'express';
+import express, { response } from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
@@ -91,6 +91,8 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', groups: groups });
   });
 
+  
+
   router.post('/consumer_groups', async (request, response) => {
     try {
       const consumerGroup: ConsumerGroup = request.body;
@@ -105,6 +107,11 @@ export async function createRouter(
         timestamp: new Date(date).toISOString(),
       });
     }
+  });
+
+  router.delete('/teste/:idService', async (request, response) => {
+    const teste = controllPlugin.remove(options, request.params.idService as string)
+    response.status(404).json(teste)
   });
 
   router.get('/consumer_groups', async (request, response) => {
