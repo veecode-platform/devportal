@@ -208,15 +208,12 @@ const overviewContent = (
       </EntitySwitch>
 
     <Grid item md={6} xs={12}>
-    <Grid item md={4} xs={12}>
       <EntityLinksCard />
     </Grid>
 
     <Grid item md={12} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>  
-
-  </Grid>
   </Grid>
 );
 
@@ -344,17 +341,17 @@ const apiPage = (
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/vault" title="Vault">
-      <Grid item md={6} xs={12}>
+      <Grid item lg={12}>
         <EntityVaultCard />
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/grafana" title="Grafana">
-      <Grid item md={6} xs={12}>
+      <Grid item lg={12}>
         <EntityGrafanaDashboardsCard />
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/grafana-alerts" title="Grafana-alerts">
-      <Grid item md={6} xs={12}>
+      <Grid item lg={12}>
         <EntityGrafanaAlertsCard />
       </Grid>
     </EntityLayout.Route>
