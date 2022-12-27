@@ -37,6 +37,7 @@
     "@backstage/plugin-techdocs-backend": "^1.4.1",
     "@internal/plugin-application-backend": "0.1.0",
     "@internal/plugin-application-common": "^0.1.0",
+    "@roadiehq/backstage-plugin-argo-cd-backend": "^2.6.2",
     "@internal/plugin-vault-backend": "^0.2.5",
     "app": "link:../app",
     "better-sqlite3": "^7.5.0",

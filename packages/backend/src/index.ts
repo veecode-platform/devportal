@@ -37,6 +37,8 @@ import vault from './plugins/vault';
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
+// argocd
+import argocd from './plugins/argocd';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -91,6 +93,7 @@ async function main() {
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
+  const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
   const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
   
   const apiRouter = Router();
@@ -103,6 +106,7 @@ async function main() {
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
+  apiRouter.use('/argocd', await argocd(argocdEnv));
   apiRouter.use('/vault', await vault(vaultEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback

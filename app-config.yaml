@@ -74,6 +74,15 @@ proxy:
     headers:
       Authorization: Bearer ${GRAFANA_TOKEN}
 
+  '/argocd/api':
+    target: http://localhost:8081/api/v1/
+    changeOrigin: true
+    # only if your argocd api has self-signed cert
+    secure: false
+    headers:
+      Cookie:
+        $env: a9NRsQk-KOUqr2GI
+
 organization:
   name: Devportal
 
@@ -117,6 +126,16 @@ kafka:
 
 allure:
   baseUrl: http://localhost:5050/allure-docker-service
+
+argocd:
+  username: admin
+  password: a9NRsQk-KOUqr2GI
+  appLocatorMethods:
+    - type: 'config'
+      instances:
+        - name: argoInstance1
+          url: http://localhost:8081
+          token: a9NRsQk-KOUqr2GI
 
 integrations:
   github:
