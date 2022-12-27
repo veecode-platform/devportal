@@ -137,7 +137,7 @@ proxy:
     secure: false
     headers:
       Cookie:
-        $env: KCFf4aHPXRpXSY9N
+        $env: a9NRsQk-KOUqr2GI
 
 organization:
   name: Devportal
@@ -185,13 +185,13 @@ allure:
 
 argocd:
   username: admin
-  password: uc67M4Yxb9J9j0UW
+  password: a9NRsQk-KOUqr2GI
   appLocatorMethods:
     - type: 'config'
       instances:
         - name: argoInstance1
           url: http://localhost:8081
-          token: KCFf4aHPXRpXSY9N
+          token: a9NRsQk-KOUqr2GI
 
 integrations:
   github:
