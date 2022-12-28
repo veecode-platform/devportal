@@ -8,6 +8,7 @@ import {
   appNameConcatParternId,
   serviceConcatGroup,
 } from '../../utils/ConcatUtil';
+import { Application } from '../domain/Application';
 import { ApplicationDto } from '../dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../repositories/knex/KnexApplicationRepository';
 
@@ -59,13 +60,60 @@ export class ApplicationServices {
       );
       if (application instanceof Object) {
         ConsumerGroupService.Instance.removeConsumerFromGroups(
-          appNameConcatParternId(application),
+          application.name as string,
         );
         ConsumerService.Instance.deleteConsumer(
-          appNameConcatParternId(application),
+          application.name as string,
         );
       }
       applicationRepository.deleteApplication(applicationId);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  public async updateApplication(
+    applicationId: string,
+    applicationDto: ApplicationDto,
+    options: RouterOptions,
+  ) {
+    try {
+      const serviceRepository = await PostgresServiceRepository.create(
+        await options.database.getClient(),
+      );
+      const applicationRepository = await PostgresApplicationRepository.create(
+        await options.database.getClient(),
+      );
+      const application = await applicationRepository.getApplicationById(
+        applicationId,
+      );
+      const servicesId: string[] = applicationDto.servicesId;
+
+      if (application instanceof Object) {
+        await ConsumerGroupService.Instance.removeConsumerFromGroups(
+          application.name as string,
+        );
+
+        servicesId.forEach(async x => {
+          const service = await serviceRepository.getServiceById(x);
+          if (service instanceof Object) {
+            ConsumerGroupService.Instance.addConsumerToGroup(
+              serviceConcatGroup(service.name as string),
+              application.name as string,
+            );
+          }
+        });
+      }
+
+      // servicesId.forEach(async x => {
+      //   const service = await serviceRepository.getServiceById(x);
+      //   if (service instanceof Object) {
+      //     ConsumerGroupService.Instance.addConsumerToGroup(
+      //       serviceConcatGroup(service.name as string),
+      //       application instanceof Object ? (application.name as string) : '',
+      //     );
+      //   }
+      // });
     } catch (error) {
       console.log(error);
     }

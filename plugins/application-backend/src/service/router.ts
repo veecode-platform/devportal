@@ -488,6 +488,11 @@ router.get('/consumers', async (_, response) => {
   router.patch('/:id', async (request, response) => {
     const code = request.params.id;
     const application: ApplicationDto = request.body.application;
+    await ApplicationServices.Instance.updateApplication(
+      code,
+      application,
+      options,
+    );
     try {
       const result = await applicationRepository.patchApplication(
         code,

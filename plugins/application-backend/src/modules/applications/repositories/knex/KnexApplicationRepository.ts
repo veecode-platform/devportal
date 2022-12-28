@@ -1,8 +1,6 @@
 import { resolvePackagePath } from '@backstage/backend-common';
 import { Knex } from 'knex';
-import {
-  appDtoNameConcatParternId
-} from '../../../utils/ConcatUtil';
+import { appDtoNameConcatParternId } from '../../../utils/ConcatUtil';
 import { Application } from '../../domain/Application';
 import { ApplicationDto } from '../../dtos/ApplicationDto';
 import { ApplicationResponseDto } from '../../dtos/ApplicationResponseDto';
