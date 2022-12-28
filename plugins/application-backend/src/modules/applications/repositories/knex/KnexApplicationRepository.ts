@@ -1,5 +1,8 @@
 import { resolvePackagePath } from '@backstage/backend-common';
 import { Knex } from 'knex';
+import {
+  appDtoNameConcatParternId
+} from '../../../utils/ConcatUtil';
 import { Application } from '../../domain/Application';
 import { ApplicationDto } from '../../dtos/ApplicationDto';
 import { ApplicationResponseDto } from '../../dtos/ApplicationResponseDto';
@@ -82,11 +85,11 @@ export class PostgresApplicationRepository implements IApplicationRepository {
   async saveApplication(applicationDto: ApplicationDto): Promise<Application> {
     const application: Application = Application.create({
       creator: applicationDto.creator,
-      name: applicationDto.name,
+      name: appDtoNameConcatParternId(applicationDto),
       parternId: applicationDto.parternId,
       servicesId: applicationDto.servicesId,
       active: applicationDto.active,
-      externalId: applicationDto.externalId,
+      externalId: appDtoNameConcatParternId(applicationDto),
       createdAt: applicationDto.createdAt,
       updateAt: applicationDto.updatedAt,
     });
@@ -108,11 +111,11 @@ export class PostgresApplicationRepository implements IApplicationRepository {
   ): Promise<Application | string> {
     const application: Application = Application.create({
       creator: applicationDto.creator,
-      name: applicationDto.name,
+      name: appDtoNameConcatParternId(applicationDto),
       active: applicationDto.active,
       parternId: applicationDto.parternId,
       servicesId: applicationDto.servicesId,
-      externalId: applicationDto.name,
+      externalId: appDtoNameConcatParternId(applicationDto),
       createdAt: applicationDto.createdAt,
       updateAt: applicationDto.updatedAt,
     });
