@@ -4,7 +4,7 @@ import { ConsumerGroupService } from '../../kong/services/ConsumerGroupService';
 import { ConsumerService } from '../../kong/services/ConsumerService';
 import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
 import {
-  appNameConcatPatternId,
+  appNameConcatParternId,
   serviceConcatGroup,
 } from '../../utils/ConcatUtil';
 import { ApplicationDto } from '../dtos/ApplicationDto';
@@ -24,7 +24,7 @@ export class ApplicationServices {
     options: RouterOptions,
   ) {
     try {
-      const consumer = new Consumer(appNameConcatPatternId(application));
+      const consumer = new Consumer(appNameConcatParternId(application));
       const servicesId: string[] = application.servicesId;
       const serviceRepository = await PostgresServiceRepository.create(
         await options.database.getClient(),

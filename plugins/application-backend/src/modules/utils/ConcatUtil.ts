@@ -4,7 +4,7 @@ export const serviceConcatGroup = (service: string): string => {
   return service + '-group';
 };
 
-export const appNameConcatPatternId = (
+export const appNameConcatParternId = (
   application: ApplicationDto,
 ): string => {
   return application.name + 'patternId';

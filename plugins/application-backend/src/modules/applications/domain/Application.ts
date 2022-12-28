@@ -3,10 +3,10 @@ import { Entity } from '../../../core/domain/Entity';
 export type ApplicationProps = {
   name: string;
   creator: string;
+  parternId: string;
   servicesId: string[];
   active: boolean;
-  kongConsumerName: string;
-  kongConsumerId: string;
+  externalId: string;
   createdAt: Date;
   updateAt: Date;
 };
@@ -14,10 +14,10 @@ export type ApplicationProps = {
 export class Application extends Entity<ApplicationProps> {
   name?: string;
   creator?: string;
+  parternId?: string;
   servicesId?: string[];
   active?: boolean;
-  kongConsumerName?: string;
-  kongConsumerId?: string;
+  externalId?: string;
   createdAt?: Date;
   updateAt?: Date;
   private constructor(props: ApplicationProps, id?: string) {
