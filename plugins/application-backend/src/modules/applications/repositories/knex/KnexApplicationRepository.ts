@@ -112,7 +112,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       active: applicationDto.active,
       parternId: applicationDto.parternId,
       servicesId: applicationDto.servicesId,
-      externalId: applicationDto.externalId,
+      externalId: applicationDto.name,
       createdAt: applicationDto.createdAt,
       updateAt: applicationDto.updatedAt,
     });
@@ -132,7 +132,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       name: applicationDto.name,
       active: applicationDto.active,
       servicesId: applicationDto.servicesId,
-      externalId: applicationDto.externalId,
+      externalId: applicationDto.name,
       createdAt: applicationDto.createdAt,
       updateAt: applicationDto.updateAt,
     });
@@ -157,7 +157,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       name: applicationDto.name,
       active: applicationDto.active,
       servicesId: applicationDto.servicesId,
-      externalId: applicationDto.externalId,
+      externalId: applicationDto.name,
       createdAt: applicationDto.createdAt,
       updateAt: applicationDto.updatedAt,
     }); // try add ,id on application create

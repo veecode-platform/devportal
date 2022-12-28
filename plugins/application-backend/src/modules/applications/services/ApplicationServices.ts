@@ -4,6 +4,7 @@ import { ConsumerGroupService } from '../../kong/services/ConsumerGroupService';
 import { ConsumerService } from '../../kong/services/ConsumerService';
 import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
 import {
+  appDtoNameConcatParternId,
   appNameConcatParternId,
   serviceConcatGroup,
 } from '../../utils/ConcatUtil';
@@ -24,13 +25,13 @@ export class ApplicationServices {
     options: RouterOptions,
   ) {
     try {
-      const consumer = new Consumer(appNameConcatParternId(application));
+      const consumer = new Consumer(appDtoNameConcatParternId(application));
       const servicesId: string[] = application.servicesId;
       const serviceRepository = await PostgresServiceRepository.create(
         await options.database.getClient(),
       );
 
-      ConsumerService.Instance.createConsumer(consumer);
+      await ConsumerService.Instance.createConsumer(consumer);
       servicesId.forEach(async x => {
         const service = await serviceRepository.getServiceById(x);
         if (service instanceof Object) {
@@ -58,7 +59,10 @@ export class ApplicationServices {
       );
       if (application instanceof Object) {
         ConsumerGroupService.Instance.removeConsumerFromGroups(
-          application.name as string,
+          appNameConcatParternId(application),
+        );
+        ConsumerService.Instance.deleteConsumer(
+          appNameConcatParternId(application),
         );
       }
       applicationRepository.deleteApplication(applicationId);
