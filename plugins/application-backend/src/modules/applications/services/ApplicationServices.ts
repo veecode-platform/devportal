@@ -5,10 +5,8 @@ import { ConsumerService } from '../../kong/services/ConsumerService';
 import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
 import {
   appDtoNameConcatParternId,
-  appNameConcatParternId,
-  serviceConcatGroup,
+  serviceConcatGroup
 } from '../../utils/ConcatUtil';
-import { Application } from '../domain/Application';
 import { ApplicationDto } from '../dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../repositories/knex/KnexApplicationRepository';
 
@@ -62,9 +60,7 @@ export class ApplicationServices {
         ConsumerGroupService.Instance.removeConsumerFromGroups(
           application.name as string,
         );
-        ConsumerService.Instance.deleteConsumer(
-          application.name as string,
-        );
+        ConsumerService.Instance.deleteConsumer(application.name as string);
       }
       applicationRepository.deleteApplication(applicationId);
     } catch (error) {
