@@ -1,11 +1,10 @@
 export interface IApplication  {
     id: string,
     name: string;
+    active?: boolean | null;
     creator: string;
     servicesId: string[];
-    active?: boolean | null;
     kongConsumerName?: string;
-    description?: string;
     kongConsumerId?: string;
     createdAt: Date | string;
     updateAt: Date | string;
@@ -14,6 +13,7 @@ export interface IApplication  {
 export interface ICreateApplication{
   name: string,
   creator: string,
+  active: boolean | null;
   servicesId: string[],
   kongConsumerName: string,
   kongConsumerId: string,

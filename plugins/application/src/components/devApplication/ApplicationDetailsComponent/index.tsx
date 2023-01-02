@@ -1,8 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { Grid, makeStyles, Card, CardHeader, IconButton } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { Link, Progress, TabbedLayout } from '@backstage/core-components';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useLocation } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
 import {
@@ -53,7 +53,6 @@ const Details = ({ application }: Application) => {
     servicesId: application?.servicesId ?? '...',
     active: application?.active ?? true,
     kongConsumerName: application?.kongConsumerName ?? '...',
-    description: application?.description ?? '...',
     kongConsumerId: application?.kongConsumerId ?? '...',
     createdAt: application?.createdAt ?? '...',
     updateAt: application?.updateAt ?? '...'
@@ -91,8 +90,8 @@ const Details = ({ application }: Application) => {
                   </>
                 }
               />
-              <Grid container direction='column' spacing={6}  lg={12}>
-                <DetailsComponent metadata={ApplicationData} back="/application"/>
+              <Grid container direction='column' spacing={6} lg={12}>
+                <DetailsComponent metadata={ApplicationData} back="/application" />
               </Grid>
             </Grid>
           </Card>
@@ -121,7 +120,7 @@ export const ApplicationDetailsComponent = () => {
   } else if (error) {
     return <Alert severity="error">{error.message}</Alert>;
   }
-  
+
   return <Details application={value} />
 
 }
