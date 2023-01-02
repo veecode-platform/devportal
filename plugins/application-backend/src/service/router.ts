@@ -1,34 +1,36 @@
-import { InputError } from '@backstage/errors';
 import {
+  PluginDatabaseManager,
   errorHandler,
   loadBackendConfig,
-  PluginDatabaseManager,
 } from '@backstage/backend-common';
+import { InputError } from '@backstage/errors';
 //import { InputError } from '@backstage/errors';
+import { getRootLogger } from '@backstage/backend-common';
+import { Config } from '@backstage/config';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
-import { Config } from '@backstage/config';
-import { KongHandler } from '../modules/kong-control/KongHandler';
-import { ConsumerService } from '../modules/kong/services/ConsumerService';
-import { UserService } from '../modules/okta-control/service/UserService';
-import { UserInvite } from '../modules/okta-control/model/UserInvite';
-import { AssociateService } from '../modules/kong-control/AssociateService';
-import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
-import { ServiceDto } from '../modules/services/dtos/ServiceDto';
-import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
-import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
-import { Consumer } from '../modules/kong-control/model/Consumer';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
-import { PluginService } from '../modules/kong/services/PluginService';
+import { ApplicationServices } from '../modules/applications/services/ApplicationServices';
+import { TestGroups } from '../modules/keycloak/adminClient';
+import { AssociateService } from '../modules/kong-control/AssociateService';
+import { KongHandler } from '../modules/kong-control/KongHandler';
+import { Consumer } from '../modules/kong-control/model/Consumer';
+import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
 import { AclPlugin } from '../modules/kong/plugins/AclPlugin';
 import { KeyAuthPlugin } from '../modules/kong/plugins/KeyAuthPlugin';
 import { RateLimitingPlugin } from '../modules/kong/plugins/RateLimitingPlugin';
 import { ConsumerGroupService } from '../modules/kong/services/ConsumerGroupService';
-import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
-import { TestGroups } from '../modules/keycloak/adminClient';
-
+import { ConsumerService } from '../modules/kong/services/ConsumerService';
+import { PluginService } from '../modules/kong/services/PluginService';
+import { UserInvite } from '../modules/okta-control/model/UserInvite';
+import { UserService } from '../modules/okta-control/service/UserService';
+import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
+import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
+import { ServiceDto } from '../modules/services/dtos/ServiceDto';
+import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
+import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 
 /** @public */
 export interface RouterOptions {
@@ -62,20 +64,24 @@ export async function createRouter(
   const partnerRepository = await PostgresPartnerRepository.create(
     await database.getClient(),
   );
-
-  const config = await loadBackendConfig({ logger, argv: process.argv });
+  const config = await loadBackendConfig({
+    logger: getRootLogger(),
+    argv: process.argv,
+  });
   const adminClientKeycloak = new TestGroups();
   const kongHandler = new KongHandler();
-  const consumerService = new ConsumerService(config);
-  const consumerGroupService = new ConsumerGroupService(config);
+  const consumerService = new ConsumerService();
+
+  const controllPlugin = new ControllPlugin();
+  const consumerGroupService = new ConsumerGroupService();
   const userService = new UserService();
   const associateService = new AssociateService();
-  const pluginService = new PluginService(config);
+  const pluginService = new PluginService();
   //const aclPlugin = new AclPlugin(config);
   // const aclPlugin = AclPlugin.Instance;
-  const aclPlugin = AclPlugin.instance(config);
-  const keyAuthPlugin = KeyAuthPlugin.instance(config);
-  const rateLimitingPlugin = RateLimitingPlugin.instance(config);
+  const aclPlugin = AclPlugin.Instance;
+  const keyAuthPlugin = KeyAuthPlugin.Instance;
+  const rateLimitingPlugin = RateLimitingPlugin.Instance;
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -84,12 +90,44 @@ export async function createRouter(
   // KEYCLOAK
   router.get('/keycloak/groups', async (_, response) => {
     const groups = await adminClientKeycloak.getGroup();
-    response.status(200).json({ status: 'ok', groups: groups })
-  })
+    response.status(200).json({ status: 'ok', groups: groups });
+  });
+
+  router.post('/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroup: ConsumerGroup = request.body;
+      const result = await consumerGroupService.createConsumerGroup(
+        consumerGroup,
+      );
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      console.log(error);
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.get('/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroups = await consumerGroupService.listConsumerGroups();
+      response.status(200).json({ status: 'ok', groups: { consumerGroups } });
+    } catch (error: any) {
+      response.status(error.status).json({
+        message: error.message,
+        timestamp: error.timestamp,
+      });
+    }
+  });
 
   // SERVICE
-  router.get('/services', async (_, response) => {
-    const services = await serviceRepository.getService();
+  router.get('/services', async (request, response) => {
+    const limit: number = request.query.limit as any;
+    const offset: number = request.query.offset as any;
+    const services = await serviceRepository.getService(limit, offset);
     response.status(200).json({ status: 'ok', services: services });
   });
 
@@ -102,19 +140,17 @@ export async function createRouter(
   router.post('/service', async (request, response) => {
     try {
       const service: ServiceDto = request.body.service;
+      controllPlugin.applyOuath(service);
       const result = await serviceRepository.createService(service);
-      response.status(201).json({ status: 'ok', service: result })
+      response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
       let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
     }
-    
   });
 
   router.delete('/service/:id', async (request, response) => {
@@ -130,9 +166,12 @@ export async function createRouter(
     const result = await serviceRepository.patchService(code, service);
     response.status(200).json({ status: 'ok', service: result });
   });
+
   // PARTNER
-  router.get('/partners', async (_, response) => {
-    const partners = await partnerRepository.getPartner();
+  router.get('/partners', async (request, response) => {
+    const offset: number = request.query.offset as any;
+    const limit: number = request.query.limit as any;
+    const partners = await partnerRepository.getPartner(offset, limit);
     response.status(200).json({ status: 'ok', partners: partners });
   });
 
@@ -166,7 +205,6 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', partner: result });
   });
 
-  // APPLICATION
   /*router.get('/kong-services', async (_, response) => {
   try{
     const serviceStore = await kongHandler.listServices(config.getString('kong.api-manager'),false);
@@ -184,8 +222,7 @@ export async function createRouter(
   }
 });*/
 
-
-/*todo erro na rota
+  /*todo erro na rota
 router.get('/consumers', async (_, response) => {
   try{
     const serviceStore = await kongHandler.listConsumers(config.getString('kong.api-manager'),false);
@@ -203,181 +240,184 @@ router.get('/consumers', async (_, response) => {
   }
 });*/
 
-
   router.post('/credencial/:id', async (request, response) => {
-    try{
+    try {
       const workspace = request.query.workspace as string;
       const id = request.params.id;
-      const serviceStore = await kongHandler.generateCredential(false, config.getString('kong.api-manager'), workspace as string, id)
-      response.status(201).json({ status: 'ok',    response: serviceStore })
-    }catch(error: any){
+      const serviceStore = await kongHandler.generateCredential(
+        false,
+        config.getString('kong.api-manager'),
+        workspace as string,
+        id,
+      );
+      response.status(201).json({ status: 'ok', response: serviceStore });
+    } catch (error: any) {
       let date = new Date();
-      return response
-      .status(error.response.status)
-      .json({
+      return response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.message,
-        timestamp: new Date(date).toISOString()
-      })
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
 
   router.get('/credencial/:id', async (request, response) => {
-    try{
+    try {
       const workspace = request.query.workspace as string;
       const id = request.params.id;
-      const serviceStore = await kongHandler.listCredential(false, config.getString('kong.api-manager'), workspace, id)
-      response.status(200).json({ status: 'ok',    credentials: serviceStore })
-    }catch(error: any){
+      const serviceStore = await kongHandler.listCredential(
+        false,
+        config.getString('kong.api-manager'),
+        workspace,
+        id,
+      );
+      response.status(200).json({ status: 'ok', credentials: serviceStore });
+    } catch (error: any) {
       let date = new Date();
-      return response
-      .status(error.response.status)
-      .json({
+      return response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.message,
-        timestamp: new Date(date).toISOString()
-      })
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
 
-
-
-
-
-
-  router.get('/', async (_, response) => {
+  // APPLICATION
+  router.get('/', async (request, response) => {
     try {
-      const responseData = await applicationRepository.getApplication();
+      const limit: number = request.query.limit as any;
+      const offset: number = request.query.offset as any;
+      const responseData = await applicationRepository.getApplication(
+        limit,
+        offset,
+      );
       return response.json({ status: 'ok', applications: responseData });
     } catch (error: any) {
       let date = new Date();
-      return response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+      return response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
 
   router.post('/', async (request, response) => {
-    const data: ApplicationDto = request.body.application
-    console.log(data);
+    const data = request.body.application;
+    await ApplicationServices.Instance.createApplication(data, options);
     try {
       if (!data) {
-        throw new InputError(`the request body is missing the application field`);
+        throw new InputError(
+          `the request body is missing the application field`,
+        );
       }
-      logger.info(JSON.stringify(data))
-      const result = await applicationRepository.createApplication(data)
-      response.send({ status: "ok", result: result });
+      logger.info(JSON.stringify(data));
+      const result = await applicationRepository.createApplication(data);
+      response.send({ status: 'ok', result: result });
     } catch (error: any) {
       let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
 
-
   router.post('/save', async (request, response) => {
-    const data: ApplicationDto = request.body.application
+    const data: ApplicationDto = request.body.application;
     try {
-
       if (!data) {
-        throw new InputError(`the request body is missing the application field`);
+        throw new InputError(
+          `the request body is missing the application field`,
+        );
       }
       // logger.info(JSON.stringify(data))
-      const result = await applicationRepository.createApplication(data)
+      const result = await applicationRepository.createApplication(data);
       response.send({ status: data, result: result });
     } catch (error: any) {
       let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
-
 
   router.get('/:id', async (request, response) => {
-    const code = request.params.id
+    const code = request.params.id;
     try {
       if (!code) {
-        throw new InputError(`the request body is missing the application field`);
+        throw new InputError(
+          `the request body is missing the application field`,
+        );
       }
-      const result = await applicationRepository.getApplicationById(code)
-      response.send({ status: "ok", application: result });
+      const result = await applicationRepository.getApplicationById(code);
+      response.send({ status: 'ok', application: result });
     } catch (error: any) {
       let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
-
 
   router.patch('/associate/:id', async (request, response) => {
     const code = request.params.id;
     const listServicesId: string[] = request.body.services;
     await applicationRepository.associate(code, listServicesId);
-    response.status(200).json({status: 'ok', application: applicationRepository})
+    response
+      .status(200)
+      .json({ status: 'ok', application: applicationRepository });
   });
 
-
   router.delete('/:id', async (request, response) => {
-    const code = request.params.id
+    const code = request.params.id;
+    await ApplicationServices.Instance.removeApplication(code, options);
     try {
       if (!code) {
-        throw new InputError(`the request body is missing the application field`);
+        throw new InputError(
+          `the request body is missing the application field`,
+        );
       }
-      const result = await applicationRepository.deleteApplication(code)
-      response.status(204).send({ status: "ok", result: result });
-
+      const result = await applicationRepository.deleteApplication(code);
+      response.status(204).send({ status: 'ok', result: result });
     } catch (error: any) {
       let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
 
   router.post('/:id', async (request, response) => {
-    const code = request.params.id
+    const code = request.params.id;
     const application: ApplicationDto = request.body.application;
     try {
       if (!code) {
-        throw new InputError(`the request body is missing the application field`);
+        throw new InputError(
+          `the request body is missing the application field`,
+        );
       }
-      const result = await applicationRepository.patchApplication(code, application);
-      response.send({ status: "ok", result: result });
+      const result = await applicationRepository.patchApplication(
+        code,
+        application,
+      );
+      response.send({ status: 'ok', result: result });
     } catch (error: any) {
       let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
-
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(
@@ -448,6 +488,11 @@ router.get('/consumers', async (_, response) => {
   router.patch('/:id', async (request, response) => {
     const code = request.params.id;
     const application: ApplicationDto = request.body.application;
+    await ApplicationServices.Instance.updateApplication(
+      code,
+      application,
+      options,
+    );
     try {
       const result = await applicationRepository.patchApplication(
         code,
@@ -517,12 +562,11 @@ router.get('/consumers', async (_, response) => {
     } catch (error: any) {
       let date = new Date();
       response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error,
-          timestamp: new Date(date).toISOString()
-        })
+        status: 'ERROR',
+        message: error,
+        timestamp: new Date(date).toISOString(),
+      });
     }
-
   });
 
   // PLUGINS
@@ -558,7 +602,7 @@ router.get('/consumers', async (_, response) => {
           request.params.pluginId,
           request.body.config.allow,
         );
-       
+
         if (serviceStore)
           response.json({ status: 'ok', plugins: serviceStore });
         response.json({ status: 'ok', services: [] });
@@ -635,10 +679,11 @@ router.get('/consumers', async (_, response) => {
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
-    }
-  });
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
 
   router.put('/consumer/:id', async (request, response) => {
     try {
@@ -659,118 +704,133 @@ router.get('/consumers', async (_, response) => {
   });
   router.post('/kong-service/acl/:serviceName', async (request, response) => {
     try {
-      const allowed = request.body.allowed
-      const hide = request.body.hide_groups_header
-      const serviceStore = await pluginService.configAclKongService(config.getString('kong.api-manager'), request.params.serviceName, allowed, hide);
+      const allowed = request.body.allowed;
+      const hide = request.body.hide_groups_header;
+
+      const serviceStore = await aclPlugin.configAclKongService(
+        request.params.serviceName,
+        allowed,
+      );
       if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
       response.json({ status: 'ok', services: [] });
     } catch (error: any) {
+      console.log(error);
       let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString()
-        })
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
   router.delete('/kong-service/acl/:serviceName', async (request, response) => {
     try {
-
-      const serviceStore = await pluginService.removeAclKongService(config.getString('kong.api-manager'), request.params.serviceName,  request.query.idAcl as string);
+      const serviceStore = await aclPlugin.removeAclKongService(
+        request.params.serviceName,
+        request.query.idAcl as string,
+      );
       if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
       response.status(204).json({ status: 'ok', services: [] });
     } catch (error: any) {
       let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString()
-        })
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
 
-  router.post('/kong-service/acl-update/:serviceName', async (request, response) => {
-    try {
-      const hide = request.body.hide_groups_header
-      const allowed = request.body.allowed
-      const serviceStore = await pluginService.updateclKongService(config.getString('kong.api-manager'), request.params.serviceName, allowed, request.query.idAcl as string, hide);
-      if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
-      response.status(204).json({ status: 'ok', services: [] });
-    } catch (error: any) {
-      let date = new Date();
-      response
-        .status(error.response.status)
-        .json({
+  router.post(
+    '/kong-service/acl-update/:serviceName',
+    async (request, response) => {
+      try {
+        const hide = request.body.hide_groups_header;
+        const allowed = request.body.allowed;
+        const serviceStore = await aclPlugin.updateAclKongService(
+          request.params.serviceName,
+          request.query.idAcl as string,
+          allowed,
+        );
+        if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
+        response.status(204).json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.message,
-          timestamp: new Date(date).toISOString()
-        })
-    }
-  });
-
-
-
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
 
   // credentials
 
   router.post('/credencial/:id', async (request, response) => {
-    try{
+    try {
       const workspace = request.query.workspace as string;
       const id = request.params.id;
-      const serviceStore = await kongHandler.generateCredential(false, config.getString('kong.api-manager'), workspace as string, id)
-      response.status(201).json({ status: 'ok',    response: serviceStore })
-    }catch(error:any){
+      const serviceStore = await kongHandler.generateCredential(
+        false,
+        config.getString('kong.api-manager'),
+        workspace as string,
+        id,
+      );
+      response.status(201).json({ status: 'ok', response: serviceStore });
+    } catch (error: any) {
       const date = new Date();
-      return response
-      .status(error.response.status)
-      .json({
+      return response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.message,
-        timestamp: new Date(date).toISOString()
-      })
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
 
   router.get('/credencial/:id', async (request, response) => {
-    try{
+    try {
       const workspace = request.query.workspace as string;
       const id = request.params.id;
-      const serviceStore = await kongHandler.listCredentialWithApplication(database,id,workspace, config.getString('kong.api-manager'), false)
-      response.status(200).json({ status: 'ok',    credentials: serviceStore })
-    }catch(error: any){
+      const serviceStore = await kongHandler.listCredentialWithApplication(
+        database,
+        id,
+        workspace,
+        config.getString('kong.api-manager'),
+        false,
+      );
+      response.status(200).json({ status: 'ok', credentials: serviceStore });
+    } catch (error: any) {
       let date = new Date();
-      return response
-      .status(error.response.status)
-      .json({
+      return response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.message,
-        timestamp: new Date(date).toISOString()
-      })
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
   router.delete('/credencial/:idConsumer', async (request, response) => {
-    try{
+    try {
       const workspace = request.query.workspace as string;
-      const idCredencial= request.query.idCredencial as string;
+      const idCredencial = request.query.idCredencial as string;
       const idConsumer = request.params.idConsumer;
-      const serviceStore = await kongHandler.removeCredencial(true, config.getString('kong.api-manager'), workspace, idConsumer, idCredencial)
-      response.status(204).json({ status: 'ok',    credentials: serviceStore })
-    }catch(error: any){
+      const serviceStore = await kongHandler.removeCredencial(
+        true,
+        config.getString('kong.api-manager'),
+        workspace,
+        idConsumer,
+        idCredencial,
+      );
+      response.status(204).json({ status: 'ok', credentials: serviceStore });
+    } catch (error: any) {
       let date = new Date();
-      return response
-      .status(error.response.status)
-      .json({
+      return response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.message,
-        timestamp: new Date(date).toISOString()
-      })
+        timestamp: new Date(date).toISOString(),
+      });
     }
   });
-
 
   // KEY-AUTH - TEST ROUTER
   router.post(
@@ -925,25 +985,13 @@ router.get('/consumers', async (_, response) => {
 
   //consumerGroup
 
-  router.post('/consumer_groups', async (request, response) => {
-    try {
-      const consumerGroup: ConsumerGroup = request.body;
-      const result = await consumerGroupService.createConsumerGroup(consumerGroup);
-      response.status(201).json({ status: 'ok', service: result });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
   router.post('/consumer_groups/:id/consumers', async (request, response) => {
     try {
-      const consumerGroup: ConsumerGroup = request.body;
-      const result = await consumerGroupService.addConsumerToGroup(request.params.id, consumerGroup);
+      const consumerGroup = request.body;
+      const result = await consumerGroupService.addConsumerToGroup(
+        request.params.id,
+        consumerGroup,
+      );
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
       let date = new Date();
@@ -951,25 +999,15 @@ router.get('/consumers', async (_, response) => {
         status: 'ERROR',
         message: error.response.data.errorSummary,
         timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  router.get('/consumer_groups', async (request, response) => {
-    try {
-      const consumerGroups = await consumerGroupService.listConsumerGroups();
-      response.status(200).json({ status: 'ok', groups: { consumerGroups } });
-    } catch (error: any) {
-      response.status(error.status).json({
-        message: error.message,
-        timestamp: error.timestamp,
       });
     }
   });
 
   router.delete('/consumer_groups/:id', async (request, response) => {
     try {
-      const consumerGroup = await consumerGroupService.deleteConsumerGroup(request.params.id);
+      const consumerGroup = await consumerGroupService.deleteConsumerGroup(
+        request.params.id,
+      );
       response.status(204).json({ status: 'ok', group: { consumerGroup } });
     } catch (error: any) {
       let date = new Date();
@@ -981,23 +1019,32 @@ router.get('/consumers', async (_, response) => {
     }
   });
 
-  router.delete('/consumers/:consumerId/consumer_groups/:groupId', async (request, response) => {
-    try {
-      const consumerGroup = await consumerGroupService.removeConsumerFromGroup(request.params.consumerId, request.params.groupId);
-      response.status(204).json({ status: 'ok', group: { consumerGroup } });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
+  router.delete(
+    '/consumers/:consumerId/consumer_groups/:groupId',
+    async (request, response) => {
+      try {
+        const consumerGroup =
+          await consumerGroupService.removeConsumerFromGroup(
+            request.params.consumerId,
+            request.params.groupId,
+          );
+        response.status(204).json({ status: 'ok', group: { consumerGroup } });
+      } catch (error: any) {
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
   // remove consumer from all
   router.delete('/consumers/:id/consumer_groups', async (request, response) => {
     try {
-      const consumerGroup = await consumerGroupService.removeConsumerFromGroups(request.params.id);
+      const consumerGroup = await consumerGroupService.removeConsumerFromGroups(
+        request.params.id,
+      );
       response.status(204).json({ status: 'ok', group: { consumerGroup } });
     } catch (error: any) {
       let date = new Date();
@@ -1008,9 +1055,7 @@ router.get('/consumers', async (_, response) => {
       });
     }
   });
-
 
   router.use(errorHandler());
   return router;
 }
-
