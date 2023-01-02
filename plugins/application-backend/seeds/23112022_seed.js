@@ -1,6 +1,9 @@
 exports.seed = async function (knex) {
   try {
     // Deletes ALL existing entries
+    await knex('plugins').truncate();
+    knex.raw('TRUNCATE TABLE services CASCADE')
+    // await knex('services').truncate(); // cannot truncate a table referenced in a fk constraint
     await knex('services').truncate();
     await knex('partners').truncate();
     await knex('applications').truncate();
@@ -144,10 +147,13 @@ exports.seed = async function (knex) {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+    ]);
+    await knex('plugins').insert([
       {
-        id: '0754b73e-9c27-4713-963b-3eecb38be72f',
-        name: 'application teste with kong consumer okteto',
-        creator: 'teste',
+        id: 'a0b50188-8065-11ed-a1eb-0242ac120002',
+        name: 'key-auth',
+        active: true,
+        service: 'ad94b906-4970-11ed-b878-0242ac120001',
         parternId: 'ad94b906-4970-11ed-b878-0242ac120001',
         servicesId: ['fed8971d-b83f-4901-991d-0620f7c3b9f1'],
         externalId: 'consumer-7135150b',

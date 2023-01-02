@@ -44,6 +44,15 @@ exports.up = async function up(knex) {
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     });
+    await knex.schema.createTable('plugins', table => {
+      table.uuid('id').primary();
+      table.string('name');
+      table.boolean('active');
+      table.uuid('service');
+      table.timestamp('createdAt').defaultTo(knex.fn.now());
+      table.timestamp('updatedAt').defaultTo(knex.fn.now());
+      table.foreign('service').references('services.id').onDelete('CASCADE');
+    });
   } catch (e) {
     console.log('ERROR MIGRATE:UP ', e);
     return false;
@@ -58,6 +67,8 @@ exports.up = async function up(knex) {
  */
 exports.down = async function down(knex) {
   try {
+    await knex.schema.dropTable('plugins');
+    await knex.schema.dropTable('services');
     await knex.schema.dropTable('services').raw('DROP TYPE security_type');
     await knex.schema.dropTable('partners');
     await knex.schema.dropTable('applications');
