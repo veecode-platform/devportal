@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, TextField, Button, Paper } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import AlertComponent from '../../Alert/Alert';
+import {AlertComponent} from '../../shared';
 import { SearchFilter } from '@backstage/plugin-search-react';
 import { SearchContextProvider } from '@backstage/plugin-search-react';
 import { InfoCard, Header, Page, Content, ContentHeader } from '@backstage/core-components';

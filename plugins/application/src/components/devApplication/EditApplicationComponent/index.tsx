@@ -16,7 +16,7 @@ import {
   ContentHeader,
 } from '@backstage/core-components';
 import { IApplication } from '../interfaces';
-import AlertComponent from '../../Alert/Alert';
+import {AlertComponent} from '../../shared';
 
 type Application = {
   application: IApplication | undefined;

@@ -6,7 +6,7 @@ import { Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import AlertComponent from '../../Alert/Alert';
+import {AlertComponent} from '../../shared';
 import { ICredentials } from '../interfaces';
 
 type DenseTableProps = {

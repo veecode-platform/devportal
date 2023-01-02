@@ -1,7 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, {useState} from 'react';
 import { Grid, TextField, Button} from '@material-ui/core';
 import { Link as RouterLink, useNavigate} from 'react-router-dom';
-import AlertComponent from '../../Alert/Alert';
+import {AlertComponent} from '../../shared';
 
 import {
   InfoCard,

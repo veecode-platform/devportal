@@ -1,7 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, {useState} from 'react';
 import { Grid, TextField, Button, Select, MenuItem} from '@material-ui/core';
 import { useLocation, Link as RouterLink, useNavigate} from 'react-router-dom';
-import AlertComponent from '../../Alert/Alert';
+import {AlertComponent} from '../../shared';
 import useAsync from 'react-use/lib/useAsync';
 import Alert from '@material-ui/lab/Alert';
 import {Progress} from '@backstage/core-components';
@@ -83,9 +84,9 @@ type ServiceProps = {
 
   return(
   <Page themeId="tool">
-    <Header title="Service"></Header>
+    <Header title="Service"> </Header>
     <Content>
-    <ContentHeader title='Edit Service'></ContentHeader>
+    <ContentHeader title='Edit Service'> </ContentHeader>
     <AlertComponent open={show} close={handleClose} message={"Service editada!"}/>
 
       <Grid container direction="row" justifyContent="center">
