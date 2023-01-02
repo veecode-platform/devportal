@@ -1,12 +1,12 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { Table, TableColumn, Progress } from '@backstage/core-components';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Link as RouterLink } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import {AlertComponent} from '../../shared';
+import {AlertComponent} from '../../../../shared';
 import { ICredentials } from '../interfaces';
 
 type DenseTableProps = {
