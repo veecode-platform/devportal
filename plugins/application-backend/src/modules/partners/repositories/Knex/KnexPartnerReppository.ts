@@ -21,15 +21,15 @@ export class PostgresPartnerRepository implements IPartnerRepository {
     return partner;
   }
 
-  async getPartner(): Promise<Partner[]> {
-    const partner = await this.db<Partner>('partners').select('*').catch(error => console.error(error));
+  async getPartner(offset: number, limit: number): Promise<Partner[]> {
+    const partner = await this.db<Partner>('partners').select('*').offset(offset).limit(limit).catch(error => console.error(error));
     const partnersDomain = PartnerResponseDto.create({ partners: partner});
     const responseData = await PartnerMapper.listAllPartnersToResource(partnersDomain)
     return responseData.partners ?? [];
   }
 
   async findApplications(id: string){
-    const associates = await this.getPartnerById(id);
+    const associates: PartnerDto = await this.getPartnerById(id);
     return associates.applicationId;
   }
 

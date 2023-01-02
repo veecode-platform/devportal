@@ -1,3 +1,5 @@
+import { SECURITY } from "../domain/Service";
+
 export class ServiceDto {
   name: string;
   description: string;
@@ -9,6 +11,7 @@ export class ServiceDto {
   createdAt?: Date;
   updatedAt?: Date;
   active: boolean;
+  securityType: SECURITY;
 
   constructor(
     name: string,
@@ -20,7 +23,8 @@ export class ServiceDto {
     rateLimiting: number,
     createdAt: Date,
     updatedAt: Date,
-    active: boolean
+    active: boolean,
+    securityType: SECURITY
   ) {
     this.name = name;
     this.description = description;
@@ -32,5 +36,6 @@ export class ServiceDto {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.active = active;
+    this.securityType = securityType;
   }
 }

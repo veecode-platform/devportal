@@ -1,4 +1,3 @@
-import { Config } from '@backstage/config';
 import { PluginName, PluginService } from '../services/PluginService';
 
 export enum RateLimitingType {
@@ -13,8 +12,8 @@ export enum RateLimitingType {
 export class RateLimitingPlugin extends PluginService {
   private static _instance: RateLimitingPlugin;
 
-  private constructor(_config: Config) {
-    super(_config);
+  private constructor() {
+    super();
   }
 
   public async configRateLimitingKongService(
@@ -49,7 +48,7 @@ export class RateLimitingPlugin extends PluginService {
     this.removePluginKongService(serviceName, pluginId);
   }
 
-  public static instance(config: Config) {
-    return this._instance || (this._instance = new this(config));
+  public static get Instance() {
+    return this._instance || (this._instance = new this());
   }
 }

@@ -5,15 +5,27 @@ export type ServiceProps = {
   description: string;
   redirectUrl: string;
   partnersId: string[];
-  active:boolean;
+  active: boolean;
   kongServiceName: string;
   kongServiceId: string;
   rateLimiting: number;
   createdAt?: Date;
   updatedAt?: Date;
+  securityType: SECURITY;
 };
 
 export class Service extends Entity<ServiceProps> {
+  name?: string;
+  description?: string;
+  redirectUrl?: string;
+  partnersId?: string[];
+  active?: boolean;
+  kongServiceName?: string;
+  kongServiceId?: string;
+  rateLimiting?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  securityType?: SECURITY;
   private constructor(props: ServiceProps, id?: string) {
     super(props, id);
   }
@@ -21,4 +33,8 @@ export class Service extends Entity<ServiceProps> {
     props.createdAt = props.createdAt || new Date();
     return new Service(props, id);
   }
+}
+export enum SECURITY {
+  KEY_AUTH = 'key-auth',
+  OAUTH2 = 'oauth2',
 }

@@ -10,14 +10,20 @@ exports.up = async function up(knex) {
       table.string('description');
       table.string('redirectUrl');
       table.specificType('partnersId', 'TEXT[]');
+      table.integer('rateLimiting');
       table.string('kongServiceName');
       table.string('kongServiceId');
-      table.integer('rateLimiting');
+      table
+        .enu('securityType', ['none', 'key-auth', 'oauth2'], {
+          useNative: true,
+          enumName: 'security_type',
+        })
+        .defaultTo('none');
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     });
     await knex.schema.createTable('partners', table => {
-      table.uuid('id').primary();
+      table.uuid('id').primary;
       table.string('name');
       table.boolean('active');
       table.string('email');
@@ -28,13 +34,13 @@ exports.up = async function up(knex) {
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     });
     await knex.schema.createTable('applications', table => {
-      table.uuid('id').primary();
+      table.uuid('id').primary;
       table.string('name');
       table.boolean('active');
       table.string('creator');
+      table.specificType('parternId', 'TEXT');
       table.specificType('servicesId', 'TEXT[]'); //lista de services que a application usa
-      table.string('kongConsumerName');
-      table.string('kongConsumerId');
+      table.string('externalId');
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     });
@@ -63,6 +69,7 @@ exports.down = async function down(knex) {
   try {
     await knex.schema.dropTable('plugins');
     await knex.schema.dropTable('services');
+    await knex.schema.dropTable('services').raw('DROP TYPE security_type');
     await knex.schema.dropTable('partners');
     await knex.schema.dropTable('applications');
   } catch (e) {
