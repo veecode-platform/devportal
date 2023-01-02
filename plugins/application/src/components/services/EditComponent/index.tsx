@@ -221,22 +221,6 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
-                  <Select
-                    onChange={e => {
-                      setService({ ...service, partnersId: e as string | any });
-                    }}
-                    placeholder="Partners"
-                    label="partners Id"
-                    items={service.partnersId.map(item => {
-                      return {
-                        label: item,
-                        value: item,
-                      };
-                    })}
-                  />
-                </Grid>
-
                 <Grid
                   item
                   style={{
@@ -251,16 +235,16 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                     onChange={e => {
                       setService({ ...service, securityType: e });
                     }}
-                    placeholder="Select the Security Type"
-                    label="Security Type"
+                    placeholder={service.securityType}
+                    label="Select the Security Type"
                     items={securityItems}
                   />
                   <Select
                     onChange={e => {
                       setService({ ...service, rateLimiting: e });
                     }}
-                    placeholder="Select the Rate Limiting"
-                    label="rate Limiting"
+                    placeholder={service.rateLimiting}
+                    label="Select Rate Limiting"
                     items={rateLimitingItems}
                   />
                 </Grid>
