@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
-import { Grid, TextField, Button, Select, MenuItem } from '@material-ui/core';
+import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import {AlertComponent} from '../../shared';
-
+import { AlertComponent } from '../../shared';
 import {
   InfoCard,
   Header,
@@ -11,8 +10,10 @@ import {
   Content,
   ContentHeader,
 } from '@backstage/core-components';
-import { ICreateService } from '../interfaces';
-import { FetchKongServices } from './kongUtils';
+import { ICreateService } from '../utils/interfaces';
+import { FetchKongServices } from '../utils/kongUtils';
+import { SecurityTypeEnum } from '../utils/enum';
+import { Select } from '@backstage/core-components';
 
 export const CreateComponent = () => {
   const navigate = useNavigate();
@@ -21,10 +22,20 @@ export const CreateComponent = () => {
     name: '',
     active: true,
     description: '',
-    security: '',
+    redirectUrl: '',
+    securityType: '',
     rateLimiting: 0,
   });
   const [show, setShow] = useState(false);
+  const securityItems = [
+    { label: SecurityTypeEnum.none, value: SecurityTypeEnum.none },
+    { label: SecurityTypeEnum.keyAuth, value: SecurityTypeEnum.keyAuth },
+    { label: SecurityTypeEnum.oAuth2, value: SecurityTypeEnum.oAuth2 },
+  ];
+  const rateLimitingItems = [
+    { label: '0', value: 0 },
+    { label: '120', value: 120 },
+  ];
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') {
@@ -35,7 +46,8 @@ export const CreateComponent = () => {
       name: '',
       active: true,
       description: '',
-      security: '',
+      redirectUrl: '',
+      securityType: '',
       rateLimiting: 0,
     });
   };
@@ -43,10 +55,12 @@ export const CreateComponent = () => {
   const handleSubmit = async () => {
     const dataTest = {
       serviceData: {
-        name: service.name,
+        name: service.name ?? 'teste',
         description: service.description,
+        redirectUrl: service.redirectUrl,
         partnersId: [],
         rateLimiting: service.rateLimiting,
+        securityType: service.securityType,
         // kongServiceName:service,
         // kongServiceId :service,
       },
@@ -81,7 +95,13 @@ export const CreateComponent = () => {
           close={handleClose}
           message="Service Registered!"
         />
-        <Grid container direction="row" justifyContent="center">
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          alignContent="center"
+        >
           <Grid item sm={12} lg={6}>
             <InfoCard>
               <Grid
@@ -90,7 +110,7 @@ export const CreateComponent = () => {
                 direction="column"
                 justifyContent="center"
               >
-                <Grid item xs={12}>
+                <Grid item lg={12}>
                   <FetchKongServices
                     valueName={service}
                     setValue={setService}
@@ -111,52 +131,46 @@ export const CreateComponent = () => {
                     }}
                   />
                 </Grid>
-                                                                                    {/* <<----------------------  TO DO */}
-                <Grid item xs={12}>                                                       
-                  <Select
-                    fullWidth
-                    variant="outlined"
-                    value={service.rateLimiting}
-                    displayEmpty
-                    onChange={e => {
-                      setService({
-                        ...service,
-                        rateLimiting: e.target.value as number,
-                      });
-                    }}
-                  >
-                    <MenuItem value="">
-                      <em>0</em>
-                    </MenuItem>
-                    <MenuItem value="none">
-                      <em>100</em>
-                    </MenuItem>
-                    <MenuItem value="api key">200</MenuItem>
-                    <MenuItem value="api key">300</MenuItem>
-                  </Select>
-                </Grid>
 
                 <Grid item xs={12}>
-                  <Select
+                  <TextField
                     fullWidth
                     variant="outlined"
-                    value={service.security}
-                    displayEmpty
+                    label="Url"
+                    value={service.redirectUrl}
+                    required
                     onChange={e => {
-                      setService({
-                        ...service,
-                        security: e.target.value as string,
-                      });
+                      setService({ ...service, redirectUrl: e.target.value });
                     }}
-                  >
-                    <MenuItem value="">
-                      <em>Security</em>
-                    </MenuItem>
-                    <MenuItem value="none">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value="api key">Api Key</MenuItem>
-                  </Select>
+                  />
+                </Grid>
+
+                <Grid
+                  item
+                  style={{
+                    display: 'grid',
+                    gridTemplate: 'auto / repeat(2, 1fr)',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <Select
+                    onChange={e => {
+                      setService({ ...service, securityType: e });
+                    }}
+                    placeholder="Select the Security Type"
+                    label="Security Type"
+                    items={securityItems}
+                  />
+                  <Select
+                    onChange={e => {
+                      setService({ ...service, rateLimiting: e });
+                    }}
+                    placeholder="Select the Rate Limiting"
+                    label="rate Limiting"
+                    items={rateLimitingItems}
+                  />
                 </Grid>
 
                 <Grid item xs={12}>

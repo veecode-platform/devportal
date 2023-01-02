@@ -5,7 +5,7 @@ import { Link as RouterLink} from 'react-router-dom';
 import { Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
-import { IService } from '../interfaces';
+import { IService } from '../utils/interfaces';
 import More from '@material-ui/icons/MoreHorizOutlined';
 
 type DenseTableProps = {

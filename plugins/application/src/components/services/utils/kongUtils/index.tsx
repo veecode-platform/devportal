@@ -2,7 +2,7 @@ import React from 'react';
 import {Progress} from '@backstage/core-components';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from "react-use/lib/useAsync";
-import { IKongServices } from "../../interfaces";
+import { IKongServices } from "../interfaces";
 import { KongServicesListComponent } from "./kongServiceListComponent";
 
 export const FetchKongServices = ({valueName, setValue}:any) => {

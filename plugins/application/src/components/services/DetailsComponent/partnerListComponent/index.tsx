@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Grid, Button} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import { IPartner } from '../../interfaces';
+import { IPartner } from '../../utils/interfaces';
 
 type PartnerListProps = {
   partners: IPartner[];

@@ -7,7 +7,7 @@ import {
 } from '@backstage/core-components';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Link as RouterLink } from 'react-router-dom';
-import { IService } from '../../interfaces';
+import { IService } from '../../utils/interfaces';
 import {AlertComponent} from '../../../shared';
 import { PartnerListComponent } from '../partnerListComponent';
 

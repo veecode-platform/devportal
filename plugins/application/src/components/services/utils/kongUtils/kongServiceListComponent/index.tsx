@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import React from 'react';
 import { Select, MenuItem } from '@material-ui/core';
-import { IKongServices } from '../../../interfaces';
+import { IKongServices } from '../../interfaces';
 
 type KongServicesArray = {
   services: IKongServices[];
@@ -24,7 +24,7 @@ export const KongServicesListComponent = ({
         setValue(e.target.value as string);
       }}
       >
-      <MenuItem value="">
+      <MenuItem value="Service Name">
         <em>Service name</em>
       </MenuItem>
       {services.map(item => {

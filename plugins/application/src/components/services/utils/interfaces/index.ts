@@ -1,24 +1,26 @@
 export interface IService {
-  id: string,
+  id?: string,
   name: string,
   active?:  boolean | null,
   description: string,
   redirectUrl: string,
   partnersId: string[],
-  kongServiceName: string,
+  rateLimiting: number | any,
+  kongServiceName: string | any,
   kongServiceId: string,
-  rateLimiting: number,
-  createdAt: Date | string,
-  updatedAt: Date | string
+  securityType: string | any,
+  createdAt?: Date | string,
+  updatedAt?: Date | string
 }
 
 export interface ICreateService{
-    serviceId: string,
+    serviceId?: string,
     name: string,
     active: boolean | null;
     description: string,
-    security: string,
-    rateLimiting: number,
+    redirectUrl: string,
+    securityType: string | any,
+    rateLimiting: number | any,
 }
 
 export interface IPartner {
@@ -33,5 +35,3 @@ export interface IKongServices {
   id: string;
   name: string;
 }
-
-

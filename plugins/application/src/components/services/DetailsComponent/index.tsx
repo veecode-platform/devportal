@@ -12,10 +12,11 @@ import { Progress, TabbedLayout } from '@backstage/core-components';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
 import { Header, Page, Link } from '@backstage/core-components';
-import { IService } from '../interfaces';
+import { IService } from '../utils/interfaces';
 import EditIcon from '@material-ui/icons/Edit';
 import CachedIcon from '@material-ui/icons/Cached';
 import { DefaultDetailsComponent } from './DefaultDetailsComponent';
+import { SecurityTypeEnum } from '../utils/enum';
 
 // makestyles
 const useStyles = makeStyles({
@@ -59,6 +60,7 @@ const Details = ({ service }: Services) => {
     kongServiceName: service?.kongServiceName ?? '...',
     kongServicesId: service?.kongServiceId ?? '...',
     rateLimiting: service?.rateLimiting ?? '...',
+    securityType: service?.securityType ?? SecurityTypeEnum.none,
     createdAt: service?.createdAt ?? '...',
     updatedAt: service?.updatedAt ?? '...',
   };
