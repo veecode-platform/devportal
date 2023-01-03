@@ -48,8 +48,6 @@ const Details = ({ service }: Services) => {
   const Refresh = () => {
     window.location.reload();
   };
-  const location = useLocation();
-  const id = location.search.split('?id=')[1];
 
   const serviceData = {
     id: service?.id ?? '...',
@@ -75,7 +73,6 @@ const Details = ({ service }: Services) => {
               style={{ marginBottom: '2vw' }}
               item
               lg={12}
-              direction="column"
             >
               <CardHeader
                 title="Details"
@@ -102,7 +99,7 @@ const Details = ({ service }: Services) => {
                   </>
                 }
               />
-              <Grid container direction="column" spacing={6} lg={12}>
+              <Grid container direction="column" spacing={6}>
                 <DefaultDetailsComponent
                   metadata={serviceData}
                   back="/services"

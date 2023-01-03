@@ -64,7 +64,7 @@ const Details = ({ application }: Application) => {
       <TabbedLayout>
         <TabbedLayout.Route path="/" title="OVERVIEW">
           <Card className={classes.gridItemCard} >
-            <Grid style={{ marginBottom: "2vw" }} item lg={12} direction='column' >
+            <Grid style={{ marginBottom: "2vw" }} item lg={12} >
               <CardHeader
                 title="Details"
                 id="overview"
@@ -90,7 +90,7 @@ const Details = ({ application }: Application) => {
                   </>
                 }
               />
-              <Grid container direction='column' spacing={6} lg={12}>
+              <Grid container direction='column' spacing={6}>
                 <DetailsComponent metadata={ApplicationData} back="/application" />
               </Grid>
             </Grid>
