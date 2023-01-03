@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
-import { Grid, TextField, Button, MenuItem } from '@material-ui/core';
+import { Grid, TextField, Button } from '@material-ui/core';
 import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AlertComponent } from '../../shared';
 import useAsync from 'react-use/lib/useAsync';
@@ -13,7 +13,7 @@ import {
   Content,
   ContentHeader,
 } from '@backstage/core-components';
-import { ICreateService, IService } from '../utils/interfaces';
+import { IService } from '../utils/interfaces';
 import { Select } from '../../shared';
 import { SecurityTypeEnum } from '../utils/enum';
 
