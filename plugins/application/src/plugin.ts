@@ -10,6 +10,7 @@ import {
   partnersRootRouteRef,
   partnersDetailsRouteRef,
   createPartnerRouteRef,
+  editPartnerRouteRef,
   applicationRouteRef,
   applicationDetailsRouteRef,
   newApplicationRouteRef,
@@ -25,6 +26,7 @@ export const applicationPlugin = createPlugin({
     partnersRoot: partnersRootRouteRef,
     partnersDetails: partnersDetailsRouteRef,
     partnersCreate: createPartnerRouteRef,
+    partnersEdit: editPartnerRouteRef,
     devApplicationRoot: applicationRouteRef,
     devApplicationDetails: applicationDetailsRouteRef,
     devApplicationCreate: newApplicationRouteRef,
@@ -65,13 +67,3 @@ export const ApplicationPage = applicationPlugin.provide(
   }),
 );
 
-// export const CredentialsPage = applicationPlugin.provide(
-//   createRoutableExtension({
-//     name: 'CredentialsPage',
-//     component: () =>
-//       import('./components/credentials/CredentialsComponent').then(
-//         m => m.CredentialsComponent,
-//       ),
-//     mountPoint: credentialRouteRef,
-//   }),
-// );
