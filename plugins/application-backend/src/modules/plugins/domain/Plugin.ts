@@ -2,6 +2,7 @@ import { Entity } from '../../../core/domain/Entity';
 
 export type PluginProps = {
   name: string;
+  pluginId: string;
   active: boolean;
   service: string;
   createdAt?: Date;

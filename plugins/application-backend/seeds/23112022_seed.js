@@ -17,11 +17,12 @@ exports.seed = async function (knex) {
           'ad94b906-4970-11ed-b878-0242ac120002',
           '27447ec1-d67f-4233-bfb1-0f11f7ccca29',
         ],
-        kongServiceName: 'kong service test',
-        kongServiceId: '916723c1-b79c-4b32-929e-2ea1327f0525',
+        kongServiceName: 'teste',
+        kongServiceId: '20a93081-8cf6-45c8-b33d-0d391b7bbe58',
         rateLimiting: '120',
         createdAt: new Date(),
         updatedAt: new Date(),
+        securityType: "key-auth"
       },
 
       {
@@ -57,7 +58,7 @@ exports.seed = async function (knex) {
     ]);
     await knex('partners').insert([
       {
-        id: 'ad94b906-4970-11ed-b878-0242ac120001',
+        id: 'ad94b906-4970-11ed-b878-0242ac120002',
         name: 'nome testador',
         email: 'teste@email.com',
         celular: '21 999999999',
@@ -152,6 +153,7 @@ exports.seed = async function (knex) {
         id: 'a0b50188-8065-11ed-a1eb-0242ac120002',
         name: 'key-auth',
         active: true,
+        pluginId: '54710239-6bde-4bac-baad-bd730bbd2f6c',
         service: 'ad94b906-4970-11ed-b878-0242ac120001',
         parternId: 'ad94b906-4970-11ed-b878-0242ac120001',
         externalId: 'consumer-7135150b',
