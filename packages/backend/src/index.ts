@@ -29,8 +29,9 @@ import proxy from './plugins/proxy';
 import techdocs from './plugins/techdocs';
 import search from './plugins/search';
 import application from './plugins/application'
-// custom permission
 import permission from './plugins/permission';
+import serviceTeste from './plugins/serviceTeste'
+
 
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
@@ -80,6 +81,7 @@ async function main() {
     logger: getRootLogger(),
   });
   const createEnv = makeCreateEnv(config);
+  const serviceEnv = useHotMemoize(module, () => createEnv('service'))
   const applicationEnv = useHotMemoize(module, () => createEnv('application'));
   const catalogEnv = useHotMemoize(module, () => createEnv('catalog'));
   const scaffolderEnv = useHotMemoize(module, () => createEnv('scaffolder'));
@@ -99,6 +101,8 @@ async function main() {
   apiRouter.use('/proxy', await proxy(proxyEnv));
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/permission', await permission(permissionEnv));
+  apiRouter.use('/service', await serviceTeste(serviceEnv));
+
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());
