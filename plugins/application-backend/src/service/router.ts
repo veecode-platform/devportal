@@ -6,7 +6,7 @@ import {
 import { InputError } from '@backstage/errors';
 //import { InputError } from '@backstage/errors';
 import { Config } from '@backstage/config';
-import express from 'express';
+import express, { response } from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
@@ -95,6 +95,8 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', groups: groups });
   });
 
+  
+
   router.post('/consumer_groups', async (request, response) => {
     try {
       const consumerGroup: ConsumerGroup = request.body;
@@ -111,6 +113,11 @@ export async function createRouter(
         timestamp: new Date(date).toISOString(),
       });
     }
+  });
+
+  router.put('/teste/:idService', async (request, response) => {
+    const teste = controllPlugin.removePlugin(options, request.params.idService as string)
+    response.status(404).json(teste)
   });
 
   router.get('/consumer_groups', async (request, response) => {
@@ -142,7 +149,7 @@ export async function createRouter(
   router.post('/service', async (request, response) => {
     try {
       const service: ServiceDto = request.body.service;
-      controllPlugin.applyOuath(service);
+      controllPlugin.applySecurityType(service);
       const result = await serviceRepository.createService(service);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
@@ -161,11 +168,23 @@ export async function createRouter(
     response.status(204).json({ status: 'ok', service: result });
   });
 
-  router.patch('/service/:id', async (request, response) => {
+  // UPDATE
+  router.post('/service/:id', async (request, response) => {
     const code = request.params.id;
     const service: ServiceDto = request.body.service;
 
-    const result = await serviceRepository.patchService(code, service);
+    // const result = await serviceRepository.patchService(code, service as Service);
+    response.status(200).json({ status: 'ok', service: result });
+  });
+
+  // PROGRESSO DE ATUALIZAÇÃO
+  router.post('/service/:id', async (request, response) => {
+    const code = request.params.id;
+    const body = request.body;
+
+    const service: ServiceDto = request.body.service;
+
+    // const result = await serviceRepository.patchService(code, service);
     response.status(200).json({ status: 'ok', service: result });
   });
 
@@ -317,6 +336,10 @@ router.get('/consumers', async (_, response) => {
     }
   });
 
+
+
+
+
   // APPLICATION
   router.get('/', async (request, response) => {
     try {
@@ -453,6 +476,8 @@ router.get('/consumers', async (_, response) => {
       });
     }
   });
+
+
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(

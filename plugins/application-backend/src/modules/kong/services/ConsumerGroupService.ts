@@ -6,26 +6,24 @@ import { KongServiceBase } from './KongServiceBase';
 export class ConsumerGroupService extends KongServiceBase {
   private static _instance: ConsumerGroupService;
 
-  public constructor() {
-    super();
-  }
+    public async createConsumerGroup(consumerGroup: ConsumerGroup): Promise<ConsumerGroup> {
+        const url = `${await this.getBaseUrl()}/consumer_groups`;
+        const response = await axios
+            .post(url, {
+                name: consumerGroup.name
+            },
+                {
+                headers: await this.getAuthHeader(),
+            })
+            .catch(kongConsumerGroupExceptions);
+        return response.data
+    }
 
   public static get Instance() {
     return this._instance || (this._instance = new this());
   }
 
-  public async createConsumerGroup(
-    consumerGroup: ConsumerGroup,
-  ): Promise<ConsumerGroup> {
-    const url = `${await this.getBaseUrl()}/consumer_groups`;
-    const response = await axios
-      .post(url, consumerGroup, {
-        headers: await this.getAuthHeader(),
-      })
-      .catch(kongConsumerGroupExceptions);
-    console.log(response.data);
-    return response.data;
-  }
+
 
   public async listConsumerGroups(): Promise<ConsumerGroup[]> {
     const url = `${await this.getBaseUrl()}/consumer_groups`;

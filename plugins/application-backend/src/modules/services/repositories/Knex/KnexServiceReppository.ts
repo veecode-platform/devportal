@@ -5,6 +5,8 @@ import { ServiceResponseDto } from '../../dtos/ServiceResponseDto';
 import { ServiceMapper } from '../../mappers/ServiceMapper';
 import { IServiceRepository } from '../IServiceRepository';
 
+
+
 export class PostgresServiceRepository implements IServiceRepository {
   constructor(private readonly db: Knex) {}
 
@@ -35,8 +37,8 @@ export class PostgresServiceRepository implements IServiceRepository {
   }
 
   // method get one service by id
-  async getServiceById(id: string): Promise<Service | string> {
-    const service = await this.db<Service>('services')
+  async getServiceById(id: string): Promise<Service> {
+    const service= await this.db<Service>('services')
       .where('id', id)
       .limit(1)
       .select()
@@ -45,7 +47,8 @@ export class PostgresServiceRepository implements IServiceRepository {
     const responseData = await ServiceMapper.listAllServicesToResource(
       serviceDomain,
     );
-    return responseData.service ?? 'cannot find service';
+    console.log('CONSOLE LOG DA SERVICE REPOSITORY: ', typeof service)
+    return service;
   }
 
   async saveService(serviceDto: ServiceDto): Promise<Service> {
@@ -75,6 +78,48 @@ export class PostgresServiceRepository implements IServiceRepository {
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
     const service: Service = Service.create({
+<<<<<<< HEAD
+        name: serviceDto.name,
+        active: serviceDto.active,
+        description: serviceDto.description,
+        redirectUrl: serviceDto.redirectUrl,
+        partnersId: serviceDto.partnersId,
+        kongServiceName: serviceDto.kongServiceName,
+        kongServiceId: serviceDto.kongServiceId,
+        rateLimiting: serviceDto.rateLimiting,
+        securityType: serviceDto.securityType
+      }
+
+ 
+      );
+      if(serviceDto.securityType.valueOf() != "none" ){
+        
+      }
+      const data = await ServiceMapper.toPersistence(service);
+    const createdService = await this.db('services').insert(data).catch(error => console.error(error));
+    return createdService ? service : "cannot create service"
+   }
+    // asyn function to update full service object
+    async updateService(id: string, serviceDto: Service): Promise<Service | string> {
+      console.log('esse é o id', id)
+      const service: Service = Service.create({
+        name: serviceDto.name,
+        active: serviceDto.active,
+        description: serviceDto.description,
+        redirectUrl: serviceDto.redirectUrl,
+        partnersId: serviceDto.partnersId,
+        kongServiceName: serviceDto.kongServiceName,
+        kongServiceId: serviceDto.kongServiceId,
+        rateLimiting: serviceDto.rateLimiting,
+        securityType: serviceDto.securityType
+      });
+      const data =await ServiceMapper.toPersistence(serviceDto);
+      const updatedService = await this.db('services').where('id', id).update(data).catch(error => console.error(error));
+      return updatedService ? service : "cannot update service";
+      }
+
+
+=======
       name: serviceDto.name,
       active: serviceDto.active,
       description: serviceDto.description,
@@ -116,6 +161,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       .catch(error => console.error(error));
     return updatedService ? service : 'cannot update service';
   }
+>>>>>>> develop-partner-flow
 
   // async updateService(code: string, serviceDto: ServiceDto): Promise<Service | null> {
   //     return null;
@@ -123,7 +169,7 @@ export class PostgresServiceRepository implements IServiceRepository {
   // async function to patch partial  service object partial class type
   async patchService(
     id: string,
-    serviceDto: ServiceDto,
+    serviceDto: Service,
   ): Promise<Service | string> {
     const service: Service = Service.create({
       name: serviceDto.name,
@@ -134,13 +180,20 @@ export class PostgresServiceRepository implements IServiceRepository {
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
       securityType: serviceDto.securityType,
+<<<<<<< HEAD
+      rateLimiting: serviceDto.rateLimiting
+      });// try add ,id on service create
+    const data =await ServiceMapper.toPersistence(service);
+    console.log('data, 138: ', data)
+=======
       rateLimiting: serviceDto.rateLimiting,
     }); // try add ,id on service create
     //const data =await ServiceMapper.toPersistence(service);
 
+>>>>>>> develop-partner-flow
     const patchedService = await this.db('services')
       .where('id', id)
-      .update(serviceDto)
+      .update(data)
       .catch(error => console.error(error));
     return patchedService ? service : 'cannot patch service';
   }

@@ -8,6 +8,7 @@ import { IPluginRepository } from '../IPluginRepository';
 export class PostgresPluginRepository implements IPluginRepository {
   constructor(private readonly db: Knex) {}
 
+
   static async create(knex: Knex<any, any[]>): Promise<IPluginRepository> {
     return new PostgresPluginRepository(knex);
   }
@@ -44,6 +45,15 @@ export class PostgresPluginRepository implements IPluginRepository {
     return responseData.plugin ?? 'cannot find plugin';
   }
 
+  async getPluginByServiceId(serviceId: string): Promise<string | Plugin> {
+    const plugin = await this.db<Plugin>('plugins').where('service', serviceId).select();
+    const pluginDomain = PluginResponseDto.create({ pluginIt: plugin });
+    const responseData = await PluginMapper.listAllPluginsToResource(
+      pluginDomain,
+    );
+    return responseData.plugin ?? 'not found';
+  }
+
   /**
    * Save a plugin in database
    * @returns {Promise<Plugin>}
@@ -53,6 +63,7 @@ export class PostgresPluginRepository implements IPluginRepository {
       name: pluginDto.name,
       active: pluginDto.active,
       service: pluginDto.service,
+      pluginId: pluginDto.pluginId
     });
     const data = PluginMapper.toPersistence(plugin);
     console.log(data);
@@ -64,6 +75,7 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<void>}
    */
   async deletePlugin(id: string): Promise<void> {
+    console.log('id do plugin: ', id)
     await this.db<Plugin>('plugins')
       .where('id', id)
       .del()
@@ -79,6 +91,7 @@ export class PostgresPluginRepository implements IPluginRepository {
       name: pluginDto.name,
       active: pluginDto.active,
       service: pluginDto.service,
+      pluginId: pluginDto.pluginId
     });
     const data = await PluginMapper.toPersistence(plugin);
     const createdPlugin = await this.db('plugins')
@@ -99,6 +112,7 @@ export class PostgresPluginRepository implements IPluginRepository {
       name: pluginDto.name,
       active: pluginDto.active,
       service: pluginDto.service,
+      pluginId: pluginDto.pluginId
     });
     const patchedPlugin = await this.db('plugins')
       .where('id', id)
@@ -106,4 +120,6 @@ export class PostgresPluginRepository implements IPluginRepository {
       .catch(error => console.log(error));
     return patchedPlugin ? plugin : 'cannot patch plugin';
   }
+
+
 }

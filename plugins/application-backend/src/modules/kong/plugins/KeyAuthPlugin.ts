@@ -13,6 +13,7 @@ export class KeyAuthPlugin extends PluginService {
     map.set('key_names', keyNamesList);
 
     return this.applyPluginKongService(serviceName, PluginName.key_auth, map);
+    // instanciar plugin a partir daqui e salvar no banco. 
   }
 
   public async updateKeyAuthKongService(
