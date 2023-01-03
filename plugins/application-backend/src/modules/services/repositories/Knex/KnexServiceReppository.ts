@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { Service } from '../../domain/Service';
+import { SECURITY, Service } from '../../domain/Service';
 import { ServiceDto } from '../../dtos/ServiceDto';
 import { ServiceResponseDto } from '../../dtos/ServiceResponseDto';
 import { ServiceMapper } from '../../mappers/ServiceMapper';
@@ -78,48 +78,6 @@ export class PostgresServiceRepository implements IServiceRepository {
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
     const service: Service = Service.create({
-<<<<<<< HEAD
-        name: serviceDto.name,
-        active: serviceDto.active,
-        description: serviceDto.description,
-        redirectUrl: serviceDto.redirectUrl,
-        partnersId: serviceDto.partnersId,
-        kongServiceName: serviceDto.kongServiceName,
-        kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: serviceDto.rateLimiting,
-        securityType: serviceDto.securityType
-      }
-
- 
-      );
-      if(serviceDto.securityType.valueOf() != "none" ){
-        
-      }
-      const data = await ServiceMapper.toPersistence(service);
-    const createdService = await this.db('services').insert(data).catch(error => console.error(error));
-    return createdService ? service : "cannot create service"
-   }
-    // asyn function to update full service object
-    async updateService(id: string, serviceDto: Service): Promise<Service | string> {
-      console.log('esse é o id', id)
-      const service: Service = Service.create({
-        name: serviceDto.name,
-        active: serviceDto.active,
-        description: serviceDto.description,
-        redirectUrl: serviceDto.redirectUrl,
-        partnersId: serviceDto.partnersId,
-        kongServiceName: serviceDto.kongServiceName,
-        kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: serviceDto.rateLimiting,
-        securityType: serviceDto.securityType
-      });
-      const data =await ServiceMapper.toPersistence(serviceDto);
-      const updatedService = await this.db('services').where('id', id).update(data).catch(error => console.error(error));
-      return updatedService ? service : "cannot update service";
-      }
-
-
-=======
       name: serviceDto.name,
       active: serviceDto.active,
       description: serviceDto.description,
@@ -161,7 +119,6 @@ export class PostgresServiceRepository implements IServiceRepository {
       .catch(error => console.error(error));
     return updatedService ? service : 'cannot update service';
   }
->>>>>>> develop-partner-flow
 
   // async updateService(code: string, serviceDto: ServiceDto): Promise<Service | null> {
   //     return null;
@@ -172,28 +129,21 @@ export class PostgresServiceRepository implements IServiceRepository {
     serviceDto: Service,
   ): Promise<Service | string> {
     const service: Service = Service.create({
-      name: serviceDto.name,
-      active: serviceDto.active,
-      description: serviceDto.description,
-      redirectUrl: serviceDto.redirectUrl,
-      partnersId: serviceDto.partnersId,
-      kongServiceName: serviceDto.kongServiceName,
-      kongServiceId: serviceDto.kongServiceId,
-      securityType: serviceDto.securityType,
-<<<<<<< HEAD
-      rateLimiting: serviceDto.rateLimiting
-      });// try add ,id on service create
-    const data =await ServiceMapper.toPersistence(service);
-    console.log('data, 138: ', data)
-=======
-      rateLimiting: serviceDto.rateLimiting,
+      name: serviceDto.name as string,
+      active: serviceDto.active as boolean,
+      description: serviceDto.description as string, 
+      redirectUrl: serviceDto.redirectUrl as string,
+      partnersId: serviceDto.partnersId as string[],
+      kongServiceName: serviceDto.kongServiceName as string,
+      kongServiceId: serviceDto.kongServiceId as string,
+      securityType: serviceDto.securityType as SECURITY,
+      rateLimiting: serviceDto.rateLimiting as number,
     }); // try add ,id on service create
     //const data =await ServiceMapper.toPersistence(service);
 
->>>>>>> develop-partner-flow
     const patchedService = await this.db('services')
       .where('id', id)
-      .update(data)
+      .update(service)
       .catch(error => console.error(error));
     return patchedService ? service : 'cannot patch service';
   }
