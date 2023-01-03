@@ -27,12 +27,6 @@ export class TestGroups {
     const groups = await kcAdminClient.groups.find();
     return groups;
   }
-
-//   public async createUser(){
-//     const kcAdminClient = await new KeycloakAdminClient().getClient();
-//     const user = await kcAdminClient.users.create({username:"testando api", realm:"platform-devportal"});
-//     return user;
-//   }
 }
 
 
