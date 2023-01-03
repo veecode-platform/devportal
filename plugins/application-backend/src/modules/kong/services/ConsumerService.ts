@@ -4,11 +4,21 @@ import { Consumer } from '../model/Consumer';
 import { KongServiceBase } from './KongServiceBase';
 
 export class ConsumerService extends KongServiceBase {
+  private static _instance: ConsumerService;
+
+  public constructor() {
+    super();
+  }
+
+  public static get Instance() {
+    return this._instance || (this._instance = new this());
+  }
+
   public async findConsumer(consumerName: string) {
     const url = `${await this.getBaseUrl()}/consumers/${consumerName}`;
     const response = await axios
       .get(url, {
-        headers: await this.getAuthHeader()
+        headers: await this.getAuthHeader(),
       })
       .catch(kongConsumerExceptions);
 

@@ -9,6 +9,7 @@ export enum PluginName {
 }
 
 export class PluginService extends KongServiceBase {
+  [x: string]: any;
   public async applyPluginKongService(
     serviceName: string,
     pluginName: PluginName,

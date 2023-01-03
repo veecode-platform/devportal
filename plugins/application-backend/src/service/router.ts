@@ -11,6 +11,7 @@ import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
+import { ApplicationServices } from '../modules/applications/services/ApplicationServices';
 import { TestGroups } from '../modules/keycloak/adminClient';
 import { AssociateService } from '../modules/kong-control/AssociateService';
 import { KongHandler } from '../modules/kong-control/KongHandler';
@@ -72,14 +73,17 @@ export async function createRouter(
   const adminClientKeycloak = new TestGroups();
   const kongHandler = new KongHandler();
   const consumerService = new ConsumerService();
-  
+
   const controllPlugin = new ControllPlugin();
   const consumerGroupService = new ConsumerGroupService();
   const userService = new UserService();
   const associateService = new AssociateService();
-  const aclPlugin = AclPlugin.Instance
+  const pluginService = new PluginService();
+  //const aclPlugin = new AclPlugin(config);
+  // const aclPlugin = AclPlugin.Instance;
+  const aclPlugin = AclPlugin.Instance;
   const keyAuthPlugin = KeyAuthPlugin.Instance;
-  const rateLimitingPlugin = RateLimitingPlugin.instance();
+  const rateLimitingPlugin = RateLimitingPlugin.Instance;
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -96,10 +100,12 @@ export async function createRouter(
   router.post('/consumer_groups', async (request, response) => {
     try {
       const consumerGroup: ConsumerGroup = request.body;
-      const result = await consumerGroupService.createConsumerGroup(consumerGroup);
+      const result = await consumerGroupService.createConsumerGroup(
+        consumerGroup,
+      );
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
       let date = new Date();
       response.status(error.response.status).json({
         status: 'ERROR',
@@ -184,8 +190,8 @@ export async function createRouter(
 
   // PARTNER
   router.get('/partners', async (request, response) => {
-    const offset:number = request.query.offset as any;
-    const limit:number = request.query.limit as any;
+    const offset: number = request.query.offset as any;
+    const limit: number = request.query.limit as any;
     const partners = await partnerRepository.getPartner(offset, limit);
     response.status(200).json({ status: 'ok', partners: partners });
   });
@@ -339,7 +345,10 @@ router.get('/consumers', async (_, response) => {
     try {
       const limit: number = request.query.limit as any;
       const offset: number = request.query.offset as any;
-      const responseData = await applicationRepository.getApplication(limit, offset);
+      const responseData = await applicationRepository.getApplication(
+        limit,
+        offset,
+      );
       return response.json({ status: 'ok', applications: responseData });
     } catch (error: any) {
       let date = new Date();
@@ -352,8 +361,8 @@ router.get('/consumers', async (_, response) => {
   });
 
   router.post('/', async (request, response) => {
-    const data: ApplicationDto = request.body.application;
-    console.log(data);
+    const data = request.body.application;
+    await ApplicationServices.Instance.createApplication(data, options);
     try {
       if (!data) {
         throw new InputError(
@@ -425,6 +434,7 @@ router.get('/consumers', async (_, response) => {
 
   router.delete('/:id', async (request, response) => {
     const code = request.params.id;
+    await ApplicationServices.Instance.removeApplication(code, options);
     try {
       if (!code) {
         throw new InputError(
@@ -538,6 +548,11 @@ router.get('/consumers', async (_, response) => {
   router.patch('/:id', async (request, response) => {
     const code = request.params.id;
     const application: ApplicationDto = request.body.application;
+    await ApplicationServices.Instance.updateApplication(
+      code,
+      application,
+      options,
+    );
     try {
       const result = await applicationRepository.patchApplication(
         code,
@@ -760,7 +775,7 @@ router.get('/consumers', async (_, response) => {
       if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
       response.json({ status: 'ok', services: [] });
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
       let date = new Date();
       response.status(error.response.status).json({
         status: 'ERROR',
@@ -771,8 +786,7 @@ router.get('/consumers', async (_, response) => {
   });
   router.delete('/kong-service/acl/:serviceName', async (request, response) => {
     try {
-      const serviceStore = await pluginService.removeAclKongService(
-        config.getString('kong.api-manager'),
+      const serviceStore = await aclPlugin.removeAclKongService(
         request.params.serviceName,
         request.query.idAcl as string,
       );
@@ -794,12 +808,10 @@ router.get('/consumers', async (_, response) => {
       try {
         const hide = request.body.hide_groups_header;
         const allowed = request.body.allowed;
-        const serviceStore = await pluginService.updateclKongService(
-          config.getString('kong.api-manager'),
+        const serviceStore = await aclPlugin.updateAclKongService(
           request.params.serviceName,
-          allowed,
           request.query.idAcl as string,
-          hide,
+          allowed,
         );
         if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
         response.status(204).json({ status: 'ok', services: [] });
@@ -1052,7 +1064,7 @@ router.get('/consumers', async (_, response) => {
 
   router.post('/consumer_groups/:id/consumers', async (request, response) => {
     try {
-      const consumerGroup: ConsumerGroup = request.body;
+      const consumerGroup = request.body;
       const result = await consumerGroupService.addConsumerToGroup(
         request.params.id,
         consumerGroup,
@@ -1067,8 +1079,6 @@ router.get('/consumers', async (_, response) => {
       });
     }
   });
-
-
 
   router.delete('/consumer_groups/:id', async (request, response) => {
     try {

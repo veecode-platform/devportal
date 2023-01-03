@@ -4,6 +4,7 @@ import { ConsumerGroup } from '../model/ConsumerGroup';
 import { KongServiceBase } from './KongServiceBase';
 
 export class ConsumerGroupService extends KongServiceBase {
+  private static _instance: ConsumerGroupService;
 
     public async createConsumerGroup(consumerGroup: ConsumerGroup): Promise<ConsumerGroup> {
         const url = `${await this.getBaseUrl()}/consumer_groups`;
@@ -18,61 +19,76 @@ export class ConsumerGroupService extends KongServiceBase {
         return response.data
     }
 
-    public async listConsumerGroups(): Promise<ConsumerGroup[]> {
-        const url = `${await this.getBaseUrl()}/consumer_groups`;
-        const response = await axios
-            .get(url, {
-                headers: await this.getAuthHeader(),
-            })
-            .catch(kongConsumerGroupExceptions);
-        const groups = response.data.data;
-        return groups.map((group:ConsumerGroup) => group);
-    }
-    
-    public async deleteConsumerGroup(consumerGroupId: string): Promise<ConsumerGroup> {
-        const url = `${await this.getBaseUrl()}/consumer_groups/${consumerGroupId}`;
-        const response = await axios
-          .delete(url, {
-            headers: await this.getAuthHeader(),
-          })
-          .catch(kongConsumerGroupExceptions);
-        const consumerGroup = response.data;
-        return consumerGroup;
-    }
+  public static get Instance() {
+    return this._instance || (this._instance = new this());
+  }
 
-    public async addConsumerToGroup(consumerGroupId:string, consumerId: ConsumerGroup) {
-        const url = `${await this.getBaseUrl()}/consumer_groups/${consumerGroupId}/consumers`;
-        const response = await axios
-            .post(url, consumerId, {
-                headers: await this.getAuthHeader(),
-            })
-            .catch(kongConsumerGroupExceptions);
-        return response.data;
-    }
 
-    public async removeConsumerFromGroups(consumerId:string){
-        const url = `${await this.getBaseUrl()}/consumers/${consumerId}/consumer_groups`;
-        const response = await axios
-          .delete(url, {
-            headers: await this.getAuthHeader(),
-          })
-          .catch(kongConsumerGroupExceptions);
 
-        const consumerGroup = response.data;
-        return consumerGroup;
-    }
+  public async listConsumerGroups(): Promise<ConsumerGroup[]> {
+    const url = `${await this.getBaseUrl()}/consumer_groups`;
+    const response = await axios
+      .get(url, {
+        headers: await this.getAuthHeader(),
+      })
+      .catch(kongConsumerGroupExceptions);
+    const groups = response.data.data;
+    return groups.map((group: ConsumerGroup) => group);
+  }
 
-    public async removeConsumerFromGroup(consumerId:string, consumerGroupId:string){
-        // Remove a consumer from a consumer group
+  public async deleteConsumerGroup(
+    consumerGroupId: string,
+  ): Promise<ConsumerGroup> {
+    const url = `${await this.getBaseUrl()}/consumer_groups/${consumerGroupId}`;
+    const response = await axios
+      .delete(url, {
+        headers: await this.getAuthHeader(),
+      })
+      .catch(kongConsumerGroupExceptions);
+    const consumerGroup = response.data;
+    return consumerGroup;
+  }
 
-        const url = `${await this.getBaseUrl()}/consumers/${consumerId}/consumer_groups/${consumerGroupId}`;
-        const response = await axios
-          .delete(url, {
-            headers: await this.getAuthHeader(),
-          })
-          .catch(kongConsumerGroupExceptions);
+  public async addConsumerToGroup(consumerGroupId: string, consumerId: string) {
+    const url = `${await this.getBaseUrl()}/consumer_groups/${consumerGroupId}/consumers`;
+    const response = await axios
+      .post(
+        url,
+        { consumer: consumerId },
+        {
+          headers: await this.getAuthHeader(),
+        },
+      )
+      .catch(kongConsumerGroupExceptions);
+    return response.data;
+  }
 
-        const consumerGroup = response.data;
-        return consumerGroup;
-    }
+  public async removeConsumerFromGroups(consumerId: string) {
+    const url = `${await this.getBaseUrl()}/consumers/${consumerId}/consumer_groups`;
+    const response = await axios
+      .delete(url, {
+        headers: await this.getAuthHeader(),
+      })
+      .catch(kongConsumerGroupExceptions);
+
+    const consumerGroup = response.data;
+    return consumerGroup;
+  }
+
+  public async removeConsumerFromGroup(
+    consumerId: string,
+    consumerGroupId: string,
+  ) {
+    // Remove a consumer from a consumer group
+
+    const url = `${await this.getBaseUrl()}/consumers/${consumerId}/consumer_groups/${consumerGroupId}`;
+    const response = await axios
+      .delete(url, {
+        headers: await this.getAuthHeader(),
+      })
+      .catch(kongConsumerGroupExceptions);
+
+    const consumerGroup = response.data;
+    return consumerGroup;
+  }
 }

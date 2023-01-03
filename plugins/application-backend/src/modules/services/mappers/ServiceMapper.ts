@@ -4,7 +4,7 @@ import { ServiceResponseDto } from '../dtos/ServiceResponseDto';
 export class ServiceMapper {
   static async toPersistence(service: Service) {
     return {
-      id: service.id,
+      id: service._id,
       name: service.name,
       active: service.active,
       description: service.description,
