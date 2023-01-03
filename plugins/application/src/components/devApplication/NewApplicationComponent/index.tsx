@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unreachable */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from 'react';
-import { Grid, TextField, Button, Paper } from '@material-ui/core';
+import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { AlertComponent } from '../../shared';
 import {
@@ -29,7 +30,6 @@ export const NewApplicationComponent = () => {
 
   useEffect(() => {
     return setApplication({ ...application, creator: name });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const servicesIdMock = [

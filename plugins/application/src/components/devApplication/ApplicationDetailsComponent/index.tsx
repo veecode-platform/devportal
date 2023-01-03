@@ -110,8 +110,6 @@ export const ApplicationDetailsComponent = () => {
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
     const response = await fetch(`http://localhost:7007/api/application/${id}`);
     const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log(data.application)
     return data.application;
   }, []);
 

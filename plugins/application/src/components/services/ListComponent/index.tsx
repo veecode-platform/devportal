@@ -1,30 +1,15 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
-import {
-  Header,
-  Page,
-  Content,
-  ContentHeader,
-  CreateButton 
-} from '@backstage/core-components';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { FetchComponent } from '../FetchComponent';
+import { PageDefault } from '../../shared';
 
 export const ListComponent = () => (
-  
-  <Page themeId="tool">
-    <Header title="Services"> </Header>
-    <Content>
-      <ContentHeader title=''>
-        <CreateButton title="Create Service" to="/services/create-service"/>
-      </ContentHeader>
-
-      <Grid container spacing={5} direction="column">
-
-        <Grid item xs={12}>
-          <FetchComponent />
-        </Grid>
-        
-      </Grid>
-    </Content>
-  </Page>
-);
+  <PageDefault
+  title="Services"
+  add="create-service"
+  labelButton="CREATE SERVICE"
+  refresh='/services'
+  >
+  <FetchComponent/>
+  </PageDefault>
+ );
