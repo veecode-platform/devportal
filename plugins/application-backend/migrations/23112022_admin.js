@@ -49,6 +49,8 @@ exports.up = async function up(knex) {
       table.string('name');
       table.boolean('active');
       table.uuid('service');
+      table.specificType('parternId', 'TEXT');
+      table.string('externalId');
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
       table.foreign('service').references('services.id').onDelete('CASCADE');

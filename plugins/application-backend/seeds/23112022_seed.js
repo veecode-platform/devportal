@@ -4,7 +4,6 @@ exports.seed = async function (knex) {
     await knex('plugins').truncate();
     knex.raw('TRUNCATE TABLE services CASCADE')
     // await knex('services').truncate(); // cannot truncate a table referenced in a fk constraint
-    await knex('services').truncate();
     await knex('partners').truncate();
     await knex('applications').truncate();
     // Inserts seed entries
@@ -155,7 +154,6 @@ exports.seed = async function (knex) {
         active: true,
         service: 'ad94b906-4970-11ed-b878-0242ac120001',
         parternId: 'ad94b906-4970-11ed-b878-0242ac120001',
-        servicesId: ['fed8971d-b83f-4901-991d-0620f7c3b9f1'],
         externalId: 'consumer-7135150b',
         createdAt: new Date(),
         updatedAt: new Date(),
