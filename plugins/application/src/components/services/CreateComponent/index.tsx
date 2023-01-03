@@ -13,16 +13,17 @@ import {
 import { ICreateService } from '../utils/interfaces';
 import { FetchKongServices } from '../utils/kongUtils';
 import { rateLimitingItems, securityItems } from '../utils/common';
-import { Select } from '@backstage/core-components';
+import { Select } from '../../shared';
 
 export const CreateComponent = () => {
   const navigate = useNavigate();
   const [service, setService] = useState<ICreateService>({
-    serviceId: '',
     name: '',
+    kongServiceName:'',
     active: true,
     description: '',
     redirectUrl: '',
+    kongServiceId: '',
     securityType: '',
     rateLimiting: 0,
   });
@@ -33,11 +34,12 @@ export const CreateComponent = () => {
       return;
     }
     setService({
-      serviceId: '',
       name: '',
+      kongServiceName:'',
       active: true,
       description: '',
       redirectUrl: '',
+      kongServiceId: '',
       securityType: '',
       rateLimiting: 0,
     });
@@ -46,14 +48,14 @@ export const CreateComponent = () => {
   const handleSubmit = async () => {
     const dataTest = {
       serviceData: {
-        name: service.name ?? 'teste',
+        name: service.name ?? 'Service ]name Test',
+        kongServiceName:service,
+        active: service.active ?? true,
         description: service.description,
         redirectUrl: service.redirectUrl,
-        partnersId: [],
+        kongServiceId :service.kongServiceId,
         rateLimiting: service.rateLimiting,
         securityType: service.securityType,
-        // kongServiceName:service,
-        // kongServiceId :service,
       },
     };
     const config = {
@@ -101,13 +103,45 @@ export const CreateComponent = () => {
                 direction="column"
                 justifyContent="center"
               >
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Service Name"
+                    value={service.name}
+                    required
+                    onChange={e => {
+                      setService({ ...service, name: e.target.value });
+                    }}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  style={{
+                    display: 'grid',
+                    gridTemplate: 'auto / repeat(2, 1fr)',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
                 <Grid item lg={12}>
                   <FetchKongServices
                     valueName={service}
                     setValue={setService}
                   />
                 </Grid>
-
+                <Select
+                    placeholder="Select the Status"
+                    label="Service Status"
+                    items={[{label:'active', value: 'true' }]}
+                    onChange={e => {
+                      if (e === 'true')
+                        setService({ ...service, active: true });
+                      else setService({ ...service, active: false });
+                    }}
+                  />
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
@@ -132,6 +166,19 @@ export const CreateComponent = () => {
                     required
                     onChange={e => {
                       setService({ ...service, redirectUrl: e.target.value });
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Kong Service Id"
+                    value={service.kongServiceId}
+                    required
+                    onChange={e => {
+                      setService({ ...service, kongServiceId: e.target.value });
                     }}
                   />
                 </Grid>

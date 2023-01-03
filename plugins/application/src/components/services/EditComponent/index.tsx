@@ -15,7 +15,7 @@ import {
 } from '@backstage/core-components';
 import { IService } from '../utils/interfaces';
 import { Select } from '../../shared';
-import { rateLimitingItems, securityItems, statusItems } from '../utils/common'
+import { rateLimitingItems, securityItems, statusItems } from '../utils/common';
 
 type ServiceProps = {
   serviceData: IService | undefined;

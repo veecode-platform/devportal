@@ -14,11 +14,12 @@ export interface IService {
 }
 
 export interface ICreateService{
-    serviceId?: string,
     name: string,
+    kongServiceName: string | any,
     active: boolean | null;
     description: string,
     redirectUrl: string,
+    kongServiceId: string,
     securityType: string | any,
     rateLimiting: number | any,
 }
