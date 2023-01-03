@@ -11,7 +11,6 @@ export class ApplicationDto {
   consumerName?:string[];
   
   constructor(creator:string,name:string,serviceName:string[],description:string,active:boolean,createdAt:Date,updatedAt:Date,statusKong?:string,consumerName?:string[]) {
-
     this.creator = creator;
     this.name = name;
     this.serviceName = serviceName;
@@ -30,4 +29,11 @@ export type Consumer = {
   custom_id:string;
   created_at:Date;
   updated_at:Date;
+  key_authentication: KeyAuthentication[]
+}
+
+export type KeyAuthentication = {
+  id:string;
+  key:string;
+  created_at: Date;
 }

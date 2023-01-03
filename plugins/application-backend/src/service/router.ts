@@ -1,11 +1,11 @@
 import { errorHandler, loadBackendConfig, PluginDatabaseManager } from '@backstage/backend-common';
-//import { InputError } from '@backstage/errors';
+import { InputError } from '@backstage/errors';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { Config } from '@backstage/config';
-//import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
-//import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
+import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
+import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
 import { KongHandler } from '../modules/kong-control/KongHandler';
 import { UserService } from '../modules/okta-control/service/UserService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
@@ -42,10 +42,9 @@ export async function createRouter(
 ): Promise<express.Router> {
   const { logger, database } = options;
 
-  //const applicationRepository = await PostgresApplicationRepository.create(
-  //  await database.getClient(),
-  //);
-
+  const applicationRepository = await PostgresApplicationRepository.create(
+    await database.getClient(),
+  );
   const serviceRepository = await PostgresServiceRepository.create(
     await database.getClient(),
   );
@@ -163,6 +162,11 @@ export async function createRouter(
     const partners = await partnerRepository.getPartnerById(code);
     response.status(200).json({ status: 'ok', partners: partners })
   });
+  router.get('/partner/applications/:id', async (request, response) => {
+    const code = request.params.id;
+    const applications = await partnerRepository.findApplications(code);
+    response.status(200).json({ status: 'ok', applications: applications })
+  });
 
   router.post('/partner', async (request, response) => {
     const partner: PartnerDto = request.body.partner;
@@ -184,133 +188,216 @@ export async function createRouter(
   })
 
   // APPLICATION
-  //router.get('/', async (_, response) => {
-  //  try {
-  //    const responseData = await applicationRepository.getApplication();
-  //    return response.json({ status: 'ok', applications: responseData });
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    return response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
-
-  //router.post('/', async (request, response) => {
-  //  const data: ApplicationDto = request.body.application
-  //  try {
-  //    if (!data) {
-  //      throw new InputError(`the request body is missing the application field`);
-  //    }
-  //    logger.info(JSON.stringify(data))
-  //    const result = await applicationRepository.createApplication(data)
-  //    response.send({ status: "ok", result: result });
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
-//
-//
-  //router.post('/save', async (request, response) => {
-  //  const data: ApplicationDto = request.body.application
-  //  try {
-//
-  //    if (!data) {
-  //      throw new InputError(`the request body is missing the application field`);
-  //    }
-  //    // logger.info(JSON.stringify(data))
-  //    const result = await applicationRepository.createApplication(data)
-  //    response.send({ status: data, result: result });
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
+  /*router.get('/kong-services', async (_, response) => {
+  try{
+    const serviceStore = await kongHandler.listServices(config.getString('kong.api-manager'),false);
+    if (serviceStore) response.json({ status: 'ok', services: serviceStore });
+    response.json({ status: 'ok', services: [] });
+  }catch(error: any){
+    let date = new Date();
+    response
+    .status(error.response.status)
+    .json({
+      status: 'ERROR',
+      message: error.response.data.errorSummary,
+      timestamp: new Date(date).toISOString()
+    })
+  }
+});*/
 
 
-  //router.get('/:id', async (request, response) => {
-  //  const code = request.params.id
-  //  try {
-  //    if (!code) {
-  //      throw new InputError(`the request body is missing the application field`);
-  //    }
-  //    const result = await applicationRepository.getApplicationById(code)
-  //    response.send({ status: "ok", application: result });
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
+/*todo erro na rota
+router.get('/consumers', async (_, response) => {
+  try{
+    const serviceStore = await kongHandler.listConsumers(config.getString('kong.api-manager'),false);
+    if (serviceStore) response.status(200).json({ status: 'ok', costumer: serviceStore });
+    response.status(404).json({ status: 'Not found', services: [] });
+  }catch(error: any){
+    let date = new Date();
+    response
+    .status(error.response.status)
+    .json({
+      status: 'ERROR',
+      message: error.response.data.errorSummary,
+      timestamp: new Date(date).toISOString()
+    })
+  }
+});*/
 
 
-  //router.delete('/:id', async (request, response) => {
-  //  const code = request.params.id
-  //  try {
-  //    if (!code) {
-  //      throw new InputError(`the request body is missing the application field`);
-  //    }
-  //    const result = await applicationRepository.deleteApplication(code)
-  //    response.send({ status: "ok", result: result });
-//
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
-//
-  //router.put('/:id', async (request, response) => {
-  //  const code = request.params.id
-  //  try {
-  //    if (!code) {
-  //      throw new InputError(`the request body is missing the application field`);
-  //    }
-  //    // const result = await applicationRepository.updateApplication(code);
-  //    response.send({ status: "ok", result: "result" });
-  //  } catch (error: any) {
-  //    let date = new Date();
-  //    response
-  //      .status(error.response.status)
-  //      .json({
-  //        status: 'ERROR',
-  //        message: error.response.data.errorSummary,
-  //        timestamp: new Date(date).toISOString()
-  //      })
-  //  }
-  //});
+  router.post('/credencial/:id', async (request, response) => {
+    try{
+      const workspace = request.query.workspace as string;
+      const id = request.params.id;
+      const serviceStore = await kongHandler.generateCredential(false, config.getString('kong.api-manager'), workspace as string, id)
+      response.status(201).json({ status: 'ok',    response: serviceStore })
+    }catch(error: any){
+      let date = new Date();
+      return response
+      .status(error.response.status)
+      .json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString()
+      })
+    }
+  });
+
+  router.get('/credencial/:id', async (request, response) => {
+    try{
+      const workspace = request.query.workspace as string;
+      const id = request.params.id;
+      const serviceStore = await kongHandler.listCredential(false, config.getString('kong.api-manager'), workspace, id)
+      response.status(200).json({ status: 'ok',    credentials: serviceStore })
+    }catch(error: any){
+      let date = new Date();
+      return response
+      .status(error.response.status)
+      .json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString()
+      })
+    }
+  });
+
+
+
+
+
+
+  router.get('/', async (_, response) => {
+    try {
+      const responseData = await applicationRepository.getApplication();
+      return response.json({ status: 'ok', applications: responseData });
+    } catch (error: any) {
+      let date = new Date();
+      return response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+  router.post('/', async (request, response) => {
+    const data: ApplicationDto = request.body.application
+    try {
+      if (!data) {
+        throw new InputError(`the request body is missing the application field`);
+      }
+      logger.info(JSON.stringify(data))
+      const result = await applicationRepository.createApplication(data)
+      response.send({ status: "ok", result: result });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+
+  router.post('/save', async (request, response) => {
+    const data: ApplicationDto = request.body.application
+    try {
+
+      if (!data) {
+        throw new InputError(`the request body is missing the application field`);
+      }
+      // logger.info(JSON.stringify(data))
+      const result = await applicationRepository.createApplication(data)
+      response.send({ status: data, result: result });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+
+  router.get('/:id', async (request, response) => {
+    const code = request.params.id
+    try {
+      if (!code) {
+        throw new InputError(`the request body is missing the application field`);
+      }
+      const result = await applicationRepository.getApplicationById(code)
+      response.send({ status: "ok", application: result });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
 
   router.patch('/associate/:id', async (request, response) => {
-    await associateService.associate(options, request.params.id, request.body.consumerName);
-    response.json({ status: 'ok' })
+    const code = request.params.id;
+    const listServicesId: string[] = request.body.services;
+    await applicationRepository.associate(code, listServicesId);
+    response.status(200).json({status: 'ok', application: applicationRepository})
   });
+
+
+  router.delete('/:id', async (request, response) => {
+    const code = request.params.id
+    try {
+      if (!code) {
+        throw new InputError(`the request body is missing the application field`);
+      }
+      const result = await applicationRepository.deleteApplication(code)
+      response.status(204).send({ status: "ok", result: result });
+
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+  router.patch('/:id', async (request, response) => {
+    const code = request.params.id
+    const application: ApplicationDto = request.body.application;
+    try {
+      if (!code) {
+        throw new InputError(`the request body is missing the application field`);
+      }
+      const result = await applicationRepository.patchApplication(code, application);
+      response.send({ status: "ok", result: result });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(options, request.params.id);
@@ -388,12 +475,79 @@ export async function createRouter(
       let date = new Date();
       response.status(error.response.status).json({
           status: 'ERROR',
-          message: error.response.data.errorSummary,
+          message: error,
           timestamp: new Date(date).toISOString()
         })
     }
 
   });
+  router.get('/kong-services/plugins/:serviceName', async (request, response) => {
+    try {
+      const serviceStore = await kongHandler.listPluginsService(false, config.getString('kong.api-manager'), request.params.serviceName)
+      if (serviceStore) response.json({ status: 'ok', services: serviceStore });
+      response.json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+  router.post('/kong-service/plugin/:serviceName', async (request, response) => {
+    try {
+      const serviceStore = await kongHandler.applyPluginToService(false, config.getString('kong.api-manager'), request.params.serviceName, request.query.pluginName as string);
+      if (serviceStore) response.json({ status: 'ok', plugins: serviceStore });
+      response.json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+  router.put('/kong-service/plugin/:serviceName', async (request, response) => {
+    try {
+      const serviceStore = await kongHandler.applyPluginToService(false, config.getString('kong.api-manager'), request.params.serviceName, request.query.pluginName as string);
+      if (serviceStore) response.json({ status: 'ok', plugins: serviceStore });
+      response.json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+  router.delete('/kong-services/plugins/:serviceName', async (request, response) => {
+    try {
+      const serviceStore = await kongHandler.deletePluginsService(false, config.getString('kong.api-manager'), request.params.serviceName, request.query.pluginName as string)
+      if (serviceStore) response.json({ status: 'ok', services: serviceStore });
+      response.json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+
 
 
   router.use(errorHandler());

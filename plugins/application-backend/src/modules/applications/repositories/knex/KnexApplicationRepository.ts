@@ -3,17 +3,17 @@ import { ApplicationMapper } from '../../mappers/ApplicationMapper';
 import { IApplicationRepository } from '../IApplicationRepository'
 import { Application } from '../../domain/Application';
 import { Knex } from 'knex';
-//import { resolvePackagePath } from '@backstage/backend-common';
+import { resolvePackagePath } from '@backstage/backend-common';
 import { ApplicationResponseDto } from '../../dtos/ApplicationResponseDto';
 
-/*const migrationsDir = resolvePackagePath(
+const migrationsDir = resolvePackagePath(
   '@internal/plugin-application-backend',
   'migrations',
 );
 const seedsDir = resolvePackagePath(
   '@internal/plugin-application-backend',
   'seeds',
-);*/
+);
 
 export class PostgresApplicationRepository implements IApplicationRepository {
 
@@ -22,10 +22,10 @@ export class PostgresApplicationRepository implements IApplicationRepository {
 
   static async create(knex: Knex<any, any[]>): Promise<IApplicationRepository> {
     
-    /*await knex.migrate.latest({
+    await knex.migrate.latest({
       directory: migrationsDir,
     });
-    await knex.seed.run({ directory: seedsDir });*/
+    await knex.seed.run({ directory: seedsDir });
     return new PostgresApplicationRepository(knex);
   }
 
@@ -33,6 +33,22 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     const application = await this.db<Application>('applications').where("email", email).select('*').catch(error => console.error(error));
     return application;
   }
+
+  async associate(id: string, servicesId: string[] ){
+    const application = await this.getApplicationById(id);
+   const arrayConsumerName = application.servicesId
+   if(arrayConsumerName != null){
+     for (let index = 0; index < servicesId.length; index++) {
+       application.servicesId.push(servicesId[index])
+     }
+   }else{
+     application.servicesId = consumerName;
+   }
+   await this.patchApplication(id, application as any);
+   return application;
+}
+
+  
 
   async getApplication(): Promise<Application[]> {
     const application = await this.db<Application>('applications').select('*').catch(error => console.error(error));
@@ -53,10 +69,11 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     const application: Application = Application.create({
       creator: applicationDto.creator,
       name: applicationDto.name,
-      serviceName: applicationDto.serviceName,
-      description: applicationDto.description,
-      active: applicationDto.active,
-      statusKong: applicationDto.statusKong,
+      servicesId: applicationDto.servicesId,
+      kongConsumerName: applicationDto.kongConsumerName,
+      kongConsumerId: applicationDto.kongConsumerId,
+      createdAt: applicationDto.createdAt,
+      updateAt: applicationDto.updateAt
     });
     const data = ApplicationMapper.toPersistence(application);
     console.log(data)
@@ -72,11 +89,11 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     const application: Application = Application.create({
       creator: applicationDto.creator,
       name: applicationDto.name,
-      serviceName: applicationDto.serviceName,
-      consumerName:applicationDto.consumerName,
-      description: applicationDto.description,
-      active: applicationDto.active,
-      statusKong: applicationDto.statusKong,
+      servicesId: applicationDto.servicesId,
+      kongConsumerName: applicationDto.kongConsumerName,
+      kongConsumerId: applicationDto.kongConsumerId,
+      createdAt: applicationDto.createdAt,
+      updateAt: applicationDto.updateAt
     });
     const data = await ApplicationMapper.toPersistence(application);
     const createdApplication = await this.db('applications').insert(data).catch(error => console.error(error));
@@ -87,11 +104,11 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       const application: Application = Application.create({
         creator: applicationDto.creator,
         name: applicationDto.name,
-        serviceName: applicationDto.serviceName,
-        consumerName:applicationDto.consumerName,
-        description: applicationDto.description,
-        active: applicationDto.active,
-        statusKong: applicationDto.statusKong,
+        servicesId: applicationDto.servicesId,
+        kongConsumerName: applicationDto.kongConsumerName,
+        kongConsumerId: applicationDto.kongConsumerId,
+        createdAt: applicationDto.createdAt,
+        updateAt: applicationDto.updateAt
       });
       const data =await ApplicationMapper.toPersistence(application);
       const updatedApplication = await this.db('applications').where('id', id).update(data).catch(error => console.error(error));
@@ -107,14 +124,13 @@ export class PostgresApplicationRepository implements IApplicationRepository {
  // async function to patch partial  application object partial class type
   async patchApplication(id: string, applicationDto: ApplicationDto): Promise<Application | string> {
     const application: Application = Application.create({
-
       creator: applicationDto.creator,
       name: applicationDto.name,
-      serviceName: applicationDto.serviceName,
-      consumerName:applicationDto.consumerName,
-      description: applicationDto.description,
-      active: applicationDto.active,
-      statusKong: applicationDto.statusKong,
+      servicesId: applicationDto.servicesId,
+      kongConsumerName: applicationDto.kongConsumerName,
+      kongConsumerId: applicationDto.kongConsumerId,
+      createdAt: applicationDto.createdAt,
+      updateAt: applicationDto.updateAt
     });// try add ,id on application create
     //const data =await ApplicationMapper.toPersistence(application);
     
