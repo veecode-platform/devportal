@@ -1,7 +1,9 @@
 exports.seed = async function (knex) {
   try {
     // Deletes ALL existing entries
-    await knex('services').truncate();
+    await knex('plugins').truncate();
+    knex.raw('TRUNCATE TABLE services CASCADE')
+    // await knex('services').truncate(); // cannot truncate a table referenced in a fk constraint
     await knex('partners').truncate();
     await knex('applications').truncate();
     // Inserts seed entries
@@ -15,11 +17,12 @@ exports.seed = async function (knex) {
           'ad94b906-4970-11ed-b878-0242ac120002',
           '27447ec1-d67f-4233-bfb1-0f11f7ccca29',
         ],
-        kongServiceName: 'kong service test',
-        kongServiceId: '916723c1-b79c-4b32-929e-2ea1327f0525',
+        kongServiceName: 'teste',
+        kongServiceId: '20a93081-8cf6-45c8-b33d-0d391b7bbe58',
         rateLimiting: '120',
         createdAt: new Date(),
         updatedAt: new Date(),
+        securityType: "key-auth"
       },
 
       {
@@ -55,7 +58,7 @@ exports.seed = async function (knex) {
     ]);
     await knex('partners').insert([
       {
-        id: 'ad94b906-4970-11ed-b878-0242ac120001',
+        id: 'ad94b906-4970-11ed-b878-0242ac120002',
         name: 'nome testador',
         email: 'teste@email.com',
         celular: '21 999999999',
@@ -144,12 +147,15 @@ exports.seed = async function (knex) {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+    ]);
+    await knex('plugins').insert([
       {
-        id: '0754b73e-9c27-4713-963b-3eecb38be72f',
-        name: 'application teste with kong consumer okteto',
-        creator: 'teste',
+        id: 'a0b50188-8065-11ed-a1eb-0242ac120002',
+        name: 'key-auth',
+        active: true,
+        pluginId: '54710239-6bde-4bac-baad-bd730bbd2f6c',
+        service: 'ad94b906-4970-11ed-b878-0242ac120001',
         parternId: 'ad94b906-4970-11ed-b878-0242ac120001',
-        servicesId: ['fed8971d-b83f-4901-991d-0620f7c3b9f1'],
         externalId: 'consumer-7135150b',
         createdAt: new Date(),
         updatedAt: new Date(),

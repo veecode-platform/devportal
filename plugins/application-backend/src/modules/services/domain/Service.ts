@@ -36,5 +36,6 @@ export class Service extends Entity<ServiceProps> {
 }
 export enum SECURITY {
   KEY_AUTH = 'key-auth',
-  OAUTH2 = 'oauth2',
+  OAUTH2= 'oauth2',
+  NONE= 'none'
 }

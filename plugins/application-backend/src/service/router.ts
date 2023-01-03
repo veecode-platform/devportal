@@ -5,9 +5,8 @@ import {
 } from '@backstage/backend-common';
 import { InputError } from '@backstage/errors';
 //import { InputError } from '@backstage/errors';
-import { getRootLogger } from '@backstage/backend-common';
 import { Config } from '@backstage/config';
-import express from 'express';
+import express, { response } from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
@@ -28,6 +27,8 @@ import { UserInvite } from '../modules/okta-control/model/UserInvite';
 import { UserService } from '../modules/okta-control/service/UserService';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
+import { PluginDto } from '../modules/plugins/dtos/PluginDto';
+import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/KnexPluginRepository';
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
@@ -64,10 +65,11 @@ export async function createRouter(
   const partnerRepository = await PostgresPartnerRepository.create(
     await database.getClient(),
   );
-  const config = await loadBackendConfig({
-    logger: getRootLogger(),
-    argv: process.argv,
-  });
+  const pluginRepository = await PostgresPluginRepository.create(
+    await database.getClient(),
+  );
+
+  const config = await loadBackendConfig({ logger, argv: process.argv });
   const adminClientKeycloak = new TestGroups();
   const kongHandler = new KongHandler();
   const consumerService = new ConsumerService();
@@ -93,6 +95,8 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', groups: groups });
   });
 
+  
+
   router.post('/consumer_groups', async (request, response) => {
     try {
       const consumerGroup: ConsumerGroup = request.body;
@@ -109,6 +113,11 @@ export async function createRouter(
         timestamp: new Date(date).toISOString(),
       });
     }
+  });
+
+  router.put('/teste/:idService', async (request, response) => {
+    const teste = controllPlugin.removePlugin(options, request.params.idService as string)
+    response.status(404).json(teste)
   });
 
   router.get('/consumer_groups', async (request, response) => {
@@ -140,7 +149,7 @@ export async function createRouter(
   router.post('/service', async (request, response) => {
     try {
       const service: ServiceDto = request.body.service;
-      controllPlugin.applyOuath(service);
+      controllPlugin.applySecurityType(service);
       const result = await serviceRepository.createService(service);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
@@ -159,11 +168,23 @@ export async function createRouter(
     response.status(204).json({ status: 'ok', service: result });
   });
 
-  router.patch('/service/:id', async (request, response) => {
+  // UPDATE
+  router.post('/service/:id', async (request, response) => {
     const code = request.params.id;
     const service: ServiceDto = request.body.service;
 
-    const result = await serviceRepository.patchService(code, service);
+    // const result = await serviceRepository.patchService(code, service as Service);
+    response.status(200).json({ status: 'ok', service: result });
+  });
+
+  // PROGRESSO DE ATUALIZAÇÃO
+  router.post('/service/:id', async (request, response) => {
+    const code = request.params.id;
+    const body = request.body;
+
+    const service: ServiceDto = request.body.service;
+
+    // const result = await serviceRepository.patchService(code, service);
     response.status(200).json({ status: 'ok', service: result });
   });
 
@@ -180,6 +201,7 @@ export async function createRouter(
     const partners = await partnerRepository.getPartnerById(code);
     response.status(200).json({ status: 'ok', partners: partners });
   });
+
   router.get('/partner/applications/:id', async (request, response) => {
     const code = request.params.id;
     const applications = await partnerRepository.findApplications(code);
@@ -205,6 +227,38 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', partner: result });
   });
 
+  // PLUGINS
+  router.get('/plugins', async (_, response) => {
+    const plugins = await pluginRepository.getPlugins();
+    response.status(200).json({ status: 'ok', plugins: plugins });
+  });
+
+  router.get('/plugin/:id', async (request, response) => {
+    const pluginId = request.params.id;
+    const plugin = await pluginRepository.getPluginById(pluginId);
+    response.status(200).json({ status: 'ok', plugin: plugin });
+  });
+
+  router.post('/plugin', async (request, response) => {
+    const plugin: PluginDto = request.body.plugin;
+    const res = await pluginRepository.createPlugin(plugin);
+    response.status(201).json({ status: 'ok', plugin: res });
+  });
+
+  router.patch('/plugin/:id', async (request, response) => {
+    const pluginId = request.params.id;
+    const plugin: PluginDto = request.body.plugin;
+    const res = await pluginRepository.patchPlugin(pluginId, plugin);
+    response.status(200).json({ status: 'ok', plugin: res });
+  });
+
+  router.delete('/plugin/:id', async (request, response) => {
+    const pluginId = request.params.id;
+    const res = await pluginRepository.deletePlugin(pluginId);
+    response.status(204).json({ status: 'ok', plugin: res });
+  });
+
+  // APPLICATION
   /*router.get('/kong-services', async (_, response) => {
   try{
     const serviceStore = await kongHandler.listServices(config.getString('kong.api-manager'),false);
@@ -281,6 +335,10 @@ router.get('/consumers', async (_, response) => {
       });
     }
   });
+
+
+
+
 
   // APPLICATION
   router.get('/', async (request, response) => {
@@ -418,6 +476,8 @@ router.get('/consumers', async (_, response) => {
       });
     }
   });
+
+
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(
@@ -706,10 +766,11 @@ router.get('/consumers', async (_, response) => {
     try {
       const allowed = request.body.allowed;
       const hide = request.body.hide_groups_header;
-
-      const serviceStore = await aclPlugin.configAclKongService(
+      const serviceStore = await pluginService.configAclKongService(
+        config.getString('kong.api-manager'),
         request.params.serviceName,
         allowed,
+        hide,
       );
       if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
       response.json({ status: 'ok', services: [] });
@@ -984,6 +1045,22 @@ router.get('/consumers', async (_, response) => {
   );
 
   //consumerGroup
+  router.post('/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroup: ConsumerGroup = request.body;
+      const result = await consumerGroupService.createConsumerGroup(
+        consumerGroup,
+      );
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
 
   router.post('/consumer_groups/:id/consumers', async (request, response) => {
     try {

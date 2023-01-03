@@ -9,6 +9,7 @@ export enum PluginName {
 }
 
 export class PluginService extends KongServiceBase {
+  [x: string]: any;
   public async applyPluginKongService(
     serviceName: string,
     pluginName: PluginName,
@@ -21,7 +22,7 @@ export class PluginService extends KongServiceBase {
       name: pluginName,
       config:  Object.fromEntries(config)
     });
-    console.log('config: ');
+    console.log('config: ',response.data);
     return response.data;
   }
 
