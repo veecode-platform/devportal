@@ -15,7 +15,7 @@ import {
 } from '@backstage/core-components';
 import { IService } from '../utils/interfaces';
 import { Select } from '../../shared';
-import { SecurityTypeEnum } from '../utils/enum';
+import { rateLimitingItems, securityItems, statusItems } from '../utils/common'
 
 type ServiceProps = {
   serviceData: IService | undefined;
@@ -46,22 +46,6 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
     'Kubernetes Minikube',
     'Kubernetes Minikuve Kustomise',
     'Kubernetes Minikube Kustom',
-  ];
-
-  const securityItems = [
-    { label: SecurityTypeEnum.none, value: SecurityTypeEnum.none },
-    { label: SecurityTypeEnum.keyAuth, value: SecurityTypeEnum.keyAuth },
-    { label: SecurityTypeEnum.oAuth2, value: SecurityTypeEnum.oAuth2 },
-  ];
-
-  const statusItems = [
-    { label: 'active', value: 'true' },
-    { label: 'disable', value: 'false' },
-  ];
-
-  const rateLimitingItems = [
-    { label: '0', value: 0 },
-    { label: '120', value: 120 },
   ];
 
   const handleClose = (reason: string) => {

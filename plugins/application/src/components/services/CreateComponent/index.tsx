@@ -12,7 +12,7 @@ import {
 } from '@backstage/core-components';
 import { ICreateService } from '../utils/interfaces';
 import { FetchKongServices } from '../utils/kongUtils';
-import { SecurityTypeEnum } from '../utils/enum';
+import { rateLimitingItems, securityItems } from '../utils/common';
 import { Select } from '@backstage/core-components';
 
 export const CreateComponent = () => {
@@ -27,15 +27,6 @@ export const CreateComponent = () => {
     rateLimiting: 0,
   });
   const [show, setShow] = useState(false);
-  const securityItems = [
-    { label: SecurityTypeEnum.none, value: SecurityTypeEnum.none },
-    { label: SecurityTypeEnum.keyAuth, value: SecurityTypeEnum.keyAuth },
-    { label: SecurityTypeEnum.oAuth2, value: SecurityTypeEnum.oAuth2 },
-  ];
-  const rateLimitingItems = [
-    { label: '0', value: 0 },
-    { label: '120', value: 120 },
-  ];
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') {
