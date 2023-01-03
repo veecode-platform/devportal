@@ -1,12 +1,13 @@
-import { ServiceDto } from "../dtos/ServiceDto";
-import { Service } from "../domain/Service";
+import { ServiceDto } from '../dtos/ServiceDto';
+import { Service } from '../domain/Service';
 
 export interface IServiceRepository {
-  getService(): Promise<Service[]>;
-  getServiceByUser(email:string): Promise<Service[] | void>;
-  getServiceById(id: string): Promise<Service| string>;
+  getService(limit: number, offset:number): Promise<Service[]>;
+  getServiceByUser(email: string): Promise<Service[] | void>;
+  getServiceById(id: string): Promise<Service>;
   saveService(serviceDto: ServiceDto): Promise<Service>;
   deleteService(id: string): Promise<void>;
   createService(serviceDto: ServiceDto): Promise<Service | string>;
-  patchService(id: string, serviceDto: ServiceDto): Promise<Service | string>;
+  patchService(id: string, serviceDto: Service): Promise<Service | string>;
+  updateService(id: string, ServiceDto: ServiceDto): Promise<Service | string>;
 }

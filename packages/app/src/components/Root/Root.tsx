@@ -23,7 +23,7 @@ import {
   // Settings as SidebarSettings,
   UserSettingsSignInAvatar,
 } from '@backstage/plugin-user-settings';
-//custom user-settings
+// custom user-settings
 import { Settings as SidebarSettings } from '../user-settings';
 // import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
@@ -43,7 +43,7 @@ import CatalogIcon from '@material-ui/icons/MenuBook';
 import AppsIcon from '@material-ui/icons/Apps';
 // import SearchIcon from '@material-ui/icons/Search';
 import CategoryIcon from '@material-ui/icons/Category';
-//import ClassIcon from '@material-ui/icons/Class';
+import LayersIcon from '@material-ui/icons/Layers';
 // import RenderItem from '../Routing/RenderItem';
 
 const useSidebarLogoStyles = makeStyles({
@@ -90,8 +90,8 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
       </SidebarGroup>
       <SidebarGroup label="Application" icon={<AppsIcon />}>
         <SidebarItem icon={AppsIcon} to="/services" text="Services" />
-        <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />     
-     
+        <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />   
+        <SidebarItem icon={LayersIcon} to="application" text="Application"> </SidebarItem>  
         <SidebarDivider />
       </SidebarGroup>
       <SidebarSpace />

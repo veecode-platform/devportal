@@ -1,23 +1,28 @@
-import { Service } from "../domain/Service";
-import { ServiceResponseDto } from "../dtos/ServiceResponseDto";
+import { Service } from '../domain/Service';
+import { ServiceResponseDto } from '../dtos/ServiceResponseDto';
 
-export class ServiceMapper{
+export class ServiceMapper {
   static async toPersistence(service: Service) {
     return {
       id: service._id,
-      name: service.props.name,
-      description: service.props.description,
-      partnersId: service.props.partnersId,
-      redirectUrl: service.props.redirectUrl,
-      kongServiceName: service.props.kongServiceName,
-      kongServiceId: service.props.kongServiceId,
-      createdAt: service.props.createdAt,
+      name: service.name,
+      active: service.active,
+      description: service.description,
+      partnersId: service.partnersId,
+      redirectUrl: service.redirectUrl,
+      kongServiceName: service.kongServiceName,
+      kongServiceId: service.kongServiceId,
+      createdAt: service.createdAt,
+      securityType: service.securityType,
+      rateLimiting: service.rateLimiting
     }
   }
-  static async listAllServicesToResource(serviceResponseDto : ServiceResponseDto){
+  static async listAllServicesToResource(
+    serviceResponseDto: ServiceResponseDto,
+  ) {
     return {
       services: serviceResponseDto.props.services ?? [],
-      service: serviceResponseDto.props.service ?? "",
-    }
+      service: serviceResponseDto.props.service ?? '',
+    };
   }
 }
