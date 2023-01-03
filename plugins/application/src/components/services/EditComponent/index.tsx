@@ -24,6 +24,7 @@ type ServiceProps = {
 const EditPageComponent = ({ serviceData }: ServiceProps) => {
   const navigate = useNavigate();
   const [service, setService] = useState<IService>({
+    id: serviceData?.id,
     name: serviceData?.name ?? '...',
     active: serviceData?.active,
     description: serviceData?.description ?? '...',

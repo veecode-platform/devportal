@@ -77,7 +77,7 @@ const Details = ({ partner }: PartnerProps) => {
                     component={Link}
                     aria-label="Edit"
                     title="Edit Metadata"
-                    to={`/application/edit-partner?id=${partner?.id}`}
+                    to={`/edit-partner?id=${partner?.id}`}
                   >
                     <EditIcon />
                   </IconButton>
