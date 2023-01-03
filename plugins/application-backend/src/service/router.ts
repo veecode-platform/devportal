@@ -26,6 +26,9 @@ import { PluginService } from '../modules/kong/services/PluginService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
 import { UserService } from '../modules/okta-control/service/UserService';
 import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
+import { KeycloakUserService } from '../modules/keycloak/service/UserService';
+import { UpdateUserDto, UserDto } from '../modules/keycloak/dtos/UserDto';
+
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PluginDto } from '../modules/plugins/dtos/PluginDto';
 import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/KnexPluginRepository';
@@ -71,6 +74,7 @@ export async function createRouter(
 
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const adminClientKeycloak = new TestGroups();
+  const userServiceKeycloak = new KeycloakUserService();
   const kongHandler = new KongHandler();
   const consumerService = new ConsumerService();
 
@@ -131,6 +135,57 @@ export async function createRouter(
       });
     }
   });
+
+  router.post('/keycloak/users', async (request, response) => {
+    const user: UserDto = request.body.user;
+    const id = await userServiceKeycloak.createUser(user);
+    response.status(201).json({ status: 'ok', id: id })
+  })
+
+  router.get('/keycloak/users', async (_, response) => {
+    const users = await userServiceKeycloak.listUsers();
+    response.status(200).json({ status: 'ok', users: users })
+  })
+
+  router.get('/keycloak/users/:id', async (request, response) => {
+    const user_id = request.params.id;
+    const user = await userServiceKeycloak.findUser(user_id);
+    response.status(200).json({ status: 'ok', users: user })
+  })
+
+
+  router.put('/keycloak/users/:id', async (request, response) => {
+    const code = request.params.id;
+    const user: UpdateUserDto = request.body.user;
+    await userServiceKeycloak.updateUser(code, user);
+    response.status(200).json({ status: 'User Updated!'})
+  })
+
+  router.delete('/keycloak/users/:id', async(request, response) => {
+    const user_id = request.params.id;
+    await userServiceKeycloak.deleteUser(user_id);
+    response.status(204).json({ status: 'User Deleted!' }) 
+  })
+
+  router.put('/keycloak/users/:id/groups/:groupId', async (request, response) => {
+    const user_id = request.params.id;
+    const groupId = request.params.groupId
+    const add = await userServiceKeycloak.addUserToGroup(user_id, groupId);
+    response.status(200).json({ status: 'User added to group!', add: add})
+  })
+
+  router.delete('/keycloak/users/:id/groups/:groupId', async(request, response) => {
+    const user_id = request.params.id;
+    const groupId = request.params.groupId
+    const res = await userServiceKeycloak.removeUserFromGroup(user_id, groupId);
+    response.status(204).json({ status: 'User Removed From Group!', res:res }) 
+  })
+
+  router.get('/keycloak/users/:id/groups', async (request, response) => {
+    const user_id = request.params.id;
+    const groups = await userServiceKeycloak.listUserGroups(user_id);
+    response.status(200).json({ status: 'ok', groups: groups })
+  })
 
   // SERVICE
   router.get('/services', async (request, response) => {
