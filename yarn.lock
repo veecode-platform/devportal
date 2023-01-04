@@ -1229,7 +1229,7 @@
     "@azure/abort-controller" "^1.0.0"
     tslib "^2.2.0"
 
-"@azure/identity@^2.1.0":
+"@azure/identity@^2.0.4", "@azure/identity@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@azure/identity/-/identity-2.1.0.tgz#89f0bfc1d1264dfd3d0cb19837c33a9c6706d548"
   integrity sha512-BPDz1sK7Ul9t0l9YKLEa8PHqWU4iCfhGJ+ELJl6c8CP3TpJt2urNCbm0ZHsthmxRsYoMPbz2Dvzj30zXZVmAFw==
@@ -3134,6 +3134,73 @@
     lodash "^4.17.21"
     react-use "^17.2.4"
 
+"@backstage/plugin-kubernetes-backend@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-kubernetes-backend/-/plugin-kubernetes-backend-0.9.0.tgz#3eca4c764a21643336467326f9bbd8fc73a7a060"
+  integrity sha512-gule1of/rty2E+YXVnkZRFsTyCrMImGQX9osKbSfh8bd9i93ufkbplHXPn4hX4EIH992XUkMn6EOcV53M1fc/g==
+  dependencies:
+    "@azure/identity" "^2.0.4"
+    "@backstage/backend-common" "^0.17.0"
+    "@backstage/backend-test-utils" "^0.1.31"
+    "@backstage/catalog-client" "^1.2.0"
+    "@backstage/catalog-model" "^1.1.4"
+    "@backstage/config" "^1.0.5"
+    "@backstage/errors" "^1.1.4"
+    "@backstage/plugin-auth-node" "^0.2.8"
+    "@backstage/plugin-kubernetes-common" "^0.5.0"
+    "@google-cloud/container" "^4.0.0"
+    "@jest-mock/express" "^2.0.1"
+    "@kubernetes/client-node" "0.18.0"
+    "@types/express" "^4.17.6"
+    "@types/luxon" "^3.0.0"
+    aws-sdk "^2.840.0"
+    aws4 "^1.11.0"
+    compression "^1.7.4"
+    cors "^2.8.5"
+    express "^4.17.1"
+    express-promise-router "^4.1.0"
+    fs-extra "10.1.0"
+    helmet "^6.0.0"
+    http-proxy-middleware "^2.0.6"
+    lodash "^4.17.21"
+    luxon "^3.0.0"
+    morgan "^1.10.0"
+    node-fetch "^2.6.7"
+    stream-buffers "^3.0.2"
+    winston "^3.2.1"
+    yn "^4.0.0"
+
+"@backstage/plugin-kubernetes-common@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-kubernetes-common/-/plugin-kubernetes-common-0.5.0.tgz#fd3d140aaef16b9e7929fa4901225281fd316e90"
+  integrity sha512-fSjfTOAfpFo7RSwkAeZfYCLE1oFSMWAaVUw4q4gKyJYjpdbhQRWZ3dpWizVcMnPMcKdojZMPGM7U2oWTesZ1zQ==
+  dependencies:
+    "@backstage/catalog-model" "^1.1.4"
+    "@kubernetes/client-node" "0.18.0"
+
+"@backstage/plugin-kubernetes@^0.7.6":
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-kubernetes/-/plugin-kubernetes-0.7.6.tgz#f92695ac4852643c56e9063bd48957ac315e735a"
+  integrity sha512-7ZlwbGWUX9YgNehV9gO/jt9JosYRhGG7deT+dxlmE7hAmD16g9GMd8hp1VAlFhOsEUcwj66Wh1HenADJ1pNeVg==
+  dependencies:
+    "@backstage/catalog-model" "^1.1.4"
+    "@backstage/config" "^1.0.5"
+    "@backstage/core-components" "^0.12.2"
+    "@backstage/core-plugin-api" "^1.2.0"
+    "@backstage/plugin-catalog-react" "^1.2.3"
+    "@backstage/plugin-kubernetes-common" "^0.5.0"
+    "@backstage/theme" "^0.2.16"
+    "@kubernetes/client-node" "0.18.0"
+    "@material-ui/core" "^4.12.2"
+    "@material-ui/icons" "^4.9.1"
+    "@material-ui/lab" "4.0.0-alpha.57"
+    "@types/react" "^16.13.1 || ^17.0.0"
+    cronstrue "^2.2.0"
+    js-yaml "^4.0.0"
+    lodash "^4.17.21"
+    luxon "^3.0.0"
+    react-use "^17.2.4"
+
 "@backstage/plugin-org@^0.6.0":
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-org/-/plugin-org-0.6.3.tgz#246f871c4aa8bdac767918c1832990e3eb285c4d"
@@ -4033,6 +4100,13 @@
     qs "^6.10.1"
     xcase "^2.0.1"
 
+"@google-cloud/container@^4.0.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/container/-/container-4.4.0.tgz#ab02fcbce7d31805a9bc7596b21b388e9900bc4b"
+  integrity sha512-5pBmV4Wvop0cHldqxjITwPljb9BEDiMzF5czZncbb6xCv9d06/aKjBaR1bqwysQl0Hrw7b1VxcB7n8BjxswCmw==
+  dependencies:
+    google-gax "^3.5.2"
+
 "@google-cloud/firestore@^6.0.0":
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/@google-cloud/firestore/-/firestore-6.4.1.tgz#3cd32ffb10a563a9c3c91236b51e49e4cd088393"
@@ -4181,6 +4255,13 @@
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
+
+"@jest-mock/express@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@jest-mock/express/-/express-2.0.1.tgz#5985ad42e00394a375592596bcf15f00064bac20"
+  integrity sha512-DvW4WMGoNBEOGx1XRCe8yZyQ7ju5dWmBN57H0zPio7AqQo27QawI+o30f9xVdLnS0bAF2wbmQQfS61LxL/t8bQ==
+  dependencies:
+    "@types/express" "^4.17.13"
 
 "@jest/console@^29.3.1":
   version "29.3.1"
@@ -7109,7 +7190,7 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
-"@types/react-dom@*", "@types/react-dom@<18.0.0", "@types/react-dom@^17":
+"@types/react-dom@*", "@types/react-dom@<18.0.0":
   version "17.0.18"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.18.tgz#8f7af38f5d9b42f79162eea7492e5a1caff70dc2"
   integrity sha512-rLVtIfbwyur2iFKykP2w0pl/1unw26b5td16d5xMgp7/yjTHomkyxPYChFoCr/FtEX1lN9wY6lFj1qvKdS5kDw==
@@ -7925,6 +8006,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@backstage/plugin-catalog-react" "^1.2.1"
     "@backstage/plugin-github-actions" "^0.5.11"
     "@backstage/plugin-home" "^0.4.27"
+    "@backstage/plugin-kubernetes" "^0.7.6"
     "@backstage/plugin-org" "^0.6.0"
     "@backstage/plugin-permission-react" "^0.4.7"
     "@backstage/plugin-scaffolder" "^1.8.0"
@@ -8264,7 +8346,7 @@ aws-sign2@~0.7.0:
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
   integrity sha512-08kcGqnYf/YmjoRhfxyu+CLxBjUtHLXLXX/vUfx9l2LYzG3c1m61nrpyFUZI6zeS+Li/wWMMidD9KgrqtGq3mA==
 
-aws4@^1.8.0:
+aws4@^1.11.0, aws4@^1.8.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
@@ -9791,6 +9873,11 @@ cron@^2.0.0:
   integrity sha512-Hq7u3P8y7UWYvsZbSKHHJDVG0VO9O7tp2qljxzTScelcTODBfCme8AIhnZsFwmQ9NchZ3hr2uNr+s3DSms7q6w==
   dependencies:
     luxon "^1.23.x"
+
+cronstrue@^2.2.0:
+  version "2.21.0"
+  resolved "https://registry.yarnpkg.com/cronstrue/-/cronstrue-2.21.0.tgz#278d19aa0b9e7ecc90a0c1dbd4f84ceece724094"
+  integrity sha512-YxabE1ZSHA1zJZMPCTSEbc0u4cRRenjqqTgCwJT7OvkspPSvfYFITuPFtsT+VkBuavJtFv2kJXT+mKSnlUJxfg==
 
 cross-env@^7.0.0:
   version "7.0.3"
@@ -12456,7 +12543,7 @@ google-auth-library@^8.0.0, google-auth-library@^8.0.1, google-auth-library@^8.0
     jws "^4.0.0"
     lru-cache "^6.0.0"
 
-google-gax@^3.5.1:
+google-gax@^3.5.1, google-gax@^3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-3.5.2.tgz#7c3ad61dbf366a55527b803caead276668b160d8"
   integrity sha512-AyP53w0gHcWlzxm+jSgqCR3Xu4Ld7EpSjhtNBnNhzwwWaIUyphH9kBGNIEH+i4UGkTUXOY29K/Re8EiAvkBRGw==
@@ -12895,7 +12982,7 @@ http-proxy-agent@^5.0.0:
     agent-base "6"
     debug "4"
 
-http-proxy-middleware@^2.0.0, http-proxy-middleware@^2.0.3:
+http-proxy-middleware@^2.0.0, http-proxy-middleware@^2.0.3, http-proxy-middleware@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/http-proxy-middleware/-/http-proxy-middleware-2.0.6.tgz#e1a4dd6979572c7ab5a4e4b55095d1f32a74963f"
   integrity sha512-ya/UeJ6HVBYxrgYotAZo1KvPWlgB48kUJLDePFeneHsVujFaW5WNj2NgWCAE//B1Dl02BIfYlpNgBy8Kf8Rjmw==

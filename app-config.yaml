@@ -54,7 +54,7 @@ backend:
     store: memory
   cors:
     origin: http://localhost:3000
-    methods: [GET, POST, PUT, DELETE]
+    methods: [GET, POST, PUT, DELETE, PATCH]
     credentials: true
   csp:
     connect-src: ["'self'", 'http:', 'https:']
@@ -99,33 +99,19 @@ techdocs:
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
 
-sentry:
-  organization: Devportal
-
-rollbar:
-  organization: Devportal
-  # NOTE: The rollbar-backend & accountToken key may be deprecated in the future (replaced by a proxy config)
-  accountToken: my-rollbar-account-token
-
-lighthouse:
-  baseUrl: http://localhost:3003
-
 kubernetes:
   serviceLocatorMethod:
     type: 'multiTenant'
   clusterLocatorMethods:
     - type: 'config'
-      clusters: []
-
-kafka:
-  clientId: backstage
-  clusters:
-    - name: cluster
-      brokers:
-        - localhost:9092
-
-allure:
-  baseUrl: http://localhost:5050/allure-docker-service
+      clusters:
+        - url: https://0.0.0.0:40777
+          name: devportal-kubernetes
+          authProvider: 'serviceAccount'
+          skipTLSVerify: false
+          skipMetricsLookup: false
+          serviceAccountToken: eyJhbGciOiJSUzI1NiIsImtpZCI6ImEwN1RUb3Iwd2NvM0g5NUUtbEVqMUtMamRmZ2ozVlhqZTloUkN5VFFEMTQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRpY2Utcm9sbGVyLXRva2VuLWhiem5nIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImRpY2Utcm9sbGVyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiNzMxYzgxMTEtOWY2NC00YTk1LWIxZjItNjU5YTYyZGViNjgxIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6ZGljZS1yb2xsZXIifQ.vEMnPtmLNUTtw1nZ70ed6dbpvHlnWnN17zYA33jwSi4DVFIqrD35aW58xPYSlOhpLMoZ6utRPzispGLTo9MXROv0qWYFZ_dZnPtMOeev9_j01NljcvivTtCeNBB9_hOMRTD9SjGzK8Tsn4XK_1l5lAMDLQHeC_rdnsVKDm8MestfwcikAW7iqehxUhYdRBIMK6ggXTMv0tVYjE1dBhe4Qd1vMfq0nTyAqdpPRtogzNaBt6cTBTkN6mXcjzvE_M_C5iTzQ5UrWG10l2yvuY7haP9SnVbWmv9qFbl9hUzRN5Q_QHj7lj86uH3oE_s_EnuXHPKz1swLiYrkA_7XiXKJsg #optional
+          caData: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJkekNDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdGMyVnkKZG1WeUxXTmhRREUyTnpJNE5ETTBPRGt3SGhjTk1qTXdNVEEwTVRRME5EUTVXaGNOTXpNd01UQXhNVFEwTkRRNQpXakFqTVNFd0h3WURWUVFEREJock0zTXRjMlZ5ZG1WeUxXTmhRREUyTnpJNE5ETTBPRGt3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFTV245MEs3Q2NYam9QRFBKeFBQQ0xqc0FpcGRuQ1k5Yy9leDZGbVJCaTkKbEhNNjJnL3JhZERrTnVERVRSU2NYZUNEd28zclpKSTNFbllSQUF5SzdzZ3BvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVWlSWWgrUHRrb0pkdEhvVk9jZVh2Cm4zS2lBV293Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUloQU8rYlczN3cxSVNjdXE1REZKOHBqeU1VbFFQR1YrekUKWlNjRy9CeTZpTG1PQWlBWXlYRTZyT0VNMEx1U1IrMmdIektKU1RSWXN2dWV3VkNiRi9DTGpLakw1UT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K #optional
 
 argocd:
   username: admin
@@ -156,10 +142,8 @@ catalog:
           validateLocationsExist: true
 
   locations:
-  #- type: url
-  #  target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/all-templates.yaml
-  #  rules:
-  #    - allow: [Template]
+  - type: url
+    target: https://github.com/mclarke47/dice-roller/blob/master/catalog-info.yaml
   - type: url
     target: https://github.com/backstage/backstage/blob/master/catalog-info.yaml
 
