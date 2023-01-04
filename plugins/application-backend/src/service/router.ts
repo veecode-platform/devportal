@@ -119,8 +119,11 @@ export async function createRouter(
   });
 
   router.put('/teste/:idService', async (request, response) => {
-    const teste = controllPlugin.removePlugin(options, request.params.idService as string)
-    response.status(404).json(teste)
+    const teste = controllPlugin.removePlugin(
+      options,
+      request.params.idService as string,
+    );
+    response.status(404).json(teste);
   });
 
   router.get('/consumer_groups', async (request, response) => {
@@ -138,53 +141,63 @@ export async function createRouter(
   router.post('/keycloak/users', async (request, response) => {
     const user: UserDto = request.body.user;
     const id = await userServiceKeycloak.createUser(user);
-    response.status(201).json({ status: 'ok', id: id })
-  })
+    response.status(201).json({ status: 'ok', id: id });
+  });
 
   router.get('/keycloak/users', async (_, response) => {
     const users = await userServiceKeycloak.listUsers();
-    response.status(200).json({ status: 'ok', users: users })
-  })
+    response.status(200).json({ status: 'ok', users: users });
+  });
 
   router.get('/keycloak/users/:id', async (request, response) => {
     const user_id = request.params.id;
     const user = await userServiceKeycloak.findUser(user_id);
-    response.status(200).json({ status: 'ok', users: user })
-  })
-
+    response.status(200).json({ status: 'ok', users: user });
+  });
 
   router.put('/keycloak/users/:id', async (request, response) => {
     const code = request.params.id;
     const user: UpdateUserDto = request.body.user;
     await userServiceKeycloak.updateUser(code, user);
-    response.status(200).json({ status: 'User Updated!'})
-  })
+    response.status(200).json({ status: 'User Updated!' });
+  });
 
-  router.delete('/keycloak/users/:id', async(request, response) => {
+  router.delete('/keycloak/users/:id', async (request, response) => {
     const user_id = request.params.id;
     await userServiceKeycloak.deleteUser(user_id);
-    response.status(204).json({ status: 'User Deleted!' }) 
-  })
+    response.status(204).json({ status: 'User Deleted!' });
+  });
 
-  router.put('/keycloak/users/:id/groups/:groupId', async (request, response) => {
-    const user_id = request.params.id;
-    const groupId = request.params.groupId
-    const add = await userServiceKeycloak.addUserToGroup(user_id, groupId);
-    response.status(200).json({ status: 'User added to group!', add: add})
-  })
+  router.put(
+    '/keycloak/users/:id/groups/:groupId',
+    async (request, response) => {
+      const user_id = request.params.id;
+      const groupId = request.params.groupId;
+      const add = await userServiceKeycloak.addUserToGroup(user_id, groupId);
+      response.status(200).json({ status: 'User added to group!', add: add });
+    },
+  );
 
-  router.delete('/keycloak/users/:id/groups/:groupId', async(request, response) => {
-    const user_id = request.params.id;
-    const groupId = request.params.groupId
-    const res = await userServiceKeycloak.removeUserFromGroup(user_id, groupId);
-    response.status(204).json({ status: 'User Removed From Group!', res:res }) 
-  })
+  router.delete(
+    '/keycloak/users/:id/groups/:groupId',
+    async (request, response) => {
+      const user_id = request.params.id;
+      const groupId = request.params.groupId;
+      const res = await userServiceKeycloak.removeUserFromGroup(
+        user_id,
+        groupId,
+      );
+      response
+        .status(204)
+        .json({ status: 'User Removed From Group!', res: res });
+    },
+  );
 
   router.get('/keycloak/users/:id/groups', async (request, response) => {
     const user_id = request.params.id;
     const groups = await userServiceKeycloak.listUserGroups(user_id);
-    response.status(200).json({ status: 'ok', groups: groups })
-  })
+    response.status(200).json({ status: 'ok', groups: groups });
+  });
 
   // SERVICE
   router.get('/services', async (request, response) => {
@@ -265,13 +278,14 @@ export async function createRouter(
   router.post('/partner', async (request, response) => {
     const partner: PartnerDto = request.body.partner;
     const groupId: string = request.body.groupId;
-    await PartnerServices.Instance.createPartner(partner, options, groupId);
+    await PartnerServices.Instance.createPartner(partner, groupId);
     const result = await partnerRepository.createPartner(partner);
     response.status(201).json({ status: 'ok', partner: result });
   });
 
   router.delete('/partner/:id', async (request, response) => {
     const code = request.params.id;
+    await PartnerServices.Instance.removePartner(code, options);
     const result = await partnerRepository.deletePartner(code);
     response.status(204).json({ status: 'ok', partner: result });
   });
@@ -528,8 +542,6 @@ router.get('/consumers', async (_, response) => {
       });
     }
   });
-
-
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(
