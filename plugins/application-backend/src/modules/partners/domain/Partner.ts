@@ -14,7 +14,10 @@ export type PartnerProps = {
 export class Partner extends Entity<PartnerProps> {
   name?: string;
   email?: string;
-
+  active?: boolean;
+  celular?: string;
+  servicesId?: string[];
+  applicationId?: string[];
   private constructor(props: PartnerProps, id?: string) {
     super(props, id);
   }
