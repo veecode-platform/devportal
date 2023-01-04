@@ -77,7 +77,8 @@ const useStyles = makeStyles(
     createStyles({
       formControl: {
         margin: `${theme.spacing(1)} 0px`,
-        maxWidth: 300,
+        width: '100%',
+        heigth: 'auto'        
       },
       label: {
         transform: 'initial',
@@ -98,6 +99,10 @@ const useStyles = makeStyles(
         '&.Mui-focused': {
           color: theme.palette.text.primary,
         },
+      },
+      select:{
+
+        height:'auto'
       },
       chips: {
         display: 'flex',
@@ -200,9 +205,9 @@ export function SelectComponent(props: SelectProps) {
     <Box className={classes.root}>
       <ClickAwayListener onClickAway={handleClickAway}>
         <FormControl className={classes.formControl}>
-          <InputLabel className={classes.formLabel}>{label}</InputLabel>
+          {/* <InputLabel className={classes.formLabel}>{label}</InputLabel> */}
           <Select
-           fullWidth
+            className={classes.select}
             aria-label={label}
             value={value}
             native={native}

@@ -140,6 +140,7 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                     gridTemplate: 'auto / repeat(2, 1fr)',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    gap:'1em',
                     width: '100%',
                   }}
                 >
@@ -213,6 +214,7 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                     gridTemplate: 'auto / repeat(2, 1fr)',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    gap:'1em',
                     width: '100%',
                   }}
                 >
