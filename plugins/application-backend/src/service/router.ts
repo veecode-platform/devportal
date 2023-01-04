@@ -35,6 +35,7 @@ import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/K
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
+import { PartnerServices } from '../modules/partners/service/PartnerServices';
 
 /** @public */
 export interface RouterOptions {
@@ -98,8 +99,6 @@ export async function createRouter(
     const groups = await adminClientKeycloak.getGroup();
     response.status(200).json({ status: 'ok', groups: groups });
   });
-
-  
 
   router.post('/consumer_groups', async (request, response) => {
     try {
@@ -265,6 +264,8 @@ export async function createRouter(
 
   router.post('/partner', async (request, response) => {
     const partner: PartnerDto = request.body.partner;
+    const groupId: string = request.body.groupId;
+    await PartnerServices.Instance.createPartner(partner, options, groupId);
     const result = await partnerRepository.createPartner(partner);
     response.status(201).json({ status: 'ok', partner: result });
   });
@@ -390,10 +391,6 @@ router.get('/consumers', async (_, response) => {
       });
     }
   });
-
-
-
-
 
   // APPLICATION
   router.get('/', async (request, response) => {

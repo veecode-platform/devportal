@@ -12,10 +12,15 @@ export class PartnerServices {
     return this._instance || (this._instance = new this());
   }
 
-  public async createPartner(partner: PartnerDto, options: RouterOptions) {
+  public async createPartner(
+    partner: PartnerDto,
+    options: RouterOptions,
+    groupId: string,
+  ) {
     try {
       const user = new UserDto(partner.name, partner.email);
-      await KeycloakUserService.Instance.createUser(user);
+      const createUser = await KeycloakUserService.Instance.createUser(user);
+      await KeycloakUserService.Instance.addUserToGroup(createUser.id, groupId);
     } catch (error) {
       console.log(error);
     }

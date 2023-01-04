@@ -100,16 +100,6 @@ export class ApplicationServices {
           }
         });
       }
-
-      // servicesId.forEach(async x => {
-      //   const service = await serviceRepository.getServiceById(x);
-      //   if (service instanceof Object) {
-      //     ConsumerGroupService.Instance.addConsumerToGroup(
-      //       serviceConcatGroup(service.name as string),
-      //       application instanceof Object ? (application.name as string) : '',
-      //     );
-      //   }
-      // });
     } catch (error) {
       console.log(error);
     }
