@@ -101,16 +101,24 @@ const useStyles = makeStyles(theme => ({
     margin: '10px 0px'
   },
   footerWrapper:{
-    //width: '100%',
+    // width: '100%',
     position: 'absolute',
     bottom: '0',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
   },
+  footerText:{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1.2em',
+    fontWeight: 'bold'
+  }
+  ,
   logoBackstage: {
-    width: '8em',
-    height: 'auto'
+    width: '7.5em',
+    height: '1.5em'
   },
   footer:{
     display:'flex',
@@ -131,9 +139,7 @@ export const HomePage = () => {
       <Page themeId="home">
         <Content>
           <Grid container justifyContent="center" spacing={6}>
-            <HomePageCompanyLogo className={classes.width}
-              logo={<Logo />}
-            />
+            <HomePageCompanyLogo className={classes.width} logo={<Logo />} />
             <Grid container item xs={12} alignItems="center" direction="row">
               <HomePageSearchBar
                 classes={{ root: classes.searchBar }}
@@ -170,7 +176,15 @@ export const HomePage = () => {
               </Grid> */}
             </Grid>
             <Grid item className={classes.footerWrapper} lg={12}>
-              <p className={classes.footer}>Powered by <img src={BackstageLogo} alt="backstage logo" className={classes.logoBackstage} /> </p>
+              <p className={classes.footer}>
+                {' '}
+                <span className={classes.footerText}>Powered by </span>{' '}
+                <img
+                  src={BackstageLogo}
+                  alt="backstage logo"
+                  className={classes.logoBackstage}
+                />{' '}
+              </p>
             </Grid>
           </Grid>
         </Content>
