@@ -6,6 +6,9 @@ module.exports = {
       database: 'backstage_plugin_application',
       password: 'postgres',
     },
+    migrations: {
+      directory: './migrations',
+    },
   },
   production: {
     client: 'pg',
