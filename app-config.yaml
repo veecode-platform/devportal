@@ -78,7 +78,7 @@ proxy:
     secure: false
     headers:
       Cookie:
-        $env: ${ARGOCD_TOKEN}
+        $env: ARGOCD_TOKEN
 
 organization:
   name: Devportal
