@@ -30,7 +30,7 @@ export class KeycloakUserService {
     return user;
   }
 
-  public async updateUser(id: string, user: UpdateUserDto) {
+  public async updateUser(id: string, user: UserDto) {
     const kcAdminClient = await new KeycloakAdminClient().getClient();
     const updated = await kcAdminClient.users.update({ id: id }, user);
     return updated;

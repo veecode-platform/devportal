@@ -293,6 +293,7 @@ export async function createRouter(
   router.patch('/partner/:id', async (request, response) => {
     const code = request.params.id;
     const partner: PartnerDto = request.body.partner;
+    await PartnerServices.Instance.updatePartner(code, partner, options);
     const result = await partnerRepository.patchPartner(code, partner);
     response.status(200).json({ status: 'ok', partner: result });
   });
