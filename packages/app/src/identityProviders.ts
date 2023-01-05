@@ -28,7 +28,7 @@ export const providers = [
     apiRef: oktaAuthApiRef,
   },
   {
-    id: "keycloack-auth-provider",
+    id: "keycloak",
     title: "Keycloak",
     message: "Sign in using Keycloak",
     apiRef: keycloakOIDCAuthApiRef,

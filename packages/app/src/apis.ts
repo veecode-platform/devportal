@@ -43,7 +43,7 @@ export const apis: AnyApiFactory[] = [
         discoveryApi,
         oauthRequestApi,
         provider: {
-          id: 'keycloack-auth-provider',
+          id: 'keycloak',
           title: 'Default keycloak authentication provider',
           icon: () => null,
         },
