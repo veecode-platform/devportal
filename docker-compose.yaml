@@ -89,6 +89,7 @@ services:
     profiles:
     - complete
     - demo
+    - vault
     container_name: vault_devportal
     image: vault:latest
     ports:

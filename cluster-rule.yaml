@@ -32,157 +32,6 @@ spec:
           ports:
             - containerPort: 80
 
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: dice-roller-canary
-  labels:
-    'backstage.io/kubernetes-id': dice-roller
-spec:
-  selector:
-    matchLabels:
-      app: dice-roller-canary
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: dice-roller-canary
-        'backstage.io/kubernetes-id': dice-roller
-    spec:
-      containers:
-        - name: nginx
-          image: nginx:1.14.2
-          ports:
-            - containerPort: 80
-          resources:
-            requests:
-              memory: '64Mi'
-              cpu: '50m'
-            limits:
-              memory: '128Mi'
-              cpu: '500m'
-        - name: side-car
-          image: nginx:1.14.2
-          ports:
-            - containerPort: 81
-          resources:
-            requests:
-              memory: '64Mi'
-              cpu: '50m'
-            limits:
-              memory: '128Mi'
-              cpu: '500m'
-        - name: other-side-car
-          image: nginx:1.14.2
-          ports:
-            - containerPort: 82
-          resources:
-            requests:
-              memory: '64Mi'
-              cpu: '50m'
-            limits:
-              memory: '128Mi'
-              cpu: '500m'
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: dice-roller-bad-config
-  labels:
-    'backstage.io/kubernetes-id': dice-roller
-spec:
-  selector:
-    matchLabels:
-      app: dice-roller-bad-config
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: dice-roller-bad-config
-        'backstage.io/kubernetes-id': dice-roller
-    spec:
-      containers:
-        - name: nginx
-          image: nginx:6000000
-          resources:
-            requests:
-              memory: '64Mi'
-              cpu: '50m'
-            limits:
-              memory: '128Mi'
-              cpu: '500m'
-          ports:
-            - containerPort: 80
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: dice-roller-big
-  labels:
-    'backstage.io/kubernetes-id': dice-roller
-spec:
-  selector:
-    matchLabels:
-      app: dice-roller-big
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: dice-roller-big
-        'backstage.io/kubernetes-id': dice-roller
-    spec:
-      containers:
-        - name: nginx
-          image: nginx:1.14.2
-          resources:
-            requests:
-              memory: '64Mi'
-              cpu: '100000m'
-            limits:
-              memory: '128Mi'
-              cpu: '100000m'
-          ports:
-            - containerPort: 80
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: dice-roller-bad-cm
-  labels:
-    'backstage.io/kubernetes-id': dice-roller
-spec:
-  selector:
-    matchLabels:
-      app: dice-roller-bad-cm
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: dice-roller-bad-cm
-        'backstage.io/kubernetes-id': dice-roller
-    spec:
-      containers:
-        - name: nginx
-          image: nginx:1.14.2
-          env:
-            - name: SOME_ENV_VAR
-              valueFrom:
-                configMapKeyRef:
-                  name: some-cm
-                  key: some-key
-          resources:
-            requests:
-              memory: '64Mi'
-              cpu: '50m'
-            limits:
-              memory: '128Mi'
-              cpu: '500m'
-          ports:
-            - containerPort: 80
 
 ---
 apiVersion: autoscaling/v1
@@ -197,39 +46,11 @@ spec:
     kind: Deployment
     name: dice-roller
   minReplicas: 1
-  maxReplicas: 11
+  maxReplicas: 2
   targetCPUUtilizationPercentage: 50
 
 ---
-apiVersion: batch/v1
-kind: CronJob
-metadata:
-  name: dice-roller-cronjob
-  labels:
-    'backstage.io/kubernetes-id': dice-roller
-spec:
-  schedule: '*/1 * * * *'
-  jobTemplate:
-    metadata:
-      labels:
-        'backstage.io/kubernetes-id': dice-roller
-    spec:
-      template:
-        metadata:
-          labels:
-            'backstage.io/kubernetes-id': dice-roller
-        spec:
-          containers:
-            - name: busybox
-              image: busybox
-              imagePullPolicy: IfNotPresent
-              command:
-                - /bin/sh
-                - -c
-                - date; echo Rolling a die!
-          restartPolicy: OnFailure
 
----
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
@@ -302,7 +123,7 @@ spec:
   ports:
     - port: 8765
       targetPort: 9376
-  type: LoadBalancer
+  type: ClusterIP
 
 ---
 apiVersion: v1
