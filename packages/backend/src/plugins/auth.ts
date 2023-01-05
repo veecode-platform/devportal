@@ -36,7 +36,7 @@ export default async function createPlugin(
     providerFactories: {
       ...defaultAuthProviderFactories,
 
-      "keycloack-auth-provider": providers.oidc.create({
+      "keycloak": providers.oidc.create({
         signIn: {
           resolver({result}, ctx) {
               if(!result.userinfo.email_verified){
