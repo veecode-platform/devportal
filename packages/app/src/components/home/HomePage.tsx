@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     backgroundAttachment: 'fixed',
     boxShadow: theme.shadows[1],
-    padding: '10px 0',
+    padding: '10px 15px',
     borderRadius: '30px',
     outline: 'none',
     border: 'mone',
