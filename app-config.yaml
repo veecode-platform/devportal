@@ -72,13 +72,13 @@ proxy:
       Authorization: Bearer ${GRAFANA_TOKEN}
 
   '/argocd/api':
-    target: http://localhost:8081/api/v1/
+    target: ${ARGOCD_DOMAIN}
     changeOrigin: true
     # only if your argocd api has self-signed cert
     secure: false
     headers:
       Cookie:
-        $env: a9NRsQk-KOUqr2GI
+        $env: ${ARGOCD_TOKEN}
 
 organization:
   name: Devportal
@@ -111,14 +111,14 @@ kubernetes:
           caData: ${KUBERNETES_CERTIFICATE_DATA}
 
 argocd:
-  username: admin
-  password: a9NRsQk-KOUqr2GI
+  username: ${ARGOCD_USER}
+  password: ${ARGOCD_TOKEN}
   appLocatorMethods:
     - type: 'config'
       instances:
         - name: argoInstance1
-          url: http://localhost:8081
-          token: a9NRsQk-KOUqr2GI
+          url: ${ARGOCD_URL}
+          token: ${ARGOCD_TOKEN}
 
 integrations:
   github:
