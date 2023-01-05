@@ -48,11 +48,15 @@ export class PartnerServices {
 
         const listUsers = await KeycloakUserService.Instance.listUsers();
         const keycloakUser = listUsers.find(x => x.email === partner.email);
-        console.log(keycloakUser);
+
+        if (typeof keycloakUser?.id === 'string') {
+          await KeycloakUserService.Instance.deleteUser(keycloakUser.id);
+        }
       }
-      // await KeycloakUserService.Instance.deleteUser();
     } catch (error) {
       console.log(error);
     }
   }
+
+  
 }

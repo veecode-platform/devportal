@@ -47,8 +47,8 @@ export class PostgresServiceRepository implements IServiceRepository {
     const responseData = await ServiceMapper.listAllServicesToResource(
       serviceDomain,
     );
-    console.log('CONSOLE LOG DA SERVICE REPOSITORY: ', typeof service)
-    return service;
+    
+    return responseData.service;
   }
 
   async saveService(serviceDto: ServiceDto): Promise<Service> {
