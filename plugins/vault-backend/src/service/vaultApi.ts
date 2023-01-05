@@ -102,6 +102,7 @@ export class VaultClient implements VaultApi {
       },
     );
     if (response.ok) {
+      console.log(query)
       return (await response.json()) as T;
     } else if (response.status === 404) {
       throw new NotFoundError(`No secrets found in path '${path}'`);

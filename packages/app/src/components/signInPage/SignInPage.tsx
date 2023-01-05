@@ -42,7 +42,7 @@ import { Logo } from '../plataformLogo/plataformLogo';
     title,
     align = 'center',
   }: MultiSignInPageProps) => {
-    const configApi = useApi(configApiRef);
+    //const configApi = useApi(configApiRef);
     const classes = useStyles();
   
     const signInProviders = getSignInProviders(providers);

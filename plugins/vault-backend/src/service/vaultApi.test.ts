@@ -34,11 +34,13 @@ describe('VaultApi', () => {
 
   const mockListResult: VaultSecretList = {
     data: {
+      data: {},
       keys: ['secret::one', 'secret::two'],
     },
   };
   const mockListResultEmpty: VaultSecretList = {
     data: {
+      data: {},
       keys: [],
     },
   };

@@ -1,12 +1,12 @@
 import React from 'react';
-import { makeStyles, Theme, Grid, List, Paper } from '@material-ui/core';
+import { makeStyles, Theme, Grid, /*List,*/ Paper } from '@material-ui/core';
 
-import { CatalogSearchResultListItem } from '@backstage/plugin-catalog';
+//import { CatalogSearchResultListItem } from '@backstage/plugin-catalog';
 import {
-  catalogApiRef,
-  CATALOG_FILTER_EXISTS,
+  //catalogApiRef,
+  //CATALOG_FILTER_EXISTS,
 } from '@backstage/plugin-catalog-react';
-import { TechDocsSearchResultListItem } from '@backstage/plugin-techdocs';
+//import { TechDocsSearchResultListItem } from '@backstage/plugin-techdocs';
 
 import {
   HomePageSearchBar,
@@ -15,7 +15,7 @@ import {
   SearchType,
   //DefaultResultListItem,
 } from '@backstage/plugin-search';
-import { useSearch } from '@backstage/plugin-search-react';
+//import { useSearch } from '@backstage/plugin-search-react';
 import {
   CatalogIcon,
   Content,
@@ -23,7 +23,7 @@ import {
   Header,
   Page,
 } from '@backstage/core-components';
-import { useApi } from '@backstage/core-plugin-api';
+//import { useApi } from '@backstage/core-plugin-api';
 
 const useStyles = makeStyles((theme: Theme) => ({
   bar: {
@@ -42,8 +42,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const SearchPage = () => {
   const classes = useStyles();
-  const { types } = useSearch();
-  const catalogApi = useApi(catalogApiRef);
+  //const { types } = useSearch();
+  //const catalogApi = useApi(catalogApiRef);
 
   return (
     <Page themeId="home">
