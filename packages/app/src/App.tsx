@@ -73,7 +73,7 @@ const app = createApp({
   apis,
   components: {
     SignInPage: props => {
-      return <SignInPage {...props} providers={[...providers]} />;
+      return <SignInPage {...props} providers={[providers[1]]} />;
     },
   },
   bindRoutes({ bind }) {
