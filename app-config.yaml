@@ -38,8 +38,6 @@ backend:
     port: 7007
   database:
     client: pg
-    #verificar com luan
-    #pluginDivisionMode: schema
     connection:
       host: localhost
       database: platform_devportal
@@ -49,7 +47,6 @@ backend:
   #database:
   #  client: better-sqlite3
   #  connection: ':memory:'
-
   cache:
     store: memory
   cors:

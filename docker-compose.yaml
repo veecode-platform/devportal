@@ -47,6 +47,7 @@ services:
     profiles:
       - complete
       - basic
+      - demo
     container_name: keycloak_devportal
     image: quay.io/keycloak/keycloak:19.0.3
     # restart: unless-stopped
@@ -87,7 +88,7 @@ services:
   vault-server:
     profiles:
     - complete
-    - vault
+    - demo
     container_name: vault_devportal
     image: vault:latest
     ports:
