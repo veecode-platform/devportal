@@ -32,6 +32,7 @@ import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/K
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
+import { CredentialsOauth } from '../modules/kong/services/CredentialsOauth';
 
 /** @public */
 export interface RouterOptions {
@@ -73,7 +74,7 @@ export async function createRouter(
   const adminClientKeycloak = new TestGroups();
   const kongHandler = new KongHandler();
   const consumerService = new ConsumerService();
-
+  const credentialsOauth = new CredentialsOauth();
   const controllPlugin = new ControllPlugin();
   const consumerGroupService = new ConsumerGroupService();
   const userService = new UserService();
@@ -113,6 +114,14 @@ export async function createRouter(
         timestamp: new Date(date).toISOString(),
       });
     }
+  });
+
+  router.post('/credentials-oauth2/:idConsumer', async (request, response) => {
+    const id = request.params.idConsumer as string
+  
+    const teste = await credentialsOauth.generateCredentials(id)
+
+    response.json({status: 'ok', response: teste})
   });
 
   router.put('/teste/:idService', async (request, response) => {

@@ -8,6 +8,7 @@ export class ConsumerGroupService extends KongServiceBase {
 
     public async createConsumerGroup(consumerGroup: ConsumerGroup): Promise<ConsumerGroup> {
         const url = `${await this.getBaseUrl()}/consumer_groups`;
+        console.log(url)
         const response = await axios
             .post(url, {
                 name: consumerGroup.name
