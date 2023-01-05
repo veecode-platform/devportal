@@ -32,6 +32,7 @@ import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/K
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
+import serviceRouter from './serviceRouter';
 
 /** @public */
 export interface RouterOptions {
@@ -94,6 +95,8 @@ export async function createRouter(
     const groups = await adminClientKeycloak.getGroup();
     response.status(200).json({ status: 'ok', groups: groups });
   });
+
+  router.use('/service', serviceRouter)
 
   
 
