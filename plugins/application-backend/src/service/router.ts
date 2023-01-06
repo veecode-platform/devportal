@@ -118,9 +118,24 @@ export async function createRouter(
 
   router.post('/credentials-oauth2/:idConsumer', async (request, response) => {
     const id = request.params.idConsumer as string
-  
-    const teste = await credentialsOauth.generateCredentials(id)
+    const name = request.query.name as string;
+    const teste = await credentialsOauth.generateCredentials(id, name)
 
+    response.json({status: 'ok', response: teste})
+  });
+
+  router.get('/credentials-oauth2/:idConsumer', async (request, response) => {
+    const id = request.params.idConsumer as string
+    const name = request.query.name as string;
+    const teste = await credentialsOauth.findAllCredentials(id)
+    
+    response.json({status: 'ok', response: teste})
+  });
+  router.delete('/credentials-oauth2/:idConsumer', async (request, response) => {
+    const id = request.params.idConsumer as string
+    const idCredential = request.query.idCredential as string;
+    const teste = await credentialsOauth.deleteCredentialById(id, idCredential)
+    
     response.json({status: 'ok', response: teste})
   });
 
