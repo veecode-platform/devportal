@@ -32,6 +32,8 @@ import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/K
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
+import { startStandaloneServer } from './standaloneServer';
+import yn from 'yn';
 
 /** @public */
 export interface RouterOptions {
@@ -89,13 +91,18 @@ export async function createRouter(
   const router = Router();
   router.use(express.json());
 
+  const port = process.env.PLUGIN_PORT ? Number(process.env.PLUGIN_PORT) : 7007;
+  const enableCors = yn(process.env.PLUGIN_CORS, { default: false });
+  startStandaloneServer({ port, enableCors, logger }).catch(err => {
+    logger.error(err);
+    process.exit(1);
+  });
+
   // KEYCLOAK
   router.get('/keycloak/groups', async (_, response) => {
     const groups = await adminClientKeycloak.getGroup();
     response.status(200).json({ status: 'ok', groups: groups });
   });
-
-  
 
   router.post('/consumer_groups', async (request, response) => {
     try {
@@ -116,8 +123,11 @@ export async function createRouter(
   });
 
   router.put('/teste/:idService', async (request, response) => {
-    const teste = controllPlugin.removePlugin(options, request.params.idService as string)
-    response.status(404).json(teste)
+    const teste = controllPlugin.removePlugin(
+      options,
+      request.params.idService as string,
+    );
+    response.status(404).json(teste);
   });
 
   router.get('/consumer_groups', async (request, response) => {
@@ -336,10 +346,6 @@ router.get('/consumers', async (_, response) => {
     }
   });
 
-
-
-
-
   // APPLICATION
   router.get('/', async (request, response) => {
     try {
@@ -476,8 +482,6 @@ router.get('/consumers', async (_, response) => {
       });
     }
   });
-
-
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(

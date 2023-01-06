@@ -1,8 +1,7 @@
-
-
 import {
-  createServiceBuilder, loadBackendConfig,
-  useHotMemoize
+  createServiceBuilder,
+  loadBackendConfig,
+  useHotMemoize,
 } from '@backstage/backend-common';
 import { Server } from 'http';
 import knexFactory from 'knex';
@@ -37,6 +36,27 @@ export async function startStandaloneServer(
       resource.run('PRAGMA foreign_keys = ON', () => {});
     });
 
+    const migrationConfig = { directory: __dirname + '../../' };
+    const runMigrations = (): void => {
+      knex.migrate
+        .latest(migrationConfig)
+        .then(() => {})
+        .then(() => {
+          console.log(
+            `${String.fromCodePoint(
+              9989,
+            )} [Migrations]: Migrations already executed`,
+          );
+        })
+        .catch((err: string) => {
+          console.log(
+            `${String.fromCodePoint(0x1f525)} ERROR: Migrations not executed`,
+          );
+          console.log(`${String.fromCodePoint(0x1f631)} ${err}`);
+        });
+    };
+
+    runMigrations();
     return knex;
   });
 

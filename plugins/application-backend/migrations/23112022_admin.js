@@ -1,6 +1,7 @@
 /**
  * @param {import('knex').Knex} knex
  */
+
 exports.up = async function up(knex) {
   try {
     await knex.schema.createTable('services', table => {
