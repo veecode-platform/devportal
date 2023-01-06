@@ -1,6 +1,6 @@
 app:
   title: Devportal
-  baseUrl: http://localhost:3000
+  baseUrl: https://devportal.platform.vee.codes/
   #googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
   #  clientToken: '123456789'
@@ -33,24 +33,24 @@ backend:
   auth:
     keys:
       - secret: ${BACKEND_AUTH_SECRET_KEY}
-  baseUrl: http://localhost:7007
+  baseUrl: https://devportal.platform.vee.codes/
   listen:
     port: 7007
-  #database:
-  #  client: pg
-  #  connection:
-  #    host: localhost
-  #    database: platform_devportal
-  #    port: ${DB_PORT}
-  #    user: ${DB_USER}
-  #    password: ${DB_PASSWORD}
   database:
-    client: better-sqlite3
-    connection: ':memory:'
+    client: pg
+    connection:
+      host: ${DB_HOST}
+      database: platform_devportal
+      port: ${DB_PORT}
+      user: ${DB_USER}
+      password: ${DB_PASSWORD}
+  #database:
+  #  client: better-sqlite3
+  #  connection: ':memory:'
   cache:
     store: memory
   cors:
-    origin: http://localhost:3000
+    origin: https://devportal.platform.vee.codes/
     methods: [GET, POST, PUT, DELETE, PATCH]
     credentials: true
   csp:
@@ -90,7 +90,7 @@ organization:
 techdocs:
   builder: 'local' # Alternatives - 'external'
   generator:
-    runIn: 'docker'
+    runIn: 'local'
     # dockerImage: my-org/techdocs # use a custom docker image
     # pullImage: true # or false to disable automatic pulling of image (e.g. if custom docker login is required)
   publisher:
