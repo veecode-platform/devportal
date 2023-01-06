@@ -1,5 +1,3 @@
-
-
 import {
     BackstageIdentityResponse,
     configApiRef,
@@ -22,6 +20,7 @@ import {
   import { GridItem, useStyles } from './styles';
   import { IdentityProviders, SignInProviderConfig } from './types';
 import { Logo } from '../plataformLogo/plataformLogo';
+import BackstageLogo from "../../assets/backstage.png";
 
   type MultiSignInPageProps = SignInPageProps & {
     providers: IdentityProviders;
@@ -42,7 +41,7 @@ import { Logo } from '../plataformLogo/plataformLogo';
     title,
     align = 'center',
   }: MultiSignInPageProps) => {
-    //const configApi = useApi(configApiRef);
+    // const configApi = useApi(configApiRef);
     const classes = useStyles();
   
     const signInProviders = getSignInProviders(providers);
@@ -72,6 +71,17 @@ import { Logo } from '../plataformLogo/plataformLogo';
           >
             {providerElements}
           </Grid>
+          <Grid item className={classes.footerWrapper} lg={12}>
+              <p className={classes.footer}>
+                {' '}
+                <span className={classes.footerText}>Powered by </span>{' '}
+                <img
+                  src={BackstageLogo}
+                  alt="backstage logo"
+                  className={classes.logoBackstage}
+                />{' '}
+              </p>
+            </Grid>
         </Content>
       </Page>
     );
@@ -152,6 +162,7 @@ import { Logo } from '../plataformLogo/plataformLogo';
             component="ul"
             classes={classes}
           >
+            
             <GridItem>
               <InfoCard
                 variant="fullHeight"

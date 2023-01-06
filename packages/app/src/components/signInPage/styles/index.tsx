@@ -33,6 +33,32 @@ export const useStyles = makeStyles(
       margin: 0,
       padding: 0,
     },
+    footerWrapper:{
+      // width: '100%',
+      marginTop: '12rem',    
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    footerText:{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '1.2em',
+      fontWeight: 'bold'
+    }
+    ,
+    logoBackstage: {
+      width: '7.5em',
+      height: '1.5em'
+    },
+    footer:{
+      display:'flex',
+      alignItems:'center',
+      justifyContent: 'center',
+      fontSize: '1.3em',
+      gap: '10px'
+    }
   },
   { name: 'BackstageSignInPage' },
 );
