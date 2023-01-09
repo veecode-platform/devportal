@@ -17,10 +17,10 @@ import React from 'react';
 import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
-  EntityConsumedApisCard,
+  //EntityConsumedApisCard,
   // EntityConsumingComponentsCard,
   EntityHasApisCard,
-  EntityProvidedApisCard,
+  //EntityProvidedApisCard,
   // EntityProvidingComponentsCard,
 } from '@backstage/plugin-api-docs';
 import {
@@ -78,7 +78,7 @@ import {
 } from '@roadiehq/backstage-plugin-argo-cd';
 // github actions
 import {
-  EntityGithubInsightsContent,
+  //EntityGithubInsightsContent,
   EntityGithubInsightsLanguagesCard,
   EntityGithubInsightsReadmeCard,
   EntityGithubInsightsReleasesCard,
@@ -232,11 +232,11 @@ const serviceEntityPage = (
         {pullRequestsContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/code-insights" title="Code Insights">
+    {/*<EntityLayout.Route path="/code-insights" title="Code Insights">
         <EntityGithubInsightsContent />
-      </EntityLayout.Route>
+</EntityLayout.Route>*/}
 
-    <EntityLayout.Route path="/api" title="API">
+    {/*<EntityLayout.Route path="/api" title="API">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
           <EntityProvidedApisCard />
@@ -245,7 +245,7 @@ const serviceEntityPage = (
           <EntityConsumedApisCard />
         </Grid>
       </Grid>
-    </EntityLayout.Route>
+</EntityLayout.Route>*/}
 
     <EntityLayout.Route path="/vault" title="Vault">
       <Grid item md={6} xs={12}>
