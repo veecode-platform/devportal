@@ -75,7 +75,7 @@ proxy:
     target: ${ARGOCD_DOMAIN}
     changeOrigin: true
     # only if your argocd api has self-signed cert
-    secure: false
+    secure: true
     headers:
       Cookie:
         $env: ARGOCD_TOKEN
