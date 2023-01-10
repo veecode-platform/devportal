@@ -74,7 +74,10 @@ export class PartnerServices {
         const keycloakUser = listUsers.find(x => x.email === partner.email);
 
         if (typeof keycloakUser?.id === 'string') {
-          const userDto = new UserDto(partnerDto.name as string, partnerDto.email as string);
+          const userDto = new UserDto(
+            partnerDto.name as string,
+            partnerDto.email as string,
+          );
           await KeycloakUserService.Instance.updateUser(
             keycloakUser.id,
             userDto,
