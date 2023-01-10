@@ -70,14 +70,14 @@ const Details = ({ service }: Services) => {
         <TabbedLayout.Route path="/" title="OVERVIEW">
           <Card className={classes.gridItemCard}>
             <Grid
-              style={{ marginBottom: '2vw' }}
+              style={{ marginBottom: '2vw'}}
               item
               lg={12}
             >
               <CardHeader
                 title="Details"
                 id="overview"
-                style={{ padding: '2em' }}
+                style={{ padding: '2em'}}
                 action={
                   <>
                     <IconButton
@@ -123,7 +123,7 @@ export const DetailsComponent = () => {
       `http://localhost:7007/api/application/service/${id}`,
     );
     const data = await response.json();
-    return data.services;
+    return data.services[0];
   }, []);
 
   if (loading) {

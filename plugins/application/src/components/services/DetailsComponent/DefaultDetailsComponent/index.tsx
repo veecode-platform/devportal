@@ -58,13 +58,16 @@ export const DefaultDetailsComponent = ({
         <Wrapper>
           <TabbedCard>
             <CardTab label="About">
-              <StructuredMetadataTable metadata={metadata} dense={false} />
+              <StructuredMetadataTable
+               metadata={metadata}
+               dense={false}
+                />
               <Grid
                 container
                 justifyContent="center"
                 alignItems="center"
                 spacing={2}
-                style={{ padding: '3em 0' }}
+                style={{ padding: '3em 0'}}
               >
                 <Grid item>
                   <Button
