@@ -17,6 +17,7 @@ export interface RouterOptions {
 serviceRouter.get('/', (request, response) => {
   response.json({message: "OK ESSA É SERVICEROUTER"});
 });
+console.log('esse é o getClient()', await database.getClient());
 
 const serviceRepository = await PostgresServiceRepository.create(
   await database.getClient(),

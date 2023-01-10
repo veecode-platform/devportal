@@ -33,6 +33,7 @@ import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 import serviceRouter from './serviceRouter';
+import KongRouter from './KongRouter';
 
 /** @public */
 export interface RouterOptions {
@@ -97,6 +98,7 @@ export async function createRouter(
   });
 
   router.use('/service', serviceRouter)
+  router.use('/kong-extras', KongRouter)
 
   
 

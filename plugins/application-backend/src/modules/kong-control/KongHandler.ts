@@ -1,9 +1,7 @@
 // class to access kong api manager service
 import axios from 'axios';
 import { PluginDatabaseManager } from '@backstage/backend-common';
-import { Config } from '@backstage/config';
-import { Logger } from 'winston';
-import { Application, ApplicationProps } from '../applications/domain/Application';
+import { ApplicationProps } from '../applications/domain/Application';
 import { PostgresApplicationRepository } from '../applications/repositories/knex/KnexApplicationRepository';
 import { credential } from './Credential';
 
@@ -17,19 +15,16 @@ export type DataBaseOptions = {
   database: PluginDatabaseManager;
 }
 export class KongHandler {
-  public async listServices(): Promise<Service[]> {
-    //const url = tls ? `https://${kongUrl}/services` : `http://${kongUrl}/services`;
-    const url =
-      'https://kong-kong-admin-kong-luangazin.cloud.okteto.net/services';
-    /*const config = {
-    }*/
+  public async listServices(kongUrl: string, tls: boolean): Promise<Service[]> {
+    const url = tls
+      ? `https://${kongUrl}/services`
+      : `http://${kongUrl}/services`;
     const response = await axios.get(url);
     const servicesStore = response.data.data;
-    //console.log("here:", servicesStore);
     return response
       ? servicesStore.map((service: Service) => {
-          return { name: service.name, id: service.id };
-        })
+        return { name: service.name, id: service.id };
+      })
       : [];
   }
 
@@ -44,15 +39,14 @@ export class KongHandler {
       : [];
   }
 
-  public async listConsumers(tls: false, kongUrl: string): Promise<Service[]> {
+  public async listConsumers(kongUrl: string, tls: false) {
     const url = tls
-      ? `https://${kongUrl}/services`
-      : `http://${kongUrl}/services`;
+      ? `https://${kongUrl}/consumers`
+      : `${kongUrl}/consumers`;
     const response = await axios.get(url);
-    const servicesStore = response.data.data;
-    return response
-      ? servicesStore.map((service: Service) => service.name)
-      : [];
+    const consumers = response.data;
+    return consumers;
+      
   }
 
   // PLUGINS
@@ -108,12 +102,12 @@ export class KongHandler {
   ): Promise<Service[]> {
     const url = tls
       ? `https://${kongUrl}/services/${serviceName}/plugins`
-      : `http://${kongUrl}/services/${serviceName}/plugins`;
+      : `${kongUrl}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
-    return response.data.data;
+    return response.data;
   }
 
-  public async generateCredential(tls:boolean, kongUrl: string, workspace: string, idConsumer: string){
+  public async generateCredential(tls: boolean, kongUrl: string, workspace: string, idConsumer: string) {
     const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth`
     const response = await axios.post(url);
     return response.data;
@@ -122,12 +116,11 @@ export class KongHandler {
 
   async listCredentialWithApplication(dataBaseOptions: PluginDatabaseManager, id: string, workspace: string, kongUrl: string, tls: boolean) {
     const applicationRepository = await PostgresApplicationRepository.create(
-      await dataBaseOptions.getClient(),    
+      await dataBaseOptions.getClient(),
     );
 
-    const application:ApplicationProps = await applicationRepository.getApplicationById(id);
-    console.log('application', application)  
- 
+    const application: ApplicationProps = await applicationRepository.getApplicationById(id);
+
     const url = tls ? `https://${kongUrl}/${workspace}/consumers/${application.kongConsumerId}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${application.kongConsumerId}/key-auth`
     console.log("AQUI ", url)
     const response = await axios.get(url);
@@ -141,11 +134,7 @@ export class KongHandler {
   }
 
 
-  public async listCredential(tls:boolean, kongUrl: string, workspace: string, idConsumer: string){
-    
-
-
-
+  public async listCredential(tls: boolean, kongUrl: string, workspace: string, idConsumer: string) {
     const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth`
     console.log("AQUI ", url)
     const response = await axios.get(url);
@@ -154,30 +143,17 @@ export class KongHandler {
     for (let index = 0; index < list.length; index++) {
       let credencial = new credential(list[index].id, list[index].key)
       credentials.push(credencial);
- 
-       
     }
-
-    console.log(credentials)
     return credentials;
   }
 
-  public async removeCredencial(tls: boolean, kongUrl: string, workspace: string, idConsumer: string, idCredencial: string){
+  public async removeCredencial(tls: boolean, kongUrl: string, workspace: string, idConsumer: string, idCredencial: string) {
     const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth/${idCredencial}` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth/${idCredencial}`
-    
+
     const response = await axios.delete(url);
     return response.data;
   }
 
-
-  /*duplicated
-  public async deletePluginsService(tls:false,kongUrl:string, serviceName: string, pluginId:string): Promise<Service[]> {
-    const url = tls ? `https://${kongUrl}/services/${serviceName}/plugins/${pluginId}` : `http://${kongUrl}/services/${serviceName}/plugins/${pluginId}`;
-    const servicesStore = response.data.data;
-    return response
-      ? servicesStore.map((service: Service) => service.name)
-      : [];
-  }*/
   public async deletePluginsService(
     tls: false,
     kongUrl: string,
