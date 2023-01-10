@@ -1,7 +1,4 @@
 import { RouterOptions } from '../../../service/router';
-import { Application } from '../../applications/domain/Application';
-import { ApplicationDto } from '../../applications/dtos/ApplicationDto';
-import { PostgresApplicationRepository } from '../../applications/repositories/knex/KnexApplicationRepository';
 import { ApplicationServices } from '../../applications/services/ApplicationServices';
 import { UserDto } from '../../keycloak/dtos/UserDto';
 import { KeycloakUserService } from '../../keycloak/service/UserService';
@@ -63,41 +60,21 @@ export class PartnerServices {
 
   public async updatePartner(
     partnerId: string,
-    partner: PartnerDto,
+    partnerDto: PartnerDto,
     options: RouterOptions,
   ) {
     try {
       const partnerRepository = await PostgresPartnerRepository.create(
         await options.database.getClient(),
       );
-      const applicationRepository = await PostgresApplicationRepository.create(
-        await options.database.getClient(),
-      );
-      const parnterInstance = await partnerRepository.getPartnerById(partnerId);
+      const partner = await partnerRepository.getPartnerById(partnerId);
 
-      if (parnterInstance instanceof Object) {
-        const applications: string[] = partner.applicationId as string[];
-        applications.forEach(async id => {
-          const applicationInstance =
-            (await applicationRepository.getApplicationById(id)) as Application;
-          const applicationDto = new ApplicationDto(
-            applicationInstance.name as string,
-            applicationInstance.creator as string,
-            applicationInstance.parternId as string,
-            applicationInstance.servicesId as string[],
-          );
-          ApplicationServices.Instance.updateApplication(
-            id,
-            applicationDto,
-            options,
-          );
-        });
-
+      if (partner instanceof Object) {
         const listUsers = await KeycloakUserService.Instance.listUsers();
         const keycloakUser = listUsers.find(x => x.email === partner.email);
 
         if (typeof keycloakUser?.id === 'string') {
-          const userDto = new UserDto(partner.name, partner.email);
+          const userDto = new UserDto(partnerDto.name as string, partnerDto.email as string);
           await KeycloakUserService.Instance.updateUser(
             keycloakUser.id,
             userDto,
