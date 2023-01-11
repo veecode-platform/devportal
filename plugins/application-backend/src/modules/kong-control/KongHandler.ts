@@ -4,6 +4,7 @@ import { PluginDatabaseManager } from '@backstage/backend-common';
 import { ApplicationProps } from '../applications/domain/Application';
 import { PostgresApplicationRepository } from '../applications/repositories/knex/KnexApplicationRepository';
 import { credential } from './Credential';
+import { RouterOptions } from '../../service/router';
 
 
 type Service = {
@@ -114,15 +115,15 @@ export class KongHandler {
   }
 
 
-  async listCredentialWithApplication(dataBaseOptions: PluginDatabaseManager, id: string, workspace: string, kongUrl: string, tls: boolean) {
+  async listCredentialWithApplication(options: RouterOptions, kongUrl: string, id: string, tls: boolean) {
+  
     const applicationRepository = await PostgresApplicationRepository.create(
-      await dataBaseOptions.getClient(),
+      await options.database.getClient(),
     );
 
     const application: ApplicationProps = await applicationRepository.getApplicationById(id);
 
-    const url = tls ? `https://${kongUrl}/${workspace}/consumers/${application.kongConsumerId}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${application.kongConsumerId}/key-auth`
-    console.log("AQUI ", url)
+    const url = tls ? `https://${kongUrl}/consumers/${application.kongConsumerId}/key-auth` : `${kongUrl}/consumers/${application.kongConsumerId}/key-auth`
     const response = await axios.get(url);
     const list = response.data.data;
     const credentials: credential[] = []

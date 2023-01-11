@@ -31,9 +31,9 @@ import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/K
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 import { createServiceRouter } from './serviceRouter';
-import KongRouter from './KongRouter';
 import { DataBaseConfig } from '../modules/utils/DataBaseConfig';
 import { createPartnersRouter } from './partnerRouter';
+import { createKongRouter } from './KongRouter';
 
 /** @public */
 export interface RouterOptions {
@@ -55,9 +55,6 @@ export async function createRouter(
 
   const applicationRepository = await PostgresApplicationRepository.create(
     await database.getClient(),
-  );
-  const partnerRepository = await PostgresPartnerRepository.create(
-    await DataBaseConfig.Instance.getClient(),
   );
   const pluginRepository = await PostgresPluginRepository.create(
     await database.getClient(),
@@ -83,7 +80,7 @@ export async function createRouter(
   router.use(express.json());
   router.use('/service', await createServiceRouter(options))
   router.use('/partner', await createPartnersRouter(options))
-  router.use('/kong-extras', KongRouter)
+  router.use('/kong-extras', await createKongRouter(options))
 
   // KEYCLOAK
   router.get('/keycloak/groups', async (_, response) => {
