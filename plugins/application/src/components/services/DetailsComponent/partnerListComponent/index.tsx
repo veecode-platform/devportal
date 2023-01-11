@@ -108,7 +108,7 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
       return (       
         <>
         <Table
-          title="Partners"
+          title={`Partners (${partners.length})`}
           options={{ search: true, paging: true }}
           columns={columns}
           data={data}
