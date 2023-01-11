@@ -25,17 +25,15 @@ import { ConsumerService } from '../modules/kong/services/ConsumerService';
 import { PluginService } from '../modules/kong/services/PluginService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
 import { UserService } from '../modules/okta-control/service/UserService';
-import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
 import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PluginDto } from '../modules/plugins/dtos/PluginDto';
 import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/KnexPluginRepository';
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
-import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 import { createServiceRouter } from './serviceRouter';
 import KongRouter from './KongRouter';
 import { DataBaseConfig } from '../modules/utils/DataBaseConfig';
-import { createPartnersRouter } from './partnersRouter';
+import { createPartnersRouter } from './partnerRouter';
 
 /** @public */
 export interface RouterOptions {

@@ -10,7 +10,6 @@ export async function createPartnersRouter(
     const partnerRepository = await PostgresPartnerRepository.create(
         await options.database.getClient(),
       );
-
       const router = Router();
 
       router.get('/', async (request, response) => {

@@ -19,8 +19,8 @@ export async function createServiceRouter(
   );
   const controllPlugin = new ControllPlugin();
   const serviceRouter = Router();
-
   serviceRouter.use(express.json());
+
   serviceRouter.get('/', async (request, response) => {
     const limit: number = request.query.limit as any;
     const offset: number = request.query.offset as any;
