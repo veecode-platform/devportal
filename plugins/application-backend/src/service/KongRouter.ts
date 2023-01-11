@@ -3,9 +3,14 @@ import { Router } from "express";
 import { KongHandler } from "../modules/kong-control/KongHandler";
 import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
 
+
+
+
     const kongServiceBase = new KongServiceBase();
     const KongRouter = Router();
     const kongHandler = new KongHandler();
+    
+
 
     KongRouter.get(
         '/plugins/:serviceName',
@@ -33,8 +38,8 @@ import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
       KongRouter.get('/services', async (_, res) => {
         try{
           const serviceStore = await kongHandler.listServices(await kongServiceBase.getUrl(),false);
-          if (serviceStore) res.json({ status: 'ok', services: serviceStore });
-          res.json({ status: 'ok', services: [] });
+          if (serviceStore) 
+          res.json({ status: 'ok', services: serviceStore });
         }catch(error: any){
           let date = new Date();
           res

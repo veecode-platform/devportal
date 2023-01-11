@@ -8,7 +8,11 @@ import { IServiceRepository } from '../IServiceRepository';
 
 
 export class PostgresServiceRepository implements IServiceRepository {
+
+
+
   constructor(private readonly db: Knex) {}
+
 
   static async create(knex: Knex<any, any[]>): Promise<IServiceRepository> {
     return new PostgresServiceRepository(knex);
@@ -29,10 +33,12 @@ export class PostgresServiceRepository implements IServiceRepository {
       .offset(offset)
       .catch(error => console.error(error));
     const servicesDomain = ServiceResponseDto.create({ services: service });
+    console.log('AQUI')
+    console.log('Aqui são as services', service);
     const responseData = await ServiceMapper.listAllServicesToResource(
       servicesDomain,
     );
-    console.log('Aqui são as services', service);
+
     return responseData.services ?? [];
   }
 

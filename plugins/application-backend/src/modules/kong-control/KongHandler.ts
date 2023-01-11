@@ -138,7 +138,7 @@ export class KongHandler {
     const url = tls ? `https://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth` : `http://${kongUrl}/${workspace}/consumers/${idConsumer}/key-auth`
     console.log("AQUI ", url)
     const response = await axios.get(url);
-    const list = response.data.data;
+    const list = response.data;
     const credentials: credential[] = []
     for (let index = 0; index < list.length; index++) {
       let credencial = new credential(list[index].id, list[index].key)

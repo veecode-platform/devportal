@@ -34,6 +34,7 @@ import { PostgresServiceRepository } from '../modules/services/repositories/Knex
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 import serviceRouter from './serviceRouter';
 import KongRouter from './KongRouter';
+import { DataBaseConfig } from '../modules/utils/DataBaseConfig';
 
 /** @public */
 export interface RouterOptions {
@@ -46,11 +47,6 @@ export interface Service {
   description?: string;
 }
 
-export function assertIsError(error: unknown): asserts error is Error {
-  if (!(error instanceof Error)) {
-    throw error;
-  }
-}
 
 /** @public */
 export async function createRouter(
@@ -65,7 +61,7 @@ export async function createRouter(
     await database.getClient(),
   );
   const partnerRepository = await PostgresPartnerRepository.create(
-    await database.getClient(),
+    await DataBaseConfig.Instance.getClient(),
   );
   const pluginRepository = await PostgresPluginRepository.create(
     await database.getClient(),
@@ -75,7 +71,6 @@ export async function createRouter(
   const adminClientKeycloak = new TestGroups();
   const kongHandler = new KongHandler();
   const consumerService = new ConsumerService();
-
   const controllPlugin = new ControllPlugin();
   const consumerGroupService = new ConsumerGroupService();
   const userService = new UserService();
@@ -100,7 +95,7 @@ export async function createRouter(
   router.use('/service', serviceRouter)
   router.use('/kong-extras', KongRouter)
 
-  
+
 
   router.post('/consumer_groups', async (request, response) => {
     try {
