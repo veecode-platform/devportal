@@ -35,7 +35,6 @@ export async function startStandaloneServer(
     knex.client.pool.on('createSuccess', (_eventId: any, resource: any) => {
       resource.run('PRAGMA foreign_keys = ON', () => {});
     });
-    console.log('knex da classe standaloneServer', knex.columns)
     return knex;
   });
 

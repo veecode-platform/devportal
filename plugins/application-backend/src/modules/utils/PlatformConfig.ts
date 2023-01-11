@@ -11,7 +11,7 @@ export class PlatformConfig {
       argv: process.argv,
     });
   }
-
+  
   public async getConfig(): Promise<Config> {
     return this.loadBackend;
   }

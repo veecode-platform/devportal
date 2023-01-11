@@ -30,7 +30,6 @@ export class DataBaseConfig {
 
 
   public async getClient() {
-    console.log((await PlatformConfig.Instance.getConfig()).getString('backend.database.connection.port'))
     return this.pluginDatabaseManager.getClient()
   }
 

@@ -4,6 +4,7 @@ import { IPartnerRepository } from '../IPartnerRepository'
 import { Partner } from '../../domain/Partner';
 import { Knex } from 'knex';
 import { PartnerResponseDto } from '../../dtos/PartnerResponseDto';
+import { DataBaseConfig } from '../../../utils/DataBaseConfig';
 
 
 
@@ -23,6 +24,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
 
   async getPartner(offset: number, limit: number): Promise<Partner[]> {
     const partner = await this.db<Partner>('partners').select('*').offset(offset).limit(limit).catch(error => console.error(error));
+    const teste = await DataBaseConfig.Instance.getClient()
     const partnersDomain = PartnerResponseDto.create({ partners: partner});
     const responseData = await PartnerMapper.listAllPartnersToResource(partnersDomain)
     return responseData.partners ?? [];
