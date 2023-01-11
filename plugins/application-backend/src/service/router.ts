@@ -32,9 +32,10 @@ import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/K
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
-import serviceRouter, { createServiceRouter } from './serviceRouter';
+import { createServiceRouter } from './serviceRouter';
 import KongRouter from './KongRouter';
 import { DataBaseConfig } from '../modules/utils/DataBaseConfig';
+import { createPartnersRouter } from './partnersRouter';
 
 /** @public */
 export interface RouterOptions {
@@ -55,9 +56,6 @@ export async function createRouter(
   const { logger, database } = options;
 
   const applicationRepository = await PostgresApplicationRepository.create(
-    await database.getClient(),
-  );
-  const serviceRepository = await PostgresServiceRepository.create(
     await database.getClient(),
   );
   const partnerRepository = await PostgresPartnerRepository.create(
@@ -85,6 +83,9 @@ export async function createRouter(
 
   const router = Router();
   router.use(express.json());
+  router.use('/service', await createServiceRouter(options))
+  router.use('/partner', await createPartnersRouter(options))
+  router.use('/kong-extras', KongRouter)
 
   // KEYCLOAK
   router.get('/keycloak/groups', async (_, response) => {
@@ -92,8 +93,6 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', groups: groups });
   });
 
-  router.use('/service', await createServiceRouter(options))
-  router.use('/kong-extras', KongRouter)
 
 
 
@@ -156,43 +155,7 @@ export async function createRouter(
   });
 
   // PARTNER
-  router.get('/partners', async (request, response) => {
-    const offset: number = request.query.offset as any;
-    const limit: number = request.query.limit as any;
-    const partners = await partnerRepository.getPartner(offset, limit);
-    response.status(200).json({ status: 'ok', partners: partners });
-  });
-
-  router.get('/partner/:id', async (request, response) => {
-    const code = request.params.id;
-    const partners = await partnerRepository.getPartnerById(code);
-    response.status(200).json({ status: 'ok', partners: partners });
-  });
-
-  router.get('/partner/applications/:id', async (request, response) => {
-    const code = request.params.id;
-    const applications = await partnerRepository.findApplications(code);
-    response.status(200).json({ status: 'ok', applications: applications });
-  });
-
-  router.post('/partner', async (request, response) => {
-    const partner: PartnerDto = request.body.partner;
-    const result = await partnerRepository.createPartner(partner);
-    response.status(201).json({ status: 'ok', partner: result });
-  });
-
-  router.delete('/partner/:id', async (request, response) => {
-    const code = request.params.id;
-    const result = await partnerRepository.deletePartner(code);
-    response.status(204).json({ status: 'ok', partner: result });
-  });
-
-  router.patch('/partner/:id', async (request, response) => {
-    const code = request.params.id;
-    const partner: PartnerDto = request.body.partner;
-    const result = await partnerRepository.patchPartner(code, partner);
-    response.status(200).json({ status: 'ok', partner: result });
-  });
+ 
 
   // PLUGINS
   router.get('/plugins', async (_, response) => {

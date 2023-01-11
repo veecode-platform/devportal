@@ -1,8 +1,5 @@
 import { Router } from 'express';
 import express from 'express';
-import { PluginDatabaseManager } from '@backstage/backend-common';
-import { Config } from '@backstage/config';
-import { Logger } from 'winston';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { RouterOptions } from './router';
