@@ -278,7 +278,7 @@ export const EditComponent = () => {
       `http://localhost:7007/api/application/service/${id}`,
     );
     const data = await response.json();
-    return data.services;
+    return data.services[0];                             // CHECK ---- TO DO
   }, []);
 
   if (loading) {
