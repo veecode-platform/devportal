@@ -36,6 +36,7 @@ import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 import { PartnerServices } from '../modules/partners/service/PartnerServices';
+import { applyDatabaseMigrations } from '../../database/migrations';
 
 /** @public */
 export interface RouterOptions {
@@ -72,6 +73,8 @@ export async function createRouter(
   const pluginRepository = await PostgresPluginRepository.create(
     await database.getClient(),
   );
+
+  await applyDatabaseMigrations(await database.getClient());
 
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const adminClientKeycloak = new TestGroups();
