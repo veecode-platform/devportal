@@ -6,7 +6,7 @@ import {
 import { InputError } from '@backstage/errors';
 //import { InputError } from '@backstage/errors';
 import { Config } from '@backstage/config';
-import express, { response } from 'express';
+import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
@@ -25,13 +25,10 @@ import { ConsumerService } from '../modules/kong/services/ConsumerService';
 import { PluginService } from '../modules/kong/services/PluginService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
 import { UserService } from '../modules/okta-control/service/UserService';
-import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PluginDto } from '../modules/plugins/dtos/PluginDto';
 import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/KnexPluginRepository';
-import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 import { createServiceRouter } from './service-route';
-import { DataBaseConfig } from '../modules/utils/DataBaseConfig';
 import { createPartnersRouter } from './partners-route';
 import { createKongRouter } from './kong-extras-route';
 import { createApplicationRouter } from './applications-route';
@@ -635,9 +632,8 @@ export async function createRouter(
       const id = request.params.id;
       const serviceStore = await kongHandler.listCredentialWithApplication(
         options,
-        id,
-        workspace,
         config.getString('kong.api-manager'),
+        id,
         false,
       );
       response.status(200).json({ status: 'ok', credentials: serviceStore });
