@@ -66,7 +66,7 @@ const Details = ({ partner }: PartnerProps) => {
     <TabbedLayout>
       <TabbedLayout.Route path="/" title="OVERVIEW">
         <Card className={classes.gridItemCard} >
-          <Grid style={{ marginBottom: "2vw" }} item lg={12} direction='column' >
+          <Grid style={{ marginBottom: "2vw" }} item lg={12} >
             <CardHeader
               title="Details"
               id="overview"
@@ -92,7 +92,7 @@ const Details = ({ partner }: PartnerProps) => {
                 </>
               }
             />
-            <Grid container direction='column' spacing={6} lg={12}>
+            <Grid container direction='column' spacing={6}>
               <DefaultDetailsComponent metadata={PartnerData} back="/partners" />
             </Grid>
           </Grid>

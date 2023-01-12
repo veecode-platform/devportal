@@ -48,8 +48,6 @@ const Details = ({ service }: Services) => {
   const Refresh = () => {
     window.location.reload();
   };
-  const location = useLocation();
-  const id = location.search.split('?id=')[1];
 
   const serviceData = {
     id: service?.id ?? '...',
@@ -72,15 +70,14 @@ const Details = ({ service }: Services) => {
         <TabbedLayout.Route path="/" title="OVERVIEW">
           <Card className={classes.gridItemCard}>
             <Grid
-              style={{ marginBottom: '2vw' }}
+              style={{ marginBottom: '2vw'}}
               item
               lg={12}
-              direction="column"
             >
               <CardHeader
                 title="Details"
                 id="overview"
-                style={{ padding: '2em' }}
+                style={{ padding: '2em'}}
                 action={
                   <>
                     <IconButton
@@ -102,7 +99,7 @@ const Details = ({ service }: Services) => {
                   </>
                 }
               />
-              <Grid container direction="column" spacing={6} lg={12}>
+              <Grid container direction="column" spacing={6}>
                 <DefaultDetailsComponent
                   metadata={serviceData}
                   back="/services"
@@ -126,7 +123,7 @@ export const DetailsComponent = () => {
       `http://localhost:7007/api/application/service/${id}`,
     );
     const data = await response.json();
-    return data.services;
+    return data.services[0];                             // CHECK ---- TO DO
   }, []);
 
   if (loading) {

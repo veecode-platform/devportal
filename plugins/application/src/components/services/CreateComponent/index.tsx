@@ -48,7 +48,7 @@ export const CreateComponent = () => {
   const handleSubmit = async () => {
     const dataTest = {
       serviceData: {
-        name: service.name ?? 'Service ]name Test',
+        name: service.name,
         kongServiceName:service,
         active: service.active ?? true,
         description: service.description,
@@ -122,6 +122,7 @@ export const CreateComponent = () => {
                     gridTemplate: 'auto / repeat(2, 1fr)',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    gap:'1em',
                     width: '100%',
                   }}
                 >
@@ -190,6 +191,7 @@ export const CreateComponent = () => {
                     gridTemplate: 'auto / repeat(2, 1fr)',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    gap:'1em',
                     width: '100%',
                   }}
                 >

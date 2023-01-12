@@ -140,6 +140,7 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                     gridTemplate: 'auto / repeat(2, 1fr)',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    gap:'1em',
                     width: '100%',
                   }}
                 >
@@ -213,6 +214,7 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                     gridTemplate: 'auto / repeat(2, 1fr)',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    gap:'1em',
                     width: '100%',
                   }}
                 >
@@ -276,7 +278,7 @@ export const EditComponent = () => {
       `http://localhost:7007/api/application/service/${id}`,
     );
     const data = await response.json();
-    return data.services;
+    return data.services[0];                             // CHECK ---- TO DO
   }, []);
 
   if (loading) {
