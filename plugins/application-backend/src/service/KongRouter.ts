@@ -20,7 +20,7 @@ export async function createKongRouter(
         const serviceStore = await kongHandler.listPluginsService(
           false,
           await kongServiceBase.getUrl(),
-          req.params.serviceName,
+          req.params.serviceName
         );
         console.log('aqui', serviceStore)
         resp.json({ status: 'ok', services: serviceStore });

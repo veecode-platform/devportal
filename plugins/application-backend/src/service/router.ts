@@ -34,6 +34,7 @@ import { createServiceRouter } from './serviceRouter';
 import { DataBaseConfig } from '../modules/utils/DataBaseConfig';
 import { createPartnersRouter } from './partnerRouter';
 import { createKongRouter } from './KongRouter';
+import { createApplicationRouter } from './ApplicationRouter';
 
 /** @public */
 export interface RouterOptions {
@@ -81,6 +82,7 @@ export async function createRouter(
   router.use('/service', await createServiceRouter(options))
   router.use('/partner', await createPartnersRouter(options))
   router.use('/kong-extras', await createKongRouter(options))
+  router.use('/application', await createApplicationRouter(options))
 
   // KEYCLOAK
   router.get('/keycloak/groups', async (_, response) => {
@@ -184,40 +186,7 @@ export async function createRouter(
   });
 
   // APPLICATION
-  /*router.get('/kong-services', async (_, response) => {
-  try{
-    const serviceStore = await kongHandler.listServices(config.getString('kong.api-manager'),false);
-    if (serviceStore) response.json({ status: 'ok', services: serviceStore });
-    response.json({ status: 'ok', services: [] });
-  }catch(error: any){
-    let date = new Date();
-    response
-    .status(error.response.status)
-    .json({
-      status: 'ERROR',
-      message: error.response.data.errorSummary,
-      timestamp: new Date(date).toISOString()
-    })
-  }
-});*/
-
-  /*todo erro na rota
-router.get('/consumers', async (_, response) => {
-  try{
-    const serviceStore = await kongHandler.listConsumers(config.getString('kong.api-manager'),false);
-    if (serviceStore) response.status(200).json({ status: 'ok', costumer: serviceStore });
-    response.status(404).json({ status: 'Not found', services: [] });
-  }catch(error: any){
-    let date = new Date();
-    response
-    .status(error.response.status)
-    .json({
-      status: 'ERROR',
-      message: error.response.data.errorSummary,
-      timestamp: new Date(date).toISOString()
-    })
-  }
-});*/
+  
 
   router.post('/credencial/:id', async (request, response) => {
     try {
