@@ -22,7 +22,6 @@ export async function createKongRouter(
           await kongServiceBase.getUrl(),
           req.params.serviceName
         );
-        console.log('aqui', serviceStore)
         resp.json({ status: 'ok', services: serviceStore });
       } catch (error: any) {
         console.log(error)

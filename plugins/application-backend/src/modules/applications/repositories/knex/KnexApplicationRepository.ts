@@ -92,7 +92,6 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       updateAt: applicationDto.updatedAt,
     });
     const data = ApplicationMapper.toPersistence(application);
-    console.log(data);
     return application;
   }
 

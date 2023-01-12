@@ -53,7 +53,6 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       applicationId: partnerDto.applicationId
     });
     const data = PartnerMapper.toPersistence(partner);
-    console.log(data)
     return partner;
   }
 

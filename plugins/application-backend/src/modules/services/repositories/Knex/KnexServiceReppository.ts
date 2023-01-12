@@ -33,8 +33,6 @@ export class PostgresServiceRepository implements IServiceRepository {
       .offset(offset)
       .catch(error => console.error(error));
     const servicesDomain = ServiceResponseDto.create({ services: service });
-    console.log('AQUI')
-    console.log('Aqui são as services', service);
     const responseData = await ServiceMapper.listAllServicesToResource(
       servicesDomain,
     );
@@ -53,7 +51,6 @@ export class PostgresServiceRepository implements IServiceRepository {
     const responseData = await ServiceMapper.listAllServicesToResource(
       serviceDomain,
     );
-    console.log('CONSOLE LOG DA SERVICE REPOSITORY: ', typeof service)
     return service;
   }
 
@@ -70,7 +67,6 @@ export class PostgresServiceRepository implements IServiceRepository {
       securityType: serviceDto.securityType,
     });
     const data = ServiceMapper.toPersistence(service);
-    console.log(data);
     return service;
   }
 

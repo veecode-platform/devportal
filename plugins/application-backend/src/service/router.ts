@@ -70,8 +70,6 @@ export async function createRouter(
   const userService = new UserService();
   const associateService = new AssociateService();
   const pluginService = new PluginService();
-  //const aclPlugin = new AclPlugin(config);
-  // const aclPlugin = AclPlugin.Instance;
   const aclPlugin = AclPlugin.Instance;
   const keyAuthPlugin = KeyAuthPlugin.Instance;
   const rateLimitingPlugin = RateLimitingPlugin.Instance;
@@ -116,7 +114,7 @@ export async function createRouter(
     response.status(404).json(teste)
   });
 
-  router.get('/consumer_groups', async (request, response) => {
+  router.get('/consumer_groups', async (_, response) => {
     try {
       const consumerGroups = await consumerGroupService.listConsumerGroups();
       response.status(200).json({ status: 'ok', groups: { consumerGroups } });
@@ -636,7 +634,7 @@ export async function createRouter(
       const workspace = request.query.workspace as string;
       const id = request.params.id;
       const serviceStore = await kongHandler.listCredentialWithApplication(
-        database,
+        options,
         id,
         workspace,
         config.getString('kong.api-manager'),

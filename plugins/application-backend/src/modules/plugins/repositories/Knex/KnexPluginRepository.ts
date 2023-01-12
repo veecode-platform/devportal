@@ -6,7 +6,7 @@ import { PluginMapper } from '../../mappers/PluginMapper';
 import { IPluginRepository } from '../IPluginRepository';
 
 export class PostgresPluginRepository implements IPluginRepository {
-  constructor(private readonly db: Knex) {}
+  constructor(private readonly db: Knex) { }
 
 
   static async create(knex: Knex<any, any[]>): Promise<IPluginRepository> {
@@ -66,7 +66,6 @@ export class PostgresPluginRepository implements IPluginRepository {
       pluginId: pluginDto.pluginId
     });
     const data = PluginMapper.toPersistence(plugin);
-    console.log(data);
     return plugin;
   }
 
@@ -75,7 +74,6 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<void>}
    */
   async deletePlugin(id: string): Promise<void> {
-    console.log('id do plugin: ', id)
     await this.db<Plugin>('plugins')
       .where('id', id)
       .del()
