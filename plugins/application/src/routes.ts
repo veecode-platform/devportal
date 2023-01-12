@@ -39,6 +39,11 @@ export const createPartnerRouteRef = createSubRouteRef({
   parent: partnersRootRouteRef,
   path: '/create-partner'
 });
+export const editPartnerRouteRef = createSubRouteRef({
+  id: 'partners-edit',
+  parent: partnersRootRouteRef,
+  path: '/edit-partner'
+});
 
 // dev-application routes
 export const applicationRouteRef = createRouteRef({
@@ -62,31 +67,3 @@ export const editApplicationRouteRef = createSubRouteRef({
   parent: applicationRouteRef,
   path: '/edit-application'
 });
-
-// credentials
-// export const credentialRouteRef = createRouteRef({
-//   id: 'credentials',
-// });
-// export const credentialDetailsRouteRef = createSubRouteRef({
-//   id: 'credentials-details',
-//   parent: credentialRouteRef,
-//   path: '/details'
-// });
-
-// export const newCredentialRouteRef = createSubRouteRef({
-//   id: 'credentials-new',
-//   parent: credentialRouteRef,
-//   path: '/new-credential'
-// });
-
-// export const editCredentialRouteRef = createSubRouteRef({
-//   id: 'credential-edit',
-//   parent: credentialRouteRef,
-//   path: '/edit-credential'
-// });
-
-// export const removeCredentialRouteRef = createSubRouteRef({
-//   id: 'credential-edit',
-//   parent: credentialRouteRef,
-//   path: '/remove-credential'
-// });

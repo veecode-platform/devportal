@@ -8,8 +8,8 @@ import {
 } from '@backstage/core-components';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Link as RouterLink } from 'react-router-dom';
-import { Credentials } from '../../../credentials';
-import AlertComponent from '../../../Alert/Alert';
+import { Credentials } from '../credentials';
+import {AlertComponent} from '../../../shared';
 
 const cardContentStyle = { heightX: 'auto', width: '100%', marginLeft: '2%' };
 

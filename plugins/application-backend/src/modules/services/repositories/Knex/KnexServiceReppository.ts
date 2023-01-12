@@ -47,8 +47,8 @@ export class PostgresServiceRepository implements IServiceRepository {
     const responseData = await ServiceMapper.listAllServicesToResource(
       serviceDomain,
     );
-    console.log('CONSOLE LOG DA SERVICE REPOSITORY: ', typeof service)
-    return service;
+    
+    return responseData.service;
   }
 
   async saveService(serviceDto: ServiceDto): Promise<Service> {
@@ -126,7 +126,7 @@ export class PostgresServiceRepository implements IServiceRepository {
   // async function to patch partial  service object partial class type
   async patchService(
     id: string,
-    serviceDto: Service,
+    serviceDto: ServiceDto,
   ): Promise<Service | string> {
     const service: Service = Service.create({
       name: serviceDto.name as string,
@@ -143,7 +143,7 @@ export class PostgresServiceRepository implements IServiceRepository {
 
     const patchedService = await this.db('services')
       .where('id', id)
-      .update(service)
+      .update(serviceDto)
       .catch(error => console.error(error));
     return patchedService ? service : 'cannot patch service';
   }

@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
-import { Grid, TextField, Button, Select, MenuItem } from '@material-ui/core';
+import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import AlertComponent from '../../Alert/Alert';
-
+import { AlertComponent } from '../../shared';
 import {
   InfoCard,
   Header,
@@ -11,17 +10,21 @@ import {
   Content,
   ContentHeader,
 } from '@backstage/core-components';
-import { ICreateService } from '../interfaces';
-import { FetchKongServices } from './kongUtils';
+import { ICreateService } from '../utils/interfaces';
+import { FetchKongServices } from '../utils/kongUtils';
+import { rateLimitingItems, securityItems } from '../utils/common';
+import { Select } from '../../shared';
 
 export const CreateComponent = () => {
   const navigate = useNavigate();
   const [service, setService] = useState<ICreateService>({
-    serviceId: '',
     name: '',
+    kongServiceName:'',
     active: true,
     description: '',
-    security: '',
+    redirectUrl: '',
+    kongServiceId: '',
+    securityType: '',
     rateLimiting: 0,
   });
   const [show, setShow] = useState(false);
@@ -31,11 +34,13 @@ export const CreateComponent = () => {
       return;
     }
     setService({
-      serviceId: '',
       name: '',
+      kongServiceName:'',
       active: true,
       description: '',
-      security: '',
+      redirectUrl: '',
+      kongServiceId: '',
+      securityType: '',
       rateLimiting: 0,
     });
   };
@@ -44,11 +49,13 @@ export const CreateComponent = () => {
     const dataTest = {
       serviceData: {
         name: service.name,
+        kongServiceName:service,
+        active: service.active ?? true,
         description: service.description,
-        partnersId: [],
+        redirectUrl: service.redirectUrl,
+        kongServiceId :service.kongServiceId,
         rateLimiting: service.rateLimiting,
-        // kongServiceName:service,
-        // kongServiceId :service,
+        securityType: service.securityType,
       },
     };
     const config = {
@@ -81,7 +88,13 @@ export const CreateComponent = () => {
           close={handleClose}
           message="Service Registered!"
         />
-        <Grid container direction="row" justifyContent="center">
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          alignContent="center"
+        >
           <Grid item sm={12} lg={6}>
             <InfoCard>
               <Grid
@@ -91,12 +104,45 @@ export const CreateComponent = () => {
                 justifyContent="center"
               >
                 <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Service Name"
+                    value={service.name}
+                    required
+                    onChange={e => {
+                      setService({ ...service, name: e.target.value });
+                    }}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  style={{
+                    display: 'grid',
+                    gridTemplate: 'auto / repeat(2, 1fr)',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap:'1em',
+                    width: '100%',
+                  }}
+                >
+                <Grid item lg={12}>
                   <FetchKongServices
                     valueName={service}
                     setValue={setService}
                   />
                 </Grid>
-
+                <Select
+                    placeholder="Select the Status"
+                    label="Service Status"
+                    items={[{label:'active', value: 'true' }]}
+                    onChange={e => {
+                      if (e === 'true')
+                        setService({ ...service, active: true });
+                      else setService({ ...service, active: false });
+                    }}
+                  />
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
@@ -111,52 +157,60 @@ export const CreateComponent = () => {
                     }}
                   />
                 </Grid>
-                                                                                    {/* <<----------------------  TO DO */}
-                <Grid item xs={12}>                                                       
-                  <Select
+
+                <Grid item xs={12}>
+                  <TextField
                     fullWidth
                     variant="outlined"
-                    value={service.rateLimiting}
-                    displayEmpty
+                    label="Url"
+                    value={service.redirectUrl}
+                    required
                     onChange={e => {
-                      setService({
-                        ...service,
-                        rateLimiting: e.target.value as number,
-                      });
+                      setService({ ...service, redirectUrl: e.target.value });
                     }}
-                  >
-                    <MenuItem value="">
-                      <em>0</em>
-                    </MenuItem>
-                    <MenuItem value="none">
-                      <em>100</em>
-                    </MenuItem>
-                    <MenuItem value="api key">200</MenuItem>
-                    <MenuItem value="api key">300</MenuItem>
-                  </Select>
+                  />
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Select
+                  <TextField
                     fullWidth
                     variant="outlined"
-                    value={service.security}
-                    displayEmpty
+                    label="Kong Service Id"
+                    value={service.kongServiceId}
+                    required
                     onChange={e => {
-                      setService({
-                        ...service,
-                        security: e.target.value as string,
-                      });
+                      setService({ ...service, kongServiceId: e.target.value });
                     }}
-                  >
-                    <MenuItem value="">
-                      <em>Security</em>
-                    </MenuItem>
-                    <MenuItem value="none">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value="api key">Api Key</MenuItem>
-                  </Select>
+                  />
+                </Grid>
+
+                <Grid
+                  item
+                  style={{
+                    display: 'grid',
+                    gridTemplate: 'auto / repeat(2, 1fr)',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap:'1em',
+                    width: '100%',
+                  }}
+                >
+                  <Select
+                    onChange={e => {
+                      setService({ ...service, securityType: e });
+                    }}
+                    placeholder="Select the Security Type"
+                    label="Security Type"
+                    items={securityItems}
+                  />
+                  <Select
+                    onChange={e => {
+                      setService({ ...service, rateLimiting: e });
+                    }}
+                    placeholder="Select the Rate Limiting"
+                    label="rate Limiting"
+                    items={rateLimitingItems}
+                  />
                 </Grid>
 
                 <Grid item xs={12}>

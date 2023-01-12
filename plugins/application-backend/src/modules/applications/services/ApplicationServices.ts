@@ -2,10 +2,11 @@ import { RouterOptions } from '../../../service/router';
 import { Consumer } from '../../kong/model/Consumer';
 import { ConsumerGroupService } from '../../kong/services/ConsumerGroupService';
 import { ConsumerService } from '../../kong/services/ConsumerService';
+import { Service } from '../../services/domain/Service';
 import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
 import {
   appDtoNameConcatParternId,
-  serviceConcatGroup
+  serviceConcatGroup,
 } from '../../utils/ConcatUtil';
 import { ApplicationDto } from '../dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../repositories/knex/KnexApplicationRepository';
@@ -32,7 +33,7 @@ export class ApplicationServices {
 
       await ConsumerService.Instance.createConsumer(consumer);
       servicesId.forEach(async x => {
-        const service = await serviceRepository.getServiceById(x);
+        const service: Service = await serviceRepository.getServiceById(x);
         if (service instanceof Object) {
           ConsumerGroupService.Instance.addConsumerToGroup(
             serviceConcatGroup(service.name as string),
@@ -100,16 +101,6 @@ export class ApplicationServices {
           }
         });
       }
-
-      // servicesId.forEach(async x => {
-      //   const service = await serviceRepository.getServiceById(x);
-      //   if (service instanceof Object) {
-      //     ConsumerGroupService.Instance.addConsumerToGroup(
-      //       serviceConcatGroup(service.name as string),
-      //       application instanceof Object ? (application.name as string) : '',
-      //     );
-      //   }
-      // });
     } catch (error) {
       console.log(error);
     }

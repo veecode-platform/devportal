@@ -1,1 +1,0 @@
-export { PartnersPageComponent } from "./PartnersPageComponent"

@@ -14,7 +14,7 @@ export interface ICreateApplication{
   name: string,
   creator: string,
   active: boolean | null;
-  servicesId: string[],
+  servicesId: string[] | any,
   kongConsumerName: string,
   kongConsumerId: string,
 }

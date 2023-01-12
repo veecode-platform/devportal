@@ -5,7 +5,7 @@ export type ApplicationProps = {
   creator: string;
   parternId: string;
   servicesId: string[];
-  active: boolean;
+  active?: boolean;
   externalId: string;
   createdAt: Date;
   updateAt: Date;
