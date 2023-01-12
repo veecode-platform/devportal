@@ -35,6 +35,9 @@ import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/K
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
+import { startStandaloneServer } from './standaloneServer';
+import yn from 'yn';
+import { applyDatabaseMigrations } from '../../database/migrations';
 
 /** @public */
 export interface RouterOptions {
@@ -72,6 +75,8 @@ export async function createRouter(
     await database.getClient(),
   );
 
+  await applyDatabaseMigrations(await database.getClient());
+
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const adminClientKeycloak = new TestGroups();
   const userServiceKeycloak = new KeycloakUserService();
@@ -99,8 +104,6 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', groups: groups });
   });
 
-  
-
   router.post('/consumer_groups', async (request, response) => {
     try {
       const consumerGroup: ConsumerGroup = request.body;
@@ -120,8 +123,11 @@ export async function createRouter(
   });
 
   router.put('/teste/:idService', async (request, response) => {
-    const teste = controllPlugin.removePlugin(options, request.params.idService as string)
-    response.status(404).json(teste)
+    const teste = controllPlugin.removePlugin(
+      options,
+      request.params.idService as string,
+    );
+    response.status(404).json(teste);
   });
 
   router.get('/consumer_groups', async (request, response) => {
@@ -391,10 +397,6 @@ router.get('/consumers', async (_, response) => {
     }
   });
 
-
-
-
-
   // APPLICATION
   router.get('/', async (request, response) => {
     try {
@@ -531,8 +533,6 @@ router.get('/consumers', async (_, response) => {
       });
     }
   });
-
-
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(
