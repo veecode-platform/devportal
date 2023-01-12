@@ -30,11 +30,11 @@ import { PluginDto } from '../modules/plugins/dtos/PluginDto';
 import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/KnexPluginRepository';
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
-import { createServiceRouter } from './serviceRouter';
+import { createServiceRouter } from './service-route';
 import { DataBaseConfig } from '../modules/utils/DataBaseConfig';
-import { createPartnersRouter } from './partnerRouter';
-import { createKongRouter } from './KongRouter';
-import { createApplicationRouter } from './ApplicationRouter';
+import { createPartnersRouter } from './partners-route';
+import { createKongRouter } from './kong-extras-route';
+import { createApplicationRouter } from './applications-route';
 
 /** @public */
 export interface RouterOptions {
@@ -79,10 +79,10 @@ export async function createRouter(
 
   const router = Router();
   router.use(express.json());
-  router.use('/service', await createServiceRouter(options))
-  router.use('/partner', await createPartnersRouter(options))
+  router.use('/services', await createServiceRouter(options))
+  router.use('/partners', await createPartnersRouter(options))
   router.use('/kong-extras', await createKongRouter(options))
-  router.use('/application', await createApplicationRouter(options))
+  router.use('/applications', await createApplicationRouter(options))
 
   // KEYCLOAK
   router.get('/keycloak/groups', async (_, response) => {
@@ -128,30 +128,6 @@ export async function createRouter(
     }
   });
 
-
-
-
-  // UPDATE
-  router.post('/service/:id', async (request, response) => {
-    const code = request.params.id;
-    const service: ServiceDto = request.body.service;
-
-    // const result = await serviceRepository.patchService(code, service as Service);
-    response.status(200).json({ status: 'ok', service: result });
-  });
-
-  // PROGRESSO DE ATUALIZAÇÃO
-  router.post('/service/:id', async (request, response) => {
-    const code = request.params.id;
-    const body = request.body;
-
-    const service: ServiceDto = request.body.service;
-
-    // const result = await serviceRepository.patchService(code, service);
-    response.status(200).json({ status: 'ok', service: result });
-  });
-
-  // PARTNER
  
 
   // PLUGINS
@@ -185,7 +161,6 @@ export async function createRouter(
     response.status(204).json({ status: 'ok', plugin: res });
   });
 
-  // APPLICATION
   
 
   router.post('/credencial/:id', async (request, response) => {
@@ -225,93 +200,6 @@ export async function createRouter(
       return response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-
-
-
-
-  // APPLICATION
-  router.get('/', async (request, response) => {
-    try {
-      const limit: number = request.query.limit as any;
-      const offset: number = request.query.offset as any;
-      const responseData = await applicationRepository.getApplication(
-        limit,
-        offset,
-      );
-      return response.json({ status: 'ok', applications: responseData });
-    } catch (error: any) {
-      let date = new Date();
-      return response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  router.post('/', async (request, response) => {
-    const data = request.body.application;
-    await ApplicationServices.Instance.createApplication(data, options);
-    try {
-      if (!data) {
-        throw new InputError(
-          `the request body is missing the application field`,
-        );
-      }
-      logger.info(JSON.stringify(data));
-      const result = await applicationRepository.createApplication(data);
-      response.send({ status: 'ok', result: result });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  router.post('/save', async (request, response) => {
-    const data: ApplicationDto = request.body.application;
-    try {
-      if (!data) {
-        throw new InputError(
-          `the request body is missing the application field`,
-        );
-      }
-      // logger.info(JSON.stringify(data))
-      const result = await applicationRepository.createApplication(data);
-      response.send({ status: data, result: result });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  router.get('/:id', async (request, response) => {
-    const code = request.params.id;
-    try {
-      if (!code) {
-        throw new InputError(
-          `the request body is missing the application field`,
-        );
-      }
-      const result = await applicationRepository.getApplicationById(code);
-      response.send({ status: 'ok', application: result });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
         timestamp: new Date(date).toISOString(),
       });
     }

@@ -93,7 +93,7 @@ async function main() {
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
   
   const apiRouter = Router();
-  apiRouter.use('/application', await application(applicationEnv));
+  apiRouter.use('/devportal', await application(applicationEnv));
   apiRouter.use('/catalog', await catalog(catalogEnv));
   apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));
   apiRouter.use('/auth', await auth(authEnv));
