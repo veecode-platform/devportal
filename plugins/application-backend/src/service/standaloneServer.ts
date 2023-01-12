@@ -1,8 +1,7 @@
-
-
 import {
-  createServiceBuilder, loadBackendConfig,
-  useHotMemoize
+  createServiceBuilder,
+  loadBackendConfig,
+  useHotMemoize,
 } from '@backstage/backend-common';
 import { Server } from 'http';
 import knexFactory from 'knex';

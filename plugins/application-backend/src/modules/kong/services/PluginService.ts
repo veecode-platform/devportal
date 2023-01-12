@@ -22,7 +22,6 @@ export class PluginService extends KongServiceBase {
       name: pluginName,
       config:  Object.fromEntries(config)
     });
-    console.log('config: ',response.data);
     return response.data;
   }
 

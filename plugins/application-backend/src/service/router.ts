@@ -25,6 +25,11 @@ import { ConsumerService } from '../modules/kong/services/ConsumerService';
 import { PluginService } from '../modules/kong/services/PluginService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
 import { UserService } from '../modules/okta-control/service/UserService';
+import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
+import { KeycloakUserService } from '../modules/keycloak/service/UserService';
+import { UpdateUserDto, UserDto } from '../modules/keycloak/dtos/UserDto';
+
+import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
 import { PluginDto } from '../modules/plugins/dtos/PluginDto';
 import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/KnexPluginRepository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
@@ -32,6 +37,9 @@ import { createServiceRouter } from './service-route';
 import { createPartnersRouter } from './partners-route';
 import { createKongRouter } from './kong-extras-route';
 import { createApplicationRouter } from './applications-route';
+import { CredentialsOauth } from '../modules/kong/services/CredentialsOauth';
+import { PartnerServices } from '../modules/partners/service/PartnerServices';
+import { applyDatabaseMigrations } from '../../database/migrations';
 
 /** @public */
 export interface RouterOptions {
@@ -58,10 +66,14 @@ export async function createRouter(
     await database.getClient(),
   );
 
+  await applyDatabaseMigrations(await database.getClient());
+
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const adminClientKeycloak = new TestGroups();
+  const userServiceKeycloak = new KeycloakUserService();
   const kongHandler = new KongHandler();
   const consumerService = new ConsumerService();
+  const credentialsOauth = new CredentialsOauth();
   const controllPlugin = new ControllPlugin();
   const consumerGroupService = new ConsumerGroupService();
   const userService = new UserService();
@@ -85,9 +97,6 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', groups: groups });
   });
 
-
-
-
   router.post('/consumer_groups', async (request, response) => {
     try {
       const consumerGroup: ConsumerGroup = request.body;
@@ -106,9 +115,35 @@ export async function createRouter(
     }
   });
 
+  router.post('/credentials-oauth2/:idConsumer', async (request, response) => {
+    const id = request.params.idConsumer as string
+    const name = request.query.name as string;
+    const credential = await credentialsOauth.generateCredentials(id, name)
+
+    response.status(201).json({status: 'ok', response: credential})
+  });
+
+  router.get('/credentials-oauth2/:idConsumer', async (request, response) => {
+    const id = request.params.idConsumer as string
+    const name = request.query.name as string;
+    const credential = await credentialsOauth.findAllCredentials(id)
+    
+    response.json({status: 'ok', response: credential})
+  });
+  router.delete('/credentials-oauth2/:idConsumer', async (request, response) => {
+    const id = request.params.idConsumer as string
+    const idCredential = request.query.idCredential as string;
+    const teste = await credentialsOauth.deleteCredentialById(id, idCredential)
+    
+    response.status(204).json({status: 'ok', response: teste})
+  });
+
   router.put('/teste/:idService', async (request, response) => {
-    const teste = controllPlugin.removePlugin(options, request.params.idService as string)
-    response.status(404).json(teste)
+    const teste = controllPlugin.removePlugin(
+      options,
+      request.params.idService as string,
+    );
+    response.status(404).json(teste);
   });
 
   router.get('/consumer_groups', async (_, response) => {
@@ -123,7 +158,110 @@ export async function createRouter(
     }
   });
 
- 
+  router.post('/keycloak/users', async (request, response) => {
+    const user: UserDto = request.body.user;
+    const id = await userServiceKeycloak.createUser(user);
+    response.status(201).json({ status: 'ok', id: id });
+  });
+
+  router.get('/keycloak/users', async (_, response) => {
+    const users = await userServiceKeycloak.listUsers();
+    response.status(200).json({ status: 'ok', users: users });
+  });
+
+  router.get('/keycloak/users/:id', async (request, response) => {
+    const user_id = request.params.id;
+    const user = await userServiceKeycloak.findUser(user_id);
+    response.status(200).json({ status: 'ok', users: user });
+  });
+
+  router.put('/keycloak/users/:id', async (request, response) => {
+    const code = request.params.id;
+    const user: UpdateUserDto = request.body.user;
+    await userServiceKeycloak.updateUser(code, user);
+    response.status(200).json({ status: 'User Updated!' });
+  });
+
+  router.delete('/keycloak/users/:id', async (request, response) => {
+    const user_id = request.params.id;
+    await userServiceKeycloak.deleteUser(user_id);
+    response.status(204).json({ status: 'User Deleted!' });
+  });
+
+  router.put(
+    '/keycloak/users/:id/groups/:groupId',
+    async (request, response) => {
+      const user_id = request.params.id;
+      const groupId = request.params.groupId;
+      const add = await userServiceKeycloak.addUserToGroup(user_id, groupId);
+      response.status(200).json({ status: 'User added to group!', add: add });
+    },
+  );
+
+  router.delete(
+    '/keycloak/users/:id/groups/:groupId',
+    async (request, response) => {
+      const user_id = request.params.id;
+      const groupId = request.params.groupId;
+      const res = await userServiceKeycloak.removeUserFromGroup(
+        user_id,
+        groupId,
+      );
+      response
+        .status(204)
+        .json({ status: 'User Removed From Group!', res: res });
+    },
+  );
+
+  router.get('/keycloak/users/:id/groups', async (request, response) => {
+    const user_id = request.params.id;
+    const groups = await userServiceKeycloak.listUserGroups(user_id);
+    response.status(200).json({ status: 'ok', groups: groups });
+  });
+
+
+  // PARTNER
+  router.get('/partners', async (request, response) => {
+    const offset: number = request.query.offset as any;
+    const limit: number = request.query.limit as any;
+    const partners = await partnerRepository.getPartner(offset, limit);
+    response.status(200).json({ status: 'ok', partners: partners });
+  });
+
+  router.get('/partner/:id', async (request, response) => {
+    const code = request.params.id;
+    const partners = await partnerRepository.getPartnerById(code);
+    response.status(200).json({ status: 'ok', partners: partners });
+  });
+
+  router.get('/partner/applications/:id', async (request, response) => {
+    const code = request.params.id;
+    const applications = await partnerRepository.findApplications(code);
+    response.status(200).json({ status: 'ok', applications: applications });
+  });
+
+  router.post('/partner', async (request, response) => {
+    const partner: PartnerDto = request.body.partner;
+    const groupId: string = request.body.groupId;
+    await PartnerServices.Instance.createPartner(partner, groupId);
+    const result = await partnerRepository.createPartner(partner);
+    response.status(201).json({ status: 'ok', partner: result });
+  });
+
+  router.delete('/partner/:id', async (request, response) => {
+    const code = request.params.id;
+    await PartnerServices.Instance.removePartner(code, options);
+    const result = await partnerRepository.deletePartner(code);
+    response.status(204).json({ status: 'ok', partner: result });
+  });
+
+  router.patch('/partner/:id', async (request, response) => {
+    const code = request.params.id;
+    const partner: PartnerDto = request.body.partner;
+    await PartnerServices.Instance.updatePartner(code, partner, options);
+    const result = await partnerRepository.patchPartner(code, partner);
+    response.status(200).json({ status: 'ok', partner: result });
+  });
 
   // PLUGINS
   router.get('/plugins', async (_, response) => {
@@ -209,52 +347,9 @@ export async function createRouter(
       .json({ status: 'ok', application: applicationRepository });
   });
 
-  router.delete('/:id', async (request, response) => {
-    const code = request.params.id;
-    await ApplicationServices.Instance.removeApplication(code, options);
-    try {
-      if (!code) {
-        throw new InputError(
-          `the request body is missing the application field`,
-        );
-      }
-      const result = await applicationRepository.deleteApplication(code);
-      response.status(204).send({ status: 'ok', result: result });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  router.post('/:id', async (request, response) => {
-    const code = request.params.id;
-    const application: ApplicationDto = request.body.application;
-    try {
-      if (!code) {
-        throw new InputError(
-          `the request body is missing the application field`,
-        );
-      }
-      const result = await applicationRepository.patchApplication(
-        code,
-        application,
-      );
-      response.send({ status: 'ok', result: result });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
 
 
+ 
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(
@@ -307,44 +402,9 @@ export async function createRouter(
       .json({ status: 'ok', application: applicationRepository });
   });
 
-  router.delete('/:id', async (request, response) => {
-    const code = request.params.id;
-    try {
-      const result = await applicationRepository.deleteApplication(code);
-      response.status(204).send({ status: 'ok', result: result });
-    } catch (error: any) {
-      let date = new Date();
-      return response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
 
-  router.patch('/:id', async (request, response) => {
-    const code = request.params.id;
-    const application: ApplicationDto = request.body.application;
-    await ApplicationServices.Instance.updateApplication(
-      code,
-      application,
-      options,
-    );
-    try {
-      const result = await applicationRepository.patchApplication(
-        code,
-        application,
-      );
-      response.send({ status: 'ok', result: 'result' });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
+
+  
 
   // kong-consumer
   router.get('/consumer/:consumerName', async (request, response) => {

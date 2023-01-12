@@ -7,11 +7,11 @@ export class ServiceDto {
   partnersId: string[];
   kongServiceName: string;
   kongServiceId: string;
-  rateLimiting: number;
+  active: boolean;
+  rateLimiting?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  active: boolean;
-  securityType: SECURITY;
+  securityType?: SECURITY;
 
   constructor(
     name: string,
@@ -20,11 +20,11 @@ export class ServiceDto {
     redirectUrl: string,
     kongServicename: string,
     kongServiceId: string,
-    rateLimiting: number,
-    createdAt: Date,
-    updatedAt: Date,
     active: boolean,
-    securityType: SECURITY
+    rateLimiting?: number,
+    createdAt?: Date,
+    updatedAt?: Date,
+    securityType?: SECURITY
   ) {
     this.name = name;
     this.description = description;

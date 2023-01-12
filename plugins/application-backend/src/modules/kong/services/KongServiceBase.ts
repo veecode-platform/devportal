@@ -10,6 +10,7 @@ export class KongServiceBase {
   public async getBaseUrl(): Promise<string> {
     const config = await PlatformConfig.Instance.getConfig();
     const url = config.getString('kong.api-manager');
+    console.log('url', url)
     const workspace = 'default';
     return `${url}/${workspace}`;
   }

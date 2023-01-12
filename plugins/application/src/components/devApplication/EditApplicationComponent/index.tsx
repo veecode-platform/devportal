@@ -1,13 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from 'react';
-import { Grid, Button, TextField, Paper} from '@material-ui/core';
+import { Grid, Button, TextField} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import {Progress} from '@backstage/core-components';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
-import { SearchFilter } from '@backstage/plugin-search-react';
-import { SearchContextProvider } from '@backstage/plugin-search-react';
 import {
   InfoCard,
   Header,
@@ -16,7 +13,7 @@ import {
   ContentHeader,
 } from '@backstage/core-components';
 import { IApplication } from '../interfaces';
-import AlertComponent from '../../Alert/Alert';
+import {AlertComponent, Select} from '../../shared';
 
 type Application = {
   application: IApplication | undefined;
@@ -36,6 +33,11 @@ const EditApplicationComponent = ({ application }: Application) => {
       kongConsumerId: application?.kongConsumerId
     })
   },[application]);
+
+  const statusItems = [
+    { label: 'active', value: 'true' },
+    { label: 'disable', value: 'false' },
+  ];
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
@@ -101,30 +103,34 @@ const EditApplicationComponent = ({ application }: Application) => {
                       setApp({ ...app, creator: e.target.value })
                     }} />
                 </Grid>
-                <Grid item xs={12} >
-                  <SearchContextProvider>
-                    <Paper>
-                      <SearchFilter.Autocomplete
-                        multiple
-                        name="Status"
-                        label="Select the Application Status"
-                        values={["active", "disable"]}
-                      />
-                    </Paper>
-                  </SearchContextProvider>
+
+                <Grid item lg={12}>
+                  <Select
+                    placeholder="Select the Status"
+                    label="Service Status"
+                    items={statusItems}
+                    onChange={e => {
+                      if (e === 'true')
+                        setApp({ ...app, active: true });
+                      else setApp({ ...app, active: false });
+                    }}
+                  />
                 </Grid>
-                <Grid item xs={12} >
-                  <SearchContextProvider>
-                    <Paper>
-                      <SearchFilter.Autocomplete
-                        multiple
-                        name="Application Services"
-                        label="Select the services"
-                        values={app.servicesId}
-                      />
-                    </Paper>
-                  </SearchContextProvider>
+
+                <Grid item lg={12}>
+                  <Select
+                    placeholder="Application Services"
+                    label="Application Services"
+                    items={app.servicesId.map((item : string | any) => {
+                      return { ...{ label: item, value: item } };
+                    })}
+                    multiple
+                    onChange={e => {
+                      setApp({ ...app, servicesId: e });
+                    }}
+                  />
                 </Grid>
+
                 <Grid item xs={12} >
                   <TextField
                     fullWidth

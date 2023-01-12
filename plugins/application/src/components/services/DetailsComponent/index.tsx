@@ -12,10 +12,11 @@ import { Progress, TabbedLayout } from '@backstage/core-components';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
 import { Header, Page, Link } from '@backstage/core-components';
-import { IService } from '../interfaces';
+import { IService } from '../utils/interfaces';
 import EditIcon from '@material-ui/icons/Edit';
 import CachedIcon from '@material-ui/icons/Cached';
 import { DefaultDetailsComponent } from './DefaultDetailsComponent';
+import { SecurityTypeEnum } from '../utils/enum';
 
 // makestyles
 const useStyles = makeStyles({
@@ -47,8 +48,6 @@ const Details = ({ service }: Services) => {
   const Refresh = () => {
     window.location.reload();
   };
-  const location = useLocation();
-  const id = location.search.split('?id=')[1];
 
   const serviceData = {
     id: service?.id ?? '...',
@@ -59,6 +58,7 @@ const Details = ({ service }: Services) => {
     kongServiceName: service?.kongServiceName ?? '...',
     kongServicesId: service?.kongServiceId ?? '...',
     rateLimiting: service?.rateLimiting ?? '...',
+    securityType: service?.securityType ?? SecurityTypeEnum.none,
     createdAt: service?.createdAt ?? '...',
     updatedAt: service?.updatedAt ?? '...',
   };
@@ -70,15 +70,14 @@ const Details = ({ service }: Services) => {
         <TabbedLayout.Route path="/" title="OVERVIEW">
           <Card className={classes.gridItemCard}>
             <Grid
-              style={{ marginBottom: '2vw' }}
+              style={{ marginBottom: '2vw'}}
               item
               lg={12}
-              direction="column"
             >
               <CardHeader
                 title="Details"
                 id="overview"
-                style={{ padding: '2em' }}
+                style={{ padding: '2em'}}
                 action={
                   <>
                     <IconButton
@@ -100,7 +99,7 @@ const Details = ({ service }: Services) => {
                   </>
                 }
               />
-              <Grid container direction="column" spacing={6} lg={12}>
+              <Grid container direction="column" spacing={6}>
                 <DefaultDetailsComponent
                   metadata={serviceData}
                   back="/services"
@@ -124,7 +123,7 @@ export const DetailsComponent = () => {
       `http://localhost:7007/api/application/service/${id}`,
     );
     const data = await response.json();
-    return data.services;
+    return data.services[0];                             // CHECK ---- TO DO
   }, []);
 
   if (loading) {

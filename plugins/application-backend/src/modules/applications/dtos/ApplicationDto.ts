@@ -3,8 +3,8 @@ export class ApplicationDto {
   name: string;
   parternId: string;
   servicesId: string[];
-  description: string;
-  active: boolean;
+  description?: string;
+  active?: boolean;
   statusKong?: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -15,10 +15,10 @@ export class ApplicationDto {
     name: string,
     parternId: string,
     servicesId: string[],
-    description: string,
-    active: boolean,
-    createdAt: Date,
-    updatedAt: Date,
+    active?: boolean,
+    createdAt?: Date,
+    updatedAt?: Date,
+    description?: string,
     statusKong?: string,
     consumerName?: string[],
   ) {
