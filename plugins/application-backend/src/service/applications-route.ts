@@ -29,7 +29,8 @@ export async function createApplicationRouter(
             limit,
             offset,
           );
-          return response.json({ status: 'ok', applications: responseData });
+          const total = await applicationRepository.total();
+          return response.json({ status: 'ok', applications: responseData, total: total });
         } catch (error: any) {
           let date = new Date();
           return response.status(error.response.status).json({

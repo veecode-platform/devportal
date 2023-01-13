@@ -18,7 +18,6 @@ export async function createKongRouter(
     async (req, resp) => {
       try {
         const serviceStore = await kongHandler.listPluginsService(
-          false,
           await kongServiceBase.getUrl(),
           req.params.serviceName
         );
@@ -36,48 +35,62 @@ export async function createKongRouter(
   );
 
   router.get('/services', async (_, res) => {
-    try{
-      const serviceStore = await kongHandler.listServices(await kongServiceBase.getUrl(),false);
-      if (serviceStore) 
-      res.json({ status: 'ok', services: serviceStore });
-    }catch(error: any){
+    try {
+      const serviceStore = await kongHandler.listServices(await kongServiceBase.getUrl());
+      if (serviceStore)
+        res.json({ status: 'ok', services: serviceStore });
+    } catch (error: any) {
       let date = new Date();
       res
-      .status(error.response.status)
-      .json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString()
-      })
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+  router.get('/routes', async (_, res) => {
+    try {
+      const serviceStore = await kongHandler.listRoutes(await kongServiceBase.getUrl());
+      if (serviceStore)
+        res.json({ status: 'ok', routes: serviceStore });
+    } catch (error: any) {
+      let date = new Date();
+      res
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
     }
   });
 
   router.get('/consumers', async (_, res) => {
-    try{
-      const serviceStore = await kongHandler.listConsumers(await kongServiceBase.getUrl(),false);
-      if (serviceStore) 
-      res.status(200).json({ status: 'ok', costumer: serviceStore });
-   
-    }catch(error: any){
+    try {
+      const serviceStore = await kongHandler.listConsumers(await kongServiceBase.getUrl());
+      if (serviceStore)
+        res.status(200).json({ status: 'ok', costumer: serviceStore });
+
+    } catch (error: any) {
       let date = new Date();
       console.log(error)
       res
-      .status(error.response.status)
-      .json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString()
-      })
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
     }
   });
   router.post('/credential/:id', async (req, res) => {
     try {
-      const workspace = req.query.workspace as string;
       const id = req.params.id;
       const serviceStore = await kongHandler.generateCredential(
-        false,
         await kongServiceBase.getUrl(),
-        workspace as string,
         id,
       );
       res.status(201).json({ status: 'ok', response: serviceStore });
@@ -93,13 +106,11 @@ export async function createKongRouter(
 
   router.get('/credential/:idApplication', async (req, res) => {
     try {
-      const workspace = req.query.workspace as string;
       const id = req.params.idApplication;
       const serviceStore = await kongHandler.listCredentialWithApplication(
         options,
         await kongServiceBase.getUrl(),
-        id,
-        false
+        id
       );
       res.status(200).json({ status: 'ok', credentials: serviceStore });
     } catch (error: any) {

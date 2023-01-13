@@ -16,13 +16,17 @@ export async function createPartnersRouter(
     const offset: number = request.query.offset as any;
     const limit: number = request.query.limit as any;
     const partners = await partnerRepository.getPartner(offset, limit);
-    response.status(200).json({ status: 'ok', partners: partners });
+    const total = await partnerRepository.total();
+
+    response.status(200).json({ status: 'ok', partners: partners, total: total });
   });
 
   router.get('/:id', async (request, response) => {
     const code = request.params.id;
     const partners = await partnerRepository.getPartnerById(code);
-    response.status(200).json({ status: 'ok', partners: partners });
+    const total = await partnerRepository.total();
+    console.log(total)
+    response.status(200).json({ status: 'ok', partners: partners, total: total });
   });
 
   router.get('/applications/:id', async (request, response) => {

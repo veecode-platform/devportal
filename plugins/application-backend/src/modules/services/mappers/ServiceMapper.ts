@@ -3,6 +3,7 @@ import { ServiceResponseDto } from '../dtos/ServiceResponseDto';
 
 export class ServiceMapper {
   static async toPersistence(service: Service) {
+    console.log('serviceMapper',service._id)
     return {
       id: service._id,
       name: service.name,
@@ -16,6 +17,7 @@ export class ServiceMapper {
       securityType: service.securityType,
       rateLimiting: service.rateLimiting
     }
+    
   }
   static async listAllServicesToResource(
     serviceResponseDto: ServiceResponseDto,

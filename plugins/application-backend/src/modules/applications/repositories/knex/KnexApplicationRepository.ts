@@ -18,6 +18,9 @@ const seedsDir = resolvePackagePath(
 
 export class PostgresApplicationRepository implements IApplicationRepository {
   constructor(private readonly db: Knex) {}
+  async total(): Promise<number> {
+    return await (await this.db<Application>('applications').select('*')).length
+  }
 
   static async create(knex: Knex<any, any[]>): Promise<IApplicationRepository> {
     // await knex.migrate.latest({

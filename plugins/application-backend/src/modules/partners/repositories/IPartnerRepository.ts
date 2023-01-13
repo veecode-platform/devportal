@@ -11,5 +11,6 @@ export interface IPartnerRepository {
   createPartner(partnerDto: PartnerDto): Promise<Partner | string>;
   patchPartner(id: string, partnerDto: PartnerDto): Promise<Partner | string>;
   findApplications(id: string): any;
+  total(): Promise<number>
  // updatePartner(code:string,partnerDto:PartnerDto): Promise<Partner>;
 }
