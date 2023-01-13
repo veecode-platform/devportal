@@ -12,6 +12,9 @@ export class PostgresServiceRepository implements IServiceRepository {
 
 
   constructor(private readonly db: Knex) {}
+ async total(): Promise<number> {
+  return await (await this.db<Service>('services').select('*')).length
+  }
 
 
   static async create(knex: Knex<any, any[]>): Promise<IServiceRepository> {
@@ -80,6 +83,7 @@ export class PostgresServiceRepository implements IServiceRepository {
   }
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
+    console.log('repo', serviceDto)
     const service: Service = Service.create({
       name: serviceDto.name,
       active: serviceDto.active,
@@ -88,11 +92,11 @@ export class PostgresServiceRepository implements IServiceRepository {
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: serviceDto.rateLimiting,
-      securityType: serviceDto.securityType,
+      rateLimiting: serviceDto.rateLimiting as number,
+      securityType: serviceDto.securityType as SECURITY,
     });
-    if (serviceDto.securityType.valueOf() != 'none') {
-    }
+    // if (serviceDto.securityType.valueOf() != 'none') {
+    // }
     const data = await ServiceMapper.toPersistence(service);
     const createdService = await this.db('services')
       .insert(data)

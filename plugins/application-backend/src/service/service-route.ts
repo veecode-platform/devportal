@@ -25,7 +25,8 @@ export async function createServiceRouter(
     const limit: number = request.query.limit as any;
     const offset: number = request.query.offset as any;
     const services = await serviceRepository.getService(limit, offset);
-    response.status(200).json({ status: 'ok', services: services });
+    const total = await serviceRepository.total()
+    response.status(200).json({ status: 'ok', services: services, total: total });
   });
 
 
@@ -37,7 +38,7 @@ export async function createServiceRouter(
 
   serviceRouter.post('/', async (request, response) => {
     try {
-      const service: ServiceDto = request.body.service;
+      const service: ServiceDto = request.body.services;
       controllPlugin.applySecurityType(service);
       const result = await serviceRepository.createService(service);
       response.status(201).json({ status: 'ok', service: result });

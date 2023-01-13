@@ -10,7 +10,7 @@ export interface IApplicationRepository {
   createApplication(applicationDto: ApplicationDto): Promise<Application | string>;
   patchApplication(id: string, applicationDto: ApplicationDto): Promise<Application | string>;
   associate(id: string, servicesId: string[]): any;
-
+  total(): Promise<number>;
   
   // updateApplication(code:string,applicationDto:ApplicationDto): Promise<Application>;
 }
