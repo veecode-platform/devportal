@@ -55,6 +55,8 @@
     "@types/luxon": "^2.0.4"
   },
   "files": [
-    "dist"
-  ]
+    "dist",
+    "config.d.ts"
+  ],
+  "configSchema": "config.d.ts"
 }

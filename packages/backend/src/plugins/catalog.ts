@@ -13,7 +13,7 @@
      logger: env.logger,
      // optional: alternatively, use scheduler with schedule defined in app-config.yaml
      schedule: env.scheduler.createScheduledTaskRunner({
-       frequency: { minutes: 10 },
+       frequency: { minutes: 30 },
        timeout: { minutes: 3 },
      }),  
    }),
