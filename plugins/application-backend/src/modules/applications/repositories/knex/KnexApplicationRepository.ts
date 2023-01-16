@@ -39,14 +39,14 @@ export class PostgresApplicationRepository implements IApplicationRepository {
   }
 
   async associate(id: string, servicesId: string[]) {
-    const application = await this.getApplicationById(id);
+    const application: Application = await this.getApplicationById(id) as Application;
     const arrayConsumerName = application.servicesId;
     if (arrayConsumerName != null) {
       for (let index = 0; index < servicesId.length; index++) {
-        application.servicesId.push(servicesId[index]);
+        application.servicesId?.push(servicesId[index]);
       }
     } else {
-      application.servicesId = consumerName;
+      application.servicesId = servicesId;
     }
     await this.patchApplication(id, application as any);
     return application;
@@ -91,8 +91,6 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       servicesId: applicationDto.servicesId,
       active: applicationDto.active,
       externalId: appDtoNameConcatParternId(applicationDto),
-      createdAt: applicationDto.createdAt,
-      updateAt: applicationDto.updatedAt,
     });
     const data = ApplicationMapper.toPersistence(application);
     return application;
@@ -115,9 +113,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       active: applicationDto.active,
       parternId: applicationDto.parternId,
       servicesId: applicationDto.servicesId,
-      externalId: appDtoNameConcatParternId(applicationDto),
-      createdAt: applicationDto.createdAt,
-      updateAt: applicationDto.updatedAt,
+      externalId: appDtoNameConcatParternId(applicationDto)
     });
     const data = await ApplicationMapper.toPersistence(application);
     const createdApplication = await this.db('applications')
@@ -132,12 +128,11 @@ export class PostgresApplicationRepository implements IApplicationRepository {
   ): Promise<Application | string> {
     const application: Application = Application.create({
       creator: applicationDto.creator,
-      name: applicationDto.name,
+      name: appDtoNameConcatParternId(applicationDto),
       active: applicationDto.active,
+      parternId: applicationDto.parternId,
       servicesId: applicationDto.servicesId,
-      externalId: applicationDto.name,
-      createdAt: applicationDto.createdAt,
-      updateAt: applicationDto.updateAt,
+      externalId: appDtoNameConcatParternId(applicationDto)
     });
     const data = await ApplicationMapper.toPersistence(application);
     const updatedApplication = await this.db('applications')
@@ -157,12 +152,11 @@ export class PostgresApplicationRepository implements IApplicationRepository {
   ): Promise<Application | string> {
     const application: Application = Application.create({
       creator: applicationDto.creator,
-      name: applicationDto.name,
+      name: appDtoNameConcatParternId(applicationDto),
       active: applicationDto.active,
+      parternId: applicationDto.parternId,
       servicesId: applicationDto.servicesId,
-      externalId: applicationDto.name,
-      createdAt: applicationDto.createdAt,
-      updateAt: applicationDto.updatedAt,
+      externalId: appDtoNameConcatParternId(applicationDto)
     }); // try add ,id on application create
     //const data =await ApplicationMapper.toPersistence(application);
 

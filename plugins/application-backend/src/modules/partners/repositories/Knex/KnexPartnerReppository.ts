@@ -2,11 +2,9 @@ import { PartnerDto } from '../../dtos/PartnerDto';
 import { PartnerMapper } from '../../mappers/PartnerMapper';
 import { IPartnerRepository } from '../IPartnerRepository'
 import { Partner } from '../../domain/Partner';
-import knex, { Knex } from 'knex';
+import { Knex } from 'knex';
 import { PartnerResponseDto } from '../../dtos/PartnerResponseDto';
-import { DataBaseConfig } from '../../../utils/DataBaseConfig';
-import { config } from 'winston';
-import { PlatformConfig } from '../../../utils/PlatformConfig';
+
 
 
 export class PostgresPartnerRepository implements IPartnerRepository {
@@ -43,7 +41,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
   }
 
   async findApplications(id: string) {
-    const associates: PartnerDto = await this.getPartnerById(id);
+    const associates: PartnerDto = await this.getPartnerById(id) as PartnerDto;
     return associates.applicationId;
   }
 
@@ -64,7 +62,6 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       servicesId: partnerDto.servicesId,
       applicationId: partnerDto.applicationId
     });
-    const data = PartnerMapper.toPersistence(partner);
     return partner;
   }
 

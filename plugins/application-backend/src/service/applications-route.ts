@@ -3,7 +3,6 @@ import express from 'express';
 
 import { RouterOptions } from "./router";
 import { PostgresApplicationRepository } from "../modules/applications/repositories/knex/KnexApplicationRepository";
-import { ServerTokenManager } from "@backstage/backend-common";
 import { InputError } from "@backstage/errors";
 import { ApplicationDto } from "../modules/applications/dtos/ApplicationDto";
 import { ApplicationServices } from "../modules/applications/services/ApplicationServices";
@@ -42,7 +41,7 @@ export async function createApplicationRouter(
       });
     
       router.post('/', async (request, response) => {
-        const data = request.body.application;
+        const data = request.body.applications;
         await ApplicationServices.Instance.createApplication(data, options);
         try {
           if (!data) {
@@ -83,6 +82,36 @@ export async function createApplicationRouter(
           });
         }
       });
+      router.patch('/:id', async (request, response) => {
+        const data: ApplicationDto = request.body.applications;
+        const applicationId = request.params.id
+        try {
+          if (!data) {
+            throw new InputError(
+              `the request body is missing the application field`,
+            );
+          }
+          // logger.info(JSON.stringify(data))
+          const result = await applicationRepository.patchApplication(applicationId, data);
+          response.send({ status: 'OK', result: result });
+        } catch (error: any) {
+          console.log(error)
+          let date = new Date();
+          response.status(error.response.status).json({
+            status: 'ERROR',
+            message: error.response.data.errorSummary,
+            timestamp: new Date(date).toISOString(),
+          });
+        }
+      });
+      router.patch('/associate/:id', async (request, response) => {
+        const code = request.params.id;
+        const listServicesId: string[] = request.body.services;
+        await applicationRepository.associate(code, listServicesId);
+        response
+          .status(200)
+          .json({ status: 'ok', application: applicationRepository });
+      });
     
       router.get('/:id', async (request, response) => {
         const code = request.params.id;
@@ -104,6 +133,11 @@ export async function createApplicationRouter(
         }
       });
 
+      router.delete('/:id', async (request, response) =>{
+        const id = request.params.id;
+        const result = await applicationRepository.deleteApplication(id);
+        response.status(204).json({status: 'ok', applications: result})
+      });
 
     return router;
 

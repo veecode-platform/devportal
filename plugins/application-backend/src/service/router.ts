@@ -338,14 +338,7 @@ export async function createRouter(
     }
   });
 
-  router.patch('/associate/:id', async (request, response) => {
-    const code = request.params.id;
-    const listServicesId: string[] = request.body.services;
-    await applicationRepository.associate(code, listServicesId);
-    response
-      .status(200)
-      .json({ status: 'ok', application: applicationRepository });
-  });
+
 
 
 

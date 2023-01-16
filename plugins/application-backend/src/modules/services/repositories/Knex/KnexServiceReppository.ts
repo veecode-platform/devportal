@@ -55,7 +55,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       serviceDomain,
     );
     
-    return responseData.service;
+    return responseData.service as Service;
   }
 
   async saveService(serviceDto: ServiceDto): Promise<Service> {
@@ -121,8 +121,8 @@ export class PostgresServiceRepository implements IServiceRepository {
       partnersId: serviceDto.partnersId,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: serviceDto.rateLimiting,
-      securityType: serviceDto.securityType,
+      rateLimiting: serviceDto.rateLimiting as number,
+      securityType: serviceDto.securityType as SECURITY,
     });
     const data = await ServiceMapper.toPersistence(service);
     const updatedService = await this.db('services')

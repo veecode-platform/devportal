@@ -7,8 +7,8 @@ export type ApplicationProps = {
   servicesId: string[];
   active?: boolean;
   externalId: string;
-  createdAt: Date;
-  updateAt: Date;
+  createdAt?: Date;
+  updateAt?: Date;
 };
 
 export class Application extends Entity<ApplicationProps> {
