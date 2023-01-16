@@ -3,19 +3,19 @@ import { ServiceResponseDto } from '../dtos/ServiceResponseDto';
 
 export class ServiceMapper {
   static async toPersistence(service: Service) {
-    console.log('serviceMapper',service._id)
+
     return {
       id: service._id,
-      name: service.name,
-      active: service.active,
-      description: service.description,
-      partnersId: service.partnersId,
-      redirectUrl: service.redirectUrl,
-      kongServiceName: service.kongServiceName,
-      kongServiceId: service.kongServiceId,
-      createdAt: service.createdAt,
-      securityType: service.securityType,
-      rateLimiting: service.rateLimiting
+      name: service.props.name,
+      active: service.props.active,
+      description: service.props.description,
+      partnersId: service.props.partnersId,
+      redirectUrl: service.props.redirectUrl,
+      kongServiceName: service.props.kongServiceName,
+      kongServiceId: service.props.kongServiceId,
+      createdAt: service.props.createdAt,
+      securityType: service.props.securityType,
+      rateLimiting: service.props.rateLimiting
     }
     
   }
