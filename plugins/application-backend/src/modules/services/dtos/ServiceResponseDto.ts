@@ -14,5 +14,6 @@ export class ServiceResponseDto extends ResponseEntity<ResponseProps> {
     props.service =
       (props.serviceIt?.length && props.serviceIt?.[0]) || props.service;
     return new ServiceResponseDto(props);
+    
   }
 }
