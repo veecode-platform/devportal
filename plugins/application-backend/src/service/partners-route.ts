@@ -54,5 +54,12 @@ export async function createPartnersRouter(
     response.status(200).json({ status: 'ok', partner: result });
   });
 
+  router.put('/:id', async (request, response) => {
+    const code = request.params.id;
+    const partner: PartnerDto = request.body.partner;
+    const result = await partnerRepository.patchPartner(code, partner);
+    response.status(200).json({ status: 'ok', partner: result });
+  });
+
   return router;
 }
