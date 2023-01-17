@@ -138,7 +138,7 @@ export async function createRouter(
     response.status(204).json({status: 'ok', response: teste})
   });
 
-  router.put('/teste/:idService', async (request, response) => {
+  router.put('/remove-plugin/:idService', async (request, response) => {
     const teste = controllPlugin.removePlugin(
       options,
       request.params.idService as string,
@@ -219,50 +219,6 @@ export async function createRouter(
     response.status(200).json({ status: 'ok', groups: groups });
   });
 
-
-  // PARTNER
-  router.get('/partners', async (request, response) => {
-    const offset: number = request.query.offset as any;
-    const limit: number = request.query.limit as any;
-    const partners = await partnerRepository.getPartner(offset, limit);
-    response.status(200).json({ status: 'ok', partners: partners });
-  });
-
-  router.get('/partner/:id', async (request, response) => {
-    const code = request.params.id;
-    const partners = await partnerRepository.getPartnerById(code);
-    response.status(200).json({ status: 'ok', partners: partners });
-  });
-
-  router.get('/partner/applications/:id', async (request, response) => {
-    const code = request.params.id;
-    const applications = await partnerRepository.findApplications(code);
-    response.status(200).json({ status: 'ok', applications: applications });
-  });
-
-  router.post('/partner', async (request, response) => {
-    const partner: PartnerDto = request.body.partner;
-    const groupId: string = request.body.groupId;
-    await PartnerServices.Instance.createPartner(partner, groupId);
-    const result = await partnerRepository.createPartner(partner);
-    response.status(201).json({ status: 'ok', partner: result });
-  });
-
-  router.delete('/partner/:id', async (request, response) => {
-    const code = request.params.id;
-    await PartnerServices.Instance.removePartner(code, options);
-    const result = await partnerRepository.deletePartner(code);
-    response.status(204).json({ status: 'ok', partner: result });
-  });
-
-  router.patch('/partner/:id', async (request, response) => {
-    const code = request.params.id;
-    const partner: PartnerDto = request.body.partner;
-    await PartnerServices.Instance.updatePartner(code, partner, options);
-    const result = await partnerRepository.patchPartner(code, partner);
-    response.status(200).json({ status: 'ok', partner: result });
-  });
-
   // PLUGINS
   router.get('/plugins', async (_, response) => {
     const plugins = await pluginRepository.getPlugins();
@@ -293,56 +249,6 @@ export async function createRouter(
     const res = await pluginRepository.deletePlugin(pluginId);
     response.status(204).json({ status: 'ok', plugin: res });
   });
-
-  
-
-  router.post('/credencial/:id', async (request, response) => {
-    try {
-      const workspace = request.query.workspace as string;
-      const id = request.params.id;
-      const serviceStore = await kongHandler.generateCredential(
-        false,
-        config.getString('kong.api-manager'),
-        workspace as string,
-        id,
-      );
-      response.status(201).json({ status: 'ok', response: serviceStore });
-    } catch (error: any) {
-      let date = new Date();
-      return response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  router.get('/credencial/:id', async (request, response) => {
-    try {
-      const workspace = request.query.workspace as string;
-      const id = request.params.id;
-      const serviceStore = await kongHandler.listCredential(
-        false,
-        config.getString('kong.api-manager'),
-        workspace,
-        id,
-      );
-      response.status(200).json({ status: 'ok', credentials: serviceStore });
-    } catch (error: any) {
-      let date = new Date();
-      return response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-
-
-
-
- 
 
   router.get('/associate/:id', async (request, response) => {
     const services = await associateService.findAllAssociate(
