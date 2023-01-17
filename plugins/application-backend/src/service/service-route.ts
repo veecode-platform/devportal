@@ -52,6 +52,37 @@ export async function createServiceRouter(
     }
   });
 
+  serviceRouter.patch('/:id', async (request, response) => {
+    try {
+      const service: ServiceDto = request.body.services;
+      const id = request.params.id
+      const result = await serviceRepository.patchService(id, service);
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+  serviceRouter.put('/:id', async (request, response) => {
+    try {
+      const service: ServiceDto = request.body.services;
+      const id = request.params.id
+      const result = await serviceRepository.updateService(id, service);
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
   serviceRouter.delete('/:id', async (request, response) => {
     const code = request.params.id;
     const result = await serviceRepository.deleteService(code);
