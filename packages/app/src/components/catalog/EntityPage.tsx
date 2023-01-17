@@ -95,6 +95,7 @@ import { EntityVaultCard } from '@backstage/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
 import VaultEntity from './Vault/VaultEntity';
+import GrafanaEntity from './Grafana/GrafanaEntity';
 
 const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
@@ -213,6 +214,8 @@ const overviewContent = (
     <Grid item md={6} xs={12}>
       <EntityLinksCard />
     </Grid>
+    <VaultEntity/>
+    <GrafanaEntity/>
 
     {/*<Grid item md={12} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
@@ -249,9 +252,9 @@ const serviceEntityPage = (
       </Grid>
 </EntityLayout.Route>*/}
   
-    <EntityLayout.Route path="/vault" title="Vault" >
+    {/*<EntityLayout.Route path="/vault" title="Vault" >
       <Grid item md={12} xs={12}>
-        {/*<EntityVaultCard />*/}
+        <EntityVaultCard />
         <VaultEntity/>
       </Grid>
     </EntityLayout.Route>
@@ -267,7 +270,7 @@ const serviceEntityPage = (
     </EntityLayout.Route>
     <EntityLayout.Route path="/argo-cd" title="ArgoCD">
       {argoCdContent}
-    </EntityLayout.Route>
+    </EntityLayout.Route>*/}
     {/* <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>

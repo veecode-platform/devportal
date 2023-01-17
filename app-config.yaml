@@ -171,6 +171,12 @@ auth:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 
+enabledPlugins:
+  vault: true
+  grafana: true
+  kubernetes: true
+  argocd: true
+  
 vault:
   baseUrl: ${VAULT_BASE_URL}
   token: ${VAULT_TOKEN_RENEWABLE} #generate with vault token create -policy="default" -period=24h
