@@ -104,6 +104,31 @@ export async function createApplicationRouter(
           });
         }
       });
+
+      router.put('/:id', async (request, response) => {
+        const data: ApplicationDto = request.body.applications;
+        const code = request.params.id
+        try {
+          if (!data) {
+            throw new InputError(
+              `the request body is missing the application field`,
+            );
+          }
+          // logger.info(JSON.stringify(data))
+          const result = await applicationRepository.updateApplication(code, data);
+          response.send({ status: 'OK', result: result });
+        } catch (error: any) {
+          console.log(error)
+          let date = new Date();
+          response.status(error.response.status).json({
+            status: 'ERROR',
+            message: error.response.data.errorSummary,
+            timestamp: new Date(date).toISOString(),
+          });
+        }
+      });
+
+
       router.patch('/associate/:id', async (request, response) => {
         const code = request.params.id;
         const listServicesId: string[] = request.body.services;
