@@ -10,3 +10,11 @@ export async function generatePgContainer(): Promise<StartedTestContainer> {
 
   return container;
 }
+
+export async function generateKongContainer(): Promise<StartedTestContainer> {
+  const container = await new GenericContainer('kong')
+    .withName('kong')
+    .start();
+
+  return container;
+}
