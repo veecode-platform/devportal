@@ -19,3 +19,9 @@ export async function applyMigrations(container: StartedTestContainer) {
     directory: __dirname + './../../migrations',
   });
 }
+
+export async function applySeed(container: StartedTestContainer) {
+  await db(container).seed.run({
+    directory: __dirname + './../../seeds',
+  });
+}
