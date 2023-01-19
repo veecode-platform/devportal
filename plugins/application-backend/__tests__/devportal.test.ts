@@ -20,7 +20,6 @@ test('test', async () => {
   const result = await client.query(
     "SELECT * FROM partners WHERE email = 'teste@email.com'",
   );
-  console.log(result);
   expect(result.rows[0].email).toBe('teste@email.com');
   expect(result.rowCount).toBe(3);
 });
