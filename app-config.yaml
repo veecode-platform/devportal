@@ -211,7 +211,7 @@ auth:
         authServerId: ${OKTA_AUTH_SERVER_ID}
         apiToken: ${OKTA_API_TOKEN}
 
-    keycloack-auth-provider:
+    keycloak:
       development:
         metadataUrl: ${KEYCLOAK_METADATA_URL}
         clientId: ${KEYCLOAK_CLIENT_ID}

@@ -7,6 +7,7 @@ import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import { IPartner } from '../interfaces';
 import More from '@material-ui/icons/MoreHorizOutlined';
+import AxiosInstance from '../../../api/Api';
 
 type DenseTableProps = {
   partners: IPartner[];
@@ -42,9 +43,10 @@ export const DenseTable = ({ partners }: DenseTableProps) => {
 
 export const FetchComponent = () => {
   const { value, loading, error } = useAsync(async (): Promise<IPartner[]> => {
-    const response = await fetch('http://localhost:7007/api/application/partners');
-    const data = await response.json();
-    return data.partners;
+    /*const response = await fetch('http://localhost:7007/api/application/partners');
+    const data = await response.json();*/
+    const response = await AxiosInstance.get("/partners")
+    return response.data.partners;
   }, []);
 
   if (loading) {

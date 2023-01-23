@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { AlertComponent, Select } from '../../shared';
+import AxiosInstance from '../../../api/Api';
 
 import {
   InfoCard,
@@ -64,7 +65,7 @@ export const CreateComponent = () => {
         applicationId: partner.applicationId
       }
     }
-    const config = {
+    /*const config = {
       method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -73,12 +74,13 @@ export const CreateComponent = () => {
     };
 
     const response = await fetch('http://localhost:7007/api/application/partner', config);
-    const data = await response.json();
+    const data = await response.json();*/
+    const response = await AxiosInstance.post("/partners", JSON.stringify(dataPartner) )
     setShow(true);
     setTimeout(() => {
       window.location.replace('/application');
     }, 2000);
-    return data;
+    return response.data;
   }
 
   return (

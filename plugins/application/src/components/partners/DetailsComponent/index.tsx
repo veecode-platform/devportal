@@ -13,6 +13,7 @@ import { IPartner } from '../interfaces';
 import { DefaultDetailsComponent } from '../../shared';
 import EditIcon from '@material-ui/icons/Edit';
 import CachedIcon from '@material-ui/icons/Cached';
+import AxiosInstance from '../../../api/Api';
 
 type PartnerProps = {
   partner: IPartner | undefined;
@@ -110,9 +111,10 @@ export const DetailsComponent = () => {
   const id = location.search.split("?id=")[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IPartner> => {
-    const response = await fetch(`http://localhost:7007/api/application/partner/${id}`);
-    const data = await response.json();
-    return data.partners;
+    /*const response = await fetch(`http://localhost:7007/api/application/partner/${id}`);
+    const data = await response.json();*/
+    const response = await AxiosInstance.get(`/partners/${id}`)
+    return response.data.partners;
   }, []);
 
   if (loading) {

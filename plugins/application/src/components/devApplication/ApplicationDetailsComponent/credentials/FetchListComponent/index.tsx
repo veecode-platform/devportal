@@ -8,6 +8,7 @@ import useAsync from 'react-use/lib/useAsync';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import {AlertComponent} from '../../../../shared';
 import { ICredentials } from '../interfaces';
+import AxiosInstance from '../../../../../api/Api';
 
 type DenseTableProps = {
   consumer: string,
@@ -32,7 +33,7 @@ export const DenseTable = ({consumer, credentials }: DenseTableProps) => {
 
   // remove Credential    ======================================================================================> //TO DO
   const removeCredential = async (consumerID: string, credentialID: string) => {
-    const config = {
+    /*const config = {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -41,8 +42,9 @@ export const DenseTable = ({consumer, credentials }: DenseTableProps) => {
     const response = await fetch(
       `http://localhost:7007/api/application/credencial/${consumerID}?workspace=default&idCredencial=${credentialID}`,
       config,
-    );
-    if (response.ok) {
+    );*/
+    const response = await AxiosInstance.delete(`/credencial/${consumerID}?workspace=default&idCredencial=${credentialID}`)
+    if (response.data.ok) {
       setShow(true);
       setStatus('success');
       setMessageStatus('Credential deleted!');
@@ -100,11 +102,12 @@ export const FetchListComponent = ({ idConsumer }: { idConsumer: string }) => {
   const { value, loading, error } = useAsync(async (): Promise<
     ICredentials[]
   > => {
-    const response = await fetch(
+    /*const response = await fetch(
       `http://localhost:7007/api/application/credencial/${idConsumer}?workspace=default`,  // TO DO
     );
-    const data = await response.json();
-    return data.credentials;
+    const data = await response.json();*/
+    const response =  await AxiosInstance.get(`/credencial/${idConsumer}?workspace=default`)
+    return response.data.credentials;
   }, []);
 
   if (loading) {

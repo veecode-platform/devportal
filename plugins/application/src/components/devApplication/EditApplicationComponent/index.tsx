@@ -14,6 +14,7 @@ import {
 } from '@backstage/core-components';
 import { IApplication } from '../interfaces';
 import {AlertComponent, Select} from '../../shared';
+import AxiosInstance from '../../../api/Api';
 
 type Application = {
   application: IApplication | undefined;
@@ -55,20 +56,21 @@ const EditApplicationComponent = ({ application }: Application) => {
         kongServiceId : app.kongConsumerId,
       }
     }
-    const config = {
+    /*const config = {
       method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       },
       body: JSON.stringify(applicationData)
     };
-    const response = await fetch(`http://localhost:7007/api/application/${app?.id}`, config); // check endpoint
-    const data = await response.json();
+    const response = await fetch(`http://localhost:7007/api/application/${app?.id}`, config); // check endpoint  
+    const data = await response.json();*/
+    const response = await AxiosInstance.post(`applications/${app?.id}`,JSON.stringify(applicationData) )
     setShow(true);
     setTimeout(()=>{
       window.location.replace('/application');
     }, 2000);
-    return data
+    return response.data
   }
   return (
     <Page themeId="tool">

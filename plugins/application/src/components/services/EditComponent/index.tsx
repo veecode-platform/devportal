@@ -16,6 +16,7 @@ import {
 import { IService } from '../utils/interfaces';
 import { Select } from '../../shared';
 import { rateLimitingItems, securityItems, statusItems } from '../utils/common';
+import AxiosInstance from '../../../api/Api';
 
 type ServiceProps = {
   serviceData: IService | undefined;
@@ -68,7 +69,7 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
   };
 
   const handleSubmit = async () => {
-    const dataTest = {
+    const serviceData = {
       service: {
         name: service.name,
         active: service.active,
@@ -81,7 +82,7 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
         securityType: service.securityType,
       },
     };
-    const config = {
+    /*const config = {
       method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -92,13 +93,14 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
     const response = await fetch(
       `http://localhost:7007/api/application/service/${service?.id}`,
       config,
-    );
-    const data = await response.json();
+    );*/
+    const response = await AxiosInstance.post(`services/${service?.id}`, JSON.stringify(serviceData))
+    //const data = response.data;
     setShow(true);
     setTimeout(() => {
       navigate('/services');
     }, 2000);
-    return data;
+    return response.data;
   };
 
   return (

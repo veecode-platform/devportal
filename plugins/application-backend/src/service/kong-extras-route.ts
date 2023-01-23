@@ -42,10 +42,10 @@ export async function createKongRouter(
     } catch (error: any) {
       let date = new Date();
       res
-        .status(error.response.status)
+        .status(error.response.status)//verify
         .json({
           status: 'ERROR',
-          message: error.response.data.errorSummary,
+          message: error.response.data.errorSummary,//verify
           timestamp: new Date(date).toISOString()
         })
     }

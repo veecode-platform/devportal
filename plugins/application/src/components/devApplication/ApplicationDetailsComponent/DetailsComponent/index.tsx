@@ -10,6 +10,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom';
 import { Credentials } from '../credentials';
 import {AlertComponent} from '../../../shared';
+import AxiosInstance from '../../../../api/Api';
 
 const cardContentStyle = { heightX: 'auto', width: '100%', marginLeft: '2%' };
 
@@ -62,7 +63,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
 
   // generate Credentials
   const generateCredential = async (ID: string) => {
-    const config = {
+    /*const config = {
       method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -71,9 +72,10 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
     const response = await fetch(
       `http://localhost:7007/api/application/credencial/${ID}?workspace=default`,  // ====>>> TO DO
       config,
-    );
-    console.log("A RESPOOOOOOOOOOOSTAAA",response);
-    if (response.ok) {
+    );*/
+    const response = await AxiosInstance.post(`/credencial/${ID}?workspace=default`)
+    console.log("A RESPOOOOOOOOOOOSTAAA",response.data);
+    if (response.data.ok) {
       setShow(true);
       setStatus('success');
       setMessageStatus('Credential created!');
