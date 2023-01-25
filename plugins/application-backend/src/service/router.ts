@@ -566,12 +566,9 @@ export async function createRouter(
 
   router.post('/credencial/:id', async (request, response) => {
     try {
-      const workspace = request.query.workspace as string;
       const id = request.params.id;
       const serviceStore = await kongHandler.generateCredential(
-        false,
         config.getString('kong.api-manager'),
-        workspace as string,
         id,
       );
       response.status(201).json({ status: 'ok', response: serviceStore });
@@ -587,13 +584,11 @@ export async function createRouter(
 
   router.get('/credencial/:id', async (request, response) => {
     try {
-      const workspace = request.query.workspace as string;
       const id = request.params.id;
       const serviceStore = await kongHandler.listCredentialWithApplication(
         options,
         config.getString('kong.api-manager'),
         id,
-        false,
       );
       response.status(200).json({ status: 'ok', credentials: serviceStore });
     } catch (error: any) {
@@ -607,7 +602,6 @@ export async function createRouter(
   });
   router.delete('/credencial/:idConsumer', async (request, response) => {
     try {
-      const workspace = request.query.workspace as string;
       const idCredencial = request.query.idCredencial as string;
       const idConsumer = request.params.idConsumer;
       const serviceStore = await kongHandler.removeCredencial(
