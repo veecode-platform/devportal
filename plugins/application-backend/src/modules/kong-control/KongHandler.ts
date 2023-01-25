@@ -87,6 +87,7 @@ export class KongHandler {
   ): Promise<Service[]> {
     const url = `${kongUrl}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
+    console.log('response data: ', response.data)
     return response.data;
   }
 

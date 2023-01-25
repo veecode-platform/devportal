@@ -2,6 +2,8 @@ import { Router } from "express";
 import { RouterOptions } from "./router";
 import { KongHandler } from "../modules/kong-control/KongHandler";
 import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
+import { AclPlugin } from "../modules/kong/plugins/AclPlugin";
+const aclPlugin = AclPlugin.Instance;
 
 /** @public */
 export async function createKongRouter(
@@ -11,6 +13,120 @@ export async function createKongRouter(
   const router = Router()
   const kongHandler = new KongHandler()
   const kongServiceBase = new KongServiceBase()
+
+
+  router.post(
+    '/plugin/:serviceName',
+    async (request, response) => {
+      try {
+        const serviceStore = await aclPlugin.configAclKongService(
+          request.params.serviceName,
+          request.body.config.allow,
+        );
+        if (serviceStore)
+          response.json({ status: 'ok', plugins: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  router.patch(
+    '/plugin/:serviceName/:pluginId',
+    async (request, response) => {
+      try {
+        const serviceStore = await aclPlugin.updateAclKongService(
+          request.params.serviceName,
+          request.params.pluginId,
+          request.body.config.allow,
+        );
+
+        if (serviceStore)
+          response.json({ status: 'ok', plugins: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  router.get(
+    '/plugins/:serviceName',
+    async (request, response) => {
+      try {
+        const services = await kongHandler.listPluginsService(
+          await kongServiceBase.getUrl(),
+          request.params.serviceName,
+        );
+
+          response.json({ status: 'ok', services: services });
+    
+      } catch (error: any) {
+        console.log(error)
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  router.put('/plugin/:serviceName', async (request, response) => {
+    try {
+      const serviceStore = await kongHandler.applyPluginToService(
+        await kongServiceBase.getUrl(),
+        request.params.serviceName,
+        request.query.pluginName as string,
+      );
+      if (serviceStore) response.json({ status: 'ok', plugins: serviceStore });
+      response.json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.delete(
+    '/plugins/:serviceName',
+    async (request, response) => {
+      try {
+        const serviceStore = await kongHandler.deletePluginsService(
+          await kongServiceBase.getUrl(),
+          request.params.serviceName,
+          request.query.pluginName as string,
+        );
+        if (serviceStore)
+          response.json({ status: 'ok', services: serviceStore });
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
 
 
   router.get(
