@@ -3,15 +3,13 @@ import {
   errorHandler,
   loadBackendConfig,
 } from '@backstage/backend-common';
-import { InputError } from '@backstage/errors';
-//import { InputError } from '@backstage/errors';
 import { Config } from '@backstage/config';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
-import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
+
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
-import { ApplicationServices } from '../modules/applications/services/ApplicationServices';
+
 import { TestGroups } from '../modules/keycloak/adminClient';
 import { AssociateService } from '../modules/kong-control/AssociateService';
 import { KongHandler } from '../modules/kong-control/KongHandler';
@@ -25,11 +23,11 @@ import { ConsumerService } from '../modules/kong/services/ConsumerService';
 import { PluginService } from '../modules/kong/services/PluginService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
 import { UserService } from '../modules/okta-control/service/UserService';
-import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
+
 import { KeycloakUserService } from '../modules/keycloak/service/UserService';
 import { UpdateUserDto, UserDto } from '../modules/keycloak/dtos/UserDto';
 
-import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
+
 import { PluginDto } from '../modules/plugins/dtos/PluginDto';
 import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/KnexPluginRepository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
@@ -38,7 +36,7 @@ import { createPartnersRouter } from './partners-route';
 import { createKongRouter } from './kong-extras-route';
 import { createApplicationRouter } from './applications-route';
 import { CredentialsOauth } from '../modules/kong/services/CredentialsOauth';
-import { PartnerServices } from '../modules/partners/service/PartnerServices';
+
 import { applyDatabaseMigrations } from '../../database/migrations';
 
 /** @public */
@@ -125,7 +123,6 @@ export async function createRouter(
 
   router.get('/credentials-oauth2/:idConsumer', async (request, response) => {
     const id = request.params.idConsumer as string
-    const name = request.query.name as string;
     const credential = await credentialsOauth.findAllCredentials(id)
     
     response.json({status: 'ok', response: credential})
@@ -439,7 +436,6 @@ export async function createRouter(
   router.put('/kong-service/plugin/:serviceName', async (request, response) => {
     try {
       const serviceStore = await kongHandler.applyPluginToService(
-        false,
         config.getString('kong.api-manager'),
         request.params.serviceName,
         request.query.pluginName as string,

@@ -1,7 +1,7 @@
 // class to access kong api manager service
 import axios from 'axios';
 import { PluginDatabaseManager } from '@backstage/backend-common';
-import { Application, ApplicationProps } from '../applications/domain/Application';
+import { ApplicationProps } from '../applications/domain/Application';
 import { PostgresApplicationRepository } from '../applications/repositories/knex/KnexApplicationRepository';
 import { credential } from './Credential';
 import { RouterOptions } from '../../service/router';
