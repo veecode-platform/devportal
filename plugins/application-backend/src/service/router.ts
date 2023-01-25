@@ -611,9 +611,7 @@ export async function createRouter(
       const idCredencial = request.query.idCredencial as string;
       const idConsumer = request.params.idConsumer;
       const serviceStore = await kongHandler.removeCredencial(
-        true,
         config.getString('kong.api-manager'),
-        workspace,
         idConsumer,
         idCredencial,
       );
