@@ -11,6 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { Grid, Button} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { IPartner } from '../../utils/interfaces';
+import AxiosInstance from '../../../../api/Api';
 
 type PartnerListProps = {
   partners: IPartner[];
@@ -55,7 +56,7 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
         partnersId: partnerList,
       }
     }
-    const config = {
+    /*const config = {
       method: 'PATCH',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -63,7 +64,9 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
       body:JSON.stringify(updateServicesPartners)
     };
   
-    await fetch(`http://localhost:7007/api/application/service/${serviceId}`, config);
+    await fetch(`http://localhost:7007/api/application/service/${serviceId}`, config);*/
+    await AxiosInstance.patch(`service/${serviceId}`, JSON.stringify(updateServicesPartners) )
+
     new Promise (() =>{
       setTimeout(()=>{setLoading(false)}, 500);
     })
@@ -125,9 +128,10 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
 
 export const PartnerListComponent = ({servicePartnerId, serviceId}:any) => {
     const { value, loading, error } = useAsync(async (): Promise<IPartner[]> => {
-      const response = await fetch('http://localhost:7007/api/application/partners');
-      const data = await response.json();
-      return data.partners;
+      /*const response = await fetch('http://localhost:7007/api/application/partners');
+      const data = await response.json();*/
+      const response = await AxiosInstance.get("/partners")
+      return response.data.partners;
     }, []);
   
     if (loading) {

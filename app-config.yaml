@@ -67,68 +67,7 @@ backend:
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
 # See README.md in the proxy-backend plugin for information on the configuration format
-proxy:
-  '/circleci/api':
-    target: https://circleci.com/api/v1.1
-    headers:
-      Circle-Token: ${CIRCLECI_AUTH_TOKEN}
-
-  '/jenkins/api':
-    target: http://localhost:8080
-    headers:
-      Authorization: ${JENKINS_BASIC_AUTH_HEADER}
-
-  '/travisci/api':
-    target: https://api.travis-ci.com
-    changeOrigin: true
-    headers:
-      Authorization: ${TRAVISCI_AUTH_TOKEN}
-      travis-api-version: '3'
-
-  '/newrelic/apm/api':
-    target: https://api.newrelic.com/v2
-    headers:
-      X-Api-Key: ${NEW_RELIC_REST_API_KEY}
-
-  '/newrelic/api':
-    target: https://api.newrelic.com
-    headers:
-      X-Api-Key: ${NEW_RELIC_USER_KEY}
-
-  '/pagerduty':
-    target: https://api.pagerduty.com
-    headers:
-      Authorization: Token token=${PAGERDUTY_TOKEN}
-
-  '/buildkite/api':
-    target: https://api.buildkite.com/v2/
-    headers:
-      Authorization: ${BUILDKITE_TOKEN}
-
-  '/sentry/api':
-    target: https://sentry.io/api/
-    allowedMethods: ['GET']
-    headers:
-      Authorization: ${SENTRY_TOKEN}
-
-  '/ilert':
-    target: https://api.ilert.com
-    allowedMethods: ['GET', 'POST', 'PUT']
-    allowedHeaders: ['Authorization']
-    headers:
-      Authorization: ${ILERT_AUTH_HEADER}
-
-  '/airflow':
-    target: https://your.airflow.instance.com/api/v1
-    headers:
-      Authorization: ${AIRFLOW_BASIC_AUTH_HEADER}
-
-  '/gocd':
-    target: https://your.gocd.instance.com/go/api
-    allowedMethods: ['GET']
-    allowedHeaders: ['Authorization']
-    headers:
-      Authorization: Basic ${GOCD_AUTH_CREDENTIALS}
+#proxy:
 
 organization:
   name: Devportal
@@ -146,17 +85,6 @@ techdocs:
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
 
-sentry:
-  organization: Devportal
-
-rollbar:
-  organization: Devportal
-  # NOTE: The rollbar-backend & accountToken key may be deprecated in the future (replaced by a proxy config)
-  accountToken: my-rollbar-account-token
-
-lighthouse:
-  baseUrl: http://localhost:3003
-
 kubernetes:
   serviceLocatorMethod:
     type: 'multiTenant'
@@ -164,20 +92,13 @@ kubernetes:
     - type: 'config'
       clusters: []
 
-kafka:
-  clientId: backstage
-  clusters:
-    - name: cluster
-      brokers:
-        - localhost:9092
-
-allure:
-  baseUrl: http://localhost:5050/allure-docker-service
-
 integrations:
   github:
     - host: github.com
       token: ${GITHUB_TOKEN_SECRET}
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN_SECRET}
 
 catalog:
   providers:
@@ -195,6 +116,13 @@ catalog:
           branch: master # string
           repository: devportal-spechouse # Regex
         validateLocationsExist: true # optional boolean
+#    gitlab:
+#      yourProviderId:
+#        host: gitlab.com # Identifies one of the hosts set up in the integrations -  
+#        branch: main # Optional. Uses `master` as default
+#        group: ${GITLAB_GROUP_NAME} # Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned
+#        entityFilename: catalog-info.yaml # Optional. Defaults to `catalog-info.yaml`
+#        #projectPattern: /[\s\S]*/ # Optional. Filters found projects based on provided patter. Defaults to `/[\s\S]*/`, what means to not filter anything
 
 auth:
   environment: development
@@ -211,7 +139,7 @@ auth:
         authServerId: ${OKTA_AUTH_SERVER_ID}
         apiToken: ${OKTA_API_TOKEN}
 
-    keycloack-auth-provider:
+    keycloak:
       development:
         metadataUrl: ${KEYCLOAK_METADATA_URL}
         clientId: ${KEYCLOAK_CLIENT_ID}

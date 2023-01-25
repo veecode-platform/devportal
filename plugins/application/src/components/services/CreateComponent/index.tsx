@@ -14,6 +14,7 @@ import { ICreateService } from '../utils/interfaces';
 import { FetchKongServices } from '../utils/kongUtils';
 import { rateLimitingItems, securityItems } from '../utils/common';
 import { Select } from '../../shared';
+import AxiosInstance from '../../../api/Api';
 
 export const CreateComponent = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export const CreateComponent = () => {
   };
 
   const handleSubmit = async () => {
-    const dataTest = {
+    const servicePost = {
       serviceData: {
         name: service.name,
         kongServiceName:service,
@@ -58,7 +59,7 @@ export const CreateComponent = () => {
         securityType: service.securityType,
       },
     };
-    const config = {
+    /*const config = {
       method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -70,12 +71,13 @@ export const CreateComponent = () => {
       'http://localhost:7007/api/application/service',
       config,
     );
-    const data = await response.json();
+    const data = await response.json();*/
+    const response = await AxiosInstance.post("/services", JSON.stringify(servicePost) )
     setShow(true);
     setTimeout(() => {
       navigate('/services');
     }, 2000);
-    return data;
+    return response.data;
   };
 
   return (

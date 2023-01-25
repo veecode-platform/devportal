@@ -45,11 +45,8 @@ export async function startStandaloneServer(
 
   let service = createServiceBuilder(module)
     .setPort(options.port)
-    .addRouter('/application', router)
-    .enableCors({ origin: 'http://localhost:3000' });
-  /*if (options.enableCors) {
-    service = service.enableCors({ origin: 'http://localhost:3000' });
-  }*/
+    .addRouter('/devportal', router)
+    .enableCors({ origin: 'http://localhost:3000' });//config.getString("app.baseUrl") - production ready
 
   return await service.start().catch(err => {
     logger.error(err);

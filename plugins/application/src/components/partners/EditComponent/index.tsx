@@ -15,6 +15,7 @@ import {
 } from '@backstage/core-components';
 import { IPartner } from '../interfaces';
 import { Select } from '../../shared';
+import AxiosInstance from '../../../api/Api';
 
 type PartnerProps = {
   partnerData: IPartner | undefined;
@@ -65,7 +66,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
         applicationId: partner.applicationId,
       },
     };
-    const config = {
+    /*const config = {
       method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -77,12 +78,13 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
       `http://localhost:7007/api/application/partner/${partner?.id}`,
       config,
     );
-    const data = await response.json();
+    const data = await response.json();*/
+    const response = await AxiosInstance.post(`/partners/${partner?.id}`, JSON.stringify(dataPartner) )
     setShow(true);
     setTimeout(() => {
       navigate('/partners');
     }, 2000);
-    return data;
+    return response.data;
   };
 
   return (
@@ -230,11 +232,12 @@ export const EditComponent = () => {
   const id = location.search.split('?id=')[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IPartner> => {
-    const response = await fetch(
+    /*const response = await fetch(
       `http://localhost:7007/api/application/partner/${id}`,
     );
-    const data = await response.json();
-    return data.services;
+    const data = await response.json();*/
+    const response = await AxiosInstance.get(`/partner/${id}`);
+    return response.data.services;
   }, []);
 
   if (loading) {

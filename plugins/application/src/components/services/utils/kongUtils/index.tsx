@@ -4,13 +4,15 @@ import Alert from '@material-ui/lab/Alert';
 import useAsync from "react-use/lib/useAsync";
 import { IKongServices } from "../interfaces";
 import { KongServicesListComponent } from "./kongServiceListComponent";
+import AxiosInstance from '../../../../api/Api';
 
 export const FetchKongServices = ({valueName, setValue}:any) => {
 
     const { value, loading, error } = useAsync(async (): Promise<IKongServices[]> => {
-      const response = await fetch(`http://localhost:7007/api/application/kong-services`);
-      const data = await response.json();
-      return data.services;
+      /*const response = await fetch(`http://localhost:7007/api/application/kong-services`);
+      const data = await response.json();*/
+      const response = await AxiosInstance.get("/kong-extras/services")
+      return response.data.services;
     }, []);
   
     if (loading) {

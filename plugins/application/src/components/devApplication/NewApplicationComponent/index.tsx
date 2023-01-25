@@ -15,6 +15,7 @@ import {
 import { ICreateApplication } from '../interfaces';
 import { useUserProfile } from '../../../hooks/useUserProfile';
 import { Select } from '../../shared';
+import AxiosInstance from '../../../api/Api';
 
 export const NewApplicationComponent = () => {
   const { name } = useUserProfile();
@@ -62,7 +63,7 @@ export const NewApplicationComponent = () => {
         kongServiceId: application.kongConsumerId,
       },
     };
-    const config = {
+    /*const config = {
       method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -70,12 +71,13 @@ export const NewApplicationComponent = () => {
       body: JSON.stringify(applicationData)
     };
     const response = await fetch('http://localhost:7007/api/application/', config); // check endpoint
-    const data = await response.json();
+    const data = await response.json();*/
+    const response = await AxiosInstance.post("/applications", JSON.stringify(applicationData))
     setShow(true);
     setTimeout(()=>{
       window.location.replace('/application');
     }, 2000);
-    return data
+    return response.data
   };
   return (
     <Page themeId="tool">
