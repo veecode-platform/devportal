@@ -93,9 +93,7 @@ export async function createKongRouter(
         request.params.serviceName,
         request.query.pluginName as string,
       );
-      if (serviceStore) response.json({ status: 'ok', plugins: serviceStore });
-      response.json({ status: 'ok', services: [] });
-    } catch (error: any) {
+     response.json({ status: 'ok', plugins: serviceStore });    } catch (error: any) {
       let date = new Date();
       response.status(error.response.status).json({
         status: 'ERROR',
@@ -114,9 +112,7 @@ export async function createKongRouter(
           request.params.serviceName,
           request.query.pluginName as string,
         );
-        if (serviceStore)
           response.json({ status: 'ok', services: serviceStore });
-        response.json({ status: 'ok', services: [] });
       } catch (error: any) {
         let date = new Date();
         response.status(error.response.status).json({
@@ -128,27 +124,6 @@ export async function createKongRouter(
     },
   );
 
-
-  router.get(
-    '/plugins/:serviceName',
-    async (req, resp) => {
-      try {
-        const serviceStore = await kongHandler.listPluginsService(
-          await kongServiceBase.getUrl(),
-          req.params.serviceName
-        );
-        resp.json({ status: 'ok', services: serviceStore });
-      } catch (error: any) {
-        console.log(error)
-        let date = new Date();
-        resp.status(error.response).json({
-          status: 'ERROR',
-          message: error.response,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
 
   router.get('/services', async (_, res) => {
     try {
