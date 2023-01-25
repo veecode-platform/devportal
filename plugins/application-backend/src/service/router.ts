@@ -419,7 +419,6 @@ export async function createRouter(
     async (request, response) => {
       try {
         const serviceStore = await kongHandler.listPluginsService(
-          false,
           config.getString('kong.api-manager'),
           request.params.serviceName,
         );
@@ -462,7 +461,6 @@ export async function createRouter(
     async (request, response) => {
       try {
         const serviceStore = await kongHandler.deletePluginsService(
-          false,
           config.getString('kong.api-manager'),
           request.params.serviceName,
           request.query.pluginName as string,
@@ -542,7 +540,6 @@ export async function createRouter(
     '/kong-service/acl-update/:serviceName',
     async (request, response) => {
       try {
-        const hide = request.body.hide_groups_header;
         const allowed = request.body.allowed;
         const serviceStore = await aclPlugin.updateAclKongService(
           request.params.serviceName,
