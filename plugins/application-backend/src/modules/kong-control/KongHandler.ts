@@ -1,7 +1,7 @@
 // class to access kong api manager service
 import axios from 'axios';
 import { PluginDatabaseManager } from '@backstage/backend-common';
-import { ApplicationProps } from '../applications/domain/Application';
+import { Application, ApplicationProps } from '../applications/domain/Application';
 import { PostgresApplicationRepository } from '../applications/repositories/knex/KnexApplicationRepository';
 import { credential } from './Credential';
 import { RouterOptions } from '../../service/router';
@@ -103,8 +103,8 @@ export class KongHandler {
       await options.database.getClient(),
     );
 
-    const application: ApplicationProps = await applicationRepository.getApplicationById(id);
-    const url =  `${kongUrl}/consumers/${application.kongConsumerId}/key-auth`
+    const application: ApplicationProps = await applicationRepository.getApplicationById(id) as ApplicationProps;
+    const url =  `${kongUrl}/consumers/${application.externalId}/key-auth`
     const response = await axios.get(url);
     const list = response.data.data;
     const credentials: credential[] = []
