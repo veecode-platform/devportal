@@ -2,6 +2,7 @@ import { PluginDatabaseManager } from "@backstage/backend-common";
 import { Config } from "@backstage/config";
 import { Logger } from "winston";
 import { PostgresApplicationRepository } from "../applications/repositories/knex/KnexApplicationRepository";
+import { ApplicationProps } from "../applications/domain/Application";
 
 
 /** @public */
@@ -17,14 +18,14 @@ export class AssociateService{
     const applicationRepository = await PostgresApplicationRepository.create(
       await routerOptions.database.getClient(),    
     );
-       const application = await applicationRepository.getApplicationById(id);
-      const arrayConsumerName = application.servicesId
+       const application = await applicationRepository.getApplicationById(id) as ApplicationProps;
+       const arrayConsumerName = application.servicesId
       if(arrayConsumerName != null){
         for (let index = 0; index < servicesId.length; index++) {
           application.servicesId.push(servicesId[index])
         }
       }else{
-        application.servicesId = consumerName;
+        application.servicesId = servicesId;
       }
       await applicationRepository.patchApplication(id, application as any);
   }
@@ -33,11 +34,11 @@ export class AssociateService{
     const applicationRepository = await PostgresApplicationRepository.create(
       await routerOptions.database.getClient(),    
     );
-    const application = await applicationRepository.getApplicationById(id)
-      let posicao;
-      for (let index = 0; index < application.consumerName.length; index++) {
-        if(application.consumerName[index] == consumerName){
-           application.consumerName.splice(index, 1)
+    const application = await applicationRepository.getApplicationById(id) as ApplicationProps
+
+      for (let index = 0; index < application.externalId.length; index++) {
+        if(application.externalId[index] == consumerName){
+           application.externalId.slice(index, 1)
           break
         }
       }
@@ -47,7 +48,7 @@ async findAllAssociate(routerOptions: RouterOptions, id: string){
   const applicationRepository = await PostgresApplicationRepository.create(
     await routerOptions.database.getClient(),    
   );
-    const associates = await applicationRepository.getApplicationById(id);
-    return associates.consumerName
+    const associates = await applicationRepository.getApplicationById(id) as ApplicationProps;
+    return associates.externalId
 }
 }

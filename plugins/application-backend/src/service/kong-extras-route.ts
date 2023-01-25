@@ -213,9 +213,5 @@ export async function createKongRouter(
       });
     }
   });
-
-
-
-
   return router;
 }
