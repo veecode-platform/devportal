@@ -75,7 +75,7 @@ proxy:
     target: ${ARGOCD_DOMAIN}
     changeOrigin: true
     # only if your argocd api has self-signed cert
-    secure: false
+    secure: true
     headers:
       Cookie:
         $env: ARGOCD_TOKEN
@@ -194,6 +194,12 @@ auth:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 
+enabledPlugins:
+  vault: true
+  grafana: true
+  kubernetes: true
+  argocd: true
+  
 vault:
   baseUrl: ${VAULT_BASE_URL}
   token: ${VAULT_TOKEN_RENEWABLE} #generate with vault token create -policy="default" -period=24h
@@ -209,10 +215,3 @@ grafana:
   # See: https://grafana.com/blog/2021/06/14/the-new-unified-alerting-system-for-grafana-everything-you-need-to-know/
   # Optional. Default: false
   unifiedAlerting: true
-
-okta:
-  host: ${OKTA_TESTE_HOST}
-  token: ${OKTA_TESTE_TOKEN}
-
-kong:
-  api-manager: ${KONG_TESTE_HOST}
