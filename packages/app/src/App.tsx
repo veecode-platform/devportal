@@ -68,6 +68,7 @@ import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_A
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 // custom siginpage
 import { SignInPage } from './components/signInPage/SignInPage';
+import '../src/components/theme/theme.css';
 
 const app = createApp({
   apis,

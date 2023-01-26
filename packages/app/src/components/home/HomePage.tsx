@@ -32,8 +32,6 @@ import {
   Logo,
   //  Icon 
 } from '../plataformLogo/plataformLogo';
-
-
 import BackstageLogo from "../../assets/backstage.png";
 
 
@@ -146,7 +144,7 @@ export const HomePage = () => {
               />
             </Grid>
             <Grid container item xs={12}>
-              <Grid item lg={12}>
+              <Grid item lg={12} xs={12}>
                 <HomePageStarredEntities />
               </Grid>
               {/* <Grid item xs={12} md={6}>

@@ -124,6 +124,13 @@ integrations:
   github:
     - host: github.com
       token: ${GITHUB_TOKEN_SECRET}
+  bitbucketCloud:
+    - username: ${BITBUCKET_CLOUD_USERNAME}
+      appPassword: ${BITBUCKET_CLOUD_TOKEN}
+  bitbucketServer:
+    - host: ${BITBUCKET_SERVER_HOST}
+      apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
+      token: ${BITBUCKET_SERVER_TOKEN}
 
 catalog:
   rules:
@@ -138,11 +145,27 @@ catalog:
           repository: devportal-spechouse # Regex
           validateLocationsExist: true
 
-  locations:
-  - type: url
-    target: https://github.com/mclarke47/dice-roller/blob/master/catalog-info.yaml
-  - type: url
-    target: https://github.com/backstage/backstage/blob/master/catalog-info.yaml
+    bitbucketCloud:
+      yourProviderId: # identifies your ingested dataset
+        catalogPath: /catalog-info.yaml # default value
+      filters: # optional
+        # projectKey: 'DEV' # optional; RegExp
+        repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
+      workspace: ${BITBUCKET_CLOUD_WORKSPACE}
+
+    bitbucketServer:
+      yourProviderId:
+        host: ${BITBUCKET_SERVER_HOST}
+        catalogPath: /catalog-info.yaml # default value
+        filters: # optional
+          projectKey: ${BITBUCKET_SERVER_PROJECT_KEY} # optional; RegExp
+          repoSlug: ${BITBUCKET_SERVER_REPOSLUG} # optional; RegExp  
+
+#   locations:
+#   - type: url
+#     target: https://github.com/mclarke47/dice-roller/blob/master/catalog-info.yaml
+#   - type: url
+#     target: https://github.com/backstage/backstage/blob/master/catalog-info.yaml
 
 auth:
   environment: development
