@@ -276,10 +276,11 @@ export const EditComponent = () => {
   const id = location.search.split('?id=')[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
-    const response = await fetch(
+    /*const response = await fetch(
       `http://localhost:7007/api/application/service/${id}`,
     );
-    const data = await response.json();
+    const data = await response.json();*/
+    const { data } = await AxiosInstance.get(`/services/${id}`)
     return data.services[0];                             // CHECK ---- TO DO
   }, []);
 

@@ -17,6 +17,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import CachedIcon from '@material-ui/icons/Cached';
 import { DefaultDetailsComponent } from './DefaultDetailsComponent';
 import { SecurityTypeEnum } from '../utils/enum';
+import AxiosInstance from '../../../api/Api';
 
 // makestyles
 const useStyles = makeStyles({
@@ -119,11 +120,12 @@ export const DetailsComponent = () => {
   const id = location.search.split('?id=')[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
-    const response = await fetch(
+    /*const response = await fetch(
       `http://localhost:7007/api/application/service/${id}`,
     );
-    const data = await response.json();
-    return data.services[0];                             // CHECK ---- TO DO
+    const data = await response.json();*/
+    const {data} = await AxiosInstance.get(`/services/${id}`)
+    return data.services;                             // CHECK ---- TO DO
   }, []);
 
   if (loading) {

@@ -19,7 +19,7 @@ export async function createApplicationRouter(
     const router = Router()
     router.use(express.json())
 
-
+//revisar rotas pt-br para en
     router.get('/', async (request, response) => {
         try {
           const limit: number = request.query.limit as any;

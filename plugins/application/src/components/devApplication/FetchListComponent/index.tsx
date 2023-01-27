@@ -4,16 +4,15 @@ import { Table, TableColumn, Progress} from '@backstage/core-components';
 import { Link as RouterLink} from 'react-router-dom';
 import { Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import useAsync from 'react-use/lib/useAsync';
 import { IApplication } from '../interfaces';
 import More from '@material-ui/icons/MoreHorizOutlined';
-import AxiosInstance from '../../../api/Api';
 
 type DenseTableProps = {
   applications: IApplication[];
+  total: number;
 };
 
-export const DenseTable = ({ applications }: DenseTableProps) => {
+export const DenseTable = ({ applications, total }: DenseTableProps) => {
 
   const columns: TableColumn[] = [
     { title: 'Name', field: 'name', width:'1fr' },
@@ -30,33 +29,34 @@ export const DenseTable = ({ applications }: DenseTableProps) => {
       id: application.id,
       created: application.createdAt,
       creator: application.creator,
-      details: <Button variant='outlined' component={RouterLink} to={`/application/details/?id=${application.id}`}> <More/> </Button>
+      details: <Button variant='outlined' component={RouterLink} to={`/application/details?id=${application.id}`}> <More/> </Button>
     };
   });
 
   return (
     <Table
-    title={`All Applications (${applications.length})`}
-      options={{ search: true, paging: true }}
+    title={`All Applications (${total})`}
+      options={{ search: true, paging: false }}
       columns={columns}
       data={data}
     />
   );
 };
 
-export const FetchListComponent = () => {
-  const { value, loading, error } = useAsync(async (): Promise<IApplication[]> => {
-    /*const response = await fetch('http://localhost:7007/api/application/');
-    const data = await response.json();*/
-    const response = await AxiosInstance.get("/applications")
-    return response.data.applications;
-  }, []);
+type FecthProps = {
+  total: number;
+  loading: boolean;
+  error: Error | undefined;
+  data: IApplication[];
+};
 
+export const FetchListComponent = ({total, loading, error, data}: FecthProps) => {
+  
   if (loading) {
     return <Progress />;
   } else if (error) {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  return <DenseTable applications={value || []} />;
+  return <DenseTable applications={data || []} total={total} />;
 };

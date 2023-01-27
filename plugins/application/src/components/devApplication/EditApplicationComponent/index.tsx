@@ -181,9 +181,10 @@ export const EditComponent = () => {
   console.log(id);
 
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
-    const response = await fetch(`http://localhost:7007/api/application/${id}`);
-    const data = await response.json();
-    return data.application;
+    /*const response = await fetch(`http://localhost:7007/api/application/${id}`);
+    const data = await response.json();*/
+    const response = await AxiosInstance.get(`/applications/${id}`)
+    return response.data.application;
   }, []);
 
   if (loading) {
