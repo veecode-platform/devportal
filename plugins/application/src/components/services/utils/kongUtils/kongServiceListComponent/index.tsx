@@ -1,6 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
 import React from 'react';
-import { MenuItem } from '@material-ui/core';
 import { Select } from '../../../../shared';
 import { IKongServices } from '../../interfaces';
 
@@ -21,12 +20,13 @@ export const KongServicesListComponent = ({
       label="Kong Service Name"
       items= { services.map(item=>{
         return{
-          label: item.name,
-          value: item.name
+          label: `${item.name} - ${item.id}`,
+          value: `${item.name}---${item.id}`
         }
       })}
       onChange={e => {
-        setValue(e);
+        const nameId = e.toString().split("---")
+        setValue({...value, kongServiceName: nameId[0], kongServiceId: nameId[1]});
       }}
       />
   );

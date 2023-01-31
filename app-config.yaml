@@ -9,18 +9,18 @@ app:
   #   env: # optional
 
   support:
-    url: https://github.com/backstage/backstage/issues # Used by common ErrorPage
+    url: https://github.com/orgs/veecode-platform/discussions # Used by common ErrorPage
     items: # Used by common SupportButton component
       - title: Issues
         icon: github
         links:
-          - url: https://github.com/backstage/backstage/issues
+          - url: https://github.com/orgs/veecode-platform/discussions
             title: GitHub Issues
-      - title: Discord Chatroom
-        icon: chat
-        links:
-          - url: https://discord.gg/MUpMjP2
-            title: '#backstage'
+      #- title: Discord Chatroom
+      #  icon: chat
+      #  links:
+      #    - url: https://discord.gg/MUpMjP2
+      #      title: '#backstage'
 
 #add permission
 permission:

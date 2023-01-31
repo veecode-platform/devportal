@@ -54,13 +54,13 @@ export const NewApplicationComponent = () => {
 
   const handleSubmit = async () => {
     const applicationData = {
-      application: {
+      applications: {
         name: application.name,
         creator: application.name,
         active: application.active,
         servicesId: application.servicesId,
-        kongServiceName: application.kongConsumerName,
-        kongServiceId: application.kongConsumerId,
+        //kongServiceName: application.kongConsumerName,
+        //kongServiceId: application.kongConsumerId,
       },
     };
     /*const config = {
@@ -138,7 +138,7 @@ export const NewApplicationComponent = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                {/*<Grid item xs={12}>
                   <TextField
                     fullWidth
                     variant="outlined"
@@ -167,7 +167,7 @@ export const NewApplicationComponent = () => {
                       });
                     }}
                   />
-                </Grid>
+                  </Grid>*/}
                 <Grid item xs={12}>
                   <Grid container justifyContent="center" alignItems="center">
                     <Button

@@ -70,7 +70,7 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
 
   const handleSubmit = async () => {
     const serviceData = {
-      service: {
+      services: {
         name: service.name,
         active: service.active,
         description: service.description,
@@ -94,7 +94,7 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
       `http://localhost:7007/api/application/service/${service?.id}`,
       config,
     );*/
-    const response = await AxiosInstance.post(`services/${service?.id}`, JSON.stringify(serviceData))
+    const response = await AxiosInstance.put(`services/${service?.id}`, JSON.stringify(serviceData))
     //const data = response.data;
     setShow(true);
     setTimeout(() => {

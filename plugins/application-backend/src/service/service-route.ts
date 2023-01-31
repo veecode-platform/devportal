@@ -60,9 +60,10 @@ export async function createServiceRouter(
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
       let date = new Date();
-      response.status(error.response.status).json({
+      console.log(error)
+      response.status(400).json({
         status: 'ERROR',
-        message: error.response.data.errorSummary,
+        message: error,
         timestamp: new Date(date).toISOString(),
       });
     }

@@ -56,7 +56,7 @@ export const CreateComponent = () => {
   const handleSubmit = async () => {
 
     const dataPartner = {
-      partner: {
+      partners: {
         name: partner.name,
         active: partner.active,
         email: partner.email,
@@ -78,7 +78,7 @@ export const CreateComponent = () => {
     const response = await AxiosInstance.post("/partners", JSON.stringify(dataPartner) )
     setShow(true);
     setTimeout(() => {
-      window.location.replace('/application');
+      window.location.replace('/partners');
     }, 2000);
     return response.data;
   }

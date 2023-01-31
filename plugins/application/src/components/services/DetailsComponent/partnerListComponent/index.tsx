@@ -52,7 +52,7 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
   const handleSubmit = async() =>{
     setLoading(true)
     const updateServicesPartners = {
-      service:{
+      services:{
         partnersId: partnerList,
       }
     }

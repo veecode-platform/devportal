@@ -30,7 +30,7 @@ export async function createKongRouter(
           message: error.response,
           timestamp: new Date(date).toISOString(),
         });
-      }
+      }c
     },
   );
 

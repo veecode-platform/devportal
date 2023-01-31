@@ -48,10 +48,10 @@ export const CreateComponent = () => {
 
   const handleSubmit = async () => {
     const servicePost = {
-      serviceData: {
+      services: {
         name: service.name,
         kongServiceName:service,
-        active: service.active ?? true,
+        active: service.active,
         description: service.description,
         redirectUrl: service.redirectUrl,
         kongServiceId: service.kongServiceId,
@@ -102,7 +102,7 @@ export const CreateComponent = () => {
               <Grid
                 container
                 spacing={3}
-                direction="column"
+                direction="row"
                 justifyContent="center"
               >
                 <Grid item xs={12}>
@@ -117,47 +117,23 @@ export const CreateComponent = () => {
                     }}
                   />
                 </Grid>
-                <Grid
-                  item
-                  style={{
-                    display: 'grid',
-                    gridTemplate: 'auto / repeat(2, 1fr)',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap:'1em',
-                    width: '100%',
-                  }}
-                >
-                <Grid item lg={12}>
+
+                <Grid item xs={12} md={9}>
                   <FetchKongServices
                     valueName={service}
                     setValue={setService}
                   />
                 </Grid>
-                <Select
-                    placeholder="Select the Status"
-                    label="Service Status"
-                    items={[{label:'active', value: 'true' }]}
-                    onChange={e => {
-                      if (e === 'true')
-                        setService({ ...service, active: true });
-                      else setService({ ...service, active: false });
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Description"
-                    multiline
-                    value={service.description}
-                    minRows={3}
-                    required
-                    onChange={e => {
-                      setService({ ...service, description: e.target.value });
-                    }}
-                  />
+
+                <Grid item xs={12} md={3}>
+                  <Select
+                      placeholder="Select the Status"
+                      label="Service Status"
+                      items={[{label:'active', value: 'true' }, {label:'inactive', value: 'false' }]}
+                      onChange={e => {
+                          setService({ ...service, active: e == "true" ? true : false });
+                      }}
+                    />
                 </Grid>
 
                 <Grid item xs={12}>
@@ -177,11 +153,13 @@ export const CreateComponent = () => {
                   <TextField
                     fullWidth
                     variant="outlined"
-                    label="Kong Service Id"
-                    value={service.kongServiceId}
+                    label="Description"
+                    multiline
+                    value={service.description}
+                    minRows={3}
                     required
                     onChange={e => {
-                      setService({ ...service, kongServiceId: e.target.value });
+                      setService({ ...service, description: e.target.value });
                     }}
                   />
                 </Grid>

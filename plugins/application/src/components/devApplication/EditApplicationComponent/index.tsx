@@ -47,7 +47,7 @@ const EditApplicationComponent = ({ application }: Application) => {
 
   const handleSubmit = async () => {
     const applicationData = {
-      application:{
+      applications:{
         name: app.name,
         creator: app.name,
         active: app.active,
@@ -65,7 +65,7 @@ const EditApplicationComponent = ({ application }: Application) => {
     };
     const response = await fetch(`http://localhost:7007/api/application/${app?.id}`, config); // check endpoint  
     const data = await response.json();*/
-    const response = await AxiosInstance.post(`applications/${app?.id}`,JSON.stringify(applicationData) )
+    const response = await AxiosInstance.patch(`applications/${app?.id}`,JSON.stringify(applicationData) )
     setShow(true);
     setTimeout(()=>{
       window.location.replace('/application');
