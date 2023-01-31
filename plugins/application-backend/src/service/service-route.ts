@@ -43,6 +43,9 @@ export async function createServiceRouter(
       const result = await serviceRepository.createService(service);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
+      if(error == undefined ){
+        response.status(500).json({status: 'error'})
+      }
       let date = new Date();
       response.status(error.response.status).json({
         status: 'ERROR',
@@ -59,6 +62,9 @@ export async function createServiceRouter(
       const result = await serviceRepository.patchService(id, service);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
+      if(error == undefined ){
+        response.status(500).json({status: 'error'})
+      }
       let date = new Date();
       response.status(error.response.status).json({
         status: 'ERROR',
@@ -74,6 +80,9 @@ export async function createServiceRouter(
       const result = await serviceRepository.updateService(id, service);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
+      if(error == undefined ){
+        response.status(500).json({status: 'error'})
+      }
       console.log(error)
       let date = new Date();
       response.status(error.response.status).json({
