@@ -25,7 +25,6 @@ export async function createPartnersRouter(
     const code = request.params.id;
     const partners = await partnerRepository.getPartnerById(code);
     const total = await partnerRepository.total();
-    console.log(total)
     response.status(200).json({ status: 'ok', partners: partners, total: total });
   });
 
@@ -36,29 +35,80 @@ export async function createPartnersRouter(
   });
 
   router.post('/', async (request, response) => {
-    const partner: PartnerDto = request.body.partner;
-    const result = await partnerRepository.createPartner(partner);
-    response.status(201).json({ status: 'ok', partner: result });
+    try {
+      const partner: PartnerDto = request.body.partner;
+      const result = await partnerRepository.createPartner(partner);
+      response.status(201).json({ status: 'ok', partner: result });
+    } catch (error: any) {
+      if (error == undefined) {
+        response.status(500).json({ status: 'error' })
+      }
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
   });
+
 
   router.delete('/:id', async (request, response) => {
-    const code = request.params.id;
-    const result = await partnerRepository.deletePartner(code);
-    response.status(204).json({ status: 'ok', partner: result });
+    try{
+      const code = request.params.id;
+      const result = await partnerRepository.deletePartner(code);
+      response.status(204).json({ status: 'ok', partner: result });
+    } catch (error: any) {
+      if(error == undefined ){
+        response.status(500).json({status: 'error'})
+      }
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
   });
+
 
   router.patch('/:id', async (request, response) => {
-    const code = request.params.id;
-    const partner: PartnerDto = request.body.partner;
-    const result = await partnerRepository.patchPartner(code, partner);
-    response.status(200).json({ status: 'ok', partner: result });
+    try {
+      const code = request.params.id;
+      const partner: PartnerDto = request.body.partner;
+      const result = await partnerRepository.patchPartner(code, partner);
+      response.status(200).json({ status: 'ok', partner: result });
+    } catch (error: any) {
+      if (error == undefined) {
+        response.status(500).json({ status: 'error' })
+      }
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
   });
 
+
   router.put('/:id', async (request, response) => {
-    const code = request.params.id;
-    const partner: PartnerDto = request.body.partner;
-    const result = await partnerRepository.patchPartner(code, partner);
-    response.status(200).json({ status: 'ok', partner: result });
+    try {
+      const code = request.params.id;
+      const partner: PartnerDto = request.body.partner;
+      const result = await partnerRepository.patchPartner(code, partner);
+      response.status(200).json({ status: 'ok', partner: result });
+    } catch (error: any) {
+      if (error == undefined) {
+        response.status(500).json({ status: 'error' })
+      }
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
   });
 
   return router;
