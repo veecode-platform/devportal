@@ -74,8 +74,10 @@ export async function createServiceRouter(
       const result = await serviceRepository.updateService(id, service);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
+      console.log(error)
       let date = new Date();
       response.status(error.response.status).json({
+
         status: 'ERROR',
         message: error.response.data.errorSummary,
         timestamp: new Date(date).toISOString(),

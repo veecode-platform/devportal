@@ -38,6 +38,7 @@ import { createApplicationRouter } from './applications-route';
 import { CredentialsOauth } from '../modules/kong/services/CredentialsOauth';
 
 import { applyDatabaseMigrations } from '../../database/migrations';
+import { testeRoute } from './teste-router';
 
 /** @public */
 export interface RouterOptions {
@@ -88,6 +89,7 @@ export async function createRouter(
   router.use('/partners', await createPartnersRouter(options))
   router.use('/kong-extras', await createKongRouter(options))
   router.use('/applications', await createApplicationRouter(options))
+  router.use('/teste', await testeRoute(options))
 
   // KEYCLOAK
   router.get('/keycloak/groups', async (_, response) => {
