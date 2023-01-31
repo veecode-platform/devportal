@@ -31,6 +31,9 @@ export async function createApplicationRouter(
           const total = await applicationRepository.total();
           return response.json({ status: 'ok', applications: responseData, total: total });
         } catch (error: any) {
+          if(error == undefined ){
+            response.status(500).json({status: 'error'})
+          }
           let date = new Date();
           return response.status(error.response.status).json({
             status: 'ERROR',
@@ -53,6 +56,9 @@ export async function createApplicationRouter(
           const result = await applicationRepository.createApplication(data);
           response.send({ status: 'ok', result: result });
         } catch (error: any) {
+          if(error == undefined ){
+            response.status(500).json({status: 'error'})
+          }
           let date = new Date();
           response.status(error.response.status).json({
             status: 'ERROR',
@@ -74,6 +80,9 @@ export async function createApplicationRouter(
           const result = await applicationRepository.createApplication(data);
           response.send({ status: data, result: result });
         } catch (error: any) {
+          if(error == undefined ){
+            response.status(500).json({status: 'error'})
+          }
           let date = new Date();
           response.status(error.response.status).json({
             status: 'ERROR',
@@ -95,6 +104,9 @@ export async function createApplicationRouter(
           const result = await applicationRepository.patchApplication(applicationId, data);
           response.send({ status: 'OK', result: result });
         } catch (error: any) {
+          if(error == undefined ){
+            response.status(500).json({status: 'error'})
+          }
           console.log(error)
           let date = new Date();
           response.status(error.response.status).json({
@@ -118,6 +130,9 @@ export async function createApplicationRouter(
           const result = await applicationRepository.updateApplication(code, data);
           response.send({ status: 'OK', result: result });
         } catch (error: any) {
+          if(error == undefined ){
+            response.status(500).json({status: 'error'})
+          }
           console.log(error)
           let date = new Date();
           response.status(error.response.status).json({
@@ -149,6 +164,9 @@ export async function createApplicationRouter(
           const result = await applicationRepository.getApplicationById(code);
           response.send({ status: 'ok', application: result });
         } catch (error: any) {
+          if(error == undefined ){
+            response.status(500).json({status: 'error'})
+          }
           let date = new Date();
           response.status(error.response.status).json({
             status: 'ERROR',

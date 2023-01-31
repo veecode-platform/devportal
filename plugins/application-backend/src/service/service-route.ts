@@ -86,7 +86,6 @@ export async function createServiceRouter(
       console.log(error)
       let date = new Date();
       response.status(error.response.status).json({
-
         status: 'ERROR',
         message: error.response.data.errorSummary,
         timestamp: new Date(date).toISOString(),
