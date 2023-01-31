@@ -91,8 +91,12 @@ export class KongHandler {
     return response.data;
   }
 
-  public async generateCredential(kongUrl: string, idConsumer: string) {
-    const url = `${kongUrl}/consumers/${idConsumer}/key-auth`
+  public async generateCredential(options: RouterOptions, kongUrl: string, idApplication: string) {
+    const applicationRepository = await PostgresApplicationRepository.create(
+      await options.database.getClient(),
+    );
+    const application: ApplicationProps = await applicationRepository.getApplicationById(idApplication) as ApplicationProps;
+    const url = `${kongUrl}/consumers/${application.externalId}/key-auth`
     const response = await axios.post(url);
     return response.data;
   }
