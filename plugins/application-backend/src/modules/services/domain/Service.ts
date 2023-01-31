@@ -4,7 +4,7 @@ export type ServiceProps = {
   name: string;
   description: string;
   redirectUrl: string;
-  partnersId: string[];
+  partnersId?: string[];
   active: boolean;
   kongServiceName: string;
   kongServiceId: string;
