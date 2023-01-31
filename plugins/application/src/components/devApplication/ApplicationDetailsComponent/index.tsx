@@ -13,6 +13,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { IApplication } from '../interfaces';
 import CachedIcon from '@material-ui/icons/Cached';
 import { DetailsComponent } from './DetailsComponent';
+import AxiosInstance from '../../../api/Api';
 
 type Application = {
   application: IApplication | undefined;
@@ -108,9 +109,10 @@ export const ApplicationDetailsComponent = () => {
   const id = location.search.split("?id=")[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
-    const response = await fetch(`http://localhost:7007/api/application/${id}`);
-    const data = await response.json();
-    return data.application;
+    /*const response = await fetch(`http://localhost:7007/api/application/${id}`);
+    const data = await response.json();*/
+    const response = await AxiosInstance.get(`/applications/${id}`)
+    return response.data.application;
   }, []);
 
   if (loading) {

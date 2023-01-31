@@ -54,7 +54,7 @@ export const CreateComponent = () => {
         active: service.active ?? true,
         description: service.description,
         redirectUrl: service.redirectUrl,
-        kongServiceId :service.kongServiceId,
+        kongServiceId: service.kongServiceId,
         rateLimiting: service.rateLimiting,
         securityType: service.securityType,
       },

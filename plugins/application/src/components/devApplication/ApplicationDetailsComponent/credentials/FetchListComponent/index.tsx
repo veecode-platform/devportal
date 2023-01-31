@@ -25,6 +25,16 @@ export const DenseTable = ({consumer, credentials }: DenseTableProps) => {
     setShow(false);
   };
 
+  const credentialsMock = [{
+    id: "31100da2-0bd9-45e6-9835-ae42aca34f75",
+    key: "chave1"
+  },
+  {
+  id: "31100das2-0bd9-45e6-9835-aeasudga5",
+  key: "chave2"
+  }
+]
+
   const columns: TableColumn[] = [
     { title: 'Id', field: 'id', width: '1fr' },
     { title: 'Key', field: 'key', width: '1fr' },
@@ -59,7 +69,7 @@ export const DenseTable = ({consumer, credentials }: DenseTableProps) => {
     }
   };
 
-  const data = credentials.map(item => {
+  const data = credentialsMock.map(item => {
     return {
       id: item.id,
       key: item.key,
@@ -87,7 +97,7 @@ export const DenseTable = ({consumer, credentials }: DenseTableProps) => {
         status={status}
       />
       <Table
-        title={`All Credentials (${credentials.length})`}
+        title={`All Credentials (${credentialsMock.length})`}
         options={{ search: true, paging: true }}
         columns={columns}
         data={data}

@@ -4,16 +4,15 @@ import { Table, TableColumn, Progress} from '@backstage/core-components';
 import { Link as RouterLink} from 'react-router-dom';
 import { Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import useAsync from 'react-use/lib/useAsync';
 import { IService } from '../utils/interfaces';
 import More from '@material-ui/icons/MoreHorizOutlined';
-import AxiosInstance from '../../../api/Api';
 
 type DenseTableProps = {
   services: IService[];
+  total: number;
 };
 
-export const DenseTable = ({ services }: DenseTableProps) => {
+export const DenseTable = ({ services, total }: DenseTableProps) => {
 
   const columns: TableColumn[] = [
     { title: 'Name', field: 'name',width:'1fr' },
@@ -33,20 +32,22 @@ export const DenseTable = ({ services }: DenseTableProps) => {
 
   return (
     <Table
-      title={`All Services (${services.length})`}
-      options={{ search: true, paging: true }}
+      title={`All Services (${total})`}
+      options={{ search: true, paging: false }}
       columns={columns}
       data={data}
     />
   );
 };
 
-export const FetchComponent = () => {
-  const { value, loading, error } = useAsync(async (): Promise<IService[]> => {
-    //const response = await fetch('http://localhost:7007/api/application/services');
-    const response = await AxiosInstance.get("/services")
-    return response.data.services;
-  }, []);
+type FecthProps = {
+  total: number;
+  loading: boolean;
+  error: Error | undefined;
+  data: IService[];
+};
+
+export const FetchComponent = ({loading, error, data, total}:FecthProps) => {
 
   if (loading) {
     return <Progress />;
@@ -54,5 +55,5 @@ export const FetchComponent = () => {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  return <DenseTable services={value || []} />;
+  return <DenseTable services={data} total={total} />;
 };
