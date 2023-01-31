@@ -3,15 +3,13 @@ import {
   errorHandler,
   loadBackendConfig,
 } from '@backstage/backend-common';
-import { InputError } from '@backstage/errors';
-//import { InputError } from '@backstage/errors';
 import { Config } from '@backstage/config';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
-import { ApplicationDto } from '../modules/applications/dtos/ApplicationDto';
+
 import { PostgresApplicationRepository } from '../modules/applications/repositories/knex/KnexApplicationRepository';
-import { ApplicationServices } from '../modules/applications/services/ApplicationServices';
+
 import { TestGroups } from '../modules/keycloak/adminClient';
 import { AssociateService } from '../modules/kong-control/AssociateService';
 import { KongHandler } from '../modules/kong-control/KongHandler';
@@ -25,11 +23,11 @@ import { ConsumerService } from '../modules/kong/services/ConsumerService';
 import { PluginService } from '../modules/kong/services/PluginService';
 import { UserInvite } from '../modules/okta-control/model/UserInvite';
 import { UserService } from '../modules/okta-control/service/UserService';
-import { PartnerDto } from '../modules/partners/dtos/PartnerDto';
+
 import { KeycloakUserService } from '../modules/keycloak/service/UserService';
 import { UpdateUserDto, UserDto } from '../modules/keycloak/dtos/UserDto';
 
-import { PostgresPartnerRepository } from '../modules/partners/repositories/Knex/KnexPartnerReppository';
+
 import { PluginDto } from '../modules/plugins/dtos/PluginDto';
 import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/KnexPluginRepository';
 import { ControllPlugin } from '../modules/services/service/ControllPlugin';
@@ -38,8 +36,9 @@ import { createPartnersRouter } from './partners-route';
 import { createKongRouter } from './kong-extras-route';
 import { createApplicationRouter } from './applications-route';
 import { CredentialsOauth } from '../modules/kong/services/CredentialsOauth';
-import { PartnerServices } from '../modules/partners/service/PartnerServices';
+
 import { applyDatabaseMigrations } from '../../database/migrations';
+import { testeRoute } from './teste-router';
 
 /** @public */
 export interface RouterOptions {
@@ -90,6 +89,7 @@ export async function createRouter(
   router.use('/partners', await createPartnersRouter(options))
   router.use('/kong-extras', await createKongRouter(options))
   router.use('/applications', await createApplicationRouter(options))
+  router.use('/teste', await testeRoute(options))
 
   // KEYCLOAK
   router.get('/keycloak/groups', async (_, response) => {
@@ -125,7 +125,6 @@ export async function createRouter(
 
   router.get('/credentials-oauth2/:idConsumer', async (request, response) => {
     const id = request.params.idConsumer as string
-    const name = request.query.name as string;
     const credential = await credentialsOauth.findAllCredentials(id)
     
     response.json({status: 'ok', response: credential})
@@ -366,121 +365,7 @@ export async function createRouter(
   });
 
   // PLUGINS
-  router.post(
-    '/kong-service/plugin/:serviceName',
-    async (request, response) => {
-      try {
-        const serviceStore = await aclPlugin.configAclKongService(
-          request.params.serviceName,
-          request.body.config.allow,
-        );
-        if (serviceStore)
-          response.json({ status: 'ok', plugins: serviceStore });
-        response.json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        console.log(error);
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
-  router.patch(
-    '/kong-service/plugin/:serviceName/:pluginId',
-    async (request, response) => {
-      try {
-        const serviceStore = await aclPlugin.updateAclKongService(
-          request.params.serviceName,
-          request.params.pluginId,
-          request.body.config.allow,
-        );
-
-        if (serviceStore)
-          response.json({ status: 'ok', plugins: serviceStore });
-        response.json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        console.log(error);
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
-  router.get(
-    '/kong-services/plugins/:serviceName',
-    async (request, response) => {
-      try {
-        const serviceStore = await kongHandler.listPluginsService(
-          false,
-          config.getString('kong.api-manager'),
-          request.params.serviceName,
-        );
-        if (serviceStore)
-          response.json({ status: 'ok', services: serviceStore });
-        response.json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
-  router.put('/kong-service/plugin/:serviceName', async (request, response) => {
-    try {
-      const serviceStore = await kongHandler.applyPluginToService(
-        false,
-        config.getString('kong.api-manager'),
-        request.params.serviceName,
-        request.query.pluginName as string,
-      );
-      if (serviceStore) response.json({ status: 'ok', plugins: serviceStore });
-      response.json({ status: 'ok', services: [] });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  router.delete(
-    '/kong-services/plugins/:serviceName',
-    async (request, response) => {
-      try {
-        const serviceStore = await kongHandler.deletePluginsService(
-          false,
-          config.getString('kong.api-manager'),
-          request.params.serviceName,
-          request.query.pluginName as string,
-        );
-        if (serviceStore)
-          response.json({ status: 'ok', services: serviceStore });
-        response.json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
+ 
   router.put('/consumer/:id', async (request, response) => {
     try {
       const consumer: Consumer = request.body;
@@ -542,7 +427,6 @@ export async function createRouter(
     '/kong-service/acl-update/:serviceName',
     async (request, response) => {
       try {
-        const hide = request.body.hide_groups_header;
         const allowed = request.body.allowed;
         const serviceStore = await aclPlugin.updateAclKongService(
           request.params.serviceName,
@@ -566,12 +450,9 @@ export async function createRouter(
 
   router.post('/credencial/:id', async (request, response) => {
     try {
-      const workspace = request.query.workspace as string;
       const id = request.params.id;
       const serviceStore = await kongHandler.generateCredential(
-        false,
         config.getString('kong.api-manager'),
-        workspace as string,
         id,
       );
       response.status(201).json({ status: 'ok', response: serviceStore });
@@ -587,13 +468,11 @@ export async function createRouter(
 
   router.get('/credencial/:id', async (request, response) => {
     try {
-      const workspace = request.query.workspace as string;
       const id = request.params.id;
       const serviceStore = await kongHandler.listCredentialWithApplication(
         options,
         config.getString('kong.api-manager'),
         id,
-        false,
       );
       response.status(200).json({ status: 'ok', credentials: serviceStore });
     } catch (error: any) {
@@ -607,13 +486,10 @@ export async function createRouter(
   });
   router.delete('/credencial/:idConsumer', async (request, response) => {
     try {
-      const workspace = request.query.workspace as string;
       const idCredencial = request.query.idCredencial as string;
       const idConsumer = request.params.idConsumer;
       const serviceStore = await kongHandler.removeCredencial(
-        true,
         config.getString('kong.api-manager'),
-        workspace,
         idConsumer,
         idCredencial,
       );

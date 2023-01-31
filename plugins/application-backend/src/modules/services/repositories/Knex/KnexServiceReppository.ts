@@ -71,11 +71,9 @@ export class PostgresServiceRepository implements IServiceRepository {
       securityType: serviceDto.securityType as SECURITY,
     });
     const data = await ServiceMapper.toPersistence(service);
-    console.log('data: ', data)
     const createdService = await this.db('services')
     .insert(service)
     .catch(error => console.error(error));
-    console.log('createdService: ', createdService)
     return service;
   }
 
@@ -88,7 +86,6 @@ export class PostgresServiceRepository implements IServiceRepository {
   }
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
-    console.log('repo', serviceDto)
     const service: Service = Service.create({
       name: serviceDto.name,
       active: serviceDto.active,
@@ -152,7 +149,6 @@ export class PostgresServiceRepository implements IServiceRepository {
       rateLimiting: serviceDto.rateLimiting as number,
     }); // try add ,id on service create
     //const data =await ServiceMapper.toPersistence(service);
-
     const patchedService = await this.db('services')
       .where('id', id)
       .update(serviceDto)
