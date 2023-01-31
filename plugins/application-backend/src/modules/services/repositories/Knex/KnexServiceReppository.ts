@@ -4,6 +4,7 @@ import { ServiceDto } from '../../dtos/ServiceDto';
 import { ServiceResponseDto } from '../../dtos/ServiceResponseDto';
 import { ServiceMapper } from '../../mappers/ServiceMapper';
 import { IServiceRepository } from '../IServiceRepository';
+import { serializeError } from '@backstage/errors';
 
 
 
@@ -152,7 +153,7 @@ export class PostgresServiceRepository implements IServiceRepository {
       rateLimiting: serviceDto.rateLimiting as number,
     }); // try add ,id on service create
     //const data =await ServiceMapper.toPersistence(service);
-
+    console.log('teste', service)
     const patchedService = await this.db('services')
       .where('id', id)
       .update(serviceDto)

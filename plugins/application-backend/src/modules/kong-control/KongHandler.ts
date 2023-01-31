@@ -87,6 +87,7 @@ export class KongHandler {
   ): Promise<Service[]> {
     const url = `${kongUrl}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
+    console.log('response data: ', response.data)
     return response.data;
   }
 
@@ -103,8 +104,8 @@ export class KongHandler {
       await options.database.getClient(),
     );
 
-    const application: ApplicationProps = await applicationRepository.getApplicationById(id);
-    const url =  `${kongUrl}/consumers/${application.kongConsumerId}/key-auth`
+    const application: ApplicationProps = await applicationRepository.getApplicationById(id) as ApplicationProps;
+    const url =  `${kongUrl}/consumers/${application.externalId}/key-auth`
     const response = await axios.get(url);
     const list = response.data.data;
     const credentials: credential[] = []

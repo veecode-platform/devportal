@@ -46,7 +46,9 @@ export class PluginService extends KongServiceBase {
 
   public async removePluginKongService(serviceName: string, pluginId: string) {
     const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins/${pluginId}`;
+    console.log(url)
     const response = await axios.delete(url);
+    console.log(response)
     return response.data;
   }
 }

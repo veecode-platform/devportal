@@ -8,7 +8,7 @@ export class Oauth2Plugin  extends PluginService {
         let map: Map<string, any> = new Map<string, any>();
         map.set("auth_header_name", 'authorization')
         map.set("enable_authorization_code", true)
-        return this.applyPluginKongService(serviceName, PluginName.oauth2, map); 
+        return await this.applyPluginKongService(serviceName, PluginName.oauth2, map); 
     }
 
 
