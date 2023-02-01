@@ -4,19 +4,14 @@ import { ServiceDto } from '../../dtos/ServiceDto';
 import { ServiceResponseDto } from '../../dtos/ServiceResponseDto';
 import { ServiceMapper } from '../../mappers/ServiceMapper';
 import { IServiceRepository } from '../IServiceRepository';
-import { serializeError } from '@backstage/errors';
-
-
 
 export class PostgresServiceRepository implements IServiceRepository {
-
-
-
   constructor(private readonly db: Knex) {}
- async total(): Promise<number> {
-  return await (await this.db<Service>('services').select('*')).length
+  async total(): Promise<number> {
+    return await (
+      await this.db<Service>('services').select('*')
+    ).length;
   }
-
 
   static async create(knex: Knex<any, any[]>): Promise<IServiceRepository> {
     return new PostgresServiceRepository(knex);
@@ -46,7 +41,7 @@ export class PostgresServiceRepository implements IServiceRepository {
 
   // method get one service by id
   async getServiceById(id: string): Promise<Service> {
-    const service= await this.db<Service>('services')
+    const service = await this.db<Service>('services')
       .where('id', id)
       .limit(1)
       .select()
@@ -55,7 +50,7 @@ export class PostgresServiceRepository implements IServiceRepository {
     const responseData = await ServiceMapper.listAllServicesToResource(
       serviceDomain,
     );
-    
+
     return responseData.service as Service;
   }
 
@@ -72,11 +67,11 @@ export class PostgresServiceRepository implements IServiceRepository {
       securityType: serviceDto.securityType as SECURITY,
     });
     const data = await ServiceMapper.toPersistence(service);
-    console.log('data: ', data)
+    console.log('data: ', data);
     const createdService = await this.db('services')
-    .insert(service)
-    .catch(error => console.error(error));
-    console.log('createdService: ', createdService)
+      .insert(service)
+      .catch(error => console.error(error));
+    console.log('createdService: ', createdService);
     return service;
   }
 
@@ -89,7 +84,7 @@ export class PostgresServiceRepository implements IServiceRepository {
   }
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
-    console.log('repo', serviceDto)
+    console.log('repo', serviceDto);
     const service: Service = Service.create({
       name: serviceDto.name,
       active: serviceDto.active,
@@ -141,19 +136,7 @@ export class PostgresServiceRepository implements IServiceRepository {
     id: string,
     serviceDto: ServiceDto,
   ): Promise<Service | string> {
-    const service: Service = Service.create({
-      name: serviceDto.name as string,
-      active: serviceDto.active as boolean,
-      description: serviceDto.description as string, 
-      redirectUrl: serviceDto.redirectUrl as string,
-      partnersId: serviceDto.partnersId as string[],
-      kongServiceName: serviceDto.kongServiceName as string,
-      kongServiceId: serviceDto.kongServiceId as string,
-      securityType: serviceDto.securityType as SECURITY,
-      rateLimiting: serviceDto.rateLimiting as number,
-    }); // try add ,id on service create
-    //const data =await ServiceMapper.toPersistence(service);
-    console.log('teste', service)
+    const service: Service = (await this.getServiceById(id)) as Service;
     const patchedService = await this.db('services')
       .where('id', id)
       .update(serviceDto)
