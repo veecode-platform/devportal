@@ -134,7 +134,7 @@ export async function createKongRouter(
           message: error.response.data.errorSummary,
           timestamp: new Date(date).toISOString(),
         });
-      }c
+      }
     },
   );
 

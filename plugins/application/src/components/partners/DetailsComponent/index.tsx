@@ -54,7 +54,7 @@ const Details = ({ partner }: PartnerProps) => {
     name: partner?.name ?? '...',
     active: partner?.active ?? true,
     email: partner?.email ?? '...',
-    phone: partner?.celular ?? '...',
+    phone: partner?.phone ?? '...',
     applicationId: partner?.applicationId ?? '...',
     servicesId: partner?.servicesId ?? '...',
     createdAt: partner?.createdAt ?? '...',
@@ -77,8 +77,8 @@ const Details = ({ partner }: PartnerProps) => {
                   <IconButton
                     component={Link}
                     aria-label="Edit"
-                    title="Edit Metadata"
-                    to={`/edit-partner?id=${partner?.id}`}
+                    title="Edit Partner"
+                    to={`/partners/edit-partner?id=${partner?.id}`}
                   >
                     <EditIcon />
                   </IconButton>
@@ -111,10 +111,8 @@ export const DetailsComponent = () => {
   const id = location.search.split("?id=")[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IPartner> => {
-    /*const response = await fetch(`http://localhost:7007/api/application/partner/${id}`);
-    const data = await response.json();*/
-    const response = await AxiosInstance.get(`/partners/${id}`)
-    return response.data.partners;
+    const {data} = await AxiosInstance.get(`/partners/${id}`)
+    return data.partners;
   }, []);
 
   if (loading) {

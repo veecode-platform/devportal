@@ -16,6 +16,7 @@ import {
 import { IPartner } from '../interfaces';
 import { Select } from '../../shared';
 import AxiosInstance from '../../../api/Api';
+import { FetchApplicationsList, FetchServicesList } from '../CreateComponent';
 
 type PartnerProps = {
   partnerData: IPartner | undefined;
@@ -29,7 +30,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
     name: partnerData?.name ?? '',
     active: partnerData?.active ?? true,
     email: partnerData?.email ?? '',
-    celular: partnerData?.celular ?? '',
+    phone: partnerData?.phone ?? '',
     servicesId: partnerData?.servicesId ?? [],
     applicationId: partnerData?.applicationId ?? [],
   });
@@ -37,7 +38,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
 
   const statusItems = [
     { label: 'active', value: 'true' },
-    { label: 'disable', value: 'false' },
+    { label: 'inactive', value: 'false' },
   ];
 
   const handleClose = (reason: string) => {
@@ -49,7 +50,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
       name: '',
       active: true,
       email: '',
-      celular: '',
+      phone: '',
       servicesId: [],
       applicationId: [],
     });
@@ -57,39 +58,26 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
 
   const handleSubmit = async () => {
     const dataPartner = {
-      partner: {
+      partners: {
         name: partner.name,
         active: partner.active,
         email: partner.email,
-        celular: partner.celular, // to do
+        celular: partner.phone, 
         servicesId: partner.servicesId,
         applicationId: partner.applicationId,
       },
     };
-    /*const config = {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify(dataPartner),
-    };
-
-    const response = await fetch(
-      `http://localhost:7007/api/application/partner/${partner?.id}`,
-      config,
-    );
-    const data = await response.json();*/
     const response = await AxiosInstance.post(`/partners/${partner?.id}`, JSON.stringify(dataPartner) )
     setShow(true);
     setTimeout(() => {
       navigate('/partners');
     }, 2000);
-    return response.data;
+    return response.data.partners;
   };
 
   return (
     <Page themeId="tool">
-      <Header title="Service"> </Header>
+      <Header title="Partners"> </Header>
       <Content>
         <ContentHeader title="Edit Partner"> </ContentHeader>
         <AlertComponent
@@ -134,30 +122,10 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                 </Grid>
 
                 <Grid item lg={12}>
-                  <Select
-                    placeholder="Application Id"
-                    label="Application Id"
-                    items={partner.applicationId.map(item => {
-                      return { ...{ label: item, value: item } };
-                    })}
-                    multiple
-                    onChange={(e: string | any) => {
-                      setPartner({ ...partner, applicationId: e });
-                    }}
-                  />
+                  <FetchServicesList partner={partner} setPartner={setPartner}/>
                 </Grid>
                 <Grid item xs={12}>
-                  <Select
-                    placeholder="Services Id"
-                    label="Services Id"
-                    items={partner.servicesId.map(item => {
-                      return { ...{ label: item, value: item } };
-                    })}
-                    multiple
-                    onChange={(e: string | any) => {
-                      setPartner({ ...partner, servicesId: e });
-                    }}
-                  />
+                  <FetchApplicationsList partner={partner} setPartner={setPartner}/>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -180,12 +148,12 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     type="number"
                     variant="outlined"
                     label="Phone"
-                    value={partner.celular}
+                    value={partner.phone}
                     required
                     onChange={e => {
                       setPartner({
                         ...partner,
-                        celular: e.target.value,
+                        phone: e.target.value,
                       });
                     }}
                   />
@@ -232,12 +200,8 @@ export const EditComponent = () => {
   const id = location.search.split('?id=')[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IPartner> => {
-    /*const response = await fetch(
-      `http://localhost:7007/api/application/partner/${id}`,
-    );
-    const data = await response.json();*/
-    const response = await AxiosInstance.get(`/partner/${id}`);
-    return response.data.services;
+    const {data} = await AxiosInstance.get(`/partners/${id}`);
+    return data.partners;
   }, []);
 
   if (loading) {

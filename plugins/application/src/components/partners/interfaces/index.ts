@@ -3,7 +3,7 @@ export interface IPartner {
     name: string,
     active?:  boolean | null,
     email: string,
-    celular: number | string, // to do
+    phone: number | string, // to do
     servicesId: string[] | any[],
     applicationId: string[] | any[],
     createdAt?: string, 
@@ -14,7 +14,7 @@ export interface ICreatePartner{
   name: string,
   active?:  boolean | null,
   email: string,
-  celular: number | string, // to do
+  phone: number | string, // to do
   servicesId: string[] | any,
   applicationId: string[] | any,
 }
