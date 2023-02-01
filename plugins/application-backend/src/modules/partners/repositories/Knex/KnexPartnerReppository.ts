@@ -75,7 +75,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       name: partnerDto.name,
       active: partnerDto.active,
       email: partnerDto.email,
-      celular: partnerDto.celular,
+      phone: partnerDto.phone,
       servicesId: partnerDto.servicesId,
       applicationId: partnerDto.applicationId,
     });
@@ -95,7 +95,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       name: partnerDto.name,
       active: partnerDto.active,
       email: partnerDto.email,
-      celular: partnerDto.celular,
+      phone: partnerDto.phone,
       servicesId: partnerDto.servicesId,
       applicationId: partnerDto.applicationId,
     });
@@ -114,7 +114,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       name: partnerDto.name,
       active: partnerDto.active,
       email: partnerDto.email,
-      celular: partnerDto.celular,
+      phone: partnerDto.phone,
       servicesId: partnerDto.servicesId,
       applicationId: partnerDto.applicationId,
     });
