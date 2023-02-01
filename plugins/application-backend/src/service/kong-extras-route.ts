@@ -177,10 +177,11 @@ export async function createKongRouter(
         })
     }
   });
-  router.post('/credential/:id', async (req, res) => {
+  router.post('/credentials/:idApplication', async (req, res) => {
     try {
-      const id = req.params.id;
+      const id = req.params.idApplication;
       const serviceStore = await kongHandler.generateCredential(
+        options,
         await kongServiceBase.getUrl(),
         id,
       );
@@ -195,7 +196,7 @@ export async function createKongRouter(
     }
   });
 
-  router.get('/credential/:idApplication', async (req, res) => {
+  router.get('/credentials/:idApplication', async (req, res) => {
     try {
       const id = req.params.idApplication;
       const serviceStore = await kongHandler.listCredentialWithApplication(

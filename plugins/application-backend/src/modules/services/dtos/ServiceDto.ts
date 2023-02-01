@@ -4,7 +4,7 @@ export class ServiceDto {
   name: string;
   description: string;
   redirectUrl: string;
-  partnersId: string[];
+  partnersId?: string[];
   kongServiceName: string;
   kongServiceId: string;
   active: boolean;
@@ -16,11 +16,11 @@ export class ServiceDto {
   constructor(
     name: string,
     description: string,
-    partnersId: string[],
     redirectUrl: string,
     kongServicename: string,
     kongServiceId: string,
     active: boolean,
+    partnersId?: string[],
     rateLimiting?: number,
     createdAt?: Date,
     updatedAt?: Date,
