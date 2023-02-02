@@ -5,6 +5,8 @@ import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
 import { AclPlugin } from "../modules/kong/plugins/AclPlugin";
 import { ConsumerService } from "../modules/kong/services/ConsumerService";
 import { Consumer } from "../modules/applications/dtos/ApplicationDto";
+import { ConsumerGroupService } from "../modules/kong/services/ConsumerGroupService";
+import { ConsumerGroup } from "../modules/kong/model/ConsumerGroup";
 const aclPlugin = AclPlugin.Instance;
 
 /** @public */
@@ -16,6 +18,7 @@ export async function createKongRouter(
   const kongHandler = new KongHandler()
   const consumerService = new ConsumerService();
   const kongServiceBase = new KongServiceBase()
+  const consumerGroupService = new ConsumerGroupService();
 
 
   router.post(
@@ -228,15 +231,15 @@ export async function createKongRouter(
   });
 
 
-  router.delete('/credencial/:idApplication', async (request, response) => {
+  router.delete('/credentials/:idApplication', async (request, response) => {
     try {
-      const idCredencial = request.query.idCredencial as string;
+      const idCredential = request.query.idCredential as string;
       const idApplication = request.params.idApplication;
       const serviceStore = await kongHandler.removeCredencial(
         options,
         await kongServiceBase.getUrl(),
         idApplication,
-        idCredencial,
+        idCredential,
       );
       response.status(204).json({ status: 'ok', credentials: serviceStore });
     } catch (error: any) {
@@ -317,6 +320,124 @@ export async function createKongRouter(
       });
     }
   });
+  // CONSUMER GROUPS
+  router.post('/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroup: ConsumerGroup = request.body;
+      const result = await consumerGroupService.createConsumerGroup(
+        consumerGroup,
+      );
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      console.log(error);
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.get('/consumer_groups', async (_, response) => {
+    try {
+      const consumerGroups = await consumerGroupService.listConsumerGroups();
+      response.status(200).json({ status: 'ok', groups: { consumerGroups } });
+    } catch (error: any) {
+      response.status(error.status).json({
+        message: error.message,
+        timestamp: error.timestamp,
+      });
+    }
+  });
+
+  router.post('/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroup: ConsumerGroup = request.body;
+      const result = await consumerGroupService.createConsumerGroup(
+        consumerGroup,
+      );
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.post('/consumer_groups/:id/consumers', async (request, response) => {
+    try {
+      const consumerGroup = request.body;
+      const result = await consumerGroupService.addConsumerToGroup(
+        request.params.id,
+        consumerGroup,
+      );
+      response.status(201).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.delete('/consumer_groups/:id', async (request, response) => {
+    try {
+      const consumerGroup = await consumerGroupService.deleteConsumerGroup(
+        request.params.id,
+      );
+      response.status(204).json({ status: 'ok', group: { consumerGroup } });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.delete(
+    '/consumers/:consumerId/consumer_groups/:groupId',
+    async (request, response) => {
+      try {
+        const consumerGroup =
+          await consumerGroupService.removeConsumerFromGroup(
+            request.params.consumerId,
+            request.params.groupId,
+          );
+        response.status(204).json({ status: 'ok', group: { consumerGroup } });
+      } catch (error: any) {
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+  router.delete('/consumers/:id/consumer_groups', async (request, response) => {
+    try {
+      const consumerGroup = await consumerGroupService.removeConsumerFromGroups(
+        request.params.id,
+      );
+      response.status(204).json({ status: 'ok', group: { consumerGroup } });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
 
 
   return router;
