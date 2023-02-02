@@ -19,8 +19,8 @@ export class AssociateService{
       await routerOptions.database.getClient(),    
     );
        const application = await applicationRepository.getApplicationById(id) as ApplicationProps;
-       const arrayConsumerName = application.servicesId
-      if(arrayConsumerName != null){
+       const idservices = application.servicesId
+      if(idservices != null){
         for (let index = 0; index < servicesId.length; index++) {
           application.servicesId.push(servicesId[index])
         }
@@ -30,15 +30,15 @@ export class AssociateService{
       await applicationRepository.patchApplication(id, application as any);
   }
 
-  async removeAssociate(routerOptions: RouterOptions, id: string, consumerName: string){
+  async removeAssociate(routerOptions: RouterOptions, id: string, servicesId: string){
     const applicationRepository = await PostgresApplicationRepository.create(
       await routerOptions.database.getClient(),    
     );
     const application = await applicationRepository.getApplicationById(id) as ApplicationProps
 
       for (let index = 0; index < application.externalId.length; index++) {
-        if(application.externalId[index] == consumerName){
-           application.externalId.slice(index, 1)
+        if(application.servicesId[index] == servicesId){
+           application.servicesId.slice(index, 1)
           break
         }
       }
@@ -49,6 +49,6 @@ async findAllAssociate(routerOptions: RouterOptions, id: string){
     await routerOptions.database.getClient(),    
   );
     const associates = await applicationRepository.getApplicationById(id) as ApplicationProps;
-    return associates.externalId
+    return associates.servicesId
 }
 }
