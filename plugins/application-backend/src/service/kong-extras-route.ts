@@ -3,6 +3,8 @@ import { RouterOptions } from "./router";
 import { KongHandler } from "../modules/kong-control/KongHandler";
 import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
 import { AclPlugin } from "../modules/kong/plugins/AclPlugin";
+import { ConsumerService } from "../modules/kong/services/ConsumerService";
+import { Consumer } from "../modules/applications/dtos/ApplicationDto";
 const aclPlugin = AclPlugin.Instance;
 
 /** @public */
@@ -12,6 +14,7 @@ export async function createKongRouter(
 
   const router = Router()
   const kongHandler = new KongHandler()
+  const consumerService = new ConsumerService();
   const kongServiceBase = new KongServiceBase()
 
 
@@ -179,27 +182,7 @@ export async function createKongRouter(
     }
   });
 
-  router.get('/consumers', async (_, res) => {
-    try {
-      const serviceStore = await kongHandler.listConsumers(await kongServiceBase.getUrl());
-      if (serviceStore)
-        res.status(200).json({ status: 'ok', costumer: serviceStore });
 
-    } catch (error: any) {
-      if (error == undefined) {
-        res.status(500).json({ status: 'error' })
-      }
-      let date = new Date();
-      console.log(error)
-      res
-        .status(error.response.status)
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
-    }
-  });
   router.post('/credentials/:idApplication', async (req, res) => {
     try {
       const id = req.params.idApplication;
@@ -265,5 +248,76 @@ export async function createKongRouter(
       });
     }
   });
+
+  // CONSUMER
+  router.get('/consumers/:consumerName', async (request, response) => {
+    try {
+      const consumer = await consumerService.findConsumer(
+        request.params.consumerName,
+      );
+      response.status(200).json({ status: 'ok', consumer: { consumer } });
+    } catch (error: any) {
+      response.status(error.status).json({
+        message: error.message,
+        timestamp: error.timestamp,
+      });
+    }
+  });
+
+  router.get('/consumers', async (_, res) => {
+    try {
+      const serviceStore = await kongHandler.listConsumers(await kongServiceBase.getUrl());
+      if (serviceStore)
+        res.status(200).json({ status: 'ok', costumer: serviceStore });
+
+    } catch (error: any) {
+      if (error == undefined) {
+        res.status(500).json({ status: 'error' })
+      }
+      let date = new Date();
+      console.log(error)
+      res
+        .status(error.response.status)
+        .json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString()
+        })
+    }
+  });
+
+  router.delete('/consumer/:id', async (request, response) => {
+    try {
+      const consumer = await consumerService.deleteConsumer(request.params.id);
+      response.status(204).json({ status: 'ok', associates: { consumer } });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.put('/consumer/:id', async (request, response) => {
+    try {
+      const consumer: Consumer = request.body;
+      const result = await consumerService.updateConsumer(
+        request.params.id,
+        consumer,
+      );
+      response.status(200).json({ status: 'ok', service: result });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.errorSummary,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+
   return router;
 }

@@ -57,9 +57,6 @@ export async function createRouter(
 ): Promise<express.Router> {
   const { logger, database } = options;
 
-  const applicationRepository = await PostgresApplicationRepository.create(
-    await database.getClient(),
-  );
   const pluginRepository = await PostgresPluginRepository.create(
     await database.getClient(),
   );
@@ -69,12 +66,10 @@ export async function createRouter(
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const adminClientKeycloak = new TestGroups();
   const userServiceKeycloak = new KeycloakUserService();
-  const consumerService = new ConsumerService();
+
 
   const controllPlugin = new ControllPlugin();
   const consumerGroupService = new ConsumerGroupService();
-  const userService = new UserService();
-  const associateService = new AssociateService();
   const pluginService = new PluginService();
   const aclPlugin = AclPlugin.Instance;
 
@@ -225,141 +220,7 @@ export async function createRouter(
     const res = await pluginRepository.deletePlugin(pluginId);
     response.status(204).json({ status: 'ok', plugin: res });
   });
-
-  router.get('/associate/:id', async (request, response) => {
-    const services = await associateService.findAllAssociate(
-      options,
-      request.params.id,
-    );
-    response.json({ status: 'ok', associates: { services } });
-  });
-  router.delete('/associate/:id/', async (request, response) => {
-    const services = await associateService.removeAssociate(
-      options,
-      request.params.id,
-      request.query.service as string,
-    );
-    response.json({ status: 'ok', associates: { services } });
-  });
-
-  router.post('/user/invite', async (request, response) => {
-    let body = request.body.profile;
-    let user = new UserInvite(
-      body.email,
-      body.firstName,
-      body.lastName,
-      body.login,
-      body.mobilePhone,
-    );
-    try {
-      let service = await userService.inviteUserByEmail(
-        config.getString('okta.host'),
-        config.getString('okta.token'),
-        user,
-      );
-      response.json({ service: service });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorCauses[0].errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  router.patch('/associate/:id', async (request, response) => {
-    const code = request.params.id;
-    const listServicesId: string[] = request.body.services;
-    await applicationRepository.associate(code, listServicesId);
-    response
-      .status(200)
-      .json({ status: 'ok', application: applicationRepository });
-  });
-
-
-
-  
-
-  // kong-consumer
-  router.get('/consumer/:consumerName', async (request, response) => {
-    try {
-      const consumer = await consumerService.findConsumer(
-        request.params.consumerName,
-      );
-      response.status(200).json({ status: 'ok', associates: { consumer } });
-    } catch (error: any) {
-      response.status(error.status).json({
-        message: error.message,
-        timestamp: error.timestamp,
-      });
-    }
-  });
-  router.get('/associate/:id', async (request, response) => {
-    const services = await associateService.findAllAssociate(
-      options,
-      request.params.id,
-    );
-    response.json({ status: 'ok', associates: { services } });
-  });
-  router.delete('/associate/:id/', async (request, response) => {
-    const services = await associateService.removeAssociate(
-      options,
-      request.params.id,
-      request.query.service as string,
-    );
-    response.json({ status: 'ok', associates: { services } });
-  });
-
-  // router.post('/user/invite', async (request, response) => {
-  //   let body = request.body.profile;
-  //   let user = new UserInvite(body.email, body.firstName, body.lastName, body.login, body.mobilePhone);
-  //   try {
-  //     const consumer = await consumerService.findConsumer(
-  //       request.params.consumerName,
-  //     );
-  //     response.status(200).json({ status: 'ok', associates: { consumer } });
-  //   } catch (error: any) {
-  //     response.status(error.status).json({
-  //       message: error.message,
-  //       timestamp: error.timestamp,
-  //     });
-  //   }
-  // });
-
-  router.delete('/consumer/:id', async (request, response) => {
-    try {
-      const consumer = await consumerService.deleteConsumer(request.params.id);
-      response.status(204).json({ status: 'ok', associates: { consumer } });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  // PLUGINS
  
-  router.put('/consumer/:id', async (request, response) => {
-    try {
-      const consumer: Consumer = request.body;
-      const result = await consumerService.updateConsumer(
-        request.params.id,
-        consumer,
-      );
-      response.status(200).json({ status: 'ok', service: result });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
   router.post('/kong-service/acl/:serviceName', async (request, response) => {
     try {
       const allowed = request.body.allowed;
