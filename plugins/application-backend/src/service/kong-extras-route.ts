@@ -150,7 +150,7 @@ export async function createKongRouter(
       }
       let date = new Date();
       res
-        .status(error.response.status)//verify
+        .status(error.response.status) // verify
         .json({
           status: 'ERROR',
           message: error.response.data.errorSummary,//verify

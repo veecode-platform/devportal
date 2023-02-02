@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
@@ -17,6 +18,7 @@ import { IService } from '../utils/interfaces';
 import { Select } from '../../shared';
 import { rateLimitingItems, securityItems, statusItems } from '../utils/common';
 import AxiosInstance from '../../../api/Api';
+import { FetchKongServices } from '../utils/kongUtils';
 
 type ServiceProps = {
   serviceData: IService | undefined;
@@ -38,18 +40,6 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
   });
   const [show, setShow] = useState(false);
 
-  const serviceNamesItems = [
-    'Google',
-    'Kong',
-    'Kubernetes',
-    'Kubernetes helm',
-    'Kubernetes kunectl',
-    'Kubernetes Kustomize',
-    'Kubernetes Minikube',
-    'Kubernetes Minikuve Kustomise',
-    'Kubernetes Minikube Kustom',
-  ];
-
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') {
       return;
@@ -69,8 +59,9 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
   };
 
   const handleSubmit = async () => {
-    const serviceData = {
-      services: {
+    
+    const data = {                                       
+       services:{
         name: service.name,
         active: service.active,
         description: service.description,
@@ -80,22 +71,9 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
         kongServiceName: service.kongServiceName,
         kongServiceId: service.kongServiceId,
         securityType: service.securityType,
-      },
+       }
     };
-    /*const config = {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify(dataTest),
-    };
-
-    const response = await fetch(
-      `http://localhost:7007/api/application/service/${service?.id}`,
-      config,
-    );*/
-    const response = await AxiosInstance.put(`services/${service?.id}`, JSON.stringify(serviceData))
-    //const data = response.data;
+    const response = await AxiosInstance.put(`services/${service?.id}`, JSON.stringify(data))
     setShow(true);
     setTimeout(() => {
       navigate('/services');
@@ -139,22 +117,16 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                   item
                   style={{
                     display: 'grid',
-                    gridTemplate: 'auto / repeat(2, 1fr)',
-                    justifyContent: 'space-between',
+                    gridTemplate: 'auto / 2fr 1fr',
+                    justifyContent: 'center',
                     alignItems: 'center',
                     gap:'1em',
                     width: '100%',
                   }}
                 >
-                  <Select
-                    placeholder="Select the Kong Service Name"
-                    label="Service Name"
-                    items={serviceNamesItems.map(item => {
-                      return { ...{ label: item, value: item } };
-                    })}
-                    onChange={e => {
-                      setService({ ...service, kongServiceName: e });
-                    }}
+                                   <FetchKongServices
+                    valueName={service.kongServiceName}
+                    setValue={setService}
                   />
                   <Select
                     placeholder="Select the Status"
@@ -167,8 +139,8 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                     }}
                   />
                 </Grid>
-
-                <Grid item xs={12}>
+                
+              <Grid item xs={12}>
                   <TextField
                     fullWidth
                     variant="outlined"
@@ -192,19 +164,6 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                     required
                     onChange={e => {
                       setService({ ...service, redirectUrl: e.target.value });
-                    }}
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Kong Service Id"
-                    value={service.kongServiceId}
-                    required
-                    onChange={e => {
-                      setService({ ...service, kongServiceId: e.target.value });
                     }}
                   />
                 </Grid>
@@ -276,12 +235,8 @@ export const EditComponent = () => {
   const id = location.search.split('?id=')[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
-    /*const response = await fetch(
-      `http://localhost:7007/api/application/service/${id}`,
-    );
-    const data = await response.json();*/
     const { data } = await AxiosInstance.get(`/services/${id}`)
-    return data.services[0];                             // CHECK ---- TO DO
+    return data.services;                            
   }, []);
 
   if (loading) {
