@@ -186,71 +186,7 @@ export async function createKongRouter(
   });
 
 
-  router.post('/credentials/:idApplication', async (req, res) => {
-    try {
-      const id = req.params.idApplication;
-      const serviceStore = await kongHandler.generateCredential(
-        options,
-        await kongServiceBase.getUrl(),
-        id,
-      );
-      res.status(201).json({ status: 'ok', response: serviceStore });
-    } catch (error: any) {
-      if (error == undefined) {
-        res.status(500).json({ status: 'error' })
-      }
-      let date = new Date();
-      return res.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  router.get('/credentials/:idApplication', async (req, res) => {
-    try {
-      const id = req.params.idApplication;
-      const serviceStore = await kongHandler.listCredentialWithApplication(
-        options,
-        await kongServiceBase.getUrl(),
-        id
-      );
-      res.status(200).json({ status: 'ok', credentials: serviceStore });
-    } catch (error: any) {
-      if (error == undefined) {
-        res.status(500).json({ status: 'error' })
-      }
-      let date = new Date();
-      return res.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-
-  router.delete('/credentials/:idApplication', async (request, response) => {
-    try {
-      const idCredential = request.query.idCredential as string;
-      const idApplication = request.params.idApplication;
-      const serviceStore = await kongHandler.removeCredencial(
-        options,
-        await kongServiceBase.getUrl(),
-        idApplication,
-        idCredential,
-      );
-      response.status(204).json({ status: 'ok', credentials: serviceStore });
-    } catch (error: any) {
-      let date = new Date();
-      return response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
+ 
 
   // CONSUMER
   router.get('/consumers/:consumerName', async (request, response) => {
