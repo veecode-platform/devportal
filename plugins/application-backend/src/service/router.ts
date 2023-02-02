@@ -12,11 +12,11 @@ import { PostgresApplicationRepository } from '../modules/applications/repositor
 
 import { TestGroups } from '../modules/keycloak/adminClient';
 import { AssociateService } from '../modules/kong-control/AssociateService';
-import { KongHandler } from '../modules/kong-control/KongHandler';
+
 import { Consumer } from '../modules/kong-control/model/Consumer';
 import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
 import { AclPlugin } from '../modules/kong/plugins/AclPlugin';
-import { KeyAuthPlugin } from '../modules/kong/plugins/KeyAuthPlugin';
+
 import { RateLimitingPlugin } from '../modules/kong/plugins/RateLimitingPlugin';
 import { ConsumerGroupService } from '../modules/kong/services/ConsumerGroupService';
 import { ConsumerService } from '../modules/kong/services/ConsumerService';
@@ -35,7 +35,6 @@ import { createServiceRouter } from './service-route';
 import { createPartnersRouter } from './partners-route';
 import { createKongRouter } from './kong-extras-route';
 import { createApplicationRouter } from './applications-route';
-import { CredentialsOauth } from '../modules/kong/services/CredentialsOauth';
 
 import { applyDatabaseMigrations } from '../../database/migrations';
 import { testeRoute } from './teste-router';
@@ -70,16 +69,15 @@ export async function createRouter(
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const adminClientKeycloak = new TestGroups();
   const userServiceKeycloak = new KeycloakUserService();
-  const kongHandler = new KongHandler();
   const consumerService = new ConsumerService();
-  const credentialsOauth = new CredentialsOauth();
+
   const controllPlugin = new ControllPlugin();
   const consumerGroupService = new ConsumerGroupService();
   const userService = new UserService();
   const associateService = new AssociateService();
   const pluginService = new PluginService();
   const aclPlugin = AclPlugin.Instance;
-  const keyAuthPlugin = KeyAuthPlugin.Instance;
+
   const rateLimitingPlugin = RateLimitingPlugin.Instance;
   logger.info('Initializing application backend');
 
@@ -115,27 +113,6 @@ export async function createRouter(
     }
   });
 
-  router.post('/credentials-oauth2/:idConsumer', async (request, response) => {
-    const id = request.params.idConsumer as string
-    const name = request.query.name as string;
-    const credential = await credentialsOauth.generateCredentials(id, name)
-
-    response.status(201).json({status: 'ok', response: credential})
-  });
-
-  router.get('/credentials-oauth2/:idConsumer', async (request, response) => {
-    const id = request.params.idConsumer as string
-    const credential = await credentialsOauth.findAllCredentials(id)
-    
-    response.json({status: 'ok', response: credential})
-  });
-  router.delete('/credentials-oauth2/:idConsumer', async (request, response) => {
-    const id = request.params.idConsumer as string
-    const idCredential = request.query.idCredential as string;
-    const teste = await credentialsOauth.deleteCredentialById(id, idCredential)
-    
-    response.status(204).json({status: 'ok', response: teste})
-  });
 
   router.put('/remove-plugin/:idService', async (request, response) => {
     const teste = controllPlugin.removePlugin(
@@ -446,138 +423,7 @@ export async function createRouter(
     },
   );
 
-  // credentials
-
-  router.post('/credencial/:id', async (request, response) => {
-    try {
-      const id = request.params.id;
-      const serviceStore = await kongHandler.generateCredential(
-        config.getString('kong.api-manager'),
-        id,
-      );
-      response.status(201).json({ status: 'ok', response: serviceStore });
-    } catch (error: any) {
-      const date = new Date();
-      return response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  router.get('/credencial/:id', async (request, response) => {
-    try {
-      const id = request.params.id;
-      const serviceStore = await kongHandler.listCredentialWithApplication(
-        options,
-        config.getString('kong.api-manager'),
-        id,
-      );
-      response.status(200).json({ status: 'ok', credentials: serviceStore });
-    } catch (error: any) {
-      let date = new Date();
-      return response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-  router.delete('/credencial/:idConsumer', async (request, response) => {
-    try {
-      const idCredencial = request.query.idCredencial as string;
-      const idConsumer = request.params.idConsumer;
-      const serviceStore = await kongHandler.removeCredencial(
-        config.getString('kong.api-manager'),
-        idConsumer,
-        idCredencial,
-      );
-      response.status(204).json({ status: 'ok', credentials: serviceStore });
-    } catch (error: any) {
-      let date = new Date();
-      return response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-
-  // KEY-AUTH - TEST ROUTER
-  router.post(
-    '/kong-service/plugin/keyauth/:serviceName',
-    async (request, response) => {
-      try {
-        const serviceStore = await keyAuthPlugin.configKeyAuthKongService(
-          request.params.serviceName,
-          request.body.config.key_names,
-        );
-        if (serviceStore) {
-          response.json({ status: 'ok', plugins: serviceStore });
-          return;
-        }
-        response.json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        console.log(error);
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
-  router.patch(
-    '/kong-service/plugin/keyauth/:serviceName/:pluginId',
-    async (request, response) => {
-      try {
-        const serviceStore = await keyAuthPlugin.updateKeyAuthKongService(
-          request.params.serviceName,
-          request.params.pluginId,
-          request.body.config.key_names,
-        );
-        if (serviceStore) {
-          response.json({ status: 'ok', plugins: serviceStore });
-          return;
-        }
-        response.json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        console.log(error);
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
-  router.delete(
-    '/kong-service/plugin/keyauth/:serviceName/:pluginId',
-    async (request, response) => {
-      try {
-        const serviceStore = await keyAuthPlugin.removeKeyAuthKongService(
-          request.params.serviceName,
-          request.params.pluginId,
-        );
-        response.json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        console.log(error);
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
-  // RATE LIMITING - TEST ROUTER
+  // RATE LIMITING - TEST ROUTER1
   router.post(
     '/kong-service/plugin/ratelimiting/:serviceName',
     async (request, response) => {

@@ -4,7 +4,7 @@ export type PartnerProps = {
   name: string;
   email: string;
   active: boolean;
-  celular: string;
+  phone: string;
   servicesId: string[];
   applicationId: string[];
   createdAt?: Date;
@@ -15,7 +15,7 @@ export class Partner extends Entity<PartnerProps> {
   name?: string;
   email?: string;
   active?: boolean;
-  celular?: string;
+  phone?: string;
   servicesId?: string[];
   applicationId?: string[];
   private constructor(props: PartnerProps, id?: string) {
