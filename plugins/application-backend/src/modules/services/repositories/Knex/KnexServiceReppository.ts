@@ -5,6 +5,8 @@ import { ServiceResponseDto } from '../../dtos/ServiceResponseDto';
 import { ServiceMapper } from '../../mappers/ServiceMapper';
 import { IServiceRepository } from '../IServiceRepository';
 
+
+
 export class PostgresServiceRepository implements IServiceRepository {
   constructor(private readonly db: Knex) {}
   async total(): Promise<number> {
@@ -67,11 +69,9 @@ export class PostgresServiceRepository implements IServiceRepository {
       securityType: serviceDto.securityType as SECURITY,
     });
     const data = await ServiceMapper.toPersistence(service);
-    console.log('data: ', data);
     const createdService = await this.db('services')
-      .insert(service)
-      .catch(error => console.error(error));
-    console.log('createdService: ', createdService);
+    .insert(service)
+    .catch(error => console.error(error));
     return service;
   }
 
@@ -84,7 +84,6 @@ export class PostgresServiceRepository implements IServiceRepository {
   }
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
-    console.log('repo', serviceDto);
     const service: Service = Service.create({
       name: serviceDto.name,
       active: serviceDto.active,

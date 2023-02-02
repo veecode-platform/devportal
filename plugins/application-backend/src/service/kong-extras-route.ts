@@ -27,6 +27,9 @@ export async function createKongRouter(
           response.json({ status: 'ok', plugins: serviceStore });
         response.json({ status: 'ok', services: [] });
       } catch (error: any) {
+        if (error == undefined) {
+          response.status(500).json({ status: 'error' })
+        }
         let date = new Date();
         console.log(error);
         response.status(error.response.status).json({
@@ -52,6 +55,9 @@ export async function createKongRouter(
           response.json({ status: 'ok', plugins: serviceStore });
         response.json({ status: 'ok', services: [] });
       } catch (error: any) {
+        if (error == undefined) {
+          response.status(500).json({ status: 'error' })
+        }
         let date = new Date();
         console.log(error);
         response.status(error.response.status).json({
@@ -71,10 +77,11 @@ export async function createKongRouter(
           await kongServiceBase.getUrl(),
           request.params.serviceName,
         );
-
-          response.json({ status: 'ok', services: services });
-    
+        response.json({ status: 'ok', services: services })
       } catch (error: any) {
+        if (error == undefined) {
+          response.status(500).json({ status: 'error' })
+        }
         console.log(error)
         let date = new Date();
         response.status(error.response.status).json({
@@ -93,7 +100,11 @@ export async function createKongRouter(
         request.params.serviceName,
         request.query.pluginName as string,
       );
-     response.json({ status: 'ok', plugins: serviceStore });    } catch (error: any) {
+      response.json({ status: 'ok', plugins: serviceStore });
+    } catch (error: any) {
+      if (error == undefined) {
+        response.status(500).json({ status: 'error' })
+      }
       let date = new Date();
       response.status(error.response.status).json({
         status: 'ERROR',
@@ -112,8 +123,11 @@ export async function createKongRouter(
           request.params.serviceName,
           request.query.pluginName as string,
         );
-          response.json({ status: 'ok', services: serviceStore });
+        response.json({ status: 'ok', services: serviceStore });
       } catch (error: any) {
+        if (error == undefined) {
+          response.status(500).json({ status: 'error' })
+        }
         let date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
@@ -131,6 +145,9 @@ export async function createKongRouter(
       if (serviceStore)
         res.json({ status: 'ok', services: serviceStore });
     } catch (error: any) {
+      if (error == undefined) {
+        res.status(500).json({ status: 'error' })
+      }
       let date = new Date();
       res
         .status(error.response.status)//verify
@@ -148,6 +165,9 @@ export async function createKongRouter(
       if (serviceStore)
         res.json({ status: 'ok', routes: serviceStore });
     } catch (error: any) {
+      if (error == undefined) {
+        res.status(500).json({ status: 'error' })
+      }
       let date = new Date();
       res
         .status(error.response.status)
@@ -166,6 +186,9 @@ export async function createKongRouter(
         res.status(200).json({ status: 'ok', costumer: serviceStore });
 
     } catch (error: any) {
+      if (error == undefined) {
+        res.status(500).json({ status: 'error' })
+      }
       let date = new Date();
       console.log(error)
       res
@@ -187,6 +210,9 @@ export async function createKongRouter(
       );
       res.status(201).json({ status: 'ok', response: serviceStore });
     } catch (error: any) {
+      if (error == undefined) {
+        res.status(500).json({ status: 'error' })
+      }
       let date = new Date();
       return res.status(error.response.status).json({
         status: 'ERROR',
@@ -206,6 +232,9 @@ export async function createKongRouter(
       );
       res.status(200).json({ status: 'ok', credentials: serviceStore });
     } catch (error: any) {
+      if (error == undefined) {
+        res.status(500).json({ status: 'error' })
+      }
       let date = new Date();
       return res.status(error.response.status).json({
         status: 'ERROR',
