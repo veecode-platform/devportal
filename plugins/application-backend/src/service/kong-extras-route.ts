@@ -214,5 +214,27 @@ export async function createKongRouter(
       });
     }
   });
+
+
+  router.delete('/credencial/:idApplication', async (request, response) => {
+    try {
+      const idCredencial = request.query.idCredencial as string;
+      const idApplication = request.params.idApplication;
+      const serviceStore = await kongHandler.removeCredencial(
+        options,
+        await kongServiceBase.getUrl(),
+        idApplication,
+        idCredencial,
+      );
+      response.status(204).json({ status: 'ok', credentials: serviceStore });
+    } catch (error: any) {
+      let date = new Date();
+      return response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
   return router;
 }

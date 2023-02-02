@@ -1,7 +1,6 @@
 // class to access kong api manager service
 import axios from 'axios';
-import { PluginDatabaseManager } from '@backstage/backend-common';
-import { ApplicationProps } from '../applications/domain/Application';
+import { Application, ApplicationProps } from '../applications/domain/Application';
 import { PostgresApplicationRepository } from '../applications/repositories/knex/KnexApplicationRepository';
 import { credential } from './Credential';
 import { RouterOptions } from '../../service/router';
@@ -12,9 +11,7 @@ type Service = {
   id: string;
 };
 
-export type DataBaseOptions = {
-  database: PluginDatabaseManager;
-}
+
 export class KongHandler {
   public async listServices(kongUrl: string): Promise<Service[]> {
     const url = `${kongUrl}/services`
@@ -133,8 +130,12 @@ export class KongHandler {
     return credentials;
   }
 
-  public async removeCredencial(kongUrl: string, idConsumer: string, idCredencial: string) {
-    const url = `${kongUrl}/consumers/${idConsumer}/key-auth/${idCredencial}`
+  public async removeCredencial(options: RouterOptions, kongUrl: string, idApplication: string, idCredencial: string) {
+    const applicationRepository = await PostgresApplicationRepository.create(
+      await options.database.getClient(),
+    );
+    const application: Application = await applicationRepository.getApplicationById(idApplication) as Application
+    const url = `${kongUrl}/consumers/${application.externalId}/key-auth/${idCredencial}`
 
     const response = await axios.delete(url);
     return response.data;
