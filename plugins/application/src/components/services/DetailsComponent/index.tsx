@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { Progress, TabbedLayout } from '@backstage/core-components';
-import { useLocation, Link as RouterLink } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
 import { Header, Page, Link } from '@backstage/core-components';
 import { IService } from '../utils/interfaces';

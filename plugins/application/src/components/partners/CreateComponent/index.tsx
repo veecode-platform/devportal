@@ -3,23 +3,25 @@ import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { AlertComponent, Select } from '../../shared';
-import AxiosInstance from '../../../api/Api';
-
+import AxiosInstance from '../../../api/Api'; 
 import {
   InfoCard,
   Header,
   Page,
   Content,
   ContentHeader,
+  Progress,
 } from '@backstage/core-components';
 import { ICreatePartner } from '../interfaces';
+import { Alert } from '@material-ui/lab';
+import useAsync from 'react-use/lib/useAsync';
 
 export const CreateComponent = () => {
   const [partner, setPartner] = useState<ICreatePartner>({
     name: '',
     active: true,
     email: '',
-    celular: '',
+    phone: '',
     servicesId: [],
     applicationId: []
   });
@@ -35,23 +37,11 @@ export const CreateComponent = () => {
       name: '',
       active: true,
       email: '',
-      celular: '',
+      phone: '',
       servicesId: [],
       applicationId: []
     });
   };
-
-  const servicesIdMock = [
-    '1234256656-45354',
-    'w4trgehwfreutir235-4545',
-    '456789fogfg9r03-e5345',
-  ];
-
-  const applicationIdMock = [
-    '1234256656-45354',
-    'w4trgehwfreutir235-4545',
-    '456789fogfg9r03-e5345',
-  ];
 
   const handleSubmit = async () => {
 
@@ -60,21 +50,12 @@ export const CreateComponent = () => {
         name: partner.name,
         active: partner.active,
         email: partner.email,
-        celular: partner.celular, // to do
+        phone: partner.phone, 
         servicesId: partner.servicesId,
         applicationId: partner.applicationId
       }
     }
-    /*const config = {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify(dataPartner)
-    };
 
-    const response = await fetch('http://localhost:7007/api/application/partner', config);
-    const data = await response.json();*/
     const response = await AxiosInstance.post("/partners", JSON.stringify(dataPartner) )
     setShow(true);
     setTimeout(() => {
@@ -110,32 +91,11 @@ export const CreateComponent = () => {
                     }}
                   />
                 </Grid>
-
-                <Grid item lg={12}>
-                  <Select
-                    placeholder="Application Id"
-                    label="Application Id"
-                    items={applicationIdMock.map(item => {
-                      return { ...{ label: item, value: item } };
-                    })}
-                    multiple
-                    onChange={e => {
-                      setPartner({ ...partner, applicationId: e });
-                    }}
-                  />
-                </Grid>
                 <Grid item xs={12}>
-                  <Select
-                    placeholder="Services Id"
-                    label="Services Id"
-                    items={servicesIdMock.map(item => {
-                      return { ...{ label: item, value: item } };
-                    })}
-                    multiple
-                    onChange={e => {
-                      setPartner({ ...partner, servicesId: e });
-                    }}
-                  />
+                  <FetchServicesList partner={partner} setPartner={setPartner}/>
+                </Grid>
+                <Grid item lg={12}>
+                <FetchApplicationsList partner={partner} setPartner={setPartner}/>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -158,12 +118,12 @@ export const CreateComponent = () => {
                     type='number'
                     variant="outlined"
                     label="Phone"
-                    value={partner.celular ?? ''}
+                    value={partner.phone ?? ''}
                     required
                     onChange={e => {
                       setPartner({
                         ...partner,
-                        celular: e.target.value,
+                        phone: e.target.value,
                       });
                     }}
                   />
@@ -203,6 +163,58 @@ export const CreateComponent = () => {
       </Content>
     </Page>
   )
+};
+
+export const FetchServicesList = ({partner, setPartner}: any) => {
+
+  const { value, loading, error } = useAsync(async (): Promise<any> => {
+    const {data} = await AxiosInstance.get(`/services`);
+    return data.services;
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return (
+  <Select
+    placeholder="Services"
+    label="Services"
+    items={value.map((item: any) => {
+      return { ...{ label: item.name, value: item.id, key: item.id } };
+      })}
+    multiple
+    onChange={e => {
+    setPartner({ ...partner, servicesId: e });
+    }}
+  />)
+};
+
+export const FetchApplicationsList = ({partner, setPartner}: any) => {
+
+  const { value, loading, error } = useAsync(async (): Promise<any> => {
+    const {data} = await AxiosInstance.get(`/applications`);
+    return data.applications;
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return (
+  <Select
+    placeholder="Applications"
+    label="Applications"
+    items={value.map((item: any) => {
+      return { ...{ label: item.name, value: item.id, key: item.id } };
+      })}
+    multiple
+    onChange={e => {
+    setPartner({ ...partner, applicationId: e });
+    }}
+  />)
 };
 
 

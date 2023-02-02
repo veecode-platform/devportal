@@ -1,5 +1,5 @@
 import { KeycloakAdminClient } from '../adminClient';
-import { UpdateUserDto, UserDto } from '../dtos/UserDto';
+import { UserDto } from '../dtos/UserDto';
 
 export class KeycloakUserService {
   private static _instance: KeycloakUserService;

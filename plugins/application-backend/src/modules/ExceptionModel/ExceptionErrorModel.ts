@@ -1,17 +1,7 @@
-import { AxiosError } from "axios";
+import { AxiosError } from 'axios';
 
-export class ErrorModel extends AxiosError{
-  
-
-
+export class ErrorModel extends AxiosError {
   constructor() {
     super();
   }
-
-
-
-
-
-
-
 }
