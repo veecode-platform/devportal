@@ -221,68 +221,7 @@ export async function createRouter(
     response.status(204).json({ status: 'ok', plugin: res });
   });
  
-  router.post('/kong-service/acl/:serviceName', async (request, response) => {
-    try {
-      const allowed = request.body.allowed;
-      const hide = request.body.hide_groups_header;
-      const serviceStore = await pluginService.configAclKongService(
-        config.getString('kong.api-manager'),
-        request.params.serviceName,
-        allowed,
-        hide,
-      );
-      if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
-      response.json({ status: 'ok', services: [] });
-    } catch (error: any) {
-      console.log(error);
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
-  router.delete('/kong-service/acl/:serviceName', async (request, response) => {
-    try {
-      const serviceStore = await aclPlugin.removeAclKongService(
-        request.params.serviceName,
-        request.query.idAcl as string,
-      );
-      if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
-      response.status(204).json({ status: 'ok', services: [] });
-    } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
-    }
-  });
 
-  router.post(
-    '/kong-service/acl-update/:serviceName',
-    async (request, response) => {
-      try {
-        const allowed = request.body.allowed;
-        const serviceStore = await aclPlugin.updateAclKongService(
-          request.params.serviceName,
-          request.query.idAcl as string,
-          allowed,
-        );
-        if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
-        response.status(204).json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
 
   // RATE LIMITING - TEST ROUTER1
   router.post(

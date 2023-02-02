@@ -25,14 +25,14 @@ export async function testeRoute(
   // KEY-AUTH
   router.post('/key-auth/:serviceName', async (request, response) => {
     const keyNamesList: string[] = request.body.keyNamesList;
-    const teste = await keyAuthPlugin.configKeyAuthKongService(request.params.serviceName, keyNamesList )
+    const teste = await keyAuthPlugin.configKeyAuthKongService(request.params.serviceName, keyNamesList)
     response.status(200).json({ status: 'ok', return: teste });
   });
 
   router.delete('/key-auth/:serviceName', async (request, response) => {
     const pluginId = request.query.pluginId as string;
     keyAuthPlugin.removeKeyAuthKongService(request.params.serviceName, pluginId);
-    response.status(204).json({status: 'ok'})
+    response.status(204).json({ status: 'ok' })
   });
 
   router.patch(
@@ -44,7 +44,7 @@ export async function testeRoute(
           request.params.pluginId,
           request.body.config.key_names,
         );
-          response.json({ status: 'ok', plugins: serviceStore });
+        response.json({ status: 'ok', plugins: serviceStore });
       } catch (error: any) {
         let date = new Date();
         console.log(error);
@@ -59,14 +59,14 @@ export async function testeRoute(
 
   // OAUTH2 
   router.post('/oauth/:serviceName', async (request, response) => {
-       const teste = await oauth.configureOauth(request.params.serviceName);
-        response.json({status: 'ok', response: teste})
+    const teste = await oauth.configureOauth(request.params.serviceName);
+    response.json({ status: 'ok', response: teste })
   });
 
-  router.delete('/oauth/:serviceName', async (request, response) =>{
+  router.delete('/oauth/:serviceName', async (request, response) => {
     const pluginId = request.query.pluginId as string;
-    const teste = oauth.removeOauth(request.params.serviceName,pluginId )
-    response.status(204).json({status: 'ok', response: teste})
+    const teste = oauth.removeOauth(request.params.serviceName, pluginId)
+    response.status(204).json({ status: 'ok', response: teste })
   })
 
   // CREDENTIALS_OAUTH2
@@ -75,21 +75,21 @@ export async function testeRoute(
     const name = request.query.name as string;
     const credential = await credentialsOauth.generateCredentials(id, name)
 
-    response.status(201).json({status: 'ok', response: credential})
+    response.status(201).json({ status: 'ok', response: credential })
   });
 
   router.get('/credentials-oauth2/:idConsumer', async (request, response) => {
     const id = request.params.idConsumer as string
     const credential = await credentialsOauth.findAllCredentials(id)
-    
-    response.json({status: 'ok', response: credential})
+
+    response.json({ status: 'ok', response: credential })
   });
   router.delete('/credentials-oauth2/:idConsumer', async (request, response) => {
     const id = request.params.idConsumer as string
     const idCredential = request.query.idCredential as string;
     const teste = await credentialsOauth.deleteCredentialById(id, idCredential)
-    
-    response.status(204).json({status: 'ok', response: teste})
+
+    response.status(204).json({ status: 'ok', response: teste })
   });
 
 
@@ -99,8 +99,54 @@ export async function testeRoute(
   router.post('/acl/:serviceName', async (request, response) => {
     const allowedList: string[] = request.body.allowedList
     const teste = aclPlugin.configAclKongService(request.params.serviceName, allowedList)
-    response.json({status: 'ok', return: teste})
+    response.json({ status: 'ok', return: teste })
   })
+
+
+  router.delete('/acl/:serviceName', async (request, response) => {
+    try {
+      const serviceStore = await aclPlugin.removeAclKongService(
+        request.params.serviceName,
+        request.query.idAcl as string,
+      );
+      if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
+      response.status(204).json({ status: 'ok', services: [] });
+    } catch (error: any) {
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+
+  router.put(
+    '/acl/:serviceName',
+    async (request, response) => {
+      try {
+        const allowed = request.body.allowedList;
+        const serviceStore = await aclPlugin.updateAclKongService(
+          request.params.serviceName,
+          request.query.idAcl as string,
+          allowed,
+        );
+        response.json({ status: 'ok', acl: serviceStore });
+      } catch (error: any) {
+        console.log(typeof error)
+        if(error instanceof Object){
+          response.send(500).json({status: 'error'})
+        }
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
 
 
 
