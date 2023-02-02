@@ -6,6 +6,7 @@ import { KeyAuthPlugin } from "../modules/kong/plugins/KeyAuthPlugin";
 
 import { Oauth2Plugin } from "../modules/kong/plugins/Oauth2Plugin";
 import { CredentialsOauth } from "../modules/kong/services/CredentialsOauth";
+import { RateLimitingPlugin } from "../modules/kong/plugins/RateLimitingPlugin";
 
 
 /** @public */
@@ -20,6 +21,7 @@ export async function testeRoute(
   const aclPlugin = AclPlugin.Instance;
   const keyAuthPlugin = KeyAuthPlugin.Instance;
   const oauth = Oauth2Plugin.Instance;
+  const rateLimitingPlugin = RateLimitingPlugin.Instance;
 
 
   // KEY-AUTH
@@ -135,10 +137,89 @@ export async function testeRoute(
         response.json({ status: 'ok', acl: serviceStore });
       } catch (error: any) {
         console.log(typeof error)
-        if(error instanceof Object){
-          response.send(500).json({status: 'error'})
+        if (error instanceof Object) {
+          response.send(500).json({ status: 'error' })
         }
         let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  // RATE LIMITING
+
+  router.post(
+    '/ratelimiting/:serviceName',
+    async (request, response) => {
+      try {
+        const serviceStore =
+          await rateLimitingPlugin.configRateLimitingKongService(
+            request.params.serviceName,
+            request.body.config.rateLimitingType,
+            request.body.config.rateLimiting,
+          );
+        if (serviceStore) {
+          response.json({ status: 'ok', plugins: serviceStore });
+          return;
+        }
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  router.delete(
+    '/ratelimiting/:serviceName/:pluginId',
+    async (request, response) => {
+      try {
+        const serviceStore =
+          await rateLimitingPlugin.removeRateLimitingKongService(
+            request.params.serviceName,
+            request.params.pluginId,
+          );
+        response.json({ status: 'ok', services: serviceStore });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.message,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    },
+  );
+
+  router.patch(
+    '/ratelimiting/:serviceName/:pluginId',
+    async (request, response) => {
+      try {
+        const serviceStore =
+          await rateLimitingPlugin.updateRateLimitingKongService(
+            request.params.serviceName,
+            request.params.pluginId,
+            request.body.config.rateLimitingType,
+            request.body.config.rateLimiting,
+          );
+        if (serviceStore) {
+          response.json({ status: 'ok', plugins: serviceStore });
+          return;
+        }
+        response.json({ status: 'ok', services: [] });
+      } catch (error: any) {
+        let date = new Date();
+        console.log(error);
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.message,

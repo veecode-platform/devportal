@@ -73,7 +73,7 @@ export async function createRouter(
   const pluginService = new PluginService();
   const aclPlugin = AclPlugin.Instance;
 
-  const rateLimitingPlugin = RateLimitingPlugin.Instance;
+
   logger.info('Initializing application backend');
 
   const router = Router();
@@ -224,83 +224,7 @@ export async function createRouter(
 
 
   // RATE LIMITING - TEST ROUTER1
-  router.post(
-    '/kong-service/plugin/ratelimiting/:serviceName',
-    async (request, response) => {
-      try {
-        const serviceStore =
-          await rateLimitingPlugin.configRateLimitingKongService(
-            request.params.serviceName,
-            request.body.config.rateLimitingType,
-            request.body.config.rateLimiting,
-          );
-        if (serviceStore) {
-          response.json({ status: 'ok', plugins: serviceStore });
-          return;
-        }
-        response.json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        console.log(error);
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
-  router.delete(
-    '/kong-service/plugin/ratelimiting/:serviceName/:pluginId',
-    async (request, response) => {
-      try {
-        const serviceStore =
-          await rateLimitingPlugin.removeRateLimitingKongService(
-            request.params.serviceName,
-            request.params.pluginId,
-          );
-        response.json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        console.log(error);
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
-  router.patch(
-    '/kong-service/plugin/ratelimiting/:serviceName/:pluginId',
-    async (request, response) => {
-      try {
-        const serviceStore =
-          await rateLimitingPlugin.updateRateLimitingKongService(
-            request.params.serviceName,
-            request.params.pluginId,
-            request.body.config.rateLimitingType,
-            request.body.config.rateLimiting,
-          );
-        if (serviceStore) {
-          response.json({ status: 'ok', plugins: serviceStore });
-          return;
-        }
-        response.json({ status: 'ok', services: [] });
-      } catch (error: any) {
-        let date = new Date();
-        console.log(error);
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
+ 
   //consumerGroup
   router.post('/consumer_groups', async (request, response) => {
     try {
