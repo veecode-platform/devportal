@@ -74,6 +74,11 @@ export async function createKeycloackRouter(): Promise<Router>{
         response.status(200).json({ status: 'ok', groups: groups });
       });
 
+      
+
+
+
+
       return router;
 
 }

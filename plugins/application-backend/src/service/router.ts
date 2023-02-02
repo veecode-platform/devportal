@@ -8,11 +8,9 @@ import Router from 'express-promise-router';
 import { Logger } from 'winston';
 
 
-import { TestGroups } from '../modules/keycloak/adminClient';
+
 import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
 import { ConsumerGroupService } from '../modules/kong/services/ConsumerGroupService';
-import { KeycloakUserService } from '../modules/keycloak/service/UserService';
-import { UpdateUserDto, UserDto } from '../modules/keycloak/dtos/UserDto';
 
 import { createServiceRouter } from './service-route';
 import { createPartnersRouter } from './partners-route';
@@ -55,7 +53,7 @@ export async function createRouter(
   router.use('/kong-extras', await createKongRouter(options))
   router.use('/applications', await createApplicationRouter(options))
   router.use('/plugins', await createPluginRouter(options))
-  router.use('/keycloack', await createKeycloackRouter())
+  router.use('/keycloak', await createKeycloackRouter())
   router.use('/teste', await testeRoute(options))
 
   // CONSUMER GROUP
