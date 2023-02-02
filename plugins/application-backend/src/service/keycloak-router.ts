@@ -3,7 +3,7 @@ import { TestGroups } from "../modules/keycloak/adminClient";
 import { KeycloakUserService } from "../modules/keycloak/service/UserService";
 import { UpdateUserDto, UserDto } from "../modules/keycloak/dtos/UserDto";
 
-export async function createKeycloackRouter(): Promise<Router>{
+export async function createKeycloackRouter(): Promise<Router> {
     const router = Router();
     const adminClientKeycloak = new TestGroups();
     const userServiceKeycloak = new KeycloakUserService();
@@ -11,74 +11,69 @@ export async function createKeycloackRouter(): Promise<Router>{
     router.get('/groups', async (_, response) => {
         const groups = await adminClientKeycloak.getGroup();
         response.status(200).json({ status: 'ok', groups: groups });
-      });
-    
-      router.post('/users', async (request, response) => {
+    });
+
+    router.post('/users', async (request, response) => {
         const user: UserDto = request.body.user;
         const id = await userServiceKeycloak.createUser(user);
         response.status(201).json({ status: 'ok', id: id });
-      });
-    
-      router.get('/users', async (_, response) => {
+    });
+
+    router.get('/users', async (_, response) => {
         const users = await userServiceKeycloak.listUsers();
         response.status(200).json({ status: 'ok', users: users });
-      });
-    
-      router.get('/users/:id', async (request, response) => {
+    });
+
+    router.get('/users/:id', async (request, response) => {
         const user_id = request.params.id;
         const user = await userServiceKeycloak.findUser(user_id);
         response.status(200).json({ status: 'ok', users: user });
-      });
-    
-      router.put('/users/:id', async (request, response) => {
+    });
+
+    router.put('/users/:id', async (request, response) => {
         const code = request.params.id;
         const user: UpdateUserDto = request.body.user;
         await userServiceKeycloak.updateUser(code, user as UserDto);
         response.status(200).json({ status: 'User Updated!' });
-      });
-    
-      router.delete('/users/:id', async (request, response) => {
+    });
+
+    router.delete('/users/:id', async (request, response) => {
         const user_id = request.params.id;
         await userServiceKeycloak.deleteUser(user_id);
         response.status(204).json({ status: 'User Deleted!' });
-      });
-    
-      router.put(
+    });
+
+    router.put(
         '/users/:id/groups/:groupId',
         async (request, response) => {
-          const user_id = request.params.id;
-          const groupId = request.params.groupId;
-          const add = await userServiceKeycloak.addUserToGroup(user_id, groupId);
-          response.status(200).json({ status: 'User added to group!', add: add });
+            const user_id = request.params.id;
+            const groupId = request.params.groupId;
+            const add = await userServiceKeycloak.addUserToGroup(user_id, groupId);
+            response.status(200).json({ status: 'User added to group!', add: add });
         },
-      );
-    
-      router.delete(
+    );
+
+    router.delete(
         '/users/:id/groups/:groupId',
         async (request, response) => {
-          const user_id = request.params.id;
-          const groupId = request.params.groupId;
-          const res = await userServiceKeycloak.removeUserFromGroup(
-            user_id,
-            groupId,
-          );
-          response
-            .status(204)
-            .json({ status: 'User Removed From Group!', res: res });
+            const user_id = request.params.id;
+            const groupId = request.params.groupId;
+            const res = await userServiceKeycloak.removeUserFromGroup(
+                user_id,
+                groupId,
+            );
+            response
+                .status(204)
+                .json({ status: 'User Removed From Group!', res: res });
         },
-      );
-    
-      router.get('/users/:id/groups', async (request, response) => {
+    );
+
+    router.get('/users/:id/groups', async (request, response) => {
         const user_id = request.params.id;
         const groups = await userServiceKeycloak.listUserGroups(user_id);
         response.status(200).json({ status: 'ok', groups: groups });
-      });
+    });
 
-      
-
-
-
-
-      return router;
+    return router;
 
 }
