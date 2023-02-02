@@ -26,7 +26,7 @@ export class ControllPlugin {
   public async applySecurityType(service: ServiceDto) {
     const consumerGroupService = new ConsumerGroupService();
     try {
-      if (service.securityType.toString() == SECURITY.OAUTH2.toString()) {
+      if (service.securityType?.toString() == SECURITY.OAUTH2.toString()) {
         await Oauth2Plugin.Instance.configureOauth(service.kongServiceName);
         const consumerGroup: ConsumerGroup = new ConsumerGroup(
           service.kongServiceName + '-group',
@@ -36,8 +36,9 @@ export class ControllPlugin {
           `${service.kongServiceName + '-group'}`,
         ]);
       } else if (
-        service.securityType.toString() == SECURITY.KEY_AUTH.toString()
+        service.securityType?.toString() == SECURITY.KEY_AUTH.toString()
       ) {
+        console.log('aqui applySecurityType')
         await KeyAuthPlugin.Instance.configKeyAuthKongService(
           service.kongServiceName,
         );
