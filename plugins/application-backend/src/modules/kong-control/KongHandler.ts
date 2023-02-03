@@ -4,7 +4,12 @@ import { Application, ApplicationProps } from '../applications/domain/Applicatio
 import { PostgresApplicationRepository } from '../applications/repositories/knex/KnexApplicationRepository';
 import { credential } from './Credential';
 import { RouterOptions } from '../../service/router';
+import { CredentialsOauth } from '../kong/services/CredentialsOauth';
 
+export enum security {
+  oauth = 'oauth2',
+  key_auth = 'key_auth'
+}
 
 type Service = {
   name: string;
@@ -12,7 +17,10 @@ type Service = {
 };
 
 
+
+
 export class KongHandler {
+ 
   public async listServices(kongUrl: string): Promise<Service[]> {
     const url = `${kongUrl}/services`
     const response = await axios.get(url);
@@ -88,14 +96,22 @@ export class KongHandler {
     return response.data;
   }
 
-  public async generateCredential(options: RouterOptions, kongUrl: string, idApplication: string) {
+  public async generateCredential(options: RouterOptions, kongUrl: string, idApplication: string, typeSecurity: security) {
     const applicationRepository = await PostgresApplicationRepository.create(
       await options.database.getClient(),
     );
+    const credentialsOauth = new CredentialsOauth();
     const application: ApplicationProps = await applicationRepository.getApplicationById(idApplication) as ApplicationProps;
-    const url = `${kongUrl}/consumers/${application.externalId}/key-auth`
-    const response = await axios.post(url);
-    return response.data;
+    if(typeSecurity.toString() == 'key_auth'){
+      const url = `${kongUrl}/consumers/${application.externalId}/key-auth`
+      const response = await axios.post(url);
+      console.log(response)
+      return response.data;
+    }else if(typeSecurity.toString() == 'oauth2'){
+      const response = await credentialsOauth.generateCredentials(`${application.externalId}`, application.externalId)
+      console.log(response)
+      return response;
+    }
   }
 
 

@@ -7,7 +7,7 @@ import { InputError } from "@backstage/errors";
 import { ApplicationDto } from "../modules/applications/dtos/ApplicationDto";
 import { ApplicationServices } from "../modules/applications/services/ApplicationServices";
 import { AssociateService } from "../modules/kong-control/AssociateService";
-import { KongHandler } from "../modules/kong-control/KongHandler";
+import { KongHandler, security } from "../modules/kong-control/KongHandler";
 import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
 
 /** @public */
@@ -211,10 +211,12 @@ export async function createApplicationRouter(
   router.post('/:idApplication/credentials', async (req, res) => {
     try {
       const id = req.params.idApplication;
+      const type = req.body.type as security
       const serviceStore = await kongHandler.generateCredential(
         options,
         await kongServiceBase.getUrl(),
         id,
+        type
       );
       res.status(201).json({ status: 'ok', response: serviceStore });
     } catch (error: any) {
