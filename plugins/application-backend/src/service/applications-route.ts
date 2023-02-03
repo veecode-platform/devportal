@@ -50,7 +50,7 @@ export async function createApplicationRouter(
   });
 
   router.post('/', async (request, response) => {
-    const data = request.body.applications;
+    const data = request.body;
     await ApplicationServices.Instance.createApplication(data, options);
     try {
       if (!data) {
@@ -98,8 +98,9 @@ export async function createApplicationRouter(
     }
   });
   router.patch('/:id', async (request, response) => {
-    const data: ApplicationDto = request.body.applications;
+    const data: ApplicationDto = request.body;
     const applicationId = request.params.id
+    await ApplicationServices.Instance.updateApplication(applicationId, data, options);
     try {
       if (!data) {
         throw new InputError(
@@ -174,6 +175,7 @@ export async function createApplicationRouter(
 
   router.delete('/:id', async (request, response) => {
     const id = request.params.id;
+    await ApplicationServices.Instance.removeApplication(id, options);
     const result = await applicationRepository.deleteApplication(id);
     response.status(204).json({ status: 'ok', applications: result })
   });
