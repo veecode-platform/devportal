@@ -14,10 +14,16 @@ coverage
 
 # Dependencies
 node_modules/
-# k8s-local
-k8s-local/
-# Node version directives
-.nvmrc
+
+# Yarn 3 files
+## Check if backstage team are recomending upgrade to yarn 3
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 # dotenv environment variables file
 .env
@@ -38,3 +44,12 @@ site
 
 # Sensitive credentials
 *-credentials.yaml
+
+# vscode database functionality support files
+*.session.sql
+
+.docker/
+pgdata/
+
+# Docker data
+.docker-data/

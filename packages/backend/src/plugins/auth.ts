@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 // import { createOktaProvider, getDefaultOwnershipEntityRefs } from '@backstage/plugin-auth-backend';
-import { DEFAULT_NAMESPACE, stringifyEntityRef } from '@backstage/catalog-model';
+import { stringifyEntityRef } from '@backstage/catalog-model';
 
 import {
   createRouter,
@@ -36,115 +36,76 @@ export default async function createPlugin(
     providerFactories: {
       ...defaultAuthProviderFactories,
 
-      // NOTE: DO NOT add this many resolvers in your own instance!
-      //       It is important that each real user always gets resolved to
-      //       the same sign-in identity. The code below will not do that.
-      //       It is here for demo purposes only.   
-      github: providers.github.create({
+      "keycloak": providers.oidc.create({
         signIn: {
-          resolver: providers.github.resolvers.usernameMatchingUserEntityName(),
-        },
-      }),
-      gitlab: providers.gitlab.create({
-        signIn: {
-          async resolver({ result: { fullProfile } }, ctx) {
-            return ctx.signInWithCatalogUser({
-              entityRef: {
-                name: fullProfile.id,
-              },
-            });
+          resolver({result}, ctx) {
+
+              if(!result.userinfo.email_verified){
+                throw new Error('Email not verified');
+              }
+              
+              const groups = result.userinfo.groups as Array<string>;
+              const admin = groups.includes("admin");
+              const user = groups.includes("user");
+
+              if(!admin && !user){
+                throw new Error('Group not authorized');
+              }
+
+              const userName = result.userinfo.preferred_username;
+              
+              const userEntityRef = stringifyEntityRef({
+                kind: admin ? "Admin" : "User",
+                name: userName || result.userinfo.sub,
+                namespace: "user"
+              });
+              return ctx.issueToken({
+                claims: {
+                  sub: userEntityRef, // The user's own identity
+                  ent: [userEntityRef], // A list of identities that the user claims ownership through
+                },
+              });           
           },
         },
-      }),
-      microsoft: providers.microsoft.create({
-        signIn: {
-          resolver:
-            providers.microsoft.resolvers.emailMatchingUserEntityAnnotation(),
-        },
-      }),
-      google: providers.google.create({
-        signIn: {
-          resolver:
-            providers.google.resolvers.emailLocalPartMatchingUserEntityName(),
-        },
+
       }),
 
       okta: providers.okta.create({
         signIn:{
-          resolver: async ({ profile }, ctx) => {
-            if (!profile.email) {
-              throw new Error(
-                'Login failed, user profile does not contain an email',
-              );
-            }
-            // We again use the local part of the email as the user name.
-            const [localPart] = profile.email.split('@');
-          
-            // By using `stringifyEntityRef` we ensure that the reference is formatted correctly
-            const userEntityRef = stringifyEntityRef({
-              kind: 'User',
-              name: localPart,
-              namespace: DEFAULT_NAMESPACE,
-            });
-          
-            return ctx.issueToken({
-              claims: {
-                sub: userEntityRef,
-                ent: [userEntityRef],
-              },
-            });
-          },
+          resolver: async ({profile, result}, ctx) => {
+            try{
+              const groups = JSON.parse(Buffer.from(result.accessToken.split('.')[1], 'base64').toString()).groups;
 
-        },
-
-      }),
-      /*
-      solucao original
-      okta: providers.okta.create({
-        signIn: {
-          
-          resolver:async (params , ctx) => {
-            console.log("CTX=========>>",ctx)
-            if (!params.profile.email) {
-              throw new Error(
-                'Login failed, user profile does not contain an email',
-              );
+              if (!profile.email) {
+                throw new Error(
+                  'Login failed, user profile does not contain an email',
+                );
+              }
+              const userCategorie = groups.includes("devportal_admin") ? ["admin", "devportal_admin"] : ["user", "devportal_user"];
+              // We again use the local part of the email as the user name.
+              const [localPart] = profile.email.split('@');
+            
+              // By using `stringifyEntityRef` we ensure that the reference is formatted correctly
+              const userEntityRef = stringifyEntityRef({
+                kind: userCategorie[0],
+                name: localPart,
+                namespace: userCategorie[1],
+              });
+            
+              return ctx.issueToken({
+                claims: {
+                  sub: userEntityRef,
+                  ent: [userEntityRef],
+                },
+              });
             }
-            // We again use the local part of the email as the user name.
-             const email = params.profile.email
-             
-             const { entity } =  await ctx.findCatalogUser({filter: [
-                 { 'spec.profile.email': email }
-              ] })
-            // console.log(`user=====>${JSON.stringify(entity)}`)
-            const ownershipRefs = getDefaultOwnershipEntityRefs(entity);
-            console.log(`ownershipref======>>>${JSON.stringify(ownershipRefs)}`)
-            return ctx.issueToken({
-              claims: {
-                sub: userEntityRef,
-                ent: [userEntityRef],
-              },
-            });
+            catch(e){
+              throw new Error("Login failed")
+            }
           },
-        },
-      }),*/
-      bitbucket: providers.bitbucket.create({
-        signIn: {
-          resolver:
-            providers.bitbucket.resolvers.usernameMatchingUserEntityAnnotation(),
-        },
-      }),
-      onelogin: providers.onelogin.create({
-        signIn: {
-          async resolver({ result: { fullProfile } }, ctx) {
-            return ctx.signInWithCatalogUser({
-              entityRef: {
-                name: fullProfile.id,
-              },
-            });
-          },
-        },
-      }),
+        }
+      })
+
     },
   });
 }

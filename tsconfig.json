@@ -1,14 +1,36 @@
-{
+{ 
   "extends": "@backstage/cli/config/tsconfig.json",
   "include": [
     "packages/*/src",
     "plugins/*/src",
     "plugins/*/dev",
     "plugins/*/migrations"
-  ],
+, "plugins/application/src/components/devApplication/HomepageComponent/.ts"  ],
   "exclude": ["node_modules"],
   "compilerOptions": {
+    "experimentalDecorators":true,
     "outDir": "dist-types",
     "rootDir": "."
-  }
+  },
+  "esModuleInterop":true,
+  "strictPropertyInitialization": false,
+  "module": "commonjs",
 }
+//{
+//  "extends": "@backstage/cli/config/tsconfig.json",
+//  "include": [
+//    "packages/*/src",
+//    "plugins/*/src",
+//    "plugins/*/dev",
+//    "plugins/*/migrations"
+//  ],
+//  "exclude": ["node_modules"], 
+//  "compilerOptions": {
+//    "experimentalDecorators":true,
+//    "outDir": "dist-types",
+//    "rootDir": "."
+//  },
+//  "esModuleInterop":true,
+//  "strictPropertyInitialization": false,
+//  "module": "commonjs",
+//}

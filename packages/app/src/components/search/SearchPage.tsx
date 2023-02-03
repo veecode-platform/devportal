@@ -9,11 +9,11 @@ import {
 import { TechDocsSearchResultListItem } from '@backstage/plugin-techdocs';
 
 import {
-  SearchBar,
-  SearchFilter,
-  SearchResult,
+  HomePageSearchBar,
+  //SearchFilter,
+  //SearchResult,
   SearchType,
-  DefaultResultListItem,
+  //DefaultResultListItem,
 } from '@backstage/plugin-search';
 import { useSearch } from '@backstage/plugin-search-react';
 import {
@@ -52,7 +52,7 @@ const SearchPage = () => {
         <Grid container direction="row">
           <Grid item xs={12}>
             <Paper className={classes.bar}>
-              <SearchBar />
+              <HomePageSearchBar />
             </Paper>
           </Grid>
           <Grid item xs={3}>
@@ -72,7 +72,7 @@ const SearchPage = () => {
                 },
               ]}
             />
-            <Paper className={classes.filters}>
+            {/*<Paper className={classes.filters}>
               {types.includes('techdocs') && (
                 <SearchFilter.Select
                   className={classes.filter}
@@ -139,7 +139,7 @@ const SearchPage = () => {
                   })}
                 </List>
               )}
-            </SearchResult>
+                </SearchResult>*/}
           </Grid>
         </Grid>
       </Content>
