@@ -28,7 +28,7 @@ exports.up = async function up(knex) {
       table.string('name');
       table.boolean('active');
       table.string('email');
-      table.string('celular');
+      table.string('phone');
       table.specificType('servicesId', 'TEXT[]');
       table.specificType('applicationId', 'TEXT[]'); //lista de applications criadas
       table.timestamp('createdAt').defaultTo(knex.fn.now());
