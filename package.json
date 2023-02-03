@@ -21,11 +21,7 @@
     "lint:all": "backstage-cli repo lint",
     "prettier:check": "prettier --check .",
     "create-plugin": "backstage-cli create-plugin --scope internal",
-    "remove-plugin": "backstage-cli remove-plugin",
-    "clear-deps": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
-    "docker-up": "docker-compose --profile=complete up -d",
-    "docker-down": "docker-compose --profile=complete down",
-    "seed-up": "knex seed:run --specific=23112022_seed.js"
+    "remove-plugin": "backstage-cli remove-plugin"
   },
   "workspaces": {
     "packages": [
@@ -34,7 +30,7 @@
     ]
   },
   "devDependencies": {
-    "@backstage/cli": "^0.21.1",
+    "@backstage/cli": "^0.17.0",
     "@spotify/prettier-config": "^12.0.0",
     "concurrently": "^6.0.0",
     "lerna": "^4.0.0",
@@ -43,8 +39,7 @@
   },
   "resolutions": {
     "@types/react": "^17",
-    "@types/react-dom": "^17",
-    "@apidevtools/json-schema-ref-parser": "9.1.0"
+    "@types/react-dom": "^17"
   },
   "prettier": "@spotify/prettier-config",
   "lint-staged": {
@@ -55,9 +50,5 @@
     "*.{json,md}": [
       "prettier --write"
     ]
-  },
-  "packageManager": "yarn@1.22.19",
-  "dependencies": {
-    "knex-paginate": "^3.0.2"
   }
 }

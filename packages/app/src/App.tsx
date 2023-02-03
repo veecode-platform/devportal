@@ -36,10 +36,11 @@ import {
   // TechDocsReaderPage,
 } from '@backstage/plugin-techdocs';
 // import { UserSettingsPage } from '@backstage/plugin-user-settings';
-// custom user-settings
+//custom user-settings
 import { UserSettingsPage } from './components/user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
+// import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
 
 import { AlertDisplay, OAuthRequestDialog, SignInPage } from '@backstage/core-components';
@@ -59,13 +60,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 
-
+import { providers } from './identityProviders';
 import { searchPage } from './components/search/SearchPage';
 // import SafeRoute from './components/Routing/SafeRoute';
-import { ServicesPage, PartnersPage, ApplicationPage} from '@internal/plugin-application';
-//import SafeRoute from './components/Routing/SafeRoute';
-//login
-import { providers } from './identityProviders';
 
 const app = createApp({
   apis,
@@ -121,7 +118,6 @@ const app = createApp({
 const AppProvider = app.getProvider();
 const AppRouter = app.getRouter();
 
-
 const routes = (
   <FlatRoutes>
     
@@ -141,16 +137,34 @@ const routes = (
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
-    
-    {/*<Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
+    {
+      /*
+      <Route path="/" element={<HomepageCompositionRoot />}>
+     <HomePage />
+    </Route>
+    <Route path="/docs" element={<TechDocsIndexPage />} />
+    <Route
+      path="/docs/:namespace/:kind/:name/*"
+      element={<TechDocsReaderPage />}
+    />
+   {/* <Route path="/create" element={<SafeRoute allow={["default/builder"]}/>}>
       <Route 
-        path="/services" 
-        element={<ServicesPage />} 
+        path="/create" 
+        element={<ScaffolderPage />} 
       />
-    </Route>*/}
-    <Route path="/services" element={<ServicesPage />}/>
-    <Route path="/partners" element={<PartnersPage />}/>
-    <Route path="/application" element={<ApplicationPage />}/>
+    </Route>
+    <Route
+      path="/tech-radar"
+      element={<TechRadarPage width={1500} height={800} />}
+    />
+    <PermissionedRoute
+      path="/catalog-import"
+      permission={catalogEntityCreatePermission}
+      element={<CatalogImportPage />}
+    /> 
+    <Route path="/catalog-graph" element={<CatalogGraphPage />} />*/}
+    
+    
   </FlatRoutes>
 );
 
@@ -165,4 +179,3 @@ const App = () => (
 );
 
 export default App;
-
