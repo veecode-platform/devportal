@@ -6,7 +6,7 @@ import { IKongServices } from "../interfaces";
 import { KongServicesListComponent } from "./kongServiceListComponent";
 import AxiosInstance from '../../../../api/Api';
 
-export const FetchKongServices = ({valueName, setValue}:any) => {
+export const FetchKongServices = ({valueName, setValue, selected}:any) => {
 
     const { value, loading, error } = useAsync(async (): Promise<IKongServices[]> => {
       const response = await AxiosInstance.get("/kong-extras/services")
@@ -18,7 +18,7 @@ export const FetchKongServices = ({valueName, setValue}:any) => {
     } else if (error) {
       return <Alert severity="error">{error.message}</Alert>;
     }
-    return <KongServicesListComponent services={value || []} value={valueName} setValue={setValue}/>
+    return <KongServicesListComponent services={value || []} value={valueName} setValue={setValue} selected={selected}/>
   }
   
   
