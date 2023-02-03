@@ -30,7 +30,7 @@ import React, { ComponentType } from 'react';
 import {
            Logo , 
           //  Icon 
-          } from '../plataformLogo/plataformLogo';
+          } from '../ipaasLogo/IpaasLogo';
 
 
 

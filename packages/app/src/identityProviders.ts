@@ -15,21 +15,57 @@
  */
 
 import {
-  oktaAuthApiRef
+  // googleAuthApiRef,
+  // gitlabAuthApiRef,
+  oktaAuthApiRef,
+  // githubAuthApiRef,
+  // microsoftAuthApiRef,
+  // oneloginAuthApiRef,
+  // bitbucketAuthApiRef,
 } from '@backstage/core-plugin-api';
-import { keycloakOIDCAuthApiRef } from './apis';
 
 export const providers = [
+  /* {
+    id: 'google-auth-provider',
+    title: 'Google',
+    message: 'Sign In using Google',
+    apiRef: googleAuthApiRef,
+  },
+  {
+    id: 'microsoft-auth-provider',
+    title: 'Microsoft',
+    message: 'Sign In using Microsoft Azure AD',
+    apiRef: microsoftAuthApiRef,
+  },
+  {
+    id: 'gitlab-auth-provider',
+    title: 'GitLab',
+    message: 'Sign In using GitLab',
+    apiRef: gitlabAuthApiRef,
+  },
+  {
+    id: 'github-auth-provider',
+    title: 'GitHub',
+    message: 'Sign In using GitHub',
+    apiRef: githubAuthApiRef,
+  },
+  {
+    id: 'onelogin-auth-provider',
+    title: 'OneLogin',
+    message: 'Sign In using OneLogin',
+    apiRef: oneloginAuthApiRef,
+  },
+  {
+    id: 'bitbucket-auth-provider',
+    title: 'Bitbucket',
+    message: 'Sign In using Bitbucket',
+    apiRef: bitbucketAuthApiRef,
+  },*/
   {
     id: 'okta-auth-provider',
     title: 'Okta',
     message: 'Sign In using Okta',
     apiRef: oktaAuthApiRef,
   },
-  {
-    id: "keycloak",
-    title: "Keycloak",
-    message: "Sign in using Keycloak",
-    apiRef: keycloakOIDCAuthApiRef,
-  }
+  
 ];
