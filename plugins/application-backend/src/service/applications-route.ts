@@ -7,6 +7,8 @@ import { InputError } from "@backstage/errors";
 import { ApplicationDto } from "../modules/applications/dtos/ApplicationDto";
 import { ApplicationServices } from "../modules/applications/services/ApplicationServices";
 import { AssociateService } from "../modules/kong-control/AssociateService";
+import { KongHandler, security } from "../modules/kong-control/KongHandler";
+import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
 
 /** @public */
 export async function createApplicationRouter(
@@ -18,6 +20,8 @@ export async function createApplicationRouter(
   );
 
   const router = Router()
+  const kongHandler = new KongHandler()
+  const kongServiceBase = new KongServiceBase()
   const associateService = new AssociateService();
   router.use(express.json())
 
@@ -198,6 +202,76 @@ export async function createApplicationRouter(
       request.query.service as string,
     );
     response.json({ status: 'ok', associates: { services } });
+  });
+
+  // CREDENTIALS 
+
+  router.post('/:idApplication/credentials', async (req, res) => {
+    try {
+      const id = req.params.idApplication;
+      const type = req.body.type as security
+      const serviceStore = await kongHandler.generateCredential(
+        options,
+        await kongServiceBase.getUrl(),
+        id,
+        type
+      );
+      res.status(201).json({ status: 'ok', response: serviceStore });
+    } catch (error: any) {
+      if (error == undefined) {
+        res.status(500).json({ status: 'error' })
+      }
+      let date = new Date();
+      return res.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+  router.get('/:idApplication/credentials', async (req, res) => {
+    try {
+      const id = req.params.idApplication;
+      const serviceStore = await kongHandler.listCredentialWithApplication(
+        options,
+        await kongServiceBase.getUrl(),
+        id
+      );
+      res.status(200).json({ status: 'ok', credentials: serviceStore });
+    } catch (error: any) {
+      if (error == undefined) {
+        res.status(500).json({ status: 'error' })
+      }
+      let date = new Date();
+      return res.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
+
+
+  router.delete('/:idApplication/credentials', async (request, response) => {
+    try {
+      const idCredential = request.query.idCredential as string;
+      const idApplication = request.params.idApplication;
+      const serviceStore = await kongHandler.removeCredencial(
+        options,
+        await kongServiceBase.getUrl(),
+        idApplication,
+        idCredential,
+      );
+      response.status(204).json({ status: 'ok', credentials: serviceStore });
+    } catch (error: any) {
+      let date = new Date();
+      return response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
   });
   return router;
 

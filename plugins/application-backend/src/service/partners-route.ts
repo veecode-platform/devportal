@@ -36,7 +36,7 @@ export async function createPartnersRouter(
 
   router.post('/', async (request, response) => {
     try {
-      const partner: PartnerDto = request.body.partner;
+      const partner: PartnerDto = request.body.partners;
       const result = await partnerRepository.createPartner(partner);
       response.status(201).json({ status: 'ok', partner: result });
     } catch (error: any) {
@@ -75,7 +75,7 @@ export async function createPartnersRouter(
   router.patch('/:id', async (request, response) => {
     try {
       const code = request.params.id;
-      const partner: PartnerDto = request.body.partner;
+      const partner: PartnerDto = request.body.partners;
       const result = await partnerRepository.patchPartner(code, partner);
       response.status(200).json({ status: 'ok', partner: result });
     } catch (error: any) {
@@ -95,7 +95,7 @@ export async function createPartnersRouter(
   router.put('/:id', async (request, response) => {
     try {
       const code = request.params.id;
-      const partner: PartnerDto = request.body.partner;
+      const partner: PartnerDto = request.body.partners;
       const result = await partnerRepository.patchPartner(code, partner);
       response.status(200).json({ status: 'ok', partner: result });
     } catch (error: any) {
