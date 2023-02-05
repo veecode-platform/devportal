@@ -61,7 +61,7 @@ exports.seed = async function (knex) {
         id: 'ad94b906-4970-11ed-b878-0242ac120002',
         name: 'nome testador',
         email: 'teste@email.com',
-        celular: '21 999999999',
+        phone: '21 999999999',
         servicesId: [
           '0754b73e-9c27-4713-963b-3eecb38be72e',
           '102a725c-e7a6-437d-8167-606af722c2e6',
@@ -77,7 +77,7 @@ exports.seed = async function (knex) {
         id: '27447ec1-d67f-4233-bfb1-0f11f7ccca28',
         name: 'nome testador segundo',
         email: 'teste@email.com',
-        celular: '21 999999999',
+        phone: '21 999999999',
         servicesId: [
           '0754b73e-9c27-4713-963b-3eecb38be72e',
           '102a725c-e7a6-437d-8167-606af722c2e6',
@@ -93,7 +93,7 @@ exports.seed = async function (knex) {
         id: '44a67075-649c-4f3f-9c2a-c198765d4656',
         name: 'nome testador terceiro',
         email: 'teste@email.com',
-        celular: '21 999999999',
+        phone: '21 999999999',
         servicesId: [
           '0754b73e-9c27-4713-963b-3eecb38be72e',
           '102a725c-e7a6-437d-8167-606af722c2e6',
