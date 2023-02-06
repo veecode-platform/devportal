@@ -140,7 +140,7 @@ export const CreateComponent = () => {
                         ...partner,
                         email: e.target.value,
                       });
-                      if (!!validateEmail(partner.email))
+                      if (!!validateEmail(e.target.value))
                         setErrorField({ ...errorField, email: true });
                       else setErrorField({ ...errorField, email: false });
                     }}
