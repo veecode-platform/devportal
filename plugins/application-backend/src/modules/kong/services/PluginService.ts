@@ -15,14 +15,19 @@ export class PluginService extends KongServiceBase {
     pluginName: PluginName,
     config: Map<string, any>,
   ) {
-    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins`;
+    try{
+      const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins`;
+      const response = await axios.post(url, {
+        service: serviceName,
+        name: pluginName,
+        config:  Object.fromEntries(config)
+      });
+      return response.data;
+    }catch(error){
+      console.log(error)
+      return error
+    }
 
-    const response = await axios.post(url, {
-      service: serviceName,
-      name: pluginName,
-      config:  Object.fromEntries(config)
-    });
-    return response.data;
   }
 
   public async updatePluginKongService(
