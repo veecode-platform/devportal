@@ -4,18 +4,75 @@
 import React, {useEffect, useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import { AlertComponent } from '../../shared';
+import { AlertComponent, Select } from '../../shared';
 import {
   InfoCard,
   Header,
   Page,
   Content,
   ContentHeader,
+  Progress,
 } from '@backstage/core-components';
 import { ICreateApplication } from '../interfaces';
 import AxiosInstance from '../../../api/Api';
-import { FetchServicesList } from '../../partners/CreateComponent';
 import { identityApiRef, useApi } from '@backstage/core-plugin-api';
+import { Alert } from '@material-ui/lab';
+import useAsync from 'react-use/lib/useAsync';
+
+
+export const FetchServicesList = ({partner, setPartner}: any) => {
+
+  const { value, loading, error } = useAsync(async (): Promise<any> => {
+    const {data} = await AxiosInstance.get(`/services`);
+    return data.services;
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return (
+  <Select
+    placeholder="Services"
+    label="Services"
+    items={value.map((item: any) => {
+      return { ...{ label: item.name, value: item.id, key: item.id } };
+      })}
+    multiple
+    onChange={e => {
+    setPartner({ ...partner, servicesId: e });
+    }}
+  />)
+};
+
+export const FetchApplicationsList = ({partner, setPartner}: any) => {
+
+  const { value, loading, error } = useAsync(async (): Promise<any> => {
+    const {data} = await AxiosInstance.get(`/applications`);
+    return data.applications;
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return (
+  <Select
+    placeholder="Applications"
+    label="Applications"
+    items={value.map((item: any) => {
+      return { ...{ label: item.name, value: item.id, key: item.id } };
+      })}
+    multiple
+    onChange={e => {
+    setPartner({ ...partner, applicationId: e });
+    }}
+  />)
+};
+
+
 
 export const NewApplicationComponent = () => {
   const user = useApi(identityApiRef)
@@ -33,7 +90,6 @@ export const NewApplicationComponent = () => {
     user.getBackstageIdentity().then( res => {
       return setApplication({ ...application, creator: res.userEntityRef.split("/")[1] });
     }).catch(e => {
-      console.log(e)
       return setApplication({ ...application, creator: "default"});
     })
   
@@ -109,12 +165,6 @@ export const NewApplicationComponent = () => {
                     InputProps={{
                       readOnly: true,
                     }}                  
-                    /*onChange={e => {
-                      setApplication({
-                        ...application,
-                        creator: e.target.value,
-                      });
-                    }}*/
                   />
                 </Grid>
                 <Grid item lg={12}>

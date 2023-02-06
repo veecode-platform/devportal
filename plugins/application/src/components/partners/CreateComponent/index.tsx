@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import { AlertComponent, Select } from '../../shared';
+import { AlertComponent } from '../../shared';
 import AxiosInstance from '../../../api/Api'; 
 import {
   InfoCard,
@@ -10,11 +10,10 @@ import {
   Page,
   Content,
   ContentHeader,
-  Progress,
 } from '@backstage/core-components';
 import { ICreatePartner } from '../interfaces';
-import { Alert } from '@material-ui/lab';
-import useAsync from 'react-use/lib/useAsync';
+import { FetchApplicationsList, FetchServicesList } from '../commons';
+import { validateEmail, validateName, validatePhone } from '../commons/validate';
 
 export const CreateComponent = () => {
   const [partner, setPartner] = useState<ICreatePartner>({
@@ -27,6 +26,8 @@ export const CreateComponent = () => {
   });
 
   const [show, setShow] = useState(false);
+
+  const [errorField, setErrorField] = useState({name: false, email: false, phone: false});
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') {
@@ -88,7 +89,11 @@ export const CreateComponent = () => {
                     required
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
+                      if(!!validateName(e.target.value)) setErrorField({...errorField, name: true});
+                      else setErrorField({...errorField, name: false});
                     }}
+                    error={errorField.name}
+                    helperText={errorField.name ? "Enter a name with at least 3 characters" : null}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -110,13 +115,17 @@ export const CreateComponent = () => {
                         ...partner,
                         email: e.target.value,
                       });
+                      if(!!validateEmail(partner.email)) setErrorField({...errorField, email: true});
+                      else setErrorField({...errorField, email: false});
                     }}
+                    error={errorField.email}
+                    helperText={errorField.email ? "Enter a valid email" : null}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    type='number'
+                    type='text'
                     variant="outlined"
                     label="Phone"
                     value={partner.phone ?? ''}
@@ -126,7 +135,11 @@ export const CreateComponent = () => {
                         ...partner,
                         phone: e.target.value,
                       });
+                      if(!!validatePhone(e.target.value as string)) setErrorField({...errorField, phone: true});
+                      else setErrorField({...errorField, phone: false});
                     }}
+                    error={errorField.phone}
+                    helperText={errorField.phone ? "enter a valid phone" : null}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -150,7 +163,7 @@ export const CreateComponent = () => {
                       size="large"
                       type="submit"
                       variant="contained"
-                      disabled={show}
+                      disabled={errorField.name || errorField.email || errorField.phone }
                       onClick={handleSubmit}
                     >
                       Create
@@ -164,58 +177,6 @@ export const CreateComponent = () => {
       </Content>
     </Page>
   )
-};
-
-export const FetchServicesList = ({partner, setPartner}: any) => {
-
-  const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`/services`);
-    return data.services;
-  }, []);
-
-  if (loading) {
-    return <Progress />;
-  } else if (error) {
-    return <Alert severity="error">{error.message}</Alert>;
-  }
-  return (
-  <Select
-    placeholder="Services"
-    label="Services"
-    items={value.map((item: any) => {
-      return { ...{ label: item.name, value: item.id, key: item.id } };
-      })}
-    multiple
-    onChange={e => {
-    setPartner({ ...partner, servicesId: e });
-    }}
-  />)
-};
-
-export const FetchApplicationsList = ({partner, setPartner}: any) => {
-
-  const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`/applications`);
-    return data.applications;
-  }, []);
-
-  if (loading) {
-    return <Progress />;
-  } else if (error) {
-    return <Alert severity="error">{error.message}</Alert>;
-  }
-  return (
-  <Select
-    placeholder="Applications"
-    label="Applications"
-    items={value.map((item: any) => {
-      return { ...{ label: item.name, value: item.id, key: item.id } };
-      })}
-    multiple
-    onChange={e => {
-    setPartner({ ...partner, applicationId: e });
-    }}
-  />)
 };
 
 

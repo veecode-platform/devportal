@@ -1,12 +1,12 @@
 import React from 'react';
-import { Select } from '../../../shared';
-import AxiosInstance from '../../../../api/Api'; 
 import {
   Progress,
 } from '@backstage/core-components';
 import { Alert } from '@material-ui/lab';
 import useAsync from 'react-use/lib/useAsync';
-import { IPartner } from '../../interfaces';
+import { IPartner } from '../interfaces';
+import AxiosInstance from '../../../api/Api';
+import { Select } from '../../shared';
 
 export type Props = {
   partner: IPartner;

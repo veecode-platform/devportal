@@ -17,8 +17,8 @@ import {
 import { IPartner } from '../interfaces';
 import { Select } from '../../shared';
 import AxiosInstance from '../../../api/Api';
-import { FetchApplicationsList, FetchServicesList } from './commons';
-import { validateEmail, validateName, validatePhone } from './commons/validate';
+import { FetchApplicationsList, FetchServicesList } from '../commons';
+import { validateEmail, validateName, validatePhone } from '../commons/validate';
 
 type PartnerProps = {
   partnerData: IPartner | undefined;
@@ -36,7 +36,10 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
     servicesId: partnerData?.servicesId ?? [],
     applicationId: partnerData?.applicationId ?? [],
   });
+
   const [show, setShow] = useState(false);
+ 
+  const [ errorField, setErrorField] = useState({name: false, email: false, phone: false})
 
   const statusItems = [
     { label: 'active', value: 'true' },
@@ -106,9 +109,11 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     required
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
+                      if(!!validateName(e.target.value)) setErrorField({...errorField, name: true});
+                      else setErrorField({...errorField, name: false});
                     }}
-                    error={!!validateName(partner.name)}
-                    helperText={!!validateName(partner.name) ? "Enter a name with at least 3 characters" : null}
+                    error={errorField.name}
+                    helperText={errorField.name ? "Enter a name with at least 3 characters" : null}
                   />
                 </Grid>
 
@@ -150,9 +155,11 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                         ...partner,
                         email: e.target.value,
                       });
+                      if(!!validateEmail(partner.email)) setErrorField({...errorField, email: true});
+                      else setErrorField({...errorField, email: false});
                     }}
-                    error={!!validateEmail(partner.email)}
-                    helperText={!!validateEmail(partner.email) ? "Enter a valid email" : null}
+                    error={errorField.email}
+                    helperText={errorField.email ? "Enter a valid email" : null}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -164,14 +171,16 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     label="Phone"
                     value={partner.phone}
                     required
-                    error={!!validatePhone(partner.phone as string)}
-                    helperText={!!validatePhone(partner.phone as string) ? "enter a valid phone" : null}
                     onChange={e => {
                       setPartner({
                         ...partner,
                         phone: e.target.value,
                       });
+                      if(!!validatePhone(e.target.value as string)) setErrorField({...errorField, phone: true});
+                      else setErrorField({...errorField, phone: false});
                     }}
+                    error={errorField.phone}
+                    helperText={errorField.phone ? "enter a valid phone" : null}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -195,7 +204,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                       size="large"
                       type="submit"
                       variant="contained"
-                      disabled={show}
+                      disabled={errorField.name || errorField.email || errorField.phone }
                       onClick={handleSubmit}
                     >
                       Save
