@@ -84,7 +84,7 @@ const Details = ({ service }: Services) => {
                     <IconButton
                       component={Link}
                       aria-label="Edit"
-                      title="Edit Metadata"
+                      title="Edit"
                       to={`/services/edit-service?id=${service?.id}`}
                     >
                       <EditIcon />
@@ -92,7 +92,7 @@ const Details = ({ service }: Services) => {
 
                     <IconButton
                       aria-label="Refresh"
-                      title="Schedule entity refresh"
+                      title="Refresh"
                       onClick={Refresh}
                     >
                       <CachedIcon />
@@ -120,12 +120,8 @@ export const DetailsComponent = () => {
   const id = location.search.split('?id=')[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
-    /*const response = await fetch(
-      `http://localhost:7007/api/application/service/${id}`,
-    );
-    const data = await response.json();*/
     const {data} = await AxiosInstance.get(`/services/${id}`)
-    return data.services;                             // CHECK ---- TO DO
+    return data.services;                             
   }, []);
 
   if (loading) {

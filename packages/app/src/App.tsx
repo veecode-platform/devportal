@@ -48,7 +48,7 @@ import {
   // SignInPage,
 } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
-import { FlatRoutes } from '@backstage/core-app-api';
+import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 
 // custom
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
@@ -120,8 +120,6 @@ const app = createApp({
   ],
 });
 
-const AppProvider = app.getProvider();
-const AppRouter = app.getRouter();
 
 const routes = (
   <FlatRoutes>
@@ -191,14 +189,13 @@ const routes = (
   </FlatRoutes>
 );
 
-const App = () => (
-  <AppProvider>
-    <AlertDisplay />
+
+export default app.createRoot(
+  <>
+    <AlertDisplay transientTimeoutMs={2500} />
     <OAuthRequestDialog />
     <AppRouter>
       <Root>{routes}</Root>
     </AppRouter>
-  </AppProvider>
+  </>,
 );
-
-export default App;

@@ -48,6 +48,7 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
   const [partnerList, setPartnerList] = useState(servicePartnerId);
   const [loading, setLoading] = useState(false)
 
+  //console.log("list: ", partnerList)
 
   const handleSubmit = async() =>{
     setLoading(true)
@@ -56,15 +57,6 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
         partnersId: partnerList,
       }
     }
-    /*const config = {
-      method: 'PATCH',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      body:JSON.stringify(updateServicesPartners)
-    };
-  
-    await fetch(`http://localhost:7007/api/application/service/${serviceId}`, config);*/
     await AxiosInstance.patch(`services/${serviceId}`, JSON.stringify(updateServicesPartners) )
 
     new Promise (() =>{
@@ -128,10 +120,8 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
 
 export const PartnerListComponent = ({servicePartnerId, serviceId}:any) => {
     const { value, loading, error } = useAsync(async (): Promise<IPartner[]> => {
-      /*const response = await fetch('http://localhost:7007/api/application/partners');
-      const data = await response.json();*/
-      const response = await AxiosInstance.get("/partners")
-      return response.data.partners;
+      const {data} = await AxiosInstance.get("/partners")
+      return data.partners;
     }, []);
   
     if (loading) {

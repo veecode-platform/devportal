@@ -21,11 +21,11 @@ export const CreateComponent = () => {
   const [error, setError] = useState<boolean>(false)
   const [service, setService] = useState<ICreateService>({
     name: '',
-    kongServiceName:'',
+    kongServiceName:'vertigo',
     active: true,
     description: '',
     redirectUrl: '',
-    kongServiceId: '',
+    kongServiceId: 'bb971fbc-7493-47f7-ae8a-5190565d7272',
     securityType: '',
     rateLimiting: 0,
   });
@@ -63,6 +63,7 @@ export const CreateComponent = () => {
         kongServiceId: service.kongServiceId,
         rateLimiting: service.rateLimiting,
         securityType: service.securityType,
+        partnersId: []
       },
     };
     const response = await AxiosInstance.post("/services", JSON.stringify(servicePost) )
