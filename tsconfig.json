@@ -5,7 +5,7 @@
     "plugins/*/src",
     "plugins/*/dev",
     "plugins/*/migrations"
-  ],
+, "plugins/application/src/components/devApplication/HomepageComponent/.ts"  ],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "esModuleInterop": true,

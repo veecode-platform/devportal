@@ -9,18 +9,18 @@ app:
   #   env: # optional
 
   support:
-    url: https://github.com/backstage/backstage/issues # Used by common ErrorPage
+    url: https://github.com/orgs/veecode-platform/discussions # Used by common ErrorPage
     items: # Used by common SupportButton component
       - title: Issues
         icon: github
         links:
-          - url: https://github.com/backstage/backstage/issues
+          - url: https://github.com/orgs/veecode-platform/discussions
             title: GitHub Issues
-      - title: Discord Chatroom
-        icon: chat
-        links:
-          - url: https://discord.gg/MUpMjP2
-            title: '#backstage'
+      #- title: Discord Chatroom
+      #  icon: chat
+      #  links:
+      #    - url: https://discord.gg/MUpMjP2
+      #      title: '#backstage'
 
 #add permission
 permission:
@@ -50,7 +50,7 @@ backend:
   cache:
     store: memory
   cors:
-    origin: https://devportal.platform.vee.codes/
+    origin: https://devportal.platform.vee.codes/ #http://localhost:3000
     methods: [GET, POST, PUT, DELETE, PATCH]
     credentials: true
   csp:
@@ -124,13 +124,16 @@ integrations:
   github:
     - host: github.com
       token: ${GITHUB_TOKEN_SECRET}
-  bitbucketCloud:
-    - username: ${BITBUCKET_CLOUD_USERNAME}
-      appPassword: ${BITBUCKET_CLOUD_TOKEN}
-  bitbucketServer:
-    - host: ${BITBUCKET_SERVER_HOST}
-      apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
-      token: ${BITBUCKET_SERVER_TOKEN}
+  #bitbucketCloud:
+  #  - username: ${BITBUCKET_CLOUD_USERNAME}
+  #    appPassword: ${BITBUCKET_CLOUD_TOKEN}
+  #bitbucketServer:
+  #  - host: ${BITBUCKET_SERVER_HOST}
+  #    apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
+  #    token: ${BITBUCKET_SERVER_TOKEN}
+  #gitlab:
+  #  - host: gitlab.com
+  #    token: ${GITLAB_TOKEN_SECRET}
 
 catalog:
   rules:
@@ -145,21 +148,29 @@ catalog:
           repository: devportal-spechouse # Regex
           validateLocationsExist: true
 
-    bitbucketCloud:
-      yourProviderId: # identifies your ingested dataset
-        catalogPath: /catalog-info.yaml # default value
-      filters: # optional
-        # projectKey: 'DEV' # optional; RegExp
-        repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
-      workspace: ${BITBUCKET_CLOUD_WORKSPACE}
+#    bitbucketCloud:
+#      yourProviderId: # identifies your ingested dataset
+#        catalogPath: /catalog-info.yaml # default value
+#      filters: # optional
+#        # projectKey: 'DEV' # optional; RegExp
+#        repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
+#      workspace: ${BITBUCKET_CLOUD_WORKSPACE}
+#
+#    bitbucketServer:
+#      yourProviderId:
+#        host: ${BITBUCKET_SERVER_HOST}
+#        catalogPath: /catalog-info.yaml # default value
+#        filters: # optional
+#          projectKey: ${BITBUCKET_SERVER_PROJECT_KEY} # optional; RegExp
+#          repoSlug: ${BITBUCKET_SERVER_REPOSLUG} # optional; RegExp  
+#    gitlab:
+#      yourProviderId:
+#        host: gitlab.com # Identifies one of the hosts set up in the integrations -  
+#        branch: main # Optional. Uses `master` as default
+#        group: ${GITLAB_GROUP_NAME} # Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned
+#        entityFilename: catalog-info.yaml # Optional. Defaults to `catalog-info.yaml`
+#        #projectPattern: /[\s\S]*/ # Optional. Filters found projects based on provided patter. Defaults to `/[\s\S]*/`, what means to not filter anything
 
-    bitbucketServer:
-      yourProviderId:
-        host: ${BITBUCKET_SERVER_HOST}
-        catalogPath: /catalog-info.yaml # default value
-        filters: # optional
-          projectKey: ${BITBUCKET_SERVER_PROJECT_KEY} # optional; RegExp
-          repoSlug: ${BITBUCKET_SERVER_REPOSLUG} # optional; RegExp  
 
 #   locations:
 #   - type: url
@@ -215,3 +226,12 @@ grafana:
   # See: https://grafana.com/blog/2021/06/14/the-new-unified-alerting-system-for-grafana-everything-you-need-to-know/
   # Optional. Default: false
   unifiedAlerting: true
+#todo put into env 
+okta:
+  host: ${OKTA_TESTE_HOST}
+  token: ${OKTA_TESTE_TOKEN}
+
+kong: 
+  api-manager: ${KONG_OKTETO_HOST}
+  admin-token: ${KONG_ADMIN_TOKEN}
+  

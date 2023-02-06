@@ -31,7 +31,7 @@ import search from './plugins/search';
 // custom permission
 import permission from './plugins/permission';
 import vault from './plugins/vault';
-
+import application from './plugins/application'
 
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
@@ -88,6 +88,7 @@ async function main() {
   const createEnv = makeCreateEnv(config);
   const apiRouter = Router();
 
+  const applicationEnv = useHotMemoize(module, () => createEnv('application'));
   const catalogEnv = useHotMemoize(module, () => createEnv('catalog'));
   const scaffolderEnv = useHotMemoize(module, () => createEnv('scaffolder'));
   const authEnv = useHotMemoize(module, () => createEnv('auth'));
@@ -113,6 +114,7 @@ async function main() {
     apiRouter.use('/argocd', await argocd(argocdEnv));
   }
 
+  apiRouter.use('/devportal', await application(applicationEnv));
   apiRouter.use('/catalog', await catalog(catalogEnv));
   apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));
   apiRouter.use('/auth', await auth(authEnv));
@@ -124,6 +126,7 @@ async function main() {
   //apiRouter.use('/argocd', await argocd(argocdEnv));
   //apiRouter.use('/vault', await vault(vaultEnv));
   //apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
+
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());
