@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
@@ -100,7 +101,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     fullWidth
                     variant="outlined"
                     label="Name"
-                    value={partner.name ?? ''}
+                    value={partner.name}
                     required
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
@@ -145,8 +146,9 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    type="number"
+                    type="tel"
                     variant="outlined"
+                    placeholder="Phone"
                     label="Phone"
                     value={partner.phone}
                     required
