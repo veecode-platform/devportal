@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unreachable */
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { AlertComponent } from '../../shared';
@@ -13,15 +13,15 @@ import {
   ContentHeader,
 } from '@backstage/core-components';
 import { ICreateApplication } from '../interfaces';
-import { useUserProfile } from '../../../hooks/useUserProfile';
-import { Select } from '../../shared';
 import AxiosInstance from '../../../api/Api';
+import { FetchServicesList } from '../../partners/CreateComponent';
+import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 
 export const NewApplicationComponent = () => {
-  const { name } = useUserProfile();
+  const user = useApi(identityApiRef)
   const [application, setApplication] = useState<ICreateApplication>({
     name: '',
-    creator: '',
+    creator: "",
     active: true,
     servicesId: [],
     kongConsumerName: '',
@@ -30,14 +30,14 @@ export const NewApplicationComponent = () => {
   const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {
-    return setApplication({ ...application, creator: name });
+    user.getBackstageIdentity().then( res => {
+      return setApplication({ ...application, creator: res.userEntityRef.split("/")[1] });
+    }).catch(e => {
+      console.log(e)
+      return setApplication({ ...application, creator: "default"});
+    })
+  
   }, []);
-
-  const servicesIdMock = [
-    '1234256656-45354',
-    'w4trgehwfreutir235-4545',
-    '456789fogfg9r03-e5345',
-  ];
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
@@ -59,19 +59,8 @@ export const NewApplicationComponent = () => {
         creator: application.name,
         active: application.active,
         servicesId: application.servicesId,
-        //kongServiceName: application.kongConsumerName,
-        //kongServiceId: application.kongConsumerId,
       },
     };
-    /*const config = {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify(applicationData)
-    };
-    const response = await fetch('http://localhost:7007/api/application/', config); // check endpoint
-    const data = await response.json();*/
     const response = await AxiosInstance.post("/applications", JSON.stringify(applicationData))
     setShow(true);
     setTimeout(()=>{
@@ -117,57 +106,20 @@ export const NewApplicationComponent = () => {
                     label="Creator"
                     value={application.creator ?? ''}
                     required
-                    onChange={e => {
+                    InputProps={{
+                      readOnly: true,
+                    }}                  
+                    /*onChange={e => {
                       setApplication({
                         ...application,
                         creator: e.target.value,
                       });
-                    }}
+                    }}*/
                   />
                 </Grid>
                 <Grid item lg={12}>
-                  <Select
-                    placeholder="Application Services"
-                    label="Application Services"
-                    items={servicesIdMock.map(item => {
-                      return { ...{ label: item, value: item } };
-                    })}
-                    multiple
-                    onChange={e => {
-                      setApplication({ ...application, servicesId: e });
-                    }}
-                  />
+                  <FetchServicesList partner={application} setPartner={setApplication}/>
                 </Grid>
-                {/*<Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Kong Consumer Name"
-                    value={application.kongConsumerName ?? ''}
-                    required
-                    onChange={e => {
-                      setApplication({
-                        ...application,
-                        kongConsumerName: e.target.value,
-                      });
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Kong Consumer Id"
-                    value={application.kongConsumerId ?? ''}
-                    required
-                    onChange={e => {
-                      setApplication({
-                        ...application,
-                        kongConsumerId: e.target.value,
-                      });
-                    }}
-                  />
-                  </Grid>*/}
                 <Grid item xs={12}>
                   <Grid container justifyContent="center" alignItems="center">
                     <Button

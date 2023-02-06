@@ -63,12 +63,12 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
         name: partner.name,
         active: partner.active,
         email: partner.email,
-        celular: partner.phone, 
+        phone: partner.phone, 
         servicesId: partner.servicesId,
         applicationId: partner.applicationId,
       },
     };
-    const response = await AxiosInstance.post(`/partners/${partner?.id}`, JSON.stringify(dataPartner) )
+    const response = await AxiosInstance.put(`/partners/${partner?.id}`, JSON.stringify(dataPartner) )
     setShow(true);
     setTimeout(() => {
       navigate('/partners');
@@ -184,7 +184,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                       disabled={show}
                       onClick={handleSubmit}
                     >
-                      Create
+                      Save
                     </Button>
                   </Grid>
                 </Grid>

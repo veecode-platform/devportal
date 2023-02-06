@@ -124,13 +124,15 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                     width: '100%',
                   }}
                 >
-                                   <FetchKongServices
+                  <FetchKongServices
                     valueName={service.kongServiceName}
                     setValue={setService}
+                    selected={`${service.kongServiceName}---${service.kongServiceId}`}
                   />
                   <Select
                     placeholder="Select the Status"
                     label="Service Status"
+                    selected={service.active ? "true" : "false"}
                     items={statusItems}
                     onChange={e => {
                       if (e === 'true')

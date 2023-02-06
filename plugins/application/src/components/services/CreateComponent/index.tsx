@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AlertComponent } from '../../shared';
@@ -18,6 +18,7 @@ import AxiosInstance from '../../../api/Api';
 
 export const CreateComponent = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState<boolean>(false)
   const [service, setService] = useState<ICreateService>({
     name: '',
     kongServiceName:'',
@@ -46,11 +47,16 @@ export const CreateComponent = () => {
     });
   };
 
+  useEffect(()=>{
+    let x = service.name.length==0 || service.kongServiceId=="" || service.description.length==0 || service.securityType=="" || service.redirectUrl.length==0;
+    setError(x)
+  }, [service])
+
   const handleSubmit = async () => {
     const servicePost = {
       services: {
         name: service.name,
-        kongServiceName:service,
+        kongServiceName:service.kongServiceName,
         active: service.active,
         description: service.description,
         redirectUrl: service.redirectUrl,
@@ -59,19 +65,6 @@ export const CreateComponent = () => {
         securityType: service.securityType,
       },
     };
-    /*const config = {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify(dataTest),
-    };
-
-    const response = await fetch(
-      'http://localhost:7007/api/application/service',
-      config,
-    );
-    const data = await response.json();*/
     const response = await AxiosInstance.post("/services", JSON.stringify(servicePost) )
     setShow(true);
     setTimeout(() => {
@@ -107,6 +100,7 @@ export const CreateComponent = () => {
               >
                 <Grid item xs={12}>
                   <TextField
+                    //error={error}
                     fullWidth
                     variant="outlined"
                     label="Service Name"
@@ -210,7 +204,7 @@ export const CreateComponent = () => {
                       color="primary"
                       type="submit"
                       variant="contained"
-                      disabled={show}
+                      disabled={show || error}
                       onClick={handleSubmit}
                     >
                       Create

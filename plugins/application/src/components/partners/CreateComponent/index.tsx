@@ -102,6 +102,7 @@ export const CreateComponent = () => {
                     fullWidth
                     variant="outlined"
                     label="Email"
+                    type="email"
                     value={partner.email ?? ''}
                     required
                     onChange={e => {
