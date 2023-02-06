@@ -14,11 +14,15 @@ import {
   Content,
   ContentHeader,
 } from '@backstage/core-components';
-import { IPartner } from '../interfaces';
+import { IErrorStatus, IPartner } from '../interfaces';
 import { Select } from '../../shared';
 import AxiosInstance from '../../../api/Api';
 import { FetchApplicationsList, FetchServicesList } from '../commons';
-import { validateEmail, validateName, validatePhone } from '../commons/validate';
+import {
+  validateEmail,
+  validateName,
+  validatePhone,
+} from '../commons/validate';
 
 type PartnerProps = {
   partnerData: IPartner | undefined;
@@ -38,8 +42,12 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
   });
 
   const [show, setShow] = useState(false);
- 
-  const [ errorField, setErrorField] = useState({name: false, email: false, phone: false})
+
+  const [errorField, setErrorField] = useState<IErrorStatus>({
+    name: false,
+    email: false,
+    phone: false,
+  });
 
   const statusItems = [
     { label: 'active', value: 'true' },
@@ -67,12 +75,15 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
         name: partner.name,
         active: partner.active,
         email: partner.email,
-        phone: partner.phone, 
+        phone: partner.phone,
         servicesId: partner.servicesId,
         applicationId: partner.applicationId,
       },
     };
-    const response = await AxiosInstance.put(`/partners/${partner?.id}`, JSON.stringify(dataPartner) )
+    const response = await AxiosInstance.put(
+      `/partners/${partner?.id}`,
+      JSON.stringify(dataPartner),
+    );
     setShow(true);
     setTimeout(() => {
       navigate('/partners');
@@ -109,11 +120,16 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     required
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
-                      if(!!validateName(e.target.value)) setErrorField({...errorField, name: true});
-                      else setErrorField({...errorField, name: false});
+                      if (!!validateName(e.target.value))
+                        setErrorField({ ...errorField, name: true });
+                      else setErrorField({ ...errorField, name: false });
                     }}
                     error={errorField.name}
-                    helperText={errorField.name ? "Enter a name with at least 3 characters" : null}
+                    helperText={
+                      errorField.name
+                        ? 'Enter a name with at least 3 characters'
+                        : null
+                    }
                   />
                 </Grid>
 
@@ -122,7 +138,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     placeholder="Select the Status"
                     label="Service Status"
                     items={statusItems}
-                    selected={partner.active ? "true" : "false"}
+                    selected={partner.active ? 'true' : 'false'}
                     onChange={e => {
                       if (e === 'true')
                         setPartner({ ...partner, active: true });
@@ -133,15 +149,15 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
 
                 <Grid item lg={12}>
                   <FetchServicesList
-                   partner={partner}
-                   setPartner={setPartner}
+                    partner={partner}
+                    setPartner={setPartner}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <FetchApplicationsList
-                   partner={partner}
-                   setPartner={setPartner}
-                   />
+                    partner={partner}
+                    setPartner={setPartner}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -155,11 +171,12 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                         ...partner,
                         email: e.target.value,
                       });
-                      if(!!validateEmail(partner.email)) setErrorField({...errorField, email: true});
-                      else setErrorField({...errorField, email: false});
+                      if (!!validateEmail(partner.email))
+                        setErrorField({ ...errorField, email: true });
+                      else setErrorField({ ...errorField, email: false });
                     }}
                     error={errorField.email}
-                    helperText={errorField.email ? "Enter a valid email" : null}
+                    helperText={errorField.email ? 'Enter a valid email' : null}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -176,11 +193,12 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                         ...partner,
                         phone: e.target.value,
                       });
-                      if(!!validatePhone(e.target.value as string)) setErrorField({...errorField, phone: true});
-                      else setErrorField({...errorField, phone: false});
+                      if (!!validatePhone(e.target.value as string))
+                        setErrorField({ ...errorField, phone: true });
+                      else setErrorField({ ...errorField, phone: false });
                     }}
                     error={errorField.phone}
-                    helperText={errorField.phone ? "enter a valid phone" : null}
+                    helperText={errorField.phone ? 'enter a valid phone' : null}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -204,7 +222,9 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                       size="large"
                       type="submit"
                       variant="contained"
-                      disabled={errorField.name || errorField.email || errorField.phone }
+                      disabled={
+                        errorField.name || errorField.email || errorField.phone
+                      }
                       onClick={handleSubmit}
                     >
                       Save
@@ -225,7 +245,7 @@ export const EditComponent = () => {
   const id = location.search.split('?id=')[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IPartner> => {
-    const {data} = await AxiosInstance.get(`/partners/${id}`);
+    const { data } = await AxiosInstance.get(`/partners/${id}`);
     return data.partners;
   }, []);
 

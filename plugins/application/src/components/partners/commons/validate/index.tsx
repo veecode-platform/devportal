@@ -25,9 +25,7 @@ export const validateEmail = (email:string) => {
 }
 
 export const validatePhone  = (phone:string) => {
- if(phone !== "" || phone!== null){
     const Phone = phone.trim();
-    if (Phone.length >= 8) return false;
- }
- return true
+    if (Phone.length <= 8) return true;
+     return false
 }

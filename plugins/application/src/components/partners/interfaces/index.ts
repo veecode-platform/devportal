@@ -18,3 +18,9 @@ export interface ICreatePartner{
   servicesId: string[] | any,
   applicationId: string[] | any,
 }
+
+export interface IErrorStatus {
+  name: boolean,
+  email: boolean,
+  phone: boolean
+}
