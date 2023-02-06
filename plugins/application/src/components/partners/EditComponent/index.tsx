@@ -17,7 +17,8 @@ import {
 import { IPartner } from '../interfaces';
 import { Select } from '../../shared';
 import AxiosInstance from '../../../api/Api';
-import { FetchApplicationsList, FetchServicesList } from '../CreateComponent';
+import { FetchApplicationsList, FetchServicesList } from './commons';
+
 
 type PartnerProps = {
   partnerData: IPartner | undefined;
@@ -114,6 +115,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     placeholder="Select the Status"
                     label="Service Status"
                     items={statusItems}
+                    selected={partner.active ? "true" : "false"}
                     onChange={e => {
                       if (e === 'true')
                         setPartner({ ...partner, active: true });
@@ -123,10 +125,16 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                 </Grid>
 
                 <Grid item lg={12}>
-                  <FetchServicesList partner={partner} setPartner={setPartner}/>
+                  <FetchServicesList
+                   partner={partner}
+                   setPartner={setPartner}
+                  />
                 </Grid>
                 <Grid item xs={12}>
-                  <FetchApplicationsList partner={partner} setPartner={setPartner}/>
+                  <FetchApplicationsList
+                   partner={partner}
+                   setPartner={setPartner}
+                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
