@@ -18,7 +18,7 @@ import { IPartner } from '../interfaces';
 import { Select } from '../../shared';
 import AxiosInstance from '../../../api/Api';
 import { FetchApplicationsList, FetchServicesList } from './commons';
-
+import { validateEmail, validateName, validatePhone } from './commons/validate';
 
 type PartnerProps = {
   partnerData: IPartner | undefined;
@@ -107,6 +107,8 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
                     }}
+                    error={!!validateName(partner.name)}
+                    helperText={!!validateName(partner.name) ? "Enter a name with at least 3 characters" : null}
                   />
                 </Grid>
 
@@ -149,6 +151,8 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                         email: e.target.value,
                       });
                     }}
+                    error={!!validateEmail(partner.email)}
+                    helperText={!!validateEmail(partner.email) ? "Enter a valid email" : null}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -160,6 +164,8 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     label="Phone"
                     value={partner.phone}
                     required
+                    error={!!validatePhone(partner.phone as string)}
+                    helperText={!!validatePhone(partner.phone as string) ? "enter a valid phone" : null}
                     onChange={e => {
                       setPartner({
                         ...partner,
