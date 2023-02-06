@@ -20,10 +20,14 @@ COPY yarn.lock package.json packages/backend/dist/skeleton.tar.gz ./
 RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
 # install sqlite3 dependencies
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y libsqlite3-dev python3 cmake g++ && \
-    rm -rf /var/lib/apt/lists/* && \
-    yarn config set python /usr/bin/python3
+#RUN apt-get update && apt-get upgrade -y && \
+#    apt-get install -y libsqlite3-dev python3 cmake g++ python3-pip && \
+#    rm -rf /var/lib/apt/lists/* && \
+#    yarn config set python /usr/bin/python3
+#
+#RUN pip3 install mkdocs-techdocs-core==1.0.1
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install mkdocs-techdocs-core==1.0.1
 
 RUN yarn install --frozen-lockfile --production --network-timeout 300000 && rm -rf "$(yarn cache dir)"
 
@@ -31,11 +35,4 @@ RUN yarn install --frozen-lockfile --production --network-timeout 300000 && rm -
 COPY packages/backend/dist/bundle.tar.gz app-config.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
-
-# ENV OKTA_CLIENT_ID ""
-# ENV OKTA_CLIENT_SECRET ""
-# ENV OKTA_CLIENT_DOMAIN ""
-# ENV  GITHUB_SPECHOUSE_URL ""
-# ENV  GITHUB_TOKEN ""
-# ENV  BACKSTAGE_BASEURL ""
 CMD ["node", "packages/backend", "--config", "app-config.yaml"]

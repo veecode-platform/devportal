@@ -47,6 +47,7 @@ services:
     profiles:
       - complete
       - basic
+      - demo
     container_name: keycloak_devportal
     image: quay.io/keycloak/keycloak:19.0.3
     # restart: unless-stopped
@@ -82,9 +83,37 @@ services:
     networks:
       - devportal-compose-network
     restart: unless-stopped
+  
+  ##VAULT##
+  vault-server:
+    profiles:
+    - complete
+    - demo
+    - vault
+    container_name: vault_devportal
+    image: vault:latest
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_ADDR: "http://0.0.0.0:8200"
+      VAULT_DEV_ROOT_TOKEN_ID: "vault-plaintext-root-token"
+    cap_add:
+      - IPC_LOCK
+    networks:
+      - devportal-compose-network
+    restart: unless-stopped
+    #networks:
+    #  vault-network:
+    #    ipv4_address: 172.21.0.10
+    #    aliases:
+    #      - vault-server
 networks:
   devportal-compose-network:
     driver: bridge
+  #vault-network:
+  #  ipam:
+  #    config:
+  #      - subnet: 172.21.0.0/24
 
 volumes:
     postgres:

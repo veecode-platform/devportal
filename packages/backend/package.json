@@ -26,7 +26,10 @@
     "@backstage/plugin-auth-backend": "^0.17.1",
     "@backstage/plugin-auth-node": "^0.2.7",
     "@backstage/plugin-catalog-backend": "^1.5.1",
+    "@backstage/plugin-catalog-backend-module-bitbucket-cloud": "^0.1.6",
+    "@backstage/plugin-catalog-backend-module-bitbucket-server": "^0.1.6",
     "@backstage/plugin-catalog-backend-module-github": "^0.2.1",
+    "@internal/plugin-kubernetes-backend": "^0.9.1",
     "@backstage/plugin-catalog-backend-module-gitlab": "^0.1.12",
     "@backstage/plugin-permission-backend": "^0.5.13",
     "@backstage/plugin-permission-common": "^0.7.1",
@@ -36,6 +39,8 @@
     "@backstage/plugin-search-backend": "^1.1.1",
     "@backstage/plugin-search-backend-node": "^1.0.4",
     "@backstage/plugin-techdocs-backend": "^1.4.1",
+    "@internal/plugin-vault-backend": "^0.2.5",
+    "@roadiehq/backstage-plugin-argo-cd-backend": "^2.6.2",
     "@internal/plugin-application-backend": "0.1.0",
     "@keycloak/keycloak-admin-client": "18.0.2",
     "app": "link:../app",
@@ -48,13 +53,15 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@backstage/cli": "^0.21.1",
+    "@backstage/cli": "^0.22.0",
     "@types/dockerode": "^3.3.0",
     "@types/express": "^4.17.6",
     "@types/express-serve-static-core": "^4.17.5",
     "@types/luxon": "^2.0.4"
   },
   "files": [
-    "dist"
-  ]
+    "dist",
+    "config.d.ts"
+  ],
+  "configSchema": "config.d.ts"
 }

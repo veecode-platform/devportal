@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import {
   // HomePageToolkit,
   HomePageCompanyLogo,
@@ -5,11 +6,11 @@ import {
 } from '@backstage/plugin-home';
 
 import { wrapInTestApp, TestApiProvider } from '@backstage/test-utils';
-import { 
-          Content,
-           Page, 
-          //  InfoCard 
-  } from '@backstage/core-components';
+import {
+  Content,
+  Page,
+  //  InfoCard 
+} from '@backstage/core-components';
 import {
   starredEntitiesApiRef,
   MockStarredEntitiesApi,
@@ -28,11 +29,10 @@ import React, { ComponentType } from 'react';
 
 // custom
 import {
-           Logo , 
-          //  Icon 
-          } from '../plataformLogo/plataformLogo';
-
-
+  Logo,
+  //  Icon 
+} from '../plataformLogo/plataformLogo';
+import BackstageLogo from "../../assets/backstage.png";
 
 
 const starredEntitiesApi = new MockStarredEntitiesApi();
@@ -82,7 +82,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     backgroundAttachment: 'fixed',
     boxShadow: theme.shadows[1],
-    padding: '10px 0',
+    padding: '10px 15px',
     borderRadius: '30px',
     outline: 'none',
     border: 'mone',
@@ -91,12 +91,38 @@ const useStyles = makeStyles(theme => ({
   container: {
     margin: theme.spacing(5, 0),
   },
-  width:{
+  width: {
     width: '100vw',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     margin: '10px 0px'
+  },
+  footerWrapper:{
+    // width: '100%',
+    marginTop: '10rem',    
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  footerText:{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1.2em',
+    fontWeight: 'bold'
+  }
+  ,
+  logoBackstage: {
+    width: '7.5em',
+    height: '1.5em'
+  },
+  footer:{
+    display:'flex',
+    alignItems:'center',
+    justifyContent: 'center',
+    fontSize: '1.3em',
+    gap: '10px'
   }
 
 }));
@@ -110,9 +136,7 @@ export const HomePage = () => {
       <Page themeId="home">
         <Content>
           <Grid container justifyContent="center" spacing={6}>
-            <HomePageCompanyLogo className={classes.width}
-              logo={<Logo/>}
-            />
+            <HomePageCompanyLogo className={classes.width} logo={<Logo />} />
             <Grid container item xs={12} alignItems="center" direction="row">
               <HomePageSearchBar
                 classes={{ root: classes.searchBar }}
@@ -120,7 +144,7 @@ export const HomePage = () => {
               />
             </Grid>
             <Grid container item xs={12}>
-              <Grid item lg={12}>
+              <Grid item lg={12} xs={12}>
                 <HomePageStarredEntities />
               </Grid>
               {/* <Grid item xs={12} md={6}>
@@ -134,8 +158,8 @@ export const HomePage = () => {
               </Grid> */}
               {/* <Grid item xs={12} md={6}>
                 <InfoCard  title="Composable Section"> */}
-                  {/* placeholder for content */}
-                  {/* <div style={{ height: 370 }} />
+              {/* placeholder for content */}
+              {/* <div style={{ height: 370 }} />
                 </InfoCard>
               </Grid>
               <Grid item xs={12} md={6}>
@@ -147,6 +171,17 @@ export const HomePage = () => {
                   }}
                 />
               </Grid> */}
+            </Grid>
+            <Grid item className={classes.footerWrapper} lg={12}>
+              <p className={classes.footer}>
+                {' '}
+                <span className={classes.footerText}>Powered by </span>{' '}
+                <img
+                  src={BackstageLogo}
+                  alt="backstage logo"
+                  className={classes.logoBackstage}
+                />{' '}
+              </p>
             </Grid>
           </Grid>
         </Content>

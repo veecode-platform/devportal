@@ -63,6 +63,7 @@ export const CreateComponent = () => {
         kongServiceId: service.kongServiceId,
         rateLimiting: service.rateLimiting,
         securityType: service.securityType,
+        partnersId: []
       },
     };
     const response = await AxiosInstance.post("/services", JSON.stringify(servicePost) )

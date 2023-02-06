@@ -17,18 +17,18 @@ import React from 'react';
 import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
-  EntityConsumedApisCard,
+  //EntityConsumedApisCard,
   // EntityConsumingComponentsCard,
   EntityHasApisCard,
-  EntityProvidedApisCard,
+  //EntityProvidedApisCard,
   // EntityProvidingComponentsCard,
 } from '@backstage/plugin-api-docs';
 import {
-  EntityDependsOnComponentsCard,
-  EntityDependsOnResourcesCard,
+  // EntityDependsOnComponentsCard,
+  // EntityDependsOnResourcesCard,
   EntityHasComponentsCard,
   EntityHasResourcesCard,
-  EntityHasSubcomponentsCard,
+  //EntityHasSubcomponentsCard,
   EntityHasSystemsCard,
   EntityLayout,
   EntityLinksCard,
@@ -46,6 +46,7 @@ import {AboutCard as EntityAboutCard} from "../catalog/AboutCard";
 
 import {
   isGithubActionsAvailable,
+  EntityRecentGithubActionsRunsCard,
   EntityGithubActionsContent,
 } from '@backstage/plugin-github-actions';
 import {
@@ -70,6 +71,31 @@ import {
   RELATION_PART_OF,
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
+// argocd plugin
+import {
+  EntityArgoCDOverviewCard,
+  isArgocdAvailable
+} from '@roadiehq/backstage-plugin-argo-cd';
+// github actions
+import {
+  //EntityGithubInsightsContent,
+  EntityGithubInsightsLanguagesCard,
+  EntityGithubInsightsReadmeCard,
+  EntityGithubInsightsReleasesCard,
+  isGithubInsightsAvailable,
+} from '@roadiehq/backstage-plugin-github-insights';
+import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
+import { ReportIssue, TextSize } from '@backstage/plugin-techdocs-module-addons-contrib';
+// gitpull request
+import {
+  EntityGithubPullRequestsContent
+} from '@roadiehq/backstage-plugin-github-pull-requests';
+
+import { EntityVaultCard } from '@backstage/plugin-vault';
+import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
+import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
+import VaultEntity from './Vault/VaultEntity';
+import GrafanaEntity from './Grafana/GrafanaEntity';
 
 const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
@@ -98,6 +124,16 @@ const cicdContent = (
   </EntitySwitch>
 );
 
+const cicdCard = (
+  <EntitySwitch>
+  <EntitySwitch.Case if={isGithubActionsAvailable}>
+    <Grid item sm={6}>
+      <EntityRecentGithubActionsRunsCard limit={4} variant="gridItem" />
+    </Grid>
+  </EntitySwitch.Case>
+</EntitySwitch>
+)
+
 const entityWarningContent = (
   <>
     <EntitySwitch>
@@ -115,8 +151,41 @@ const entityWarningContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
+
   </>
 );
+
+const argoCdContent = (
+  <>
+  <EntitySwitch>
+  <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
+    <Grid item lg={12} xs={12} >
+      <EntityArgoCDOverviewCard />
+    </Grid>
+  </EntitySwitch.Case>
+</EntitySwitch>
+
+</>
+
+);
+
+const techdocsContent = (
+  <EntityTechdocsContent>
+    <TechDocsAddons>
+      <TextSize />
+      <ReportIssue />
+    </TechDocsAddons>
+  </EntityTechdocsContent>
+);
+
+const pullRequestsContent = (
+  <EntitySwitch>
+    <EntitySwitch.Case>
+      <EntityGithubPullRequestsContent />
+    </EntitySwitch.Case>
+  </EntitySwitch>
+);
+
 
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
@@ -128,12 +197,29 @@ const overviewContent = (
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
 
-    <Grid item md={4} xs={12}>
+    {cicdCard}
+
+    <EntitySwitch>
+        <EntitySwitch.Case if={isGithubInsightsAvailable}>
+          <Grid item md={6}>
+            <EntityGithubInsightsLanguagesCard />
+            <EntityGithubInsightsReleasesCard />
+          </Grid>
+          <Grid item md={6}>
+            <EntityGithubInsightsReadmeCard maxHeight={350} />
+          </Grid>
+        </EntitySwitch.Case>
+      </EntitySwitch>
+
+    <Grid item md={6} xs={12}>
       <EntityLinksCard />
     </Grid>
-    <Grid item md={8} xs={12}>
+    <VaultEntity/>
+    <GrafanaEntity/>
+
+    {/*<Grid item md={12} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
-    </Grid>
+</Grid> */}
   </Grid>
 );
 
@@ -147,7 +233,15 @@ const serviceEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/api" title="API">
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+        {pullRequestsContent}
+    </EntityLayout.Route>
+
+    {/*<EntityLayout.Route path="/code-insights" title="Code Insights">
+        <EntityGithubInsightsContent />
+</EntityLayout.Route>*/}
+
+    {/*<EntityLayout.Route path="/api" title="API">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
           <EntityProvidedApisCard />
@@ -156,9 +250,28 @@ const serviceEntityPage = (
           <EntityConsumedApisCard />
         </Grid>
       </Grid>
+</EntityLayout.Route>*/}
+  
+    {/*<EntityLayout.Route path="/vault" title="Vault" >
+      <Grid item md={12} xs={12}>
+        <EntityVaultCard />
+        <VaultEntity/>
+      </Grid>
     </EntityLayout.Route>
-
-    <EntityLayout.Route path="/dependencies" title="Dependencies">
+    <EntityLayout.Route path="/grafana" title="Grafana">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaDashboardsCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana-alerts" title="Grafana alerts">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaAlertsCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/argo-cd" title="ArgoCD">
+      {argoCdContent}
+    </EntityLayout.Route>*/}
+    {/* <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
           <EntityDependsOnComponentsCard variant="gridItem" />
@@ -167,11 +280,14 @@ const serviceEntityPage = (
           <EntityDependsOnResourcesCard variant="gridItem" />
         </Grid>
       </Grid>
+</EntityLayout.Route>*/}
+    <EntityLayout.Route path="/kubernetes" title="Kubernetes">
+      <EntityKubernetesContent refreshIntervalMs={30000} />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
-      <EntityTechdocsContent />
-    </EntityLayout.Route>
+        {techdocsContent}
+      </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -185,6 +301,31 @@ const websiteEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+      {pullRequestsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/vault" title="Vault">
+      <Grid item md={6} xs={12}>
+        <EntityVaultCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana" title="Grafana">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaDashboardsCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana-alerts" title="Grafana alerts">
+      <Grid item md={6} xs={12}>
+        <EntityGrafanaAlertsCard />
+      </Grid>
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/argo-cd" title="ArgoCD">
+      {argoCdContent}
+    </EntityLayout.Route>
+
+    {/* <EntityLayout.Route path="/dependencies" title="Dependencies">
     <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
@@ -194,11 +335,15 @@ const websiteEntityPage = (
           <EntityDependsOnResourcesCard variant="gridItem" />
         </Grid>
       </Grid>
+</EntityLayout.Route>*/}
+    <EntityLayout.Route path="/kubernetes" title="Kubernetes">
+      <EntityKubernetesContent refreshIntervalMs={30000} />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
       <EntityTechdocsContent />
     </EntityLayout.Route>
+
   </EntityLayout>
 );
 
@@ -216,8 +361,8 @@ const defaultEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
-      <EntityTechdocsContent />
-    </EntityLayout.Route>
+        {techdocsContent}
+      </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -235,7 +380,7 @@ const componentPage = (
   </EntitySwitch>
 );
 
-const apiPage = (
+const apiPage = ( 
   <EntityLayout>
     <EntityLayout.Route path="/" title="Definition">
       <Grid container spacing={3}>
@@ -244,8 +389,25 @@ const apiPage = (
         </Grid>
       </Grid>
     </EntityLayout.Route>
-    {/* 
-    <EntityLayout.Route path="/overview" title="Overview">
+    <EntityLayout.Route path="/vault" title="Vault">
+      <Grid item lg={12}>
+        <EntityVaultCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana" title="Grafana">
+      <Grid item lg={12}>
+        <EntityGrafanaDashboardsCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/grafana-alerts" title="Grafana alerts">
+      <Grid item lg={12}>
+        <EntityGrafanaAlertsCard />
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/kubernetes" title="Kubernetes">
+      <EntityKubernetesContent refreshIntervalMs={30000} />
+    </EntityLayout.Route>
+    {/* <EntityLayout.Route path="/overview" title="Overview">
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid item md={6}>

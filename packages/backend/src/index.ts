@@ -28,14 +28,18 @@ import scaffolder from './plugins/scaffolder';
 import proxy from './plugins/proxy';
 import techdocs from './plugins/techdocs';
 import search from './plugins/search';
-import application from './plugins/application'
+// custom permission
 import permission from './plugins/permission';
-import serviceTeste from './plugins/serviceTeste'
-
+import vault from './plugins/vault';
+import application from './plugins/application'
 
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
+// argocd
+import argocd from './plugins/argocd';
+//kubernetes
+import kubernetes from './plugins/kubernetes';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -80,8 +84,10 @@ async function main() {
     argv: process.argv,
     logger: getRootLogger(),
   });
+
   const createEnv = makeCreateEnv(config);
-  const serviceEnv = useHotMemoize(module, () => createEnv('service'))
+  const apiRouter = Router();
+
   const applicationEnv = useHotMemoize(module, () => createEnv('application'));
   const catalogEnv = useHotMemoize(module, () => createEnv('catalog'));
   const scaffolderEnv = useHotMemoize(module, () => createEnv('scaffolder'));
@@ -91,8 +97,23 @@ async function main() {
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
+  //const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
+  //const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
+  //const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
   
-  const apiRouter = Router();
+  if(config.getBoolean("enabledPlugins.vault")){
+    const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
+    apiRouter.use('/vault', await vault(vaultEnv));
+  }
+  if(config.getBoolean("enabledPlugins.kubernetes")){
+    const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
+    apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
+  }
+  if(config.getBoolean("enabledPlugins.argocd")){
+    const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
+    apiRouter.use('/argocd', await argocd(argocdEnv));
+  }
+
   apiRouter.use('/devportal', await application(applicationEnv));
   apiRouter.use('/catalog', await catalog(catalogEnv));
   apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));
@@ -101,7 +122,10 @@ async function main() {
   apiRouter.use('/proxy', await proxy(proxyEnv));
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/permission', await permission(permissionEnv));
-  apiRouter.use('/service', await serviceTeste(serviceEnv));
+  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
+  //apiRouter.use('/argocd', await argocd(argocdEnv));
+  //apiRouter.use('/vault', await vault(vaultEnv));
+  //apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
 
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback

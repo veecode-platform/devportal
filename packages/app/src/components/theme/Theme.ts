@@ -33,11 +33,11 @@ export const Light = createTheme({
     },
     banner: {
       info: '#111b47',
-      error: '#96102b',
+      error: '#ffaea5',  
       text: '#13182c',
       link: '#104c7e',
     },
-    errorBackground: '#96102b',
+    errorBackground: '#ffaea5',
     warningBackground: '#e0b908',
     infoBackground: '#34548a',
     navigation: {
@@ -91,11 +91,11 @@ export const Dark = createTheme({
     },
     banner: {       
       info: '#111b47',
-      error: '#96102b',
+      error: '#ffaea5',
       text: '#13182c',
       link: '#104c7e',
     },
-    errorBackground: '#96102b',  
+    errorBackground: '#ffaea5',    
     warningBackground: '#e0b908',
     infoBackground: '#34548a',
     navigation: {

@@ -39,7 +39,6 @@ export default async function createPlugin(
       "keycloak": providers.oidc.create({
         signIn: {
           resolver({result}, ctx) {
-
               if(!result.userinfo.email_verified){
                 throw new Error('Email not verified');
               }
@@ -55,9 +54,9 @@ export default async function createPlugin(
               const userName = result.userinfo.preferred_username;
               
               const userEntityRef = stringifyEntityRef({
-                kind: admin ? "Admin" : "User",
+                kind: admin ? "admin" : "user",
                 name: userName || result.userinfo.sub,
-                namespace: "user"
+                namespace: "devportal",
               });
               return ctx.issueToken({
                 claims: {
@@ -104,7 +103,32 @@ export default async function createPlugin(
             }
           },
         }
-      })
+      }),
+      github: providers.github.create({
+        signIn: {
+          async resolver({ result: { fullProfile } }, ctx) {
+            const userId = fullProfile.username;
+            if (!userId) {
+              throw new Error(
+                `GitHub user profile does not contain a username`,
+              );
+            }
+
+            const userEntityRef = stringifyEntityRef({
+              kind: 'User',
+              name: userId,
+              namespace: 'DEFAULT_NAMESPACE',
+            });
+
+            return ctx.issueToken({
+              claims: {
+                sub: userEntityRef,
+                ent: [userEntityRef],
+              },
+            });
+          },
+        },
+      }),
 
     },
   });
