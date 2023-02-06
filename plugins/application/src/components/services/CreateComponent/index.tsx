@@ -21,11 +21,11 @@ export const CreateComponent = () => {
   const [error, setError] = useState<boolean>(false)
   const [service, setService] = useState<ICreateService>({
     name: '',
-    kongServiceName:'vertigo',
+    kongServiceName:'',
     active: true,
     description: '',
     redirectUrl: '',
-    kongServiceId: 'bb971fbc-7493-47f7-ae8a-5190565d7272',
+    kongServiceId: '',
     securityType: '',
     rateLimiting: 0,
   });

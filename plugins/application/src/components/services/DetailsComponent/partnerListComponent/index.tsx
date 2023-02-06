@@ -48,8 +48,6 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
   const [partnerList, setPartnerList] = useState(servicePartnerId);
   const [loading, setLoading] = useState(false)
 
-  //console.log("list: ", partnerList)
-
   const handleSubmit = async() =>{
     setLoading(true)
     const updateServicesPartners = {
