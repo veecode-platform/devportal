@@ -50,7 +50,7 @@ export async function createApplicationRouter(
   });
 
   router.post('/', async (request, response) => {
-    const data = request.body;
+    const data = request.body.applications;
     await ApplicationServices.Instance.createApplication(data, options);
     try {
       if (!data) {
@@ -75,7 +75,7 @@ export async function createApplicationRouter(
   });
 
   router.post('/save', async (request, response) => {
-    const data: ApplicationDto = request.body.application;
+    const data: ApplicationDto = request.body.applications;
     try {
       if (!data) {
         throw new InputError(
@@ -98,7 +98,7 @@ export async function createApplicationRouter(
     }
   });
   router.patch('/:id', async (request, response) => {
-    const data: ApplicationDto = request.body;
+    const data: ApplicationDto = request.body.applications;
     const applicationId = request.params.id
     await ApplicationServices.Instance.updateApplication(applicationId, data, options);
     try {
