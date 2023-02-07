@@ -34,7 +34,7 @@ export async function createApplicationRouter(
         offset,
       );
       const total = await applicationRepository.total();
-      return response.json({ status: 'ok', applications: responseData, total: total });
+      response.json({ status: 'ok', applications: responseData, total: total });
     } catch (error: any) {
       if (error instanceof Error) {
         response.status(500).json({
