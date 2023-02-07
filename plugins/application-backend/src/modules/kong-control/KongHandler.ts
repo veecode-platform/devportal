@@ -5,6 +5,8 @@ import { PostgresApplicationRepository } from '../applications/repositories/knex
 import { credential } from './Credential';
 import { RouterOptions } from '../../service/router';
 import { CredentialsOauth } from '../kong/services/CredentialsOauth';
+import { PlatformConfig } from '../utils/PlatformConfig';
+
 
 export enum security {
   oauth = 'oauth2',
@@ -19,10 +21,13 @@ type Service = {
 
 
 
-export class KongHandler {
- 
-  public async listServices(kongUrl: string): Promise<Service[]> {
-    const url = `${kongUrl}/services`
+export class KongHandler{
+  
+  
+  public async listServices(): Promise<Service[]> {
+    const config = await PlatformConfig.Instance.getConfig();
+    const kong = config.getString('kong.api-manager');
+    const url = `${kong}/services`
     const response = await axios.get(url);
     const servicesStore = response.data.data;
     return response

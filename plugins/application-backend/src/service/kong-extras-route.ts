@@ -169,7 +169,7 @@ export async function createKongRouter(
 
   router.get('/services', async (_, res) => {
     try {
-      const serviceStore = await kongHandler.listServices(await kongServiceBase.getUrl());
+      const serviceStore = await kongHandler.listServices();
       if (serviceStore)
         res.json({ status: 'ok', services: serviceStore });
     } catch (error: any) {
