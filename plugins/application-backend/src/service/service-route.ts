@@ -4,7 +4,7 @@ import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { RouterOptions } from './router';
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
-import { Axios, AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 
 
