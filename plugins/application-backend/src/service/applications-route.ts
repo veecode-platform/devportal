@@ -7,7 +7,6 @@ import { ApplicationDto } from "../modules/applications/dtos/ApplicationDto";
 import { ApplicationServices } from "../modules/applications/services/ApplicationServices";
 import { AssociateService } from "../modules/kong-control/AssociateService";
 import { KongHandler, security } from "../modules/kong-control/KongHandler";
-import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
 import { AxiosError } from "axios";
 
 /** @public */
@@ -21,7 +20,6 @@ export async function createApplicationRouter(
 
   const router = Router()
   const kongHandler = new KongHandler()
-  const kongServiceBase = new KongServiceBase()
   const associateService = new AssociateService();
   router.use(express.json())
 
@@ -293,7 +291,6 @@ export async function createApplicationRouter(
       const type = req.body.type as security
       const serviceStore = await kongHandler.generateCredential(
         options,
-        await kongServiceBase.getUrl(),
         id,
         type
       );
@@ -322,7 +319,6 @@ export async function createApplicationRouter(
       const id = req.params.idApplication;
       const serviceStore = await kongHandler.listCredentialWithApplication(
         options,
-        await kongServiceBase.getUrl(),
         id
       );
       res.status(200).json({ status: 'ok', credentials: serviceStore });
@@ -352,7 +348,6 @@ export async function createApplicationRouter(
       const idApplication = request.params.idApplication;
       const serviceStore = await kongHandler.removeCredencial(
         options,
-        await kongServiceBase.getUrl(),
         idApplication,
         idCredential,
       );

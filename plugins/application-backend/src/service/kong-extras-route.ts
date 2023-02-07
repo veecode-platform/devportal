@@ -88,7 +88,6 @@ export async function createKongRouter(
     async (request, response) => {
       try {
         const services = await kongHandler.listPluginsService(
-          await kongServiceBase.getUrl(),
           request.params.serviceName,
         );
         response.json({ status: 'ok', services: services })
@@ -114,7 +113,6 @@ export async function createKongRouter(
   router.put('/plugin/:serviceName', async (request, response) => {
     try {
       const serviceStore = await kongHandler.applyPluginToService(
-        await kongServiceBase.getUrl(),
         request.params.serviceName,
         request.query.pluginName as string,
       );
@@ -142,7 +140,6 @@ export async function createKongRouter(
     async (request, response) => {
       try {
         const serviceStore = await kongHandler.deletePluginsService(
-          await kongServiceBase.getUrl(),
           request.params.serviceName,
           request.query.pluginName as string,
         );
@@ -169,7 +166,7 @@ export async function createKongRouter(
 
   router.get('/services', async (_, res) => {
     try {
-      const serviceStore = await kongHandler.listServices(await kongServiceBase.getUrl());
+      const serviceStore = await kongHandler.listServices();
       if (serviceStore)
         res.json({ status: 'ok', services: serviceStore });
     } catch (error: any) {
@@ -193,7 +190,7 @@ export async function createKongRouter(
 
   router.get('/routes', async (_, res) => {
     try {
-      const serviceStore = await kongHandler.listRoutes(await kongServiceBase.getUrl());
+      const serviceStore = await kongHandler.listRoutes();
       if (serviceStore)
         res.json({ status: 'ok', routes: serviceStore });
     } catch (error: any) {
@@ -246,7 +243,7 @@ export async function createKongRouter(
 
   router.get('/consumers', async (_, res) => {
     try {
-      const serviceStore = await kongHandler.listConsumers(await kongServiceBase.getUrl());
+      const serviceStore = await kongHandler.listConsumers();
         res.status(200).json({ status: 'ok', costumer: serviceStore });
     } catch (error: any) {
       if (error instanceof Error) {
