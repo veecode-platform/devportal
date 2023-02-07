@@ -7,6 +7,7 @@ import { ConsumerService } from "../modules/kong/services/ConsumerService";
 import { Consumer } from "../modules/applications/dtos/ApplicationDto";
 import { ConsumerGroupService } from "../modules/kong/services/ConsumerGroupService";
 import { ConsumerGroup } from "../modules/kong/model/ConsumerGroup";
+import { AxiosError } from "axios";
 const aclPlugin = AclPlugin.Instance;
 
 /** @public */
@@ -33,20 +34,23 @@ export async function createKongRouter(
           response.json({ status: 'ok', plugins: serviceStore });
         response.json({ status: 'ok', services: [] });
       } catch (error: any) {
-        if (error == undefined) {
-          response.status(500).json({ status: 'error' })
+        if (error instanceof Error) {
+          response.status(500).json({
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+          })
+        } else if (error instanceof AxiosError) {
+          error = AxiosError
+          let date = new Date();
+          response.status(error.response.status).json({
+            status: 'ERROR',
+            message: error.response.data.errorSummary,
+            timestamp: new Date(date).toISOString(),
+          });
         }
-        let date = new Date();
-        console.log(error);
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
       }
-    },
-  );
-
+    });
   router.patch(
     '/plugin/:serviceName/:pluginId',
     async (request, response) => {
@@ -61,19 +65,23 @@ export async function createKongRouter(
           response.json({ status: 'ok', plugins: serviceStore });
         response.json({ status: 'ok', services: [] });
       } catch (error: any) {
-        if (error == undefined) {
-          response.status(500).json({ status: 'error' })
+        if (error instanceof Error) {
+          response.status(500).json({
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+          })
+        } else if (error instanceof AxiosError) {
+          error = AxiosError
+          let date = new Date();
+          response.status(error.response.status).json({
+            status: 'ERROR',
+            message: error.response.data.errorSummary,
+            timestamp: new Date(date).toISOString(),
+          });
         }
-        let date = new Date();
-        console.log(error);
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
       }
-    },
-  );
+    });
 
   router.get(
     '/plugins/:serviceName',
@@ -85,19 +93,23 @@ export async function createKongRouter(
         );
         response.json({ status: 'ok', services: services })
       } catch (error: any) {
-        if (error == undefined) {
-          response.status(500).json({ status: 'error' })
+        if (error instanceof Error) {
+          response.status(500).json({
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+          })
+        } else if (error instanceof AxiosError) {
+          error = AxiosError
+          let date = new Date();
+          response.status(error.response.status).json({
+            status: 'ERROR',
+            message: error.response.data.errorSummary,
+            timestamp: new Date(date).toISOString(),
+          });
         }
-        console.log(error)
-        let date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
       }
-    },
-  );
+    });
 
   router.put('/plugin/:serviceName', async (request, response) => {
     try {
@@ -108,18 +120,23 @@ export async function createKongRouter(
       );
       response.json({ status: 'ok', plugins: serviceStore });
     } catch (error: any) {
-      if (error == undefined) {
-        response.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
-
   router.delete(
     '/plugins/:serviceName',
     async (request, response) => {
@@ -131,18 +148,23 @@ export async function createKongRouter(
         );
         response.json({ status: 'ok', services: serviceStore });
       } catch (error: any) {
-        if (error == undefined) {
-          response.status(500).json({ status: 'error' })
+        if (error instanceof Error) {
+          response.status(500).json({
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+          })
+        } else if (error instanceof AxiosError) {
+          error = AxiosError
+          let date = new Date();
+          response.status(error.response.status).json({
+            status: 'ERROR',
+            message: error.response.data.errorSummary,
+            timestamp: new Date(date).toISOString(),
+          });
         }
-        let date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
       }
-    },
-  );
+    });
 
 
   router.get('/services', async (_, res) => {
@@ -151,17 +173,21 @@ export async function createKongRouter(
       if (serviceStore)
         res.json({ status: 'ok', services: serviceStore });
     } catch (error: any) {
-      if (error == undefined) {
-        res.status(500).json({ status: 'error' })
-      }
-      let date = new Date();
-      res
-        .status(error.response.status) // verify
-        .json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,//verify
-          timestamp: new Date(date).toISOString()
+      if (error instanceof Error) {
+        res.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
         })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        res.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
 
@@ -171,17 +197,21 @@ export async function createKongRouter(
       if (serviceStore)
         res.json({ status: 'ok', routes: serviceStore });
     } catch (error: any) {
-      if (error == undefined) {
-        res.status(500).json({ status: 'error' })
-      }
-      let date = new Date();
-      res
-        .status(error.response.status)
-        .json({
+      if (error instanceof Error) {
+        res.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        res.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
 
@@ -196,32 +226,44 @@ export async function createKongRouter(
       );
       response.status(200).json({ status: 'ok', consumer: { consumer } });
     } catch (error: any) {
-      response.status(error.status).json({
-        message: error.message,
-        timestamp: error.timestamp,
-      });
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
 
   router.get('/consumers', async (_, res) => {
     try {
       const serviceStore = await kongHandler.listConsumers(await kongServiceBase.getUrl());
-      if (serviceStore)
         res.status(200).json({ status: 'ok', costumer: serviceStore });
-
     } catch (error: any) {
-      if (error == undefined) {
-        res.status(500).json({ status: 'error' })
-      }
-      let date = new Date();
-      console.log(error)
-      res
-        .status(error.response.status)
-        .json({
+      if (error instanceof Error) {
+        res.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        res.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString()
-        })
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
 
@@ -230,12 +272,21 @@ export async function createKongRouter(
       const consumer = await consumerService.deleteConsumer(request.params.id);
       response.status(204).json({ status: 'ok', associates: { consumer } });
     } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error,
-        timestamp: new Date(date).toISOString(),
-      });
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
 
@@ -248,12 +299,21 @@ export async function createKongRouter(
       );
       response.status(200).json({ status: 'ok', service: result });
     } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
   // CONSUMER GROUPS
@@ -265,13 +325,21 @@ export async function createKongRouter(
       );
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
-      console.log(error);
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
 
@@ -280,10 +348,21 @@ export async function createKongRouter(
       const consumerGroups = await consumerGroupService.listConsumerGroups();
       response.status(200).json({ status: 'ok', groups: { consumerGroups } });
     } catch (error: any) {
-      response.status(error.status).json({
-        message: error.message,
-        timestamp: error.timestamp,
-      });
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
 
@@ -295,15 +374,23 @@ export async function createKongRouter(
       );
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
-
   router.post('/consumer_groups/:id/consumers', async (request, response) => {
     try {
       const consumerGroup = request.body;
@@ -313,12 +400,21 @@ export async function createKongRouter(
       );
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
 
@@ -329,12 +425,21 @@ export async function createKongRouter(
       );
       response.status(204).json({ status: 'ok', group: { consumerGroup } });
     } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
 
@@ -349,15 +454,23 @@ export async function createKongRouter(
           );
         response.status(204).json({ status: 'ok', group: { consumerGroup } });
       } catch (error: any) {
-        let date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
+        if (error instanceof Error) {
+          response.status(500).json({
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+          })
+        } else if (error instanceof AxiosError) {
+          error = AxiosError
+          let date = new Date();
+          response.status(error.response.status).json({
+            status: 'ERROR',
+            message: error.response.data.errorSummary,
+            timestamp: new Date(date).toISOString(),
+          });
+        }
       }
-    },
-  );
+    });
   router.delete('/consumers/:id/consumer_groups', async (request, response) => {
     try {
       const consumerGroup = await consumerGroupService.removeConsumerFromGroups(
@@ -365,12 +478,21 @@ export async function createKongRouter(
       );
       response.status(204).json({ status: 'ok', group: { consumerGroup } });
     } catch (error: any) {
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
 
