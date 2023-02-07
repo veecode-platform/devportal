@@ -9,9 +9,6 @@ import { Logger } from 'winston';
 
 
 
-import { ConsumerGroup } from '../modules/kong/model/ConsumerGroup';
-import { ConsumerGroupService } from '../modules/kong/services/ConsumerGroupService';
-
 import { createServiceRouter } from './service-route';
 import { createPartnersRouter } from './partners-route';
 import { createKongRouter } from './kong-extras-route';

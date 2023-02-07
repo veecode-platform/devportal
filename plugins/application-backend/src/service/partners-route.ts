@@ -2,6 +2,7 @@ import { Router } from "express";
 import { RouterOptions } from "./router";
 import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerReppository";
 import { PartnerDto } from "../modules/partners/dtos/PartnerDto";
+import { AxiosError } from "axios";
 
 /** @public */
 export async function createPartnersRouter(
@@ -40,15 +41,21 @@ export async function createPartnersRouter(
       const result = await partnerRepository.createPartner(partner);
       response.status(201).json({ status: 'ok', partner: result });
     } catch (error: any) {
-      if (error == undefined) {
-        response.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
@@ -59,15 +66,21 @@ export async function createPartnersRouter(
       const result = await partnerRepository.deletePartner(code);
       response.status(204).json({ status: 'ok', partner: result });
     } catch (error: any) {
-      if(error == undefined ){
-        response.status(500).json({status: 'error'})
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
@@ -79,18 +92,23 @@ export async function createPartnersRouter(
       const result = await partnerRepository.patchPartner(code, partner);
       response.status(200).json({ status: 'ok', partner: result });
     } catch (error: any) {
-      if (error == undefined) {
-        response.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
-
 
   router.put('/:id', async (request, response) => {
     try {
@@ -99,15 +117,21 @@ export async function createPartnersRouter(
       const result = await partnerRepository.patchPartner(code, partner);
       response.status(200).json({ status: 'ok', partner: result });
     } catch (error: any) {
-      if (error == undefined) {
-        response.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
