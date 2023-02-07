@@ -4,6 +4,7 @@ import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { RouterOptions } from './router';
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
+import { Axios, AxiosError } from 'axios';
 
 
 
@@ -43,15 +44,21 @@ export async function createServiceRouter(
       const result = await serviceRepository.createService(service);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
-      if(error == undefined ){
-        response.status(500).json({status: 'error'})
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
@@ -62,16 +69,21 @@ export async function createServiceRouter(
       const result = await serviceRepository.patchService(id, service);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
-      if(error == undefined ){
-        response.status(500).json({status: 'error'})
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      console.log(error)
-      response.status(400).json({
-        status: 'ERROR',
-        message: error,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
   serviceRouter.put('/:id', async (request, response) => {
@@ -81,16 +93,21 @@ export async function createServiceRouter(
       const result = await serviceRepository.updateService(id, service);
       response.status(201).json({ status: 'ok', service: result });
     } catch (error: any) {
-      if(error == undefined ){
-        response.status(500).json({status: 'error'})
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      console.log(error)
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
