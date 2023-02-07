@@ -5,7 +5,7 @@ import { PostgresApplicationRepository } from '../applications/repositories/knex
 import { credential } from './Credential';
 import { RouterOptions } from '../../service/router';
 import { CredentialsOauth } from '../kong/services/CredentialsOauth';
-import { PlatformConfig } from '../utils/PlatformConfig';
+import { KongServiceBase } from '../kong/services/KongServiceBase';
 
 
 export enum security {
@@ -21,13 +21,11 @@ type Service = {
 
 
 
-export class KongHandler{
-  
-  
+export class KongHandler extends KongServiceBase {
+
+
   public async listServices(): Promise<Service[]> {
-    const config = await PlatformConfig.Instance.getConfig();
-    const kong = config.getString('kong.api-manager');
-    const url = `${kong}/services`
+    const url = `${await this.getBaseUrl()}/services`
     const response = await axios.get(url);
     const servicesStore = response.data.data;
     return response
@@ -37,8 +35,8 @@ export class KongHandler{
       : [];
   }
 
-  public async listRoutes(kongUrl: string): Promise<Service[]> {
-    const url = `${kongUrl}/routes`
+  public async listRoutes(): Promise<Service[]> {
+    const url = `${await this.getBaseUrl()}/routes`
     const response = await axios.get(url);
     const servicesStore = response.data.data;
     return response
@@ -46,19 +44,18 @@ export class KongHandler{
       : [];
   }
 
-  public async listConsumers(kongUrl: string) {
-    const url = `${kongUrl}/consumers`
+  public async listConsumers() {
+    const url = `${await this.getBaseUrl()}/consumers`
     const response = await axios.get(url);
     const consumers = response.data;
     return consumers;
-      
+
   }
 
   // PLUGINS
   public async applyPluginToRoute(
-    kongUrl: string,
   ): Promise<Service[]> {
-    const url = `${kongUrl}/services`
+    const url = `${await this.getBaseUrl()}/services`
     const response = await axios.get(url);
     const servicesStore = response.data.data;
     return response
@@ -67,11 +64,10 @@ export class KongHandler{
   }
 
   public async applyPluginToService(
-    kongUrl: string,
     serviceName: string,
     pluginName: string,
   ): Promise<Service[]> {
-    const url = `${kongUrl}/services/${serviceName}/plugins`;
+    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins`;
     const response = await axios.post(url, {
       name: `${pluginName}`,
     });
@@ -79,11 +75,10 @@ export class KongHandler{
     return servicesStore;
   }
   public async updatePluginService(
-    kongUrl: string,
     serviceName: string,
     pluginName: string,
   ): Promise<Service[]> {
-    const url = `${kongUrl}/services/${serviceName}/plugins`;
+    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins`;
     const response = await axios.post(url, {
       name: `${pluginName}`,
     });
@@ -92,27 +87,26 @@ export class KongHandler{
   }
 
   public async listPluginsService(
-    kongUrl: string,
     serviceName: string,
   ): Promise<Service[]> {
-    const url = `${kongUrl}/services/${serviceName}/plugins`;
+    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
     console.log('response data: ', response.data)
     return response.data;
   }
 
-  public async generateCredential(options: RouterOptions, kongUrl: string, idApplication: string, typeSecurity: security) {
+  public async generateCredential(options: RouterOptions, idApplication: string, typeSecurity: security) {
     const applicationRepository = await PostgresApplicationRepository.create(
       await options.database.getClient(),
     );
     const credentialsOauth = new CredentialsOauth();
     const application: ApplicationProps = await applicationRepository.getApplicationById(idApplication) as ApplicationProps;
-    if(typeSecurity.toString() == 'key_auth'){
-      const url = `${kongUrl}/consumers/${application.externalId}/key-auth`
+    if (typeSecurity.toString() == 'key_auth') {
+      const url = `${await this.getBaseUrl()}/consumers/${application.externalId}/key-auth`
       const response = await axios.post(url);
       console.log(response)
       return response.data;
-    }else if(typeSecurity.toString() == 'oauth2'){
+    } else if (typeSecurity.toString() == 'oauth2') {
       const response = await credentialsOauth.generateCredentials(`${application.externalId}`, application.externalId)
       console.log(response)
       return response;
@@ -120,14 +114,14 @@ export class KongHandler{
   }
 
 
-  async listCredentialWithApplication(options: RouterOptions, kongUrl: string, id: string) {
-  
+  async listCredentialWithApplication(options: RouterOptions, id: string) {
+
     const applicationRepository = await PostgresApplicationRepository.create(
       await options.database.getClient(),
     );
 
     const application: ApplicationProps = await applicationRepository.getApplicationById(id) as ApplicationProps;
-    const url =  `${kongUrl}/consumers/${application.externalId}/key-auth`
+    const url = `${await this.getBaseUrl()}/consumers/${application.externalId}/key-auth`
     const response = await axios.get(url);
     const list = response.data.data;
     const credentials: credential[] = []
@@ -139,8 +133,8 @@ export class KongHandler{
   }
 
 
-  public async listCredential(kongUrl: string, idConsumer: string) {
-    const url = `${kongUrl}/consumers/${idConsumer}/key-auth`
+  public async listCredential(idConsumer: string) {
+    const url = `${await this.getBaseUrl()}/consumers/${idConsumer}/key-auth`
     const response = await axios.get(url);
     const list = response.data;
     const credentials: credential[] = []
@@ -151,23 +145,22 @@ export class KongHandler{
     return credentials;
   }
 
-  public async removeCredencial(options: RouterOptions, kongUrl: string, idApplication: string, idCredencial: string) {
+  public async removeCredencial(options: RouterOptions, idApplication: string, idCredencial: string) {
     const applicationRepository = await PostgresApplicationRepository.create(
       await options.database.getClient(),
     );
     const application: Application = await applicationRepository.getApplicationById(idApplication) as Application
-    const url = `${kongUrl}/consumers/${application.externalId}/key-auth/${idCredencial}`
+    const url = `${await this.getBaseUrl()}/consumers/${application.externalId}/key-auth/${idCredencial}`
 
     const response = await axios.delete(url);
     return response.data;
   }
 
   public async deletePluginsService(
-    kongUrl: string,
     serviceName: string,
     pluginId: string,
   ): Promise<Service[]> {
-    const url = `${kongUrl}/services/${serviceName}/plugins/${pluginId}`;
+    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins/${pluginId}`;
     const response = await axios.delete(url);
     const servicesStore = response.data;
     return servicesStore;
