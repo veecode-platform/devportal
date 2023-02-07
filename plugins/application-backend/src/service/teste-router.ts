@@ -99,10 +99,21 @@ export async function testeRoute(
 
   // ACL
   router.post('/acl/:serviceName', async (request, response) => {
-    const allowedList: string[] = request.body.allowedList
-    const teste = aclPlugin.configAclKongService(request.params.serviceName, allowedList)
-    response.json({ status: 'ok', return: teste })
-  })
+    try{
+      const allowedList: string[] = request.body.allowedList
+      const teste = await aclPlugin.configAclKongService(request.params.serviceName, allowedList)
+      console.log(typeof teste)
+      response.json({ status: 'ok', return: teste })
+    }catch (error: any) {
+      console.log(error)
+      let date = new Date();
+      response.status(error.response.status).json({
+        status: 'ERROR',
+        message: error.response.data.message,
+        timestamp: new Date(date).toISOString(),
+      });
+    }
+  });
 
 
   router.delete('/acl/:serviceName', async (request, response) => {
@@ -162,11 +173,8 @@ export async function testeRoute(
             request.body.config.rateLimitingType,
             request.body.config.rateLimiting,
           );
-        if (serviceStore) {
+          console.log('router -> ', serviceStore)
           response.json({ status: 'ok', plugins: serviceStore });
-          return;
-        }
-        response.json({ status: 'ok', services: [] });
       } catch (error: any) {
         let date = new Date();
         console.log(error);
