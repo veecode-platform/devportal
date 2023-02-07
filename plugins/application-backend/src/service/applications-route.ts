@@ -3,12 +3,12 @@ import express from 'express';
 
 import { RouterOptions } from "./router";
 import { PostgresApplicationRepository } from "../modules/applications/repositories/knex/KnexApplicationRepository";
-import { InputError } from "@backstage/errors";
 import { ApplicationDto } from "../modules/applications/dtos/ApplicationDto";
 import { ApplicationServices } from "../modules/applications/services/ApplicationServices";
 import { AssociateService } from "../modules/kong-control/AssociateService";
 import { KongHandler, security } from "../modules/kong-control/KongHandler";
 import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
+import { AxiosError } from "axios";
 
 /** @public */
 export async function createApplicationRouter(
@@ -25,7 +25,6 @@ export async function createApplicationRouter(
   const associateService = new AssociateService();
   router.use(express.json())
 
-  //revisar rotas pt-br para en
   router.get('/', async (request, response) => {
     try {
       const limit: number = request.query.limit as any;
@@ -37,15 +36,21 @@ export async function createApplicationRouter(
       const total = await applicationRepository.total();
       return response.json({ status: 'ok', applications: responseData, total: total });
     } catch (error: any) {
-      if (error == undefined) {
-        response.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      return response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
@@ -53,74 +58,74 @@ export async function createApplicationRouter(
     const data = request.body;
     await ApplicationServices.Instance.createApplication(data, options);
     try {
-      if (!data) {
-        throw new InputError(
-          `the request body is missing the application field`,
-        );
-      }
-
       const result = await applicationRepository.createApplication(data);
       response.send({ status: 'ok', result: result });
     } catch (error: any) {
-      if (error == undefined) {
-        response.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
   router.post('/save', async (request, response) => {
     const data: ApplicationDto = request.body.application;
     try {
-      if (!data) {
-        throw new InputError(
-          `the request body is missing the application field`,
-        );
-      }
-      // logger.info(JSON.stringify(data))
       const result = await applicationRepository.createApplication(data);
       response.send({ status: data, result: result });
     } catch (error: any) {
-      if (error == undefined) {
-        response.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
+
   router.patch('/:id', async (request, response) => {
     const data: ApplicationDto = request.body;
     const applicationId = request.params.id
     await ApplicationServices.Instance.updateApplication(applicationId, data, options);
     try {
-      if (!data) {
-        throw new InputError(
-          `the request body is missing the application field`,
-        );
-      }
-      // logger.info(JSON.stringify(data))
       const result = await applicationRepository.patchApplication(applicationId, data);
       response.send({ status: 'OK', result: result });
     } catch (error: any) {
-      if (error == undefined) {
-        response.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      console.log(error)
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
@@ -128,82 +133,156 @@ export async function createApplicationRouter(
     const data: ApplicationDto = request.body.applications;
     const code = request.params.id
     try {
-      if (!data) {
-        throw new InputError(
-          `the request body is missing the application field`,
-        );
-      }
-      // logger.info(JSON.stringify(data))
       const result = await applicationRepository.updateApplication(code, data);
       response.send({ status: 'OK', result: result });
     } catch (error: any) {
-      if (error == undefined) {
-        response.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      console.log(error)
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
   router.get('/:id', async (request, response) => {
     const code = request.params.id;
     try {
-      if (!code) {
-        throw new InputError(
-          `the request body is missing the application field`,
-        );
-      }
       const result = await applicationRepository.getApplicationById(code);
       response.send({ status: 'ok', application: result });
     } catch (error: any) {
-      if (error == undefined) {
-        response.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.errorSummary,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
   router.delete('/:id', async (request, response) => {
-    const id = request.params.id;
-    await ApplicationServices.Instance.removeApplication(id, options);
-    const result = await applicationRepository.deleteApplication(id);
-    response.status(204).json({ status: 'ok', applications: result })
+    try {
+      const id = request.params.id;
+      await ApplicationServices.Instance.removeApplication(id, options);
+      const result = await applicationRepository.deleteApplication(id);
+      response.status(204).json({ status: 'ok', applications: result })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
   });
+
 
   // associate applications with servicesId
   router.patch('/associate/:id', async (request, response) => {
-    const id = request.params.id;
-    const listServicesId: string[] = request.body.services;
-    await applicationRepository.associate(id, listServicesId);
-    response
-      .status(200)
-      .json({ status: 'ok', application: applicationRepository });
+    try {
+      const id = request.params.id;
+      const listServicesId: string[] = request.body.services;
+      await applicationRepository.associate(id, listServicesId);
+      response
+        .status(200)
+        .json({ status: 'ok', application: applicationRepository });
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
   });
 
+
   router.get('/associate/:id', async (request, response) => {
-    const services = await associateService.findAllAssociate(
-      options,
-      request.params.id,
-    );
-    response.json({ status: 'ok', associates: { services } });
+    try {
+      const services = await associateService.findAllAssociate(
+        options,
+        request.params.id,
+      );
+      response.json({ status: 'ok', associates: { services } });
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
   });
   router.delete('/associate/:id/', async (request, response) => {
-    const services = await associateService.removeAssociate(
-      options,
-      request.params.id,
-      request.query.service as string,
-    );
-    response.json({ status: 'ok', associates: { services } });
+    try {
+      const services = await associateService.removeAssociate(
+        options,
+        request.params.id,
+        request.query.service as string,
+      );
+      response.json({ status: 'ok', associates: { services } });
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
   });
 
   // CREDENTIALS 
@@ -220,15 +299,21 @@ export async function createApplicationRouter(
       );
       res.status(201).json({ status: 'ok', response: serviceStore });
     } catch (error: any) {
-      if (error == undefined) {
-        res.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        res.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        res.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      return res.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
@@ -242,15 +327,21 @@ export async function createApplicationRouter(
       );
       res.status(200).json({ status: 'ok', credentials: serviceStore });
     } catch (error: any) {
-      if (error == undefined) {
-        res.status(500).json({ status: 'error' })
+      if (error instanceof Error) {
+        res.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        res.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
       }
-      let date = new Date();
-      return res.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
     }
   });
 
@@ -267,15 +358,22 @@ export async function createApplicationRouter(
       );
       response.status(204).json({ status: 'ok', credentials: serviceStore });
     } catch (error: any) {
-      let date = new Date();
-      return response.status(error.response.status).json({
-        status: 'ERROR',
-        message: error.response.data.message,
-        timestamp: new Date(date).toISOString(),
-      });
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
     }
   });
   return router;
-
-
 }
