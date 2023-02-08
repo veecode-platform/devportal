@@ -18,6 +18,8 @@ import AxiosInstance from '../../../api/Api';
 import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 import { Alert } from '@material-ui/lab';
 import useAsync from 'react-use/lib/useAsync';
+import {IErrorStatus} from '../interfaces';
+import { validateName } from '../../shared/commons/validate';
 
 
 export const FetchServicesList = ({partner, setPartner}: any) => {
@@ -81,10 +83,13 @@ export const NewApplicationComponent = () => {
     creator: "",
     active: true,
     servicesId: [],
-    kongConsumerName: '',
-    kongConsumerId: '',
+    // kongConsumerName: '',
+    // kongConsumerId: '',
   });
   const [show, setShow] = useState<boolean>(false);
+  const [errorField, setErrorField] = useState<IErrorStatus>({
+    name: false
+  });
 
   useEffect(() => {
     user.getBackstageIdentity().then( res => {
@@ -103,8 +108,8 @@ export const NewApplicationComponent = () => {
       creator: '',
       active: true,
       servicesId: [],
-      kongConsumerName: '',
-      kongConsumerId: '',
+      // kongConsumerName: '',
+      // kongConsumerId: '',
     });
   };
 
@@ -150,9 +155,18 @@ export const NewApplicationComponent = () => {
                     label="Application Name"
                     value={application.name ?? ''}
                     required
+                    onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={e => {
                       setApplication({ ...application, name: e.target.value });
+                      if (!!validateName(e.target.value)) setErrorField({ ...errorField, name: true });
+                      else setErrorField({ ...errorField, name: false });
                     }}
+                    error={errorField.name}
+                    helperText={
+                      errorField.name
+                        ? 'Enter a name with at least 3 characters'
+                        : null
+                    }
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -191,7 +205,7 @@ export const NewApplicationComponent = () => {
                       size="large"
                       type="submit"
                       variant="contained"
-                      disabled={show}
+                      disabled={errorField.name}
                       onClick={handleSubmit}
                     >
                       Create
