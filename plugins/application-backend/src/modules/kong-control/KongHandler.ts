@@ -2,10 +2,12 @@
 import axios from 'axios';
 import { Application, ApplicationProps } from '../applications/domain/Application';
 import { PostgresApplicationRepository } from '../applications/repositories/knex/KnexApplicationRepository';
-import { credential } from './Credential';
+
 import { RouterOptions } from '../../service/router';
 import { CredentialsOauth } from '../kong/services/CredentialsOauth';
 import { KongServiceBase } from '../kong/services/KongServiceBase';
+import { Credential } from './Credential';
+import { CredentialOauth } from './CredentialOauth2';
 
 
 export enum security {
@@ -122,13 +124,23 @@ export class KongHandler extends KongServiceBase {
 
     const application: ApplicationProps = await applicationRepository.getApplicationById(id) as ApplicationProps;
     const url = `${await this.getBaseUrl()}/consumers/${application.externalId}/key-auth`
+    const urlOath = `${await this.getBaseUrl()}/consumers/${application.externalId}/oauth2`
     const response = await axios.get(url);
-    const list = response.data.data;
-    const credentials: credential[] = []
-    for (let index = 0; index < list.length; index++) {
-      let credencial = new credential(list[index].id, list[index].key)
+    const responseOauth = await axios.get(urlOath);
+    const keyauths = response.data.data;
+    const keyoauth = responseOauth.data.data;
+    console.log('KEY_AUTH', keyauths)
+    console.log('OAUTH 2', keyoauth)
+    const credentials: any[] = []
+    for (let index = 0; index < keyauths.length; index++) {
+      let credencial = new Credential(keyauths[index].id, keyauths[index].key, "key_auth")
       credentials.push(credencial);
     }
+    for (let index = 0; index < keyoauth.length; index++) {
+      let credencial = new CredentialOauth(keyoauth[index].id, keyoauth[index].key, keyoauth[index].client_id,keyoauth[index].client_secret, 'oauth2')
+       credentials.push(credencial);
+     }
+    console.log(credentials)
     return credentials;
   }
 
@@ -137,9 +149,9 @@ export class KongHandler extends KongServiceBase {
     const url = `${await this.getBaseUrl()}/consumers/${idConsumer}/key-auth`
     const response = await axios.get(url);
     const list = response.data;
-    const credentials: credential[] = []
+    const credentials: Credential[] = []
     for (let index = 0; index < list.length; index++) {
-      let credencial = new credential(list[index].id, list[index].key)
+      let credencial = new Credential(list[index].id, list[index].key, "teste")
       credentials.push(credencial);
     }
     return credentials;
