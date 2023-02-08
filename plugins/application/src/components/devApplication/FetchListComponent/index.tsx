@@ -15,9 +15,8 @@ type DenseTableProps = {
 export const DenseTable = ({ applications, total }: DenseTableProps) => {
 
   const columns: TableColumn[] = [
-    { title: 'Name', field: 'name', width:'1fr' },
     { title: 'Id', field: 'id', width:'1fr'},
-    {title: 'creator', field: 'creator', width:'1fr'},
+    { title: 'Name', field: 'name', width:'1fr' },
     { title: "Created At", field: "created",width:'1fr'},
     {title: "Created By", field:"creator",width:'1fr'},
     { title: 'Details', field: 'details',width:'1fr' },
