@@ -109,7 +109,7 @@ export const ApplicationDetailsComponent = () => {
   const id = location.search.split("?id=")[1];
 
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
-    /*const response = await fetch(`http://localhost:7007/api/application/${id}`);
+    /* const response = await fetch(`http://localhost:7007/api/application/${id}`);
     const data = await response.json();*/
     const response = await AxiosInstance.get(`/applications/${id}`)
     return response.data.application;

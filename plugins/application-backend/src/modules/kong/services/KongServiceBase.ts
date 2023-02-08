@@ -1,18 +1,13 @@
 import { PlatformConfig } from '../../utils/PlatformConfig';
 
 export class KongServiceBase {
-  constructor() {}
 
   /**
    * Get the base url for the Kong Admin API, including the workspace
    * @returns {string} - url + workspace
    */
   public async getBaseUrl(): Promise<string> {
-    const config = await PlatformConfig.Instance.getConfig();
-    const url = config.getString('kong.api-manager');
-    console.log('url', url)
-    const workspace = 'default';
-    return `${url}/${workspace}`;
+    return `${this.getUrl()}/${this.getWorkspace()}`;
   }
 
   /**
@@ -20,7 +15,7 @@ export class KongServiceBase {
    */
   public async getUrl(): Promise<string> {
     const config = await PlatformConfig.Instance.getConfig();
-    return config.getString('kong.api-manager');
+    return config.getString('kong.api-manager').replace(/\/+$/, "");
   }
 
   /**

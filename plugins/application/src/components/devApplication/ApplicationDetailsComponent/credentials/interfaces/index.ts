@@ -1,4 +1,5 @@
 export interface ICredentials{
     id:string,
-    key:string
+    key:string,
+    type?: string
 }

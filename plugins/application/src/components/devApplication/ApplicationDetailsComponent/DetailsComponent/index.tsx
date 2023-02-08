@@ -55,6 +55,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
   const [messageStatus, setMessageStatus] = useState<string>('');
 
   const kongConsumerId = metadata ? metadata.kongConsumerId : '';
+  const ApplicationId = metadata ? metadata.id : '';
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
@@ -62,19 +63,9 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
   };
 
   // generate Credentials
-  const generateCredential = async (ID: string) => {
-    /*const config = {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    };
-    const response = await fetch(
-      `http://localhost:7007/api/application/credencial/${ID}?workspace=default`,  // ====>>> TO DO
-      config,
-    );*/
-    const response = await AxiosInstance.post(`/credencial/${ID}?workspace=default`)
-    console.log("A RESPOOOOOOOOOOOSTAAA",response.data);
+  const generateCredential = async (ID: string, type: string) => {
+
+    const response = await AxiosInstance.post(`/api/devportal/applications/${ID}/credentials`, {type})
     if (response.data.ok) {
       setShow(true);
       setStatus('success');
@@ -135,7 +126,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
                 message={messageStatus}
                 status={status}
               />
-              <Credentials idConsumer={kongConsumerId} />
+              <Credentials idApplication={ApplicationId} />
               <Grid
                 container
                 justifyContent="center"
@@ -145,21 +136,28 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
               >
                 <Grid item>
                   <Button
-                    onClick={() => generateCredential(kongConsumerId)}
+                    onClick={() => generateCredential(ApplicationId, 'oauth2')}
                     variant="contained"
                     size="large"
                   >
-                    New Credential Key
+                    New Credential Auth2
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button
+                  {/* <Button
                     component={RouterLink}
                     to={back}
                     variant="contained"
                     size="large"
                   >
                     Cancel
+                  </Button> */}
+                  <Button
+                    onClick={() => generateCredential(ApplicationId, 'key_auth')}
+                    variant="contained"
+                    size="large"
+                  >
+                    New Credential Key Auth
                   </Button>
                 </Grid>
               </Grid>

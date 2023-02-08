@@ -108,7 +108,7 @@ export const NewApplicationComponent = () => {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async () => {          // CHECK  <--- tem que por o Id do partner
     const applicationData = {
       applications: {
         name: application.name,
