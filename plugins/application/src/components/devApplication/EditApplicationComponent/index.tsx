@@ -56,15 +56,6 @@ const EditApplicationComponent = ({ application }: Application) => {
         kongServiceId : app.kongConsumerId,
       }
     }
-    /*const config = {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify(applicationData)
-    };
-    const response = await fetch(`http://localhost:7007/api/application/${app?.id}`, config); // check endpoint  
-    const data = await response.json();*/
     const response = await AxiosInstance.patch(`applications/${app?.id}`,JSON.stringify(applicationData) )
     setShow(true);
     setTimeout(()=>{
@@ -132,29 +123,6 @@ const EditApplicationComponent = ({ application }: Application) => {
                     }}
                   />
                 </Grid>
-
-                <Grid item xs={12} >
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Kong Consumer Name"
-                    value={app.kongConsumerName ?? ''}
-                    required
-                    onChange={(e) => {
-                      setApp({ ...app, kongConsumerName: e.target.value })
-                    }} />
-                </Grid>
-                <Grid item xs={12} >
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Kong Consumer Id"
-                    value={app.kongConsumerId ?? ''}
-                    required
-                    onChange={(e) => {
-                      setApp({ ...app, kongConsumerId: e.target.value })
-                    }} />
-                </Grid>
               <Grid item xs={12} >
                 <Grid container justifyContent='center' alignItems='center'>
                   <Button component={RouterLink} to='/application' style={{margin:"16px"}} size='large' variant='outlined'>Cancel</Button>
@@ -181,7 +149,7 @@ export const EditComponent = () => {
   console.log(id);
 
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
-    /*const response = await fetch(`http://localhost:7007/api/application/${id}`);
+    /* const response = await fetch(`http://localhost:7007/api/application/${id}`);
     const data = await response.json();*/
     const response = await AxiosInstance.get(`/applications/${id}`)
     return response.data.application;
