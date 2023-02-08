@@ -112,7 +112,7 @@ export const NewApplicationComponent = () => {
     const applicationData = {
       applications: {
         name: application.name,
-        creator: application.name,
+        creator: application.creator,
         active: application.active,
         servicesId: application.servicesId,
       },
