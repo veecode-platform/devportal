@@ -1,4 +1,4 @@
-import { resolvePackagePath } from '@backstage/backend-common';
+//import { resolvePackagePath } from '@backstage/backend-common';
 import { Knex } from 'knex';
 import { appDtoNameConcatParternId } from '../../../utils/ConcatUtil';
 import { Application } from '../../domain/Application';
@@ -7,14 +7,14 @@ import { ApplicationResponseDto } from '../../dtos/ApplicationResponseDto';
 import { ApplicationMapper } from '../../mappers/ApplicationMapper';
 import { IApplicationRepository } from '../IApplicationRepository';
 
-const migrationsDir = resolvePackagePath(
+/*const migrationsDir = resolvePackagePath(
   '@internal/plugin-application-backend',
   'migrations',
 );
 const seedsDir = resolvePackagePath(
   '@internal/plugin-application-backend',
   'seeds',
-);
+);*/
 
 export class PostgresApplicationRepository implements IApplicationRepository {
   constructor(private readonly db: Knex) {}
@@ -92,7 +92,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       active: applicationDto.active,
       externalId: appDtoNameConcatParternId(applicationDto),
     });
-    const data = ApplicationMapper.toPersistence(application);
+    ApplicationMapper.toPersistence(application);
     return application;
   }
 

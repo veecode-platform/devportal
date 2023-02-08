@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { RouterOptions } from "./router";
 import { KongHandler } from "../modules/kong-control/KongHandler";
-import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
+//import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
 import { AclPlugin } from "../modules/kong/plugins/AclPlugin";
 import { ConsumerService } from "../modules/kong/services/ConsumerService";
 import { Consumer } from "../modules/applications/dtos/ApplicationDto";
@@ -12,13 +12,13 @@ const aclPlugin = AclPlugin.Instance;
 
 /** @public */
 export async function createKongRouter(
-  options: RouterOptions,
+  _options: RouterOptions,
 ): Promise<Router> {
 
   const router = Router()
   const kongHandler = new KongHandler()
   const consumerService = new ConsumerService();
-  const kongServiceBase = new KongServiceBase()
+  //const kongServiceBase = new KongServiceBase()
   const consumerGroupService = new ConsumerGroupService();
 
 

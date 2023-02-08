@@ -24,6 +24,7 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
     if (reason === 'clickaway') return;
     setShow(false);
   };
+  console.log(credentials)
 
   const columns: TableColumn[] = [
     { title: 'Id', field: 'id', width: '1fr' },

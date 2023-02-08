@@ -94,7 +94,7 @@ export const NewApplicationComponent = () => {
   useEffect(() => {
     user.getBackstageIdentity().then( res => {
       return setApplication({ ...application, creator: res.userEntityRef.split("/")[1] });
-    }).catch(e => {
+    }).catch(_e => {
       return setApplication({ ...application, creator: "default"});
     })
   

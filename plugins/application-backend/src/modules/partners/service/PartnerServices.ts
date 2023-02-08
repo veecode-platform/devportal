@@ -120,14 +120,14 @@ export class PartnerServices {
           services.forEach(async service => {
             const serviceObj = await serviceRepository.getServiceById(service);
             if (serviceObj instanceof Object) {
-              let serviceDto = new ServiceDto(
+              const serviceDto = new ServiceDto(
                 serviceObj.name as string,
                 serviceObj.description as string,
-                serviceObj.partnersId as string[],
                 serviceObj.redirectUrl as string,
                 serviceObj.kongServiceName as string,
                 serviceObj.kongServiceId as string,
                 (serviceObj.active = false),
+                serviceObj.partnersId as string[],
               );
               await serviceRepository.patchService(service, serviceDto);
             }

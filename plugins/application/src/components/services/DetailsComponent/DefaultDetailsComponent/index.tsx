@@ -44,8 +44,8 @@ export const DefaultDetailsComponent = ({
   remove,
 }: Props) => {
   const [show, setShow] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>('');
-  const [messageStatus, setMessageStatus] = useState<string>('');
+  const [status] = useState<string>('');
+  const [messageStatus] = useState<string>('');
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;

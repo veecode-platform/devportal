@@ -151,10 +151,10 @@ catalog:
     bitbucketCloud:
       yourProviderId: # identifies your ingested dataset
         catalogPath: /catalog-info.yaml # default value
-      filters: # optional
+        filters: # optional
         # projectKey: 'DEV' # optional; RegExp
-        repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
-      workspace: ${BITBUCKET_CLOUD_WORKSPACE}
+          repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
+        workspace: ${BITBUCKET_CLOUD_WORKSPACE}
 
     bitbucketServer:
       yourProviderId:

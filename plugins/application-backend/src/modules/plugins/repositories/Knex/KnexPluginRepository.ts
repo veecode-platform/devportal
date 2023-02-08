@@ -65,7 +65,7 @@ export class PostgresPluginRepository implements IPluginRepository {
       service: pluginDto.service,
       pluginId: pluginDto.pluginId
     });
-    const data = PluginMapper.toPersistence(plugin);
+    PluginMapper.toPersistence(plugin);
     return plugin;
   }
 
