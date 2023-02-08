@@ -67,17 +67,14 @@ export class ControllPlugin {
     service = Object.values(service)[0];
 
     service.securityType = SECURITY.NONE;
-    const kongServiceId = service.id;
-    console.log('Kong service Id', kongServiceId);
-    const plugin: Plugin = await PluginRepository.getPluginByServiceId(
-      kongServiceId,
-    );
-    await AclPlugin.Instance.removePluginKongService(
-      service.kongServiceName,
-      plugin.pluginId,
-    );
+    const kongServiceId = service.kongServiceId;
+    //console.log('Kong service Id', kongServiceId);
+    const plugin = await PluginRepository.getPluginByServiceId(
+      kongServiceId as string,
+    ) as Plugin;
+    await AclPlugin.Instance.removePluginKongService(service.kongServiceName as string, plugin.props.pluginId);
     // PluginRepository.deletePlugin(plugin.id);
-    ServiceRepository.updateService(serviceId, service);
+    ServiceRepository.updateService(serviceId, service as ServiceDto);
   }
 
   public async changeToOauth2(routerOptions: RouterOptions, serviceId: string) {
@@ -89,8 +86,8 @@ export class ControllPlugin {
 
     service.securityType = SECURITY.OAUTH2;
 
-    Oauth2Plugin.Instance.configureOauth(service.KongServiceName);
-    ServiceRepository.updateService(serviceId, service);
+    Oauth2Plugin.Instance.configureOauth(service.kongServiceName as string);
+    ServiceRepository.updateService(serviceId, service as ServiceDto);
   }
 
   public async changeStatus(
@@ -104,7 +101,7 @@ export class ControllPlugin {
     let service = await ServiceRepository.getServiceById(serviceId);
     service = Object.values(service)[0];
 
-    service.status = status;
-    ServiceRepository.updateService(serviceId, service);
+    service.active = status;
+    ServiceRepository.updateService(serviceId, service as ServiceDto);
   }
 }

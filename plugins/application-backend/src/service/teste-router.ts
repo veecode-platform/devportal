@@ -13,7 +13,7 @@ import { RateLimitingPlugin } from "../modules/kong/plugins/RateLimitingPlugin";
 export async function testeRoute(
   options: RouterOptions,
 ): Promise<Router> {
-  const partnerRepository = await PostgresPartnerRepository.create(
+  await PostgresPartnerRepository.create(
     await options.database.getClient(),
   );
   const router = Router();

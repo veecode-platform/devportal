@@ -68,8 +68,8 @@ export class PostgresServiceRepository implements IServiceRepository {
       rateLimiting: serviceDto.rateLimiting as number,
       securityType: serviceDto.securityType as SECURITY,
     });
-    const data = await ServiceMapper.toPersistence(service);
-    const createdService = await this.db('services')
+    await ServiceMapper.toPersistence(service);
+    await this.db('services')
     .insert(service)
     .catch(error => console.error(error));
     return service;

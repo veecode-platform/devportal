@@ -24,6 +24,7 @@ export const DenseTable = ({consumer, credentials }: DenseTableProps) => {
     if (reason === 'clickaway') return;
     setShow(false);
   };
+  console.log(credentials)
 
   const credentialsMock = [{
     id: "31100da2-0bd9-45e6-9835-ae42aca34f75",
