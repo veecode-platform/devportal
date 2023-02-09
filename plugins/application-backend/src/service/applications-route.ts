@@ -315,6 +315,7 @@ export async function createApplicationRouter(
   });
 
   router.get('/:idApplication/credentials', async (req, res) => {
+  
     try {
       const id = req.params.idApplication;
       const serviceStore = await kongHandler.listCredentialWithApplication(

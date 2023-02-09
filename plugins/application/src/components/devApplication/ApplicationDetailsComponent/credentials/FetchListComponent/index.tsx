@@ -94,7 +94,7 @@ export const FetchListComponent = ({ idApplication }: { idApplication: string })
   const { value, loading, error } = useAsync(async (): Promise<
     ICredentials[]
   > => {
-    const response =  await AxiosInstance.get(`/api/devportal/applications/${idApplication}/credentials`)
+    const response =  await AxiosInstance.get(`/applications/${idApplication}/credentials`)
     return response.data.credentials;
   }, []);
 
