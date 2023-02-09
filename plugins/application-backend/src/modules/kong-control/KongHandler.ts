@@ -104,13 +104,15 @@ export class KongHandler extends KongServiceBase {
     const credentialsOauth = new CredentialsOauth();
     const application: ApplicationProps = await applicationRepository.getApplicationById(idApplication) as ApplicationProps;
     if (typeSecurity.toString() == 'key_auth') {
+
       const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth`
       const response = await axios.post(url);
-      console.log(response)
+
       return response.data;
     } else if (typeSecurity.toString() == 'oauth2') {
+
       const response = await credentialsOauth.generateCredentials(`${application.externalId}`, application.externalId as string)
-      console.log(response)
+
       return response;
     }
   }
@@ -138,9 +140,9 @@ export class KongHandler extends KongServiceBase {
       credentials.push(credencial);
     }
     for (let index = 0; index < keyoauth.length; index++) {
-      let credencial = new CredentialOauth(keyoauth[index].id, keyoauth[index].key, keyoauth[index].client_id,keyoauth[index].client_secret, 'oauth2')
-       credentials.push(credencial);
-     }
+      let credencial = new CredentialOauth(keyoauth[index].id, keyoauth[index].key, keyoauth[index].client_id, keyoauth[index].client_secret, 'oauth2')
+      credentials.push(credencial);
+    }
     console.log(credentials)
     return credentials;
   }
