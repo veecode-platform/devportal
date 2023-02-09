@@ -27,10 +27,8 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   
   const columns: TableColumn[] = [
     { title: 'Id', field: 'id', width: '1fr' },
-    { title: 'Key', field: 'key', width: '1fr' },
+    // { title: 'Key', field: 'key', width: '1fr' },
     {title: 'Type', field: 'type', width: '1fr'},
-    {title: 'Client Id', field: 'clientId', width:'1fr'},
-    {title: 'Client Secret Id', field: 'ClienSecretId', width:'1fr'},
     { title: 'Actions', field: 'actions', width: '1fr' },
   ];
 
@@ -54,10 +52,7 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   const data = credentials.map(item => {
    return {
       id: item.id,
-      key: item.key ?? '...',
       type: item.type,
-      clientId: item.clientId ?? '...',
-      ClientSecretId: item.clientSecret ?? '...',
       actions: (
         <Button
           variant="outlined"
