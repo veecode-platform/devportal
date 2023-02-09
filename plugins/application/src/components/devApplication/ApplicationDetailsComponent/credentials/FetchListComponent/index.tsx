@@ -33,8 +33,7 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   ];
 
   const removeCredential = async (applicationID: string, credentialID: string) => {
-
-    const response = await AxiosInstance.delete(`/applications/${applicationID}/${credentialID}`)
+    const response = await AxiosInstance.delete(`/applications/${applicationID}/credentials?idCredential=${credentialID}`)
     if (response.data.ok) {
       setShow(true);
       setStatus('success');
