@@ -52,15 +52,12 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   };
 
   const data = credentials.map(item => {
-    const credentialsData = {
+   return {
       id: item.id,
       key: item.key ?? '...',
       type: item.type,
       clientId: item.clientId ?? '...',
-      ClientSecretId: item.clientSecret ?? '...'
-    }
-    return {
-      credentialsData,
+      ClientSecretId: item.clientSecret ?? '...',
       actions: (
         <Button
           variant="outlined"
