@@ -12,7 +12,7 @@ import { CredentialOauth } from './CredentialOauth2';
 
 export enum security {
   oauth = 'oauth2',
-  key_auth = 'key_auth'
+  key_auth = 'key-auth'
 }
 
 type Service = {
@@ -160,13 +160,16 @@ export class KongHandler extends KongServiceBase {
     return credentials;
   }
 
-  public async removeCredencial(options: RouterOptions, idApplication: string, idCredencial: string) {
+  public async removeCredencial(options: RouterOptions, idApplication: string, idCredencial: string, typeSecurity: security) {
     const applicationRepository = await PostgresApplicationRepository.create(
       await options.database.getClient(),
     );
+    console.log('type', typeSecurity)
     const application: Application = await applicationRepository.getApplicationById(idApplication) as Application
-    const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth/${idCredencial}`
 
+    const url = `${await this.getUrl()}/consumers/${application.externalId}/${typeSecurity.toString()}/${idCredencial}`
+
+    console.log(url)
     const response = await axios.delete(url);
     return response.data;
   }
