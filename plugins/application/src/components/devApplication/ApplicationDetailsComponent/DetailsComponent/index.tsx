@@ -72,7 +72,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
       setStatus('success');
       setMessageStatus('Credential created!');
       setTimeout(()=>{
-        window.location.reload();
+        window.history.back();
       },2000)
     }
     else {

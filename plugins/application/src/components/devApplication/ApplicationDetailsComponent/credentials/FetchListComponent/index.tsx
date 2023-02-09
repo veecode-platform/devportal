@@ -39,7 +39,7 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
       setStatus('success');
       setMessageStatus('Credential deleted!');
       setTimeout(()=>{
-        window.location.replace('/application'); 
+        window.history.back(); 
       }, 2000);
     }
     else{
