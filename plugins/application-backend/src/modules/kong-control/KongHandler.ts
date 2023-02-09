@@ -103,7 +103,7 @@ export class KongHandler extends KongServiceBase {
     );
     const credentialsOauth = new CredentialsOauth();
     const application: ApplicationProps = await applicationRepository.getApplicationById(idApplication) as ApplicationProps;
-    if (typeSecurity.toString() == 'key_auth') {
+    if (typeSecurity.toString() == 'key-auth') {
 
       const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth`
       const response = await axios.post(url);
@@ -136,7 +136,7 @@ export class KongHandler extends KongServiceBase {
     const keyoauth = responseOauth.data.data;
     const credentials: any[] = []
     for (let index = 0; index < keyauths.length; index++) {
-      let credencial = new Credential(keyauths[index].id, keyauths[index].key, "key_auth")
+      let credencial = new Credential(keyauths[index].id, keyauths[index].key, "key-auth")
       credentials.push(credencial);
     }
     for (let index = 0; index < keyoauth.length; index++) {
@@ -144,19 +144,6 @@ export class KongHandler extends KongServiceBase {
       credentials.push(credencial);
     }
     console.log(credentials)
-    return credentials;
-  }
-
-
-  public async listCredential(idConsumer: string) {
-    const url = `${await this.getUrl()}/consumers/${idConsumer}/key-auth`
-    const response = await axios.get(url);
-    const list = response.data;
-    const credentials: Credential[] = []
-    for (let index = 0; index < list.length; index++) {
-      let credencial = new Credential(list[index].id, list[index].key, "teste")
-      credentials.push(credencial);
-    }
     return credentials;
   }
 
