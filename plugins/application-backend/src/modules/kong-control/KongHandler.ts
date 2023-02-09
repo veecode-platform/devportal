@@ -109,7 +109,7 @@ export class KongHandler extends KongServiceBase {
       console.log(response)
       return response.data;
     } else if (typeSecurity.toString() == 'oauth2') {
-      const response = await credentialsOauth.generateCredentials(`${application.externalId}`, application.externalId)
+      const response = await credentialsOauth.generateCredentials(`${application.externalId}`, application.externalId as string)
       console.log(response)
       return response;
     }
