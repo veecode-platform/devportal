@@ -27,7 +27,7 @@ export class KongHandler extends KongServiceBase {
 
 
   public async listServices(): Promise<Service[]> {
-    const url = `${await this.getBaseUrl()}/services`
+    const url = `${await this.getUrl()}/services`
     const response = await axios.get(url);
     const servicesStore = response.data.data;
     return response
@@ -38,7 +38,7 @@ export class KongHandler extends KongServiceBase {
   }
 
   public async listRoutes(): Promise<Service[]> {
-    const url = `${await this.getBaseUrl()}/routes`
+    const url = `${await this.getUrl()}/routes`
     const response = await axios.get(url);
     const servicesStore = response.data.data;
     return response
@@ -47,7 +47,7 @@ export class KongHandler extends KongServiceBase {
   }
 
   public async listConsumers() {
-    const url = `${await this.getBaseUrl()}/consumers`
+    const url = `${await this.getUrl()}/consumers`
     const response = await axios.get(url);
     const consumers = response.data;
     return consumers;
@@ -57,7 +57,7 @@ export class KongHandler extends KongServiceBase {
   // PLUGINS
   public async applyPluginToRoute(
   ): Promise<Service[]> {
-    const url = `${await this.getBaseUrl()}/services`
+    const url = `${await this.getUrl()}/services`
     const response = await axios.get(url);
     const servicesStore = response.data.data;
     return response
@@ -69,7 +69,7 @@ export class KongHandler extends KongServiceBase {
     serviceName: string,
     pluginName: string,
   ): Promise<Service[]> {
-    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins`;
+    const url = `${await this.getUrl()}/services/${serviceName}/plugins`;
     const response = await axios.post(url, {
       name: `${pluginName}`,
     });
@@ -80,7 +80,7 @@ export class KongHandler extends KongServiceBase {
     serviceName: string,
     pluginName: string,
   ): Promise<Service[]> {
-    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins`;
+    const url = `${await this.getUrl()}/services/${serviceName}/plugins`;
     const response = await axios.post(url, {
       name: `${pluginName}`,
     });
@@ -91,7 +91,7 @@ export class KongHandler extends KongServiceBase {
   public async listPluginsService(
     serviceName: string,
   ): Promise<Service[]> {
-    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins`;
+    const url = `${await this.getUrl()}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
     console.log('response data: ', response.data)
     return response.data;
@@ -104,12 +104,12 @@ export class KongHandler extends KongServiceBase {
     const credentialsOauth = new CredentialsOauth();
     const application: ApplicationProps = await applicationRepository.getApplicationById(idApplication) as ApplicationProps;
     if (typeSecurity.toString() == 'key_auth') {
-      const url = `${await this.getBaseUrl()}/consumers/${application.externalId}/key-auth`
+      const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth`
       const response = await axios.post(url);
       console.log(response)
       return response.data;
     } else if (typeSecurity.toString() == 'oauth2') {
-      const response = await credentialsOauth.generateCredentials(`${application.externalId}`, application.externalId)
+      const response = await credentialsOauth.generateCredentials(`${application.externalId}`, application.externalId as string)
       console.log(response)
       return response;
     }
@@ -121,16 +121,17 @@ export class KongHandler extends KongServiceBase {
     const applicationRepository = await PostgresApplicationRepository.create(
       await options.database.getClient(),
     );
-
+    console.log('aqui')
     const application: ApplicationProps = await applicationRepository.getApplicationById(id) as ApplicationProps;
-    const url = `${await this.getBaseUrl()}/consumers/${application.externalId}/key-auth`
-    const urlOath = `${await this.getBaseUrl()}/consumers/${application.externalId}/oauth2`
+    console.log('app', application)
+    const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth`
+    const urlOath = `${await this.getUrl()}/consumers/${application.externalId}/oauth2`
+    console.log('KEY_AUTH', url)
+    console.log('OAUTH 2', urlOath)
     const response = await axios.get(url);
     const responseOauth = await axios.get(urlOath);
     const keyauths = response.data.data;
     const keyoauth = responseOauth.data.data;
-    console.log('KEY_AUTH', keyauths)
-    console.log('OAUTH 2', keyoauth)
     const credentials: any[] = []
     for (let index = 0; index < keyauths.length; index++) {
       let credencial = new Credential(keyauths[index].id, keyauths[index].key, "key_auth")
@@ -146,7 +147,7 @@ export class KongHandler extends KongServiceBase {
 
 
   public async listCredential(idConsumer: string) {
-    const url = `${await this.getBaseUrl()}/consumers/${idConsumer}/key-auth`
+    const url = `${await this.getUrl()}/consumers/${idConsumer}/key-auth`
     const response = await axios.get(url);
     const list = response.data;
     const credentials: Credential[] = []
@@ -162,7 +163,7 @@ export class KongHandler extends KongServiceBase {
       await options.database.getClient(),
     );
     const application: Application = await applicationRepository.getApplicationById(idApplication) as Application
-    const url = `${await this.getBaseUrl()}/consumers/${application.externalId}/key-auth/${idCredencial}`
+    const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth/${idCredencial}`
 
     const response = await axios.delete(url);
     return response.data;
@@ -172,7 +173,7 @@ export class KongHandler extends KongServiceBase {
     serviceName: string,
     pluginId: string,
   ): Promise<Service[]> {
-    const url = `${await this.getBaseUrl()}/services/${serviceName}/plugins/${pluginId}`;
+    const url = `${await this.getUrl()}/services/${serviceName}/plugins/${pluginId}`;
     const response = await axios.delete(url);
     const servicesStore = response.data;
     return servicesStore;

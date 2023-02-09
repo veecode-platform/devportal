@@ -22,7 +22,7 @@ import {
   validateEmail,
   validateName,
   validatePhone,
-} from '../commons/validate';
+} from '../../shared/commons/validate';
 
 type PartnerProps = {
   partnerData: IPartner | undefined;
@@ -118,6 +118,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     label="Name"
                     value={partner.name}
                     required
+                    onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
                       if (!!validateName(e.target.value))
@@ -166,6 +167,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     label="Email"
                     value={partner.email}
                     required
+                    onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, email: true }) }}
                     onChange={e => {
                       setPartner({
                         ...partner,
@@ -188,6 +190,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     label="Phone"
                     value={partner.phone}
                     required
+                    onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, phone: true }) }}
                     onChange={e => {
                       setPartner({
                         ...partner,

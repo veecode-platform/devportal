@@ -54,7 +54,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
   const [status, setStatus] = useState<string>('');
   const [messageStatus, setMessageStatus] = useState<string>('');
 
-  const kongConsumerId = metadata ? metadata.kongConsumerId : '';
+  // const kongConsumerId = metadata ? metadata.kongConsumerId : '';
   const ApplicationId = metadata ? metadata.id : '';
 
   const handleClose = (reason: string) => {
@@ -65,7 +65,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
   // generate Credentials
   const generateCredential = async (ID: string, type: string) => {
 
-    const response = await AxiosInstance.post(`/api/devportal/applications/${ID}/credentials`, {type})
+    const response = await AxiosInstance.post(`/applications/${ID}/credentials`, {type})
     if (response.data.ok) {
       setShow(true);
       setStatus('success');

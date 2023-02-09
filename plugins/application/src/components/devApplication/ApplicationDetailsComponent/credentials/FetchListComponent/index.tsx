@@ -24,8 +24,7 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
     if (reason === 'clickaway') return;
     setShow(false);
   };
-  console.log(credentials)
-
+  
   const columns: TableColumn[] = [
     { title: 'Id', field: 'id', width: '1fr' },
     { title: 'Key', field: 'key', width: '1fr' },
@@ -35,7 +34,7 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
 
   const removeCredential = async (applicationID: string, credentialID: string) => {
 
-    const response = await AxiosInstance.delete(`/api/devportal/applications/${applicationID}/${credentialID}`)
+    const response = await AxiosInstance.delete(`/applications/${applicationID}/${credentialID}`)
     if (response.data.ok) {
       setShow(true);
       setStatus('success');
@@ -54,7 +53,7 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   const data = credentials.map(item => {
     return {
       id: item.id,
-      key: item.key,
+      // key: item.key,
       actions: (
         <Button
           variant="outlined"
@@ -94,7 +93,7 @@ export const FetchListComponent = ({ idApplication }: { idApplication: string })
   const { value, loading, error } = useAsync(async (): Promise<
     ICredentials[]
   > => {
-    const response =  await AxiosInstance.get(`/api/devportal/applications/${idApplication}/credentials`)
+    const response =  await AxiosInstance.get(`/applications/${idApplication}/credentials`)
     return response.data.credentials;
   }, []);
 

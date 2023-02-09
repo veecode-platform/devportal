@@ -15,7 +15,10 @@ export interface ICreateApplication{
   creator: string,
   active: boolean | null;
   servicesId: string[] | any,
-  kongConsumerName: string,
-  kongConsumerId: string,
+  // kongConsumerName: string,
+  // kongConsumerId: string,
 }
 
+export interface IErrorStatus {
+  name: boolean
+}

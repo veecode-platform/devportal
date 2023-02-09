@@ -17,7 +17,7 @@ import {
   validateEmail,
   validateName,
   validatePhone,
-} from '../commons/validate';
+} from '../../shared/commons/validate';
 
 export const CreateComponent = () => {
   const [partner, setPartner] = useState<ICreatePartner>({
@@ -101,6 +101,7 @@ export const CreateComponent = () => {
                     label="Name"
                     value={partner.name ?? ''}
                     required
+                    onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
                       if (!!validateName(e.target.value))
@@ -135,6 +136,7 @@ export const CreateComponent = () => {
                     type="email"
                     value={partner.email ?? ''}
                     required
+                    onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, email: true }) }}
                     onChange={e => {
                       setPartner({
                         ...partner,
@@ -156,6 +158,7 @@ export const CreateComponent = () => {
                     label="Phone"
                     value={partner.phone ?? ''}
                     required
+                    onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, phone: true }) }}
                     onChange={e => {
                       setPartner({
                         ...partner,

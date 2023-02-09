@@ -12,17 +12,22 @@ import {
   Content,
   ContentHeader,
 } from '@backstage/core-components';
-import { IApplication } from '../interfaces';
+import { IApplication, IErrorStatus } from '../interfaces';
 import {AlertComponent, Select} from '../../shared';
 import AxiosInstance from '../../../api/Api';
+import { validateName } from '../../shared/commons/validate';
 
 type Application = {
   application: IApplication | undefined;
 }
 
 const EditApplicationComponent = ({ application }: Application) => {
+
   const [app, setApp] = useState<IApplication | any>(application);
   const [show, setShow] = useState<boolean>(false);
+  const [errorField, setErrorField] = useState<IErrorStatus>({
+    name: false
+  });
 
   useEffect(()=>{
     setApp({
@@ -52,8 +57,6 @@ const EditApplicationComponent = ({ application }: Application) => {
         creator: app.name,
         active: app.active,
         servicesId: app.servicesId,
-        kongServiceName: app.kongConsumerName,
-        kongServiceId : app.kongConsumerId,
       }
     }
     const response = await AxiosInstance.patch(`applications/${app?.id}`,JSON.stringify(applicationData) )
@@ -81,9 +84,19 @@ const EditApplicationComponent = ({ application }: Application) => {
                     label="Application Name"
                     value={app.name ?? ''}
                     required
+                    onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={(e) => {
-                      setApp({ ...app, name: e.target.value })
-                    }} />
+                      setApp({ ...app, name: e.target.value });
+                      if (!!validateName(e.target.value)) setErrorField({ ...errorField, name: true });
+                      else setErrorField({ ...errorField, name: false });
+                    }} 
+                    error={errorField.name}
+                    helperText={
+                      errorField.name
+                        ? 'Enter a name with at least 3 characters'
+                        : null
+                    }
+                    />
                 </Grid>
                 <Grid item xs={12} >
                   <TextField
@@ -92,6 +105,7 @@ const EditApplicationComponent = ({ application }: Application) => {
                     label="Creator"
                     value={app.creator ?? ''}
                     required
+                    disabled
                     onChange={(e) => {
                       setApp({ ...app, creator: e.target.value })
                     }} />
@@ -102,6 +116,7 @@ const EditApplicationComponent = ({ application }: Application) => {
                     placeholder="Select the Status"
                     label="Service Status"
                     items={statusItems}
+                    selected={app.active ? 'true' : 'false'}
                     onChange={e => {
                       if (e === 'true')
                         setApp({ ...app, active: true });
@@ -114,6 +129,7 @@ const EditApplicationComponent = ({ application }: Application) => {
                   <Select
                     placeholder="Application Services"
                     label="Application Services"
+                    selected={app.servicesId}
                     items={app.servicesId.map((item : string | any) => {
                       return { ...{ label: item, value: item } };
                     })}
@@ -126,7 +142,7 @@ const EditApplicationComponent = ({ application }: Application) => {
               <Grid item xs={12} >
                 <Grid container justifyContent='center' alignItems='center'>
                   <Button component={RouterLink} to='/application' style={{margin:"16px"}} size='large' variant='outlined'>Cancel</Button>
-                  <Button style={{margin:"16px"}} size='large' color='primary' type='submit' variant='contained' disabled={show} onClick={handleSubmit}>Save</Button>
+                  <Button style={{margin:"16px"}} size='large' color='primary' type='submit' variant='contained' disabled={errorField.name} onClick={handleSubmit}>Save</Button>
                 </Grid>
               </Grid>
             </Grid>
