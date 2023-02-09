@@ -27,7 +27,7 @@ export class AclPlugin extends PluginService {
     pluginId: string,
     allowedList: Array<string>,
   ) {
-    const response = await axios.get(`${await this.getBaseUrl()}/services/${serviceName}/plugins/${pluginId}`);
+    const response = await axios.get(`${await this.getUrl()}/services/${serviceName}/plugins/${pluginId}`);
     let array: String[] = response.data.config.allow;
     for (let index = 0; index < allowedList.length; index++) {
       array.push(allowedList[index]);
