@@ -54,7 +54,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
   const [status, setStatus] = useState<string>('');
   const [messageStatus, setMessageStatus] = useState<string>('');
 
-  const kongConsumerId = metadata ? metadata.kongConsumerId : '';
+  // const kongConsumerId = metadata ? metadata.kongConsumerId : '';
   const ApplicationId = metadata ? metadata.id : '';
 
   const handleClose = (reason: string) => {

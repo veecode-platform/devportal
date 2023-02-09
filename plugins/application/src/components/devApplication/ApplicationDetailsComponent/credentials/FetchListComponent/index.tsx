@@ -24,8 +24,7 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
     if (reason === 'clickaway') return;
     setShow(false);
   };
-  console.log(credentials)
-
+  
   const columns: TableColumn[] = [
     { title: 'Id', field: 'id', width: '1fr' },
     { title: 'Key', field: 'key', width: '1fr' },
@@ -53,7 +52,7 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   const data = credentials.map(item => {
     return {
       id: item.id,
-      key: item.key,
+      // key: item.key,
       actions: (
         <Button
           variant="outlined"

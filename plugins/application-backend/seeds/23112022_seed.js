@@ -1,4 +1,4 @@
-exports.seed = async function (knex) {
+exports.seed = async function seed(knex) {
   try {
     // Deletes ALL existing entries
     await knex('plugins').truncate();
@@ -165,4 +165,5 @@ exports.seed = async function (knex) {
     console.log('ERROR SEED:RUN ', e);
     return false;
   }
+  return true;
 };

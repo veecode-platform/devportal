@@ -24,23 +24,23 @@ exports.up = async function up(knex) {
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     });
     await knex.schema.createTable('partners', table => {
-      table.uuid('id').primary;
+      table.uuid('id').primary();
       table.string('name');
       table.boolean('active');
       table.string('email');
       table.string('phone');
       table.specificType('servicesId', 'TEXT[]');
-      table.specificType('applicationId', 'TEXT[]'); //lista de applications criadas
+      table.specificType('applicationId', 'TEXT[]'); // lista de applications criadas
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
     });
     await knex.schema.createTable('applications', table => {
-      table.uuid('id').primary;
+      table.uuid('id').primary();
       table.string('name');
       table.boolean('active');
       table.string('creator');
       table.specificType('parternId', 'TEXT');
-      table.specificType('servicesId', 'TEXT[]'); //lista de services que a application usa
+      table.specificType('servicesId', 'TEXT[]'); // lista de services que a application usa
       table.string('externalId');
       table.timestamp('createdAt').defaultTo(knex.fn.now());
       table.timestamp('updatedAt').defaultTo(knex.fn.now());
@@ -62,8 +62,8 @@ exports.up = async function up(knex) {
     return false;
   } finally {
     knex.destroy();
-    return true;
   }
+  return true;
 };
 
 /**
@@ -81,6 +81,6 @@ exports.down = async function down(knex) {
     return false;
   } finally {
     knex.destroy();
-    return true;
   }
+  return true;
 };

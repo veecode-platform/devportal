@@ -20,7 +20,7 @@ export class AssociateService{
     );
        const application = await applicationRepository.getApplicationById(id) as ApplicationProps;
        const idservices = application.servicesId
-      if(idservices != null){
+      if(idservices !== null){
         for (let index = 0; index < servicesId.length; index++) {
           application.servicesId.push(servicesId[index])
         }
@@ -35,9 +35,9 @@ export class AssociateService{
       await routerOptions.database.getClient(),    
     );
     const application = await applicationRepository.getApplicationById(id) as ApplicationProps
-
-      for (let index = 0; index < application.externalId.length; index++) {
-        if(application.servicesId[index] == servicesId){
+    const tamanho = application.externalId?.length 
+      for (let index = 0; index < (tamanho as number); index++) {// application.externalId.length
+        if(application.servicesId[index] === servicesId){
            application.servicesId.slice(index, 1)
           break
         }
