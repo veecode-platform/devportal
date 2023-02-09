@@ -13,7 +13,7 @@ import { createServiceRouter } from './service-route';
 import { createPartnersRouter } from './partners-route';
 import { createKongRouter } from './kong-extras-route';
 import { createApplicationRouter } from './applications-route';
-import { applyDatabaseMigrations } from '../../database/migrations';
+import { applyDatabaseMigrations } from '../database/migrations';
 import { testeRoute } from './teste-router';
 import { createPluginRouter } from './plugins-route';
 import { createKeycloackRouter } from './keycloak-router';
