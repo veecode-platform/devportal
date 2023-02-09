@@ -38,6 +38,7 @@ export class ConsumerService extends KongServiceBase {
 
   public async createConsumer(consumer: Consumer): Promise<Consumer> {
     const url = `${await this.getBaseUrl()}/consumers`;
+    console.log('url', url)
     const response = await axios
       .post(url, consumer, {
         headers: await this.getAuthHeader(),

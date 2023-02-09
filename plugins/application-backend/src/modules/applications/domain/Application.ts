@@ -6,7 +6,7 @@ export type ApplicationProps = {
   parternId: string;
   servicesId: string[];
   active?: boolean;
-  externalId: string;
+  externalId?: string;
   createdAt?: Date;
   updateAt?: Date;
 };
