@@ -7,7 +7,7 @@ import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import {AlertComponent} from '../../../../shared';
-import { ICredentials } from '../interfaces';
+import { ICredentials } from '../utils/interfaces';
 import AxiosInstance from '../../../../../api/Api';
 
 type DenseTableProps = {
@@ -27,20 +27,19 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   
   const columns: TableColumn[] = [
     { title: 'Id', field: 'id', width: '1fr' },
-    { title: 'Key', field: 'key', width: '1fr' },
+    // { title: 'Key', field: 'key', width: '1fr' },
     {title: 'Type', field: 'type', width: '1fr'},
     { title: 'Actions', field: 'actions', width: '1fr' },
   ];
 
-  const removeCredential = async (applicationID: string, credentialID: string) => {
-
-    const response = await AxiosInstance.delete(`/applications/${applicationID}/${credentialID}`)
-    if (response.data.ok) {
+  const removeCredential = async (applicationID: string, credentialID: string, credentialType: string) => {
+    const response = await AxiosInstance.delete(`/applications/${applicationID}/credentials?idCredential=${credentialID}&type=${credentialType}`)
+    if (response.status === 204) {
       setShow(true);
       setStatus('success');
       setMessageStatus('Credential deleted!');
       setTimeout(()=>{
-        window.location.replace('/application'); 
+        window.location.reload();
       }, 2000);
     }
     else{
@@ -51,13 +50,13 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   };
 
   const data = credentials.map(item => {
-    return {
+   return {
       id: item.id,
-      // key: item.key,
+      type: item.type,
       actions: (
         <Button
           variant="outlined"
-          onClick={() => removeCredential(applicationId,item.id)}
+          onClick={() => removeCredential(applicationId,item.id, item.type)}
           component={RouterLink}
           to=""
           style={{ border: 'none' }}

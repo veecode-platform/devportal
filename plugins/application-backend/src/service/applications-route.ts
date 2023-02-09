@@ -346,11 +346,14 @@ export async function createApplicationRouter(
   router.delete('/:idApplication/credentials', async (request, response) => {
     try {
       const idCredential = request.query.idCredential as string;
+      const type = request.query.type as security;
+
       const idApplication = request.params.idApplication;
       const serviceStore = await kongHandler.removeCredencial(
         options,
         idApplication,
         idCredential,
+        type
       );
       response.status(204).json({ status: 'ok', credentials: serviceStore });
     } catch (error: any) {

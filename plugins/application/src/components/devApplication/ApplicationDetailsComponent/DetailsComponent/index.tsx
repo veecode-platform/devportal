@@ -11,6 +11,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Credentials } from '../credentials';
 import {AlertComponent} from '../../../shared';
 import AxiosInstance from '../../../../api/Api';
+import { CredentialTypeEnum } from '../credentials/utils/enums';
 
 const cardContentStyle = { heightX: 'auto', width: '100%', marginLeft: '2%' };
 
@@ -66,7 +67,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
   const generateCredential = async (ID: string, type: string) => {
 
     const response = await AxiosInstance.post(`/applications/${ID}/credentials`, {type})
-    if (response.data.ok) {
+    if (response.status === 201) {
       setShow(true);
       setStatus('success');
       setMessageStatus('Credential created!');
@@ -136,11 +137,11 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
               >
                 <Grid item>
                   <Button
-                    onClick={() => generateCredential(ApplicationId, 'oauth2')}
+                    onClick={() => generateCredential(ApplicationId, CredentialTypeEnum.oAuth2)}
                     variant="contained"
                     size="large"
                   >
-                    New Credential Auth2
+                    New Credential OAuth2
                   </Button>
                 </Grid>
                 <Grid item>
@@ -153,7 +154,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
                     Cancel
                   </Button> */}
                   <Button
-                    onClick={() => generateCredential(ApplicationId, 'key_auth')}
+                    onClick={() => generateCredential(ApplicationId, CredentialTypeEnum.keyAuth)}
                     variant="contained"
                     size="large"
                   >

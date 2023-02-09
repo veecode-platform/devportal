@@ -12,7 +12,7 @@ import { CredentialOauth } from './CredentialOauth2';
 
 export enum security {
   oauth = 'oauth2',
-  key_auth = 'key_auth'
+  key_auth = 'key-auth'
 }
 
 type Service = {
@@ -103,14 +103,16 @@ export class KongHandler extends KongServiceBase {
     );
     const credentialsOauth = new CredentialsOauth();
     const application: ApplicationProps = await applicationRepository.getApplicationById(idApplication) as ApplicationProps;
-    if (typeSecurity.toString() == 'key_auth') {
+    if (typeSecurity.toString() == 'key-auth') {
+
       const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth`
       const response = await axios.post(url);
-      console.log(response)
+
       return response.data;
     } else if (typeSecurity.toString() == 'oauth2') {
+
       const response = await credentialsOauth.generateCredentials(`${application.externalId}`, application.externalId as string)
-      console.log(response)
+
       return response;
     }
   }
@@ -134,37 +136,27 @@ export class KongHandler extends KongServiceBase {
     const keyoauth = responseOauth.data.data;
     const credentials: any[] = []
     for (let index = 0; index < keyauths.length; index++) {
-      let credencial = new Credential(keyauths[index].id, keyauths[index].key, "key_auth")
+      let credencial = new Credential(keyauths[index].id, keyauths[index].key, "key-auth")
       credentials.push(credencial);
     }
     for (let index = 0; index < keyoauth.length; index++) {
-      let credencial = new CredentialOauth(keyoauth[index].id, keyoauth[index].key, keyoauth[index].client_id,keyoauth[index].client_secret, 'oauth2')
-       credentials.push(credencial);
-     }
+      let credencial = new CredentialOauth(keyoauth[index].id, keyoauth[index].key, keyoauth[index].client_id, keyoauth[index].client_secret, 'oauth2')
+      credentials.push(credencial);
+    }
     console.log(credentials)
     return credentials;
   }
 
-
-  public async listCredential(idConsumer: string) {
-    const url = `${await this.getUrl()}/consumers/${idConsumer}/key-auth`
-    const response = await axios.get(url);
-    const list = response.data;
-    const credentials: Credential[] = []
-    for (let index = 0; index < list.length; index++) {
-      let credencial = new Credential(list[index].id, list[index].key, "teste")
-      credentials.push(credencial);
-    }
-    return credentials;
-  }
-
-  public async removeCredencial(options: RouterOptions, idApplication: string, idCredencial: string) {
+  public async removeCredencial(options: RouterOptions, idApplication: string, idCredencial: string, typeSecurity: security) {
     const applicationRepository = await PostgresApplicationRepository.create(
       await options.database.getClient(),
     );
+    console.log('type', typeSecurity)
     const application: Application = await applicationRepository.getApplicationById(idApplication) as Application
-    const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth/${idCredencial}`
 
+    const url = `${await this.getUrl()}/consumers/${application.externalId}/${typeSecurity.toString()}/${idCredencial}`
+
+    console.log(url)
     const response = await axios.delete(url);
     return response.data;
   }
