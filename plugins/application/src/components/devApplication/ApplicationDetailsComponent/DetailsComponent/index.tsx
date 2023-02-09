@@ -66,7 +66,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
   const generateCredential = async (ID: string, type: string) => {
 
     const response = await AxiosInstance.post(`/applications/${ID}/credentials`, {type})
-    if (response.data.ok) {
+    if (response.status === 204) {
       setShow(true);
       setStatus('success');
       setMessageStatus('Credential created!');
