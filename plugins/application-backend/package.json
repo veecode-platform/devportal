@@ -60,6 +60,6 @@
   },
   "files": [
     "dist",
-    "migrations/*/.{js,d.ts}"
+    "migrations/**/*.{js,d.ts}"
   ]
 }
