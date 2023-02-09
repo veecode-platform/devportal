@@ -138,8 +138,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
                 <Grid item>
                   <Button
                     onClick={() => generateCredential(ApplicationId, CredentialTypeEnum.oAuth2)}
-                    variant="contained"
-                    size="large"
+                    style={{ margin: "5px", background: "#20a082", color: "#fff" }} variant='contained' size='large'
                   >
                     New Credential OAuth2
                   </Button>
@@ -155,8 +154,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
                   </Button> */}
                   <Button
                     onClick={() => generateCredential(ApplicationId, CredentialTypeEnum.keyAuth)}
-                    variant="contained"
-                    size="large"
+                    style={{ margin: "5px", background: "#20a082", color: "#fff" }} variant='contained' size='large'
                   >
                     New Credential Key Auth
                   </Button>
