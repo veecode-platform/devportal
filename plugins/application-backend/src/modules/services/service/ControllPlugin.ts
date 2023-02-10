@@ -38,7 +38,7 @@ export class ControllPlugin {
       } else if (
         service.securityType?.toString() == SECURITY.KEY_AUTH.toString()
       ) {
-        console.log('aqui applySecurityType')
+    
         await KeyAuthPlugin.Instance.configKeyAuthKongService(
           service.kongServiceName,
         );
@@ -51,7 +51,7 @@ export class ControllPlugin {
         ]);
       }
     } catch (error) {
-      console.log(error);
+     return error;
     }
   }
 
@@ -68,7 +68,6 @@ export class ControllPlugin {
 
     service.securityType = SECURITY.NONE;
     const kongServiceId = service.kongServiceId;
-    //console.log('Kong service Id', kongServiceId);
     const plugin = await PluginRepository.getPluginByServiceId(
       kongServiceId as string,
     ) as Plugin;
