@@ -54,7 +54,7 @@ const EditApplicationComponent = ({ application }: Application) => {
     const applicationData = {
       applications:{
         name: app.name,
-        creator: app.name,
+        creator: app.creator,
         active: app.active,
         servicesId: app.servicesId,
       }
