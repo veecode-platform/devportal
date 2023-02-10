@@ -31,6 +31,7 @@ const EditApplicationComponent = ({ application }: Application) => {
 
   useEffect(()=>{
     setApp({
+      id: application?.id,
       name: application?.name,
       creator: application?.creator,
       active: application?.active,
@@ -59,7 +60,7 @@ const EditApplicationComponent = ({ application }: Application) => {
         servicesId: app.servicesId,
       }
     }
-    const response = await AxiosInstance.patch(`applications/${app?.id}`,JSON.stringify(applicationData) )
+    const response = await AxiosInstance.patch(`/applications/${app?.id}`,JSON.stringify(applicationData) )
     setShow(true);
     setTimeout(()=>{
       window.location.replace('/application');
