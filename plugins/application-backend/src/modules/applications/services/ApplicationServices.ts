@@ -14,7 +14,7 @@ import { PostgresApplicationRepository } from '../repositories/knex/KnexApplicat
 export class ApplicationServices {
   private static _instance: ApplicationServices;
 
-  public constructor() {}
+  public constructor() { }
 
   public static get Instance() {
     return this._instance || (this._instance = new this());
@@ -42,7 +42,7 @@ export class ApplicationServices {
         }
       });
     } catch (error) {
-      console.log(error);
+      return error
     }
   }
 
@@ -65,7 +65,7 @@ export class ApplicationServices {
       }
       applicationRepository.deleteApplication(applicationId);
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
 
@@ -102,7 +102,7 @@ export class ApplicationServices {
         });
       }
     } catch (error) {
-      console.log(error);
+      return error
     }
   }
 }

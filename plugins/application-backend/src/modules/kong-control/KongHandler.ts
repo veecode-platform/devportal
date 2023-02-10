@@ -93,7 +93,6 @@ export class KongHandler extends KongServiceBase {
   ): Promise<Service[]> {
     const url = `${await this.getUrl()}/services/${serviceName}/plugins`;
     const response = await axios.get(url);
-    console.log('response data: ', response.data)
     return response.data;
   }
 
@@ -123,13 +122,11 @@ export class KongHandler extends KongServiceBase {
     const applicationRepository = await PostgresApplicationRepository.create(
       await options.database.getClient(),
     );
-    console.log('aqui')
     const application: ApplicationProps = await applicationRepository.getApplicationById(id) as ApplicationProps;
-    console.log('app', application)
+
     const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth`
     const urlOath = `${await this.getUrl()}/consumers/${application.externalId}/oauth2`
-    console.log('KEY_AUTH', url)
-    console.log('OAUTH 2', urlOath)
+
     const response = await axios.get(url);
     const responseOauth = await axios.get(urlOath);
     const keyauths = response.data.data;
@@ -143,7 +140,7 @@ export class KongHandler extends KongServiceBase {
       let credencial = new CredentialOauth(keyoauth[index].id, keyoauth[index].key, keyoauth[index].client_id, keyoauth[index].client_secret, 'oauth2')
       credentials.push(credencial);
     }
-    console.log(credentials)
+
     return credentials;
   }
 
@@ -151,14 +148,20 @@ export class KongHandler extends KongServiceBase {
     const applicationRepository = await PostgresApplicationRepository.create(
       await options.database.getClient(),
     );
-    console.log('type', typeSecurity)
+
     const application: Application = await applicationRepository.getApplicationById(idApplication) as Application
+
 
     const url = `${await this.getUrl()}/consumers/${application.externalId}/${typeSecurity.toString()}/${idCredencial}`
 
-    console.log(url)
-    const response = await axios.delete(url);
-    return response.data;
+    try {
+      const response = await axios.delete(url);
+      return response.data;
+
+    } catch (error) {
+      return error;
+    }
+
   }
 
   public async deletePluginsService(
