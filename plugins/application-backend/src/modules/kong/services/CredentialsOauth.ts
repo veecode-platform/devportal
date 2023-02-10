@@ -8,7 +8,6 @@ export class CredentialsOauth extends KongServiceBase{
         const response = await axios.post(url, {
             name: name
         });
-        console.log(response.data);
         return response.data;
     }
 
