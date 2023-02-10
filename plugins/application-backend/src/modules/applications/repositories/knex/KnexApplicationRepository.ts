@@ -134,11 +134,11 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       servicesId: applicationDto.servicesId,
       externalId: appDtoNameConcatParternId(applicationDto)
     });
-    const data = await ApplicationMapper.toPersistence(application);
+    //const data = await ApplicationMapper.toPersistence(application);
     const updatedApplication = await this.db('applications')
       .where('id', id)
-      .update(data)
-      .catch(error => console.error(error));
+      .update(applicationDto)
+      .catch(error => error);
     return updatedApplication ? application : 'cannot update application';
   }
 
@@ -163,7 +163,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     const patchedApplication = await this.db('applications')
       .where('id', id)
       .update(applicationDto)
-      .catch(error => console.error(error));
+      .catch(error => error);
     return patchedApplication ? application : 'cannot patch application';
   }
 }
