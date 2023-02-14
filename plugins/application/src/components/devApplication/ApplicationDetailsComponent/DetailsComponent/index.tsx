@@ -11,6 +11,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Credentials } from '../credentials';
 import {AlertComponent} from '../../../shared';
 import AxiosInstance from '../../../../api/Api';
+import { CredentialTypeEnum } from '../credentials/utils/enums';
 
 const cardContentStyle = { heightX: 'auto', width: '100%', marginLeft: '2%' };
 
@@ -136,11 +137,10 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
               >
                 <Grid item>
                   <Button
-                    onClick={() => generateCredential(ApplicationId, 'oauth2')}
-                    variant="contained"
-                    size="large"
+                    onClick={() => generateCredential(ApplicationId, CredentialTypeEnum.oAuth2)}
+                    style={{ margin: "5px", background: "#20a082", color: "#fff" }} variant='contained' size='large'
                   >
-                    New Credential Auth2
+                    New Credential OAuth2
                   </Button>
                 </Grid>
                 <Grid item>
@@ -153,9 +153,8 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
                     Cancel
                   </Button> */}
                   <Button
-                    onClick={() => generateCredential(ApplicationId, 'key_auth')}
-                    variant="contained"
-                    size="large"
+                    onClick={() => generateCredential(ApplicationId, CredentialTypeEnum.keyAuth)}
+                    style={{ margin: "5px", background: "#20a082", color: "#fff" }} variant='contained' size='large'
                   >
                     New Credential Key Auth
                   </Button>

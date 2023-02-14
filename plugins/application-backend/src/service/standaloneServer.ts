@@ -7,6 +7,7 @@ import { Server } from 'http';
 import knexFactory from 'knex';
 import { Logger } from 'winston';
 import { createRouter } from './router';
+// import { applyDatabaseMigrations } from '../database/migrations';
 
 export interface ServerOptions {
   port: number;
@@ -29,6 +30,9 @@ export async function startStandaloneServer(
         port: config.getNumber('backend.database.connection.port'),
         host: config.getString('backend.database.connection.host'),
       },
+      migrations: {
+        directory: './migrations',
+      },
       // useNullAsDefault: true,
     });
     knex.client.pool.on('createSuccess', (_eventId: any, resource: any) => {
@@ -36,17 +40,17 @@ export async function startStandaloneServer(
     });
     return knex;
   });
-
+  // await applyDatabaseMigrations(await db.client.getClient()); check if it works here instead of router.ts
   const router = await createRouter({
     logger,
     database: { getClient: async () => db },
     config: config,
   });
 
-  let service = createServiceBuilder(module)
+  const service = createServiceBuilder(module)
     .setPort(options.port)
     .addRouter('/devportal', router)
-    .enableCors({ origin: 'http://localhost:3000' });//config.getString("app.baseUrl") - production ready
+    .enableCors({ origin: config.getString("backend.cors.origin") });// config.getString("app.baseUrl") - production ready
 
   return await service.start().catch(err => {
     logger.error(err);

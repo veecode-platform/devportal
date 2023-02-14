@@ -15,16 +15,15 @@ export class PluginService extends KongServiceBase {
     pluginName: PluginName,
     config: Map<string, any>,
   ) {
-    try{
+    try {
       const url = `${await this.getUrl()}/services/${serviceName}/plugins`;
       const response = await axios.post(url, {
         service: serviceName,
         name: pluginName,
-        config:  Object.fromEntries(config)
+        config: Object.fromEntries(config)
       });
       return response.data;
-    }catch(error){
-      console.log(error)
+    } catch (error) {
       return error
     }
 
@@ -36,25 +35,36 @@ export class PluginService extends KongServiceBase {
     config: Map<string, string>,
   ) {
     const url = `${await this.getUrl()}/services/${serviceName}/plugins/${pluginId}`;
-    const response = await axios.patch(url, {
-      config: Object.fromEntries(config),
-    });
+    try {
 
-    return response.data;
+      const response = await axios.patch(url, {
+        config: Object.fromEntries(config),
+      });
+
+      return response.data;
+    } catch (error) {
+      return error;
+    }
   }
 
   public async listPluginsKongService(serviceName: string) {
     const url = `${await this.getUrl()}/services/${serviceName}/plugins`;
-    const response = await axios.get(url);
-    return response.data;
+    try {
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
   }
 
   public async removePluginKongService(serviceName: string, pluginId: string) {
     const url = `${await this.getUrl()}/services/${serviceName}/plugins/${pluginId}`;
-    console.log(url)
-    const response = await axios.delete(url);
-    console.log(response)
-    return response.data;
+    try {
+      const response = await axios.delete(url);
+      return response.data;
+    } catch (error) {
+      return error
+    }
   }
 }
 

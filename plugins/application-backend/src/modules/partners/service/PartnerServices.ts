@@ -13,7 +13,7 @@ import { PostgresPartnerRepository } from '../repositories/Knex/KnexPartnerReppo
 export class PartnerServices {
   private static _instance: PartnerServices;
 
-  public constructor() {}
+  public constructor() { }
 
   public static get Instance() {
     return this._instance || (this._instance = new this());
@@ -28,7 +28,7 @@ export class PartnerServices {
         groupId,
       );
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
 
@@ -58,7 +58,7 @@ export class PartnerServices {
         }
       }
     } catch (error) {
-      console.log(error);
+      return error
     }
   }
 
@@ -135,7 +135,7 @@ export class PartnerServices {
         }
       }
     } catch (error) {
-      console.log(error);
+      return error
     }
   }
 }
