@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import {
   // Navigate,
@@ -24,7 +25,7 @@ import {
   catalogImportPlugin,
 } from '@backstage/plugin-catalog-import';
 import {
-  ScaffolderPage,
+  // ScaffolderPage,
   scaffolderPlugin,
 } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
@@ -62,13 +63,14 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 import { searchPage } from './components/search/SearchPage';
 // import SafeRoute from './components/Routing/SafeRoute';
 import { ServicesPage, PartnersPage, ApplicationPage} from '@internal/plugin-application';
-//import SafeRoute from './components/Routing/SafeRoute';
-//login
+// import SafeRoute from './components/Routing/SafeRoute';
+// login
 import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 // custom siginpage
 import { SignInPage } from './components/signInPage/SignInPage';
+import { ScaffolderPage } from '@internal/plugin-scaffolder';
 import '../src/components/theme/theme.css';
 
 const app = createApp({
@@ -177,7 +179,7 @@ const routes = (
     <Route path="/partners" element={<PartnersPage />} />*/}
     <Route path="/settings" element={<UserSettingsPage />} />
     
-    {/*<Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
+    {/* <Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
       <Route 
         path="/services" 
         element={<ServicesPage />} 
@@ -186,6 +188,7 @@ const routes = (
     <Route path="/services" element={<ServicesPage />}/>
     <Route path="/partners" element={<PartnersPage />}/>
     <Route path="/application" element={<ApplicationPage />}/>
+    <Route path="/scaffolder" element={<ScaffolderPage />} />
   </FlatRoutes>
 );
 
