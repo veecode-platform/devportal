@@ -1,4 +1,4 @@
-import { HomePageStarredEntities } from '@backstage/plugin-home';
+import { HomePageStarredEntities } from '../plugin';
 import { wrapInTestApp, TestApiProvider } from '@backstage/test-utils';
 import {
   catalogApiRef,
