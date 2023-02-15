@@ -252,7 +252,7 @@ const serviceEntityPage = (
       </Grid>
 </EntityLayout.Route>*/}
   
-    {/*<EntityLayout.Route path="/vault" title="Vault" >
+    <EntityLayout.Route path="/vault" title="Vault" >
       <Grid item md={12} xs={12}>
         <EntityVaultCard />
         <VaultEntity/>
@@ -270,7 +270,7 @@ const serviceEntityPage = (
     </EntityLayout.Route>
     <EntityLayout.Route path="/argo-cd" title="ArgoCD">
       {argoCdContent}
-    </EntityLayout.Route>*/}
+    </EntityLayout.Route>*
     {/* <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
