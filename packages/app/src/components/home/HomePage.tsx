@@ -4,6 +4,7 @@ import {
   HomePageCompanyLogo,
   HomePageStarredEntities,
 } from '@backstage/plugin-home';
+import { Content as ContentHome} from './StarredEntities'
 
 import { wrapInTestApp, TestApiProvider } from '@backstage/test-utils';
 import {
@@ -98,6 +99,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     margin: '10px 0px'
   },
+  starredContent:{
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[1],
+    borderRadius: '15px',
+  }
+  ,
   footerWrapper:{
     // width: '100%',
     marginTop: '10rem',    
@@ -143,9 +150,9 @@ export const HomePage = () => {
                 placeholder="Search"
               />
             </Grid>
-            <Grid container item xs={12}>
-              <Grid item lg={12} xs={12}>
-                <HomePageStarredEntities />
+            <Grid container item xs={12} justifyContent="center">
+              <Grid item lg={11} xs={12} className={classes.starredContent}>
+                <ContentHome/>
               </Grid>
               {/* <Grid item xs={12} md={6}>
                 <HomePageToolkit
