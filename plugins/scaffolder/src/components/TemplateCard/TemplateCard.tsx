@@ -270,7 +270,7 @@ export const TemplateCard = ({ template, deprecated }: TemplateCardProps) => {
                 sourceLocation.locationTargetUrl
               }
             >
-              <a href={sourceLocation.locationTargetUrl} target="_blank">
+              <a href={sourceLocation.locationTargetUrl} target="_blank" rel='noreferrer'>
               <IconButton
                 className={classes.leftButton}
                 // href={sourceLocation.locationTargetUrl}
@@ -283,12 +283,15 @@ export const TemplateCard = ({ template, deprecated }: TemplateCardProps) => {
           )}
           {viewTechDocsLink && (
             <Tooltip title="View TechDocs">
-              <IconButton
-                className={classes.leftButton}
-                href={viewTechDocsLink}
-              >
-                <MuiIcon icon={iconResolver('docs')} />
-              </IconButton>
+              <a href={viewTechDocsLink} target="_blank" rel='noreferrer'>
+                <IconButton
+                  className={classes.leftButton}
+                  // href={viewTechDocsLink}
+                  onClick={(e)=>{e.stopPropagation()}}
+                >
+                  <MuiIcon icon={iconResolver('docs')} />
+                </IconButton>
+              </a>
             </Tooltip>
           )}
           {templateProps.links?.map((link, i) => (

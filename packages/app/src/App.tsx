@@ -25,9 +25,10 @@ import {
   catalogImportPlugin,
 } from '@backstage/plugin-catalog-import';
 import {
-  // ScaffolderPage,
+  ScaffolderPage,
   scaffolderPlugin,
-} from '@backstage/plugin-scaffolder';
+} from '@internal/plugin-scaffolder';
+// import { ScaffolderPage } from '@internal/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 // import { TechRadarPage } from '@backstage/plugin-tech-radar';
@@ -70,7 +71,6 @@ import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_A
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 // custom siginpage
 import { SignInPage } from './components/signInPage/SignInPage';
-import { ScaffolderPage } from '@internal/plugin-scaffolder';
 import '../src/components/theme/theme.css';
 
 const app = createApp({

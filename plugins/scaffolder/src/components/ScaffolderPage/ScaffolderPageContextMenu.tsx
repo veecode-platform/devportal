@@ -94,14 +94,14 @@ export function ScaffolderPageContextMenu(
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <MenuList>
-          {/* {showEditor && (
+          {showEditor && (
             <MenuItem onClick={() => navigate(editLink())}>
               <ListItemIcon>
                 <Edit fontSize="small" />
               </ListItemIcon>
               <ListItemText primary="Template Editor" />
             </MenuItem>
-          )} */}
+          )}
           {showActions && (
             <MenuItem onClick={() => navigate(actionsLink())}>
               <ListItemIcon>
