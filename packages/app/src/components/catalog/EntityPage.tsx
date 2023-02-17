@@ -78,22 +78,13 @@ import {
   EntityGithubPullRequestsContent
 } from '@roadiehq/backstage-plugin-github-pull-requests';
 
-// check Annotations
-const validateAnnotation = (value: string) => {
-  const ANNOTATIONS = localStorage.getItem('annotations');
-  const data = ANNOTATIONS !== null && JSON.parse(ANNOTATIONS);
-  if (data.hasOwnProperty(value)) {
-    return true;
-  }
-  return false;
-}
-
 import { EntityVaultCard } from '@backstage/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
 import VaultEntity from './Vault/VaultEntity';
 import GrafanaEntity from './Grafana/GrafanaEntity';
 import { EntityLayout } from './entityLayout';
+import { validateAnnotation } from './utils/validateAnnotation';
 
 const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
