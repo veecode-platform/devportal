@@ -14,7 +14,7 @@ import { ApiExplorerPage } from './components/api-docs/apiExplorerPage/ApiExplor
 
 import {
   CatalogEntityPage,
-  // CatalogIndexPage, 
+  // CatalogIndexPage,
   catalogPlugin,
 } from '@backstage/plugin-catalog';
 // custom page - catalog
@@ -24,11 +24,11 @@ import {
   CatalogImportPage,
   catalogImportPlugin,
 } from '@backstage/plugin-catalog-import';
-import {
-  ScaffolderPage,
-  scaffolderPlugin,
-} from '@internal/plugin-scaffolder';
-// import { ScaffolderPage } from '@internal/plugin-scaffolder';
+// import {
+//   ScaffolderPage,
+//   scaffolderPlugin,
+// } from '@internal/plugin-scaffolder';
+import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 // import { TechRadarPage } from '@backstage/plugin-tech-radar';
@@ -169,20 +169,20 @@ const routes = (
       <DefaultTechDocsHome />
     </Route>
     <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />}/>
-    <Route path="/api-docs" element={<ApiExplorerPage />} />   
-    <Route path="/create" element={<ScaffolderPage />} />   
+    <Route path="/api-docs" element={<ApiExplorerPage />} />
+    <Route path="/create" element={<ScaffolderPage />} />
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
-   
+
     {/* <Route path="/services" element={<ServicesPage />} />
     <Route path="/partners" element={<PartnersPage />} />*/}
     <Route path="/settings" element={<UserSettingsPage />} />
-    
+
     {/* <Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
-      <Route 
-        path="/services" 
-        element={<ServicesPage />} 
+      <Route
+        path="/services"
+        element={<ServicesPage />}
       />
     </Route>*/}
     <Route path="/services" element={<ServicesPage />}/>
