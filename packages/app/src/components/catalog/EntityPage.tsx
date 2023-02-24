@@ -354,12 +354,6 @@ const apiPage = (
         </Grid>
       </Grid>
     </EntityLayout.Route>
-    {plugins.map((item) => {
-      if(!!validateAnnotation(item.annotation)) 
-      return (<EntityLayout.Route path={item.path} title={item.title} key={item.title}>
-        {item.content}
-      </EntityLayout.Route>)
-    })}
   </EntityLayout>
 );
 
