@@ -8,8 +8,6 @@ export class ApplicationMapper {
       creator: application.props.creator,
       name: application.props.name,
       active: application.props.active,
-      parternId: application.props.parternId,
-      servicesId: application.props.servicesId,
       externalId: application.props.externalId,
       createdAt: application.props.createdAt,
     };

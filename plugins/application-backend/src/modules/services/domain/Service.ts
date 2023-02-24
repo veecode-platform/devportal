@@ -4,7 +4,7 @@ export type ServiceProps = {
   name: string;
   description: string;
   redirectUrl: string;
-  partnersId?: string[];
+  service_partner?: string[];
   active: boolean;
   kongServiceName: string;
   kongServiceId: string;
@@ -18,7 +18,7 @@ export class Service extends Entity<ServiceProps> {
   name?: string;
   description?: string;
   redirectUrl?: string;
-  partnersId?: string[];
+  service_partner?: string[];
   active?: boolean;
   kongServiceName?: string;
   kongServiceId?: string;

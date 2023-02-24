@@ -32,12 +32,12 @@ export class PartnerServices {
     }
   }
 
-  public async removePartner(partnerId: string, options: RouterOptions) {
+  public async removePartner(partnersId: string, options: RouterOptions) {
     try {
       const partnerRepository = await PostgresPartnerRepository.create(
         await options.database.getClient(),
       );
-      const partner = await partnerRepository.getPartnerById(partnerId);
+      const partner = await partnerRepository.getPartnerById(partnersId);
 
       if (partner instanceof Object) {
         const applications: string[] = partner.applicationId as string[];
@@ -63,7 +63,7 @@ export class PartnerServices {
   }
 
   public async updatePartner(
-    partnerId: string,
+    partnersId: string,
     partnerDto: PartnerDto,
     options: RouterOptions,
   ) {
@@ -77,7 +77,7 @@ export class PartnerServices {
       const serviceRepository = await PostgresServiceRepository.create(
         await options.database.getClient(),
       );
-      const partner = await partnerRepository.getPartnerById(partnerId);
+      const partner = await partnerRepository.getPartnerById(partnersId);
 
       if (partner instanceof Object) {
         const listUsers = await KeycloakUserService.Instance.listUsers();
@@ -103,7 +103,7 @@ export class PartnerServices {
               let applicationDto = new ApplicationDto(
                 applicationObj.name as string,
                 applicationObj.creator as string,
-                applicationObj.parternId as string,
+                applicationObj.partnersId as string,
                 applicationObj.servicesId as string[],
                 (applicationObj.active = false),
               );

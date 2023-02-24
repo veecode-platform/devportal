@@ -5,12 +5,12 @@ export const serviceConcatGroup = (service: string): string => {
   return service + '-group';
 };
 
-export const appNameConcatParternId = (application: Application): string => {
-  return application.name + '-' + application.parternId;
+export const appNameConcatpartnersId = (application: Application): string => {
+  return application.name + '-' + application.partnersId;
 };
 
-export const appDtoNameConcatParternId = (
+export const appDtoNameConcatpartnersId = (
   applicationDto: ApplicationDto,
 ): string => {
-  return applicationDto.name + '-' + applicationDto.parternId;
+  return applicationDto.name + '-' + applicationDto.partnersId;
 };
