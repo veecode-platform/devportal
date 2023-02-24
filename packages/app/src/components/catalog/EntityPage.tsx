@@ -1,23 +1,14 @@
 /* eslint-disable no-console */
-
 import React from 'react';
 import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
-  // EntityConsumedApisCard,
-  // EntityConsumingComponentsCard,
   EntityHasApisCard,
-  // EntityProvidedApisCard,
-  // EntityProvidingComponentsCard,
 } from '@backstage/plugin-api-docs';
 import {
-  // EntityDependsOnComponentsCard,
-  // EntityDependsOnResourcesCard,
   EntityHasComponentsCard,
   EntityHasResourcesCard,
-  // EntityHasSubcomponentsCard,
   EntityHasSystemsCard,
-  // EntityLayout,
   EntityLinksCard,
   EntitySwitch,
   EntityOrphanWarning,
@@ -27,10 +18,9 @@ import {
   hasCatalogProcessingErrors,
   isOrphan,
 } from '@backstage/plugin-catalog';
-
 // custom
 import { AboutCard as EntityAboutCard } from "../catalog/AboutCard";
-
+import {EntityContextProvider} from "../../context/EntityContext"
 import {
   isGithubActionsAvailable,
   EntityRecentGithubActionsRunsCard,
@@ -65,19 +55,16 @@ import {
 } from '@roadiehq/backstage-plugin-argo-cd';
 // github actions
 import {
-  // EntityGithubInsightsContent,
   EntityGithubInsightsLanguagesCard,
   EntityGithubInsightsReadmeCard,
-  EntityGithubInsightsReleasesCard,
   isGithubInsightsAvailable,
 } from '@roadiehq/backstage-plugin-github-insights';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue, TextSize } from '@backstage/plugin-techdocs-module-addons-contrib';
 // gitpull request
 import {
-  EntityGithubPullRequestsContent
+  HomePageRequestedReviewsCard,HomePageYourOpenPullRequestsCard, EntityGithubPullRequestsOverviewCard,EntityGithubPullRequestsTable
 } from '@roadiehq/backstage-plugin-github-pull-requests';
-
 import { EntityVaultCard } from '@backstage/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
@@ -85,10 +72,9 @@ import VaultEntity from './Vault/VaultEntity';
 import GrafanaEntity from './Grafana/GrafanaEntity';
 import { EntityLayout } from './entityLayout';
 import { validateAnnotation } from './utils/validateAnnotation';
+import { PluginItem } from './utils/types';
 
 const cicdContent = (
-  // This is an example of how you can implement your company's logic in entity page.
-  // You can for example enforce that all components of type 'service' should use GitHubActions
   <EntitySwitch>
     <EntitySwitch.Case if={isGithubActionsAvailable}>
       <EntityGithubActionsContent />
@@ -116,7 +102,7 @@ const cicdContent = (
 const cicdCard = (
   <EntitySwitch>
     <EntitySwitch.Case if={isGithubActionsAvailable}>
-      <Grid item sm={6}>
+      <Grid item md={6} xs={12}>
         <EntityRecentGithubActionsRunsCard limit={4} variant="gridItem" />
       </Grid>
     </EntitySwitch.Case>
@@ -170,31 +156,96 @@ const techdocsContent = (
 const pullRequestsContent = (
   <EntitySwitch>
     <EntitySwitch.Case>
-      <EntityGithubPullRequestsContent />
+      <EntityGithubPullRequestsTable/>
+      <HomePageYourOpenPullRequestsCard/>
+      <HomePageRequestedReviewsCard/>
+      <EntityGithubPullRequestsOverviewCard/>
     </EntitySwitch.Case>
   </EntitySwitch>
 );
 
+const vaultContent = (
+  <Grid item>
+  <EntityVaultCard />
+</Grid>
+);
+
+const grafanaContent = (
+  <Grid item >
+  <EntityGrafanaDashboardsCard />
+</Grid>
+);
+
+const grafanaAlertsContent = (
+  <Grid item  >
+  <EntityGrafanaAlertsCard />
+</Grid>
+)
+
+const kubernetesContent = (
+  <EntityKubernetesContent refreshIntervalMs={30000} />
+)
+
+// plugins
+
+const plugins = [
+  {
+    path:"/vault",
+    annotation: "vault.io/secrets-path",
+    title: "Vault",
+    content: vaultContent
+  },
+  {
+    path:"/grafana",
+    annotation: "grafana/alert-label-selector",
+    title: "Grafana",
+    content: grafanaContent
+  },
+  {
+    path:"/grafana-alerts",
+    annotation: "grafana/alert-label-selector",
+    title: "Grafana Alerts",
+    content: grafanaAlertsContent
+  },
+  {
+    path:"/argo-cd",
+    annotation: "argocd/app-name",
+    title: "ArgoCD",
+    content: argoCdContent
+  },
+  {
+    path:"/kubernetes",
+    annotation: "backstage.io/kubernetes-id",
+    title: "Kubernetes",
+    content: kubernetesContent
+  },
+  {
+    path:"/docs",
+    annotation: "backstage.io/techdocs-ref",
+    title: "Docs",
+    content: techdocsContent
+  }
+]
+
+
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
-    <Grid item md={6}>
+    <Grid item md={8} xs={12}>
       <EntityAboutCard variant="gridItem" />
     </Grid>
-    <Grid item md={6} xs={12}>
+    <Grid item md={4} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
-
     {cicdCard}
-
     <EntitySwitch>
       <EntitySwitch.Case if={isGithubInsightsAvailable}>
-        <Grid item md={6}>
-          <EntityGithubInsightsLanguagesCard />
-          <EntityGithubInsightsReleasesCard />
+        <Grid item md={6} xs={12} >
+          <EntityGithubInsightsLanguagesCard/>
+          {/* <EntityGithubInsightsReleasesCard /> */}
         </Grid>
-        <Grid item md={6}>
-          <EntityGithubInsightsReadmeCard maxHeight={350} />
+        <Grid item  md={6} xs={12}>
+          <EntityGithubInsightsReadmeCard maxHeight={350}/>
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
@@ -202,9 +253,16 @@ const overviewContent = (
     <Grid item md={6} xs={12}>
       <EntityLinksCard />
     </Grid>
-    {validateAnnotation('vault.io/secrets-path') && <VaultEntity />}
-    {validateAnnotation('grafana/alert-label-selector') && <GrafanaEntity />}
-
+    {validateAnnotation('vault.io/secrets-path') && (
+      <Grid item md={6} xs={12}>
+        <VaultEntity />
+      </Grid>
+        )}
+    {validateAnnotation('grafana/alert-label-selector') && (
+      <Grid item md={6} xs={12}>
+        <GrafanaEntity />
+      </Grid>
+    )}
   </Grid>
 );
 
@@ -222,43 +280,15 @@ const serviceEntityPage = (
       {pullRequestsContent}
     </EntityLayout.Route>
 
-    {validateAnnotation('vault.io/secrets-path') &&
-      <EntityLayout.Route path="/vault" title="Vault" >
-        <Grid item md={12} xs={12}>
-          <EntityVaultCard />
-        </Grid>
+    {plugins.map((item : PluginItem) => {
+      if(!!validateAnnotation(item.annotation)) 
+      return (
+      <EntityLayout.Route path={item.path} title={item.title} key={item.title}>
+        {item.content}
       </EntityLayout.Route>
-    }
-    {validateAnnotation('grafana/alert-label-selector') &&
-      <EntityLayout.Route path="/grafana" title="Grafana">
-        <Grid item md={6} xs={12}>
-          <EntityGrafanaDashboardsCard />
-        </Grid>
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('grafana/alert-label-selector') &&
-      <EntityLayout.Route path="/grafana-alerts" title="Grafana alerts">
-        <Grid item md={6} xs={12}>
-          <EntityGrafanaAlertsCard />
-        </Grid>
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('argocd/app-name') &&
-      <EntityLayout.Route path="/argo-cd" title="ArgoCD">
-        {argoCdContent}
-      </EntityLayout.Route>
-    }
+      )
+    })}
 
-    {validateAnnotation('backstage.io/kubernetes-id') &&
-      <EntityLayout.Route path="/kubernetes" title="Kubernetes">
-        <EntityKubernetesContent refreshIntervalMs={30000} />
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('backstage.io/techdocs-ref') &&
-      <EntityLayout.Route path="/docs" title="Docs">
-        {techdocsContent}
-      </EntityLayout.Route>
-    }
   </EntityLayout>
 );
 
@@ -276,43 +306,13 @@ const websiteEntityPage = (
       {pullRequestsContent}
     </EntityLayout.Route>
 
-    {!!validateAnnotation('vault.io/secrets-path') &&
-      <EntityLayout.Route path="/vault" title="Vault" >
-        <Grid item md={12} xs={12}>
-          <EntityVaultCard />
-          <VaultEntity />
-        </Grid>
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('grafana/alert-label-selector') &&
-      <EntityLayout.Route path="/grafana" title="Grafana">
-        <Grid item md={6} xs={12}>
-          <EntityGrafanaDashboardsCard />
-        </Grid>
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('grafana/alert-label-selector') &&
-      <EntityLayout.Route path="/grafana-alerts" title="Grafana alerts">
-        <Grid item md={6} xs={12}>
-          <EntityGrafanaAlertsCard />
-        </Grid>
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('argocd/app-name') &&
-      <EntityLayout.Route path="/argo-cd" title="ArgoCD">
-        {argoCdContent}
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('backstage.io/kubernetes-id') &&
-      <EntityLayout.Route path="/kubernetes" title="Kubernetes">
-        <EntityKubernetesContent refreshIntervalMs={30000} />
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('backstage.io/techdocs-ref') &&
-      <EntityLayout.Route path="/docs" title="Docs">
-        <EntityTechdocsContent />
-      </EntityLayout.Route>
-    }
+    {plugins.map((item: PluginItem) => {
+      if(!!validateAnnotation(item.annotation)) 
+      return (<EntityLayout.Route path={item.path} title={item.title} key={item.title}>
+        {item.content}
+      </EntityLayout.Route>)
+    })}
+
   </EntityLayout>
 );
 
@@ -322,7 +322,7 @@ const defaultEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
-
+    
     {validateAnnotation('backstage.io/techdocs-ref') &&
       <EntityLayout.Route path="/docs" title="Docs">
         {techdocsContent}
@@ -354,33 +354,12 @@ const apiPage = (
         </Grid>
       </Grid>
     </EntityLayout.Route>
-    {!!validateAnnotation('vault.io/secrets-path') &&
-      <EntityLayout.Route path="/vault" title="Vault" >
-        <Grid item md={12} xs={12}>
-          <EntityVaultCard />
-          <VaultEntity />
-        </Grid>
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('grafana/alert-label-selector') &&
-      <EntityLayout.Route path="/grafana" title="Grafana">
-        <Grid item lg={12}>
-          <EntityGrafanaDashboardsCard />
-        </Grid>
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('grafana/alert-label-selector') &&
-      <EntityLayout.Route path="/grafana-alerts" title="Grafana alerts">
-        <Grid item lg={12}>
-          <EntityGrafanaAlertsCard />
-        </Grid>
-      </EntityLayout.Route>
-    }
-    {validateAnnotation('backstage.io/kubernetes-id') &&
-      <EntityLayout.Route path="/kubernetes" title="Kubernetes">
-        <EntityKubernetesContent refreshIntervalMs={30000} />
-      </EntityLayout.Route>
-    }
+    {plugins.map((item) => {
+      if(!!validateAnnotation(item.annotation)) 
+      return (<EntityLayout.Route path={item.path} title={item.title} key={item.title}>
+        {item.content}
+      </EntityLayout.Route>)
+    })}
   </EntityLayout>
 );
 
@@ -483,7 +462,8 @@ const domainPage = (
 );
 
 export const entityPage = (
-  <EntitySwitch>
+<EntityContextProvider>
+<EntitySwitch>
     <EntitySwitch.Case if={isKind('component')} children={componentPage} />
     <EntitySwitch.Case if={isKind('api')} children={apiPage} />
     <EntitySwitch.Case if={isKind('group')} children={groupPage} />
@@ -493,4 +473,5 @@ export const entityPage = (
 
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
+</EntityContextProvider>
 );

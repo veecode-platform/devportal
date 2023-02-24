@@ -15,6 +15,8 @@ import {
   ListItemText,
   Tooltip,
   Typography,
+  Chip,
+  makeStyles,
 } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import React, { useState } from 'react';
@@ -26,6 +28,20 @@ import useAsync from 'react-use/lib/useAsync';
  * @public
  */
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    '& > *': {
+      margin: theme.spacing(0.5),
+    },
+  },
+  chip:{
+    marginLeft:'20px',
+    minWidth:'70px' }
+}));
+
 export const Content = (props: {
   noStarredEntitiesMessage?: React.ReactNode | undefined;
 }) => {
@@ -33,6 +49,7 @@ export const Content = (props: {
   const catalogEntityRoute = useRouteRef(entityRouteRef);
   const { starredEntities, toggleStarredEntity } = useStarredEntities();
   const [loading, setLoading] = useState(false);
+  const classes = useStyles();
 
   // Grab starred entities from catalog to ensure they still exist and also retrieve display titles
   const entities = useAsync(async () => {
@@ -92,8 +109,12 @@ export const Content = (props: {
                 >
               <ListItemText
                 primary={entity.metadata.title ?? entity.metadata.name}
-              />
+              />    
             </Link>
+            <Chip  
+              label={entity.kind}
+              className={classes.chip}
+              />
             <ListItemSecondaryAction>
               <Tooltip title="Remove from starred">
                 <IconButton

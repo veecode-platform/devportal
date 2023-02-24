@@ -3,6 +3,7 @@ import {
     Entity,
     DEFAULT_NAMESPACE,
     RELATION_OWNED_BY,
+    stringifyEntityRef,
   } from '@backstage/catalog-model';
   import {
     Content,
@@ -17,10 +18,12 @@ import {
   import {
     attachComponentData,
     IconComponent,
+    useApi,
     useElementFilter,
     useRouteRefParams,
   } from '@backstage/core-plugin-api';
   import {
+    catalogApiRef,
     EntityRefLinks,
     entityRouteRef,
     FavoriteEntity,
@@ -31,8 +34,9 @@ import {
   } from '@backstage/plugin-catalog-react';
   import { Box, TabProps } from '@material-ui/core';
   import { Alert } from '@material-ui/lab';
-  import React, { useEffect, useState } from 'react';
+  import React, { useCallback, useContext, useEffect, useState } from 'react';
   import { useLocation, useNavigate } from 'react-router-dom';
+import EntityContext from '../../../context/EntityContext';
   import { EntityContextMenu } from '../entityContextMenu';
   
   /** @public */
@@ -55,10 +59,7 @@ import {
     entity: Entity | undefined;
   }) {
     const { entity, title } = props;
-    // eslint-disable-next-line no-console
-    // console.log("CARALEO",entity?.metadata.annotations)
-    localStorage.setItem('annotations', JSON.stringify(entity?.metadata.annotations))
-    
+
     return (
       <Box display="inline-flex" alignItems="center" height="1em" maxWidth="100%">
         <Box
@@ -190,7 +191,6 @@ import {
             } else if (elementProps.if && !elementProps.if(entity)) {
               return [];
             }
-  
             return [
               {
                 path: elementProps.path,
@@ -218,7 +218,12 @@ import {
       setInspectionDialogOpen(false);
       navigate('/');
     };
-  
+    const {state,setState} = useContext(EntityContext);
+    // set State
+    setState(entity as Entity);
+    localStorage.setItem('annotations', JSON.stringify(state.metadata.annotations))
+    
+
     // Make sure to close the dialog if the user clicks links in it that navigate
     // to another entity.
     useEffect(() => {
