@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React from 'react';
+import React, { ReactChild } from 'react';
 import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
@@ -102,7 +102,7 @@ const cicdContent = (
 const cicdCard = (
   <EntitySwitch>
     <EntitySwitch.Case if={isGithubActionsAvailable}>
-      <Grid item md={6} xs={12}>
+      <Grid item lg={8} md={12}>
         <EntityRecentGithubActionsRunsCard limit={4} variant="gridItem" />
       </Grid>
     </EntitySwitch.Case>
@@ -231,28 +231,27 @@ const plugins = [
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
-    <Grid item md={8} xs={12}>
+    <Grid item lg={8} md={12}>
       <EntityAboutCard variant="gridItem" />
     </Grid>
-    <Grid item md={4} xs={12}>
+    <Grid item lg={4} md={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
     {cicdCard}
+    <Grid item lg={4} md={12}>
+      <EntityLinksCard />
+    </Grid>
     <EntitySwitch>
       <EntitySwitch.Case if={isGithubInsightsAvailable}>
-        <Grid item md={6} xs={12} >
+        <Grid item lg={6} md={12}>
+          <EntityGithubInsightsReadmeCard maxHeight={350}/>
+        </Grid>
+        <Grid item lg={6} md={12} >
           <EntityGithubInsightsLanguagesCard/>
           {/* <EntityGithubInsightsReleasesCard /> */}
         </Grid>
-        <Grid item  md={6} xs={12}>
-          <EntityGithubInsightsReadmeCard maxHeight={350}/>
-        </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-
-    <Grid item md={6} xs={12}>
-      <EntityLinksCard />
-    </Grid>
     {validateAnnotation('vault.io/secrets-path') && (
       <Grid item md={6} xs={12}>
         <VaultEntity />
@@ -306,9 +305,10 @@ const websiteEntityPage = (
       {pullRequestsContent}
     </EntityLayout.Route>
 
-    {plugins.map((item: PluginItem) => {
+    {plugins.map((item: PluginItem)  => {
       if(!!validateAnnotation(item.annotation)) 
-      return (<EntityLayout.Route path={item.path} title={item.title} key={item.title}>
+      return (
+      <EntityLayout.Route path={item.path} title={item.title} key={item.title}>
         {item.content}
       </EntityLayout.Route>)
     })}
