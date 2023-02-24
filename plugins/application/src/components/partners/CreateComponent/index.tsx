@@ -54,7 +54,7 @@ export const CreateComponent = () => {
 
   const handleSubmit = async () => {
     const dataPartner = {
-      partners: {
+      partner: {
         name: partner.name,
         active: partner.active,
         email: partner.email,

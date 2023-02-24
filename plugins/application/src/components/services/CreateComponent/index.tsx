@@ -54,7 +54,7 @@ export const CreateComponent = () => {
 
   const handleSubmit = async () => {
     const servicePost = {
-      services: {
+      service: {
         name: service.name,
         kongServiceName:service.kongServiceName,
         active: service.active,
@@ -62,8 +62,7 @@ export const CreateComponent = () => {
         redirectUrl: service.redirectUrl,
         kongServiceId: service.kongServiceId,
         rateLimiting: service.rateLimiting,
-        securityType: service.securityType,
-        partnersId: []
+        securityType: service.securityType
       },
     };
     const response = await AxiosInstance.post("/services", JSON.stringify(servicePost) )

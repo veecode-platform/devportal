@@ -82,7 +82,7 @@ export const NewApplicationComponent = () => {
     name: '',
     creator: "",
     active: true,
-    servicesId: [],
+    servicesId: "",
     // kongConsumerName: '',
     // kongConsumerId: '',
   });
@@ -107,7 +107,7 @@ export const NewApplicationComponent = () => {
       name: '',
       creator: '',
       active: true,
-      servicesId: [],
+      servicesId: '',
       // kongConsumerName: '',
       // kongConsumerId: '',
     });
@@ -115,7 +115,7 @@ export const NewApplicationComponent = () => {
 
   const handleSubmit = async () => {          // CHECK  <--- tem que por o Id do partner
     const applicationData = {
-      applications: {
+      application: {
         name: application.name,
         creator: application.creator,
         active: application.active,
