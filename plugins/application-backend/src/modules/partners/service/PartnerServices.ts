@@ -102,9 +102,7 @@ export class PartnerServices {
             if (applicationObj instanceof Object) {
               let applicationDto = new ApplicationDto(
                 applicationObj.name as string,
-                applicationObj.creator as string,
-                applicationObj.partnersId as string,
-                applicationObj.servicesId as string[],
+                applicationObj.creator as string,  
                 (applicationObj.active = false),
               );
               await applicationRepository.patchApplication(
@@ -127,7 +125,6 @@ export class PartnerServices {
                 serviceObj.kongServiceName as string,
                 serviceObj.kongServiceId as string,
                 (serviceObj.active = false),
-                serviceObj.partnersId as string[],
               );
               await serviceRepository.patchService(service, serviceDto);
             }

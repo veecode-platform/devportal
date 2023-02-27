@@ -121,7 +121,7 @@ export const DetailsComponent = () => {
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
     const {data} = await AxiosInstance.get(`/services/${id}`)
-    return data.services;                             
+    return data.service;                             
   }, []);
 
   if (loading) {
