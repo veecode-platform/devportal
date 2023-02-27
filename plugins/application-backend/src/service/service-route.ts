@@ -34,12 +34,12 @@ export async function createServiceRouter(
   serviceRouter.get('/:id', async (request, response) => {
     const code = request.params.id;
     const service = await serviceRepository.getServiceById(code);
-    response.status(200).json({ status: 'ok', services: service });
+    response.status(200).json({ status: 'ok', service: service });
   });
 
   serviceRouter.post('/', async (request, response) => {
     try {
-      const service: ServiceDto = request.body.services;
+      const service: ServiceDto = request.body.service;
       controllPlugin.applySecurityType(service);
       const result = await serviceRepository.createService(service);
       response.status(201).json({ status: 'ok', service: result });
@@ -64,7 +64,7 @@ export async function createServiceRouter(
 
   serviceRouter.patch('/:id', async (request, response) => {
     try {
-      const service: ServiceDto = request.body.services;
+      const service: ServiceDto = request.body.service;
       const id = request.params.id
       const result = await serviceRepository.patchService(id, service);
       response.status(201).json({ status: 'ok', service: result });
@@ -88,7 +88,7 @@ export async function createServiceRouter(
   });
   serviceRouter.put('/:id', async (request, response) => {
     try {
-      const service: ServiceDto = request.body.services;
+      const service: ServiceDto = request.body.service;
       const id = request.params.id
       const result = await serviceRepository.updateService(id, service);
       response.status(201).json({ status: 'ok', service: result });

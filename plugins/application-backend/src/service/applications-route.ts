@@ -53,7 +53,7 @@ export async function createApplicationRouter(
   });
 
   router.post('/', async (request, response) => {
-    const data = request.body.applications;
+    const data = request.body.application;
     await ApplicationServices.Instance.createApplication(data, options);
     try {
       const result = await applicationRepository.createApplication(data);
@@ -78,7 +78,7 @@ export async function createApplicationRouter(
   });
 
   router.post('/save', async (request, response) => {
-    const data: ApplicationDto = request.body.applications;
+    const data: ApplicationDto = request.body.application;
     try {
       const result = await applicationRepository.createApplication(data);
       response.send({ status: data, result: result });
@@ -102,7 +102,7 @@ export async function createApplicationRouter(
   });
 
   router.patch('/:id', async (request, response) => {
-    const data: ApplicationDto = request.body.applications;
+    const data: ApplicationDto = request.body.application;
     const applicationId = request.params.id
     await ApplicationServices.Instance.updateApplication(applicationId, data, options);
     try {
@@ -128,7 +128,7 @@ export async function createApplicationRouter(
   });
 
   router.put('/:id', async (request, response) => {
-    const data: ApplicationDto = request.body.applications;
+    const data: ApplicationDto = request.body.application;
     const code = request.params.id
     try {
       const result = await applicationRepository.updateApplication(code, data);

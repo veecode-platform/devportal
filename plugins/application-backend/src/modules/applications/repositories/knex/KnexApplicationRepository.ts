@@ -38,6 +38,8 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     return application;
   }
 
+  // need to refact
+  
   async associate(id: string, servicesId: string[]) {
     const application: Application = await this.getApplicationById(id) as Application;
     const arrayConsumerName = application.servicesId;
@@ -126,8 +128,6 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       creator: applicationDto.creator,
       name: appDtoNameConcatpartnersId(applicationDto),
       active: applicationDto.active,
-      partnersId: applicationDto.partnersId,
-      servicesId: applicationDto.servicesId,
       externalId: appDtoNameConcatpartnersId(applicationDto)
     });
     //const data = await ApplicationMapper.toPersistence(application);
@@ -150,8 +150,6 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       creator: applicationDto.creator,
       name: appDtoNameConcatpartnersId(applicationDto),
       active: applicationDto.active,
-      partnersId: applicationDto.partnersId,
-      servicesId: applicationDto.servicesId,
       externalId: appDtoNameConcatpartnersId(applicationDto)
     }); // try add ,id on application create
     //const data =await ApplicationMapper.toPersistence(application);
