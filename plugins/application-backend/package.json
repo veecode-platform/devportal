@@ -27,6 +27,7 @@
     "@backstage/backend-common": "^0.18.1",
     "@backstage/config": "^1.0.6",
     "@backstage/errors": "^1.1.4",
+    "@keycloak/keycloak-admin-client": "18.0.2",
     "@types/express": "*",
     "axios": "0.27.0",
     "class-validator": "^0.11.0",

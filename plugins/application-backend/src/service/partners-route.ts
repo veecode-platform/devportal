@@ -3,6 +3,9 @@ import { RouterOptions } from "./router";
 import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerReppository";
 import { PartnerDto } from "../modules/partners/dtos/PartnerDto";
 import { AxiosError } from "axios";
+import { TestGroups } from "../modules/keycloak/adminClient";
+import { KeycloakUserService } from "../modules/keycloak/service/UserService";
+import { UpdateUserDto, UserDto } from "../modules/keycloak/dtos/UserDto";
 
 /** @public */
 export async function createPartnersRouter(
@@ -12,6 +15,9 @@ export async function createPartnersRouter(
     await options.database.getClient(),
   );
   const router = Router();
+
+  const adminClientKeycloak = new TestGroups();
+  const userServiceKeycloak = new KeycloakUserService();
 
   router.get('/', async (request, response) => {
     const offset: number = request.query.offset as any;
@@ -39,6 +45,7 @@ export async function createPartnersRouter(
     try {
       const partner: PartnerDto = request.body.partners;
       const result = await partnerRepository.createPartner(partner);
+      // const keycloakRegister = await userServiceKeycloak.createUser()
       response.status(201).json({ status: 'ok', partner: result });
     } catch (error: any) {
       if (error instanceof Error) {

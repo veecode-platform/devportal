@@ -124,13 +124,13 @@ integrations:
   github:
     - host: github.com
       token: ${GITHUB_TOKEN_SECRET}
-  bitbucketCloud:
-    - username: ${BITBUCKET_CLOUD_USERNAME}
-      appPassword: ${BITBUCKET_CLOUD_TOKEN}
-  bitbucketServer:
-    - host: ${BITBUCKET_SERVER_HOST}
-      apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
-      token: ${BITBUCKET_SERVER_TOKEN}
+  #bitbucketCloud:
+  #  - username: ${BITBUCKET_CLOUD_USERNAME}
+  #    appPassword: ${BITBUCKET_CLOUD_TOKEN}
+  #bitbucketServer:
+  #  - host: ${BITBUCKET_SERVER_HOST}
+  #    apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
+  #    token: ${BITBUCKET_SERVER_TOKEN}
   #gitlab:
   #  - host: gitlab.com
   #    token: ${GITLAB_TOKEN_SECRET}
@@ -148,21 +148,21 @@ catalog:
           repository: devportal-spechouse # Regex
           validateLocationsExist: true
 
-    bitbucketCloud:
-      yourProviderId: # identifies your ingested dataset
-        catalogPath: /catalog-info.yaml # default value
-        filters: # optional
-        # projectKey: 'DEV' # optional; RegExp
-          repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
-        workspace: ${BITBUCKET_CLOUD_WORKSPACE}
-
-    bitbucketServer:
-      yourProviderId:
-        host: ${BITBUCKET_SERVER_HOST}
-        catalogPath: /catalog-info.yaml # default value
-        filters: # optional
-          projectKey: ${BITBUCKET_SERVER_PROJECT_KEY} # optional; RegExp
-          repoSlug: ${BITBUCKET_SERVER_REPOSLUG} # optional; RegExp  
+  #  bitbucketCloud:
+  #    yourProviderId: # identifies your ingested dataset
+  #      catalogPath: /catalog-info.yaml # default value
+  #      filters: # optional
+  #      # projectKey: 'DEV' # optional; RegExp
+  #        repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
+  #      workspace: ${BITBUCKET_CLOUD_WORKSPACE}
+#
+  #  bitbucketServer:
+  #    yourProviderId:
+  #      host: ${BITBUCKET_SERVER_HOST}
+  #      catalogPath: /catalog-info.yaml # default value
+  #      filters: # optional
+  #        projectKey: ${BITBUCKET_SERVER_PROJECT_KEY} # optional; RegExp
+  #        repoSlug: ${BITBUCKET_SERVER_REPOSLUG} # optional; RegExp  
 #    gitlab:
 #      yourProviderId:
 #        host: gitlab.com # Identifies one of the hosts set up in the integrations -  
