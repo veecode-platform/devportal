@@ -221,7 +221,7 @@ import EntityContext from '../../../context/EntityContext';
     const {state,setState} = useContext(EntityContext);
     // set State
     setState(entity as Entity);
-    localStorage.setItem('annotations', JSON.stringify(state.metadata.annotations))
+    localStorage.setItem('annotations', JSON.stringify(state.metadata.annotations ?? ''))
     
 
     // Make sure to close the dialog if the user clicks links in it that navigate

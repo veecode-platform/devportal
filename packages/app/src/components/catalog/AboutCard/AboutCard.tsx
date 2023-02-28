@@ -94,6 +94,7 @@ export function AboutCard(props: AboutCardProps) {
     icon: <ScmIntegrationIcon type={entitySourceLocation?.integrationType} />,
     href: entitySourceLocation?.locationTargetUrl,
   };
+  console.log(entity, "Consteleta de porco")
   const viewInTechDocs: IconLinkVerticalProps = {
     label: 'View TechDocs',
     disabled:
