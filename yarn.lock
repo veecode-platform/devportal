@@ -3648,6 +3648,23 @@
     lodash "^4.17.21"
     react-use "^17.2.4"
 
+"@backstage/plugin-home@^0.4.31":
+  version "0.4.31"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-home/-/plugin-home-0.4.31.tgz#40022ccf519cdef955876f91c3f3e38c8eb15aad"
+  integrity sha512-zRhK+cDDaSOmcGKKvxOLaVGfDv/HN5Q1GrX9J5/nM2xWJ4auwOGuTn73qGilDQUTN3aPl+XqIvWj+ZyGJx4QOg==
+  dependencies:
+    "@backstage/catalog-model" "^1.2.0"
+    "@backstage/config" "^1.0.6"
+    "@backstage/core-components" "^0.12.4"
+    "@backstage/core-plugin-api" "^1.4.0"
+    "@backstage/plugin-catalog-react" "^1.3.0"
+    "@backstage/theme" "^0.2.17"
+    "@material-ui/core" "^4.12.2"
+    "@material-ui/icons" "^4.9.1"
+    "@material-ui/lab" "4.0.0-alpha.57"
+    lodash "^4.17.21"
+    react-use "^17.2.4"
+
 "@backstage/plugin-kubernetes-backend@^0.9.3":
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-kubernetes-backend/-/plugin-kubernetes-backend-0.9.3.tgz#4a923a5d97ca328b3068d3f949fd1b42a8595e13"
@@ -6310,7 +6327,7 @@
     "@types/set-cookie-parser" "^2.4.0"
     set-cookie-parser "^2.4.6"
 
-"@mswjs/cookies@^0.2.0", "@mswjs/cookies@^0.2.2":
+"@mswjs/cookies@^0.2.2":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@mswjs/cookies/-/cookies-0.2.2.tgz#b4e207bf6989e5d5427539c2443380a33ebb922b"
   integrity sha512-mlN83YSrcFgk7Dm1Mys40DLssI1KdJji2CMKN8eOlBqsTADYzj2+jWzsANsUTFbxDMWPD5e9bfA1RGqBpS3O1g==
@@ -6328,18 +6345,6 @@
     debug "^4.3.2"
     headers-utils "^3.0.2"
     outvariant "^1.2.0"
-    strict-event-emitter "^0.2.0"
-
-"@mswjs/interceptors@^0.15.1":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@mswjs/interceptors/-/interceptors-0.15.3.tgz#bcd17b5d7558d4f598007a4bb383b42dc9264f8d"
-  integrity sha512-GJ1qzBq82EQ3bwhsvw5nScbrLzOSI5H/TyB2CGd1K7dDqX58DJDLJHexiN+S5Ucvl6/84FjRdIysz0RxE/L8MA==
-  dependencies:
-    "@open-draft/until" "^1.0.3"
-    "@xmldom/xmldom" "^0.7.5"
-    debug "^4.3.3"
-    headers-polyfill "^3.0.4"
-    outvariant "^1.2.1"
     strict-event-emitter "^0.2.0"
 
 "@mswjs/interceptors@^0.17.5":
@@ -7043,16 +7048,16 @@
     react-use "^17.2.4"
     zustand "3.6.9"
 
-"@roadiehq/backstage-plugin-github-pull-requests@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@roadiehq/backstage-plugin-github-pull-requests/-/backstage-plugin-github-pull-requests-2.5.0.tgz#1226e6ea4eaec3c2fdf1b9f25940fa095d66e009"
-  integrity sha512-fNbeEyur0Cz2ptYhEYY7aYtX6p2mv8skEV941741JUGGGgycccOJ0snDfxyaiaX+G0t6/GwhsIShkQFrrC4/mg==
+"@roadiehq/backstage-plugin-github-pull-requests@^2.5.4":
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/@roadiehq/backstage-plugin-github-pull-requests/-/backstage-plugin-github-pull-requests-2.5.4.tgz#865748e9d1008689855d76d8ed8ee7042ccdfa29"
+  integrity sha512-Ik8U/nmrDSBe3Fi1uPc9uFiDsM2Iok/xht2bYvwvJdqxrrd4CCw2ydg3OWCpsSnMIn0fjH1KGKImToBMudZqcA==
   dependencies:
-    "@backstage/catalog-model" "^1.1.5"
-    "@backstage/core-components" "^0.12.3"
-    "@backstage/core-plugin-api" "^1.3.0"
-    "@backstage/plugin-catalog-react" "^1.2.4"
-    "@backstage/plugin-home" "^0.4.30"
+    "@backstage/catalog-model" "^1.2.0"
+    "@backstage/core-components" "^0.12.4"
+    "@backstage/core-plugin-api" "^1.4.0"
+    "@backstage/plugin-catalog-react" "^1.3.0"
+    "@backstage/plugin-home" "^0.4.31"
     "@material-ui/core" "^4.11.0"
     "@material-ui/icons" "^4.9.1"
     "@material-ui/lab" "^4.0.0-alpha.60"
@@ -7062,7 +7067,7 @@
     history "^5.0.0"
     lodash "^4.17.21"
     moment "^2.27.0"
-    msw "^0.39.2"
+    msw "^1.0.1"
     node-fetch "^2.6.1"
     react-use "^17.2.4"
 
@@ -7970,10 +7975,15 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@>= 8", "@types/node@>=12.12.47", "@types/node@>=13.7.0", "@types/node@^18.11.18":
+"@types/node@*", "@types/node@>=12.12.47", "@types/node@>=13.7.0", "@types/node@^18.11.18":
   version "18.11.19"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.19.tgz#35e26df9ec441ab99d73e99e9aca82935eea216d"
   integrity sha512-YUgMWAQBWLObABqrvx8qKO1enAvBUdjZOAWQ5grBAkp5LQv45jBvYKZ3oFS9iKRCQyFjqw6iuEa1vmFqtxYLZw==
+
+"@types/node@>= 8":
+  version "18.14.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.14.2.tgz#c076ed1d7b6095078ad3cf21dfeea951842778b1"
+  integrity sha512-1uEQxww3DaghA0RxqHx0O0ppVlo43pJhepY51OxuQIKHpjbnYLA7vcdwioNPzIqmC2u3I/dmylcqjlh0e7AyUA==
 
 "@types/node@^10.12.0":
   version "10.17.60"
@@ -8579,7 +8589,7 @@
     "@webassemblyjs/ast" "1.11.1"
     "@xtuc/long" "4.2.2"
 
-"@xmldom/xmldom@^0.7.0", "@xmldom/xmldom@^0.7.2", "@xmldom/xmldom@^0.7.5", "@xmldom/xmldom@^0.7.6", "@xmldom/xmldom@^0.7.9":
+"@xmldom/xmldom@^0.7.0", "@xmldom/xmldom@^0.7.2", "@xmldom/xmldom@^0.7.6", "@xmldom/xmldom@^0.7.9":
   version "0.7.9"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.7.9.tgz#7f9278a50e737920e21b297b8a35286e9942c056"
   integrity sha512-yceMpm/xd4W2a85iqZyO09gTnHvXF6pyiWjD2jcOJs7hRoZtNNOO1eJlhHj1ixA+xip2hOyGn+LgcvLCMo5zXA==
@@ -8877,7 +8887,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@backstage/plugin-tech-radar" "^0.6.0"
     "@backstage/plugin-techdocs" "^1.4.3"
     "@backstage/plugin-techdocs-module-addons-contrib" "^1.0.9"
-    "@backstage/plugin-techdocs-react" "^1.1.2"
+    "@backstage/plugin-techdocs-react" "^1.1.3"
     "@backstage/plugin-user-settings" "^0.6.2"
     "@backstage/plugin-vault" "^0.1.8"
     "@backstage/theme" "^0.2.16"
@@ -8888,7 +8898,6 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@react-hookz/web" "^20.0.3"
     "@roadiehq/backstage-plugin-argo-cd" "^2.2.5"
     "@roadiehq/backstage-plugin-github-insights" "^2.3.3"
-    "@roadiehq/backstage-plugin-github-pull-requests" "^2.5.0"
     history "^5.0.0"
     lodash "^4.17.21"
     react "^17.0.2"
@@ -13447,7 +13456,7 @@ graphql-ws@^5.4.1:
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.11.3.tgz#eaf8e6baf669d167975cff13ad86abca4ecfe82f"
   integrity sha512-fU8zwSgAX2noXAsuFiCZ8BtXeXZOzXyK5u1LloCdacsVth4skdBMPO74EG51lBoWSIZ8beUocdpV8+cQHBODnQ==
 
-"graphql@^15.0.0 || ^16.0.0", graphql@^16.0.0, graphql@^16.3.0:
+"graphql@^15.0.0 || ^16.0.0", graphql@^16.0.0:
   version "16.6.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
   integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
@@ -13607,7 +13616,7 @@ he@^1.2.0:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-headers-polyfill@^3.0.4, headers-polyfill@^3.1.0:
+headers-polyfill@^3.1.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/headers-polyfill/-/headers-polyfill-3.1.2.tgz#9a4dcb545c5b95d9569592ef7ec0708aab763fbe"
   integrity sha512-tWCK4biJ6hcLqTviLXVR9DTRfYGQMXEIUj3gwJ2rZ5wO/at3XtkI4g8mCvFdUF9l1KMBNCfmNAdnahm1cgavQA==
@@ -17029,31 +17038,6 @@ msw@^0.35.0:
     type-fest "^1.2.2"
     yargs "^17.0.1"
 
-msw@^0.39.2:
-  version "0.39.2"
-  resolved "https://registry.yarnpkg.com/msw/-/msw-0.39.2.tgz#832e9274db62c43cb79854d5a69dce031c700de8"
-  integrity sha512-ju/HpqQpE4/qCxZ23t5Gaau0KREn4QuFzdG28nP1EpidMrymMJuIvNd32+2uGTGG031PMwrC41YW7vCxHOwyHA==
-  dependencies:
-    "@mswjs/cookies" "^0.2.0"
-    "@mswjs/interceptors" "^0.15.1"
-    "@open-draft/until" "^1.0.3"
-    "@types/cookie" "^0.4.1"
-    "@types/js-levenshtein" "^1.1.1"
-    chalk "4.1.1"
-    chokidar "^3.4.2"
-    cookie "^0.4.2"
-    graphql "^16.3.0"
-    headers-polyfill "^3.0.4"
-    inquirer "^8.2.0"
-    is-node-process "^1.0.1"
-    js-levenshtein "^1.1.6"
-    node-fetch "^2.6.7"
-    path-to-regexp "^6.2.0"
-    statuses "^2.0.0"
-    strict-event-emitter "^0.2.0"
-    type-fest "^1.2.2"
-    yargs "^17.3.1"
-
 msw@^0.47.0:
   version "0.47.4"
   resolved "https://registry.yarnpkg.com/msw/-/msw-0.47.4.tgz#5551011609890c6b62a2047055f475a9afae2ad4"
@@ -17084,6 +17068,31 @@ msw@^0.49.0:
   version "0.49.3"
   resolved "https://registry.yarnpkg.com/msw/-/msw-0.49.3.tgz#c4ca29eddda3e82ad9e36918dda4a7428eddd7fe"
   integrity sha512-kRCbDNbNnRq5LC1H/NUceZlrPAvSrMH6Or0mirIuH69NY84xwDruPn/hkXTovIK1KwDwbk+ZdoSyJlpiekLxEA==
+  dependencies:
+    "@mswjs/cookies" "^0.2.2"
+    "@mswjs/interceptors" "^0.17.5"
+    "@open-draft/until" "^1.0.3"
+    "@types/cookie" "^0.4.1"
+    "@types/js-levenshtein" "^1.1.1"
+    chalk "4.1.1"
+    chokidar "^3.4.2"
+    cookie "^0.4.2"
+    graphql "^15.0.0 || ^16.0.0"
+    headers-polyfill "^3.1.0"
+    inquirer "^8.2.0"
+    is-node-process "^1.0.1"
+    js-levenshtein "^1.1.6"
+    node-fetch "^2.6.7"
+    outvariant "^1.3.0"
+    path-to-regexp "^6.2.0"
+    strict-event-emitter "^0.4.3"
+    type-fest "^2.19.0"
+    yargs "^17.3.1"
+
+msw@^1.0.1:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/msw/-/msw-1.1.0.tgz#f88806b7ce4cade89b5bf629fa98c17218a4f036"
+  integrity sha512-oqMvUXm1bMbwvGpoXAQVz8vXXQyQyx52HBDg3EDOK+dFXkQHssgkXEG4LfMwwZyr2Qt18I/w04XPaY4BkFTkzA==
   dependencies:
     "@mswjs/cookies" "^0.2.2"
     "@mswjs/interceptors" "^0.17.5"

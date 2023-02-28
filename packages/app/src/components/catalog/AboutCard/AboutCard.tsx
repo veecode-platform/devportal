@@ -97,16 +97,15 @@ export function AboutCard(props: AboutCardProps) {
   const viewInTechDocs: IconLinkVerticalProps = {
     label: 'View TechDocs',
     disabled:
-      !entity.metadata.annotations?.['backstage.io/techdocs-ref'] ||
-      !viewTechdocLink,
+      !entity.metadata.annotations?.hasOwnProperty('backstage.io/techdocs-ref'),
     icon: <DocsIcon />,
-    href:
-      viewTechdocLink &&
-      viewTechdocLink({
-        namespace: entity.metadata.namespace || DEFAULT_NAMESPACE,
-        kind: entity.kind,
-        name: entity.metadata.name,
-      }),
+    href: `/catalog/${entity.metadata.namespace ?? DEFAULT_NAMESPACE }/${entity.kind}/${entity.metadata.name}/docs`
+      // viewTechdocLink &&
+      // viewTechdocLink({
+      //   namespace: entity.metadata.namespace || DEFAULT_NAMESPACE,
+      //   kind: entity.kind,
+      //   name: entity.metadata.name,
+      // }),
   };
 
   let cardClass = '';
@@ -158,7 +157,7 @@ export function AboutCard(props: AboutCardProps) {
             </IconButton>
           </>
         }
-        subheader={<HeaderIconLinkRow links={[viewInSource, viewInTechDocs]} />}
+        subheader={<HeaderIconLinkRow links={[viewInSource, viewInTechDocs]} />} // to do
       />
       <Divider />
       <CardContent className={cardContentClass}>
