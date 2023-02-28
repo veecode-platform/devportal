@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { ReactChild } from 'react';
+import React from 'react';
 import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
@@ -39,7 +39,6 @@ import {
   EntityCatalogGraphCard,
 } from '@backstage/plugin-catalog-graph';
 import {
-  Entity,
   RELATION_API_CONSUMED_BY,
   RELATION_API_PROVIDED_BY,
   RELATION_CONSUMES_API,
@@ -64,7 +63,7 @@ import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue, TextSize } from '@backstage/plugin-techdocs-module-addons-contrib';
 // gitpull request
 import {
-  HomePageRequestedReviewsCard,HomePageYourOpenPullRequestsCard, EntityGithubPullRequestsOverviewCard,EntityGithubPullRequestsTable
+  EntityGithubPullRequestsTable
 } from '@roadiehq/backstage-plugin-github-pull-requests';
 import { EntityVaultCard } from '@backstage/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
@@ -157,10 +156,10 @@ const techdocsContent = (
 const pullRequestsContent = (
   <EntitySwitch>
     <EntitySwitch.Case>
-      {/* <EntityGithubPullRequestsTable/> */}
-      <HomePageYourOpenPullRequestsCard/>
+      <EntityGithubPullRequestsTable/>
+      {/* <HomePageYourOpenPullRequestsCard/> */}
       {/* <HomePageRequestedReviewsCard/> */}
-      <EntityGithubPullRequestsOverviewCard/>
+      {/* <EntityGithubPullRequestsOverviewCard/> */}
     </EntitySwitch.Case>
   </EntitySwitch>
 );
