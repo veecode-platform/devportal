@@ -77,7 +77,7 @@ import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
-    const Guest = config.getBoolean("enabledGuest.enabled");
+  const Guest = config.getBoolean("enabledGuest.enabled");
     if(Guest)
     {
       props.onSignInSuccess(UserIdentity.fromLegacy({
