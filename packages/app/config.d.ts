@@ -38,7 +38,17 @@ export interface Config {
          * @visibility frontend
          */
         grafana: boolean
-    
+
     };
+    /**
+     * 
+     * @visibility frontend
+     */
+    enabledGuest: {
+        /**
+         * 
+         * @visibility frontend
+         */
+        enabled: boolean
+    }
   }
-  

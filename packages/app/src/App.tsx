@@ -47,10 +47,11 @@ import { Root } from './components/Root';
 import {
   AlertDisplay,
   OAuthRequestDialog,
+  UserIdentity,
   // SignInPage,
 } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
-import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
+import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api';
 
 // custom
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
@@ -72,13 +73,37 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 // custom siginpage
 import { SignInPage } from './components/signInPage/SignInPage';
 import '../src/components/theme/theme.css';
+import { configApiRef, useApi } from '@backstage/core-plugin-api';
+
+// const SignIn = (props:React.PropsWithChildren<SignInPageProps>) => {
+//   const config = useApi(configApiRef)
+//   const Guest = config.getBoolean("enabledGuest.enabled");
+//  return(
+//   <SignInPage {...props} providers={Guest ? ['guest'] : [providers[1]]} />
+//  )
+// }
+
+const SignInComponent: any = (props: SignInPageProps) => {
+  const config = useApi(configApiRef);
+    const Guest = config.getBoolean("enabledGuest.enabled");
+    if(Guest)
+    {
+      props.onSignInSuccess(UserIdentity.fromLegacy({
+        userId: 'guest',
+        profile: {
+          email: 'gust@example.com',
+          displayName: 'Guest',
+          picture: '',
+        },
+      }));
+    }
+    return <SignInPage {...props} providers={[providers[1]]} />
+};
 
 const app = createApp({
   apis,
   components: {
-    SignInPage: props => {
-      return <SignInPage {...props} providers={[providers[1]]} />;
-    },
+    SignInPage: SignInComponent
   },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {

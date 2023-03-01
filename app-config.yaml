@@ -119,7 +119,6 @@ argocd:
         - name: argoInstance1
           url: ${ARGOCD_URL}
           token: ${ARGOCD_AUTH_TOKEN}
-
 integrations:
   github:
     - host: github.com
@@ -210,6 +209,9 @@ enabledPlugins:
   grafana: true
   kubernetes: true
   argocd: true
+
+enabledGuest:
+  enabled: false
   
 vault:
   baseUrl: ${VAULT_BASE_URL}

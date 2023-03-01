@@ -198,7 +198,6 @@ import BackstageLogo from "../../assets/backstage.png";
   export function SignInPage(props: Props) {
     if ('provider' in props) {
       return <SingleSignInPage {...props} />;
-    }
-  
+    } 
     return <MultiSignInPage {...props} />;
   }
