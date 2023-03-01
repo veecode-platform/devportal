@@ -102,7 +102,7 @@ const cicdContent = (
 const cicdCard = (
   <EntitySwitch>
     <EntitySwitch.Case if={isGithubActionsAvailable}>
-      <Grid item lg={8} md={12}>
+      <Grid item lg={8} md={12} xs={12}>
         <EntityRecentGithubActionsRunsCard limit={4} variant="gridItem" />
       </Grid>
     </EntitySwitch.Case>
@@ -231,34 +231,34 @@ const plugins = [
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
-    <Grid item lg={8} md={12}>
+    <Grid item lg={8} md={12} xs={12}>
       <EntityAboutCard variant="gridItem" />
     </Grid>
-    <Grid item lg={4} md={12}>
+    <Grid item lg={4} md={12} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
     {cicdCard}
-    <Grid item lg={4} md={12}>
+    <Grid item lg={4} md={12} xs={12}>
       <EntityLinksCard />
     </Grid>
     <EntitySwitch>
       <EntitySwitch.Case if={isGithubInsightsAvailable}>
-        <Grid item lg={6} md={12}>
+        <Grid item lg={6} md={12} xs={12}>
           <EntityGithubInsightsReadmeCard maxHeight={350}/>
         </Grid>
-        <Grid item lg={6} md={12} >
+        <Grid item lg={6} md={12} xs={12}>
           <EntityGithubInsightsLanguagesCard/>
           {/* <EntityGithubInsightsReleasesCard /> */}
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
     {validateAnnotation('vault.io/secrets-path') && (
-      <Grid item md={6} xs={12}>
+      <Grid item lg={6} md={12} xs={12} >
         <VaultEntity />
       </Grid>
         )}
     {validateAnnotation('grafana/alert-label-selector') && (
-      <Grid item md={6} xs={12}>
+      <Grid item lg={6} md={12} xs={12}>
         <GrafanaEntity />
       </Grid>
     )}
