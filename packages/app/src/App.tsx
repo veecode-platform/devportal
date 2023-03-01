@@ -75,14 +75,6 @@ import { SignInPage } from './components/signInPage/SignInPage';
 import '../src/components/theme/theme.css';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
-// const SignIn = (props:React.PropsWithChildren<SignInPageProps>) => {
-//   const config = useApi(configApiRef)
-//   const Guest = config.getBoolean("enabledGuest.enabled");
-//  return(
-//   <SignInPage {...props} providers={Guest ? ['guest'] : [providers[1]]} />
-//  )
-// }
-
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
     const Guest = config.getBoolean("enabledGuest.enabled");
