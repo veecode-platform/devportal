@@ -8,6 +8,7 @@ import { Chip } from '@material-ui/core';
 import { CatalogTableRow } from './types';
 import { OverflowTooltip, TableColumn } from '@backstage/core-components';
 import { Entity } from '@backstage/catalog-model';
+import { Link } from 'react-router-dom';
 
 // The columnFactories symbol is not directly exported, but through the
 // CatalogTable.columns field.
@@ -36,11 +37,15 @@ export const columnFactories = Object.freeze({
       },
       render: ({ entity }) => (
         // Link entity item
-        <EntityRefLink
-          entityRef={entity}
-          defaultKind={options?.defaultKind || 'Component'}
-          title={entity.metadata?.title}
-        />
+        // <EntityRefLink
+        //   entityRef={entity}
+        //   defaultKind={options?.defaultKind || 'Component'}
+        //   title={entity.metadata?.title}
+        // />
+        <a href={`http://localhost:3000/catalog/${entity.metadata.namespace ?? 'default' }/${entity.kind}/${entity.metadata.name}`}>
+          {entity.metadata.name}
+        </a>
+        
       ),
     };
   },

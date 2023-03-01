@@ -28,13 +28,14 @@ import {
   import BugReportIcon from '@material-ui/icons/BugReport';
   import MoreVert from '@material-ui/icons/MoreVert';
   import FileCopyTwoToneIcon from '@material-ui/icons/FileCopyTwoTone';
-  import React, { useCallback, useState } from 'react';
+  import React, { useCallback, useEffect, useState } from 'react';
   import { IconComponent } from '@backstage/core-plugin-api';
   import { useEntityPermission } from '@backstage/plugin-catalog-react/alpha';
   import { catalogEntityDeletePermission } from '@backstage/plugin-catalog-common/alpha';
   import { BackstageTheme } from '@backstage/theme';
   import { UnregisterEntity, UnregisterEntityOptions } from './UnregisterEntity';
   import { useApi, alertApiRef } from '@backstage/core-plugin-api';
+import { useEntity } from '@backstage/plugin-catalog-react';
   
   /** @public */
   export type EntityContextMenuClassKey = 'button';
@@ -78,7 +79,7 @@ import {
       catalogEntityDeletePermission,
     );
     const isAllowed = unregisterPermission.allowed;
-  
+
     const onOpen = (event: React.SyntheticEvent<HTMLButtonElement>) => {
       setAnchorEl(event.currentTarget);
     };

@@ -34,7 +34,6 @@ import {
 } from '../plataformLogo/plataformLogo';
 import BackstageLogo from "../../assets/backstage.png";
 
-
 const starredEntitiesApi = new MockStarredEntitiesApi();
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity');
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity-2');
