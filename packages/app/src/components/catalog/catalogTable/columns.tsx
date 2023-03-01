@@ -42,9 +42,16 @@ export const columnFactories = Object.freeze({
         //   defaultKind={options?.defaultKind || 'Component'}
         //   title={entity.metadata?.title}
         // />
-        <a href={`http://localhost:3000/catalog/${entity.metadata.namespace ?? 'default' }/${entity.kind}/${entity.metadata.name}`}>
+        <p 
+         onClick={()=>{
+          localStorage.setItem("annotations", JSON.stringify(entity.metadata.annotations));
+          window.location.reload()
+          window.location.replace(`${window.location.origin}/catalog/${entity.metadata.namespace??'default'}/${entity.kind}/${entity.metadata.name}`)
+         }}
+         style={{cursor:'pointer'}}
+          >
           {entity.metadata.name}
-        </a>
+        </p>
         
       ),
     };

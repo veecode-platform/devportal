@@ -279,7 +279,7 @@ const serviceEntityPage = (
       {pullRequestsContent}
     </EntityLayout.Route>
 
-    {plugins.map((item : PluginItem) => {
+    {plugins.map((item : PluginItem) : any => {
       if(!!validateAnnotation(item.annotation)) 
       return (
       <EntityLayout.Route path={item.path} title={item.title} key={item.title}>
@@ -305,7 +305,7 @@ const websiteEntityPage = (
       {pullRequestsContent}
     </EntityLayout.Route>
 
-    {plugins.map((item: PluginItem)  => {
+    {plugins.map((item: PluginItem) : any => {
       if(!!validateAnnotation(item.annotation)) 
       return (
       <EntityLayout.Route path={item.path} title={item.title} key={item.title}>
