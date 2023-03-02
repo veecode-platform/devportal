@@ -45,7 +45,7 @@ export const ListComponent = () => {
   const { loading, error } = useAsync(async (): Promise<void> => {
     const {data} = await AxiosInstance.get(`/partners?limit=${limit}&offset=${offset}`)
     setDataPartners((dataPartners: any) => {return [...dataPartners, ...data.partners]})
-    if(total == 0) setTotal(data.total)
+    if(total === 0) setTotal(data.total)
     return ;
   }, [offset]);
   
