@@ -1,4 +1,4 @@
-/*eslint no-ex-assign: "error"*/
+/* eslint no-ex-assign: "error"*/
 import { Router } from "express";
 import { RouterOptions } from "./router";
 import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerReppository";
