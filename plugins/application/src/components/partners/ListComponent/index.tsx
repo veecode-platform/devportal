@@ -29,12 +29,12 @@ export const ListComponent = () => {
     setOffset(offset => {return offset+=limit})
   }
   const handlePreviousPage = () => {
-    if(currentPage == 0) return;
+    if(currentPage === 0) return;
     setCurrentPage(currentPage => { return currentPage-=1})
     setControl(control => {return control-=limit})
   }
   const handleFirstPage = () => {
-    if(currentPage == 0) return;
+    if(currentPage === 0) return;
     setCurrentPage(0)
     setControl(0)
   }
