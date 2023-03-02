@@ -126,7 +126,7 @@ export const CreateComponent = () => {
                       label="Service Status"
                       items={[{label:'active', value: 'true' }, {label:'inactive', value: 'false' }]}
                       onChange={e => {
-                          setService({ ...service, active: e == "true" ? true : false });
+                          setService({ ...service, active: e === "true" ? true : false });
                       }}
                     />
                 </Grid>
