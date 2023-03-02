@@ -2,13 +2,13 @@ import { Entity } from "../../../core/domain/Entity";
 
 export type PartnerServiceProps = {
   
-    partner_id: number;
-    service_id: number;
+    partner_id: string;
+    service_id: string;
 };
 
 export class PartnerService extends Entity<PartnerServiceProps>{
-    partner_id?: number;
-    service_id?: number;
+    partner_id?: string;
+    service_id?: string;
     
 
     private constructor(props: PartnerServiceProps, id?: string) {

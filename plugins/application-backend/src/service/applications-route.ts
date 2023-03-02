@@ -211,21 +211,56 @@ export async function createApplicationRouter(
 
 
   router.get('/services/:idApplication', async (request, response) => {
-    const idApplication = request.params.idApplication;
-    const services = await applicationServiceRepository.getServicesByApplication(idApplication)
-    response.status(200).json({services: services})
-
+    try {
+      const idApplication = request.params.idApplication;
+      const services = await applicationServiceRepository.getServicesByApplication(idApplication)
+      response.status(200).json({ services: services })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
   });
 
 
 
   router.post('/services/:idApplication', async (request, response) => {
-    const idApplication = request.params.idApplication;
-    const servicesId = request.body.servicesId as string[];
-    const services = await applicationServiceRepository.associate(idApplication, servicesId)
-    response.status(200).json({services: services})
-
+    try {
+      const idApplication = request.params.idApplication;
+      const servicesId = request.body.servicesId as string[];
+      const services = await applicationServiceRepository.associate(idApplication, servicesId)
+      response.status(200).json({ services: services })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
   });
+
 
   router.patch('/associate/:id', async (request, response) => {
     try {
@@ -339,7 +374,7 @@ export async function createApplicationRouter(
   });
 
   router.get('/:idApplication/credentials', async (req, res) => {
-  
+
     try {
       const id = req.params.idApplication;
       const serviceStore = await kongHandler.listCredentialWithApplication(

@@ -1,7 +1,8 @@
 import { Knex } from "knex";
 import { PartnerApplication } from "../../domain/PartnerApplication";
+import { PartnerApplicationMapper } from "../../mappers/PartnerApplicationMapper";
 
-export class PostgresPartnerApplicationRepository{
+export class PostgresPartnerApplicationRepository {
     constructor(private readonly db: Knex) { }
     async total(): Promise<number> {
         return await (
@@ -22,5 +23,21 @@ export class PostgresPartnerApplicationRepository{
             .catch(error => console.error(error));
         console.log('applications: ', applications)
         return applications
+    }
+
+    async associate(partnerId: string, application_id: string[]) {
+        for (let i = 0; i < application_id.length; i++) {
+            const partner: PartnerApplication = PartnerApplication.create({
+                partner_id: partnerId,
+                application_id: application_id[i]
+            })
+            const data = await PartnerApplicationMapper.toPersistence(partner)
+            console.log(data)
+            await this.db<any>('partner_application')
+                .insert(data)
+                .catch(error => error);
+
+        }
+
     }
 }

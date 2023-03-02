@@ -24,17 +24,72 @@ export async function createPartnersRouter(
   )
   const router = Router();
 
+
   router.get('/applications/:idPartner', async (request, response) => {
+    console.log('aqui')
     const code = request.params.idPartner
     const applications = await partnerApplicationRepository.getApplicationsByPartner(code)
-    response.status(200).json({applications: applications})
+    response.status(200).json({ applications: applications })
   })
 
   router.get('/services/:idPartner', async (request, response) => {
     const code = request.params.idPartner
     const services = await partnerServiceRepository.getServiceByPartner(code)
-    response.status(200).json({services: services})
+    response.status(200).json({ services: services })
   })
+
+  router.post('/applications/:idPartner', async (request, response) => {
+    try {
+
+      const code = request.params.idPartner
+      const applicationsId = request.body.applicationsId as string[]
+      const applications = await partnerApplicationRepository.associate(code, applicationsId)
+      response.status(200).json({ applications: applications })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
+  });
+
+  router.post('/services/:idPartner', async (request, response) => {
+    try {
+
+      const code = request.params.idPartner
+      const servicesId = request.body.servicesId as string[]
+      const services = await partnerServiceRepository.associate(code, servicesId)
+      response.status(200).json({ services: services })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
+  });
+
 
   router.get('/', async (request, response) => {
     const offset: number = request.query.offset as any;
