@@ -3,11 +3,13 @@ import express from 'express';
 
 import { RouterOptions } from "./router";
 import { PostgresApplicationRepository } from "../modules/applications/repositories/knex/KnexApplicationRepository";
+
 import { ApplicationDto } from "../modules/applications/dtos/ApplicationDto";
 import { ApplicationServices } from "../modules/applications/services/ApplicationServices";
 import { AssociateService } from "../modules/kong-control/AssociateService";
 import { KongHandler, security } from "../modules/kong-control/KongHandler";
 import { AxiosError } from "axios";
+import { PostgresApplicationServiceRepository } from "../modules/applications/repositories/knex/KnexApplicationServiceRepository";
 
 /** @public */
 export async function createApplicationRouter(
@@ -17,6 +19,9 @@ export async function createApplicationRouter(
   const applicationRepository = await PostgresApplicationRepository.create(
     await options.database.getClient(),
   );
+  const applicationServiceRepository = await PostgresApplicationServiceRepository.create(
+    await options.database.getClient(),
+  )
 
   const router = Router()
   const kongHandler = new KongHandler()
@@ -203,6 +208,25 @@ export async function createApplicationRouter(
 
 
   // associate applications with servicesId
+
+
+  router.get('/services/:idApplication', async (request, response) => {
+    const idApplication = request.params.idApplication;
+    const services = await applicationServiceRepository.getServicesByApplication(idApplication)
+    response.status(200).json({services: services})
+
+  });
+
+
+
+  router.post('/services/:idApplication', async (request, response) => {
+    const idApplication = request.params.idApplication;
+    const servicesId = request.body.servicesId as string[];
+    const services = await applicationServiceRepository.associate(idApplication, servicesId)
+    response.status(200).json({services: services})
+
+  });
+
   router.patch('/associate/:id', async (request, response) => {
     try {
       const id = request.params.id;

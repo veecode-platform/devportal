@@ -5,6 +5,7 @@ import { PostgresServiceRepository } from '../modules/services/repositories/Knex
 import { RouterOptions } from './router';
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { AxiosError } from 'axios';
+import { PostgresServicePartnerRepository } from '../modules/services/repositories/Knex/KnexServicePartnerRepossitory';
 
 
 
@@ -18,6 +19,10 @@ export async function createServiceRouter(
   const serviceRepository = await PostgresServiceRepository.create(
     await options.database.getClient(),
   );
+
+  const servicePartnerRepository = await PostgresServicePartnerRepository.create(
+    await options.database.getClient(),
+  )
   const controllPlugin = new ControllPlugin();
   const serviceRouter = Router();
   serviceRouter.use(express.json());
@@ -35,6 +40,12 @@ export async function createServiceRouter(
     const code = request.params.id;
     const service = await serviceRepository.getServiceById(code);
     response.status(200).json({ status: 'ok', service: service });
+  });
+
+  serviceRouter.get('/partners/:idService', async (request, response) => {
+    const code = request.params.idService;
+    const partners = await servicePartnerRepository.getPartnersByService(code);
+    response.status(200).json({ status: 'ok', partners: partners });
   });
 
   serviceRouter.post('/', async (request, response) => {
@@ -116,6 +127,9 @@ export async function createServiceRouter(
     const result = await serviceRepository.deleteService(code);
     response.status(204).json({ status: 'ok', service: result });
   });
+
+  
+
 
   return serviceRouter;
 

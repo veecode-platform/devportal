@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { RouterOptions } from "./router";
-import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerReppository";
+import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerRepository";
 import { PartnerDto } from "../modules/partners/dtos/PartnerDto";
 import { AxiosError } from "axios";
+import { PostgresPartnerApplicationRepository } from "../modules/partners/repositories/Knex/KnexPartnerApplicationRepository";
+import { PostgresPartnerServiceRepository } from "../modules/partners/repositories/Knex/knexPartnerServiceRepository";
 
 /** @public */
 export async function createPartnersRouter(
@@ -11,7 +13,28 @@ export async function createPartnersRouter(
   const partnerRepository = await PostgresPartnerRepository.create(
     await options.database.getClient(),
   );
+
+
+  const partnerApplicationRepository = await PostgresPartnerApplicationRepository.create(
+    await options.database.getClient(),
+  )
+
+  const partnerServiceRepository = await PostgresPartnerServiceRepository.create(
+    await options.database.getClient(),
+  )
   const router = Router();
+
+  router.get('/applications/:idPartner', async (request, response) => {
+    const code = request.params.idPartner
+    const applications = await partnerApplicationRepository.getApplicationsByPartner(code)
+    response.status(200).json({applications: applications})
+  })
+
+  router.get('/services/:idPartner', async (request, response) => {
+    const code = request.params.idPartner
+    const services = await partnerServiceRepository.getServiceByPartner(code)
+    response.status(200).json({services: services})
+  })
 
   router.get('/', async (request, response) => {
     const offset: number = request.query.offset as any;
@@ -61,7 +84,7 @@ export async function createPartnersRouter(
 
 
   router.delete('/:id', async (request, response) => {
-    try{
+    try {
       const code = request.params.id;
       const result = await partnerRepository.deletePartner(code);
       response.status(204).json({ status: 'ok', partner: result });

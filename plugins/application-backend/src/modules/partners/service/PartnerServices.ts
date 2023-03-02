@@ -8,7 +8,7 @@ import { ServiceDto } from '../../services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../../services/service/ControllPlugin';
 import { PartnerDto } from '../dtos/PartnerDto';
-import { PostgresPartnerRepository } from '../repositories/Knex/KnexPartnerReppository';
+import { PostgresPartnerRepository } from '../repositories/Knex/KnexPartnerRepository';
 
 export class PartnerServices {
   private static _instance: PartnerServices;

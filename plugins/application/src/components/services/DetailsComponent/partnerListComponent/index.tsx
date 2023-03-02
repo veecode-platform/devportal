@@ -56,7 +56,7 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
       }
     }
     await AxiosInstance.patch(`services/${serviceId}`, JSON.stringify(updateServicesPartners) )
-
+    
     new Promise (() =>{
       setTimeout(()=>{setLoading(false)}, 500);
     })
