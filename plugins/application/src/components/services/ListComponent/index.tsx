@@ -22,7 +22,7 @@ export const ListComponent = () => {
   const totalPages = Math.ceil(total/limit)
 
   const handleNextPage = () => {
-    if(currentPage == totalPages-1) return;
+    if(currentPage === totalPages-1) return;
     setCurrentPage(currentPage => { return currentPage+=1})
     setControl(control => {return control+=limit})
     if(offset === totalPages-1) return;

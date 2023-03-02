@@ -22,19 +22,19 @@ export const ApplicationListComponent = () => {
   const totalPages = Math.ceil(total/limit)
 
   const handleNextPage = () => {
-    if(currentPage == totalPages-1) return;
+    if(currentPage === totalPages-1) return;
     setCurrentPage(currentPage => { return currentPage+=1})
     setControl(control => {return control+=limit})
-    if(offset == totalPages-1) return;
+    if(offset === totalPages-1) return;
     setOffset(offset => {return offset+=limit})
   }
   const handlePreviousPage = () => {
-    if(currentPage == 0) return;
+    if(currentPage === 0) return;
     setCurrentPage(currentPage => { return currentPage-=1})
     setControl(control => {return control-=limit})
   }
   const handleFirstPage = () => {
-    if(currentPage == 0) return;
+    if(currentPage === 0) return;
     setCurrentPage(0)
     setControl(0)
   }
@@ -44,7 +44,7 @@ export const ApplicationListComponent = () => {
   const {loading, error } = useAsync(async (): Promise<void> => {
     const {data} = await AxiosInstance.get(`/applications?limit=${limit}&offset=${offset}`)
     setDataApplications((dataApplications: any) => {return [...dataApplications, ...data.applications]})
-    if(total == 0) setTotal(data.total)
+    if(total === 0) setTotal(data.total)
     return ;
   },[offset]);
 
