@@ -1,4 +1,5 @@
 import axios from "axios";
+
 export class PluginService{
 
     public async configAclKongService(kongUrl: string,serviceName: string, allowed: string[], hidegroupsheader: boolean){

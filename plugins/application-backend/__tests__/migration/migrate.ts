@@ -16,12 +16,12 @@ export const db = (container: StartedTestContainer) => {
 
 export async function applyMigrations(container: StartedTestContainer) {
   await db(container).migrate.latest({
-    directory: __dirname + './../../migrations',
+    directory: `${__dirname  }./../../migrations`,
   });
 }
 
 export async function applySeed(container: StartedTestContainer) {
   await db(container).seed.run({
-    directory: __dirname + './../../seeds',
+    directory: `${__dirname  }./../../seeds`,
   });
 }

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import KcAdminClient from '@keycloak/keycloak-admin-client';
 
 export class KeycloakAdminClient {

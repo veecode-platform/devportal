@@ -1,4 +1,4 @@
-//import { resolvePackagePath } from '@backstage/backend-common';
+// import { resolvePackagePath } from '@backstage/backend-common';
 import { Knex } from 'knex';
 import { appDtoNameConcatParternId } from '../../../utils/ConcatUtil';
 import { Application } from '../../domain/Application';
@@ -7,7 +7,7 @@ import { ApplicationResponseDto } from '../../dtos/ApplicationResponseDto';
 import { ApplicationMapper } from '../../mappers/ApplicationMapper';
 import { IApplicationRepository } from '../IApplicationRepository';
 
-/*const migrationsDir = resolvePackagePath(
+/* const migrationsDir = resolvePackagePath(
   '@internal/plugin-application-backend',
   'migrations',
 );
@@ -41,7 +41,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
   async associate(id: string, servicesId: string[]) {
     const application: Application = await this.getApplicationById(id) as Application;
     const arrayConsumerName = application.servicesId;
-    if (arrayConsumerName != null) {
+    if (arrayConsumerName !== null) {
       for (let index = 0; index < servicesId.length; index++) {
         application.servicesId?.push(servicesId[index]);
       }
@@ -134,7 +134,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       servicesId: applicationDto.servicesId,
       externalId: appDtoNameConcatParternId(applicationDto)
     });
-    //const data = await ApplicationMapper.toPersistence(application);
+    // const data = await ApplicationMapper.toPersistence(application);
     const updatedApplication = await this.db('applications')
       .where('id', id)
       .update(applicationDto)
@@ -158,7 +158,7 @@ export class PostgresApplicationRepository implements IApplicationRepository {
       servicesId: applicationDto.servicesId,
       externalId: appDtoNameConcatParternId(applicationDto)
     }); // try add ,id on application create
-    //const data =await ApplicationMapper.toPersistence(application);
+    // const data =await ApplicationMapper.toPersistence(application);
 
     const patchedApplication = await this.db('applications')
       .where('id', id)

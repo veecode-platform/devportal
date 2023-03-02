@@ -25,16 +25,16 @@ export const ListComponent = () => {
     if(currentPage == totalPages-1) return;
     setCurrentPage(currentPage => { return currentPage+=1})
     setControl(control => {return control+=limit})
-    if(offset == totalPages-1) return;
+    if(offset === totalPages-1) return;
     setOffset(offset => {return offset+=limit})
   }
   const handlePreviousPage = () => {
-    if(currentPage == 0) return;
+    if(currentPage === 0) return;
     setCurrentPage(currentPage => { return currentPage-=1})
     setControl(control => {return control-=limit})
   }
   const handleFirstPage = () => {
-    if(currentPage == 0) return;
+    if(currentPage === 0) return;
     setCurrentPage(0)
     setControl(0)
   }
@@ -45,7 +45,7 @@ export const ListComponent = () => {
   const { loading, error } = useAsync(async (): Promise<void> => {
     const { data } = await AxiosInstance.get(`/services?limit=${limit}&offset=${offset}`)
     setDataServices((dataServices: any) => {return [...dataServices, ...data.services]})
-    if(total == 0) setTotal(data.total)
+    if(total === 0) setTotal(data.total)
     return;
   }, [offset]);
 
@@ -62,13 +62,13 @@ export const ListComponent = () => {
       {!loading && <div style={{display: "flex", padding:"1vh", justifyContent:"flex-end", color:"#e7e7e7"}}>
         <div style={{display: "flex", gap:"0.5vw", alignItems:"center"}}>
 
-          <Tooltip title={"First Page"} placement={"bottom"}>
+          <Tooltip title="First Page" placement="bottom">
             <IconButton onClick={()=>{handleFirstPage()}}>
               <FirstPage />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={"Previous Page"} placement={"bottom"}>
+          <Tooltip title="Previous Page" placement="bottom">
             <IconButton onClick={()=>{handlePreviousPage()}}>
               <ChevronLeft />
             </IconButton>
@@ -76,13 +76,13 @@ export const ListComponent = () => {
 
           <div>Page {currentPage+1}-{totalPages}</div>
           
-          <Tooltip title={"Next Page"} placement={"bottom"}>
+          <Tooltip title="Next Page" placement="bottom">
             <IconButton onClick={()=>{handleNextPage()}}>
               <ChevronRight />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={"Last Page"} placement={"bottom"}>
+          <Tooltip title="Last Page" placement="bottom">
             <IconButton onClick={()=>{handleLastPage()}}>
               <LastPage />
             </IconButton>

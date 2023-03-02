@@ -44,11 +44,11 @@ import AppsIcon from '@material-ui/icons/Apps';
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 // import SearchIcon from '@material-ui/icons/Search';
 import ExtensionIcon from '@material-ui/icons/Extension';
-//import CategoryIcon from '@material-ui/icons/Category';
+// import CategoryIcon from '@material-ui/icons/Category';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
 
-//import { RequirePermission } from '@backstage/plugin-permission-react';
-//import { adminAccessPermission } from '@internal/plugin-application-common';
+// import { RequirePermission } from '@backstage/plugin-permission-react';
+// import { adminAccessPermission } from '@internal/plugin-application-common';
 import CategoryIcon from '@material-ui/icons/Category';
 import LayersIcon from '@material-ui/icons/Layers';
 // import RenderItem from '../Routing/RenderItem';
@@ -104,7 +104,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarItem icon={LayersIcon} to="/application" text="Application"> </SidebarItem>  
         <SidebarDivider />
       </SidebarGroup>
-      {/*<RequirePermission permission={adminAccessPermission} errorPage={<></>}>
+      {/* <RequirePermission permission={adminAccessPermission} errorPage={<></>}>
         <SidebarGroup label="Admin Flow" icon={<AppsIcon />}>
           <SidebarItem icon={AppsIcon} to="/services" text="Services" />
           <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />     

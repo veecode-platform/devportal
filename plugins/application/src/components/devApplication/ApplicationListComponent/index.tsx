@@ -60,13 +60,13 @@ export const ApplicationListComponent = () => {
       {!loading && <div style={{display: "flex", padding:"1vh", justifyContent:"flex-end", color:"#e7e7e7"}}>
         <div style={{display: "flex", gap:"0.5vw", alignItems:"center"}}>
 
-          <Tooltip title={"First Page"} placement={"bottom"}>
+          <Tooltip title="First Page" placement="bottom">
             <IconButton onClick={()=>{handleFirstPage()}}>
               <FirstPage />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={"Previous Page"} placement={"bottom"}>
+          <Tooltip title="Previous Page" placement="bottom">
             <IconButton onClick={()=>{handlePreviousPage()}}>
               <ChevronLeft />
             </IconButton>
@@ -74,13 +74,13 @@ export const ApplicationListComponent = () => {
 
           <div>Page {currentPage+1}-{totalPages}</div>
           
-          <Tooltip title={"Next Page"} placement={"bottom"}>
+          <Tooltip title="Next Page" placement="bottom">
             <IconButton onClick={()=>{handleNextPage()}}>
               <ChevronRight />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={"Last Page"} placement={"bottom"}>
+          <Tooltip title="Last Page" placement="bottom">
             <IconButton onClick={()=>{handleLastPage()}}>
               <LastPage />
             </IconButton>

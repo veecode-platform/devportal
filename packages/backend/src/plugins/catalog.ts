@@ -46,7 +46,7 @@ import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend
         }),
   )
 // gitlab provider
-//builder.addEntityProvider(
+// builder.addEntityProvider(
 //  GitlabDiscoveryEntityProvider.fromConfig(env.config, {
 //    logger: env.logger,
 //    // optional: alternatively, use scheduler with schedule defined in app-config.yaml
@@ -56,7 +56,7 @@ import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend
 //    }),
 //    //scheduler: env.scheduler,
 //  }),
-//);
+// );
 
  builder.addProcessor(new ScaffolderEntitiesProcessor());
  const { processingEngine, router } = await builder.build();

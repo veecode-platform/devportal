@@ -48,7 +48,7 @@ export async function testeRoute(
         );
         response.json({ status: 'ok', plugins: serviceStore });
       } catch (error: any) {
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.message,
@@ -103,7 +103,7 @@ export async function testeRoute(
       const teste = await aclPlugin.configAclKongService(request.params.serviceName, allowedList)
       response.json({ status: 'ok', return: teste })
     }catch (error: any) {
-      let date = new Date();
+      const date = new Date();
       response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.message,
@@ -122,7 +122,7 @@ export async function testeRoute(
       if (serviceStore) response.json({ status: 'ok', acl: serviceStore });
       response.status(204).json({ status: 'ok', services: [] });
     } catch (error: any) {
-      let date = new Date();
+      const date = new Date();
       response.status(error.response.status).json({
         status: 'ERROR',
         message: error.response.data.message,
@@ -147,7 +147,7 @@ export async function testeRoute(
         if (error instanceof Object) {
           response.send(500).json({ status: 'error' })
         }
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.message,
@@ -171,7 +171,7 @@ export async function testeRoute(
           );
           response.json({ status: 'ok', plugins: serviceStore });
       } catch (error: any) {
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.message,
@@ -192,7 +192,7 @@ export async function testeRoute(
           );
         response.json({ status: 'ok', services: serviceStore });
       } catch (error: any) {
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.message,
@@ -219,7 +219,7 @@ export async function testeRoute(
         }
         response.json({ status: 'ok', services: [] });
       } catch (error: any) {
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.message,

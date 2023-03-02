@@ -21,7 +21,7 @@ export class RateLimitingPlugin extends PluginService {
     rateLimitingType: RateLimitingType,
     rateLimiting: number,
   ) {
-    let map: Map<string, any> = new Map<string, any>();
+    const map: Map<string, any> = new Map<string, any>();
     map.set(rateLimitingType.toString(), rateLimiting);
     return this.applyPluginKongService(
       serviceName,
@@ -36,7 +36,7 @@ export class RateLimitingPlugin extends PluginService {
     rateLimitingType: RateLimitingType,
     rateLimiting: number,
   ) {
-    let map: Map<string, any> = new Map<string, any>();
+    const map: Map<string, any> = new Map<string, any>();
     map.set(rateLimitingType.toString(), rateLimiting);
     return this.updatePluginKongService(serviceName, pluginId, map);
   }

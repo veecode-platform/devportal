@@ -102,13 +102,13 @@ export class KongHandler extends KongServiceBase {
     );
     const credentialsOauth = new CredentialsOauth();
     const application: ApplicationProps = await applicationRepository.getApplicationById(idApplication) as ApplicationProps;
-    if (typeSecurity.toString() == 'key-auth') {
+    if (typeSecurity.toString() === 'key-auth') {
 
       const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth`
       const response = await axios.post(url);
 
       return response.data;
-    } else if (typeSecurity.toString() == 'oauth2') {
+    } else if (typeSecurity.toString() === 'oauth2') {
 
       const response = await credentialsOauth.generateCredentials(`${application.externalId}`, application.externalId as string)
 
@@ -133,11 +133,11 @@ export class KongHandler extends KongServiceBase {
     const keyoauth = responseOauth.data.data;
     const credentials: any[] = []
     for (let index = 0; index < keyauths.length; index++) {
-      let credencial = new Credential(keyauths[index].id, keyauths[index].key, "key-auth")
+      const credencial = new Credential(keyauths[index].id, keyauths[index].key, "key-auth")
       credentials.push(credencial);
     }
     for (let index = 0; index < keyoauth.length; index++) {
-      let credencial = new CredentialOauth(keyoauth[index].id, keyoauth[index].key, keyoauth[index].client_id, keyoauth[index].client_secret, 'oauth2')
+      const credencial = new CredentialOauth(keyoauth[index].id, keyoauth[index].key, keyoauth[index].client_id, keyoauth[index].client_secret, 'oauth2')
       credentials.push(credencial);
     }
 

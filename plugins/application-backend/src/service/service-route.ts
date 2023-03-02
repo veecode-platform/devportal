@@ -52,7 +52,7 @@ export async function createServiceRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -77,7 +77,7 @@ export async function createServiceRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -101,7 +101,7 @@ export async function createServiceRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,

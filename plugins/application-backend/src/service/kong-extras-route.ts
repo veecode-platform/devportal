@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { RouterOptions } from "./router";
 import { KongHandler } from "../modules/kong-control/KongHandler";
-//import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
+// import { KongServiceBase } from "../modules/kong/services/KongServiceBase";
 import { AclPlugin } from "../modules/kong/plugins/AclPlugin";
 import { ConsumerService } from "../modules/kong/services/ConsumerService";
 import { Consumer } from "../modules/applications/dtos/ApplicationDto";
 import { ConsumerGroupService } from "../modules/kong/services/ConsumerGroupService";
 import { ConsumerGroup } from "../modules/kong/model/ConsumerGroup";
 import { AxiosError } from "axios";
+
 const aclPlugin = AclPlugin.Instance;
 
 /** @public */
@@ -18,7 +19,7 @@ export async function createKongRouter(
   const router = Router()
   const kongHandler = new KongHandler()
   const consumerService = new ConsumerService();
-  //const kongServiceBase = new KongServiceBase()
+  // const kongServiceBase = new KongServiceBase()
   const consumerGroupService = new ConsumerGroupService();
 
 
@@ -42,7 +43,7 @@ export async function createKongRouter(
           })
         } else if (error instanceof AxiosError) {
           error = AxiosError
-          let date = new Date();
+          const date = new Date();
           response.status(error.response.status).json({
             status: 'ERROR',
             message: error.response.data.errorSummary,
@@ -73,7 +74,7 @@ export async function createKongRouter(
           })
         } else if (error instanceof AxiosError) {
           error = AxiosError
-          let date = new Date();
+          const date = new Date();
           response.status(error.response.status).json({
             status: 'ERROR',
             message: error.response.data.errorSummary,
@@ -100,7 +101,7 @@ export async function createKongRouter(
           })
         } else if (error instanceof AxiosError) {
           error = AxiosError
-          let date = new Date();
+          const date = new Date();
           response.status(error.response.status).json({
             status: 'ERROR',
             message: error.response.data.errorSummary,
@@ -126,7 +127,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -153,7 +154,7 @@ export async function createKongRouter(
           })
         } else if (error instanceof AxiosError) {
           error = AxiosError
-          let date = new Date();
+          const date = new Date();
           response.status(error.response.status).json({
             status: 'ERROR',
             message: error.response.data.errorSummary,
@@ -178,7 +179,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         res.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -202,7 +203,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         res.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -231,7 +232,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -254,7 +255,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         res.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -277,7 +278,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -304,7 +305,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -330,7 +331,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -353,7 +354,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -379,7 +380,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -405,7 +406,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -430,7 +431,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -459,7 +460,7 @@ export async function createKongRouter(
           })
         } else if (error instanceof AxiosError) {
           error = AxiosError
-          let date = new Date();
+          const date = new Date();
           response.status(error.response.status).json({
             status: 'ERROR',
             message: error.response.data.errorSummary,
@@ -483,7 +484,7 @@ export async function createKongRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,

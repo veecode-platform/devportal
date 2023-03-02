@@ -100,7 +100,7 @@ export class PartnerServices {
             const applicationObj =
               await applicationRepository.getApplicationById(application);
             if (applicationObj instanceof Object) {
-              let applicationDto = new ApplicationDto(
+              const applicationDto = new ApplicationDto(
                 applicationObj.name as string,
                 applicationObj.creator as string,
                 applicationObj.parternId as string,

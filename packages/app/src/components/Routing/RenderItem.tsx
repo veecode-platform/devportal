@@ -1,4 +1,4 @@
-//import React from 'react';
+// import React from 'react';
 import { usePermissionsCheck } from '../../Hooks/permissions';
 
 const RenderItem = ({allow, children}: any) => {
