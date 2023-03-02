@@ -48,7 +48,7 @@ export const CreateComponent = () => {
   };
 
   useEffect(()=>{
-    const x = service.name.length==0 || service.kongServiceId=="" || service.description.length==0 || service.securityType=="" || service.redirectUrl.length==0;
+    const x = service.name.length===0 || service.kongServiceId==="" || service.description.length===0 || service.securityType==="" || service.redirectUrl.length===0;
     setError(x)
   }, [service])
 
