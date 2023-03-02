@@ -1,6 +1,6 @@
+/*eslint no-ex-assign: "error"*/
 import { Router } from "express";
 import express from 'express';
-
 import { RouterOptions } from "./router";
 import { PostgresApplicationRepository } from "../modules/applications/repositories/knex/KnexApplicationRepository";
 import { ApplicationDto } from "../modules/applications/dtos/ApplicationDto";
