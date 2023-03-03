@@ -50,6 +50,17 @@ export interface Config {
          * @visibility frontend
          */
         enabled: boolean
+    };
+    /**
+     * 
+     * @visibility frontend
+     */
+    apiManagement: {
+        /**
+         * 
+         * @visibility frontend
+         */
+        enabled: boolean
     }
   }
   

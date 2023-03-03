@@ -1,6 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import {
+  Navigate,
+  Outlet,
   // Navigate,
   Route,
 } from 'react-router';
@@ -63,9 +65,7 @@ import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 
 import { searchPage } from './components/search/SearchPage';
-// import SafeRoute from './components/Routing/SafeRoute';
 import { ServicesPage, PartnersPage, ApplicationPage} from '@internal/plugin-application';
-// import SafeRoute from './components/Routing/SafeRoute';
 // login
 import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
@@ -73,11 +73,11 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 // custom siginpage
 import { SignInPage } from './components/signInPage/SignInPage';
 import '../src/components/theme/theme.css';
-import { configApiRef, useApi } from '@backstage/core-plugin-api';
+import { useGuest } from './Hooks/useGuest';
+import { useApiManagement } from './Hooks/apiManagement';
 
 const SignInComponent: any = (props: SignInPageProps) => {
-  const config = useApi(configApiRef);
-  const Guest = config.getBoolean("enabledGuest.enabled");
+  const Guest = useGuest();
     if(Guest)
     {
       props.onSignInSuccess(UserIdentity.fromLegacy({
@@ -91,6 +91,13 @@ const SignInComponent: any = (props: SignInPageProps) => {
     }
     return <SignInPage {...props} providers={[providers[1]]} />
 };
+
+const ApiManagementComponent = () => {
+  const ApiManagement = useApiManagement();
+  return (
+    ApiManagement ? <Outlet/> : <Navigate to="/" replace />
+  )
+}
 
 const app = createApp({
   apis,
@@ -191,21 +198,23 @@ const routes = (
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
-
-    {/* <Route path="/services" element={<ServicesPage />} />
-    <Route path="/partners" element={<PartnersPage />} />*/}
     <Route path="/settings" element={<UserSettingsPage />} />
-
+    <Route path="/scaffolder" element={<ScaffolderPage />} />
     {/* <Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
       <Route
         path="/services"
         element={<ServicesPage />}
       />
     </Route>*/}
-    <Route path="/services" element={<ServicesPage />}/>
-    <Route path="/partners" element={<PartnersPage />}/>
-    <Route path="/application" element={<ApplicationPage />}/>
-    <Route path="/scaffolder" element={<ScaffolderPage />} />
+    <Route path="/services" element={<ApiManagementComponent/>}>
+       <Route path="/" element={<ServicesPage/>}/>
+    </Route> 
+    <Route path="/partners" element={<ApiManagementComponent/>}>
+       <Route path="/" element={<PartnersPage/>}/>
+    </Route>
+    <Route path="/applications" element={<ApiManagementComponent/>}>
+      <Route path="/" element={<ApplicationPage/>}/>
+    </Route>
   </FlatRoutes>
 );
 
@@ -215,7 +224,9 @@ export default app.createRoot(
     <AlertDisplay transientTimeoutMs={2500} />
     <OAuthRequestDialog />
     <AppRouter>
-      <Root>{routes}</Root>
+      <Root>
+        {routes}
+      </Root>
     </AppRouter>
   </>,
 );

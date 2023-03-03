@@ -212,6 +212,9 @@ enabledPlugins:
 
 enabledGuest:
   enabled: false
+
+apiManagement:
+  enabled: true
   
 vault:
   baseUrl: ${VAULT_BASE_URL}
