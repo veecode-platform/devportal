@@ -15,7 +15,7 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@apidevtools/json-schema-ref-parser@^9.0.6":
+"@apidevtools/json-schema-ref-parser@9.1.0", "@apidevtools/json-schema-ref-parser@^9.0.6":
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/@apidevtools/json-schema-ref-parser/-/json-schema-ref-parser-9.1.0.tgz#a28015be4693af1b02bb955eb2dc2f27918f0090"
   integrity sha512-teB30tFooE3iQs2HQIKJ02D8UZA1Xy1zaczzhUjJs0CymYxeC0g+y5rCY2p8NHBM6DBUVoR8rSM4kHLj1WE9mQ==
@@ -2537,7 +2537,7 @@
   resolved "https://registry.yarnpkg.com/@backstage/cli-common/-/cli-common-0.1.11.tgz#9d8fd8cbe83e21ad3d207edecb3c3df3024a35a8"
   integrity sha512-6gjYi2ndXUBVV6YNbiPJMHoPLROlikZ2nnKJrblnYhWZaKhKncXVxtjfCGPItTFPnIbW0oZu2Ue0Z/1VCyfOaQ==
 
-"@backstage/cli@^0.22.1", "@backstage/cli@^0.22.3":
+"@backstage/cli@^0.22.1":
   version "0.22.3"
   resolved "https://registry.yarnpkg.com/@backstage/cli/-/cli-0.22.3.tgz#b176f1bd1e760808e08b40c77a7df51674bac768"
   integrity sha512-fY/7BEdJyYKISeFqdi7QrbTuTuhMyMLj4l1jUNQAfKlm237SVPAZ9eO3eY7lYd6JuPkzaHTW/mjhx+RGQ9qPkg==
@@ -5013,17 +5013,6 @@
     query-string "^7.0.1"
     url-join "^4.0.0"
     url-template "^2.0.8"
-
-"@keycloak/keycloak-admin-client@^21.0.1":
-  version "21.0.1"
-  resolved "https://registry.yarnpkg.com/@keycloak/keycloak-admin-client/-/keycloak-admin-client-21.0.1.tgz#7ab50e7ea267c75eb791c236e94fc854fd8337c5"
-  integrity sha512-YPVcgsQvEOQwiLqX94mX4Hn1/u5bg6eKsoBusFIOdBlrCXaG2BsVPjxZs+UIGeTw1w/FTElcVoN2Jn4zLy19cw==
-  dependencies:
-    axios "^0.27.2"
-    camelize-ts "^2.1.1"
-    lodash-es "^4.17.21"
-    url-join "^5.0.0"
-    url-template "^3.0.0"
 
 "@keyv/memcache@^1.3.5":
   version "1.3.5"
@@ -7668,7 +7657,7 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
-"@types/react-dom@*", "@types/react-dom@<18.0.0":
+"@types/react-dom@*", "@types/react-dom@<18.0.0", "@types/react-dom@^17":
   version "17.0.19"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.19.tgz#36feef3aa35d045cacd5ed60fe0eef5272f19492"
   integrity sha512-PiYG40pnQRdPHnlf7tZnp0aQ6q9tspYr72vD61saO6zFCybLfMqwUCN0va1/P+86DXn18ZWeW30Bk7xlC5eEAQ==
@@ -8808,6 +8797,14 @@ axios-cached-dns-resolve@0.5.2:
     pino "^5.12.2"
     pino-pretty "^2.6.0"
 
+axios@0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.27.0.tgz#973ca980dee9077410189340390ea77964af6b29"
+  integrity sha512-XV/WrPxXfzgZ8j4lcB5i6LyaXmi90yetmV/Fem0kmglGx+mpY06CiweL3YxU6wOTNLmqLUePW4G8h45nGZ/+pA==
+  dependencies:
+    follow-redirects "^1.14.9"
+    form-data "^4.0.0"
+
 axios@^0.21.1:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
@@ -8834,15 +8831,6 @@ axios@^1.2.3:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.2.tgz#7ac517f0fa3ec46e0e636223fd973713a09c72b3"
   integrity sha512-1M3O703bYqYuPhbHeya5bnhpYVsDDRyQSabNja04mZtboLNSuZ4YrltestrLXfHgmzua4TpUqRiVKbiQuo2epw==
-  dependencies:
-    follow-redirects "^1.15.0"
-    form-data "^4.0.0"
-    proxy-from-env "^1.1.0"
-
-axios@^1.3.4:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.4.tgz#f5760cefd9cfb51fd2481acf88c05f67c4523024"
-  integrity sha512-toYm+Bsyl6VC5wSkfkbbNB6ROv7KY93PEBBL6xyDczaIHasAiv4wPqQ/c4RjoQzipxRD2W5g21cOqQulZ7rHwQ==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
@@ -9464,11 +9452,6 @@ camelize-ts@^1.0.8:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/camelize-ts/-/camelize-ts-1.0.9.tgz#6ac46fbe660d18e093568ef0d56c836141b700f4"
   integrity sha512-ePOW3V2qrQ0qtRlcTM6Qe3nXremdydIwsMKI1Vl2NBGM0tOo8n2xzJ7YOQpV1GIKHhs3p+F40ThI8/DoYWbYKQ==
-
-camelize-ts@^2.1.1:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/camelize-ts/-/camelize-ts-2.3.0.tgz#8c9b080f647c7055835c1bf36e4b062d34416df3"
-  integrity sha512-rfAXKVm6+mt8r/NBXZl6MS/RlZMoIRGDVp3d7XdKnzhStyiCjLQ+B35SwMRtOl8WaBi2uLp7OBHpoztM1eXIZw==
 
 caniuse-api@^3.0.0:
   version "3.0.0"
@@ -21670,11 +21653,6 @@ url-join@^4.0.0:
   resolved "https://registry.yarnpkg.com/url-join/-/url-join-4.0.1.tgz#b642e21a2646808ffa178c4c5fda39844e12cde7"
   integrity sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==
 
-url-join@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/url-join/-/url-join-5.0.0.tgz#c2f1e5cbd95fa91082a93b58a1f42fecb4bdbcf1"
-  integrity sha512-n2huDr9h9yzd6exQVnH/jU5mr+Pfx08LRXXZhkLLetAMESRj+anQsTAh940iMrIetKAmry9coFuZQ2jY8/p3WA==
-
 url-parse@^1.5.3, url-parse@^1.5.8:
   version "1.5.10"
   resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.10.tgz#9d3c2f736c1d75dd3bd2be507dcc111f1e2ea9c1"
@@ -21687,11 +21665,6 @@ url-template@^2.0.8:
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/url-template/-/url-template-2.0.8.tgz#fc565a3cccbff7730c775f5641f9555791439f21"
   integrity sha512-XdVKMF4SJ0nP/O7XIPB0JwAEuT9lDIYnNsK8yGVe43y0AWoKeJNdv3ZNWh7ksJ6KqQFjOO6ox/VEitLnaVNufw==
-
-url-template@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/url-template/-/url-template-3.1.0.tgz#d9be13d342ad31fcedc3c0bd21405fd141d02ff1"
-  integrity sha512-vB/eHWttzhN+NZzk9FcQB2h1cSEgb7zDYyvyxPhw02LYw7YqIzO+w1AqkcKvZ51gPH8o4+nyiWve/xuQqMdJZw==
 
 url@0.10.3:
   version "0.10.3"
