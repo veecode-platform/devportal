@@ -6,9 +6,6 @@ import { Config } from '@backstage/config';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
-
-
-
 import { createServiceRouter } from './service-route';
 import { createPartnersRouter } from './partners-route';
 import { createKongRouter } from './kong-extras-route';
@@ -17,12 +14,15 @@ import { applyDatabaseMigrations } from '../database/migrations';
 import { testeRoute } from './teste-router';
 import { createPluginRouter } from './plugins-route';
 import { createKeycloackRouter } from './keycloak-router';
+import { PermissionEvaluator } from '@backstage/plugin-permission-common';
+
 
 /** @public */
 export interface RouterOptions {
   logger: Logger;
   database: PluginDatabaseManager;
   config: Config;
+  permissions: PermissionEvaluator;
 }
 export interface Service {
   name: string;

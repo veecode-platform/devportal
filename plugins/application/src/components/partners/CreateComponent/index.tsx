@@ -12,7 +12,7 @@ import {
   ContentHeader,
 } from '@backstage/core-components';
 import { ICreatePartner, IErrorStatus } from '../interfaces';
-import { FetchApplicationsList, FetchServicesList } from '../commons';
+import { FetchServicesList } from '../commons';
 import {
   validateEmail,
   validateName,
@@ -118,12 +118,6 @@ export const CreateComponent = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <FetchServicesList
-                    partner={partner}
-                    setPartner={setPartner}
-                  />
-                </Grid>
-                <Grid item lg={12}>
-                  <FetchApplicationsList
                     partner={partner}
                     setPartner={setPartner}
                   />

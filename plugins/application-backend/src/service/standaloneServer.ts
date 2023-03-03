@@ -2,11 +2,14 @@ import {
   createServiceBuilder,
   loadBackendConfig,
   useHotMemoize,
+  ServerTokenManager,
+  SingleHostDiscovery
 } from '@backstage/backend-common';
 import { Server } from 'http';
 import knexFactory from 'knex';
 import { Logger } from 'winston';
 import { createRouter } from './router';
+import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 // import { applyDatabaseMigrations } from '../database/migrations';
 
 export interface ServerOptions {
@@ -20,6 +23,9 @@ export async function startStandaloneServer(
 ): Promise<Server> {
   const logger = options.logger.child({ service: 'application-backend' });
   const config = await loadBackendConfig({ logger, argv: process.argv });
+  const tokenManager = ServerTokenManager.fromConfig(config, {logger,});
+  const discovery = SingleHostDiscovery.fromConfig(config);
+  const permissions = ServerPermissionClient.fromConfig(config, {discovery,tokenManager,});
   const db = useHotMemoize(module, () => {
     const knex = knexFactory({
       client: 'pg',
@@ -45,6 +51,7 @@ export async function startStandaloneServer(
     logger,
     database: { getClient: async () => db },
     config: config,
+    permissions
   });
 
   const service = createServiceBuilder(module)

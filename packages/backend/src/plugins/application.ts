@@ -8,6 +8,7 @@ export default async function createPlugin(
   return await createRouter({
     config:env.config,
     logger: env.logger,
-    database:env.database
+    database:env.database,
+    permissions: env.permissions
   });
 }

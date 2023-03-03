@@ -22,10 +22,13 @@ import {IErrorStatus} from '../interfaces';
 import { validateName } from '../../shared/commons/validate';
 
 
+
 export const FetchServicesList = ({partner, setPartner}: any) => {
+  const user = useApi(identityApiRef);
 
   const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`/services`);
+    const userIdentityToken = await user.getCredentials()
+    const {data} = await AxiosInstance.get(`/services`, {headers:{ Authorization: `Bearer ${userIdentityToken.token}`}});
     return data.services;
   }, []);
 

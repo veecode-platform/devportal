@@ -7,6 +7,8 @@ import useAsync from 'react-use/lib/useAsync';
 import { IPartner } from '../interfaces';
 import AxiosInstance from '../../../api/Api';
 import { Select } from '../../shared';
+import { identityApiRef, useApi } from '@backstage/core-plugin-api';
+
 
 export type Props = {
   partner: IPartner;
@@ -14,9 +16,11 @@ export type Props = {
 }
 
 export const FetchServicesList = ({partner, setPartner}: Props) => {
+    const user = useApi(identityApiRef);
 
     const { value, loading, error } = useAsync(async (): Promise<any> => {
-      const {data} = await AxiosInstance.get(`/services`);
+      const userIdentityToken = await user.getCredentials()
+      const {data} = await AxiosInstance.get(`/services`, {headers:{ Authorization: `Bearer ${userIdentityToken.token}`}});
       return data.services;
     }, []);
   

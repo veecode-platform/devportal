@@ -7,16 +7,9 @@ import { PluginEnvironment } from '../types';
 
 class DefaultPermissionPolicy implements PermissionPolicy {
   async handle(request: PolicyQuery, user: BackstageIdentityResponse): Promise<PolicyDecision> {
-    //console.log("Request policy: ", request, "User: ", user)
+    // console.log("Request policy: ", request, "User: ", user)
     if (request.permission.name === 'admin.access.read' && user.identity.userEntityRef.split(":")[0] === "user") {
-      return {
-        result: AuthorizeResult.DENY,
-      };
-    }
-    if (request.permission.name === 'catalog.entity.delete' && user.identity.userEntityRef.split(":")[0] === "user") {
-      return {
-        result: AuthorizeResult.DENY,
-      };
+      return { result: AuthorizeResult.DENY };
     }
     return { result: AuthorizeResult.ALLOW };
   }

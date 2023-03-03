@@ -10,8 +10,11 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import Tooltip from '@material-ui/core/Tooltip';
+import { identityApiRef, useApi } from '@backstage/core-plugin-api';
+
 
 export const ListComponent = () => {
+  const user = useApi(identityApiRef);
   const [offset, setOffset] = useState(0)
   const [control, setControl] = useState(0)
   const [dataServices, setDataServices] = useState<any>([])
@@ -43,7 +46,8 @@ export const ListComponent = () => {
   }
 
   const { loading, error } = useAsync(async (): Promise<void> => {
-    const { data } = await AxiosInstance.get(`/services?limit=${limit}&offset=${offset}`)
+    const userIdentityToken = await user.getCredentials()
+    const { data } = await AxiosInstance.get(`/services?limit=${limit}&offset=${offset}`, {headers:{ Authorization: `Bearer ${userIdentityToken.token}`}})
     setDataServices((dataServices: any) => {return [...dataServices, ...data.services]})
     if(total == 0) setTotal(data.total)
     return;

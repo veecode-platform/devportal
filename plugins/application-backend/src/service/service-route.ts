@@ -5,15 +5,16 @@ import { PostgresServiceRepository } from '../modules/services/repositories/Knex
 import { RouterOptions } from './router';
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
 import { AxiosError } from 'axios';
-
-
-
-
+import { AuthorizeResult } from '@backstage/plugin-permission-common';
+import { adminAccessPermission } from '@internal/plugin-application-common';// nome da permissao criada anteriormente no plugin-common
+import { NotAllowedError } from '@backstage/errors';
+import { getBearerTokenFromAuthorizationHeader } from '@backstage/plugin-auth-node';
 
 /** @public */
 export async function createServiceRouter(
   options: RouterOptions,
 ): Promise<Router> {
+  const { permissions } = options;
 
   const serviceRepository = await PostgresServiceRepository.create(
     await options.database.getClient(),
@@ -23,6 +24,11 @@ export async function createServiceRouter(
   serviceRouter.use(express.json());
 
   serviceRouter.get('/', async (request, response) => {
+    const token = getBearerTokenFromAuthorizationHeader(request.header('authorization'));
+    const decision = (await permissions.authorize([{ permission: adminAccessPermission }], {token: token}))[0];
+    if (decision.result === AuthorizeResult.DENY) {
+      throw new NotAllowedError('Unauthorized');
+    }
     const limit: number = request.query.limit as any;
     const offset: number = request.query.offset as any;
     const services = await serviceRepository.getService(limit, offset);
@@ -52,7 +58,7 @@ export async function createServiceRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -77,7 +83,7 @@ export async function createServiceRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -101,7 +107,7 @@ export async function createServiceRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
