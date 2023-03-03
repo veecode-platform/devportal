@@ -59,7 +59,7 @@ import BackstageLogo from "../../assets/backstage.png";
         {/* <Header title={configApi.getString('app.title')} /> */}
         <Content>
           {title && <ContentHeader title={title} textAlign={align} />}
-          <Grid lg={12} justifyContent="center" style={{padding: '1em', marginBottom: '2em', display: 'flex', justifyContent:'center'}}>
+          <Grid  style={{padding: '1em', marginBottom: '2em', display: 'flex', justifyContent:'center'}}>
             <Logo/>
           </Grid>
           <Grid

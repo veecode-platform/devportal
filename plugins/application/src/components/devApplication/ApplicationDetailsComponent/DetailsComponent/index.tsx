@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { PropsWithChildren, useState } from 'react';
 import { Grid, Button } from '@material-ui/core';
 import {
