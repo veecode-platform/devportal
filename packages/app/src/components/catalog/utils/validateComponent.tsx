@@ -1,4 +1,3 @@
-import { EntityLayout } from "@backstage/plugin-catalog";
 import React from "react";
 import { useContext } from "react";
 import EntityContext from "../../../context/EntityContext";

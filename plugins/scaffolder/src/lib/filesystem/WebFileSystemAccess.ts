@@ -72,7 +72,7 @@ class WebDirectoryAccess implements TemplateDirectoryAccess {
         yield new WebFileAccess([...basePath, handle.name].join('/'), handle);
       } else if (handle.kind === 'directory') {
         // Skip git storage directory
-        if (handle.name === '.git') {
+        if (handle?.name === '.git') {
           continue;
         }
         yield* this.listDirectoryContents(handle, [...basePath, handle.name]);

@@ -25,7 +25,7 @@ import { TemplateFormPreviewer } from './TemplateFormPreviewer';
 import {
   NextFieldExtensionOptions,
   type LayoutOptions,
-} from '@backstage/plugin-scaffolder-react';
+} from '@backstage/plugin-scaffolder-react/alpha';
 import { TemplateEditorIntro } from '../../components/TemplateEditorPage/TemplateEditorIntro';
 
 type Selection =

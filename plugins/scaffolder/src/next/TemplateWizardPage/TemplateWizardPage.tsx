@@ -27,11 +27,11 @@ import {
   useTemplateSecrets,
   Workflow,
   type LayoutOptions,
-} from '@backstage/plugin-scaffolder-react';
+} from '@backstage/plugin-scaffolder-react/alpha';
 import {
   NextFieldExtensionOptions,
   FormProps,
-} from '@backstage/plugin-scaffolder-react';
+} from '@backstage/plugin-scaffolder-react/alpha';
 import { JsonValue } from '@backstage/types';
 import { Header, Page } from '@backstage/core-components';
 import {

@@ -40,7 +40,7 @@ import { ReviewStep } from './ReviewStep';
 import {
   extractSchemaFromStep,
   type LayoutOptions,
-} from '@backstage/plugin-scaffolder-react';
+} from '@backstage/plugin-scaffolder-react/alpha';
 import { selectedTemplateRouteRef } from '../../routes';
 
 const Form = withTheme(MuiTheme);
@@ -155,7 +155,7 @@ export const MultistepJsonForm = (props: MultistepJsonFormProps) => {
       await onFinish();
       analytics.captureEvent('create', formData.name || `new ${templateName}`);
     } catch (err) {
-      errorApi.post(err);
+      errorApi.post(err as Error);
     } finally {
       setDisableButtons(false);
     }

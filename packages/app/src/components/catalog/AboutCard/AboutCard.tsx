@@ -13,8 +13,7 @@ import {
 } from '@backstage/core-components';
 import {
    alertApiRef, 
-   useApi,
-    useRouteRef 
+   useApi
   } from '@backstage/core-plugin-api';
 import {
   ScmIntegrationIcon,
@@ -37,7 +36,6 @@ import CachedIcon from '@material-ui/icons/Cached';
 import DocsIcon from '@material-ui/icons/Description';
 import EditIcon from '@material-ui/icons/Edit';
 import React, { useCallback } from 'react';
-import { viewTechDocRouteRef } from '../routes';
 import { AboutContent } from './AboutContent';
 
 const useStyles = makeStyles({
@@ -79,7 +77,6 @@ export function AboutCard(props: AboutCardProps) {
   const scmIntegrationsApi = useApi(scmIntegrationsApiRef);
   const catalogApi = useApi(catalogApiRef);
   const alertApi = useApi(alertApiRef);
-  const viewTechdocLink = useRouteRef(viewTechDocRouteRef);
 
   const entitySourceLocation = getEntitySourceLocation(
     entity,

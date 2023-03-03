@@ -24,7 +24,7 @@ import {
   NextFieldExtensionOptions,
   Stepper,
   TemplateParameterSchema,
-} from '@backstage/plugin-scaffolder-react';
+} from '@backstage/plugin-scaffolder-react/alpha';
 import { useDryRun } from '../../components/TemplateEditorPage/DryRunContext';
 import { useDirectoryEditor } from '../../components/TemplateEditorPage/DirectoryEditorContext';
 
@@ -152,7 +152,7 @@ export function TemplateEditorForm(props: TemplateEditorFormProps) {
           ),
         );
       } catch (e) {
-        setErrorText(e.message);
+        setErrorText(e as string);
       }
     },
     250,
@@ -208,7 +208,7 @@ export function TemplateEditorFormDirectoryEditorDryRun(
       });
       setErrorText();
     } catch (e) {
-      setErrorText(String(e.cause || e));
+      setErrorText(String( e as Error));
       throw e;
     }
   };

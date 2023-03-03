@@ -34,7 +34,7 @@ import yaml from 'yaml';
 import {
   NextFieldExtensionOptions,
   Form,
-} from '@backstage/plugin-scaffolder-react';
+} from '@backstage/plugin-scaffolder-react/alpha';
 import { TemplateEditorForm } from './TemplateEditorForm';
 import validator from '@rjsf/validator-ajv8';
 
@@ -154,7 +154,7 @@ export const CustomFieldExplorer = ({
               noHtml5Validate
               formData={fieldFormState}
               formContext={{ fieldFormState }}
-              onSubmit={e => handleFieldConfigChange(e.formData)}
+              onSubmit={(e: any) => handleFieldConfigChange(e.formData)}
               validator={validator}
               schema={selectedField.schema?.uiOptions || {}}
             >

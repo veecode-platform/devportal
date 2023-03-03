@@ -2,8 +2,7 @@
 import {
     Entity,
     DEFAULT_NAMESPACE,
-    RELATION_OWNED_BY,
-    stringifyEntityRef,
+    RELATION_OWNED_BY
   } from '@backstage/catalog-model';
   import {
     Content,
@@ -18,12 +17,10 @@ import {
   import {
     attachComponentData,
     IconComponent,
-    useApi,
     useElementFilter,
     useRouteRefParams,
   } from '@backstage/core-plugin-api';
   import {
-    catalogApiRef,
     EntityRefLinks,
     entityRouteRef,
     FavoriteEntity,
@@ -34,7 +31,7 @@ import {
   } from '@backstage/plugin-catalog-react';
   import { Box, TabProps } from '@material-ui/core';
   import { Alert } from '@material-ui/lab';
-  import React, { useCallback, useContext, useEffect, useState } from 'react';
+  import React, { useContext, useEffect, useState } from 'react';
   import { useLocation, useNavigate } from 'react-router-dom';
 import EntityContext from '../../../context/EntityContext';
   import { EntityContextMenu } from '../entityContextMenu';

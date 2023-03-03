@@ -218,7 +218,7 @@ export class ScaffolderClient implements ScaffolderApi {
     taskId: string;
     after?: number;
   }): Observable<LogEvent> {
-    return new ObservableImpl(subscriber => {
+    return new ObservableImpl(subscriber  => {
       const params = new URLSearchParams();
       if (after !== undefined) {
         params.set('after', String(Number(after)));

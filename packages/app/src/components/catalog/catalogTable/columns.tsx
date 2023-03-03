@@ -1,14 +1,12 @@
 import React from 'react';
 import {
   humanizeEntityRef,
-  EntityRefLink,
   EntityRefLinks,
 } from '@backstage/plugin-catalog-react';
 import { Chip } from '@material-ui/core';
 import { CatalogTableRow } from './types';
 import { OverflowTooltip, TableColumn } from '@backstage/core-components';
 import { Entity } from '@backstage/catalog-model';
-import { Link } from 'react-router-dom';
 
 // The columnFactories symbol is not directly exported, but through the
 // CatalogTable.columns field.

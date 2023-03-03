@@ -35,7 +35,7 @@ import yaml from 'yaml';
 import {
   NextFieldExtensionOptions,
   type LayoutOptions,
-} from '@backstage/plugin-scaffolder-react';
+} from '@backstage/plugin-scaffolder-react/alpha';
 import { TemplateEditorForm } from './TemplateEditorForm';
 import { TemplateEditorTextArea } from '../../components/TemplateEditorPage/TemplateEditorTextArea';
 

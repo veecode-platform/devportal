@@ -26,7 +26,7 @@ import {
  * FieldSchema encapsulates a JSONSchema7 along with the
  * matching FieldExtensionComponentProps type for a field extension.
  */
-export interface FieldSchema<TReturn, TUiOptions> {
+export interface FieldSchema<TReturn, TUiOptions extends {}> {
   readonly schema: CustomFieldExtensionSchema;
   readonly type: FieldExtensionComponentProps<TReturn, TUiOptions>;
   readonly uiOptionsType: TUiOptions;

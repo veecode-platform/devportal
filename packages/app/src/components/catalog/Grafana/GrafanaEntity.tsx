@@ -1,5 +1,4 @@
 import React from 'react';
-import { useApi, configApiRef } from '@backstage/core-plugin-api';
 import Grid from '@material-ui/core/Grid/Grid';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 
