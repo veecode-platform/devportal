@@ -29,7 +29,7 @@ export class AclPlugin extends PluginService {
     allowedList: Array<string>,
   ) {
     const response = await axios.get(`${await this.getUrl()}/services/${serviceName}/plugins/${pluginId}`);
-    const array: String[] = response.data.config.allow;
+    const array: string[] = response.data.config.allow;
     for (let index = 0; index < allowedList.length; index++) {
       array.push(allowedList[index]);
     }

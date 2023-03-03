@@ -1,4 +1,3 @@
-/* eslint no-ex-assign: "error"*/
 import { Router } from "express";
 import { RouterOptions } from "./router";
 import { KongHandler } from "../modules/kong-control/KongHandler";
