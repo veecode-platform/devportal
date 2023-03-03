@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { Table, TableColumn, Progress } from '@backstage/core-components';
 import { Link as RouterLink } from 'react-router-dom';

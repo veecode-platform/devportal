@@ -11,7 +11,8 @@
     "esModuleInterop": true,
     "experimentalDecorators":true,
     "outDir": "dist-types",
-    "rootDir": "."
+    "rootDir": ".",
+    "allowSyntheticDefaultImports": true,
   },
   "esModuleInterop":true,
   "strictPropertyInitialization": false,

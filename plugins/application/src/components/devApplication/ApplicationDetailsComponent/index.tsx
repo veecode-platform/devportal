@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { Grid, makeStyles, Card, CardHeader, IconButton } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';

@@ -1,7 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import { Grid, Button } from '@material-ui/core';
 import { StructuredMetadataTable } from '@backstage/core-components';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Link as RouterLink } from 'react-router-dom';
 
 const cardContentStyle = { heightX: 'auto', width: '100%', marginLeft: '2%' };

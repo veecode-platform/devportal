@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom';

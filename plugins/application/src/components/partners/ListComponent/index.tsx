@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { FetchComponent } from '../FetchComponent';
 import { PageDefault } from '../../shared';
 import useAsync from 'react-use/lib/useAsync';

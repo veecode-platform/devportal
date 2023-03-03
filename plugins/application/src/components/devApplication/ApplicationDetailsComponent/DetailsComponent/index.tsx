@@ -6,7 +6,6 @@ import {
   StructuredMetadataTable,
   TabbedCard,
 } from '@backstage/core-components';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Link as RouterLink } from 'react-router-dom';
 import { Credentials } from '../credentials';
 import {AlertComponent} from '../../../shared';

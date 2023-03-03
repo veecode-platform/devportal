@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from 'react';
 import { Grid, Button, TextField} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
@@ -87,7 +86,7 @@ const EditApplicationComponent = ({ application }: Application) => {
                     onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={(e) => {
                       setApp({ ...app, name: e.target.value });
-                      if (!!validateName(e.target.value)) setErrorField({ ...errorField, name: true });
+                      if (validateName(e.target.value)) setErrorField({ ...errorField, name: true });
                       else setErrorField({ ...errorField, name: false });
                     }} 
                     error={errorField.name}

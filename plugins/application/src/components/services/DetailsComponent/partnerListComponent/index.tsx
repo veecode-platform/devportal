@@ -1,5 +1,3 @@
-/* eslint-disable no-new */
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';

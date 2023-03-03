@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
@@ -104,7 +103,7 @@ export const CreateComponent = () => {
                     onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
-                      if (!!validateName(e.target.value))
+                      if (validateName(e.target.value))
                         setErrorField({ ...errorField, name: true });
                       else setErrorField({ ...errorField, name: false });
                     }}
@@ -142,7 +141,7 @@ export const CreateComponent = () => {
                         ...partner,
                         email: e.target.value,
                       });
-                      if (!!validateEmail(e.target.value))
+                      if (validateEmail(e.target.value))
                         setErrorField({ ...errorField, email: true });
                       else setErrorField({ ...errorField, email: false });
                     }}
@@ -164,7 +163,7 @@ export const CreateComponent = () => {
                         ...partner,
                         phone: e.target.value,
                       });
-                      if (!!validatePhone(e.target.value as string))
+                      if (validatePhone(e.target.value as string))
                         setErrorField({ ...errorField, phone: true });
                       else setErrorField({ ...errorField, phone: false });
                     }}

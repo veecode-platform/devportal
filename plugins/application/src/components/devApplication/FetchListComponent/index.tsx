@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table, TableColumn, Progress} from '@backstage/core-components';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Link as RouterLink} from 'react-router-dom';
 import { Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';

@@ -1,6 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unreachable */
-/* eslint-disable import/no-extraneous-dependencies */
 import React, {useEffect, useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
@@ -94,7 +91,7 @@ export const NewApplicationComponent = () => {
   useEffect(() => {
     user.getBackstageIdentity().then( res => {
       return setApplication({ ...application, creator: res.userEntityRef.split("/")[1] });
-    }).catch(_e => {
+    }).catch(() => {
       return setApplication({ ...application, creator: "default"});
     })
   
@@ -158,7 +155,7 @@ export const NewApplicationComponent = () => {
                     onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={e => {
                       setApplication({ ...application, name: e.target.value });
-                      if (!!validateName(e.target.value)) setErrorField({ ...errorField, name: true });
+                      if (validateName(e.target.value)) setErrorField({ ...errorField, name: true });
                       else setErrorField({ ...errorField, name: false });
                     }}
                     error={errorField.name}

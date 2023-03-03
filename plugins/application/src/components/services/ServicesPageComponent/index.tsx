@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React from "react";
 import { Route, Routes} from 'react-router';
 import { ListComponent } from "../ListComponent";
