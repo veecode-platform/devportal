@@ -106,6 +106,7 @@ export const Content = (props: {
                 to={entity.kind === "Template" ? 
                 `/scaffolder/templates/default/${entity.metadata.name}`
                  : catalogEntityRoute(entityRouteParams(entity))}
+                 onClick={()=>{if(entity.kind === "Component") localStorage.setItem("annotations", JSON.stringify(entity.metadata.annotations))}}
                 >
               <ListItemText
                 primary={entity.metadata.title ?? entity.metadata.name}

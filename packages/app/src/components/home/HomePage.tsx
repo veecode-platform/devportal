@@ -25,7 +25,7 @@ import {
 } from '@backstage/plugin-search-react';
 // import { HomePageStackOverflowQuestions } from '@backstage/plugin-stack-overflow';
 import { Grid, makeStyles } from '@material-ui/core';
-import React, { ComponentType } from 'react';
+import React, { ComponentType, useEffect } from 'react';
 
 // custom
 import {
@@ -135,6 +135,11 @@ const useStyles = makeStyles(theme => ({
 
 export const HomePage = () => {
   const classes = useStyles();
+
+  useEffect(()=>{
+    const annotations = localStorage.getItem("annotations");
+    if (annotations) localStorage.removeItem("annotations");
+  },[])
 
   return (
     <SearchContextProvider>

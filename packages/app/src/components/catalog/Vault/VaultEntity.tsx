@@ -8,7 +8,7 @@ export default function VaultEntity() {
 
     // if(!vaultEnabled) return null;
     return (
-        <Grid item md={6} xs={12}>
+        <Grid item lg={6} md={12} xs={12}>
             <EntityVaultCard />
         </Grid>
     )

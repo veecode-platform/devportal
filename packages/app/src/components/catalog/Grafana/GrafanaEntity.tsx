@@ -9,10 +9,10 @@ export default function GrafanaEntity() {
     // if(!grafanaEnabled) return null;
     return (
     <>
-        <Grid item md={6} xs={12}>
+        <Grid item lg={6} md={12} xs={12}>
             <EntityGrafanaDashboardsCard />
         </Grid>
-        <Grid item md={6} xs={12}>
+        <Grid item lg={6} md={12} xs={12}>
             <EntityGrafanaAlertsCard />
         </Grid>
     </>
