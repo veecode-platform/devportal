@@ -139,7 +139,6 @@ export const HomePage = () => {
   useEffect(()=>{
     const annotations = localStorage.getItem("annotations");
     if (annotations) localStorage.removeItem("annotations");
-    console.log("mudado")
   },[])
 
   return (
