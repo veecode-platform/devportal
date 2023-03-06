@@ -69,7 +69,6 @@ import { EntityVaultCard } from '@backstage/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
 import VaultEntity from './Vault/VaultEntity';
-import GrafanaEntity from './Grafana/GrafanaEntity';
 import { EntityLayout } from './entityLayout';
 import { validateAnnotation } from './utils/validateAnnotation';
 import { PluginItem } from './utils/types';
@@ -252,11 +251,15 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-    {validateAnnotation('vault.io/secrets-path') && (
-        <VaultEntity />
+        {validateAnnotation('vault.io/secrets-path') && (
+        <Grid item lg={6} md={12} xs={12}>
+          <VaultEntity />
+        </Grid>
         )}
-    {validateAnnotation('grafana/alert-label-selector') && (
-        <GrafanaEntity />
+            {validateAnnotation('grafana/alert-label-selector') && (
+        <Grid item lg={6} md={12} xs={12}>
+          <EntityGrafanaAlertsCard />
+        </Grid>
     )}
   </Grid>
 );
