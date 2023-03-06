@@ -173,7 +173,7 @@ const vaultContent = (
 const grafanaContent = (
   <Grid item >
   <EntityGrafanaDashboardsCard />
-</Grid>
+  </Grid>
 );
 
 const grafanaAlertsContent = (
@@ -253,14 +253,10 @@ const overviewContent = (
       </EntitySwitch.Case>
     </EntitySwitch>
     {validateAnnotation('vault.io/secrets-path') && (
-      <Grid item lg={6} md={12} xs={12} >
         <VaultEntity />
-      </Grid>
         )}
     {validateAnnotation('grafana/alert-label-selector') && (
-      <Grid item lg={6} md={12} xs={12}>
         <GrafanaEntity />
-      </Grid>
     )}
   </Grid>
 );
