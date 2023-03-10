@@ -136,6 +136,9 @@ const useStyles = makeStyles(theme => ({
 export const HomePage = () => {
   const classes = useStyles();
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  console.log("BASE URL PORRAAA",BASE_URL)
+
   useEffect(()=>{
     const annotations = localStorage.getItem("annotations");
     if (annotations) localStorage.removeItem("annotations");

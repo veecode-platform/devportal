@@ -17,12 +17,14 @@ import { Alert } from '@material-ui/lab';
 import useAsync from 'react-use/lib/useAsync';
 import {IErrorStatus} from '../interfaces';
 import { validateName } from '../../shared/commons/validate';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 
 export const FetchServicesList = ({partner, setPartner}: any) => {
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`/services`);
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/services`);
     return data.services;
   }, []);
 
@@ -47,8 +49,10 @@ export const FetchServicesList = ({partner, setPartner}: any) => {
 
 export const FetchApplicationsList = ({partner, setPartner}: any) => {
 
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
   const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`/applications`);
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/applications`);
     return data.applications;
   }, []);
 
@@ -88,6 +92,8 @@ export const NewApplicationComponent = () => {
     name: false
   });
 
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
   useEffect(() => {
     user.getBackstageIdentity().then( res => {
       return setApplication({ ...application, creator: res.userEntityRef.split("/")[1] });
@@ -119,7 +125,7 @@ export const NewApplicationComponent = () => {
         servicesId: application.servicesId,
       },
     };
-    const response = await AxiosInstance.post("/applications", JSON.stringify(applicationData))
+    const response = await AxiosInstance.post(`${BackendBaseUrl}/applications`, JSON.stringify(applicationData))
     setShow(true);
     setTimeout(()=>{
       window.location.replace('/application');
@@ -185,7 +191,7 @@ export const NewApplicationComponent = () => {
                   <Grid container justifyContent="center" alignItems="center">
                     <Button
                       component={RouterLink}
-                      to="/application"
+                      to="/applications"
                       style={{ margin: '16px' }}
                       size="large"
                       color="primary"

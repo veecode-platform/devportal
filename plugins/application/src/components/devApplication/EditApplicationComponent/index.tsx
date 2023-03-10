@@ -15,6 +15,7 @@ import { IApplication, IErrorStatus } from '../interfaces';
 import {AlertComponent, Select} from '../../shared';
 import AxiosInstance from '../../../api/Api';
 import { validateName } from '../../shared/commons/validate';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 type Application = {
   application: IApplication | undefined;
@@ -27,6 +28,7 @@ const EditApplicationComponent = ({ application }: Application) => {
   const [errorField, setErrorField] = useState<IErrorStatus>({
     name: false
   });
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   useEffect(()=>{
     setApp({
@@ -58,7 +60,7 @@ const EditApplicationComponent = ({ application }: Application) => {
         servicesId: app.servicesId,
       }
     }
-    const response = await AxiosInstance.patch(`/applications/${application?.id}`,JSON.stringify(applicationData) )
+    const response = await AxiosInstance.patch(`${BackendBaseUrl}/applications/${application?.id}`,JSON.stringify(applicationData) )
     setShow(true);
     setTimeout(()=>{
       window.location.replace('/application');
@@ -140,7 +142,7 @@ const EditApplicationComponent = ({ application }: Application) => {
                 </Grid>
               <Grid item xs={12} >
                 <Grid container justifyContent='center' alignItems='center'>
-                  <Button component={RouterLink} to='/application' style={{margin:"16px"}} size='large' variant='outlined'>Cancel</Button>
+                  <Button component={RouterLink} to='/applications' style={{margin:"16px"}} size='large' variant='outlined'>Cancel</Button>
                   <Button style={{margin:"16px"}} size='large' color='primary' type='submit' variant='contained' disabled={errorField.name} onClick={handleSubmit}>Save</Button>
                 </Grid>
               </Grid>
@@ -160,13 +162,12 @@ const EditApplicationComponent = ({ application }: Application) => {
 export const EditComponent = () => {
   const location = useLocation();
   const id = location.search.split("?id=")[1];
-  // eslint-disable-next-line no-console
-  console.log(id);
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
     /* const response = await fetch(`http://localhost:7007/api/application/${id}`);
     const data = await response.json();*/
-    const response = await AxiosInstance.get(`/applications/${id}`)
+    const response = await AxiosInstance.get(`${BackendBaseUrl}/applications/${id}`)
     return response.data.application;
   }, []);
 

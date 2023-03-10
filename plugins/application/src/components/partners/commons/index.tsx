@@ -7,6 +7,7 @@ import useAsync from 'react-use/lib/useAsync';
 import { IPartner } from '../interfaces';
 import AxiosInstance from '../../../api/Api';
 import { Select } from '../../shared';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 export type Props = {
   partner: IPartner;
@@ -15,8 +16,10 @@ export type Props = {
 
 export const FetchServicesList = ({partner, setPartner}: Props) => {
 
+    const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
     const { value, loading, error } = useAsync(async (): Promise<any> => {
-      const {data} = await AxiosInstance.get(`/services`);
+      const {data} = await AxiosInstance.get(`${BackendBaseUrl}/services`);
       return data.services;
     }, []);
   
@@ -41,9 +44,11 @@ export const FetchServicesList = ({partner, setPartner}: Props) => {
   };
   
   export const FetchApplicationsList = ({partner, setPartner}: Props) => {
+
+    const BackendBaseUrl = useAppConfig().BackendBaseUrl;
   
     const { value, loading, error } = useAsync(async (): Promise<any> => {
-      const {data} = await AxiosInstance.get(`/applications`);
+      const {data} = await AxiosInstance.get(`${BackendBaseUrl}/applications`);
       return data.applications;
     }, []);
   

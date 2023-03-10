@@ -17,6 +17,7 @@ import {
   validateName,
   validatePhone,
 } from '../../shared/commons/validate';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 export const CreateComponent = () => {
   const [partner, setPartner] = useState<ICreatePartner>({
@@ -29,6 +30,7 @@ export const CreateComponent = () => {
   });
 
   const [show, setShow] = useState(false);
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const [errorField, setErrorField] = useState<IErrorStatus>({
     name: false,
@@ -64,7 +66,7 @@ export const CreateComponent = () => {
     };
 
     const response = await AxiosInstance.post(
-      '/partners',
+      `${BackendBaseUrl}/partners`,
       JSON.stringify(dataPartner),
     );
     setShow(true);

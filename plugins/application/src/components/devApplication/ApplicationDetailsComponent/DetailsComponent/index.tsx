@@ -10,6 +10,7 @@ import { Credentials } from '../credentials';
 import {AlertComponent} from '../../../shared';
 import AxiosInstance from '../../../../api/Api';
 import { CredentialTypeEnum } from '../credentials/utils/enums';
+import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 const cardContentStyle = { heightX: 'auto', width: '100%', marginLeft: '2%' };
 
@@ -64,7 +65,9 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
   // generate Credentials
   const generateCredential = async (ID: string, type: string) => {
 
-    const response = await AxiosInstance.post(`/applications/${ID}/credentials`, {type})
+    const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
+    const response = await AxiosInstance.post(`${BackendBaseUrl}/applications/${ID}/credentials`, {type})
     if (response.status === 201) {
       setShow(true);
       setStatus('success');

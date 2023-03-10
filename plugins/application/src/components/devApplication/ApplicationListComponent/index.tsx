@@ -9,13 +9,16 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import Tooltip from '@material-ui/core/Tooltip';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 export const ApplicationListComponent = () => {
   const [offset, setOffset] = useState(0)
   const [control, setControl] = useState(0)
   const [dataApplications, setDataApplications] = useState<any>([])
   const [total, setTotal] = useState(0)
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const limit = 10
   const totalPages = Math.ceil(total/limit)
@@ -27,11 +30,13 @@ export const ApplicationListComponent = () => {
     if(offset === totalPages-1) return;
     setOffset(offset => {return offset+=limit})
   }
+
   const handlePreviousPage = () => {
     if(currentPage === 0) return;
     setCurrentPage(currentPage => { return currentPage-=1})
     setControl(control => {return control-=limit})
   }
+
   const handleFirstPage = () => {
     if(currentPage === 0) return;
     setCurrentPage(0)
@@ -41,7 +46,7 @@ export const ApplicationListComponent = () => {
    return ;
   }
   const {loading, error } = useAsync(async (): Promise<void> => {
-    const {data} = await AxiosInstance.get(`/applications?limit=${limit}&offset=${offset}`)
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/applications?limit=${limit}&offset=${offset}`)
     setDataApplications((dataApplications: any) => {return [...dataApplications, ...data.applications]})
     if(total === 0) setTotal(data.total)
     return ;
@@ -52,7 +57,7 @@ export const ApplicationListComponent = () => {
     title="Application for Partners"
     add="new-application"
     labelButton="CREATE APPLICATION"
-    refresh='/application/'
+    refresh='/applications'
     >
     <div>
       <FetchListComponent data={dataApplications.slice(control, control+limit)} loading={loading} error={error} total={total}/>

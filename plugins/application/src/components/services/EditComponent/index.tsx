@@ -17,6 +17,7 @@ import { Select } from '../../shared';
 import { rateLimitingItems, securityItems, statusItems } from '../utils/common';
 import AxiosInstance from '../../../api/Api';
 import { FetchKongServices } from '../utils/kongUtils';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 type ServiceProps = {
   serviceData: IService | undefined;
@@ -56,6 +57,8 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
     });
   };
 
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
   const handleSubmit = async () => {
     
     const data = {                                       
@@ -71,7 +74,7 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
         securityType: service.securityType,
        }
     };
-    const response = await AxiosInstance.put(`services/${service?.id}`, JSON.stringify(data))
+    const response = await AxiosInstance.put(`${BackendBaseUrl}/services/${service?.id}`, JSON.stringify(data))
     setShow(true);
     setTimeout(() => {
       navigate('/services');
@@ -233,9 +236,10 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
 export const EditComponent = () => {
   const location = useLocation();
   const id = location.search.split('?id=')[1];
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
-    const { data } = await AxiosInstance.get(`/services/${id}`)
+    const { data } = await AxiosInstance.get(`${BackendBaseUrl}/services/${id}`)
     return data.services;                            
   }, []);
 

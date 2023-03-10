@@ -17,6 +17,7 @@ import CachedIcon from '@material-ui/icons/Cached';
 import { DefaultDetailsComponent } from './DefaultDetailsComponent';
 import { SecurityTypeEnum } from '../utils/enum';
 import AxiosInstance from '../../../api/Api';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 // makestyles
 const useStyles = makeStyles({
@@ -117,9 +118,10 @@ const Details = ({ service }: Services) => {
 export const DetailsComponent = () => {
   const location = useLocation();
   const id = location.search.split('?id=')[1];
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
-    const {data} = await AxiosInstance.get(`/services/${id}`)
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/services/${id}`)
     return data.services;                             
   }, []);
 

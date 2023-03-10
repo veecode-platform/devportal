@@ -9,13 +9,16 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import Tooltip from '@material-ui/core/Tooltip';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 export const ListComponent = () => {
   const [offset, setOffset] = useState(0)
   const [control, setControl] = useState(0)
   const [dataPartners, setDataPartners] = useState<any>([])
   const [total, setTotal] = useState(0)
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0);
+  
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const limit = 10
   const totalPages = Math.ceil(total/limit)
@@ -42,7 +45,7 @@ export const ListComponent = () => {
   }
 
   const { loading, error } = useAsync(async (): Promise<void> => {
-    const {data} = await AxiosInstance.get(`/partners?limit=${limit}&offset=${offset}`)
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/partners?limit=${limit}&offset=${offset}`)
     setDataPartners((dataPartners: any) => {return [...dataPartners, ...data.partners]})
     if(total === 0) setTotal(data.total)
     return ;

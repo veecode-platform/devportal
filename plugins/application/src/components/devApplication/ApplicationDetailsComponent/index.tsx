@@ -13,6 +13,7 @@ import { IApplication } from '../interfaces';
 import CachedIcon from '@material-ui/icons/Cached';
 import { DetailsComponent } from './DetailsComponent';
 import AxiosInstance from '../../../api/Api';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 type Application = {
   application: IApplication | undefined;
@@ -106,11 +107,12 @@ const Details = ({ application }: Application) => {
 export const ApplicationDetailsComponent = () => {
   const location = useLocation();
   const id = location.search.split("?id=")[1];
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
     /* const response = await fetch(`http://localhost:7007/api/application/${id}`);
     const data = await response.json();*/
-    const response = await AxiosInstance.get(`/applications/${id}`)
+    const response = await AxiosInstance.get(`${BackendBaseUrl}/applications/${id}`)
     return response.data.application;
   }, []);
 

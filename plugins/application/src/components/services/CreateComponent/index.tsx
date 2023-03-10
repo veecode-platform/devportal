@@ -14,6 +14,7 @@ import { FetchKongServices } from '../utils/kongUtils';
 import { rateLimitingItems, securityItems } from '../utils/common';
 import { Select } from '../../shared';
 import AxiosInstance from '../../../api/Api';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 export const CreateComponent = () => {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ export const CreateComponent = () => {
   });
   const [show, setShow] = useState(false);
 
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') {
       return;
@@ -45,7 +48,7 @@ export const CreateComponent = () => {
       rateLimiting: 0,
     });
   };
-
+  
   useEffect(()=>{
     const x = service.name.length===0 || service.kongServiceId==="" || service.description.length===0 || service.securityType==="" || service.redirectUrl.length===0;
     setError(x)
@@ -65,7 +68,7 @@ export const CreateComponent = () => {
         partnersId: []
       },
     };
-    const response = await AxiosInstance.post("/services", JSON.stringify(servicePost) )
+    const response = await AxiosInstance.post(`${BackendBaseUrl}/services`, JSON.stringify(servicePost) )
     setShow(true);
     setTimeout(() => {
       navigate('/services');

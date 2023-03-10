@@ -21,6 +21,7 @@ import {
   validateName,
   validatePhone,
 } from '../../shared/commons/validate';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 type PartnerProps = {
   partnerData: IPartner | undefined;
@@ -46,6 +47,8 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
     email: false,
     phone: false,
   });
+
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const statusItems = [
     { label: 'active', value: 'true' },
@@ -79,7 +82,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
       },
     };
     const response = await AxiosInstance.put(
-      `/partners/${partner?.id}`,
+      `${BackendBaseUrl}/partners/${partner?.id}`,
       JSON.stringify(dataPartner),
     );
     setShow(true);
@@ -244,9 +247,10 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
 export const EditComponent = () => {
   const location = useLocation();
   const id = location.search.split('?id=')[1];
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IPartner> => {
-    const { data } = await AxiosInstance.get(`/partners/${id}`);
+    const { data } = await AxiosInstance.get(`${BackendBaseUrl}/partners/${id}`);
     return data.partners;
   }, []);
 

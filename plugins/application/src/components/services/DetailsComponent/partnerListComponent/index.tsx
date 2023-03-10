@@ -10,6 +10,7 @@ import { Grid, Button} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { IPartner } from '../../utils/interfaces';
 import AxiosInstance from '../../../../api/Api';
+import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 type PartnerListProps = {
   partners: IPartner[];
@@ -44,7 +45,8 @@ const ActionsGrid = ({removeHandler, addHandler, partnerId}:ActionsGridProps) =>
 
 const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) =>{
   const [partnerList, setPartnerList] = useState(servicePartnerId);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const handleSubmit = async() =>{
     setLoading(true)
@@ -53,7 +55,7 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
         partnersId: partnerList,
       }
     }
-    await AxiosInstance.patch(`services/${serviceId}`, JSON.stringify(updateServicesPartners) )
+    await AxiosInstance.patch(`${BackendBaseUrl}/services/${serviceId}`, JSON.stringify(updateServicesPartners) )
 
     new Promise (() =>{
       setTimeout(()=>{setLoading(false)}, 500);
@@ -115,8 +117,9 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
 }
 
 export const PartnerListComponent = ({servicePartnerId, serviceId}:any) => {
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
     const { value, loading, error } = useAsync(async (): Promise<IPartner[]> => {
-      const {data} = await AxiosInstance.get("/partners")
+      const {data} = await AxiosInstance.get(`${BackendBaseUrl}/partners`)
       return data.partners;
     }, []);
   
