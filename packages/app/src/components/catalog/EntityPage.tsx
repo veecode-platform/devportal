@@ -20,7 +20,6 @@ import {
 } from '@backstage/plugin-catalog';
 // custom
 import { AboutCard as EntityAboutCard } from "../catalog/AboutCard";
-import {EntityContextProvider} from "../../context/EntityContext"
 import {
   isGithubActionsAvailable,
   EntityRecentGithubActionsRunsCard,
@@ -455,7 +454,6 @@ const domainPage = (
 );
 
 export const entityPage = (
-<EntityContextProvider>
 <EntitySwitch>
     <EntitySwitch.Case if={isKind('component')} children={componentPage} />
     <EntitySwitch.Case if={isKind('api')} children={apiPage} />
@@ -466,5 +464,4 @@ export const entityPage = (
 
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
-</EntityContextProvider>
 );

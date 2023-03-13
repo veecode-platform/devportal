@@ -31,9 +31,8 @@ import {
   } from '@backstage/plugin-catalog-react';
   import { Box, TabProps } from '@material-ui/core';
   import { Alert } from '@material-ui/lab';
-  import React, { useContext, useEffect, useState } from 'react';
+  import React, {useEffect, useState } from 'react';
   import { useLocation, useNavigate } from 'react-router-dom';
-import EntityContext from '../../../context/EntityContext';
   import { EntityContextMenu } from '../entityContextMenu';
   
   /** @public */
@@ -215,12 +214,9 @@ import EntityContext from '../../../context/EntityContext';
       setInspectionDialogOpen(false);
       navigate('/');
     };
-    const {state,setState} = useContext(EntityContext);
-    // set State
-    setState(entity as Entity);
-    localStorage.setItem('annotations', JSON.stringify(state.metadata.annotations ?? ''))
-    
-
+    // set annotaion
+    localStorage.setItem('annotations', JSON.stringify(entity?.metadata.annotations))
+  
     // Make sure to close the dialog if the user clicks links in it that navigate
     // to another entity.
     useEffect(() => {
