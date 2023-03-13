@@ -42,7 +42,6 @@ import { Root } from './components/Root';
 import {
   AlertDisplay,
   OAuthRequestDialog,
-  UserIdentity,
   // SignInPage,
 } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
@@ -69,21 +68,12 @@ import { SignInPage } from './components/signInPage/SignInPage';
 import '../src/components/theme/theme.css';
 import { useGuest } from './Hooks/useGuest';
 import { useApiManagement } from './Hooks/apiManagement';
-// import { UserSettingsPlatformPage } from '@internal/plugin-user-settings-platform';
+import { GuestUserIdentity } from './components/signInPage/providers/guestUserIdentity';
+
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const Guest = useGuest();
-    if(Guest)
-    {
-      props.onSignInSuccess(UserIdentity.fromLegacy({
-        userId: 'guest',
-        profile: {
-          email: 'gust@example.com',
-          displayName: 'Guest',
-          picture: '',
-        },
-      }));
-    }
+    if(Guest) props.onSignInSuccess(new GuestUserIdentity());
     return <SignInPage {...props} providers={[providers[1]]} />
 };
 
