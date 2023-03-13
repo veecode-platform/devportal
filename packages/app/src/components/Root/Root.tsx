@@ -24,7 +24,7 @@ import {
   UserSettingsSignInAvatar,
 } from '@backstage/plugin-user-settings';
 // custom user-settings
-import { Settings as SidebarSettings } from '../user-settings';
+import { Settings as SidebarSettings } from '@internal/plugin-user-settings-platform';
 // import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
   Sidebar,

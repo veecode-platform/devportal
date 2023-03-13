@@ -14,28 +14,15 @@
  * limitations under the License.
  */
 
-import {
-  createPlugin,
-  createRoutableExtension,
-  createRouteRef,
-} from '@backstage/core-plugin-api';
+import React from 'react';
+import SettingsIcon from '@material-ui/icons/Settings';
+import { settingsRouteRef } from '../plugin';
+import { SidebarItem } from '@backstage/core-components';
+import { useRouteRef, IconComponent } from '@backstage/core-plugin-api';
 
-export const settingsRouteRef = createRouteRef({
-  id: 'user-settings',
-});
-
-export const userSettingsPlugin = createPlugin({
-  id: 'user-settings',
-  routes: {
-    settingsPage: settingsRouteRef,
-  },
-});
-
-export const UserSettingsPage = userSettingsPlugin.provide(
-  createRoutableExtension({
-    name: 'UserSettingsPage',
-    component: () =>
-      import('./components/SettingsPage').then(m => m.SettingsPage),
-    mountPoint: settingsRouteRef,
-  }),
-);
+/** @public */
+export const Settings = (props: { icon?: IconComponent }) => {
+  const routePath = useRouteRef(settingsRouteRef);
+  const Icon = props.icon ? props.icon : SettingsIcon;
+  return <SidebarItem text="Settings" to={routePath()} icon={Icon} />;
+};

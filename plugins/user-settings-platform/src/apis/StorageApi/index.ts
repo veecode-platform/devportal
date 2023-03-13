@@ -14,18 +14,4 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import SettingsIcon from '@material-ui/icons/Settings';
-import { settingsRouteRef } from '../plugin';
-import { SidebarItem } from '@backstage/core-components';
-import { useRouteRef, IconComponent } from '@backstage/core-plugin-api';
-
-type SettingsProps = {
-  icon?: IconComponent;
-};
-
-export const Settings = (props: SettingsProps) => {
-  const routePath = useRouteRef(settingsRouteRef);
-  const Icon = props.icon ? props.icon : SettingsIcon;
-  return <SidebarItem text="Settings" to={routePath()} icon={Icon} />;
-};
+export { UserSettingsStorage } from './UserSettingsStorage';

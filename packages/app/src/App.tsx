@@ -3,17 +3,14 @@ import React from 'react';
 import {
   Navigate,
   Outlet,
-  // Navigate,
   Route,
 } from 'react-router';
 import {
   apiDocsPlugin,
   //  ApiExplorerPage  // change for custom page
 } from '@backstage/plugin-api-docs';
-
 // custom page - API explorer
 import { ApiExplorerPage } from './components/api-docs/apiExplorerPage/ApiExplorerPage';
-
 import {
   CatalogEntityPage,
   // CatalogIndexPage,
@@ -21,7 +18,6 @@ import {
 } from '@backstage/plugin-catalog';
 // custom page - catalog
 import { CatalogPage as CatalogIndexPage } from './components/catalog/catalogPage';
-
 import {
   CatalogImportPage,
   catalogImportPlugin,
@@ -30,19 +26,16 @@ import {
   ScaffolderPage,
   scaffolderPlugin,
 } from '@internal/plugin-scaffolder';
-// import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
-// import { TechRadarPage } from '@backstage/plugin-tech-radar';
 import {
   TechDocsIndexPage,
   techdocsPlugin,
   TechDocsReaderPage,
   DefaultTechDocsHome
 } from '@backstage/plugin-techdocs';
-// import { UserSettingsPage } from '@backstage/plugin-user-settings';
 // custom user-settings
-import { UserSettingsPage } from './components/user-settings';
+import { UserSettingsPage } from '@internal/plugin-user-settings-platform';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';
@@ -76,6 +69,7 @@ import { SignInPage } from './components/signInPage/SignInPage';
 import '../src/components/theme/theme.css';
 import { useGuest } from './Hooks/useGuest';
 import { useApiManagement } from './Hooks/apiManagement';
+// import { UserSettingsPlatformPage } from '@internal/plugin-user-settings-platform';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const Guest = useGuest();
