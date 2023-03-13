@@ -9,6 +9,7 @@ import { AuthorizeResult } from '@backstage/plugin-permission-common';
 import { adminAccessPermission } from '@internal/plugin-application-common';// nome da permissao criada anteriormente no plugin-common
 import { NotAllowedError } from '@backstage/errors';
 import { getBearerTokenFromAuthorizationHeader } from '@backstage/plugin-auth-node';
+import { PostgresServicePartnerRepository } from '../modules/services/repositories/Knex/KnexServicePartnerRepossitory';
 
 /** @public */
 export async function createServiceRouter(
@@ -19,6 +20,10 @@ export async function createServiceRouter(
   const serviceRepository = await PostgresServiceRepository.create(
     await options.database.getClient(),
   );
+
+  const servicePartnerRepository = await PostgresServicePartnerRepository.create(
+    await options.database.getClient(),
+  )
   const controllPlugin = new ControllPlugin();
   const serviceRouter = Router();
   serviceRouter.use(express.json());
@@ -40,12 +45,18 @@ export async function createServiceRouter(
   serviceRouter.get('/:id', async (request, response) => {
     const code = request.params.id;
     const service = await serviceRepository.getServiceById(code);
-    response.status(200).json({ status: 'ok', services: service });
+    response.status(200).json({ status: 'ok', service: service });
+  });
+
+  serviceRouter.get('/partners/:idService', async (request, response) => {
+    const code = request.params.idService;
+    const partners = await servicePartnerRepository.getPartnersByService(code);
+    response.status(200).json({ status: 'ok', partners: partners });
   });
 
   serviceRouter.post('/', async (request, response) => {
     try {
-      const service: ServiceDto = request.body.services;
+      const service: ServiceDto = request.body.service;
       controllPlugin.applySecurityType(service);
       const result = await serviceRepository.createService(service);
       response.status(201).json({ status: 'ok', service: result });
@@ -70,7 +81,7 @@ export async function createServiceRouter(
 
   serviceRouter.patch('/:id', async (request, response) => {
     try {
-      const service: ServiceDto = request.body.services;
+      const service: ServiceDto = request.body.service;
       const id = request.params.id
       const result = await serviceRepository.patchService(id, service);
       response.status(201).json({ status: 'ok', service: result });
@@ -94,7 +105,7 @@ export async function createServiceRouter(
   });
   serviceRouter.put('/:id', async (request, response) => {
     try {
-      const service: ServiceDto = request.body.services;
+      const service: ServiceDto = request.body.service;
       const id = request.params.id
       const result = await serviceRepository.updateService(id, service);
       response.status(201).json({ status: 'ok', service: result });
@@ -122,6 +133,9 @@ export async function createServiceRouter(
     const result = await serviceRepository.deleteService(code);
     response.status(204).json({ status: 'ok', service: result });
   });
+
+  
+
 
   return serviceRouter;
 

@@ -6,6 +6,7 @@ type ResponseProps = {
   applicationIt?: Application[] | void;
   application?: Application | void;
   services?: string[] | void;
+  partner?: string | void;
 }
 export class ApplicationResponseDto extends ResponseEntity<ResponseProps> {
   private constructor(props: ResponseProps) {

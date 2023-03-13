@@ -5,7 +5,7 @@ import { ConsumerService } from '../../kong/services/ConsumerService';
 import { Service } from '../../services/domain/Service';
 import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
 import {
-  appDtoNameConcatParternId,
+  appDtoNameConcatpartnersId,
   serviceConcatGroup,
 } from '../../utils/ConcatUtil';
 import { ApplicationDto } from '../dtos/ApplicationDto';
@@ -14,7 +14,7 @@ import { PostgresApplicationRepository } from '../repositories/knex/KnexApplicat
 export class ApplicationServices {
   private static _instance: ApplicationServices;
 
-  public constructor() {}
+  public constructor() { }
 
   public static get Instance() {
     return this._instance || (this._instance = new this());
@@ -22,27 +22,32 @@ export class ApplicationServices {
 
   public async createApplication(
     application: ApplicationDto,
+    partnerId: String,
     options: RouterOptions,
   ) {
     try {
-      const consumer = new Consumer(appDtoNameConcatParternId(application));
-      const servicesId: string[] = application.servicesId;
+      const consumer = new Consumer(appDtoNameConcatpartnersId(application, partnerId), "managedByDevportal");
+      const servicesId: string[] = application.services;
       const serviceRepository = await PostgresServiceRepository.create(
         await options.database.getClient(),
       );
 
+      // todo add to acl plugin
       await ConsumerService.Instance.createConsumer(consumer);
       servicesId.forEach(async x => {
         const service: Service = await serviceRepository.getServiceById(x);
         if (service instanceof Object) {
           ConsumerGroupService.Instance.addConsumerToGroup(
-            serviceConcatGroup(service.name as string),
+            serviceConcatGroup(service.kongServiceName as string),
             consumer.username,
           );
         }
       });
+
+      return application
     } catch (error) {
-      console.log(error);
+      console.log(error)
+      return error
     }
   }
 
@@ -65,7 +70,7 @@ export class ApplicationServices {
       }
       applicationRepository.deleteApplication(applicationId);
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
 
@@ -84,7 +89,7 @@ export class ApplicationServices {
       const application = await applicationRepository.getApplicationById(
         applicationId,
       );
-      const servicesId: string[] = applicationDto.servicesId;
+      const servicesId: string[] = applicationDto.services;
 
       if (application instanceof Object) {
         await ConsumerGroupService.Instance.removeConsumerFromGroups(
@@ -102,7 +107,7 @@ export class ApplicationServices {
         });
       }
     } catch (error) {
-      console.log(error);
+      return error
     }
   }
 }

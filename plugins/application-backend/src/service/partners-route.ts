@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { RouterOptions } from "./router";
-import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerReppository";
+import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerRepository";
 import { PartnerDto } from "../modules/partners/dtos/PartnerDto";
 import { AxiosError } from "axios";
 import { TestGroups } from "../modules/keycloak/adminClient";
 import { KeycloakUserService } from "../modules/keycloak/service/UserService";
-import { UpdateUserDto, UserDto } from "../modules/keycloak/dtos/UserDto";
+// import { UpdateUserDto, UserDto } from "../modules/keycloak/dtos/UserDto";
+import { PostgresPartnerApplicationRepository } from "../modules/partners/repositories/Knex/KnexPartnerApplicationRepository";
+import { PostgresPartnerServiceRepository } from "../modules/partners/repositories/Knex/knexPartnerServiceRepository";
 
 /** @public */
 export async function createPartnersRouter(
@@ -14,10 +16,84 @@ export async function createPartnersRouter(
   const partnerRepository = await PostgresPartnerRepository.create(
     await options.database.getClient(),
   );
+
+
+  const partnerApplicationRepository = await PostgresPartnerApplicationRepository.create(
+    await options.database.getClient(),
+  )
+
+  const partnerServiceRepository = await PostgresPartnerServiceRepository.create(
+    await options.database.getClient(),
+  )
   const router = Router();
 
   const adminClientKeycloak = new TestGroups();
   const userServiceKeycloak = new KeycloakUserService();
+
+  router.get('/applications/:idPartner', async (request, response) => {
+    console.log('aqui')
+    const code = request.params.idPartner
+    const applications = await partnerApplicationRepository.getApplicationsByPartner(code)
+    response.status(200).json({ applications: applications })
+  })
+
+  router.get('/services/:idPartner', async (request, response) => {
+    const code = request.params.idPartner
+    const services = await partnerServiceRepository.getServiceByPartner(code)
+    response.status(200).json({ services: services })
+  })
+
+  router.post('/applications/:idPartner', async (request, response) => {
+    try {
+
+      const code = request.params.idPartner
+      const applicationsId = request.body.applicationsId as string[]
+      const applications = await partnerApplicationRepository.associate(code, applicationsId)
+      response.status(200).json({ applications: applications })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
+  });
+
+  router.post('/services/:idPartner', async (request, response) => {
+    try {
+      const code = request.params.idPartner
+      const servicesId = request.body.servicesId as string[]
+      const services = await partnerServiceRepository.associate(code, servicesId)
+      response.status(200).json({ services: services })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
+  });
+
 
   router.get('/', async (request, response) => {
     const offset: number = request.query.offset as any;
@@ -43,7 +119,7 @@ export async function createPartnersRouter(
 
   router.post('/', async (request, response) => {
     try {
-      const partner: PartnerDto = request.body.partners;
+      const partner: PartnerDto = request.body.partner;
       const result = await partnerRepository.createPartner(partner);
       // const keycloakRegister = await userServiceKeycloak.createUser()
       response.status(201).json({ status: 'ok', partner: result });
@@ -68,7 +144,7 @@ export async function createPartnersRouter(
 
 
   router.delete('/:id', async (request, response) => {
-    try{
+    try {
       const code = request.params.id;
       const result = await partnerRepository.deletePartner(code);
       response.status(204).json({ status: 'ok', partner: result });
@@ -95,7 +171,7 @@ export async function createPartnersRouter(
   router.patch('/:id', async (request, response) => {
     try {
       const code = request.params.id;
-      const partner: PartnerDto = request.body.partners;
+      const partner: PartnerDto = request.body.partner;
       const result = await partnerRepository.patchPartner(code, partner);
       response.status(200).json({ status: 'ok', partner: result });
     } catch (error: any) {
@@ -120,7 +196,7 @@ export async function createPartnersRouter(
   router.put('/:id', async (request, response) => {
     try {
       const code = request.params.id;
-      const partner: PartnerDto = request.body.partners;
+      const partner: PartnerDto = request.body.partner;
       const result = await partnerRepository.patchPartner(code, partner);
       response.status(200).json({ status: 'ok', partner: result });
     } catch (error: any) {

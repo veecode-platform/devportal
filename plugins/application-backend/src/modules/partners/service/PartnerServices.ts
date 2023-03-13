@@ -8,12 +8,12 @@ import { ServiceDto } from '../../services/dtos/ServiceDto';
 import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
 import { ControllPlugin } from '../../services/service/ControllPlugin';
 import { PartnerDto } from '../dtos/PartnerDto';
-import { PostgresPartnerRepository } from '../repositories/Knex/KnexPartnerReppository';
+import { PostgresPartnerRepository } from '../repositories/Knex/KnexPartnerRepository';
 
 export class PartnerServices {
   private static _instance: PartnerServices;
 
-  public constructor() {}
+  public constructor() { }
 
   public static get Instance() {
     return this._instance || (this._instance = new this());
@@ -28,16 +28,16 @@ export class PartnerServices {
         groupId,
       );
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
 
-  public async removePartner(partnerId: string, options: RouterOptions) {
+  public async removePartner(partnersId: string, options: RouterOptions) {
     try {
       const partnerRepository = await PostgresPartnerRepository.create(
         await options.database.getClient(),
       );
-      const partner = await partnerRepository.getPartnerById(partnerId);
+      const partner = await partnerRepository.getPartnerById(partnersId);
 
       if (partner instanceof Object) {
         const applications: string[] = partner.applicationId as string[];
@@ -58,12 +58,12 @@ export class PartnerServices {
         }
       }
     } catch (error) {
-      console.log(error);
+      return error
     }
   }
 
   public async updatePartner(
-    partnerId: string,
+    partnersId: string,
     partnerDto: PartnerDto,
     options: RouterOptions,
   ) {
@@ -77,7 +77,7 @@ export class PartnerServices {
       const serviceRepository = await PostgresServiceRepository.create(
         await options.database.getClient(),
       );
-      const partner = await partnerRepository.getPartnerById(partnerId);
+      const partner = await partnerRepository.getPartnerById(partnersId);
 
       if (partner instanceof Object) {
         const listUsers = await KeycloakUserService.Instance.listUsers();
@@ -102,9 +102,7 @@ export class PartnerServices {
             if (applicationObj instanceof Object) {
               let applicationDto = new ApplicationDto(
                 applicationObj.name as string,
-                applicationObj.creator as string,
-                applicationObj.parternId as string,
-                applicationObj.servicesId as string[],
+                applicationObj.creator as string,  
                 (applicationObj.active = false),
               );
               await applicationRepository.patchApplication(
@@ -127,7 +125,6 @@ export class PartnerServices {
                 serviceObj.kongServiceName as string,
                 serviceObj.kongServiceId as string,
                 (serviceObj.active = false),
-                serviceObj.partnersId as string[],
               );
               await serviceRepository.patchService(service, serviceDto);
             }
@@ -135,7 +132,7 @@ export class PartnerServices {
         }
       }
     } catch (error) {
-      console.log(error);
+      return error
     }
   }
 }

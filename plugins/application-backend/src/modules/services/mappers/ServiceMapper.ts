@@ -9,7 +9,6 @@ export class ServiceMapper {
       name: service.props.name,
       active: service.props.active,
       description: service.props.description,
-      partnersId: service.props.partnersId,
       redirectUrl: service.props.redirectUrl,
       kongServiceName: service.props.kongServiceName,
       kongServiceId: service.props.kongServiceId,

@@ -85,9 +85,7 @@ export const NewApplicationComponent = () => {
     name: '',
     creator: "",
     active: true,
-    servicesId: [],
-    // kongConsumerName: '',
-    // kongConsumerId: '',
+    servicesId: "",
   });
   const [show, setShow] = useState<boolean>(false);
   const [errorField, setErrorField] = useState<IErrorStatus>({
@@ -110,19 +108,17 @@ export const NewApplicationComponent = () => {
       name: '',
       creator: '',
       active: true,
-      servicesId: [],
-      // kongConsumerName: '',
-      // kongConsumerId: '',
+      servicesId: '',
     });
   };
 
   const handleSubmit = async () => {          // CHECK  <--- tem que por o Id do partner
     const applicationData = {
-      applications: {
+      application: {
         name: application.name,
         creator: application.creator,
         active: application.active,
-        servicesId: application.servicesId,
+        services: application.servicesId,
       },
     };
     const response = await AxiosInstance.post("/applications", JSON.stringify(applicationData))

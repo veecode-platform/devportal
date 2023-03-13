@@ -13,15 +13,23 @@ export class PostgresPartnerRepository implements IPartnerRepository {
   }
 
   async getPartnerByUser(email: string): Promise<Partner[] | void> {
-    const partner = await this.db<Partner>('partners')
+    const partner = await this.db<Partner>('partner')
       .where('email', email)
+      .select('*')
+      .catch(error => console.error(error));
+    return partner;
+  }
+  async getPartnerIdByUserName(name: string): Promise<Partner | void> {
+    const partner = await this.db<Partner>('partner')
+      .where('name', name)
+      .first()
       .select('*')
       .catch(error => console.error(error));
     return partner;
   }
 
   async getPartnerByEmail(email: string): Promise<PartnerDto[] | void> {
-    const partner = await this.db<PartnerDto>('partners')
+    const partner = await this.db<PartnerDto>('partner')
       .where('email', email)
       .select('*')
       .catch(error => console.error(error));
@@ -29,15 +37,15 @@ export class PostgresPartnerRepository implements IPartnerRepository {
   }
 
   async getPartner(offset: number, limit: number): Promise<Partner[]> {
-    const partner = await this.db<Partner>('partners')
+    const partner = await this.db<Partner>('partner')
       .select('*')
       .offset(offset)
       .limit(limit)
       .catch(error => console.error(error));
 
-    const partnersDomain = PartnerResponseDto.create({ partners: partner });
+    const partnerDomain = PartnerResponseDto.create({ partners: partner });
     const responseData = await PartnerMapper.listAllPartnersToResource(
-      partnersDomain,
+      partnerDomain,
     );
 
     return responseData.partners ?? [];
@@ -45,7 +53,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
 
   public async total(): Promise<number> {
     return await (
-      await this.db<Partner>('partners').select('*')
+      await this.db<Partner>('partner').select('*')
     ).length;
   }
 
@@ -58,7 +66,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
 
   // method get one partner by id
   async getPartnerById(id: string): Promise<Partner | string> {
-    const partner = await this.db<Partner>('partners')
+    const partner = await this.db<Partner>('partner')
       .where('id', id)
       .limit(1)
       .select()
@@ -75,16 +83,14 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       name: partnerDto.name,
       active: partnerDto.active,
       email: partnerDto.email,
-      phone: partnerDto.phone,
-      servicesId: partnerDto.servicesId,
-      applicationId: partnerDto.applicationId,
+      phone: partnerDto.phone
     });
     return partner;
   }
 
   // method to delete partner
   async deletePartner(id: string): Promise<void> {
-    await this.db<Partner>('partners')
+    await this.db<Partner>('partner')
       .where('id', id)
       .del()
       .catch(error => console.error(error));
@@ -95,12 +101,10 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       name: partnerDto.name,
       active: partnerDto.active,
       email: partnerDto.email,
-      phone: partnerDto.phone,
-      servicesId: partnerDto.servicesId,
-      applicationId: partnerDto.applicationId,
+      phone: partnerDto.phone
     });
     const data = await PartnerMapper.toPersistence(partner);
-    const createdPartner = await this.db('partners')
+    const createdPartner = await this.db('partner')
       .insert(data)
       .catch(error => console.error(error));
     return createdPartner ? partner : 'cannot create partner';
@@ -114,12 +118,10 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       name: partnerDto.name,
       active: partnerDto.active,
       email: partnerDto.email,
-      phone: partnerDto.phone,
-      servicesId: partnerDto.servicesId,
-      applicationId: partnerDto.applicationId,
+      phone: partnerDto.phone
     });
     const data = await PartnerMapper.toPersistence(partner);
-    const updatedPartner = await this.db('partners')
+    const updatedPartner = await this.db('partner')
       .where('id', id)
       .update(data)
       .catch(error => console.error(error));
@@ -135,7 +137,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
     partnerDto: PartnerDto,
   ): Promise<Partner | string> {
     const partner: Partner = (await this.getPartnerById(id)) as Partner;
-    const patchedPartner = await this.db('partners')
+    const patchedPartner = await this.db('partner')
       .where('id', id)
       .update(partnerDto)
       .catch(error => console.error(error));

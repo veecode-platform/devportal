@@ -51,7 +51,7 @@ export async function startStandaloneServer(
     logger,
     database: { getClient: async () => db },
     config: config,
-    permissions
+    permissions,
   });
 
   const service = createServiceBuilder(module)

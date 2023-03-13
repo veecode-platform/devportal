@@ -4,12 +4,17 @@ import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { AlertComponent } from '../../shared';
 import AxiosInstance from '../../../api/Api';
+import { Alert } from '@material-ui/lab';
+import useAsync from 'react-use/lib/useAsync';
+import { Select } from '../../shared';
+
 import {
   InfoCard,
   Header,
   Page,
   Content,
   ContentHeader,
+  Progress,
 } from '@backstage/core-components';
 import { ICreatePartner, IErrorStatus } from '../interfaces';
 import { FetchServicesList } from '../commons';
@@ -19,6 +24,40 @@ import {
   validatePhone,
 } from '../../shared/commons/validate';
 
+
+const KeycloakUsersList = ({partner, setPartner}: any) =>{
+  const { value, loading, error } = useAsync(async (): Promise<any> => {
+    const {data} = await AxiosInstance.get(`/keycloak/users`);
+    return data.users;
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return (
+    <Select
+      placeholder="Keycloak User"
+      label="Keycloak User"
+      items={value.map((item: any) => {
+        return { ...{ label: item.username, value: `${item.id}---${item.username}---${item.email}`, key: item.id } };
+        })}
+      onChange={e => {
+        const splited = e.toString().split("---")
+        // console.log(e, splited)
+
+        setPartner({...partner,
+          name: splited[1],
+          email: splited[2],
+          phone: "(21)99990-9999"
+        })
+      }}
+    />
+  )
+
+}
+
 export const CreateComponent = () => {
   const [partner, setPartner] = useState<ICreatePartner>({
     name: '',
@@ -26,7 +65,6 @@ export const CreateComponent = () => {
     email: '',
     phone: '',
     servicesId: [],
-    applicationId: [],
   });
 
   const [show, setShow] = useState(false);
@@ -48,31 +86,32 @@ export const CreateComponent = () => {
       email: '',
       phone: '',
       servicesId: [],
-      applicationId: [],
     });
   };
 
   const handleSubmit = async () => {
     const dataPartner = {
-      partners: {
+      partner: {
         name: partner.name,
         active: partner.active,
         email: partner.email,
         phone: partner.phone,
         servicesId: partner.servicesId,
-        applicationId: partner.applicationId,
       },
     };
 
-    const response = await AxiosInstance.post(
+    const {data} = await AxiosInstance.post(
       '/partners',
       JSON.stringify(dataPartner),
+    );
+    const associateServices = await AxiosInstance.post(
+      `/partners/services/${data.partner._id}`, JSON.stringify({servicesId: partner.servicesId})
     );
     setShow(true);
     setTimeout(() => {
       window.location.replace('/partners');
     }, 2000);
-    return response.data;
+    return {...data, ...associateServices.data};
   };
 
   return (
@@ -95,12 +134,19 @@ export const CreateComponent = () => {
                 justifyContent="center"
               >
                 <Grid item xs={12}>
+                  <KeycloakUsersList partner={partner} setPartner={setPartner}/>
+                </Grid>
+                <Grid item xs={12}>
+                  <FetchServicesList partner={partner} setPartner={setPartner}/>
+                </Grid>
+                <Grid item xs={12}>
                   <TextField
                     fullWidth
                     variant="outlined"
                     label="Name"
                     value={partner.name ?? ''}
                     required
+                    disabled
                     onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
@@ -117,16 +163,11 @@ export const CreateComponent = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FetchServicesList
-                    partner={partner}
-                    setPartner={setPartner}
-                  />
-                </Grid>
-                <Grid item xs={12}>
                   <TextField
                     fullWidth
                     variant="outlined"
                     label="Email"
+                    disabled
                     type="email"
                     value={partner.email ?? ''}
                     required
@@ -150,6 +191,7 @@ export const CreateComponent = () => {
                     type="text"
                     variant="outlined"
                     label="Phone"
+                    disabled
                     value={partner.phone ?? ''}
                     required
                     onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, phone: true }) }}

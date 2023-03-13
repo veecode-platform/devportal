@@ -1,15 +1,13 @@
-import { Application } from '../domain/Application';
+
+import { ApplicationService } from '../domain/ApplicationService';
 import { ApplicationResponseDto } from '../dtos/ApplicationResponseDto';
 
-export class ApplicationMapper {
-  static async toPersistence(application: Application) {
+export class ApplicationServiceMapper {
+  static async toPersistence(application: ApplicationService) {
     return {
       id: application._id,
-      creator: application.props.creator,
-      name: application.props.name,
-      active: application.props.active,
-      externalId: application.props.externalId,
-      createdAt: application.props.createdAt,
+      application_id: application.props.application_id,
+      service_id: application.props.service_id
     };
   }
   static async listAllApplicationsToResource(
@@ -19,7 +17,6 @@ export class ApplicationMapper {
       applications: applicationResponseDto.props.applications ?? [],
       application: applicationResponseDto.props.application ?? '',
       services: applicationResponseDto.props.services ?? [],
-      partner: applicationResponseDto.props.partner ?? ""
     };
   }
 }

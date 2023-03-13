@@ -3,8 +3,6 @@ import { Entity } from '../../../core/domain/Entity';
 export type ApplicationProps = {
   name: string;
   creator: string;
-  parternId: string;
-  servicesId: string[];
   active?: boolean;
   externalId?: string;
   createdAt?: Date;
@@ -14,8 +12,6 @@ export type ApplicationProps = {
 export class Application extends Entity<ApplicationProps> {
   name?: string;
   creator?: string;
-  parternId?: string;
-  servicesId?: string[];
   active?: boolean;
   externalId?: string;
   createdAt?: Date;

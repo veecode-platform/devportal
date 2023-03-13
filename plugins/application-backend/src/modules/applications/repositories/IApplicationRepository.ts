@@ -7,7 +7,7 @@ export interface IApplicationRepository {
   getApplicationById(id: string): Promise<Application | string>;
   saveApplication(applicationDto: ApplicationDto): Promise<Application>;
   deleteApplication(id: string): Promise<void>;
-  createApplication(applicationDto: ApplicationDto): Promise<Application | string>;
+  createApplication(applicationDto: ApplicationDto, partnerId: String): Promise<Application | string>;
   patchApplication(id: string, applicationDto: ApplicationDto): Promise<Application | string>;
   associate(id: string, servicesId: string[]): any;
   total(): Promise<number>;

@@ -10,13 +10,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Grid, Button} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import { IPartner } from '../../utils/interfaces';
-import AxiosInstance from '../../../../api/Api';
+import AxiosInstance from '../../../api/Api';
+import { IService } from '../../services/utils/interfaces';
+import { useApi, identityApiRef } from '@backstage/core-plugin-api';
 
-type PartnerListProps = {
-  partners: IPartner[];
-  servicePartnerId: string[];
-  serviceId: string;
+type ServiceListProps = {
+  services: IService[];
+  partnerId: string[];
 }
 
 type ActionsGridProps = {
@@ -44,8 +44,8 @@ const ActionsGrid = ({removeHandler, addHandler, partnerId}:ActionsGridProps) =>
   )
 }
 
-const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) =>{
-  const [partnerList, setPartnerList] = useState(servicePartnerId);
+const ServicesList = ({services, partnerId}:ServiceListProps) =>{
+  const [partnerList, setPartnerList] = useState(partnerId);
   const [loading, setLoading] = useState(false)
   // console.log(partners, servicePartnerId, serviceId)
 
@@ -56,7 +56,7 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
         partnersId: partnerList,
       }
     }
-    await AxiosInstance.patch(`services/${serviceId}`, JSON.stringify(updateServicesPartners) )
+    await AxiosInstance.patch(`partners/services/${partnerId}`, JSON.stringify(updateServicesPartners) )
     
     new Promise (() =>{
       setTimeout(()=>{setLoading(false)}, 500);
@@ -82,19 +82,17 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
     const columns: TableColumn[] = [
         { title: 'Id', field: 'id', width:'1fr' },
         { title: 'Name', field: 'name', width: '1fr' },
-        { title: 'Email', field: 'email', width: '1fr' },
-        { title: "Status", field: "status", width: '1fr'},
-        { title: "Action", field: "action", width: '1fr'}
+        // { title: "Status", field: "status", width: '1fr'},
+        // { title: "Action", field: "action", width: '1fr'}
       ];
       // defaultGroupOrder: 1, organiza por grupos
     
-      const data = partners.map(partner => {
+      const data = services.map(service => {
         return {
-          name: partner.name,
-          email: partner.email,
-          id: partner.id,
-          status: partnerList.indexOf(partner.id) >=0 ? "Enabled" : "Disabled",
-          action: <ActionsGrid partnerId={partner.id} removeHandler={removeHandler} addHandler={addHandler}/>,
+            name: service.name,
+            id: service.id,
+            // status: partnerList.indexOf(service.id) >=0 ? "Enabled" : "Disabled",
+            // action: <ActionsGrid partnerId={service.id} removeHandler={removeHandler} addHandler={addHandler}/>,
           // listed: partnerList.indexOf(partner.id) >=0 ? <CheckBoxIcon/> : <CheckBoxOutlineBlankIcon/>
         };
       });
@@ -102,25 +100,28 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
       return (       
         <>
         <Table
-          title={`Partners (${partners.length})`}
-          options={{ search: true, paging: true }}
+          title={`Services (${services.length})`}
+          options={{ search: true, paging: false }}
           columns={columns}
           data={data}
         />
         <Grid style={{margin: "2vw"}} item xs={12} >
           <Grid container justifyContent='center' alignItems='center' spacing={2}>
             <Grid item><Button component={RouterLink} to="/services" variant='contained' size='large'>Cancel</Button></Grid>
-            <Grid item><Button disabled={partnerList === servicePartnerId || loading} onClick={()=>{handleSubmit()}} variant='contained' size='large'>{loading ? "Saving..." :"Save"}</Button></Grid>
+            <Grid item><Button /* disabled={partnerList === servicePartnerId || loading}*/ onClick={()=>{handleSubmit()}} variant='contained' size='large'>{loading ? "Saving..." :"Save"}</Button></Grid>
           </Grid>           
         </Grid>
         </>
       );    
 }
 
-export const PartnerListComponent = ({servicePartnerId, serviceId}:any) => {
-    const { value, loading, error } = useAsync(async (): Promise<IPartner[]> => {
-      const {data} = await AxiosInstance.get("/partners")
-      return data.partners;
+export const PartnerServiceListTable = ({partnerId}:any) => {
+    const user = useApi(identityApiRef);
+
+    const { value, loading, error } = useAsync(async (): Promise<IService[]> => {
+        const userIdentityToken = await user.getCredentials()
+        const {data} = await AxiosInstance.get(`/services`, {headers:{ Authorization: `Bearer ${userIdentityToken.token}`}})
+        return data.services;
     }, []);
   
     if (loading) {
@@ -128,5 +129,5 @@ export const PartnerListComponent = ({servicePartnerId, serviceId}:any) => {
     } else if (error) {
       return <Alert severity="error">{error.message}</Alert>;
     }
-    return <PartnersList partners={value || []} servicePartnerId={servicePartnerId} serviceId={serviceId}/>;
+    return <ServicesList services={value || []} partnerId={partnerId}/>;
   };

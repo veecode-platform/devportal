@@ -4,6 +4,7 @@ import { Partner } from "../domain/Partner";
 export interface IPartnerRepository {
   getPartner(limit: number, offset: number): Promise<Partner[]>;
   getPartnerByUser(email:string): Promise<Partner[] | void>;
+  getPartnerIdByUserName(name:string): Promise<Partner | void>;
   getPartnerByEmail(email:string): Promise<PartnerDto[] | void>;
   getPartnerById(id: string): Promise<Partner| string>;
   savePartner(partnerDto: PartnerDto): Promise<Partner>;

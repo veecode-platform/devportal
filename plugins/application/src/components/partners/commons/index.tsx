@@ -64,7 +64,7 @@ export const FetchServicesList = ({partner, setPartner}: Props) => {
         return { ...{ label: item.name, value: item.id, key: item.id } };
         })}
       multiple
-      selected={partner.applicationId}
+      selected={partner.applicationsId}
       onChange={e => {
       setPartner({ ...partner, applicationId: e });
       }}

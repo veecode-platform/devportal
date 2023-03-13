@@ -1,9 +1,8 @@
 export class ApplicationDto {
   creator: string;
   name: string;
-  parternId: string;
-  servicesId: string[];
   description?: string;
+  services: string[];
   active?: boolean;
   statusKong?: string;
   createdAt?: Date;
@@ -13,8 +12,7 @@ export class ApplicationDto {
   constructor(
     creator: string,
     name: string,
-    parternId: string,
-    servicesId: string[],
+    services: string[],
     active?: boolean,
     createdAt?: Date,
     updatedAt?: Date,
@@ -24,9 +22,8 @@ export class ApplicationDto {
   ) {
     this.creator = creator;
     this.name = name;
-    this.parternId = parternId;
-    this.servicesId = servicesId;
     this.description = description;
+    this.services = services;
     this.active = active;
     this.statusKong = statusKong;
     this.createdAt = createdAt;

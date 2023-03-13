@@ -15,7 +15,7 @@ export class ConsumerService extends KongServiceBase {
   }
 
   public async findConsumer(consumerName: string) {
-    const url = `${await this.getUrl()}/consumers/${consumerName}`;
+    const url = `${await this.getBaseUrl()}/consumers/${consumerName}`;
     const response = await axios
       .get(url, {
         headers: await this.getAuthHeader(),
@@ -26,7 +26,7 @@ export class ConsumerService extends KongServiceBase {
   }
 
   public async deleteConsumer(consumerId: string): Promise<Consumer> {
-    const url = `${await this.getUrl()}/consumers/${consumerId}`;
+    const url = `${await this.getBaseUrl()}/consumers/${consumerId}`;
     const response = await axios
       .delete(url, {
         headers: await this.getAuthHeader(),
@@ -37,8 +37,8 @@ export class ConsumerService extends KongServiceBase {
   }
 
   public async createConsumer(consumer: Consumer): Promise<Consumer> {
-    const url = `${await this.getUrl()}/consumers`;
-    console.log('url', url)
+    const baseUrl = await this.getBaseUrl()
+    const url = `${baseUrl}/consumers`;
     const response = await axios
       .post(url, consumer, {
         headers: await this.getAuthHeader(),
@@ -51,7 +51,7 @@ export class ConsumerService extends KongServiceBase {
     consumerId: string,
     consumer: Consumer,
   ): Promise<Consumer> {
-    const url = `${await this.getUrl()}/consumers/${consumerId}`;
+    const url = `${await this.getBaseUrl()}/consumers/${consumerId}`;
     const response = await axios
       .put(url, consumer, {
         headers: await this.getAuthHeader(),

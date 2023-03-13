@@ -54,12 +54,12 @@ const EditApplicationComponent = ({ application }: Application) => {
     const applicationData = {
       applications:{
         name: app.name,
-        creator: app.name,
+        creator: app.creator,
         active: app.active,
         servicesId: app.servicesId,
       }
     }
-    const response = await AxiosInstance.patch(`applications/${app?.id}`,JSON.stringify(applicationData) )
+    const response = await AxiosInstance.patch(`/applications/${application?.id}`,JSON.stringify(applicationData) )
     setShow(true);
     setTimeout(()=>{
       window.location.replace('/application');

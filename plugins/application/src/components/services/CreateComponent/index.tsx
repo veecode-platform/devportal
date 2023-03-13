@@ -40,7 +40,7 @@ export const CreateComponent = () => {
       kongServiceName:'',
       active: true,
       description: '',
-      redirectUrl: '',
+      redirectUrl: 's',
       kongServiceId: '',
       securityType: '',
       rateLimiting: 0,
@@ -48,13 +48,13 @@ export const CreateComponent = () => {
   };
 
   useEffect(()=>{
-    let x = service.name.length==0 || service.kongServiceId=="" || service.description.length==0 || service.securityType=="" || service.redirectUrl.length==0;
+    let x = service.name.length===0 || service.kongServiceId==="" || service.description.length===0 || service.securityType==="";
     setError(x)
   }, [service])
 
   const handleSubmit = async () => {
     const servicePost = {
-      services: {
+      service: {
         name: service.name,
         kongServiceName:service.kongServiceName,
         active: service.active,
@@ -62,8 +62,7 @@ export const CreateComponent = () => {
         redirectUrl: service.redirectUrl,
         kongServiceId: service.kongServiceId,
         rateLimiting: service.rateLimiting,
-        securityType: service.securityType,
-        partnersId: []
+        securityType: service.securityType
       },
     };
     const response = await AxiosInstance.post("/services", JSON.stringify(servicePost) )
@@ -101,7 +100,7 @@ export const CreateComponent = () => {
               >
                 <Grid item xs={12}>
                   <TextField
-                    //error={error}
+                    // error={error}
                     fullWidth
                     variant="outlined"
                     label="Service Name"
@@ -126,12 +125,12 @@ export const CreateComponent = () => {
                       label="Service Status"
                       items={[{label:'active', value: 'true' }, {label:'inactive', value: 'false' }]}
                       onChange={e => {
-                          setService({ ...service, active: e == "true" ? true : false });
+                          setService({ ...service, active: e === "true" ? true : false });
                       }}
                     />
                 </Grid>
 
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <TextField
                     fullWidth
                     variant="outlined"
@@ -142,7 +141,7 @@ export const CreateComponent = () => {
                       setService({ ...service, redirectUrl: e.target.value });
                     }}
                   />
-                </Grid>
+                  </Grid>*/}
 
                 <Grid item xs={12}>
                   <TextField

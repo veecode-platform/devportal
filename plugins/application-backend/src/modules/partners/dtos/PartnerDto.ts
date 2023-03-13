@@ -3,8 +3,6 @@ export class PartnerDto {
   active: boolean;
   email: string;
   phone: string;
-  servicesId: string[];
-  applicationId: string[];
   createdAt?: Date;
   updatedAt?: Date;
 
@@ -13,8 +11,6 @@ export class PartnerDto {
     active: boolean,
     email: string,
     phone: string,
-    servicesId: string[],
-    applicationId: string[],
     createdAt: Date,
     updatedAt: Date,
   ) {
@@ -22,8 +18,6 @@ export class PartnerDto {
     this.active = active;
     this.email = email;
     this.phone = phone;
-    this.servicesId = servicesId;
-    this.applicationId = applicationId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

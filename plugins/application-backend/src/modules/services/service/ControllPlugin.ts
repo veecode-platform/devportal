@@ -26,32 +26,32 @@ export class ControllPlugin {
   public async applySecurityType(service: ServiceDto) {
     const consumerGroupService = new ConsumerGroupService();
     try {
-      if (service.securityType?.toString() == SECURITY.OAUTH2.toString()) {
+      if (service.securityType?.toString() === SECURITY.OAUTH2.toString()) {
         await Oauth2Plugin.Instance.configureOauth(service.kongServiceName);
         const consumerGroup: ConsumerGroup = new ConsumerGroup(
-          service.kongServiceName + '-group',
+          `${service.kongServiceName}-group`,
         );
         await consumerGroupService.createConsumerGroup(consumerGroup);
         await AclPlugin.Instance.configAclKongService(service.kongServiceName, [
-          `${service.kongServiceName + '-group'}`,
+          `${service.kongServiceName}-group}`,
         ]);
       } else if (
-        service.securityType?.toString() == SECURITY.KEY_AUTH.toString()
+        service.securityType?.toString() === SECURITY.KEY_AUTH.toString()
       ) {
-        console.log('aqui applySecurityType')
+    
         await KeyAuthPlugin.Instance.configKeyAuthKongService(
           service.kongServiceName,
         );
         const consumerGroup: ConsumerGroup = new ConsumerGroup(
-          service.kongServiceName + '-group',
+          `${service.kongServiceName}-group`,
         );
         await consumerGroupService.createConsumerGroup(consumerGroup);
         await AclPlugin.Instance.configAclKongService(service.kongServiceName, [
-          `${service.kongServiceName + '-group'}`,
+          `${service.kongServiceName}-group`,
         ]);
       }
     } catch (error) {
-      console.log(error);
+     return error;
     }
   }
 
@@ -68,7 +68,6 @@ export class ControllPlugin {
 
     service.securityType = SECURITY.NONE;
     const kongServiceId = service.kongServiceId;
-    //console.log('Kong service Id', kongServiceId);
     const plugin = await PluginRepository.getPluginByServiceId(
       kongServiceId as string,
     ) as Plugin;

@@ -11,6 +11,7 @@ import {
 } from '@backstage/core-components';
 import { IPartner } from '../interfaces';
 import { DefaultDetailsComponent } from '../../shared';
+import { TabedParterDetails } from './TabedPartnerDetails';
 import EditIcon from '@material-ui/icons/Edit';
 import CachedIcon from '@material-ui/icons/Cached';
 import AxiosInstance from '../../../api/Api';
@@ -55,7 +56,7 @@ const Details = ({ partner }: PartnerProps) => {
     active: partner?.active ?? true,
     email: partner?.email ?? '...',
     phone: partner?.phone ?? '...',
-    applicationId: partner?.applicationId ?? '...',
+    applicationsId: partner?.applicationsId ?? '...',
     servicesId: partner?.servicesId ?? '...',
     createdAt: partner?.createdAt ?? '...',
     updatedAt : partner?.updatedAt ?? '...'
@@ -94,8 +95,10 @@ const Details = ({ partner }: PartnerProps) => {
               }
             />
             <Grid container direction='column' spacing={6}>
-              <DefaultDetailsComponent metadata={PartnerData} back="/partners" />
+              {/* <DefaultDetailsComponent metadata={PartnerData} back="/partners" /> */}
+              <TabedParterDetails metadata={PartnerData} back="/partners"/>
             </Grid>
+
           </Grid>
         </Card>
       </TabbedLayout.Route>

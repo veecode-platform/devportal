@@ -3,11 +3,16 @@ import express from 'express';
 
 import { RouterOptions } from "./router";
 import { PostgresApplicationRepository } from "../modules/applications/repositories/knex/KnexApplicationRepository";
+import { Application } from "../modules/applications/domain/Application";
 import { ApplicationDto } from "../modules/applications/dtos/ApplicationDto";
 import { ApplicationServices } from "../modules/applications/services/ApplicationServices";
 import { AssociateService } from "../modules/kong-control/AssociateService";
 import { KongHandler, security } from "../modules/kong-control/KongHandler";
 import { AxiosError } from "axios";
+import { PostgresApplicationServiceRepository } from "../modules/applications/repositories/knex/KnexApplicationServiceRepository";
+import { PostgresApplicationPartnerRepository } from "../modules/applications/repositories/knex/KnexApplicationPartnerRepository";
+
+import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerRepository";
 
 /** @public */
 export async function createApplicationRouter(
@@ -17,6 +22,12 @@ export async function createApplicationRouter(
   const applicationRepository = await PostgresApplicationRepository.create(
     await options.database.getClient(),
   );
+  const applicationServiceRepository = await PostgresApplicationServiceRepository.create(
+    await options.database.getClient(),
+  )
+  const partnerRepository = await PostgresPartnerRepository.create(await options.database.getClient())
+  const applicationPartnerRepository = await PostgresApplicationPartnerRepository.create(await options.database.getClient())
+
 
   const router = Router()
   const kongHandler = new KongHandler()
@@ -53,12 +64,17 @@ export async function createApplicationRouter(
   });
 
   router.post('/', async (request, response) => {
-    const data = request.body.applications;
-    await ApplicationServices.Instance.createApplication(data, options);
+    const data = request.body.application;
     try {
-      const result = await applicationRepository.createApplication(data);
-      response.send({ status: 'ok', result: result });
-    } catch (error: any) {
+      const partner = await partnerRepository.getPartnerIdByUserName(data.creator) as any
+      await ApplicationServices.Instance.createApplication(data,partner.id, options);
+      const result = await applicationRepository.createApplication(data, partner.id) as Application;
+      await applicationServiceRepository.associate(result._id as string, data.services)
+      await applicationPartnerRepository.associate(result._id as string, partner.id)
+      console.log(partner, result)
+      response.send({ status: 'ok', result: result});
+    } 
+    catch (error: any) {
       if (error instanceof Error) {
         response.status(500).json({
           name: error.name,
@@ -78,7 +94,7 @@ export async function createApplicationRouter(
   });
 
   router.post('/save', async (request, response) => {
-    const data: ApplicationDto = request.body.applications;
+    const data: ApplicationDto = request.body.application;
     try {
       const result = await applicationRepository.createApplication(data);
       response.send({ status: data, result: result });
@@ -102,7 +118,7 @@ export async function createApplicationRouter(
   });
 
   router.patch('/:id', async (request, response) => {
-    const data: ApplicationDto = request.body.applications;
+    const data: ApplicationDto = request.body.application;
     const applicationId = request.params.id
     await ApplicationServices.Instance.updateApplication(applicationId, data, options);
     try {
@@ -128,7 +144,7 @@ export async function createApplicationRouter(
   });
 
   router.put('/:id', async (request, response) => {
-    const data: ApplicationDto = request.body.applications;
+    const data: ApplicationDto = request.body.application;
     const code = request.params.id
     try {
       const result = await applicationRepository.updateApplication(code, data);
@@ -203,6 +219,60 @@ export async function createApplicationRouter(
 
 
   // associate applications with servicesId
+
+
+  router.get('/services/:idApplication', async (request, response) => {
+    try {
+      const idApplication = request.params.idApplication;
+      const services = await applicationServiceRepository.getServicesByApplication(idApplication)
+      response.status(200).json({ services: services })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
+  });
+
+
+
+  router.post('/services/:idApplication', async (request, response) => {
+    try {
+      const idApplication = request.params.idApplication;
+      const servicesId = request.body.servicesId as string[];
+      const services = await applicationServiceRepository.associate(idApplication, servicesId)
+      response.status(200).json({ services: services })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        response.status(500).json({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        })
+      } else if (error instanceof AxiosError) {
+        error = AxiosError
+        let date = new Date();
+        response.status(error.response.status).json({
+          status: 'ERROR',
+          message: error.response.data.errorSummary,
+          timestamp: new Date(date).toISOString(),
+        });
+      }
+    }
+  });
+
+
   router.patch('/associate/:id', async (request, response) => {
     try {
       const id = request.params.id;
@@ -315,7 +385,7 @@ export async function createApplicationRouter(
   });
 
   router.get('/:idApplication/credentials', async (req, res) => {
-  
+
     try {
       const id = req.params.idApplication;
       const serviceStore = await kongHandler.listCredentialWithApplication(

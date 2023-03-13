@@ -9,6 +9,6 @@ export default async function createPlugin(
     config:env.config,
     logger: env.logger,
     database:env.database,
-    permissions: env.permissions
+    permissions: env.permissions,
   });
 }

@@ -38,7 +38,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
     email: partnerData?.email ?? '',
     phone: partnerData?.phone ?? '',
     servicesId: partnerData?.servicesId ?? [],
-    applicationId: partnerData?.applicationId ?? [],
+    applicationsId: partnerData?.applicationsId ?? [],
   });
 
   const [show, setShow] = useState(false);
@@ -65,7 +65,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
       email: '',
       phone: '',
       servicesId: [],
-      applicationId: [],
+      applicationsId: [],
     });
   };
 
@@ -77,7 +77,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
         email: partner.email,
         phone: partner.phone,
         servicesId: partner.servicesId,
-        applicationId: partner.applicationId,
+        applicationsId: partner.applicationsId,
       },
     };
     const response = await AxiosInstance.put(
@@ -150,12 +150,6 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
 
                 <Grid item lg={12}>
                   <FetchServicesList
-                    partner={partner}
-                    setPartner={setPartner}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FetchApplicationsList
                     partner={partner}
                     setPartner={setPartner}
                   />
