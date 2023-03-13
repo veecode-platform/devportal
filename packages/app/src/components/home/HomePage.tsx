@@ -3,7 +3,6 @@ import {
   // HomePageToolkit,
   HomePageCompanyLogo,
 } from '@backstage/plugin-home';
-import {  HomePageStarredEntities} from './plugin'
 
 import { wrapInTestApp, TestApiProvider } from '@backstage/test-utils';
 import {
@@ -33,6 +32,7 @@ import {
   //  Icon 
 } from '../plataformLogo/plataformLogo';
 import BackstageLogo from "../../assets/backstage.png";
+import { HomePageStarredEntities } from '@internal/plugin-home-platform';
 
 const starredEntitiesApi = new MockStarredEntitiesApi();
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity');

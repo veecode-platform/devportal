@@ -56,7 +56,8 @@ import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api';
 
 // custom
-import { HomepageCompositionRoot } from '@backstage/plugin-home';
+// import { HomepageCompositionRoot } from '@backstage/plugin-home';
+import { HomepageCompositionRoot } from '@internal/plugin-home-platform';
 import { HomePage } from './components/home/HomePage';
 import { Light, Dark } from './components/theme/Theme';
 import { ThemeProvider } from '@material-ui/core/styles';
