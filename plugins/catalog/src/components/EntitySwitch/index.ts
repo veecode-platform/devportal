@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
-export { EntitySwitch } from './EntitySwitch';
+// export { EntitySwitch } from './EntitySwitch';/
+export { EntitySwitch } from '@backstage/plugin-catalog'
 export type { EntitySwitchProps, EntitySwitchCaseProps } from './EntitySwitch';
 export { isKind, isNamespace, isComponentType } from './conditions';

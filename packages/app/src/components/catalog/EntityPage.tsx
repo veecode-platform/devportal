@@ -17,9 +17,9 @@ import {
   hasCatalogProcessingErrors,
   isOrphan,
   EntityAboutCard,
-  EntityLayout
+  EntityLayout,
+  EntitySwitch
 } from '@internal/plugin-catalog';
-import {  EntitySwitch } from '@backstage/plugin-catalog';
 import {
   isGithubActionsAvailable,
   EntityRecentGithubActionsRunsCard,
