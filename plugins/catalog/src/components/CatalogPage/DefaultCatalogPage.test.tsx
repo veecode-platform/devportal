@@ -44,8 +44,8 @@ import {
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
-import { createComponentRouteRef } from '../routes';
-import { CatalogTableRow } from '../catalogTable';
+import { createComponentRouteRef } from '../../routes';
+import { CatalogTableRow } from '../CatalogTable';
 import { DefaultCatalogPage } from './DefaultCatalogPage';
 
 describe('DefaultCatalogPage', () => {
