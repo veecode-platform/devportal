@@ -11,11 +11,9 @@ import {
 } from '@internal/plugin-api-docs';
 import {
   CatalogEntityPage,
-  // CatalogIndexPage,
+  CatalogIndexPage,
   catalogPlugin,
-} from '@backstage/plugin-catalog';
-// custom page - catalog
-import { CatalogPage as CatalogIndexPage } from './components/catalog/catalogPage';
+} from '@internal/plugin-catalog';
 import {
   CatalogImportPage,
   catalogImportPlugin,

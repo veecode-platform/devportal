@@ -10,16 +10,16 @@ import {
   EntityHasResourcesCard,
   EntityHasSystemsCard,
   EntityLinksCard,
-  EntitySwitch,
   EntityOrphanWarning,
   EntityProcessingErrorsPanel,
   isComponentType,
   isKind,
   hasCatalogProcessingErrors,
   isOrphan,
-} from '@backstage/plugin-catalog';
-// custom
-import { AboutCard as EntityAboutCard } from "../catalog/AboutCard";
+  EntityAboutCard,
+  EntityLayout
+} from '@internal/plugin-catalog';
+import {  EntitySwitch } from '@backstage/plugin-catalog';
 import {
   isGithubActionsAvailable,
   EntityRecentGithubActionsRunsCard,
@@ -67,8 +67,6 @@ import {
 import { EntityVaultCard } from '@backstage/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
-import VaultEntity from './Vault/VaultEntity';
-import { EntityLayout } from './entityLayout';
 import { validateAnnotation } from './utils/validateAnnotation';
 import { PluginItem } from './utils/types';
 
@@ -252,7 +250,7 @@ const overviewContent = (
     </EntitySwitch>
         {validateAnnotation('vault.io/secrets-path') && (
         <Grid item lg={6} md={12} xs={12}>
-          <VaultEntity />
+          <EntityVaultCard />
         </Grid>
         )}
             {validateAnnotation('grafana/alert-label-selector') && (

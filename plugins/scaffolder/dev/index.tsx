@@ -31,7 +31,7 @@ import {
   fetchApiRef,
   identityApiRef,
 } from '@backstage/core-plugin-api';
-import { CatalogEntityPage } from '@backstage/plugin-catalog';
+import { CatalogEntityPage } from '@internal/plugin-catalog';
 
 createDevApp()
   .addPage({

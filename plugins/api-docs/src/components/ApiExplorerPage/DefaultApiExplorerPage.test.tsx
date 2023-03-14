@@ -29,7 +29,7 @@ import {
   import {
     CatalogTableRow,
     DefaultStarredEntitiesApi,
-  } from '@backstage/plugin-catalog';
+  } from '@internal/plugin-catalog';
   import {
     CatalogApi,
     catalogApiRef,
@@ -44,7 +44,7 @@ import {
   import DashboardIcon from '@material-ui/icons/Dashboard';
   import { render } from '@testing-library/react';
   import React from 'react';
-  import { apiDocsConfigRef } from '../../../../../packages/app/src/components/api-docs/config';
+  import { apiDocsConfigRef } from '../../config';
   import { DefaultApiExplorerPage } from './DefaultApiExplorerPage';
   
   describe('DefaultApiExplorerPage', () => {

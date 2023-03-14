@@ -1,14 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import {
-  // HomePageToolkit,
-  HomePageCompanyLogo,
-} from '@backstage/plugin-home';
-
 import { wrapInTestApp, TestApiProvider } from '@backstage/test-utils';
 import {
   Content,
-  Page,
-  //  InfoCard 
+  Page
 } from '@backstage/core-components';
 import {
   starredEntitiesApiRef,
@@ -22,17 +15,12 @@ import {
   searchApiRef,
   SearchContextProvider,
 } from '@backstage/plugin-search-react';
-// import { HomePageStackOverflowQuestions } from '@backstage/plugin-stack-overflow';
 import { Grid, makeStyles } from '@material-ui/core';
 import React, { ComponentType, useEffect } from 'react';
-
 // custom
-import {
-  Logo,
-  //  Icon 
-} from '../plataformLogo/plataformLogo';
+import { Logo } from '../plataformLogo/plataformLogo';
 import BackstageLogo from "../../assets/backstage.png";
-import { HomePageStarredEntities } from '@internal/plugin-home-platform';
+import { HomePageStarredEntities,  HomePageCompanyLogo } from '@internal/plugin-home-platform';
 
 const starredEntitiesApi = new MockStarredEntitiesApi();
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity');
@@ -104,7 +92,6 @@ const useStyles = makeStyles(theme => ({
   }
   ,
   footerWrapper:{
-    // width: '100%',
     marginTop: '10rem',    
     display: 'flex',
     alignItems: 'center',
@@ -157,30 +144,6 @@ export const HomePage = () => {
               <Grid item lg={11} xs={12}>
                 <HomePageStarredEntities />
               </Grid>
-              {/* <Grid item xs={12} md={6}>
-                <HomePageToolkit
-                  tools={Array(8).fill({
-                    url: '#',
-                    label: 'link',
-                    icon: <Icon />,
-                  })}
-                />
-              </Grid> */}
-              {/* <Grid item xs={12} md={6}>
-                <InfoCard  title="Composable Section"> */}
-              {/* placeholder for content */}
-              {/* <div style={{ height: 370 }} />
-                </InfoCard>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <HomePageStackOverflowQuestions
-                  requestParams={{
-                    tagged: 'backstage',
-                    site: 'stackoverflow',
-                    pagesize: 5,
-                  }}
-                />
-              </Grid> */}
             </Grid>
             <Grid item className={classes.footerWrapper} lg={12}>
               <p className={classes.footer}>

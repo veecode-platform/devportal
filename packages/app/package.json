@@ -37,6 +37,7 @@
     "@backstage/plugin-vault": "^0.1.8",
     "@backstage/theme": "^0.2.16",
     "@internal/plugin-api-docs": "^0.1.0",
+    "@internal/plugin-catalog": "^0.1.0",
     "@internal/plugin-home-platform": "^0.1.0",
     "@internal/plugin-scaffolder": "^0.1.0",
     "@internal/plugin-sign-in": "^0.1.0",
