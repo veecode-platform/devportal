@@ -153,9 +153,6 @@ const pullRequestsContent = (
   <EntitySwitch>
     <EntitySwitch.Case>
       <EntityGithubPullRequestsTable/>
-      {/* <HomePageYourOpenPullRequestsCard/> */}
-      {/* <HomePageRequestedReviewsCard/> */}
-      {/* <EntityGithubPullRequestsOverviewCard/> */}
     </EntitySwitch.Case>
   </EntitySwitch>
 );
