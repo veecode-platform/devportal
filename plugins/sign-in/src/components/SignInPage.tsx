@@ -19,8 +19,8 @@ import {
   import { getSignInProviders, useSignInProviders } from './providers';
   import { GridItem, useStyles } from './styles';
   import { IdentityProviders, SignInProviderConfig } from './types';
-import { Logo } from '../plataformLogo/plataformLogo';
-import BackstageLogo from "../../assets/backstage.png";
+import { Logo } from './plataformLogo/plataformLogo';
+import BackstageLogo from "./assets/backstage.png";
 
   type MultiSignInPageProps = SignInPageProps & {
     providers: IdentityProviders;

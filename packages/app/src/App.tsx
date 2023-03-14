@@ -34,21 +34,17 @@ import {
   TechDocsReaderPage,
   DefaultTechDocsHome
 } from '@backstage/plugin-techdocs';
-// custom user-settings
 import { UserSettingsPage } from '@internal/plugin-user-settings-platform';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';
 import {
   AlertDisplay,
-  OAuthRequestDialog,
-  // SignInPage,
+  OAuthRequestDialog
 } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api';
-
 // custom
-// import { HomepageCompositionRoot } from '@backstage/plugin-home';
 import { HomepageCompositionRoot } from '@internal/plugin-home-platform';
 import { HomePage } from './components/home/HomePage';
 import { Light, Dark } from './components/theme/Theme';
@@ -56,19 +52,16 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
-
+import '../src/components/theme/theme.css';
 import { searchPage } from './components/search/SearchPage';
 import { ServicesPage, PartnersPage, ApplicationPage} from '@internal/plugin-application';
-// login
 import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-// custom siginpage
-import { SignInPage } from './components/signInPage/SignInPage';
-import '../src/components/theme/theme.css';
+import { SignInPage } from '@internal/plugin-sign-in/src/components/SignInPage';
 import { useGuest } from './Hooks/useGuest';
 import { useApiManagement } from './Hooks/apiManagement';
-import { GuestUserIdentity } from './components/signInPage/providers/guestUserIdentity';
+import { GuestUserIdentity } from '@internal/plugin-sign-in/src/components/providers/guestUserIdentity';
 
 
 const SignInComponent: any = (props: SignInPageProps) => {
