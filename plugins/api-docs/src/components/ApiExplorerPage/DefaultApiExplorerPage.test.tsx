@@ -44,7 +44,7 @@ import {
   import DashboardIcon from '@material-ui/icons/Dashboard';
   import { render } from '@testing-library/react';
   import React from 'react';
-  import { apiDocsConfigRef } from '../config';
+  import { apiDocsConfigRef } from '../../../../../packages/app/src/components/api-docs/config';
   import { DefaultApiExplorerPage } from './DefaultApiExplorerPage';
   
   describe('DefaultApiExplorerPage', () => {

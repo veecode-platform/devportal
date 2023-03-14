@@ -7,10 +7,8 @@ import {
 } from 'react-router';
 import {
   apiDocsPlugin,
-  //  ApiExplorerPage  // change for custom page
-} from '@backstage/plugin-api-docs';
-// custom page - API explorer
-import { ApiExplorerPage } from './components/api-docs/apiExplorerPage/ApiExplorerPage';
+  ApiExplorerPage
+} from '@internal/plugin-api-docs';
 import {
   CatalogEntityPage,
   // CatalogIndexPage,
@@ -62,6 +60,7 @@ import { SignInPage } from '@internal/plugin-sign-in/src/components/SignInPage';
 import { useGuest } from './Hooks/useGuest';
 import { useApiManagement } from './Hooks/apiManagement';
 import { GuestUserIdentity } from '@internal/plugin-sign-in/src/components/providers/guestUserIdentity';
+
 
 
 const SignInComponent: any = (props: SignInPageProps) => {

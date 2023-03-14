@@ -24,9 +24,7 @@ import {
     TableProps,
   } from '@backstage/core-components';
   import { configApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
-  import { CatalogTableRow } from '@backstage/plugin-catalog';
-  // custom
-  import { CatalogTable } from '../../catalog/catalogTable';
+  import { CatalogTableRow , CatalogTable} from '@backstage/plugin-catalog';
   import {
     EntityKindPicker,
     EntityLifecyclePicker,
@@ -39,7 +37,7 @@ import {
     CatalogFilterLayout,
   } from '@backstage/plugin-catalog-react';
   import React from 'react';
-  import { registerComponentRouteRef } from '../routes';
+  import { registerComponentRouteRef } from '../../routes';
   
   const defaultColumns: TableColumn<CatalogTableRow>[] = [
     CatalogTable.columns.createNameColumn({ defaultKind: 'API' }),

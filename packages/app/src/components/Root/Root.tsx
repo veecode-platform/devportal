@@ -20,11 +20,9 @@ import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 import { NavLink } from 'react-router-dom';
 import {
-  // Settings as SidebarSettings,
+  Settings as SidebarSettings,
   UserSettingsSignInAvatar,
-} from '@backstage/plugin-user-settings';
-// custom user-settings
-import { Settings as SidebarSettings } from '@internal/plugin-user-settings-platform';
+} from '@internal/plugin-user-settings-platform';
 // import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
   Sidebar,

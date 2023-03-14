@@ -4,7 +4,7 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityHasApisCard,
-} from '@backstage/plugin-api-docs';
+} from '@internal/plugin-api-docs';
 import {
   EntityHasComponentsCard,
   EntityHasResourcesCard,

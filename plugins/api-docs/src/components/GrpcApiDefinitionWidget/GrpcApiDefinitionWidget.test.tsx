@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-import { ApiEntity } from '@backstage/catalog-model';
-import { createApiRef } from '@backstage/core-plugin-api';
-import { AsyncApiDefinitionWidgetProps  } from '@backstage/plugin-api-docs';
+import { renderInTestApp } from '@backstage/test-utils';
+import React from 'react';
+import { GrpcApiDefinitionWidget } from './GrpcApiDefinitionWidget';
 
-export const apiDocsConfigRef = createApiRef<ApiDocsConfig>({
-  id: 'plugin.api-docs.config',
+describe('<GrpcApiDefinitionWidget />', () => {
+  it('renders plain text', async () => {
+    const { getAllByText } = await renderInTestApp(
+      <GrpcApiDefinitionWidget definition="Hello World" />,
+    );
+
+    expect(
+      getAllByText((_text, element) => element?.textContent === 'Hello World')
+        .length,
+    ).toBeGreaterThan(0);
+  });
 });
-
-export interface ApiDocsConfig {
-  getApiDefinitionWidget: (
-    apiEntity: ApiEntity,
-  ) => AsyncApiDefinitionWidgetProps | undefined;
-}
