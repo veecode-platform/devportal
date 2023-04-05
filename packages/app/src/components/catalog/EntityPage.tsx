@@ -4,22 +4,22 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityHasApisCard,
-} from '@backstage/plugin-api-docs';
+} from '@internal/plugin-api-docs';
 import {
   EntityHasComponentsCard,
   EntityHasResourcesCard,
   EntityHasSystemsCard,
   EntityLinksCard,
-  EntitySwitch,
   EntityOrphanWarning,
   EntityProcessingErrorsPanel,
   isComponentType,
   isKind,
   hasCatalogProcessingErrors,
   isOrphan,
-} from '@backstage/plugin-catalog';
-// custom
-import { AboutCard as EntityAboutCard } from "../catalog/AboutCard";
+  EntityAboutCard,
+  EntityLayout,
+  EntitySwitch
+} from '@internal/plugin-catalog';
 import {
   isGithubActionsAvailable,
   EntityRecentGithubActionsRunsCard,
@@ -67,8 +67,6 @@ import {
 import { EntityVaultCard } from '@backstage/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
-import VaultEntity from './Vault/VaultEntity';
-import { EntityLayout } from './entityLayout';
 import { validateAnnotation } from './utils/validateAnnotation';
 import { PluginItem } from './utils/types';
 
@@ -155,9 +153,6 @@ const pullRequestsContent = (
   <EntitySwitch>
     <EntitySwitch.Case>
       <EntityGithubPullRequestsTable/>
-      {/* <HomePageYourOpenPullRequestsCard/> */}
-      {/* <HomePageRequestedReviewsCard/> */}
-      {/* <EntityGithubPullRequestsOverviewCard/> */}
     </EntitySwitch.Case>
   </EntitySwitch>
 );
@@ -252,7 +247,7 @@ const overviewContent = (
     </EntitySwitch>
         {validateAnnotation('vault.io/secrets-path') && (
         <Grid item lg={6} md={12} xs={12}>
-          <VaultEntity />
+          <EntityVaultCard />
         </Grid>
         )}
             {validateAnnotation('grafana/alert-label-selector') && (

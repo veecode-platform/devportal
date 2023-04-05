@@ -1,0 +1,226 @@
+{{- $app_path_without_last_slash := trimSuffix "/" .Values.appConfig.app.baseUrl}} 
+{{- $backend_path_without_last_slash := trimSuffix "/" .Values.appConfig.backend.baseUrl}} 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{- include "devportal-charts.fullname" . }}-app-env"
+data:
+  {{- if not .Values.grafana.enabled }}
+  GRAFANA_DOMAIN: ""
+  {{- end }}
+  app-config: |
+    app:
+      title: {{ .Values.appConfig.title | default "Platform Devportal" }}
+      baseUrl: {{ $app_path_without_last_slash |quote }}
+      support:
+        url: https://github.com/veecode-platform/support/discussions 
+        items: 
+          - title: Issues
+            icon: github
+            links:
+              - url: https://github.com/veecode-platform/support/discussions
+                title: GitHub Issues
+    permission:
+      enabled: true
+
+    backend:
+      auth:
+        keys:
+          - secret: ${BACKEND_AUTH_SECRET_KEY}
+      baseUrl: {{ $backend_path_without_last_slash }}
+      listen:
+        port: 7007
+      database:
+        client: {{ .Values.appConfig.database.client }}
+        connection:
+          host: ${DATABASE_HOST}
+          port: {{ .Values.appConfig.database.connection.port | default 80 }}
+          database: ${DATABASE_NAME}
+          user: ${DATABASE_USER}
+          password: ${DATABASE_PASSWORD}
+      cache:
+        store: memory
+      cors:
+        origin: {{ $app_path_without_last_slash }}
+        methods: [GET, POST, PUT, DELETE, PATCH]
+        credentials: true
+      csp:
+        connect-src: ["'self'", "http:", "https:"]
+      reading:
+        allow:
+          - host: example.com
+          - host: "*.mozilla.org"
+    
+    {{- if (or .Values.grafana.enabled .Values.argocd.enabled )}}
+    proxy:
+      {{- if .Values.grafana.enabled | default false }}
+      "/grafana/api":
+        target: ${GRAFANA_DOMAIN}
+        headers:
+          Authorization: Bearer ${GRAFANA_TOKEN}
+      {{- end }}
+      {{- if .Values.argocd.enabled | default false }}
+      "/argocd/api":
+        target: ${ARGOCD_DOMAIN}
+        changeOrigin: true
+        secure: true
+        headers:
+          Cookie:
+            $env: ARGOCD_TOKEN
+      {{- end }}
+    {{- end }}
+    organization:
+      name: Devportal
+
+    techdocs:
+      builder: "local"
+      generator:
+        runIn: "local"
+      publisher:
+        type: "local"
+
+    {{- if .Values.kubernetes}}
+    kubernetes:
+      serviceLocatorMethod:
+        type: {{ .Values.kubernetes.type | default "multiTenant" }}
+      clusterLocatorMethods:
+        - type: "config"
+          clusters:
+            - url: {{ .Values.kubernetes.url | quote }}
+              name: {{ .Values.kubernetes.name  }}
+              authProvider: {{ .Values.kubernetes.authProvider | default "serviceAccount"}}
+              skipTLSVerify: {{ .Values.kubernetes.skipTLSVerify | default false}}
+              skipMetricsLookup: {{ .Values.kubernetes.skipMetricsLookup | default false}}
+              serviceAccountToken: ${KUBERNETES_SERVICE_ACCOUNT_TOKEN}
+              caData: ${KUBERNETES_CERTIFICATE_DATA}
+    {{- end }}
+    {{- if .Values.argocd.enabled }}
+    argocd:
+      username: ${ARGOCD_USER}
+      password: ${ARGOCD_TOKEN}
+      appLocatorMethods:
+        - type: "config"
+          instances:
+            - name: argoInstance1
+              url: ${ARGOCD_URL}
+              token: ${ARGOCD_TOKEN}
+    {{- end }}
+    {{- if .Values.integrations }}
+    integrations:
+      {{- if .Values.integrations.github }}
+      github:
+        - host: {{ .Values.integrations.github.host | default "github.com" | quote }}
+          token: ${GITHUB_TOKEN_SECRET}
+      {{- end }}
+      {{- if .Values.integrations.bitbucketCloud }}
+      bitbucketCloud:
+        - username: ${BITBUCKET_CLOUD_USERNAME}
+          appPassword: ${BITBUCKET_CLOUD_TOKEN}
+      {{- end }}
+      {{- if .Values.integrations.bitbucketServer }}
+      bitbucketServer:
+        - host: {{ .Values.integrations.bitbucketServer.host }}
+          apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
+          token: ${BITBUCKET_SERVER_TOKEN}
+      {{- end }}
+      {{- if .Values.integrations.gitlab  }}
+      gitlab:
+      - host: {{ .Values.integrations.gitlab.host | default "gitlab.com" | quote }}
+        token: ${GITLAB_TOKEN_SECRET}
+      {{- end }}
+    {{- end }}
+    {{- if (and .Values.catalog .Values.catalog.providers) }}
+    catalog:
+      rules:
+        - allow: [Component, API, Location, Template]
+      providers:
+        {{- if .Values.catalog.providers.github }}
+        github:
+          providerId: 
+            organization: ${CATALOG_GITHUB_ORGANIZATION} 
+            catalogPath: ${CATALOG_GITHUB_CATALOG_PATH} 
+            filters:
+              branch: ${CATALOG_GITHUB_BRANCH} 
+              repository: ${CATALOG_GITHUB_REPOSITORY} 
+              validateLocationsExist: ${CATALOG_GITHUB_LOCATION_VALIDATION} 
+        {{- end }}
+        {{- if .Values.catalog.providers.bitbucketCloud }}
+        bitbucketCloud:
+          yourProviderId: 
+            catalogPath: ${CATALOG_BITBUCKET_CLOUD_CATALOG_PATH} 
+          filters: 
+            repoSlug: ${CATALOG_BITBUCKET_CLOUD_REPOSLUG} 
+          workspace: ${CATALOG_BITBUCKET_CLOUD_WORKSPACE}
+        {{- end }}
+        {{- if .Values.catalog.providers.bitbucketServer }}
+        bitbucketServer:
+          yourProviderId:
+            host: ${CATALOG_BITBUCKET_SERVER_HOST}
+            catalogPath: ${CATALOG_BITBUCKET_SERVER_CATALOG_PATH} 
+            filters: 
+              projectKey: ${CATALOG_BITBUCKET_SERVER_PROJECT_KEY} 
+              repoSlug: ${CATALOG_BITBUCKET_SERVER_REPO_SLUG}
+        {{- end }}
+        {{- if .Values.catalog.providers.gitlab }}
+        gitlab:
+          yourProviderId:
+            host: ${CATALOG_GITLAB_HOST} 
+            branch: ${CATALOG_GITLAB_BRANCH} 
+            group: ${CATALOG_GITLAB_GROUP_NAME} 
+            entityFilename: ${CATALOG_GITLAB_ENTITY_FILE_NAME} 
+        {{- end }}
+    {{- end }}
+      {{- if .Values.locations }}
+      locations: {{- range .Values.locations }}
+        - type: {{- indent 1 .type }}
+          target: {{- indent 1 .target }}
+      {{- end }}
+      {{- else}}
+      locations:
+        - type: url
+          target: https://github.com/veecode-platform/devportal-catalog/blob/master/catalog-info.yaml
+      {{- end }}
+    auth:
+      environment: {{ .Values.auth.environment | default "development" | quote }}
+      session:
+        secret: ${AUTH_USER_SESSION_SECRET}
+      {{- if .Values.auth.providers }}
+      providers:
+        {{- if .Values.auth.providers.keycloak }}
+        keycloak:
+          development:
+            metadataUrl: ${KEYCLOAK_METADATA_URL}
+            clientId: ${KEYCLOAK_CLIENT_ID}
+            clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+            prompt: {{ .Values.auth.providers.keycloak.prompt }}
+        {{- end }}
+        {{- if .Values.auth.providers.github }}
+        github:
+          development:
+            clientId: ${AUTH_GITHUB_CLIENT_ID}
+            clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+        {{- end }}
+      {{- end }}
+    enabledPlugins:
+      vault: {{ .Values.vault.enabled | default false }}
+      grafana: {{ .Values.grafana.enabled | default false }}
+      kubernetes: {{ .Values.kubernetes | default false }}
+      argocd: {{ .Values.argocd.enabled | default false }}
+    platform:
+      guest:
+        enabled: false
+      apiManagement:
+        enabled: true
+    {{- if .Values.vault.enabled }}
+    vault:
+      baseUrl: ${VAULT_BASE_URL}
+      token: ${VAULT_TOKEN_RENEWABLE}
+    {{- end }}      
+    grafana:
+      domain: ${GRAFANA_DOMAIN}
+      unifiedAlerting: true
+    {{- if .Values.kong.enabled }}
+    kong:
+      api-manager: ${KONG_API_MANAGER_HOST}
+      admin-token: ${KONG_ADMIN_TOKEN}
+    {{- end }}

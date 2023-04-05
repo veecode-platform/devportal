@@ -1,61 +1,38 @@
 {{- if .Values.ingress.enabled -}}
-{{- $svcName := .Values.service.name -}}
-{{- $svcPort := .Values.service.containerPort -}}
-{{- if and .Values.ingress.ingressClassName (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.ingressClassName}}
-  {{- end }}
-{{- end }}
-{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1
-{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
-apiVersion: extensions/v1beta1
-{{- end }}
 kind: Ingress
 metadata:
-  name: {{ $svcName }}
-  labels:
-    {{- include "devportal-charts.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
+  name: "devportal-prod"
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-spec:
-  {{- if and .Values.ingress.ingressClassName (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.ingress.ingressClassName }}
-  {{- end }}
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- range .Values.ingress.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
+    {{- if eq .Values.ingress.className "nginx" }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
     {{- end }}
-  {{- end }}
+    {{- if eq .Values.ingress.className "kong" }}
+    konghq.com/https-redirect-status-code: "308"
+    konghq.com/preserve-host: "true"
+    konghq.com/protocols: "https"
+    konghq.com/strip-path: "false"
+    {{- end }}
+    cert-manager.io/cluster-issuer: certmanager-issuer
+    kubernetes.io/tls-acme: "true"
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+spec:
+  tls:
+  - secretName: {{ .Values.ingress.tls.secretName }}
+    hosts:
+    - {{ .Values.ingress.host }}
+  ingressClassName: {{ .Values.ingress.className }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
-            pathType: {{ .pathType }}
-            {{- end }}
+          - path: /{{ .Values.ingress.path }}
+            pathType: Prefix
             backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ $svcName }}
+                name: devportal-prod
                 port:
-                  number: {{ $svcPort }}
-              {{- else }}
-              serviceName: {{ $svcName }}
-              servicePort: {{ $svcPort }}
-              {{- end }}
-          {{- end }}
-    {{- end }}
+                  number: {{ .Values.service.containerPort}}
+ 
 {{- end }}

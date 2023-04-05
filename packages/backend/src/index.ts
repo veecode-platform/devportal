@@ -101,15 +101,15 @@ async function main() {
   // const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
   // const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
   
-  if(config.getBoolean("enabledPlugins.vault")){
+  if(config.getOptionalBoolean("enabledPlugins.vault")){
     const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
     apiRouter.use('/vault', await vault(vaultEnv));
   }
-  if(config.getBoolean("enabledPlugins.kubernetes")){
+  if(config.getOptionalBoolean("enabledPlugins.kubernetes")){
     const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
     apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
   }
-  if(config.getBoolean("enabledPlugins.argocd")){
+  if(config.getOptionalBoolean("enabledPlugins.argocd")){
     const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
     apiRouter.use('/argocd', await argocd(argocdEnv));
   }

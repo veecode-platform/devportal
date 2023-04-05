@@ -1,13 +1,17 @@
+{{- if .Values.service.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.service.name }}
+  name: devportal-prod
+  {{- if not .Values.ingress.enabled -}}
   annotations:
     dev.okteto.com/auto-ingress: "true"
+  {{- end }}
 spec:
   ports:
     - port: {{ .Values.service.containerPort }}
       targetPort: {{ .Values.service.containerPort }}
   selector:
-    app: devportal
-  type: {{ .Values.service.type }}      
+    app: devportal-prod
+  type: {{ .Values.service.type }}   
+{{- end }}

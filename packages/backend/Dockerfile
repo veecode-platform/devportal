@@ -25,6 +25,7 @@ RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 #    rm -rf /var/lib/apt/lists/* && \
 #    yarn config set python /usr/bin/python3
 #
+RUN apt-get update && apt-get upgrade -y
 #RUN pip3 install mkdocs-techdocs-core==1.0.1
 RUN apt-get update && apt-get install -y python3 python3-pip
 RUN pip3 install mkdocs-techdocs-core==1.0.1

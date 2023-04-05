@@ -3,14 +3,14 @@ kind: Deployment
 metadata:
   name: {{ include "devportal-charts.fullname" . }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicas | default 1 }}
   selector:
     matchLabels:
-      app: devportal
+      app: devportal-prod
   template:
     metadata:
       labels:
-        app: devportal
+        app: devportal-prod
     spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -18,12 +18,14 @@ spec:
       {{- end}}
       containers:
         - name: {{ .Chart.Name }}
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
           ports:
             - containerPort: {{ .Values.service.containerPort }}
+          {{- if .Values.resources }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
           envFrom:
             - secretRef:
                 name: {{ include "devportal-charts.fullname" . }}-credentials
@@ -31,4 +33,14 @@ spec:
                 name: {{ include "devportal-charts.fullname" . }}-app-env
           env:
             - name: NODE_ENV
-              value: {{ .Values.nodeEnv | default "development" }}      
+              value: {{ .Values.environment | default "development" }}      
+          volumeMounts:
+          - name: app-config
+            mountPath: /app/app-config.yaml
+            subPath: app-config
+      volumes:
+        - name: app-config
+          configMap:
+            # Provide the name of the ConfigMap containing the files you want
+            # to add to the container
+            name: "{{ include "devportal-charts.fullname" . }}-app-env"

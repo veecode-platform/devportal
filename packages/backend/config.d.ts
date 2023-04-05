@@ -38,29 +38,27 @@ export interface Config {
          * @visibility frontend
          */
         grafana: boolean
-    
+
     };
     /**
      * 
      * @visibility frontend
      */
-    enabledGuest: {
-        /**
-         * 
-         * @visibility frontend
-         */
-        enabled: boolean
-    };
-    /**
-     * 
-     * @visibility frontend
-     */
-    apiManagement: {
-        /**
-         * 
-         * @visibility frontend
-         */
-        enabled: boolean
+    platform: {
+        guest: {
+            /**
+             * 
+             * @visibility frontend
+             */
+            enabled: boolean
+        };
+        apiManagement: {
+            /**
+             * 
+             * @visibility frontend
+             */
+            enabled: boolean
+        }
     }
-  }
-  
+}
+
