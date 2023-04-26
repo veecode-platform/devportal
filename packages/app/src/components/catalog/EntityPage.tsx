@@ -69,11 +69,26 @@ import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/b
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
 import { validateAnnotation } from './utils/validateAnnotation';
 import { PluginItem } from './utils/types';
+// gitlab
+import {
+  isGitlabAvailable,
+  EntityGitlabLanguageCard,
+  EntityGitlabPeopleCard,
+  EntityGitlabMergeRequestsTable,
+  EntityGitlabMergeRequestStatsCard,
+  EntityGitlabPipelinesTable,
+  EntityGitlabReleasesCard,
+} from '@immobiliarelabs/backstage-plugin-gitlab';
 
 const cicdContent = (
   <EntitySwitch>
+    {/* Github */}
     <EntitySwitch.Case if={isGithubActionsAvailable}>
       <EntityGithubActionsContent />
+    </EntitySwitch.Case>
+    {/* Gitlab */}
+    <EntitySwitch.Case if={isGitlabAvailable}>
+      <EntityGitlabPipelinesTable />
     </EntitySwitch.Case>
 
     <EntitySwitch.Case>
@@ -151,8 +166,11 @@ const techdocsContent = (
 
 const pullRequestsContent = (
   <EntitySwitch>
-    <EntitySwitch.Case>
+    <EntitySwitch.Case if={isGithubActionsAvailable}>
       <EntityGithubPullRequestsTable/>
+    </EntitySwitch.Case>
+    <EntitySwitch.Case if={isGitlabAvailable}>
+      <EntityGitlabMergeRequestsTable />
     </EntitySwitch.Case>
   </EntitySwitch>
 );
@@ -235,6 +253,7 @@ const overviewContent = (
       <EntityLinksCard />
     </Grid>
     <EntitySwitch>
+      {/* github */}
       <EntitySwitch.Case if={isGithubInsightsAvailable}>
         <Grid item lg={6} md={12} xs={12}>
           <EntityGithubInsightsReadmeCard maxHeight={350}/>
@@ -243,6 +262,21 @@ const overviewContent = (
           <EntityGithubInsightsLanguagesCard/>
           {/* <EntityGithubInsightsReleasesCard /> */}
         </Grid>
+      </EntitySwitch.Case>
+      {/* gitlab */}
+      <EntitySwitch.Case if={isGitlabAvailable}>
+          <Grid item lg={8} md={12} xs={12}>
+              <EntityGitlabMergeRequestStatsCard />
+          </Grid>
+          <Grid item lg={6} md={12} xs={12}>
+              <EntityGitlabPeopleCard />
+          </Grid>
+          <Grid item lg={6} md={12} xs={12}>
+              <EntityGitlabLanguageCard />
+          </Grid>
+          <Grid item lg={6} md={12} xs={12}>
+              <EntityGitlabReleasesCard />
+          </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
         {validateAnnotation('vault.io/secrets-path') && (
@@ -255,7 +289,7 @@ const overviewContent = (
           <EntityGrafanaAlertsCard />
         </Grid>
     )}
-  </Grid>
+</Grid>
 );
 
 const serviceEntityPage = (

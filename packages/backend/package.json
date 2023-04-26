@@ -39,6 +39,7 @@
     "@backstage/plugin-search-backend": "^1.2.2",
     "@backstage/plugin-search-backend-node": "^1.1.2",
     "@backstage/plugin-techdocs-backend": "^1.5.2",
+    "@immobiliarelabs/backstage-plugin-gitlab-backend": "^5.0.2",
     "@internal/plugin-application-backend": "0.1.0",
     "@internal/plugin-vault-backend": "^0.2.5",
     "@keycloak/keycloak-admin-client": "18.0.2",

@@ -7,6 +7,8 @@
  import { BitbucketCloudEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-cloud';
 // Bitbucket Server
 import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-server';
+// Gitlab
+import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 
  export default async function createPlugin(
  env: PluginEnvironment,
@@ -46,17 +48,7 @@ import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend
         }),
   )
 // gitlab provider
-// builder.addEntityProvider(
-//  GitlabDiscoveryEntityProvider.fromConfig(env.config, {
-//    logger: env.logger,
-//    // optional: alternatively, use scheduler with schedule defined in app-config.yaml
-//    schedule: env.scheduler.createScheduledTaskRunner({
-//      frequency: { minutes: 2 },
-//      timeout: { minutes: 3 },
-//    }),
-//    //scheduler: env.scheduler,
-//  }),
-// );
+builder.addProcessor(new GitlabFillerProcessor(env.config));
 
  builder.addProcessor(new ScaffolderEntitiesProcessor());
  const { processingEngine, router } = await builder.build();

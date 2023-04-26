@@ -36,6 +36,7 @@
     "@backstage/plugin-user-settings": "^0.6.2",
     "@backstage/plugin-vault": "^0.1.8",
     "@backstage/theme": "^0.2.16",
+    "@immobiliarelabs/backstage-plugin-gitlab": "^5.0.1",
     "@internal/plugin-api-docs": "^0.1.0",
     "@internal/plugin-catalog": "^0.1.0",
     "@internal/plugin-home-platform": "^0.1.0",
