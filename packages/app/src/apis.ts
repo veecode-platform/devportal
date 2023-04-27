@@ -5,6 +5,7 @@ import {
 } from '@backstage/integration-react';
 import {
   AnyApiFactory,
+  analyticsApiRef,
   ApiRef,
   BackstageIdentityApi,
   configApiRef,
@@ -15,8 +16,11 @@ import {
   OpenIdConnectApi,
   ProfileInfoApi,
   SessionApi,
+  identityApiRef,
 } from '@backstage/core-plugin-api';
 import { OAuth2 } from '@backstage/core-app-api';
+// google analytics
+import { GoogleAnalytics } from '@backstage/plugin-analytics-module-ga';
 
 export const keycloakOIDCAuthApiRef: ApiRef<
   OpenIdConnectApi & ProfileInfoApi & BackstageIdentityApi & SessionApi
@@ -53,6 +57,14 @@ export const apis: AnyApiFactory[] = [
           'profile',
           'email',
         ],
+      }),
+  }),
+  createApiFactory({
+    api: analyticsApiRef,
+    deps: { configApi: configApiRef, identityApi: identityApiRef },
+    factory: ({ configApi, identityApi }) =>
+      GoogleAnalytics.fromConfig(configApi, {
+        identityApi,
       }),
   }),
 ];

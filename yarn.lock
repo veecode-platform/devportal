@@ -3409,6 +3409,22 @@
     lodash "^4.17.21"
     luxon "^3.0.0"
 
+"@backstage/plugin-analytics-module-ga@^0.1.28":
+  version "0.1.28"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-analytics-module-ga/-/plugin-analytics-module-ga-0.1.28.tgz#289ed0244290e6b13d1edb7679da03780974fa65"
+  integrity sha512-9wcbDyNgLTJ+csvHRVWK1vcmzxOoeCHDokBTa+5+DpcMAeMBY8MrFdqlaM3Pb//BmW0BpYd6KrPqWG7FPqTvDQ==
+  dependencies:
+    "@backstage/config" "^1.0.7"
+    "@backstage/core-components" "^0.13.0"
+    "@backstage/core-plugin-api" "^1.5.1"
+    "@backstage/theme" "^0.2.19"
+    "@material-ui/core" "^4.12.2"
+    "@material-ui/icons" "^4.9.1"
+    "@material-ui/lab" "4.0.0-alpha.61"
+    prop-types "^15.7.2"
+    react-ga "^3.3.0"
+    react-use "^17.2.4"
+
 "@backstage/plugin-api-docs@^0.8.14":
   version "0.8.14"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-api-docs/-/plugin-api-docs-0.8.14.tgz#bd2dc3ff8c4075467f828b82aee42c01146cf8c3"
@@ -19523,6 +19539,11 @@ react-fast-compare@^3.1.1:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
+
+react-ga@^3.3.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-3.3.1.tgz#d8e1f4e05ec55ed6ff944dcb14b99011dfaf9504"
+  integrity sha512-4Vc0W5EvXAXUN/wWyxvsAKDLLgtJ3oLmhYYssx+YzphJpejtOst6cbIHCIyF50Fdxuf5DDKqRYny24yJ2y7GFQ==
 
 react-helmet@6.1.0:
   version "6.1.0"
