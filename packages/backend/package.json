@@ -43,6 +43,7 @@
     "@internal/plugin-application-common": "^0.1.0",
     "@internal/plugin-vault-backend": "^0.2.5",
     "@keycloak/keycloak-admin-client": "18.0.2",
+    "@immobiliarelabs/backstage-plugin-gitlab-backend": "^5.0.2",
     "@roadiehq/backstage-plugin-argo-cd-backend": "^2.6.4",
     "app": "link:../app",
     "better-sqlite3": "^7.5.0",

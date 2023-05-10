@@ -1,7 +1,5 @@
 import React from 'react';
 import { makeStyles, Theme, Grid, /* List,*/ Paper } from '@material-ui/core';
-
-// import { CatalogSearchResultListItem } from '@backstage/plugin-catalog';
 import {
   // catalogApiRef,
   // CATALOG_FILTER_EXISTS,

@@ -1,11 +1,3 @@
-/*
- * Hi!
- *
- * Note that this is an EXAMPLE Backstage backend. Please check the README.
- *
- * Happy hacking!
- */
-
 import Router from 'express-promise-router';
 import {
   createServiceBuilder,
@@ -32,7 +24,6 @@ import search from './plugins/search';
 import permission from './plugins/permission';
 import vault from './plugins/vault';
 import application from './plugins/application'
-
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
@@ -40,6 +31,8 @@ import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
 import argocd from './plugins/argocd';
 // kubernetes
 import kubernetes from './plugins/kubernetes';
+// gitlab
+import gitlab from './plugins/gitlab';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -97,6 +90,10 @@ async function main() {
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
+  const gitlabEnv = useHotMemoize(module, () => createEnv('gitlab'));
+  // const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
+  // const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
+  // const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
   
   if(config.getBoolean("enabledPlugins.vault")){
     const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
@@ -120,6 +117,11 @@ async function main() {
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
+  apiRouter.use('/gitlab', await gitlab(gitlabEnv));
+  // apiRouter.use('/argocd', await argocd(argocdEnv));
+  // apiRouter.use('/vault', await vault(vaultEnv));
+  // apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
+
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());

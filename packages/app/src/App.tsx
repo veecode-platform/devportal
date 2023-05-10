@@ -3,25 +3,17 @@ import React from 'react';
 import {
   Navigate,
   Outlet,
-  // Navigate,
   Route,
 } from 'react-router';
 import {
   apiDocsPlugin,
-  //  ApiExplorerPage  // change for custom page
-} from '@backstage/plugin-api-docs';
-
-// custom page - API explorer
-import { ApiExplorerPage } from './components/api-docs/apiExplorerPage/ApiExplorerPage';
-
+  ApiExplorerPage
+} from '@internal/plugin-api-docs';
 import {
   CatalogEntityPage,
-  // CatalogIndexPage,
+  CatalogIndexPage,
   catalogPlugin,
-} from '@backstage/plugin-catalog';
-// custom page - catalog
-import { CatalogPage as CatalogIndexPage } from './components/catalog/catalogPage';
-
+} from '@internal/plugin-catalog';
 import {
   CatalogImportPage,
   catalogImportPlugin,
@@ -30,68 +22,48 @@ import {
   ScaffolderPage,
   scaffolderPlugin,
 } from '@internal/plugin-scaffolder';
-// import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
-// import { TechRadarPage } from '@backstage/plugin-tech-radar';
 import {
   TechDocsIndexPage,
   techdocsPlugin,
   TechDocsReaderPage,
   DefaultTechDocsHome
 } from '@backstage/plugin-techdocs';
-// import { UserSettingsPage } from '@backstage/plugin-user-settings';
-// custom user-settings
-import { UserSettingsPage } from './components/user-settings';
+import { UserSettingsPage } from '@internal/plugin-user-settings-platform';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';
 import {
   AlertDisplay,
-  OAuthRequestDialog,
-  UserIdentity,
-  // SignInPage,
+  OAuthRequestDialog
 } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api';
-
 // custom
-import { HomepageCompositionRoot } from '@backstage/plugin-home';
+import { HomepageCompositionRoot } from '@internal/plugin-home-platform';
 import { HomePage } from './components/home/HomePage';
 import { Light, Dark } from './components/theme/Theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
-
+import '../src/components/theme/theme.css';
 import { searchPage } from './components/search/SearchPage';
-// import SafeRoute from './components/Routing/SafeRoute';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { ServicesPage, PartnersPage, ApplicationPage } from '@internal/plugin-application';
-// import SafeRoute from './components/Routing/SafeRoute';
-// login
 import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-// custom siginpage
-import { SignInPage } from './components/signInPage/SignInPage';
-import '../src/components/theme/theme.css';
+import { SignInPage } from '@internal/plugin-sign-in/src/components/SignInPage';
 import { useGuest } from './Hooks/useGuest';
 import { useApiManagement } from './Hooks/apiManagement';
+import { GuestUserIdentity } from '@internal/plugin-sign-in/src/components/providers/guestUserIdentity';
+
+
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const Guest = useGuest();
-    if(Guest)
-    {
-      props.onSignInSuccess(UserIdentity.fromLegacy({
-        userId: 'guest',
-        profile: {
-          email: 'gust@example.com',
-          displayName: 'Guest',
-          picture: '',
-        },
-      }));
-    }
+    if(Guest) props.onSignInSuccess(new GuestUserIdentity());
     return <SignInPage {...props} providers={[providers[1]]} />
 };
 

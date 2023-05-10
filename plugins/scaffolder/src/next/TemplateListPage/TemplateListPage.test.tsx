@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DefaultStarredEntitiesApi } from '@backstage/plugin-catalog';
+import { DefaultStarredEntitiesApi } from '@internal/plugin-catalog';
 import {
   catalogApiRef,
   starredEntitiesApiRef,
