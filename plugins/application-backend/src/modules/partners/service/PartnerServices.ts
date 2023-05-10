@@ -1,12 +1,12 @@
 import { RouterOptions } from '../../../service/router';
-import { ApplicationDto } from '../../applications/dtos/ApplicationDto';
-import { PostgresApplicationRepository } from '../../applications/repositories/knex/KnexApplicationRepository';
-import { ApplicationServices } from '../../applications/services/ApplicationServices';
+// import { ApplicationDto } from '../../applications/dtos/ApplicationDto';
+// import { PostgresApplicationRepository } from '../../applications/repositories/knex/KnexApplicationRepository';
+// import { ApplicationServices } from '../../applications/services/ApplicationServices';
 import { UserDto } from '../../keycloak/dtos/UserDto';
 import { KeycloakUserService } from '../../keycloak/service/UserService';
-import { ServiceDto } from '../../services/dtos/ServiceDto';
-import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
-import { ControllPlugin } from '../../services/service/ControllPlugin';
+// import { ServiceDto } from '../../services/dtos/ServiceDto';
+// import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
+// import { ControllPlugin } from '../../services/service/ControllPlugin';
 import { PartnerDto } from '../dtos/PartnerDto';
 import { PostgresPartnerRepository } from '../repositories/Knex/KnexPartnerRepository';
 
@@ -37,9 +37,9 @@ export class PartnerServices {
       const partnerRepository = await PostgresPartnerRepository.create(
         await options.database.getClient(),
       );
-      const partner = await partnerRepository.getPartnerById(partnersId);
+      await partnerRepository.getPartnerById(partnersId);
 
-      if (partner instanceof Object) {
+      /* if (partner instanceof Object) { refaactor
         const applications: string[] = partner.applicationId as string[];
         applications.forEach(application => {
           ApplicationServices.Instance.removeApplication(application, options);
@@ -56,7 +56,7 @@ export class PartnerServices {
         if (typeof keycloakUser?.id === 'string') {
           await KeycloakUserService.Instance.deleteUser(keycloakUser.id);
         }
-      }
+      }*/
     } catch (error) {
       return error
     }
@@ -71,12 +71,12 @@ export class PartnerServices {
       const partnerRepository = await PostgresPartnerRepository.create(
         await options.database.getClient(),
       );
-      const applicationRepository = await PostgresApplicationRepository.create(
+      /* const applicationRepository = await PostgresApplicationRepository.create(
         await options.database.getClient(),
       );
       const serviceRepository = await PostgresServiceRepository.create(
         await options.database.getClient(),
-      );
+      );*/
       const partner = await partnerRepository.getPartnerById(partnersId);
 
       if (partner instanceof Object) {
@@ -94,13 +94,13 @@ export class PartnerServices {
           );
         }
 
-        if (partnerDto.active === false) {
+        /* if (partnerDto.active === false) { refactor
           const applications = partnerDto.applicationId as string[];
           applications.forEach(async application => {
             const applicationObj =
               await applicationRepository.getApplicationById(application);
             if (applicationObj instanceof Object) {
-              let applicationDto = new ApplicationDto(
+              const applicationDto = new ApplicationDto(
                 applicationObj.name as string,
                 applicationObj.creator as string,  
                 (applicationObj.active = false),
@@ -111,9 +111,9 @@ export class PartnerServices {
               );
             }
           });
-        }
+        }*/
 
-        if (partnerDto.active === false) {
+        /* if (partnerDto.active === false) { refactor
           const services = partnerDto.servicesId as string[];
           services.forEach(async service => {
             const serviceObj = await serviceRepository.getServiceById(service);
@@ -129,7 +129,7 @@ export class PartnerServices {
               await serviceRepository.patchService(service, serviceDto);
             }
           });
-        }
+        }*/
       }
     } catch (error) {
       return error

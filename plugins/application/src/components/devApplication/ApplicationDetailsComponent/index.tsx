@@ -1,19 +1,20 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
-import { Grid, makeStyles, Card, CardHeader, IconButton } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Grid, makeStyles, Card, CardHeader, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { Link, Progress, TabbedLayout } from '@backstage/core-components';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
 import {
   Header,
   Page,
 } from '@backstage/core-components';
-import EditIcon from '@material-ui/icons/Edit';
+import  EditIcon from '@material-ui/icons/Edit';
 import { IApplication } from '../interfaces';
 import CachedIcon from '@material-ui/icons/Cached';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { DetailsComponent } from './DetailsComponent';
 import AxiosInstance from '../../../api/Api';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 type Application = {
   application: IApplication | undefined;
@@ -41,6 +42,19 @@ const useStyles = makeStyles({
 });
 
 const Details = ({ application }: Application) => {
+  const [showDialog, setShowDialog] = useState<boolean>(false)
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+  const navigate = useNavigate();
+
+  const handleOpenDialog = () => {
+    setShowDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setShowDialog(false);
+  };
+
+
   const classes = useStyles();
 
   const Refresh = () => {
@@ -51,12 +65,15 @@ const Details = ({ application }: Application) => {
     id: application?.id ?? '...',
     name: application?.name ?? '...',
     creator: application?.creator ?? '...',
-    servicesId: application?.servicesId ?? '...',
     active: application?.active ?? true,
-    kongConsumerName: application?.kongConsumerName ?? '...',
-    kongConsumerId: application?.kongConsumerId ?? '...',
     createdAt: application?.createdAt ?? '...',
-    updateAt: application?.updateAt ?? '...'
+    updatedAt: application?.updatedAt ?? '...'
+  }
+
+  const deleteApplicationHandler = async () =>{
+    await AxiosInstance.delete(`${BackendBaseUrl}/applications/${application?.id}`)
+    navigate('/applications');
+
   }
 
   return (
@@ -76,7 +93,7 @@ const Details = ({ application }: Application) => {
                       component={Link}
                       aria-label="Edit"
                       title="Edit Metadata"
-                      to={`/application/edit-application?id=${application?.id}`}
+                      to={`/applications/edit-application?id=${application?.id}`}
                     >
                       <EditIcon />
                     </IconButton>
@@ -88,11 +105,21 @@ const Details = ({ application }: Application) => {
                     >
                       <CachedIcon />
                     </IconButton>
+
+                    <IconButton
+                      aria-label="Delete"
+                      title="Delete this application"
+                       onClick={handleOpenDialog}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                    <ConfirmDeleteDialog show={showDialog} handleClose={handleCloseDialog} handleSubmit={deleteApplicationHandler}/>
+
                   </>
                 }
               />
               <Grid container direction='column' spacing={6}>
-                <DetailsComponent metadata={ApplicationData} back="/application" />
+                <DetailsComponent metadata={ApplicationData} back="/applications" />
               </Grid>
             </Grid>
           </Card>
@@ -107,11 +134,10 @@ const Details = ({ application }: Application) => {
 export const ApplicationDetailsComponent = () => {
   const location = useLocation();
   const id = location.search.split("?id=")[1];
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
-    /* const response = await fetch(`http://localhost:7007/api/application/${id}`);
-    const data = await response.json();*/
-    const response = await AxiosInstance.get(`/applications/${id}`)
+    const response = await AxiosInstance.get(`${BackendBaseUrl}/applications/${id}`)
     return response.data.application;
   }, []);
 
@@ -122,5 +148,35 @@ export const ApplicationDetailsComponent = () => {
   }
 
   return <Details application={value} />
-
 }
+
+type dialogProps = {
+  show: boolean;
+  handleClose: any;
+  handleSubmit: any;
+}
+
+const ConfirmDeleteDialog = ({show, handleClose, handleSubmit}: dialogProps) =>{
+  return (
+    <Dialog
+    open={show}
+    onClose={handleClose}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{"Are you sure to delete this application?"}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {`This action cannot be undone`}        
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} autoFocus>
+          Cancel
+        </Button>
+        <Button onClick={handleSubmit} style={{color:"#ED4337"}} >
+          Delete
+        </Button>
+      </DialogActions>
+  </Dialog>
+)}

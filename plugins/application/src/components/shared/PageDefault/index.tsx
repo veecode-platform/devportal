@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Link as RouterLink } from 'react-router-dom';
 import React from 'react';
 import { Button, Grid } from '@material-ui/core';

@@ -1,6 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unreachable */
-/* eslint-disable import/no-extraneous-dependencies */
 import React, {useEffect, useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
@@ -20,16 +17,21 @@ import { Alert } from '@material-ui/lab';
 import useAsync from 'react-use/lib/useAsync';
 import {IErrorStatus} from '../interfaces';
 import { validateName } from '../../shared/commons/validate';
+import { useAppConfig } from '../../../hooks/useAppConfig';
+import { usePermission } from '@backstage/plugin-permission-react';
+import { adminAccessPermission } from '@internal/plugin-application-common';
 
 
 
 export const FetchServicesList = ({partner, setPartner}: any) => {
   const user = useApi(identityApiRef);
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
 
   const { value, loading, error } = useAsync(async (): Promise<any> => {
     const userIdentityToken = await user.getCredentials()
-    const {data} = await AxiosInstance.get(`/services`, {headers:{ Authorization: `Bearer ${userIdentityToken.token}`}});
-    return data.services;
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/services`, {headers:{ Authorization: `Bearer ${userIdentityToken.token}`}});
+    return data.services
   }, []);
 
   if (loading) {
@@ -53,8 +55,10 @@ export const FetchServicesList = ({partner, setPartner}: any) => {
 
 export const FetchApplicationsList = ({partner, setPartner}: any) => {
 
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
   const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`/applications`);
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/applications`);
     return data.applications;
   }, []);
 
@@ -80,6 +84,8 @@ export const FetchApplicationsList = ({partner, setPartner}: any) => {
 
 
 export const NewApplicationComponent = () => {
+  const { loading: loadingPermission, allowed: adminView } = usePermission({permission: adminAccessPermission});
+
   const user = useApi(identityApiRef)
   const [application, setApplication] = useState<ICreateApplication>({
     name: '',
@@ -91,13 +97,18 @@ export const NewApplicationComponent = () => {
   const [errorField, setErrorField] = useState<IErrorStatus>({
     name: false
   });
+  const [loadingCreate, setLoadingCreate] = useState(false)
+
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   useEffect(() => {
-    user.getBackstageIdentity().then( res => {
-      return setApplication({ ...application, creator: res.userEntityRef.split("/")[1] });
-    }).catch(_e => {
-      return setApplication({ ...application, creator: "default"});
-    })
+    if(!adminView){
+      user.getBackstageIdentity().then( res => {
+        return setApplication({ ...application, creator: res.userEntityRef.split("/")[1] });
+      }).catch(() => {
+        return setApplication({ ...application, creator: "default"});
+      })
+  }
   
   }, []);
 
@@ -112,7 +123,8 @@ export const NewApplicationComponent = () => {
     });
   };
 
-  const handleSubmit = async () => {          // CHECK  <--- tem que por o Id do partner
+  const handleSubmit = async () => {  
+    setLoadingCreate(true)        
     const applicationData = {
       application: {
         name: application.name,
@@ -121,10 +133,11 @@ export const NewApplicationComponent = () => {
         services: application.servicesId,
       },
     };
-    const response = await AxiosInstance.post("/applications", JSON.stringify(applicationData))
+    const response = await AxiosInstance.post(`${BackendBaseUrl}/applications`, JSON.stringify(applicationData))
     setShow(true);
     setTimeout(()=>{
-      window.location.replace('/application');
+      //setLoadingCreate(false)
+      window.location.replace('/applications');
     }, 2000);
     return response.data
   };
@@ -157,7 +170,7 @@ export const NewApplicationComponent = () => {
                     onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={e => {
                       setApplication({ ...application, name: e.target.value });
-                      if (!!validateName(e.target.value)) setErrorField({ ...errorField, name: true });
+                      if (validateName(e.target.value)) setErrorField({ ...errorField, name: true });
                       else setErrorField({ ...errorField, name: false });
                     }}
                     error={errorField.name}
@@ -168,17 +181,24 @@ export const NewApplicationComponent = () => {
                     }
                   />
                 </Grid>
+
                 <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Creator"
-                    value={application.creator ?? ''}
-                    required
-                    InputProps={{
-                      readOnly: true,
-                    }}                  
-                  />
+                  {(!loadingPermission && adminView) && 
+                    <UsersList application={application} setApplication={setApplication}/>
+                  }
+                  {(!loadingPermission && !adminView) && 
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label="Creator"
+                      value={application.creator}
+                      required
+                      InputProps={{
+                        readOnly: true,
+                      }}                  
+                    />
+                  }
+                  
                 </Grid>
                 <Grid item lg={12}>
                   <FetchServicesList partner={application} setPartner={setApplication}/>
@@ -187,7 +207,7 @@ export const NewApplicationComponent = () => {
                   <Grid container justifyContent="center" alignItems="center">
                     <Button
                       component={RouterLink}
-                      to="/application"
+                      to="/applications"
                       style={{ margin: '16px' }}
                       size="large"
                       color="primary"
@@ -198,13 +218,11 @@ export const NewApplicationComponent = () => {
                     <Button
                       style={{
                         margin: '16px',
-                        background: '#20a082',
-                        color: '#fff',
                       }}
                       size="large"
                       type="submit"
                       variant="contained"
-                      disabled={errorField.name}
+                      disabled={errorField.name || loadingCreate}
                       onClick={handleSubmit}
                     >
                       Create
@@ -219,3 +237,28 @@ export const NewApplicationComponent = () => {
     </Page>
   );
 };
+
+const UsersList = ({application, setApplication}: any) =>{
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+  const { value, loading, error } = useAsync(async (): Promise<any> => {
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/keycloak/users`);
+    return data.users;
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return (
+    <Select
+      placeholder="Creator"
+      label="Creator"
+      items={value.map((item: any) => {
+        return { ...{ label: item.username, value: item.username } };
+        })}
+      onChange={e => { setApplication({...application, creator: e  }) }}
+    />
+  )
+
+}

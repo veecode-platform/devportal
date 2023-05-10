@@ -18,6 +18,7 @@ export class KongServiceBase {
   public async getUrl(): Promise<string> {
     const config = await PlatformConfig.Instance.getConfig();
     return `${config.getString('kong.api-manager').replace(/\/+$/, "")}`;
+    // return `${config.getString('kong.api-manager').replace(/\/+$/, "")  }/default`;
   }
 
   /**

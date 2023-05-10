@@ -21,9 +21,21 @@ type Service = {
 };
 
 
-
-
 export class KongHandler extends KongServiceBase {
+
+  public async listRoutesFromService(kongServiceNameOrId:string):Promise<string>{
+    try{
+      const url = `${await this.getUrl()}/services/${kongServiceNameOrId}/routes`
+      const {data} = await axios.get(url);
+      const info = data.data[0]
+      return `${info.protocols[0]}://${info.hosts[0]}${info.paths[0]}`
+    }
+
+    catch(e){
+      throw new Error(`Error trying to fetch routes from service ${kongServiceNameOrId}`)
+    }
+
+  }
 
 
   public async listServices(): Promise<Service[]> {
@@ -102,13 +114,13 @@ export class KongHandler extends KongServiceBase {
     );
     const credentialsOauth = new CredentialsOauth();
     const application: ApplicationProps = await applicationRepository.getApplicationById(idApplication) as ApplicationProps;
-    if (typeSecurity.toString() == 'key-auth') {
+    if (typeSecurity.toString() === 'key-auth') {
 
       const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth`
       const response = await axios.post(url);
 
       return response.data;
-    } else if (typeSecurity.toString() == 'oauth2') {
+    } else if (typeSecurity.toString() === 'oauth2') {
 
       const response = await credentialsOauth.generateCredentials(`${application.externalId}`, application.externalId as string)
 
@@ -127,17 +139,18 @@ export class KongHandler extends KongServiceBase {
     const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth`
     const urlOath = `${await this.getUrl()}/consumers/${application.externalId}/oauth2`
 
+
     const response = await axios.get(url);
     const responseOauth = await axios.get(urlOath);
     const keyauths = response.data.data;
     const keyoauth = responseOauth.data.data;
     const credentials: any[] = []
     for (let index = 0; index < keyauths.length; index++) {
-      let credencial = new Credential(keyauths[index].id, keyauths[index].key, "key-auth")
+      const credencial = new Credential(keyauths[index].id, keyauths[index].key, "key-auth")
       credentials.push(credencial);
     }
     for (let index = 0; index < keyoauth.length; index++) {
-      let credencial = new CredentialOauth(keyoauth[index].id, keyoauth[index].key, keyoauth[index].client_id, keyoauth[index].client_secret, 'oauth2')
+      const credencial = new CredentialOauth(keyoauth[index].id, keyoauth[index].key, keyoauth[index].client_id, keyoauth[index].client_secret, 'oauth2')
       credentials.push(credencial);
     }
 

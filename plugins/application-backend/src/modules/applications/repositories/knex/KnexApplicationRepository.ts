@@ -22,9 +22,10 @@ export class PostgresApplicationRepository implements IApplicationRepository {
   ): Promise<Application | string> {
     const application: Application = Application.create({
       creator: applicationDto.creator,
-      name: appDtoNameConcatpartnersId(applicationDto, partnerId),
+      name:  applicationDto.name,
       active: applicationDto.active,
-      externalId: appDtoNameConcatpartnersId(applicationDto, partnerId)
+      externalId: appDtoNameConcatpartnersId(applicationDto, partnerId),
+      partner: partnerId
     });
     const data = await ApplicationMapper.toPersistence(application);
     const createdApplication = await this.db('application')
@@ -33,27 +34,13 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     return createdApplication ? application : 'cannot create application';
   }
 
-  async getApplicationByUser(email: string): Promise<Application[] | void> {
+  async getApplicationByCreator(creator: string, limit: number, offset:number): Promise<Application[] | void> {
     const application = await this.db<Application>('application')
-      .where('email', email)
       .select('*')
+      .where('creator', creator)
+      .limit(limit)
+      .offset(offset)
       .catch(error => console.error(error));
-    return application;
-  }
-
-  // need to refact
-  
-  async associate(id: string, servicesId: string[]) {
-    const application: Application = await this.getApplicationById(id) as Application;
-    const arrayConsumerName = application.servicesId;
-    if (arrayConsumerName != null) {
-      for (let index = 0; index < servicesId.length; index++) {
-        application.servicesId?.push(servicesId[index]);
-      }
-    } else {
-      application.servicesId = servicesId;
-    }
-    await this.patchApplication(id, application as any);
     return application;
   }
 
@@ -88,12 +75,12 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     return responseData.application ?? 'cannot find application';
   }
 
-  async saveApplication(applicationDto: ApplicationDto): Promise<Application> {
+  async saveApplication(applicationDto: ApplicationDto, partnerId: string): Promise<Application> {
     const application: Application = Application.create({
       creator: applicationDto.creator,
-      name: appDtoNameConcatpartnersId(applicationDto),
+      name: appDtoNameConcatpartnersId(applicationDto, partnerId),
       active: applicationDto.active,
-      externalId: appDtoNameConcatpartnersId(applicationDto),
+      externalId: appDtoNameConcatpartnersId(applicationDto, partnerId),
     });
     ApplicationMapper.toPersistence(application);
     return application;
@@ -111,12 +98,13 @@ export class PostgresApplicationRepository implements IApplicationRepository {
   async updateApplication(
     id: string,
     applicationDto: ApplicationDto,
+    partnerId: string
   ): Promise<Application | string> {
     const application: Application = Application.create({
       creator: applicationDto.creator,
-      name: appDtoNameConcatpartnersId(applicationDto),
+      name: applicationDto.name,
       active: applicationDto.active,
-      externalId: appDtoNameConcatpartnersId(applicationDto)
+      externalId: appDtoNameConcatpartnersId(applicationDto, partnerId)
     });
     // const data = await ApplicationMapper.toPersistence(application);
     const updatedApplication = await this.db('application')
@@ -126,26 +114,21 @@ export class PostgresApplicationRepository implements IApplicationRepository {
     return updatedApplication ? application : 'cannot update application';
   }
 
-  // async updateApplication(code: string, applicationDto: ApplicationDto): Promise<Application | null> {
-  //     return null;
-  // }
-  // async function to patch partial  application object partial class type
   async patchApplication(
     id: string,
     applicationDto: ApplicationDto,
+    _partnerId: string
   ): Promise<Application | string> {
-    const application: Application = Application.create({
+    const application = {
       creator: applicationDto.creator,
-      name: appDtoNameConcatpartnersId(applicationDto),
+      name: applicationDto.name,
       active: applicationDto.active,
-      externalId: appDtoNameConcatpartnersId(applicationDto)
-    }); // try add ,id on application create
-    // const data =await ApplicationMapper.toPersistence(application);
-
+    };
+    
     const patchedApplication = await this.db('application')
       .where('id', id)
-      .update(applicationDto)
+      .update(application)
       .catch(error => error);
-    return patchedApplication ? application : 'cannot patch application';
+    return patchedApplication 
   }
 }

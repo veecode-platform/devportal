@@ -37,7 +37,7 @@ const LogoIcon = () => {
       width="70.000000pt"
       height="60.000000pt"
       viewBox="0 0 128.000000 147.000000"
-      enable-background="new 0 0 145 137"
+      enableBackground="new 0 0 145 137"
       className={classes.align}
     >
       <path

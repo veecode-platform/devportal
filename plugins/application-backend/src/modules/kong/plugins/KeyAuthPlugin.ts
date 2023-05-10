@@ -9,7 +9,7 @@ export class KeyAuthPlugin extends PluginService {
     serviceName: string,
     keyNamesList?: Array<string>,
   ) {
-    let map: Map<string, any> = new Map<string, any>();
+    const map: Map<string, any> = new Map<string, any>();
     map.set('key_names', keyNamesList);
 
     return await this.applyPluginKongService(serviceName, PluginName.key_auth, map);
@@ -20,7 +20,7 @@ export class KeyAuthPlugin extends PluginService {
     pluginId: string,
     keyNamesList: Array<string>,
   ) {
-    let map: Map<string, any> = new Map<string, any>();
+    const map: Map<string, any> = new Map<string, any>();
     map.set('key_names', keyNamesList);
 
     return this.updatePluginKongService(serviceName, pluginId, map);

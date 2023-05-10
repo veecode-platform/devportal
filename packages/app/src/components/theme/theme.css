@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     scrollbar-width: none; /*firefox*/
+    transition: 'all .5s ease-in-out'
 }
 
 *::-webkit-scrollbar {

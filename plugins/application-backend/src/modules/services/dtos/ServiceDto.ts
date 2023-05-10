@@ -3,11 +3,10 @@ import { SECURITY } from "../domain/Service";
 export class ServiceDto {
   name: string;
   description: string;
-  redirectUrl: string;
   kongServiceName: string;
   kongServiceId: string;
   active: boolean;
-  rateLimiting?: number;
+  rateLimiting?: string;
   createdAt?: Date;
   updatedAt?: Date;
   securityType?: SECURITY;
@@ -15,18 +14,16 @@ export class ServiceDto {
   constructor(
     name: string,
     description: string,
-    redirectUrl: string,
     kongServicename: string,
     kongServiceId: string,
     active: boolean,
-    rateLimiting?: number,
+    rateLimiting?: string,
     createdAt?: Date,
     updatedAt?: Date,
     securityType?: SECURITY
   ) {
     this.name = name;
     this.description = description;
-    this.redirectUrl = redirectUrl;
     this.kongServiceName = kongServicename;
     this.kongServiceId = kongServiceId;
     this.rateLimiting = rateLimiting;

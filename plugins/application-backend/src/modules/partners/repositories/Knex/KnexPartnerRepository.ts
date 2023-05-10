@@ -57,12 +57,12 @@ export class PostgresPartnerRepository implements IPartnerRepository {
     ).length;
   }
 
-  async findApplications(id: string) {
+  /* async findApplications(id: string) { refactor
     const associates: PartnerDto = (await this.getPartnerById(
       id,
     )) as PartnerDto;
     return associates.applicationId;
-  }
+  }*/
 
   // method get one partner by id
   async getPartnerById(id: string): Promise<Partner | string> {

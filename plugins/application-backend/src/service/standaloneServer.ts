@@ -10,7 +10,7 @@ import knexFactory from 'knex';
 import { Logger } from 'winston';
 import { createRouter } from './router';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
-// import { applyDatabaseMigrations } from '../database/migrations';
+import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
 
 export interface ServerOptions {
   port: number;
@@ -52,6 +52,10 @@ export async function startStandaloneServer(
     database: { getClient: async () => db },
     config: config,
     permissions,
+    identity: DefaultIdentityClient.create({
+      discovery,
+      issuer: await discovery.getExternalBaseUrl('auth'),
+    }),
   });
 
   const service = createServiceBuilder(module)

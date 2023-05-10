@@ -1,6 +1,7 @@
 
 import { PluginName, PluginService } from '../services/PluginService';
 import axios from 'axios';
+
 export class AclPlugin extends PluginService {
 
   
@@ -15,7 +16,7 @@ export class AclPlugin extends PluginService {
     serviceName: string,
     allowedList: Array<string>,
   ) {
-    let map: Map<string, any> = new Map<string, any>();
+    const map: Map<string, any> = new Map<string, any>();
     map.set('hide_groups_header', true);
     map.set('allow', allowedList);
 
@@ -28,11 +29,11 @@ export class AclPlugin extends PluginService {
     allowedList: Array<string>,
   ) {
     const response = await axios.get(`${await this.getUrl()}/services/${serviceName}/plugins/${pluginId}`);
-    let array: String[] = response.data.config.allow;
+    const array: string[] = response.data.config.allow;
     for (let index = 0; index < allowedList.length; index++) {
       array.push(allowedList[index]);
     }
-    let map: Map<string, any> = new Map<string, any>();
+    const map: Map<string, any> = new Map<string, any>();
     map.set('allow', array);
     return this.updatePluginKongService(serviceName, pluginId, map);
   }

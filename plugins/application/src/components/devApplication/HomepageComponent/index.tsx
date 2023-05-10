@@ -1,5 +1,4 @@
 import React from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Route, Routes} from 'react-router';
 import { ApplicationDetailsComponent } from "../ApplicationDetailsComponent";
 import { ApplicationListComponent } from "../ApplicationListComponent";

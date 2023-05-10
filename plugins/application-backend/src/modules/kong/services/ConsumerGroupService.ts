@@ -6,12 +6,13 @@ import { KongServiceBase } from './KongServiceBase';
 export class ConsumerGroupService extends KongServiceBase {
   private static _instance: ConsumerGroupService;
 
-    public async createConsumerGroup(consumerGroup: ConsumerGroup): Promise<ConsumerGroup> {
+    public async createConsumerGroup(consumerGroup: ConsumerGroup): Promise<ConsumerGroup> { 
       const baseUrl = await this.getBaseUrl()
         const url = `${baseUrl}/consumer_groups`;
         const response = await axios
             .post(url, {
-                name: consumerGroup.name
+                name: consumerGroup.name,
+                tags: ["managed-by-devportal"]
             },
                 {
                 headers: await this.getAuthHeader(),
@@ -61,10 +62,9 @@ export class ConsumerGroupService extends KongServiceBase {
           headers: await this.getAuthHeader(),
         },
       )
-      .catch(error =>{
-        console.log(error)
+      .catch(_error =>{
         throw new Error("erro")
-      });// kongConsumerGroupExceptions
+      });
     return response.data;
   }
 

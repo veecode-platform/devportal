@@ -8,8 +8,10 @@ import {
   appDtoNameConcatpartnersId,
   serviceConcatGroup,
 } from '../../utils/ConcatUtil';
+import { Application } from '../domain/Application';
 import { ApplicationDto } from '../dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../repositories/knex/KnexApplicationRepository';
+import { PostgresApplicationServiceRepository } from '../repositories/knex/KnexApplicationServiceRepository';
 
 export class ApplicationServices {
   private static _instance: ApplicationServices;
@@ -22,26 +24,20 @@ export class ApplicationServices {
 
   public async createApplication(
     application: ApplicationDto,
-    partnerId: String,
+    partnerId: string,
     options: RouterOptions,
   ) {
     try {
-      const consumer = new Consumer(appDtoNameConcatpartnersId(application, partnerId), "managedByDevportal");
+      const consumer = new Consumer(appDtoNameConcatpartnersId(application, partnerId), ["managed-by-devportal"]);
       const servicesId: string[] = application.services;
-      const serviceRepository = await PostgresServiceRepository.create(
-        await options.database.getClient(),
-      );
+      const serviceRepository = await PostgresServiceRepository.create(await options.database.getClient());
 
-      // todo add to acl plugin
       await ConsumerService.Instance.createConsumer(consumer);
-      servicesId.forEach(async x => {
-        const service: Service = await serviceRepository.getServiceById(x);
-        if (service instanceof Object) {
-          ConsumerGroupService.Instance.addConsumerToGroup(
-            serviceConcatGroup(service.kongServiceName as string),
-            consumer.username,
-          );
-        }
+
+      servicesId.forEach(async s => {
+        const service: Service = await serviceRepository.getServiceById(s);
+        await ConsumerService.Instance.addAclToConsumer(consumer, serviceConcatGroup(service.kongServiceName as string));     
+        await ConsumerGroupService.Instance.addConsumerToGroup(serviceConcatGroup(service.kongServiceName as string), consumer.username);  
       });
 
       return application
@@ -56,19 +52,11 @@ export class ApplicationServices {
     options: RouterOptions,
   ) {
     try {
-      const applicationRepository = await PostgresApplicationRepository.create(
-        await options.database.getClient(),
-      );
-      const application = await applicationRepository.getApplicationById(
-        applicationId,
-      );
-      if (application instanceof Object) {
-        ConsumerGroupService.Instance.removeConsumerFromGroups(
-          application.name as string,
-        );
-        ConsumerService.Instance.deleteConsumer(application.name as string);
-      }
-      applicationRepository.deleteApplication(applicationId);
+      const applicationRepository = await PostgresApplicationRepository.create(await options.database.getClient());
+      const application = await applicationRepository.getApplicationById(applicationId) as Application;
+      // ConsumerGroupService.Instance.removeConsumerFromGroups(application.externalId as string);
+      ConsumerService.Instance.deleteConsumer(application.externalId as string);
+      
     } catch (error) {
       return error;
     }
@@ -76,38 +64,38 @@ export class ApplicationServices {
 
   public async updateApplication(
     applicationId: string,
-    applicationDto: ApplicationDto,
+    application: ApplicationDto,
     options: RouterOptions,
   ) {
     try {
-      const serviceRepository = await PostgresServiceRepository.create(
-        await options.database.getClient(),
-      );
-      const applicationRepository = await PostgresApplicationRepository.create(
-        await options.database.getClient(),
-      );
-      const application = await applicationRepository.getApplicationById(
-        applicationId,
-      );
-      const servicesId: string[] = applicationDto.services;
+      const serviceRepository = await PostgresServiceRepository.create(await options.database.getClient());
+      const applicationRepository = await PostgresApplicationRepository.create(await options.database.getClient());
+      const applicationServiceRepository = await PostgresApplicationServiceRepository.create(await options.database.getClient())
 
-      if (application instanceof Object) {
-        await ConsumerGroupService.Instance.removeConsumerFromGroups(
-          application.name as string,
-        );
+      const applicationFromDb = await applicationRepository.getApplicationById(applicationId) as Application;
+      const newServices: string[] = application.services;
+      const consumer = new Consumer(applicationFromDb.externalId as string);
+      const servicesPreviouslyAssociated = await applicationServiceRepository.getServicesByApplication(applicationId)
 
-        servicesId.forEach(async x => {
-          const service = await serviceRepository.getServiceById(x);
-          if (service instanceof Object) {
-            ConsumerGroupService.Instance.addConsumerToGroup(
-              serviceConcatGroup(service.name as string),
-              application.name as string,
-            );
-          }
-        });
-      }
+      servicesPreviouslyAssociated.forEach( async (service: Service) => {
+        await ConsumerService.Instance.removeAclFromConsumer(consumer, serviceConcatGroup(service.kongServiceName as string))
+        // await ConsumerGroupService.Instance.removeConsumerFromGroup(consumer.username, serviceConcatGroup(service.kongServiceName as string) )
+      })
+      await ConsumerGroupService.Instance.removeConsumerFromGroups(consumer.username)
+      await applicationServiceRepository.deleteApplication(applicationId as string)
+
+      newServices.forEach( async (service) => {
+        const serviceFromDb: Service = await serviceRepository.getServiceById(service);
+        await ConsumerService.Instance.addAclToConsumer(consumer, serviceConcatGroup(serviceFromDb.kongServiceName as string));     
+        await ConsumerGroupService.Instance.addConsumerToGroup(serviceConcatGroup(serviceFromDb.kongServiceName as string), consumer.username);  
+      })
+
+      await applicationServiceRepository.associate(applicationId as string, newServices)
+
+      return newServices
+
     } catch (error) {
-      return error
+      throw new Error(`Impossible to update application ${applicationId}`)
     }
   }
 }

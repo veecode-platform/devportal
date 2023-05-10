@@ -1,22 +1,6 @@
-/*
- * Copyright 2021 The Backstage Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 import React from 'react';
 import {
   humanizeEntityRef,
-  EntityRefLink,
   EntityRefLinks,
 } from '@backstage/plugin-catalog-react';
 import { Chip } from '@material-ui/core';
@@ -50,11 +34,23 @@ export const columnFactories = Object.freeze({
         return formatContent(entity1).localeCompare(formatContent(entity2));
       },
       render: ({ entity }) => (
-        <EntityRefLink
-          entityRef={entity}
-          defaultKind={options?.defaultKind || 'Component'}
-          title={entity.metadata?.title}
-        />
+        // Link entity item
+        // <EntityRefLink
+        //   entityRef={entity}
+        //   defaultKind={options?.defaultKind || 'Component'}
+        //   title={entity.metadata?.title}
+        // />
+        <p 
+         onClick={()=>{
+          localStorage.setItem("annotations", JSON.stringify(entity.metadata.annotations));
+          window.location.reload()
+          window.location.replace(`${window.location.origin}/catalog/${entity.metadata.namespace??'default'}/${entity.kind}/${entity.metadata.name}`)
+         }}
+         style={{cursor:'pointer'}}
+          >
+          {entity.metadata.name}
+        </p>
+        
       ),
     };
   },

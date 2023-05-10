@@ -37,6 +37,10 @@ export const UserSettingsMenu = () => {
     setOpen(false);
   };
 
+  /* const handleKeycloakSessionLogout = () => { 
+
+  }*/
+
   return (
     <>
       <IconButton

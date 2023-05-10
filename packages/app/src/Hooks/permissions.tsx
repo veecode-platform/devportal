@@ -1,7 +1,7 @@
 import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 
 
-/*export function usePermissionsCheck() {
+/* export function usePermissionsCheck() {
   const user = useApi(identityApiRef);
   const validUser = await user.getBackstageIdentity()
   return validUser.userEntityRef.split(":")[0]  

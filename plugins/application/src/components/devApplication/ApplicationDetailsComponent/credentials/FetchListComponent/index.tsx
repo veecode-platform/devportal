@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { Table, TableColumn, Progress } from '@backstage/core-components';
 import { Link as RouterLink } from 'react-router-dom';
@@ -9,6 +8,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import {AlertComponent} from '../../../../shared';
 import { ICredentials } from '../utils/interfaces';
 import AxiosInstance from '../../../../../api/Api';
+import { useAppConfig } from '../../../../../hooks/useAppConfig';
 
 type DenseTableProps = {
   applicationId: string,
@@ -19,6 +19,7 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   const [show, setShow] = useState<boolean>(false);
   const [status, setStatus] = useState<string>('');
   const [messageStatus, setMessageStatus] = useState<string>('');
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
@@ -26,14 +27,15 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   };
   
   const columns: TableColumn[] = [
-    { title: 'Id', field: 'id', width: '1fr' },
-    // { title: 'Key', field: 'key', width: '1fr' },
-    {title: 'Type', field: 'type', width: '1fr'},
+    // { title: 'Id', field: 'id', width: '1fr' },
+    { title: 'Client ID', field: 'clientId', width: '1fr' },
+    { title: 'Client secret', field: 'clientSecret', width: '1fr'},
+    { title: 'Type', field: 'type', width: '1fr'},
     { title: 'Actions', field: 'actions', width: '1fr' },
   ];
 
   const removeCredential = async (applicationID: string, credentialID: string, credentialType: string) => {
-    const response = await AxiosInstance.delete(`/applications/${applicationID}/credentials?idCredential=${credentialID}&type=${credentialType}`)
+    const response = await AxiosInstance.delete(`${BackendBaseUrl}/applications/${applicationID}/credentials?idCredential=${credentialID}&type=${credentialType}`)
     if (response.status === 204) {
       setShow(true);
       setStatus('success');
@@ -53,6 +55,8 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
    return {
       id: item.id,
       type: item.type,
+      clientSecret: item.clientSecret || item.key,
+      clientId: item.clientId,
       actions: (
         <Button
           variant="outlined"
@@ -88,11 +92,12 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
 };
 
 export const FetchListComponent = ({ idApplication }: { idApplication: string }) => {
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
   // list Credentias
   const { value, loading, error } = useAsync(async (): Promise<
     ICredentials[]
   > => {
-    const response =  await AxiosInstance.get(`/applications/${idApplication}/credentials`)
+    const response =  await AxiosInstance.get(`${BackendBaseUrl}/applications/${idApplication}/credentials`)
     return response.data.credentials;
   }, []);
 

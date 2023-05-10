@@ -1,11 +1,10 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren, /*useState*/ } from 'react';
 import { Grid, Button } from '@material-ui/core';
 import {
   CardTab,
   StructuredMetadataTable,
   TabbedCard,
 } from '@backstage/core-components';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Link as RouterLink } from 'react-router-dom';
 import { PartnerServiceListTable } from './PartnerServicesTable';
 import { PartnerApplicationListTable } from './PartnerApplicationListTable';
@@ -42,14 +41,14 @@ export const TabedParterDetails = ({
   back,
   remove,
 }: Props) => {
-  const [show, setShow] = useState<boolean>(false);
+  /* const [show, setShow] = useState<boolean>(false);
   const [status] = useState<string>('');
   const [messageStatus] = useState<string>('');
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
     setShow(false);
-  };
+  };*/
 
   return (
     <Wrapper>
@@ -93,10 +92,10 @@ export const TabedParterDetails = ({
               </Grid>
             </CardTab>
             <CardTab label="Services">
-                <PartnerServiceListTable partnerId="88b9e055-82ee-494c-8f88-667cf975e244" />
+                <PartnerServiceListTable partnerId={metadata.id} />
             </CardTab>
             <CardTab label="Applications">
-                <PartnerApplicationListTable/>
+                <PartnerApplicationListTable partnerId={metadata.name}/>
             </CardTab>
           </TabbedCard>
         </Wrapper>

@@ -90,7 +90,7 @@ export class VaultClient implements VaultApi {
     method: string = 'GET',
   ): Promise<T> {
     const url = new URL(path, this.vaultConfig.baseUrl);
-    //original url `${url.toString()}?${new URLSearchParams(query).toString()}`,
+    // original url `${url.toString()}?${new URLSearchParams(query).toString()}`,
     const response = await fetch(
       `${url.toString()}`,
       {
@@ -129,8 +129,10 @@ export class VaultClient implements VaultApi {
     const secrets: VaultSecret[] = [];
     const teste = result.data.data;
     const teste2 = [];
-    for (const key in teste) {
+    for(const key in teste) {
+      if (teste.hasOwnProperty(key)) {
       teste2.push(key)
+      }
     }
 
     await Promise.all(
@@ -154,7 +156,7 @@ export class VaultClient implements VaultApi {
       }),
     );
 
-    /*await Promise.all(
+    /* await Promise.all(
       result.data.keys.map(async secret => {
         if (secret.endsWith('/')) {
           secrets.push(

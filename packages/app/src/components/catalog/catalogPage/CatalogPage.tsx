@@ -23,6 +23,5 @@ import {
 
 export function CatalogPage(props: DefaultCatalogPageProps) {
   const outlet = useOutlet();
-
   return outlet || <DefaultCatalogPage {...props} />;
 }

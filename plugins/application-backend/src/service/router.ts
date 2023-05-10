@@ -15,6 +15,7 @@ import { testeRoute } from './teste-router';
 import { createPluginRouter } from './plugins-route';
 import { createKeycloackRouter } from './keycloak-router';
 import { PermissionEvaluator } from '@backstage/plugin-permission-common';
+import { IdentityApi } from '@backstage/plugin-auth-node';
 
 
 /** @public */
@@ -23,6 +24,7 @@ export interface RouterOptions {
   database: PluginDatabaseManager;
   config: Config;
   permissions: PermissionEvaluator;
+  identity: IdentityApi;
 }
 export interface Service {
   name: string;

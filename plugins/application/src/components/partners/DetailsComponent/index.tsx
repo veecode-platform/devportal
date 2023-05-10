@@ -1,20 +1,20 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { Grid, makeStyles, Card, CardHeader, IconButton} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { useLocation } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
-import { Link, Progress, TabbedLayout } from '@backstage/core-components';
+import { /*Link,*/ Progress, TabbedLayout } from '@backstage/core-components';
 import {
   Header,
   Page,
 } from '@backstage/core-components';
 import { IPartner } from '../interfaces';
-import { DefaultDetailsComponent } from '../../shared';
+// import { DefaultDetailsComponent } from '../../shared';
 import { TabedParterDetails } from './TabedPartnerDetails';
-import EditIcon from '@material-ui/icons/Edit';
+//import EditIcon from '@material-ui/icons/Edit';
 import CachedIcon from '@material-ui/icons/Cached';
 import AxiosInstance from '../../../api/Api';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 type PartnerProps = {
   partner: IPartner | undefined;
@@ -56,8 +56,6 @@ const Details = ({ partner }: PartnerProps) => {
     active: partner?.active ?? true,
     email: partner?.email ?? '...',
     phone: partner?.phone ?? '...',
-    applicationsId: partner?.applicationsId ?? '...',
-    servicesId: partner?.servicesId ?? '...',
     createdAt: partner?.createdAt ?? '...',
     updatedAt : partner?.updatedAt ?? '...'
   }
@@ -75,14 +73,14 @@ const Details = ({ partner }: PartnerProps) => {
               style={{ padding: "2em" }}
               action={
                 <>
-                  <IconButton
+                  {/*<IconButton
                     component={Link}
                     aria-label="Edit"
                     title="Edit Partner"
                     to={`/partners/edit-partner?id=${partner?.id}`}
                   >
                     <EditIcon />
-                  </IconButton>
+              </IconButton>*/}
 
                   <IconButton
                     aria-label="Refresh"
@@ -112,9 +110,10 @@ const Details = ({ partner }: PartnerProps) => {
 export const DetailsComponent = () => {
   const location = useLocation();
   const id = location.search.split("?id=")[1];
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IPartner> => {
-    const {data} = await AxiosInstance.get(`/partners/${id}`)
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/partners/${id}`)
     return data.partners;
   }, []);
 

@@ -1,7 +1,7 @@
 import { SecurityTypeEnum } from '../enum/index';
 
 export const securityItems = [
-    { label: SecurityTypeEnum.none, value: SecurityTypeEnum.none },
+    //{ label: SecurityTypeEnum.none, value: SecurityTypeEnum.none },
     { label: SecurityTypeEnum.keyAuth, value: SecurityTypeEnum.keyAuth },
     { label: SecurityTypeEnum.oAuth2, value: SecurityTypeEnum.oAuth2 },
   ];

@@ -3,9 +3,6 @@ import { RouterOptions } from "./router";
 import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerRepository";
 import { PartnerDto } from "../modules/partners/dtos/PartnerDto";
 import { AxiosError } from "axios";
-import { TestGroups } from "../modules/keycloak/adminClient";
-import { KeycloakUserService } from "../modules/keycloak/service/UserService";
-// import { UpdateUserDto, UserDto } from "../modules/keycloak/dtos/UserDto";
 import { PostgresPartnerApplicationRepository } from "../modules/partners/repositories/Knex/KnexPartnerApplicationRepository";
 import { PostgresPartnerServiceRepository } from "../modules/partners/repositories/Knex/knexPartnerServiceRepository";
 
@@ -27,9 +24,6 @@ export async function createPartnersRouter(
   )
   const router = Router();
 
-  const adminClientKeycloak = new TestGroups();
-  const userServiceKeycloak = new KeycloakUserService();
-
   router.get('/applications/:idPartner', async (request, response) => {
     console.log('aqui')
     const code = request.params.idPartner
@@ -37,8 +31,8 @@ export async function createPartnersRouter(
     response.status(200).json({ applications: applications })
   })
 
-  router.get('/services/:idPartner', async (request, response) => {
-    const code = request.params.idPartner
+  router.get('/:id/services', async (request, response) => {
+    const code = request.params.id
     const services = await partnerServiceRepository.getServiceByPartner(code)
     response.status(200).json({ services: services })
   })
@@ -59,7 +53,7 @@ export async function createPartnersRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -84,7 +78,7 @@ export async function createPartnersRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -111,11 +105,11 @@ export async function createPartnersRouter(
     response.status(200).json({ status: 'ok', partners: partners, total: total });
   });
 
-  router.get('/applications/:id', async (request, response) => {
+  /* router.get('/applications/:id', async (request, response) => {refactor 
     const code = request.params.id;
     const applications = await partnerRepository.findApplications(code);
     response.status(200).json({ status: 'ok', applications: applications });
-  });
+  });*/
 
   router.post('/', async (request, response) => {
     try {
@@ -132,7 +126,7 @@ export async function createPartnersRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -157,7 +151,7 @@ export async function createPartnersRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -183,7 +177,7 @@ export async function createPartnersRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,
@@ -208,7 +202,7 @@ export async function createPartnersRouter(
         })
       } else if (error instanceof AxiosError) {
         error = AxiosError
-        let date = new Date();
+        const date = new Date();
         response.status(error.response.status).json({
           status: 'ERROR',
           message: error.response.data.errorSummary,

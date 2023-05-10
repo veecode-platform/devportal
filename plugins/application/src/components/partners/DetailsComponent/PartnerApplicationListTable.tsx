@@ -1,11 +1,13 @@
 /* eslint-disable no-new */
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import { Table, TableColumn, Progress} from '@backstage/core-components';
 import AxiosInstance from '../../../api/Api';
 import { IApplication } from '../../devApplication/interfaces';
+import { useAppConfig } from '../../../hooks/useAppConfig';
+import { identityApiRef, useApi } from '@backstage/core-plugin-api';
+
 
 type ServiceListProps = {
   applications: IApplication[];
@@ -37,9 +39,16 @@ const ApplicationList = ({applications}:ServiceListProps) =>{
       );    
 }
 
-export const PartnerApplicationListTable = () => {
+type partnerListProps = {
+  partnerId: string;
+}
+
+export const PartnerApplicationListTable = ({partnerId}:partnerListProps) => {
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+  const user = useApi(identityApiRef);
     const { value, loading, error } = useAsync(async (): Promise<IApplication[]> => {
-        const {data} = await AxiosInstance.get(`/applications`)
+      const userIdentityToken = await user.getCredentials()
+        const {data} = await AxiosInstance.get(`${BackendBaseUrl}/applications/partners/${partnerId}?limit=10&offset=0`,{headers:{ Authorization: `Bearer ${userIdentityToken.token}`}})
         return data.applications;
     }, []);
   
@@ -48,5 +57,5 @@ export const PartnerApplicationListTable = () => {
     } else if (error) {
       return <Alert severity="error">{error.message}</Alert>;
     }
-    return <ApplicationList applications={value || []} />;
+    return <ApplicationList applications={value || []} />; 
   };

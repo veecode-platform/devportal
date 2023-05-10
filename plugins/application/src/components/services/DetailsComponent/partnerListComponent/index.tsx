@@ -1,6 +1,4 @@
-/* eslint-disable no-new */
-/* eslint-disable import/no-extraneous-dependencies */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import { Table, TableColumn, Progress} from '@backstage/core-components';
@@ -12,10 +10,11 @@ import { Grid, Button} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { IPartner } from '../../utils/interfaces';
 import AxiosInstance from '../../../../api/Api';
+import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 type PartnerListProps = {
   partners: IPartner[];
-  servicePartnerId: string[];
+  servicePartnerId: any[];
   serviceId: string;
 }
 
@@ -45,21 +44,30 @@ const ActionsGrid = ({removeHandler, addHandler, partnerId}:ActionsGridProps) =>
 }
 
 const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) =>{
-  const [partnerList, setPartnerList] = useState(servicePartnerId);
+
+  const [partnerList, setPartnerList] = useState<string[]>([]);
   const [loading, setLoading] = useState(false)
-  // console.log(partners, servicePartnerId, serviceId)
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
+  useEffect(()=>{
+    const associated = servicePartnerId.map((partner) => {
+      return partner.partner_id;
+    });
+    setPartnerList(associated as string[])
+
+  }, [])
 
   const handleSubmit = async() =>{
     setLoading(true)
     const updateServicesPartners = {
-      services:{
-        partnersId: partnerList,
+      service:{
+        partnersId: partnerList
       }
-    }
-    await AxiosInstance.patch(`services/${serviceId}`, JSON.stringify(updateServicesPartners) )
-    
+    } 
+    await AxiosInstance.patch(`${BackendBaseUrl}/services/${serviceId}`, JSON.stringify(updateServicesPartners) )
+
     new Promise (() =>{
-      setTimeout(()=>{setLoading(false)}, 500);
+      setTimeout(()=>{setLoading(false)}, 1000);
     })
     
   }
@@ -118,8 +126,9 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
 }
 
 export const PartnerListComponent = ({servicePartnerId, serviceId}:any) => {
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
     const { value, loading, error } = useAsync(async (): Promise<IPartner[]> => {
-      const {data} = await AxiosInstance.get("/partners")
+      const {data} = await AxiosInstance.get(`${BackendBaseUrl}/partners`)
       return data.partners;
     }, []);
   

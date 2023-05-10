@@ -1,4 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
 import React from 'react';
 import { Select } from '../../../../shared';
 import { IKongServices } from '../../interfaces';

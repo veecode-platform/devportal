@@ -10,6 +10,7 @@ export class ApplicationMapper {
       active: application.props.active,
       externalId: application.props.externalId,
       createdAt: application.props.createdAt,
+      partner: application.props.partner
     };
   }
   static async listAllApplicationsToResource(

@@ -5,10 +5,10 @@ export const serviceConcatGroup = (service: string): string => {
   return `${service}-group`;
 };
 
-export const appNameConcatpartnersId = (application: Application, partnerId:String): string => {
+export const appNameConcatpartnersId = (application: Application, partnerId:string): string => {
   return `${application.name}-${partnerId}`
 };
 
-export const appDtoNameConcatpartnersId = (applicationDto: ApplicationDto, partnerId: String): string => {
+export const appDtoNameConcatpartnersId = (applicationDto: ApplicationDto, partnerId: string): string => {
   return `${applicationDto.name}-${partnerId}`;
 };

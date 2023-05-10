@@ -5,11 +5,13 @@ import useAsync from "react-use/lib/useAsync";
 import { IKongServices } from "../interfaces";
 import { KongServicesListComponent } from "./kongServiceListComponent";
 import AxiosInstance from '../../../../api/Api';
+import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 export const FetchKongServices = ({valueName, setValue, selected}:any) => {
 
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
     const { value, loading, error } = useAsync(async (): Promise<IKongServices[]> => {
-      const response = await AxiosInstance.get("/kong-extras/services")
+      const response = await AxiosInstance.get(`${BackendBaseUrl}/kong-extras/services`)
       return response.data.services;
     }, []);
   

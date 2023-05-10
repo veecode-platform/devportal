@@ -56,15 +56,27 @@ export class PostgresServiceRepository implements IServiceRepository {
     return responseData.service as Service;
   }
 
+  async getServiceByKongId(id: string): Promise<Service | string> {
+    const service = await this.db<Service>('service')
+      .where('kongServiceId', id)
+      .limit(1)
+      .select('')
+      .catch(error => console.error(error));
+    
+    const serviceDomain = ServiceResponseDto.create({ serviceIt: service });
+    const responseData = await ServiceMapper.listAllServicesToResource(serviceDomain);
+
+    return responseData.service as Service;
+  }
+
   async saveService(serviceDto: ServiceDto): Promise<Service> {
     const service: Service = Service.create({
       name: serviceDto.name,
       active: serviceDto.active,
       description: serviceDto.description,
-      redirectUrl: serviceDto.redirectUrl,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: serviceDto.rateLimiting as number,
+      rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
       securityType: serviceDto.securityType as SECURITY,
     });
     await ServiceMapper.toPersistence(service);
@@ -87,10 +99,9 @@ export class PostgresServiceRepository implements IServiceRepository {
       name: serviceDto.name,
       active: serviceDto.active,
       description: serviceDto.description,
-      redirectUrl: serviceDto.redirectUrl,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: serviceDto.rateLimiting as number,
+      rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
       securityType: serviceDto.securityType as SECURITY,
     });
     // if (serviceDto.securityType.valueOf() != 'none') {
@@ -110,10 +121,9 @@ export class PostgresServiceRepository implements IServiceRepository {
       name: serviceDto.name,
       active: serviceDto.active,
       description: serviceDto.description,
-      redirectUrl: serviceDto.redirectUrl,
       kongServiceName: serviceDto.kongServiceName,
       kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: serviceDto.rateLimiting as number,
+      rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
       securityType: serviceDto.securityType as SECURITY,
     });
     const data = await ServiceMapper.toPersistence(service);
@@ -130,7 +140,7 @@ export class PostgresServiceRepository implements IServiceRepository {
   // async function to patch partial  service object partial class type
   async patchService(
     id: string,
-    serviceDto: ServiceDto,
+    serviceDto: any,
   ): Promise<Service | string> {
     const service: Service = (await this.getServiceById(id)) as Service;
     const patchedService = await this.db('service')

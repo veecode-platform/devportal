@@ -15,32 +15,55 @@ export class PostgresApplicationServiceRepository {
         return new PostgresApplicationServiceRepository(knex);
     }
 
-    async getServicesByApplication(application_id: string): Promise<ApplicationService[] | unknown> {
-        const service = await this.db<ApplicationService>('application_service')
+    async getServicesByApplication(application_id: string): Promise<any> {
+        try{
+            const service = await this.db<ApplicationService>('application_service')
             .innerJoin('service', 'application_service.service_id', 'service.id')
-            .select('service_id')
+            .select('*')
             .where('application_id', application_id)
             .catch(error => console.error(error));
-        console.log('service: ', service)
-        return service
+            return service
+
+        }
+        catch(e){
+            throw new Error(`Impossible to fetch service from application ${application_id}`)
+        }
     }
 
 
     async associate(applicationId: string, servicesId: string[]) {
+        try{
+            for (let i = 0; i < servicesId.length; i++) {
+                const applicationService: ApplicationService = ApplicationService.create({
+                    application_id: applicationId,
+                    service_id: servicesId[i]
+                })
+                const data = await ApplicationServiceMapper.toPersistence(applicationService)
+                await this.db<ApplicationService>('application_service').insert(data)
+            }
+        }
+        catch(e){
+            throw new Error(`Impossible to associate with ${applicationId}`)
+        }
+    }
 
-        for (let i = 0; i < servicesId.length; i++) {
-            const applicationService: ApplicationService = ApplicationService.create({
-                application_id: applicationId,
-                service_id: servicesId[i]
-            })
-            console.log('application service', applicationService)
-            const data = await ApplicationServiceMapper.toPersistence(applicationService)
-            console.log(data)
-            await this.db<any>('application_service')
-                .insert(data)
-                .catch(error => console.error(error));
-
+    async deleteApplication(applicationId: string){
+        try{
+            await this.db<ApplicationService>('application_service').where("application_id", applicationId).del()
+        }
+        catch(e){
+            throw new Error(`Impossible to delete ${applicationId}`)
         }
 
     }
+    async deleteService(serviceId: string){
+        try{
+            await this.db<ApplicationService>('application_service').where("service_id", serviceId).del()
+        }
+        catch(e){
+            throw new Error(`Impossible to delete ${serviceId}`)
+        }
+
+    }
+
 }

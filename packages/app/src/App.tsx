@@ -1,5 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import {
+  Navigate,
+  Outlet,
   // Navigate,
   Route,
 } from 'react-router';
@@ -13,7 +16,7 @@ import { ApiExplorerPage } from './components/api-docs/apiExplorerPage/ApiExplor
 
 import {
   CatalogEntityPage,
-  // CatalogIndexPage, 
+  // CatalogIndexPage,
   catalogPlugin,
 } from '@backstage/plugin-catalog';
 // custom page - catalog
@@ -26,7 +29,8 @@ import {
 import {
   ScaffolderPage,
   scaffolderPlugin,
-} from '@backstage/plugin-scaffolder';
+} from '@internal/plugin-scaffolder';
+// import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 // import { TechRadarPage } from '@backstage/plugin-tech-radar';
@@ -45,10 +49,11 @@ import { Root } from './components/Root';
 import {
   AlertDisplay,
   OAuthRequestDialog,
+  UserIdentity,
   // SignInPage,
 } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
-import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
+import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api';
 
 // custom
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
@@ -71,13 +76,36 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 // custom siginpage
 import { SignInPage } from './components/signInPage/SignInPage';
 import '../src/components/theme/theme.css';
+import { useGuest } from './Hooks/useGuest';
+import { useApiManagement } from './Hooks/apiManagement';
+
+const SignInComponent: any = (props: SignInPageProps) => {
+  const Guest = useGuest();
+    if(Guest)
+    {
+      props.onSignInSuccess(UserIdentity.fromLegacy({
+        userId: 'guest',
+        profile: {
+          email: 'gust@example.com',
+          displayName: 'Guest',
+          picture: '',
+        },
+      }));
+    }
+    return <SignInPage {...props} providers={[providers[1]]} />
+};
+
+const ApiManagementComponent = () => {
+  const ApiManagement = useApiManagement();
+  return (
+    ApiManagement ? <Outlet/> : <Navigate to="/" replace />
+  )
+}
 
 const app = createApp({
   apis,
   components: {
-    SignInPage: props => {
-      return <SignInPage {...props} providers={[providers[1]]} />;
-    },
+    SignInPage: SignInComponent
   },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
@@ -168,25 +196,33 @@ const routes = (
       <DefaultTechDocsHome />
     </Route>
     <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />}/>
-    <Route path="/api-docs" element={<ApiExplorerPage />} />   
-    <Route path="/create" element={<ScaffolderPage />} />   
+    <Route path="/api-docs" element={<ApiExplorerPage />} />
+    <Route path="/create" element={<ScaffolderPage />} />
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
-   
-    {/* <Route path="/services" element={<ServicesPage />} />
-    <Route path="/partners" element={<PartnersPage />} />*/}
     <Route path="/settings" element={<UserSettingsPage />} />
     
     {/* <Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
       <Route 
         path="/services" 
         element={<ServicesPage />} 
+    <Route path="/scaffolder" element={<ScaffolderPage />} />
+    {/* <Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
+      <Route
+        path="/services"
+        element={<ServicesPage />}
       />
     </Route>*/}
-    <Route path="/services" element={<ServicesPage />}/>
-    <Route path="/partners" element={<PartnersPage />}/>
-    <Route path="/application" element={<ApplicationPage />}/>
+    <Route path="/services" element={<ApiManagementComponent/>}>
+       <Route path="/" element={<ServicesPage/>}/>
+    </Route> 
+    <Route path="/partners" element={<ApiManagementComponent/>}>
+       <Route path="/" element={<PartnersPage/>}/>
+    </Route>
+    <Route path="/applications" element={<ApiManagementComponent/>}>
+      <Route path="/" element={<ApplicationPage/>}/>
+    </Route>
   </FlatRoutes>
 );
 
@@ -196,7 +232,9 @@ export default app.createRoot(
     <AlertDisplay transientTimeoutMs={2500} />
     <OAuthRequestDialog />
     <AppRouter>
-      <Root>{routes}</Root>
+      <Root>
+        {routes}
+      </Root>
     </AppRouter>
   </>,
 );

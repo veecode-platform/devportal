@@ -8,7 +8,7 @@ export interface IPartner {
     applicationsId?: string[] | any[],
     createdAt?: string, 
     updatedAt?: string, 
-  };
+  }
 
 export interface ICreatePartner{
   name: string,

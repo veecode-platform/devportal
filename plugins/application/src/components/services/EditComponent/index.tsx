@@ -1,7 +1,5 @@
-/* eslint-disable no-console */
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
-import { Grid, TextField, Button } from '@material-ui/core';
+import { Grid, TextField, Button, Checkbox, FormControlLabel, } from '@material-ui/core';
 import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AlertComponent } from '../../shared';
 import useAsync from 'react-use/lib/useAsync';
@@ -16,9 +14,10 @@ import {
 } from '@backstage/core-components';
 import { IService } from '../utils/interfaces';
 import { Select } from '../../shared';
-import { rateLimitingItems, securityItems, statusItems } from '../utils/common';
+import { securityItems } from '../utils/common';
+import { SecurityTypeEnum } from '../utils/enum';
 import AxiosInstance from '../../../api/Api';
-import { FetchKongServices } from '../utils/kongUtils';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 type ServiceProps = {
   serviceData: IService | undefined;
@@ -26,12 +25,15 @@ type ServiceProps = {
 
 const EditPageComponent = ({ serviceData }: ServiceProps) => {
   const navigate = useNavigate();
+  const [applySecurity, setApplySecurity] = useState<boolean>(false)
+  const [applyRateLimit, setApplyRateLimit] = useState<boolean>(false)
+  const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false)
+
   const [service, setService] = useState<IService>({
     id: serviceData?.id,
     name: serviceData?.name ?? '...',
     active: serviceData?.active,
     description: serviceData?.description ?? '...',
-    redirectUrl: serviceData?.redirectUrl ?? '...',
     partnersId: serviceData?.partnersId ?? [],
     rateLimiting: serviceData?.rateLimiting ?? 0,
     kongServiceName: serviceData?.kongServiceName ?? '...',
@@ -49,7 +51,6 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
       name: '',
       active: true,
       description: '',
-      redirectUrl: '',
       partnersId: [],
       rateLimiting: 0,
       kongServiceName: '',
@@ -58,22 +59,23 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
     });
   };
 
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
   const handleSubmit = async () => {
-    
-    const data = {                                       
-       services:{
-        name: service.name,
-        active: service.active,
-        description: service.description,
-        redirectUrl: service.redirectUrl,
-        partnersId: service.partnersId,
-        rateLimiting: service.rateLimiting,
-        kongServiceName: service.kongServiceName,
-        kongServiceId: service.kongServiceId,
-        securityType: service.securityType,
-       }
-    };
-    const response = await AxiosInstance.put(`services/${service?.id}`, JSON.stringify(data))
+    setLoadingUpdate(true)
+    let data = {                                       
+      name: service.name,
+      active: service.active,
+      description: service.description,       
+    }
+    if(applyRateLimit) data = Object.assign(data, { rateLimiting: service.rateLimiting })
+    if(applySecurity) data = Object.assign(data, { securityType: service.securityType })
+
+    const payload = {
+      service: {...data}
+    }
+
+    const response = await AxiosInstance.patch(`${BackendBaseUrl}/services/${service?.id}`, JSON.stringify(payload))
     setShow(true);
     setTimeout(() => {
       navigate('/services');
@@ -92,16 +94,16 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
           message="Service Edited!"
         />
 
-        <Grid container direction="row" justifyContent="center">
-          <Grid item sm={12} lg={5}>
+        <Grid container direction="row" justifyContent="center" alignItems="center" alignContent="center">
+          <Grid item sm={12} lg={6}>
             <InfoCard>
               <Grid
                 container
                 spacing={3}
-                direction="column"
+                direction="row"
                 justifyContent="center"
               >
-                <Grid item xs={12}>
+                <Grid item xs={12} md={9}>
                   <TextField
                     fullWidth
                     variant="outlined"
@@ -113,31 +115,14 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                     }}
                   />
                 </Grid>
-                <Grid
-                  item
-                  style={{
-                    display: 'grid',
-                    gridTemplate: 'auto / 2fr 1fr',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap:'1em',
-                    width: '100%',
-                  }}
-                >
-                  <FetchKongServices
-                    valueName={service.kongServiceName}
-                    setValue={setService}
-                    selected={`${service.kongServiceName}---${service.kongServiceId}`}
-                  />
+                <Grid item xs={12} md={3} >
                   <Select
                     placeholder="Select the Status"
                     label="Service Status"
                     selected={service.active ? "true" : "false"}
-                    items={statusItems}
+                    items={[{label:'active', value: 'true' }, {label:'inactive', value: 'false' }]}
                     onChange={e => {
-                      if (e === 'true')
-                        setService({ ...service, active: true });
-                      else setService({ ...service, active: false });
+                      setService({ ...service, active: e === "true" ? true : false });
                     }}
                   />
                 </Grid>
@@ -157,47 +142,45 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
-                  <TextField
+                <Grid container xs={12} justifyContent='space-between' alignContent='center' alignItems='center'>
+                  <Grid item xs={6}>
+                    <FormControlLabel
+                      value={applySecurity}
+                      label="Change security plugins?"
+                      labelPlacement='end'
+                      control={<Checkbox size='small' onChange={()=>{setApplySecurity(!applySecurity)}}/>}
+                    />                                       
+                    <Select
+                      onChange={e => {
+                        setService({ ...service, securityType: e });
+                      }}
+                      placeholder="Select the Security Type"
+                      selected={service.securityType == "oauth2" ? SecurityTypeEnum.oAuth2  : SecurityTypeEnum.keyAuth}
+                      label="Security Type"
+                      items={securityItems}
+                      disabled={!applySecurity}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6} >
+                    <FormControlLabel
+                        value={applyRateLimit}
+                        label="Change rate limit?"
+                        labelPlacement='end'
+                        control={<Checkbox size='small' onChange={()=>{setApplyRateLimit(!applyRateLimit)}}/>}
+                    />
+                    <TextField
+                    type='number'
                     fullWidth
                     variant="outlined"
-                    label="Url"
-                    value={service.redirectUrl}
-                    required
+                    value={service.rateLimiting}
+                    disabled={!applyRateLimit}
                     onChange={e => {
-                      setService({ ...service, redirectUrl: e.target.value });
+                      setService({ ...service, rateLimiting: e.target.value });
                     }}
-                  />
-                </Grid>
-
-                <Grid
-                  item
-                  style={{
-                    display: 'grid',
-                    gridTemplate: 'auto / repeat(2, 1fr)',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap:'1em',
-                    width: '100%',
-                  }}
-                >
-                  <Select
-                    onChange={e => {
-                      setService({ ...service, securityType: e });
-                    }}
-                    placeholder={service.securityType}
-                    label="Select the Security Type"
-                    items={securityItems}
-                  />
-                  <Select
-                    onChange={e => {
-                      setService({ ...service, rateLimiting: e });
-                    }}
-                    placeholder={service.rateLimiting}
-                    label="Select Rate Limiting"
-                    items={rateLimitingItems}
-                  />
-                </Grid>
+                  />  
+                  </Grid>
+                  </Grid>
 
                 <Grid item xs={12}>
                   <Grid container justifyContent="center" alignItems="center">
@@ -216,7 +199,7 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
                       color="primary"
                       type="submit"
                       variant="contained"
-                      disabled={show}
+                      disabled={loadingUpdate}
                       onClick={handleSubmit}
                     >
                       Save
@@ -235,10 +218,11 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
 export const EditComponent = () => {
   const location = useLocation();
   const id = location.search.split('?id=')[1];
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
-    const { data } = await AxiosInstance.get(`/services/${id}`)
-    return data.services;                            
+    const { data } = await AxiosInstance.get(`${BackendBaseUrl}/services/${id}`)
+    return data.service;                            
   }, []);
 
   if (loading) {

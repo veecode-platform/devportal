@@ -9,6 +9,7 @@ import AxiosInstance from '../../../api/Api';
 import { Select } from '../../shared';
 import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 export type Props = {
   partner: IPartner;
@@ -18,9 +19,11 @@ export type Props = {
 export const FetchServicesList = ({partner, setPartner}: Props) => {
     const user = useApi(identityApiRef);
 
+    const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
     const { value, loading, error } = useAsync(async (): Promise<any> => {
       const userIdentityToken = await user.getCredentials()
-      const {data} = await AxiosInstance.get(`/services`, {headers:{ Authorization: `Bearer ${userIdentityToken.token}`}});
+      const {data} = await AxiosInstance.get(`${BackendBaseUrl}/services`, {headers:{ Authorization: `Bearer ${userIdentityToken.token}`}});
       return data.services;
     }, []);
   
@@ -45,9 +48,11 @@ export const FetchServicesList = ({partner, setPartner}: Props) => {
   };
   
   export const FetchApplicationsList = ({partner, setPartner}: Props) => {
+
+    const BackendBaseUrl = useAppConfig().BackendBaseUrl;
   
     const { value, loading, error } = useAsync(async (): Promise<any> => {
-      const {data} = await AxiosInstance.get(`/applications`);
+      const {data} = await AxiosInstance.get(`${BackendBaseUrl}/applications`);
       return data.applications;
     }, []);
   

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
@@ -23,11 +22,13 @@ import {
   validateName,
   validatePhone,
 } from '../../shared/commons/validate';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 
 const KeycloakUsersList = ({partner, setPartner}: any) =>{
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
   const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`/keycloak/users`);
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/keycloak/users`);
     return data.users;
   }, []);
 
@@ -68,6 +69,7 @@ export const CreateComponent = () => {
   });
 
   const [show, setShow] = useState(false);
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const [errorField, setErrorField] = useState<IErrorStatus>({
     name: false,
@@ -100,13 +102,8 @@ export const CreateComponent = () => {
       },
     };
 
-    const {data} = await AxiosInstance.post(
-      '/partners',
-      JSON.stringify(dataPartner),
-    );
-    const associateServices = await AxiosInstance.post(
-      `/partners/services/${data.partner._id}`, JSON.stringify({servicesId: partner.servicesId})
-    );
+    const {data} = await AxiosInstance.post(`${BackendBaseUrl}/partners`,JSON.stringify(dataPartner));
+    const associateServices = await AxiosInstance.post(`${BackendBaseUrl}/partners/services/${data.partner._id}`, JSON.stringify({servicesId: partner.servicesId}));
     setShow(true);
     setTimeout(() => {
       window.location.replace('/partners');
@@ -150,7 +147,7 @@ export const CreateComponent = () => {
                     onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
-                      if (!!validateName(e.target.value))
+                      if (validateName(e.target.value))
                         setErrorField({ ...errorField, name: true });
                       else setErrorField({ ...errorField, name: false });
                     }}
@@ -177,7 +174,7 @@ export const CreateComponent = () => {
                         ...partner,
                         email: e.target.value,
                       });
-                      if (!!validateEmail(e.target.value))
+                      if (validateEmail(e.target.value))
                         setErrorField({ ...errorField, email: true });
                       else setErrorField({ ...errorField, email: false });
                     }}
@@ -200,7 +197,7 @@ export const CreateComponent = () => {
                         ...partner,
                         phone: e.target.value,
                       });
-                      if (!!validatePhone(e.target.value as string))
+                      if (validatePhone(e.target.value as string))
                         setErrorField({ ...errorField, phone: true });
                       else setErrorField({ ...errorField, phone: false });
                     }}

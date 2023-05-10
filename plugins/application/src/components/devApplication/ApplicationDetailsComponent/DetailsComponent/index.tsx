@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { PropsWithChildren, useState } from 'react';
 import { Grid, Button } from '@material-ui/core';
 import {
@@ -6,12 +5,13 @@ import {
   StructuredMetadataTable,
   TabbedCard,
 } from '@backstage/core-components';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Link as RouterLink } from 'react-router-dom';
 import { Credentials } from '../credentials';
 import {AlertComponent} from '../../../shared';
 import AxiosInstance from '../../../../api/Api';
 import { CredentialTypeEnum } from '../credentials/utils/enums';
+//import { useAppConfig } from '../../../../hooks/useAppConfig';
+import { FetchServicesFromApplicationListComponent } from '../services';
 
 const cardContentStyle = { heightX: 'auto', width: '100%', marginLeft: '2%' };
 
@@ -64,9 +64,11 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
   };
 
   // generate Credentials
-  const generateCredential = async (ID: string, type: string) => {
+  const generateCredential = async (ID: string, type: string) => { 
 
-    const response = await AxiosInstance.post(`/applications/${ID}/credentials`, {type})
+    //const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
+    const response = await AxiosInstance.post(`http://localhost:7007/api/devportal/applications/${ID}/credentials`, {type})
     if (response.status === 201) {
       setShow(true);
       setStatus('success');
@@ -120,6 +122,15 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
                 )}
               </Grid>
             </CardTab>
+            <CardTab label="Services">
+              <AlertComponent
+                open={show}
+                close={handleClose}
+                message={messageStatus}
+                status={status}
+              />
+              <FetchServicesFromApplicationListComponent applicationId={ApplicationId}/>            
+            </CardTab>
             <CardTab label="Credentials">
               <AlertComponent
                 open={show}
@@ -144,14 +155,6 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
                   </Button>
                 </Grid>
                 <Grid item>
-                  {/* <Button
-                    component={RouterLink}
-                    to={back}
-                    variant="contained"
-                    size="large"
-                  >
-                    Cancel
-                  </Button> */}
                   <Button
                     onClick={() => generateCredential(ApplicationId, CredentialTypeEnum.keyAuth)}
                     style={{ margin: "5px", background: "#20a082", color: "#fff" }} variant='contained' size='large'

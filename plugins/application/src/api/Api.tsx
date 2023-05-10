@@ -2,7 +2,7 @@ import axios from 'axios';
 // import { useApi, configApiRef } from '@backstage/core-plugin-api';
 
 const AxiosInstance = axios.create({
-    baseURL: 'http://localhost:7007/api/devportal',// 'https://devportal.platform.vee.codes/api/devportal'
+    //baseURL: 'http://localhost:7007/api/devportal',// 'https://devportal.platform.vee.codes/api/devportal'
     headers: {
         'Content-type': 'application/json; charset=UTF-8'
     }

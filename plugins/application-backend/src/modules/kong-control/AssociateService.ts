@@ -1,8 +1,8 @@
 import { PluginDatabaseManager } from "@backstage/backend-common";
 import { Config } from "@backstage/config";
 import { Logger } from "winston";
-import { PostgresApplicationRepository } from "../applications/repositories/knex/KnexApplicationRepository";
-import { ApplicationProps } from "../applications/domain/Application";
+// import { PostgresApplicationRepository } from "../applications/repositories/knex/KnexApplicationRepository";
+// import { ApplicationProps } from "../applications/domain/Application";
 
 
 /** @public */
@@ -14,7 +14,7 @@ export interface RouterOptions {
 
 export class AssociateService{
 
-  async associate(routerOptions: RouterOptions, id: string, servicesId: string[] ) {
+  /* async associate(routerOptions: RouterOptions, id: string, servicesId: string[] ) { refactor 
     const applicationRepository = await PostgresApplicationRepository.create(
       await routerOptions.database.getClient(),    
     );
@@ -50,5 +50,5 @@ async findAllAssociate(routerOptions: RouterOptions, id: string){
   );
     const associates = await applicationRepository.getApplicationById(id) as ApplicationProps;
     return associates.servicesId
-}
+}*/
 }

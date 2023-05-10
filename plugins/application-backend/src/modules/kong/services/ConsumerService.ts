@@ -47,6 +47,20 @@ export class ConsumerService extends KongServiceBase {
     return response.data.consumer;
   }
 
+  public async addAclToConsumer(consumer: Consumer, service:string): Promise<Consumer> {
+    const baseUrl = await this.getBaseUrl()  
+    const url = `${baseUrl}/consumers/${consumer.username}/acls`;
+    const response = await axios.post(url, {"group": service}, {headers: await this.getAuthHeader()}).catch(kongConsumerExceptions);
+    return response.data.consumer;
+  }
+
+  public async removeAclFromConsumer(consumer: Consumer, service:string): Promise<Consumer> {
+    const baseUrl = await this.getBaseUrl()  
+    const url = `${baseUrl}/consumers/${consumer.username}/acls/${service}`;
+    const response = await axios.delete(url).catch(kongConsumerExceptions);
+    return response.data.consumer;
+  }
+
   public async updateConsumer(
     consumerId: string,
     consumer: Consumer,

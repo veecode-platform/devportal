@@ -38,6 +38,7 @@ import {
   import { createComponentRouteRef } from '../routes';
   import { CatalogTable, CatalogTableRow } from '../catalogTable';
   import { CatalogKindHeader } from '../catalogKindHeader';
+import { Entity } from '@backstage/catalog-model';
   
   /**
    * Props for root catalog pages.
@@ -50,6 +51,7 @@ import {
     actions?: TableProps<CatalogTableRow>['actions'];
     initialKind?: string;
     tableOptions?: TableProps<CatalogTableRow>['options'];
+    entity?:Entity
   }
   
   export function DefaultCatalogPage(props: DefaultCatalogPageProps) {

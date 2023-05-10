@@ -13,8 +13,7 @@ import {
 } from '@backstage/core-components';
 import {
    alertApiRef, 
-   useApi,
-    useRouteRef 
+   useApi
   } from '@backstage/core-plugin-api';
 import {
   ScmIntegrationIcon,
@@ -37,7 +36,6 @@ import CachedIcon from '@material-ui/icons/Cached';
 import DocsIcon from '@material-ui/icons/Description';
 import EditIcon from '@material-ui/icons/Edit';
 import React, { useCallback } from 'react';
-import { viewTechDocRouteRef } from '../routes';
 import { AboutContent } from './AboutContent';
 
 const useStyles = makeStyles({
@@ -79,7 +77,6 @@ export function AboutCard(props: AboutCardProps) {
   const scmIntegrationsApi = useApi(scmIntegrationsApiRef);
   const catalogApi = useApi(catalogApiRef);
   const alertApi = useApi(alertApiRef);
-  const viewTechdocLink = useRouteRef(viewTechDocRouteRef);
 
   const entitySourceLocation = getEntitySourceLocation(
     entity,
@@ -97,16 +94,15 @@ export function AboutCard(props: AboutCardProps) {
   const viewInTechDocs: IconLinkVerticalProps = {
     label: 'View TechDocs',
     disabled:
-      !entity.metadata.annotations?.['backstage.io/techdocs-ref'] ||
-      !viewTechdocLink,
+      !entity.metadata.annotations?.hasOwnProperty('backstage.io/techdocs-ref'),
     icon: <DocsIcon />,
-    href:
-      viewTechdocLink &&
-      viewTechdocLink({
-        namespace: entity.metadata.namespace || DEFAULT_NAMESPACE,
-        kind: entity.kind,
-        name: entity.metadata.name,
-      }),
+    href: `/catalog/${entity.metadata.namespace ?? DEFAULT_NAMESPACE }/${entity.kind}/${entity.metadata.name}/docs`
+      // viewTechdocLink &&
+      // viewTechdocLink({
+      //   namespace: entity.metadata.namespace || DEFAULT_NAMESPACE,
+      //   kind: entity.kind,
+      //   name: entity.metadata.name,
+      // }),
   };
 
   let cardClass = '';
@@ -158,7 +154,7 @@ export function AboutCard(props: AboutCardProps) {
             </IconButton>
           </>
         }
-        subheader={<HeaderIconLinkRow links={[viewInSource, viewInTechDocs]} />}
+        subheader={<HeaderIconLinkRow links={[viewInSource, viewInTechDocs]} />} // to do
       />
       <Divider />
       <CardContent className={cardContentClass}>

@@ -7,6 +7,7 @@ export type ApplicationProps = {
   externalId?: string;
   createdAt?: Date;
   updateAt?: Date;
+  partner?: string;
 };
 
 export class Application extends Entity<ApplicationProps> {
@@ -16,6 +17,7 @@ export class Application extends Entity<ApplicationProps> {
   externalId?: string;
   createdAt?: Date;
   updateAt?: Date;
+  partner?: string;
   private constructor(props: ApplicationProps, id?: string) {
     super(props, id);
   }

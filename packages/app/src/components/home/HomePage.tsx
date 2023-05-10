@@ -2,8 +2,8 @@
 import {
   // HomePageToolkit,
   HomePageCompanyLogo,
-  HomePageStarredEntities,
 } from '@backstage/plugin-home';
+import {  HomePageStarredEntities} from './plugin'
 
 import { wrapInTestApp, TestApiProvider } from '@backstage/test-utils';
 import {
@@ -25,7 +25,7 @@ import {
 } from '@backstage/plugin-search-react';
 // import { HomePageStackOverflowQuestions } from '@backstage/plugin-stack-overflow';
 import { Grid, makeStyles } from '@material-ui/core';
-import React, { ComponentType } from 'react';
+import React, { ComponentType, useEffect } from 'react';
 
 // custom
 import {
@@ -33,7 +33,6 @@ import {
   //  Icon 
 } from '../plataformLogo/plataformLogo';
 import BackstageLogo from "../../assets/backstage.png";
-
 
 const starredEntitiesApi = new MockStarredEntitiesApi();
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity');
@@ -98,6 +97,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     margin: '10px 0px'
   },
+  starredContent:{
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[1],
+    borderRadius: '15px'
+  }
+  ,
   footerWrapper:{
     // width: '100%',
     marginTop: '10rem',    
@@ -131,6 +136,11 @@ const useStyles = makeStyles(theme => ({
 export const HomePage = () => {
   const classes = useStyles();
 
+  useEffect(()=>{
+    const annotations = localStorage.getItem("annotations");
+    if (annotations) localStorage.removeItem("annotations");
+  },[])
+
   return (
     <SearchContextProvider>
       <Page themeId="home">
@@ -143,8 +153,8 @@ export const HomePage = () => {
                 placeholder="Search"
               />
             </Grid>
-            <Grid container item xs={12}>
-              <Grid item lg={12} xs={12}>
+            <Grid container item xs={12} justifyContent="center">
+              <Grid item lg={11} xs={12}>
                 <HomePageStarredEntities />
               </Grid>
               {/* <Grid item xs={12} md={6}>

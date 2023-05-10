@@ -1,5 +1,6 @@
 export class ApplicationDto {
   creator: string;
+  partner?: string;
   name: string;
   description?: string;
   services: string[];
@@ -11,6 +12,7 @@ export class ApplicationDto {
 
   constructor(
     creator: string,
+    partner: string,
     name: string,
     services: string[],
     active?: boolean,
@@ -21,6 +23,7 @@ export class ApplicationDto {
     consumerName?: string[],
   ) {
     this.creator = creator;
+    this.partner = partner;
     this.name = name;
     this.description = description;
     this.services = services;

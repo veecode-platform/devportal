@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -17,12 +15,13 @@ import {
 import { IErrorStatus, IPartner } from '../interfaces';
 import { Select } from '../../shared';
 import AxiosInstance from '../../../api/Api';
-import { FetchApplicationsList, FetchServicesList } from '../commons';
+import { /*FetchApplicationsList,*/ FetchServicesList } from '../commons';
 import {
   validateEmail,
   validateName,
   validatePhone,
 } from '../../shared/commons/validate';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 type PartnerProps = {
   partnerData: IPartner | undefined;
@@ -48,6 +47,8 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
     email: false,
     phone: false,
   });
+
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const statusItems = [
     { label: 'active', value: 'true' },
@@ -81,7 +82,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
       },
     };
     const response = await AxiosInstance.put(
-      `/partners/${partner?.id}`,
+      `${BackendBaseUrl}/partners/${partner?.id}`,
       JSON.stringify(dataPartner),
     );
     setShow(true);
@@ -121,7 +122,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                     onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, name: true }) }}
                     onChange={e => {
                       setPartner({ ...partner, name: e.target.value });
-                      if (!!validateName(e.target.value))
+                      if (validateName(e.target.value))
                         setErrorField({ ...errorField, name: true });
                       else setErrorField({ ...errorField, name: false });
                     }}
@@ -167,7 +168,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                         ...partner,
                         email: e.target.value,
                       });
-                      if (!!validateEmail(e.target.value))
+                      if (validateEmail(e.target.value))
                         setErrorField({ ...errorField, email: true });
                       else setErrorField({ ...errorField, email: false });
                     }}
@@ -190,7 +191,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                         ...partner,
                         phone: e.target.value,
                       });
-                      if (!!validatePhone(e.target.value as string))
+                      if (validatePhone(e.target.value as string))
                         setErrorField({ ...errorField, phone: true });
                       else setErrorField({ ...errorField, phone: false });
                     }}
@@ -240,9 +241,10 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
 export const EditComponent = () => {
   const location = useLocation();
   const id = location.search.split('?id=')[1];
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IPartner> => {
-    const { data } = await AxiosInstance.get(`/partners/${id}`);
+    const { data } = await AxiosInstance.get(`${BackendBaseUrl}/partners/${id}`);
     return data.partners;
   }, []);
 
