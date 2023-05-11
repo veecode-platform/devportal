@@ -2,17 +2,21 @@ app:
   title: Devportal
   baseUrl: http://localhost:3000
   support:
-    url: https://github.com/veecode-platform/support/discussions 
-    items: 
+    url: https://github.com/orgs/veecode-platform/discussions # Used by common ErrorPage
+    items: # Used by common SupportButton component
       - title: Issues
         icon: github
         links:
-          - url: https://github.com/veecode-platform/support/discussions
+          - url: https://github.com/orgs/veecode-platform/discussions
             title: GitHub Issues
+#add permission
 permission:
   enabled: true
 
 backend:
+  # Used for enabling authentication, secret is shared by all backend plugins
+  # See https://backstage.io/docs/tutorials/backend-to-backend-auth for
+  # information on the format
   auth:
     keys:
       - secret: ${BACKEND_AUTH_SECRET_KEY}
@@ -20,28 +24,36 @@ backend:
   listen:
     port: 7007
   database:
-    client: ${DATABASE_CLIENT}
+    client: pg
     connection:
-      host: ${DATABASE_HOST}
-      port: ${DATABASE_PORT}
-      database: ${DATABASE_NAME}
-      user: ${DATABASE_USER}
-      password: ${DATABASE_PASSWORD}
+      host: ${DB_HOST}
+      database: platform_devportal
+      port: ${DB_PORT}
+      user: ${DB_USER}
+      password: ${DB_PASSWORD}
+  #database:
+  #  client: better-sqlite3
+  #  connection: ':memory:'
   cache:
     store: memory
   cors:
-    origin: http://localhost:3000
+    origin: http://localhost:3000 #http://localhost:3000
     methods: [GET, POST, PUT, DELETE, PATCH]
     credentials: true
   csp:
     connect-src: ["'self'", "http:", "https:"]
+    # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
+    # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   reading:
     allow:
       - host: example.com
       - host: "*.mozilla.org"
+  # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
+
+# See README.md in the proxy-backend plugin for information on the configuration format
 proxy:
   "/grafana/api":
-    
+    # May be a public or an internal DNS
     target: ${GRAFANA_DOMAIN}
     headers:
       Authorization: Bearer ${GRAFANA_TOKEN}
@@ -49,21 +61,27 @@ proxy:
   "/argocd/api":
     target: ${ARGOCD_DOMAIN}
     changeOrigin: true
-    
+    # only if your argocd api has self-signed cert
     secure: true
     headers:
       Cookie:
-        $env: ARGOCD_TOKEN
+        $env: ARGOCD_AUTH_TOKEN
 
 organization:
   name: Devportal
 
+# Reference documentation http://backstage.io/docs/features/techdocs/configuration
+# Note: After experimenting with basic setup, use CI/CD to generate docs
+# and an external cloud storage when deploying TechDocs for production use-case.
+# https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
 techdocs:
-  builder: "local"
+  builder: "local" # Alternatives - 'external'
   generator:
     runIn: "local"
+    # dockerImage: my-org/techdocs # use a custom docker image
+    # pullImage: true # or false to disable automatic pulling of image (e.g. if custom docker login is required)
   publisher:
-    type: "local"
+    type: "local" # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
 
 kubernetes:
   serviceLocatorMethod:
@@ -87,8 +105,7 @@ argocd:
       instances:
         - name: argoInstance1
           url: ${ARGOCD_URL}
-          token: ${ARGOCD_TOKEN}
-
+          token: ${ARGOCD_AUTH_TOKEN}
 integrations:
   github:
     - host: github.com
@@ -109,90 +126,102 @@ catalog:
     - allow: [Component, API, Location, Template]
   providers:
     github:
-      providerId: 
-        organization: ${CATALOG_GITHUB_ORGANIZATION} 
-        catalogPath: ${CATALOG_GITHUB_CATALOG_PATH} 
+      providerId: # the provider ID can be any camelCase string
+        organization: veecode-platform # string
+        catalogPath: /catalog-info.yaml # string
         filters:
-          branch: ${CATALOG_GITHUB_BRANCH} 
-          repository: ${CATALOG_GITHUB_REPOSITORY} 
-          validateLocationsExist: ${CATALOG_GITHUB_LOCATION_VALIDATION} 
+          branch: master # string
+          repository: devportal-catalog # Regex
+          validateLocationsExist: true
 
     bitbucketCloud:
-      yourProviderId: 
-        catalogPath: ${CATALOG_BITBUCKET_CLOUD_CATALOG_PATH} 
-      filters: 
-        
-        repoSlug: ${CATALOG_BITBUCKET_CLOUD_REPOSLUG} 
-      workspace: ${CATALOG_BITBUCKET_CLOUD_WORKSPACE}
+      yourProviderId: # identifies your ingested dataset
+        catalogPath: /catalog-info.yaml # default value
+        filters: # optional
+        # projectKey: 'DEV' # optional; RegExp
+          repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
+        workspace: ${BITBUCKET_CLOUD_WORKSPACE}
 
     bitbucketServer:
       yourProviderId:
-        host: ${CATALOG_BITBUCKET_SERVER_HOST}
-        catalogPath: ${CATALOG_BITBUCKET_SERVER_CATALOG_PATH} 
-        filters: 
-          projectKey: ${CATALOG_BITBUCKET_SERVER_PROJECT_KEY} 
-          repoSlug: ${CATALOG_BITBUCKET_SERVER_REPO_SLUG} 
+        host: ${BITBUCKET_SERVER_HOST}
+        catalogPath: /catalog-info.yaml # default value
+        filters: # optional
+          projectKey: ${BITBUCKET_SERVER_PROJECT_KEY} # optional; RegExp
+          repoSlug: ${BITBUCKET_SERVER_REPOSLUG} # optional; RegExp
     gitlab:
       yourProviderId:
-        host: ${CATALOG_GITLAB_HOST} 
-        branch: ${CATALOG_GITLAB_BRANCH} 
-        group: ${CATALOG_GITLAB_GROUP_NAME} 
-        entityFilename: ${CATALOG_GITLAB_ENTITY_FILE_NAME} 
-        projectPattern: /[\s\S]*/ 
+        host: gitlab.com # Identifies one of the hosts set up in the integrations -
+        branch: main # Optional. Uses `master` as default
+        group: ${GITLAB_GROUP_NAME} # Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned
+        entityFilename: catalog-info.yaml # Optional. Defaults to `catalog-info.yaml`
+        #projectPattern: /[\s\S]*/ # Optional. Filters found projects based on provided patter. Defaults to `/[\s\S]*/`, what means to not filter anything
 
-  locations:
-  - type: url
-    target: https://github.com/mclarke47/dice-roller/blob/master/catalog-info.yaml
-  - type: url
-    target: https://github.com/backstage/backstage/blob/master/catalog-info.yaml
+#   locations:
+#   - type: url
+#     target: https://github.com/mclarke47/dice-roller/blob/master/catalog-info.yaml
+#   - type: url
+#     target: https://github.com/backstage/backstage/blob/master/catalog-info.yaml
 
 auth:
-  environment: ${AUTH_ENVIRONMENT}
-  
+  environment: development
+  ### Providing an auth.session.secret will enable session support in the auth-backend
 
   session:
     secret: ${AUTH_USER_SESSION_SECRET}
   providers:
     okta:
-      clientId: ${OKTA_CLIENT_ID}
-      clientSecret: ${OKTA_CLIENT_SECRET}
-      audience: ${OKTA_AUDIENCE}
-      authServerId: ${OKTA_AUTH_SERVER_ID}
-      apiToken: ${OKTA_API_TOKEN}
+      development:
+        clientId: ${OKTA_CLIENT_ID}
+        clientSecret: ${OKTA_CLIENT_SECRET}
+        audience: ${OKTA_AUDIENCE}
+        authServerId: ${OKTA_AUTH_SERVER_ID}
+        apiToken: ${OKTA_API_TOKEN}
 
     keycloak:
-      metadataUrl: ${KEYCLOAK_METADATA_URL}
-      clientId: ${KEYCLOAK_CLIENT_ID}
-      clientSecret: ${KEYCLOAK_CLIENT_SECRET}
-      prompt: ${KEYCLOAK_PROMPT}
+      development:
+        metadataUrl: ${KEYCLOAK_METADATA_URL}
+        clientId: ${KEYCLOAK_CLIENT_ID}
+        clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+        prompt: auto
 
     github:
-      clientId: ${AUTH_GITHUB_CLIENT_ID}
-      clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 
 enabledPlugins:
-  vault: false
-  grafana: false
-  kubernetes: false
-  argocd: false
+  vault: true
+  grafana: true
+  kubernetes: true
+  argocd: true
 
-platform:
-  guest:
-    enabled: true
-  apiManagement:
-    enabled: false
-  
+enabledGuest:
+  enabled: false
+
+apiManagement:
+  enabled: true
+
 vault:
   baseUrl: ${VAULT_BASE_URL}
-  token: ${VAULT_TOKEN_RENEWABLE}
+  token: ${VAULT_TOKEN_RENEWABLE} #generate with vault token create -policy="default" -period=24h
+  #publicUrl: http://127.0.0.1:8200
+  #token: vault-plaintext-root-token
+  #secretEngine: teste # Optional. By default it uses 'secrets'
+  #kvVersion: 1
 
 grafana:
+  # Publicly accessible domain
   domain: ${GRAFANA_DOMAIN}
+  # Is unified alerting enabled in Grafana?
+  # See: https://grafana.com/blog/2021/06/14/the-new-unified-alerting-system-for-grafana-everything-you-need-to-know/
+  # Optional. Default: false
   unifiedAlerting: true
+#todo put into env
 okta:
-  host: ${OKTA_HOST}
-  token: ${OKTA_TOKEN}
+  host: ${OKTA_TESTE_HOST}
+  token: ${OKTA_TESTE_TOKEN}
 
 kong:
-  api-manager: ${KONG_API_MANAGER_HOST}
+  api-manager: ${KONG_OKTETO_HOST}
   admin-token: ${KONG_ADMIN_TOKEN}
