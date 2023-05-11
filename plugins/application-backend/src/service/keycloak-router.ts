@@ -8,6 +8,11 @@ export async function createKeycloackRouter(): Promise<Router> {
     const adminClientKeycloak = new TestGroups();
     const userServiceKeycloak = new KeycloakUserService();
 
+    router.get("/logout", async (_, response) =>{
+        const sessions = await userServiceKeycloak.getSession()
+        response.status(200).json({ status: 'ok', sessions: sessions });
+    });
+
     router.get('/groups', async (_, response) => {
         const groups = await adminClientKeycloak.getGroup();
         response.status(200).json({ status: 'ok', groups: groups });
