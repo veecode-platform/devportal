@@ -14,8 +14,8 @@ type DenseTableProps = {
 export const DenseTable = ({ services, total }: DenseTableProps) => {
 
   const columns: TableColumn[] = [
-    { title: 'Id', field: 'id',width:'1fr' },
     { title: 'Name', field: 'name',width:'1fr' },
+    { title: 'Kong', field: 'kong',width:'1fr' },
     { title: "Created At", field: "created",width:'1fr'},
     { title: 'Details', field: 'details',width:'1fr'},
   ];
@@ -23,7 +23,7 @@ export const DenseTable = ({ services, total }: DenseTableProps) => {
   const data = services.map(service => {
     return {
       name: service.name,
-      id: service.id,
+      kong: service.kongServiceName,
       created: service.createdAt,
       details: <Button variant='outlined' component={RouterLink} to={`/services/service-details?id=${service.id}`}><More/></Button>
     };

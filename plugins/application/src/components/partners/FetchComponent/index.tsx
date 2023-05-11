@@ -14,16 +14,16 @@ type DenseTableProps = {
 export const DenseTable = ({ partners, total }: DenseTableProps) => {
 
   const columns: TableColumn[] = [
-    { title: 'Id', field: 'id', width:'1fr' },
     { title: 'Name', field: 'name', width:'1fr' },
+    {title: 'Email', field: 'email', width:'1fr'},
     { title: "Created At", field: "created", width:'1fr'},
     { title: 'Details', field: 'details', width: '1fr' },
   ];
 
   const data = partners.map(partner => {
     return {
-      id: partner.id,
       name: partner.name,
+      email: partner.email,
       created: partner.createdAt,
       details: <Button variant='outlined' component={RouterLink} to={`/partners/partner-details?id=${partner.id}`}><More/></Button>
     };

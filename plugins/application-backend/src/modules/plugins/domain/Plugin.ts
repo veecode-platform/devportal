@@ -2,8 +2,7 @@ import { Entity } from '../../../core/domain/Entity';
 
 export type PluginProps = {
   name: string;
-  pluginId: string;
-  active: boolean;
+  kongPluginId: string;
   service: string;
   createdAt?: Date;
   updatedAt?: Date;

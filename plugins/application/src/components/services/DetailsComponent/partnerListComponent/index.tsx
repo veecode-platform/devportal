@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import { Table, TableColumn, Progress} from '@backstage/core-components';
@@ -14,7 +14,7 @@ import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 type PartnerListProps = {
   partners: IPartner[];
-  servicePartnerId: string[];
+  servicePartnerId: any[];
   serviceId: string;
 }
 
@@ -44,21 +44,30 @@ const ActionsGrid = ({removeHandler, addHandler, partnerId}:ActionsGridProps) =>
 }
 
 const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) =>{
-  const [partnerList, setPartnerList] = useState(servicePartnerId);
-  const [loading, setLoading] = useState(false);
+
+  const [partnerList, setPartnerList] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false)
   const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
+  useEffect(()=>{
+    const associated = servicePartnerId.map((partner) => {
+      return partner.partner_id;
+    });
+    setPartnerList(associated as string[])
+
+  }, [])
 
   const handleSubmit = async() =>{
     setLoading(true)
     const updateServicesPartners = {
-      services:{
-        partnersId: partnerList,
+      service:{
+        partnersId: partnerList
       }
-    }
+    } 
     await AxiosInstance.patch(`${BackendBaseUrl}/services/${serviceId}`, JSON.stringify(updateServicesPartners) )
 
     new Promise (() =>{
-      setTimeout(()=>{setLoading(false)}, 500);
+      setTimeout(()=>{setLoading(false)}, 1000);
     })
     
   }

@@ -18,7 +18,7 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<Plugin[]>}
    */
   async getPlugins(): Promise<Plugin[]> {
-    const plugin = await this.db<Plugin>('plugins')
+    const plugin = await this.db<Plugin>('plugin')
       .select('*')
       .catch(error => console.log(error));
     const pluginDomain = PluginResponseDto.create({ plugins: plugin });
@@ -33,7 +33,7 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<string | Plugin>}
    */
   async getPluginById(id: string): Promise<string | Plugin> {
-    const plugin = await this.db<Plugin>('plugins')
+    const plugin = await this.db<Plugin>('plugin')
       .where('id', id)
       .limit(1)
       .select()
@@ -45,13 +45,25 @@ export class PostgresPluginRepository implements IPluginRepository {
     return responseData.plugin ?? 'cannot find plugin';
   }
 
-  async getPluginByServiceId(serviceId: string): Promise<string | Plugin> {
-    const plugin = await this.db<Plugin>('plugins').where('service', serviceId).select();
-    const pluginDomain = PluginResponseDto.create({ pluginIt: plugin });
-    const responseData = await PluginMapper.listAllPluginsToResource(
-      pluginDomain,
-    );
-    return responseData.plugin ?? 'not found';
+  async getPluginByServiceId(serviceId: string): Promise<any[]> {
+    try{
+      const plugins = await this.db<Plugin>('plugin').where('service', serviceId).select();
+      return plugins
+    }
+    catch(error){
+      throw new Error(`impossible to fetch plugins from ${serviceId}`)
+    }
+  }
+
+  async getPluginByTypeOnService(serviceId: string, type: string): Promise<any>{
+    try{
+      const plugin = (await this.db<Plugin>('plugin').where('service', serviceId).andWhere('name', type).first());
+      return plugin
+    }
+    catch(error){
+      throw new Error(`impossible to fetch plugin from ${serviceId}`)
+    }
+
   }
 
   /**
@@ -61,9 +73,8 @@ export class PostgresPluginRepository implements IPluginRepository {
   async savePlugin(pluginDto: PluginDto): Promise<Plugin> {
     const plugin: Plugin = Plugin.create({
       name: pluginDto.name,
-      active: pluginDto.active,
       service: pluginDto.service,
-      pluginId: pluginDto.pluginId
+      kongPluginId: pluginDto.kongPluginId
     });
     PluginMapper.toPersistence(plugin);
     return plugin;
@@ -74,7 +85,7 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<void>}
    */
   async deletePlugin(id: string): Promise<void> {
-    await this.db<Plugin>('plugins')
+    await this.db<Plugin>('plugin')
       .where('id', id)
       .del()
       .catch(error => console.error(error));
@@ -84,15 +95,14 @@ export class PostgresPluginRepository implements IPluginRepository {
    * Create a plugin
    * @returns {Promise<string | Plugin>}
    */
-  async createPlugin(pluginDto: PluginDto): Promise<string | Plugin> {
+  async createPlugin(pluginDto: any): Promise<string | Plugin> {
     const plugin: Plugin = Plugin.create({
       name: pluginDto.name,
-      active: pluginDto.active,
       service: pluginDto.service,
-      pluginId: pluginDto.pluginId
+      kongPluginId: pluginDto.kongPluginId
     });
     const data = await PluginMapper.toPersistence(plugin);
-    const createdPlugin = await this.db('plugins')
+    const createdPlugin = await this.db('plugin')
       .insert(data)
       .catch(error => console.error(error));
     return createdPlugin ? plugin : 'cannot create plugin';
@@ -108,11 +118,10 @@ export class PostgresPluginRepository implements IPluginRepository {
   ): Promise<string | Plugin> {
     const plugin: Plugin = Plugin.create({
       name: pluginDto.name,
-      active: pluginDto.active,
       service: pluginDto.service,
-      pluginId: pluginDto.pluginId
+      kongPluginId: pluginDto.kongPluginId
     });
-    const patchedPlugin = await this.db('plugins')
+    const patchedPlugin = await this.db('plugin')
       .where('id', id)
       .update(pluginDto)
       .catch(error => console.log(error));

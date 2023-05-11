@@ -14,20 +14,18 @@ type DenseTableProps = {
 export const DenseTable = ({ applications, total }: DenseTableProps) => {
 
   const columns: TableColumn[] = [
-    { title: 'Id', field: 'id', width:'1fr'},
     { title: 'Name', field: 'name', width:'1fr' },
-    { title: "Created At", field: "created",width:'1fr'},
     {title: "Created By", field:"creator",width:'1fr'},
+    { title: "Created At", field: "created",width:'1fr'},
     { title: 'Details', field: 'details',width:'1fr' },
   ];
 
   const data = applications.map(application => {
     return {
       name: application.name,
-      id: application.id,
-      created: application.createdAt,
       creator: application.creator,
-      details: <Button variant='outlined' component={RouterLink} to={`/application/details?id=${application.id}`}> <More/> </Button>
+      created: application.createdAt,
+      details: <Button variant='outlined' component={RouterLink} to={`/applications/details?id=${application.id}`}> <More/> </Button>
     };
   });
 

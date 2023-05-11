@@ -6,8 +6,8 @@ export class PluginMapper {
     return {
       id: plugin._id,
       name: plugin.props.name,
-      active: plugin.props.active,
       service: plugin.props.service,
+      kongPluginId: plugin.props.kongPluginId,
       createdAt: plugin.props.createdAt,
       updatedAt: plugin.props.updatedAt,
     };

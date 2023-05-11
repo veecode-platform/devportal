@@ -1,12 +1,14 @@
 import { Router } from "express";
 import { RouterOptions } from "./router";
-import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerReppository";
+import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerRepository";
 import { AclPlugin } from "../modules/kong/plugins/AclPlugin";
 import { KeyAuthPlugin } from "../modules/kong/plugins/KeyAuthPlugin";
 
 import { Oauth2Plugin } from "../modules/kong/plugins/Oauth2Plugin";
 import { CredentialsOauth } from "../modules/kong/services/CredentialsOauth";
 import { RateLimitingPlugin } from "../modules/kong/plugins/RateLimitingPlugin";
+// import { PostgresServicePartnerRepository } from "../modules/services/repositories/Knex/KnexServicePartnerRepossitory";
+// import { PostgresPartnerApplicationRepository } from "../modules/partners/repositories/Knex/KnexPartnerApplicationRepository";
 
 
 /** @public */
@@ -16,6 +18,18 @@ export async function testeRoute(
   await PostgresPartnerRepository.create(
     await options.database.getClient(),
   );
+
+  /* const teste = await PostgresServicePartnerRepository.create(
+    await options.database.getClient(),
+  );
+
+  const teste1 = await PostgresPartnerApplicationRepository.create(
+    await options.database.getClient(),
+  );*/
+
+
+
+
   const router = Router();
   const credentialsOauth = new CredentialsOauth();
   const aclPlugin = AclPlugin.Instance;
@@ -23,6 +37,7 @@ export async function testeRoute(
   const oauth = Oauth2Plugin.Instance;
   const rateLimitingPlugin = RateLimitingPlugin.Instance;
 
+  // TESTE RELAÇÂO partner-applications
 
   // KEY-AUTH
   router.post('/key-auth/:serviceName', async (request, response) => {

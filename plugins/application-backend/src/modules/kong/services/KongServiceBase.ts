@@ -7,7 +7,9 @@ export class KongServiceBase {
    * @returns {string} - url + workspace
    */
   public async getBaseUrl(): Promise<string> {
-    return await `${this.getUrl()}/${await this.getWorkspace()}`;
+    const workspace = await this.getWorkspace()
+    const url = await this.getUrl()
+    return `${url}/${workspace}`;
   }
 
   /**
@@ -15,7 +17,8 @@ export class KongServiceBase {
    */
   public async getUrl(): Promise<string> {
     const config = await PlatformConfig.Instance.getConfig();
-    return `${config.getString('kong.api-manager').replace(/\/+$/, "")  }/default`;
+    return `${config.getString('kong.api-manager').replace(/\/+$/, "")}`;
+    // return `${config.getString('kong.api-manager').replace(/\/+$/, "")  }/default`;
   }
 
   /**

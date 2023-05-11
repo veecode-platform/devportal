@@ -60,4 +60,15 @@ export interface Config {
             enabled: boolean
         }
     }
+    /**
+     * 
+     * @visibility frontend
+     */
+    kong: {
+        /**
+         * 
+         * @visibility frontend
+         */
+        readOnlyMode: boolean
+    }
   }

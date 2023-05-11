@@ -44,11 +44,10 @@ import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import ExtensionIcon from '@material-ui/icons/Extension';
 // import CategoryIcon from '@material-ui/icons/Category';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
-// import { RequirePermission } from '@backstage/plugin-permission-react';
-// import { adminAccessPermission } from '@internal/plugin-application-common';
+import { usePermission } from '@backstage/plugin-permission-react';
+import { adminAccessPermission } from '@internal/plugin-application-common';
 import CategoryIcon from '@material-ui/icons/Category';
 import LayersIcon from '@material-ui/icons/Layers';
-import { useApiManagement } from '../../Hooks/apiManagement';
 // import RenderItem from '../Routing/RenderItem';
 
 const useSidebarLogoStyles = makeStyles({
@@ -83,9 +82,8 @@ const SidebarLogo = () => {
     </div>
   );
 };
-export const Root = ({ children }: PropsWithChildren<{}>) => 
-{ 
-  const ApiManagement = useApiManagement();
+export const Root = ({ children }: PropsWithChildren<{}>) => { 
+  const { loading: loadingPermission, allowed: adminView } = usePermission({permission: adminAccessPermission});
 
   return(
   <SidebarPage>
@@ -93,31 +91,28 @@ export const Root = ({ children }: PropsWithChildren<{}>) =>
       <SidebarLogo />     
       <SidebarDivider />
       <SidebarGroup label="Menu" icon={<MenuIcon />}>
-        <SidebarItem icon={HomeIcon} to="/" text="Home" />    
-        <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" /> 
+        <SidebarItem icon={HomeIcon} to="/" text="Home" />
+        {(!loadingPermission && adminView) && (
+          <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" /> 
+        )}
         <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-        <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />
-        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+        {(!loadingPermission && adminView) && (<>
+          <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />
+          <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+        </>)}
         <SidebarDivider />
       </SidebarGroup>
-      {
-        ApiManagement && (
-          <SidebarGroup label="Application" icon={<AppsIcon />}>
+
+      
+        <SidebarGroup label="Api managment" icon={<AppsIcon />}>
+          {(!loadingPermission && adminView) && (<>
             <SidebarItem icon={AppsIcon} to="/services" text="Services" />
-            <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />   
-            <SidebarItem icon={LayersIcon} to="/applications" text="Applications"> </SidebarItem>  
-            <SidebarDivider />
-         </SidebarGroup>
-        )
-      }
-      {/* <RequirePermission permission={adminAccessPermission} errorPage={<></>}>
-        <SidebarGroup label="Admin Flow" icon={<AppsIcon />}>
-          <SidebarItem icon={AppsIcon} to="/services" text="Services" />
-          <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />     
+            <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />
+          </>)}
+          <SidebarItem icon={LayersIcon} to="/applications" text="Applications"/>     
           <SidebarDivider />
         </SidebarGroup>
-</RequirePermission>*/}
-
+      
       <SidebarSpace />
       <SidebarDivider />
       <SidebarGroup

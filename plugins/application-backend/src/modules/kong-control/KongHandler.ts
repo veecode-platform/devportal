@@ -21,9 +21,21 @@ type Service = {
 };
 
 
-
-
 export class KongHandler extends KongServiceBase {
+
+  public async listRoutesFromService(kongServiceNameOrId:string):Promise<string>{
+    try{
+      const url = `${await this.getUrl()}/services/${kongServiceNameOrId}/routes`
+      const {data} = await axios.get(url);
+      const info = data.data[0]
+      return `${info.protocols[0]}://${info.hosts[0]}${info.paths[0]}`
+    }
+
+    catch(e){
+      throw new Error(`Error trying to fetch routes from service ${kongServiceNameOrId}`)
+    }
+
+  }
 
 
   public async listServices(): Promise<Service[]> {
@@ -126,6 +138,7 @@ export class KongHandler extends KongServiceBase {
 
     const url = `${await this.getUrl()}/consumers/${application.externalId}/key-auth`
     const urlOath = `${await this.getUrl()}/consumers/${application.externalId}/oauth2`
+
 
     const response = await axios.get(url);
     const responseOauth = await axios.get(urlOath);

@@ -8,10 +8,9 @@ export class ApplicationMapper {
       creator: application.props.creator,
       name: application.props.name,
       active: application.props.active,
-      parternId: application.props.parternId,
-      servicesId: application.props.servicesId,
       externalId: application.props.externalId,
       createdAt: application.props.createdAt,
+      partner: application.props.partner
     };
   }
   static async listAllApplicationsToResource(
@@ -21,6 +20,7 @@ export class ApplicationMapper {
       applications: applicationResponseDto.props.applications ?? [],
       application: applicationResponseDto.props.application ?? '',
       services: applicationResponseDto.props.services ?? [],
+      partner: applicationResponseDto.props.partner ?? ""
     };
   }
 }

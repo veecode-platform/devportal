@@ -3,8 +3,6 @@ import { Entity } from '../../../core/domain/Entity';
 export type ServiceProps = {
   name: string;
   description: string;
-  redirectUrl: string;
-  partnersId?: string[];
   active: boolean;
   kongServiceName: string;
   kongServiceId: string;
@@ -17,8 +15,6 @@ export type ServiceProps = {
 export class Service extends Entity<ServiceProps> {
   name?: string;
   description?: string;
-  redirectUrl?: string;
-  partnersId?: string[];
   active?: boolean;
   kongServiceName?: string;
   kongServiceId?: string;

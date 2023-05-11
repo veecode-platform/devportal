@@ -8,12 +8,13 @@ import { Consumer } from "../modules/applications/dtos/ApplicationDto";
 import { ConsumerGroupService } from "../modules/kong/services/ConsumerGroupService";
 import { ConsumerGroup } from "../modules/kong/model/ConsumerGroup";
 import { AxiosError } from "axios";
+import { PostgresServiceRepository } from "../modules/services/repositories/Knex/KnexServiceReppository";
 
 const aclPlugin = AclPlugin.Instance;
 
 /** @public */
 export async function createKongRouter(
-  _options: RouterOptions,
+  options: RouterOptions,
 ): Promise<Router> {
 
   const router = Router()
@@ -21,6 +22,10 @@ export async function createKongRouter(
   const consumerService = new ConsumerService();
   // const kongServiceBase = new KongServiceBase()
   const consumerGroupService = new ConsumerGroupService();
+
+  const serviceRepository = await PostgresServiceRepository.create(
+    await options.database.getClient(),
+  );
 
 
   router.post(
@@ -168,8 +173,15 @@ export async function createKongRouter(
   router.get('/services', async (_, res) => {
     try {
       const serviceStore = await kongHandler.listServices();
+      const limitedServiceStore = await Promise.all(serviceStore.map(async (kongService)=> {
+        const service = await serviceRepository.getServiceByKongId(kongService.id);
+        if(typeof service === "string") return kongService;
+        return false    
+      }))
+      const filtered = limitedServiceStore.filter(Boolean)
+
       if (serviceStore)
-        res.json({ status: 'ok', services: serviceStore });
+        res.json({ status: 'ok', services: filtered });
     } catch (error: any) {
       if (error instanceof Error) {
         res.status(500).json({

@@ -37,11 +37,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import * as fieldOverrides from './FieldOverrides';
 import { ReviewStepProps } from '../types';
 import { ReviewStep } from './ReviewStep';
-import {
-  extractSchemaFromStep,
-  type LayoutOptions,
-} from '@backstage/plugin-scaffolder-react/alpha';
+import { extractSchemaFromStep } from '@backstage/plugin-scaffolder-react/alpha';
 import { selectedTemplateRouteRef } from '../../routes';
+import { LayoutOptions } from '@backstage/plugin-scaffolder-react';
 
 const Form = withTheme(MuiTheme);
 
@@ -155,7 +153,7 @@ export const MultistepJsonForm = (props: MultistepJsonFormProps) => {
       await onFinish();
       analytics.captureEvent('create', formData.name || `new ${templateName}`);
     } catch (err) {
-      errorApi.post(err as Error);
+      errorApi.post(err);
     } finally {
       setDisableButtons(false);
     }
@@ -174,7 +172,7 @@ export const MultistepJsonForm = (props: MultistepJsonFormProps) => {
                 aria-disabled="false"
                 tabIndex={0}
               >
-                <Typography variant="h6" component="h3">
+                <Typography variant="h6" component="h2">
                   {title}
                 </Typography>
               </StepLabel>

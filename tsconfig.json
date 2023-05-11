@@ -4,8 +4,8 @@
     "packages/*/src",
     "plugins/*/src",
     "plugins/*/dev",
-    "plugins/*/migrations"
-, "plugins/application/src/components/devApplication/HomepageComponent/.ts"  ],
+    "plugins/*/migrations",
+  ],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "esModuleInterop": true,

@@ -1,14 +1,12 @@
 export class PluginDto {
   name: string;
-  active: boolean;
-  pluginId: string;
+  kongPluginId: string;
   service: string;
   createdAt?: Date;
   updatedAt?: Date;
 
   constructor(
     name: string,
-    active: boolean,
     service: string,
     pluginId: string,
     createdAt?: Date,
@@ -16,10 +14,9 @@ export class PluginDto {
   ) {
     this.name = name;
     
-    this.active = active;
     this.service = service;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-    this.pluginId = pluginId;
+    this.kongPluginId = pluginId;
   }
 }

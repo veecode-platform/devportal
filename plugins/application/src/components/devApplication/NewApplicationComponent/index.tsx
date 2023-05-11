@@ -18,14 +18,20 @@ import useAsync from 'react-use/lib/useAsync';
 import {IErrorStatus} from '../interfaces';
 import { validateName } from '../../shared/commons/validate';
 import { useAppConfig } from '../../../hooks/useAppConfig';
+import { usePermission } from '@backstage/plugin-permission-react';
+import { adminAccessPermission } from '@internal/plugin-application-common';
+
 
 
 export const FetchServicesList = ({partner, setPartner}: any) => {
+  const user = useApi(identityApiRef);
   const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
+
   const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/services`);
-    return data.services;
+    const userIdentityToken = await user.getCredentials()
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/services`, {headers:{ Authorization: `Bearer ${userIdentityToken.token}`}});
+    return data.services
   }, []);
 
   if (loading) {
@@ -78,28 +84,31 @@ export const FetchApplicationsList = ({partner, setPartner}: any) => {
 
 
 export const NewApplicationComponent = () => {
+  const { loading: loadingPermission, allowed: adminView } = usePermission({permission: adminAccessPermission});
+
   const user = useApi(identityApiRef)
   const [application, setApplication] = useState<ICreateApplication>({
     name: '',
     creator: "",
     active: true,
-    servicesId: [],
-    // kongConsumerName: '',
-    // kongConsumerId: '',
+    servicesId: "",
   });
   const [show, setShow] = useState<boolean>(false);
   const [errorField, setErrorField] = useState<IErrorStatus>({
     name: false
   });
+  const [loadingCreate, setLoadingCreate] = useState(false)
 
   const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   useEffect(() => {
-    user.getBackstageIdentity().then( res => {
-      return setApplication({ ...application, creator: res.userEntityRef.split("/")[1] });
-    }).catch(() => {
-      return setApplication({ ...application, creator: "default"});
-    })
+    if(!adminView){
+      user.getBackstageIdentity().then( res => {
+        return setApplication({ ...application, creator: res.userEntityRef.split("/")[1] });
+      }).catch(() => {
+        return setApplication({ ...application, creator: "default"});
+      })
+  }
   
   }, []);
 
@@ -110,25 +119,25 @@ export const NewApplicationComponent = () => {
       name: '',
       creator: '',
       active: true,
-      servicesId: [],
-      // kongConsumerName: '',
-      // kongConsumerId: '',
+      servicesId: '',
     });
   };
 
-  const handleSubmit = async () => {          // CHECK  <--- tem que por o Id do partner
+  const handleSubmit = async () => {  
+    setLoadingCreate(true)        
     const applicationData = {
-      applications: {
+      application: {
         name: application.name,
         creator: application.creator,
         active: application.active,
-        servicesId: application.servicesId,
+        services: application.servicesId,
       },
     };
     const response = await AxiosInstance.post(`${BackendBaseUrl}/applications`, JSON.stringify(applicationData))
     setShow(true);
     setTimeout(()=>{
-      window.location.replace('/application');
+      //setLoadingCreate(false)
+      window.location.replace('/applications');
     }, 2000);
     return response.data
   };
@@ -172,17 +181,24 @@ export const NewApplicationComponent = () => {
                     }
                   />
                 </Grid>
+
                 <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Creator"
-                    value={application.creator ?? ''}
-                    required
-                    InputProps={{
-                      readOnly: true,
-                    }}                  
-                  />
+                  {(!loadingPermission && adminView) && 
+                    <UsersList application={application} setApplication={setApplication}/>
+                  }
+                  {(!loadingPermission && !adminView) && 
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label="Creator"
+                      value={application.creator}
+                      required
+                      InputProps={{
+                        readOnly: true,
+                      }}                  
+                    />
+                  }
+                  
                 </Grid>
                 <Grid item lg={12}>
                   <FetchServicesList partner={application} setPartner={setApplication}/>
@@ -202,13 +218,11 @@ export const NewApplicationComponent = () => {
                     <Button
                       style={{
                         margin: '16px',
-                        background: '#20a082',
-                        color: '#fff',
                       }}
                       size="large"
                       type="submit"
                       variant="contained"
-                      disabled={errorField.name}
+                      disabled={errorField.name || loadingCreate}
                       onClick={handleSubmit}
                     >
                       Create
@@ -223,3 +237,28 @@ export const NewApplicationComponent = () => {
     </Page>
   );
 };
+
+const UsersList = ({application, setApplication}: any) =>{
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+  const { value, loading, error } = useAsync(async (): Promise<any> => {
+    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/keycloak/users`);
+    return data.users;
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return (
+    <Select
+      placeholder="Creator"
+      label="Creator"
+      items={value.map((item: any) => {
+        return { ...{ label: item.username, value: item.username } };
+        })}
+      onChange={e => { setApplication({...application, creator: e  }) }}
+    />
+  )
+
+}

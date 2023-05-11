@@ -8,5 +8,6 @@ export interface IPluginRepository {
   deletePlugin(id: string): Promise<void>;
   createPlugin(pluginDto: PluginDto): Promise<Plugin | string>;
   patchPlugin(id: string, pluginDto: PluginDto): Promise<Plugin | string>;
-  getPluginByServiceId(id: string): Promise<Plugin | string>;
+  getPluginByServiceId(id: string): Promise<any[]>;
+  getPluginByTypeOnService(id: string, type:string):Promise<any>;
 }

@@ -20,7 +20,8 @@ export class PluginService extends KongServiceBase {
       const response = await axios.post(url, {
         service: serviceName,
         name: pluginName,
-        config: Object.fromEntries(config)
+        config: Object.fromEntries(config),
+        tags: ["managed-by-devportal"]
       });
       return response.data;
     } catch (error) {

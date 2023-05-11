@@ -5,7 +5,7 @@ export interface IPartner {
     email: string,
     phone: number | string, // to do
     servicesId: string[] | any[],
-    applicationId: string[] | any[],
+    applicationsId?: string[] | any[],
     createdAt?: string, 
     updatedAt?: string, 
   }
@@ -16,7 +16,6 @@ export interface ICreatePartner{
   email: string,
   phone: number | string, // to do
   servicesId: string[] | any,
-  applicationId: string[] | any,
 }
 
 export interface IErrorStatus {

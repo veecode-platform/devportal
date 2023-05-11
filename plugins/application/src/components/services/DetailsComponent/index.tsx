@@ -1,19 +1,14 @@
-import React from 'react';
-import {
-  Grid,
-  makeStyles,
-  Card,
-  CardHeader,
-  IconButton,
-} from '@material-ui/core';
+import React, { useState } from 'react';
+import {Grid,makeStyles,Card,CardHeader,IconButton,Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { Progress, TabbedLayout } from '@backstage/core-components';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
 import { Header, Page, Link } from '@backstage/core-components';
 import { IService } from '../utils/interfaces';
 import EditIcon from '@material-ui/icons/Edit';
 import CachedIcon from '@material-ui/icons/Cached';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { DefaultDetailsComponent } from './DefaultDetailsComponent';
 import { SecurityTypeEnum } from '../utils/enum';
 import AxiosInstance from '../../../api/Api';
@@ -45,17 +40,34 @@ type Services = {
 };
 
 const Details = ({ service }: Services) => {
+  const [showDialog, setShowDialog] = useState<boolean>(false)
   const classes = useStyles();
+  const navigate = useNavigate();
+  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+
+  const handleOpenDialog = () => {
+    setShowDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setShowDialog(false);
+  };
+
   const Refresh = () => {
     window.location.reload();
   };
+
+  const deleteServiceHandler = async () =>{
+    await AxiosInstance.delete(`${BackendBaseUrl}/services/${service?.id}`)
+    navigate('/services');
+  }
+
 
   const serviceData = {
     id: service?.id ?? '...',
     name: service?.name ?? '...',
     active: service?.active ?? true,
     description: service?.description ?? '...',
-    redirectUrl: service?.redirectUrl ?? '...',
     kongServiceName: service?.kongServiceName ?? '...',
     kongServicesId: service?.kongServiceId ?? '...',
     rateLimiting: service?.rateLimiting ?? '...',
@@ -97,6 +109,15 @@ const Details = ({ service }: Services) => {
                     >
                       <CachedIcon />
                     </IconButton>
+
+                    <IconButton
+                      aria-label="Delete"
+                      title="Delete this service"
+                      onClick={handleOpenDialog}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                    <ConfirmDeleteDialog show={showDialog} handleClose={handleCloseDialog} handleSubmit={deleteServiceHandler}/>
                   </>
                 }
               />
@@ -122,7 +143,11 @@ export const DetailsComponent = () => {
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
     const {data} = await AxiosInstance.get(`${BackendBaseUrl}/services/${id}`)
-    return data.services;                             
+    const partnersList = await AxiosInstance.get(`${BackendBaseUrl}/services/${id}/partners`)
+    return {
+      ...data.service,
+      partnersId: partnersList.data.partners
+    }
   }, []);
 
   if (loading) {
@@ -132,3 +157,34 @@ export const DetailsComponent = () => {
   }
   return <Details service={value} />;
 };
+
+type dialogProps = {
+  show: boolean;
+  handleClose: any;
+  handleSubmit: any;
+}
+
+const ConfirmDeleteDialog = ({show, handleClose, handleSubmit}: dialogProps) =>{
+  return (
+    <Dialog
+    open={show}
+    onClose={handleClose}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{"Are you sure to delete this service?"}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {`This action cannot be undone`}        
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} autoFocus >
+          Cancel
+        </Button>
+        <Button onClick={handleSubmit}  style={{color:"#ED4337"}} >
+          Delete
+        </Button>
+      </DialogActions>
+  </Dialog>
+)}

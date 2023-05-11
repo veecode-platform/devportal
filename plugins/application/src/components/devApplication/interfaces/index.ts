@@ -7,7 +7,7 @@ export interface IApplication  {
     kongConsumerName?: string;
     kongConsumerId?: string;
     createdAt: Date | string;
-    updateAt: Date | string;
+    updatedAt: Date | string;
   }
 
 export interface ICreateApplication{

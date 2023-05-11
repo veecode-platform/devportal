@@ -1,14 +1,14 @@
 import { RouterOptions } from '../../../service/router';
-import { ApplicationDto } from '../../applications/dtos/ApplicationDto';
-import { PostgresApplicationRepository } from '../../applications/repositories/knex/KnexApplicationRepository';
-import { ApplicationServices } from '../../applications/services/ApplicationServices';
+// import { ApplicationDto } from '../../applications/dtos/ApplicationDto';
+// import { PostgresApplicationRepository } from '../../applications/repositories/knex/KnexApplicationRepository';
+// import { ApplicationServices } from '../../applications/services/ApplicationServices';
 import { UserDto } from '../../keycloak/dtos/UserDto';
 import { KeycloakUserService } from '../../keycloak/service/UserService';
-import { ServiceDto } from '../../services/dtos/ServiceDto';
-import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
-import { ControllPlugin } from '../../services/service/ControllPlugin';
+// import { ServiceDto } from '../../services/dtos/ServiceDto';
+// import { PostgresServiceRepository } from '../../services/repositories/Knex/KnexServiceReppository';
+// import { ControllPlugin } from '../../services/service/ControllPlugin';
 import { PartnerDto } from '../dtos/PartnerDto';
-import { PostgresPartnerRepository } from '../repositories/Knex/KnexPartnerReppository';
+import { PostgresPartnerRepository } from '../repositories/Knex/KnexPartnerRepository';
 
 export class PartnerServices {
   private static _instance: PartnerServices;
@@ -32,14 +32,14 @@ export class PartnerServices {
     }
   }
 
-  public async removePartner(partnerId: string, options: RouterOptions) {
+  public async removePartner(partnersId: string, options: RouterOptions) {
     try {
       const partnerRepository = await PostgresPartnerRepository.create(
         await options.database.getClient(),
       );
-      const partner = await partnerRepository.getPartnerById(partnerId);
+      await partnerRepository.getPartnerById(partnersId);
 
-      if (partner instanceof Object) {
+      /* if (partner instanceof Object) { refaactor
         const applications: string[] = partner.applicationId as string[];
         applications.forEach(application => {
           ApplicationServices.Instance.removeApplication(application, options);
@@ -56,14 +56,14 @@ export class PartnerServices {
         if (typeof keycloakUser?.id === 'string') {
           await KeycloakUserService.Instance.deleteUser(keycloakUser.id);
         }
-      }
+      }*/
     } catch (error) {
       return error
     }
   }
 
   public async updatePartner(
-    partnerId: string,
+    partnersId: string,
     partnerDto: PartnerDto,
     options: RouterOptions,
   ) {
@@ -71,13 +71,13 @@ export class PartnerServices {
       const partnerRepository = await PostgresPartnerRepository.create(
         await options.database.getClient(),
       );
-      const applicationRepository = await PostgresApplicationRepository.create(
+      /* const applicationRepository = await PostgresApplicationRepository.create(
         await options.database.getClient(),
       );
       const serviceRepository = await PostgresServiceRepository.create(
         await options.database.getClient(),
-      );
-      const partner = await partnerRepository.getPartnerById(partnerId);
+      );*/
+      const partner = await partnerRepository.getPartnerById(partnersId);
 
       if (partner instanceof Object) {
         const listUsers = await KeycloakUserService.Instance.listUsers();
@@ -94,7 +94,7 @@ export class PartnerServices {
           );
         }
 
-        if (partnerDto.active === false) {
+        /* if (partnerDto.active === false) { refactor
           const applications = partnerDto.applicationId as string[];
           applications.forEach(async application => {
             const applicationObj =
@@ -102,9 +102,7 @@ export class PartnerServices {
             if (applicationObj instanceof Object) {
               const applicationDto = new ApplicationDto(
                 applicationObj.name as string,
-                applicationObj.creator as string,
-                applicationObj.parternId as string,
-                applicationObj.servicesId as string[],
+                applicationObj.creator as string,  
                 (applicationObj.active = false),
               );
               await applicationRepository.patchApplication(
@@ -113,9 +111,9 @@ export class PartnerServices {
               );
             }
           });
-        }
+        }*/
 
-        if (partnerDto.active === false) {
+        /* if (partnerDto.active === false) { refactor
           const services = partnerDto.servicesId as string[];
           services.forEach(async service => {
             const serviceObj = await serviceRepository.getServiceById(service);
@@ -127,12 +125,11 @@ export class PartnerServices {
                 serviceObj.kongServiceName as string,
                 serviceObj.kongServiceId as string,
                 (serviceObj.active = false),
-                serviceObj.partnersId as string[],
               );
               await serviceRepository.patchService(service, serviceDto);
             }
           });
-        }
+        }*/
       }
     } catch (error) {
       return error

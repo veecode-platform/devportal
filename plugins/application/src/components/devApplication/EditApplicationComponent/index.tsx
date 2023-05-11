@@ -12,10 +12,11 @@ import {
   ContentHeader,
 } from '@backstage/core-components';
 import { IApplication, IErrorStatus } from '../interfaces';
-import {AlertComponent, Select} from '../../shared';
+import {AlertComponent } from '../../shared';
 import AxiosInstance from '../../../api/Api';
 import { validateName } from '../../shared/commons/validate';
 import { useAppConfig } from '../../../hooks/useAppConfig';
+import { FetchServicesList } from '../NewApplicationComponent';
 
 type Application = {
   application: IApplication | undefined;
@@ -34,17 +35,10 @@ const EditApplicationComponent = ({ application }: Application) => {
     setApp({
       name: application?.name,
       creator: application?.creator,
-      active: application?.active,
-      servicesId: application?.servicesId,
-      kongConsumerName: application?.kongConsumerName,
-      kongConsumerId: application?.kongConsumerId
+      servicesId: [],
     })
   },[application]);
 
-  const statusItems = [
-    { label: 'active', value: 'true' },
-    { label: 'disable', value: 'false' },
-  ];
 
   const handleClose = (reason: string) => {
     if (reason === 'clickaway') return;
@@ -53,17 +47,17 @@ const EditApplicationComponent = ({ application }: Application) => {
 
   const handleSubmit = async () => {
     const applicationData = {
-      applications:{
+      application:{
         name: app.name,
         creator: app.creator,
-        active: app.active,
-        servicesId: app.servicesId,
+        services: app.servicesId,
+        active: true
       }
     }
     const response = await AxiosInstance.patch(`${BackendBaseUrl}/applications/${application?.id}`,JSON.stringify(applicationData) )
     setShow(true);
     setTimeout(()=>{
-      window.location.replace('/application');
+      window.location.replace('/applications');
     }, 2000);
     return response.data
   }
@@ -113,32 +107,7 @@ const EditApplicationComponent = ({ application }: Application) => {
                 </Grid>
 
                 <Grid item lg={12}>
-                  <Select
-                    placeholder="Select the Status"
-                    label="Service Status"
-                    items={statusItems}
-                    selected={app.active ? 'true' : 'false'}
-                    onChange={e => {
-                      if (e === 'true')
-                        setApp({ ...app, active: true });
-                      else setApp({ ...app, active: false });
-                    }}
-                  />
-                </Grid>
-
-                <Grid item lg={12}>
-                  <Select
-                    placeholder="Application Services"
-                    label="Application Services"
-                    selected={app.servicesId}
-                    items={app.servicesId.map((item : string | any) => {
-                      return { ...{ label: item, value: item } };
-                    })}
-                    multiple
-                    onChange={e => {
-                      setApp({ ...app, servicesId: e });
-                    }}
-                  />
+                  <FetchServicesList partner={app} setPartner={setApp}/>
                 </Grid>
               <Grid item xs={12} >
                 <Grid container justifyContent='center' alignItems='center'>

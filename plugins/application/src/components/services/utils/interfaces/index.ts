@@ -3,14 +3,14 @@ export interface IService {
   name: string,
   active?:  boolean | null,
   description: string,
-  redirectUrl: string,
   partnersId: string[],
   rateLimiting: number | any,
   kongServiceName: string | any,
   kongServiceId: string,
   securityType: string | any,
   createdAt?: Date | string,
-  updatedAt?: Date | string
+  updatedAt?: Date | string,
+  route?: string
 }
 
 export interface ICreateService{
@@ -18,7 +18,6 @@ export interface ICreateService{
     kongServiceName: string | any,
     active: boolean | null;
     description: string,
-    redirectUrl: string,
     kongServiceId: string,
     securityType: string | any,
     rateLimiting: number | any,
