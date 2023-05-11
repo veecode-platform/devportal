@@ -9,6 +9,12 @@ export class KeycloakUserService {
   public static get Instance() {
     return this._instance || (this._instance = new this());
   }
+  public async getSession(){
+    const kcAdminClient = await new KeycloakAdminClient().getClient()
+    const sessions = await kcAdminClient.sessions.find({realm: "platform-devportal"})
+    return sessions
+
+  }
 
   public async createUser(user: UserDto) {
     const kcAdminClient = await new KeycloakAdminClient().getClient();

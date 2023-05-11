@@ -46,7 +46,7 @@ export async function startStandaloneServer(
     });
     return knex;
   });
-  // await applyDatabaseMigrations(await db.client.getClient()); check if it works here instead of router.ts
+
   const router = await createRouter({
     logger,
     database: { getClient: async () => db },
@@ -61,7 +61,7 @@ export async function startStandaloneServer(
   const service = createServiceBuilder(module)
     .setPort(options.port)
     .addRouter('/devportal', router)
-    .enableCors({ origin: config.getString("backend.cors.origin") });// config.getString("app.baseUrl") - production ready
+    .enableCors({ origin: config.getString("backend.cors.origin") });
 
   return await service.start().catch(err => {
     logger.error(err);

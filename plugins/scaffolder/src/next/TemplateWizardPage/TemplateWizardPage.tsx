@@ -25,12 +25,12 @@ import {
 import {
   scaffolderApiRef,
   useTemplateSecrets,
-  Workflow,
   type LayoutOptions,
-} from '@backstage/plugin-scaffolder-react/alpha';
+} from '@backstage/plugin-scaffolder-react';
 import {
   NextFieldExtensionOptions,
   FormProps,
+  Workflow,
 } from '@backstage/plugin-scaffolder-react/alpha';
 import { JsonValue } from '@backstage/types';
 import { Header, Page } from '@backstage/core-components';

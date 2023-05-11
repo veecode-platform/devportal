@@ -27,8 +27,10 @@ import qs from 'qs';
 import { ContextMenu } from './ContextMenu';
 import {
   DefaultTemplateOutputs,
-  ScaffolderTaskOutput,
 } from '@backstage/plugin-scaffolder-react/alpha';
+import {
+  ScaffolderTaskOutput,
+} from '@backstage/plugin-scaffolder-react';
 
 const useStyles = makeStyles({
   contentWrapper: {

@@ -28,6 +28,7 @@ import {
   useAnalytics,
   useRouteRefParams,
   useApi,
+  ErrorApiError,
 } from '@backstage/core-plugin-api';
 import { FormProps, IChangeEvent, withTheme } from '@rjsf/core';
 import { Theme as MuiTheme } from '@rjsf/material-ui';
@@ -153,7 +154,7 @@ export const MultistepJsonForm = (props: MultistepJsonFormProps) => {
       await onFinish();
       analytics.captureEvent('create', formData.name || `new ${templateName}`);
     } catch (err) {
-      errorApi.post(err);
+      errorApi.post(err as ErrorApiError);
     } finally {
       setDisableButtons(false);
     }
