@@ -1,16 +1,27 @@
 import { Router } from "express";
+import { RouterOptions } from "./router";
 import { TestGroups } from "../modules/keycloak/adminClient";
 import { KeycloakUserService } from "../modules/keycloak/service/UserService";
 import { UpdateUserDto, UserDto } from "../modules/keycloak/dtos/UserDto";
+import { NotAllowedError } from '@backstage/errors';
+import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerRepository";
 
-export async function createKeycloackRouter(): Promise<Router> {
+export async function createKeycloackRouter(options: RouterOptions): Promise<Router> {
+    const partnerRepository = await PostgresPartnerRepository.create(await options.database.getClient())
+
     const router = Router();
+    const {identity} = options
+
     const adminClientKeycloak = new TestGroups();
     const userServiceKeycloak = new KeycloakUserService();
 
-    router.get("/logout", async (_, response) =>{
-        const sessions = await userServiceKeycloak.getSession()
-        response.status(200).json({ status: 'ok', sessions: sessions });
+    router.get("/logout", async (request, response) =>{
+        const user = await identity.getIdentity({ request: request });
+        if(!user) throw new NotAllowedError('Unauthorized');
+        const userName = user?.identity.userEntityRef.split("/")[1] as string
+        const partner = await partnerRepository.getPartnerIdByUserName(userName) as any
+        const logout = await userServiceKeycloak.logOut(partner.keycloakId)
+        response.status(200).json({ status: 'ok', sessions: logout });
     });
 
     router.get('/groups', async (_, response) => {

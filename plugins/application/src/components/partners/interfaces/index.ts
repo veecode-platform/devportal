@@ -21,5 +21,4 @@ export interface ICreatePartner{
 export interface IErrorStatus {
   name: boolean,
   email: boolean,
-  phone: boolean
 }

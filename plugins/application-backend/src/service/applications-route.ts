@@ -10,7 +10,6 @@ import { KongHandler, security } from "../modules/kong-control/KongHandler";
 import { AxiosError } from "axios";
 import { PostgresApplicationServiceRepository } from "../modules/applications/repositories/knex/KnexApplicationServiceRepository";
 // import { PostgresApplicationPartnerRepository } from "../modules/applications/repositories/knex/KnexApplicationPartnerRepository";
-
 import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerRepository";
 
 /** @public */
@@ -28,7 +27,6 @@ export async function createApplicationRouter(
   )
   const partnerRepository = await PostgresPartnerRepository.create(await options.database.getClient())
   // const applicationPartnerRepository = await PostgresApplicationPartnerRepository.create(await options.database.getClient())
-
 
   const router = Router()
   const kongHandler = new KongHandler()

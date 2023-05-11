@@ -8,7 +8,7 @@ export class PartnerMapper{
       name: partner.props.name,
       active: partner.props.active,
       email: partner.props.email,
-      phone: partner.props.phone,
+      keycloakId: partner.props.keycloakId,
       createdAt: partner.props.createdAt,
     }
   }

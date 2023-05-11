@@ -48,7 +48,7 @@ export async function createRouter(
   router.use('/kong-extras', await createKongRouter(options))
   router.use('/applications', await createApplicationRouter(options))
   router.use('/plugins', await createPluginRouter(options))
-  router.use('/keycloak', await createKeycloackRouter())
+  router.use('/keycloak', await createKeycloackRouter(options))
   router.use('/teste', await testeRoute(options))
 
 

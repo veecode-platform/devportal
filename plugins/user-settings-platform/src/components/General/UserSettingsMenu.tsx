@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /*
  * Copyright 2020 The Backstage Authors
  *
@@ -18,10 +19,11 @@ import React from 'react';
 import { IconButton, ListItemIcon, Menu, MenuItem } from '@material-ui/core';
 import SignOutIcon from '@material-ui/icons/MeetingRoom';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { identityApiRef, useApi } from '@backstage/core-plugin-api';
+import { identityApiRef, configApiRef, useApi } from '@backstage/core-plugin-api';
 
 export const UserSettingsMenu = () => {
   const identityApi = useApi(identityApiRef);
+  const config = useApi(configApiRef);
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<undefined | HTMLElement>(
     undefined,
@@ -37,9 +39,14 @@ export const UserSettingsMenu = () => {
     setOpen(false);
   };
 
-  /* const handleKeycloakSessionLogout = () => { 
-
-  }*/
+   const handleKeycloakSessionLogout = async () => { 
+      const token = await identityApi.getCredentials();
+      const backendBaseUrl = config.getConfig('backend').get('baseUrl')
+       await fetch(`${backendBaseUrl}/api/devportal/keycloak/logout`, {
+        method: "GET",
+        headers:{ Authorization: `Bearer ${token.token}`}
+      })
+  }
 
   return (
     <>
@@ -51,7 +58,10 @@ export const UserSettingsMenu = () => {
         <MoreVertIcon />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem data-testid="sign-out" onClick={() => identityApi.signOut()}>
+        <MenuItem data-testid="sign-out" onClick={async () => {
+          await handleKeycloakSessionLogout()
+          identityApi.signOut()
+          }}>
           <ListItemIcon>
             <SignOutIcon />
           </ListItemIcon>

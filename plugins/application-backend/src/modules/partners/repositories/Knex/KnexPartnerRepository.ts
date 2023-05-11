@@ -83,7 +83,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       name: partnerDto.name,
       active: partnerDto.active,
       email: partnerDto.email,
-      phone: partnerDto.phone
+      keycloakId: partnerDto.keycloakId
     });
     return partner;
   }
@@ -101,7 +101,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       name: partnerDto.name,
       active: partnerDto.active,
       email: partnerDto.email,
-      phone: partnerDto.phone
+      keycloakId: partnerDto.keycloakId
     });
     const data = await PartnerMapper.toPersistence(partner);
     const createdPartner = await this.db('partner')
@@ -118,7 +118,7 @@ export class PostgresPartnerRepository implements IPartnerRepository {
       name: partnerDto.name,
       active: partnerDto.active,
       email: partnerDto.email,
-      phone: partnerDto.phone
+      keycloakId: partnerDto.keycloakId
     });
     const data = await PartnerMapper.toPersistence(partner);
     const updatedPartner = await this.db('partner')

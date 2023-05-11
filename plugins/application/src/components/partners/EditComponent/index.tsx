@@ -19,7 +19,6 @@ import { /*FetchApplicationsList,*/ FetchServicesList } from '../commons';
 import {
   validateEmail,
   validateName,
-  validatePhone,
 } from '../../shared/commons/validate';
 import { useAppConfig } from '../../../hooks/useAppConfig';
 
@@ -45,7 +44,6 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
   const [errorField, setErrorField] = useState<IErrorStatus>({
     name: false,
     email: false,
-    phone: false,
   });
 
   const BackendBaseUrl = useAppConfig().BackendBaseUrl;
@@ -177,29 +175,6 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    type="tel"
-                    variant="outlined"
-                    placeholder="Phone"
-                    label="Phone"
-                    value={partner.phone}
-                    required
-                    onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, phone: true }) }}
-                    onChange={e => {
-                      setPartner({
-                        ...partner,
-                        phone: e.target.value,
-                      });
-                      if (validatePhone(e.target.value as string))
-                        setErrorField({ ...errorField, phone: true });
-                      else setErrorField({ ...errorField, phone: false });
-                    }}
-                    error={errorField.phone}
-                    helperText={errorField.phone ? 'enter a valid phone' : null}
-                  />
-                </Grid>
-                <Grid item xs={12}>
                   <Grid container justifyContent="center" alignItems="center">
                     <Button
                       component={RouterLink}
@@ -221,7 +196,7 @@ const EditPageComponent = ({ partnerData }: PartnerProps) => {
                       type="submit"
                       variant="contained"
                       disabled={
-                        errorField.name || errorField.email || errorField.phone
+                        errorField.name || errorField.email
                       }
                       onClick={handleSubmit}
                     >
