@@ -90,7 +90,7 @@ async function main() {
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
-  const gitlabEnv = useHotMemoize(module, () => createEnv('gitlab'));
+  // const gitlabEnv = useHotMemoize(module, () => createEnv('gitlab'));
   // const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
   // const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
   // const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
@@ -108,6 +108,11 @@ async function main() {
     apiRouter.use('/argocd', await argocd(argocdEnv));
   }
 
+  if(config.getBoolean("enabledPlugins.gitlabPlugin")){
+    const gitlabEnv = useHotMemoize(module, () => createEnv('gitlab'));
+    apiRouter.use('/gitlab', await gitlab(gitlabEnv));
+  }
+
   apiRouter.use('/devportal', await application(applicationEnv));
   apiRouter.use('/catalog', await catalog(catalogEnv));
   apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));
@@ -117,7 +122,7 @@ async function main() {
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
-  apiRouter.use('/gitlab', await gitlab(gitlabEnv));
+  // apiRouter.use('/gitlab', await gitlab(gitlabEnv));
   // apiRouter.use('/argocd', await argocd(argocdEnv));
   // apiRouter.use('/vault', await vault(vaultEnv));
   // apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));

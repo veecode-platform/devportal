@@ -215,6 +215,7 @@ enabledPlugins:
   grafana: true
   kubernetes: true
   argocd: true
+  gitlabPlugin: false
 
 platform:
   guest:

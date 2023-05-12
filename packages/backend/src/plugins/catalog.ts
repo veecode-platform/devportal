@@ -10,6 +10,7 @@ import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend
 // Gitlab
 import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 
+
  export default async function createPlugin(
  env: PluginEnvironment,
  ): Promise<Router> {
@@ -48,7 +49,9 @@ import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-
         }),
   )
 // gitlab provider
-builder.addProcessor(new GitlabFillerProcessor(env.config));
+if(env.config.getBoolean("enabledPlugins.gitlabPlugin")) {
+   builder.addProcessor(new GitlabFillerProcessor(env.config));
+}
 
  builder.addProcessor(new ScaffolderEntitiesProcessor());
  const { processingEngine, router } = await builder.build();
