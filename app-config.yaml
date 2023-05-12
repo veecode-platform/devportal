@@ -144,7 +144,7 @@ integrations:
 catalog:
   rules:
     - allow: [Component, API, Location, Template]
-  providers:
+  providers: 
     github:
       providerId: # the provider ID can be any camelCase string
         organization: veecode-platform # string
@@ -216,11 +216,13 @@ enabledPlugins:
   kubernetes: true
   argocd: true
 
-enabledGuest:
-  enabled: false
+platform:
+  guest:
+    enabled: false
 
-apiManagement:
-  enabled: true
+  apiManagement:
+    enabled: true
+    readOnlyMode: ${KONG_READ_ONLY_MODE} #boolean
 
 vault:
   baseUrl: ${VAULT_BASE_URL}
@@ -245,5 +247,4 @@ okta:
 kong:
   api-manager: ${KONG_OKTETO_HOST}
   admin-token: ${KONG_ADMIN_TOKEN}
-  readOnlyMode: ${KONG_READ_ONLY_MODE} #boolean
   
