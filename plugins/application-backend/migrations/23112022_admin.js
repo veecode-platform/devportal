@@ -31,7 +31,7 @@ exports.up = async function up(knex) {
         table.string('name');
         table.boolean('active');
         table.string('email');
-        table.string('phone');
+        table.uuid('keycloakId');
         table.timestamp('createdAt').defaultTo(knex.fn.now());
         table.timestamp('updatedAt').defaultTo(knex.fn.now());
       });

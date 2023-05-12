@@ -5,6 +5,7 @@ import { PartnerDto } from "../modules/partners/dtos/PartnerDto";
 import { AxiosError } from "axios";
 import { PostgresPartnerApplicationRepository } from "../modules/partners/repositories/Knex/KnexPartnerApplicationRepository";
 import { PostgresPartnerServiceRepository } from "../modules/partners/repositories/Knex/knexPartnerServiceRepository";
+import { Partner } from "../modules/partners/domain/Partner";
 
 /** @public */
 export async function createPartnersRouter(
@@ -105,18 +106,14 @@ export async function createPartnersRouter(
     response.status(200).json({ status: 'ok', partners: partners, total: total });
   });
 
-  /* router.get('/applications/:id', async (request, response) => {refactor 
-    const code = request.params.id;
-    const applications = await partnerRepository.findApplications(code);
-    response.status(200).json({ status: 'ok', applications: applications });
-  });*/
-
   router.post('/', async (request, response) => {
     try {
       const partner: PartnerDto = request.body.partner;
-      const result = await partnerRepository.createPartner(partner);
-      // const keycloakRegister = await userServiceKeycloak.createUser()
-      response.status(201).json({ status: 'ok', partner: result });
+      const servicesId = request.body.partner.servicesId;
+      const result = await partnerRepository.createPartner(partner) as Partner;
+      const services = await partnerServiceRepository.associate(result._id as string, servicesId)
+
+      response.status(201).json({ status: 'ok', partner: result, services: services });
     } catch (error: any) {
       if (error instanceof Error) {
         response.status(500).json({

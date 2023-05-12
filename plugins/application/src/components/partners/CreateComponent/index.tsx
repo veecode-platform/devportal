@@ -15,12 +15,11 @@ import {
   ContentHeader,
   Progress,
 } from '@backstage/core-components';
-import { ICreatePartner, IErrorStatus } from '../interfaces';
+import { IErrorStatus } from '../interfaces';
 import { FetchServicesList } from '../commons';
 import {
   validateEmail,
   validateName,
-  validatePhone,
 } from '../../shared/commons/validate';
 import { useAppConfig } from '../../../hooks/useAppConfig';
 
@@ -46,12 +45,10 @@ const KeycloakUsersList = ({partner, setPartner}: any) =>{
         })}
       onChange={e => {
         const splited = e.toString().split("---")
-        // console.log(e, splited)
-
         setPartner({...partner,
+          keycloakId: splited[0],
           name: splited[1],
           email: splited[2],
-          phone: "(21)99990-9999"
         })
       }}
     />
@@ -60,21 +57,20 @@ const KeycloakUsersList = ({partner, setPartner}: any) =>{
 }
 
 export const CreateComponent = () => {
-  const [partner, setPartner] = useState<ICreatePartner>({
+  const [partner, setPartner] = useState<any>({
     name: '',
     active: true,
     email: '',
-    phone: '',
+    keycloakId: "",
     servicesId: [],
   });
-
+  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const [errorField, setErrorField] = useState<IErrorStatus>({
     name: false,
     email: false,
-    phone: false,
   });
 
   const handleClose = (reason: string) => {
@@ -86,29 +82,29 @@ export const CreateComponent = () => {
       name: '',
       active: true,
       email: '',
-      phone: '',
+      keycloakId: "",
       servicesId: [],
     });
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     const dataPartner = {
       partner: {
         name: partner.name,
         active: partner.active,
         email: partner.email,
-        phone: partner.phone,
+        keycloakId: partner.keycloakId,
         servicesId: partner.servicesId,
       },
     };
 
     const {data} = await AxiosInstance.post(`${BackendBaseUrl}/partners`,JSON.stringify(dataPartner));
-    const associateServices = await AxiosInstance.post(`${BackendBaseUrl}/partners/services/${data.partner._id}`, JSON.stringify({servicesId: partner.servicesId}));
     setShow(true);
     setTimeout(() => {
       window.location.replace('/partners');
     }, 2000);
-    return {...data, ...associateServices.data};
+     return data;
   };
 
   return (
@@ -183,29 +179,6 @@ export const CreateComponent = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    type="text"
-                    variant="outlined"
-                    label="Phone"
-                    disabled
-                    value={partner.phone ?? ''}
-                    required
-                    onBlur={ (e) => {if (e.target.value === "") setErrorField({ ...errorField, phone: true }) }}
-                    onChange={e => {
-                      setPartner({
-                        ...partner,
-                        phone: e.target.value,
-                      });
-                      if (validatePhone(e.target.value as string))
-                        setErrorField({ ...errorField, phone: true });
-                      else setErrorField({ ...errorField, phone: false });
-                    }}
-                    error={errorField.phone}
-                    helperText={errorField.phone ? 'enter a valid phone' : null}
-                  />
-                </Grid>
-                <Grid item xs={12}>
                   <Grid container justifyContent="center" alignItems="center">
                     <Button
                       component={RouterLink}
@@ -220,14 +193,12 @@ export const CreateComponent = () => {
                     <Button
                       style={{
                         margin: '16px',
-                        background: '#20a082',
-                        color: '#fff',
                       }}
                       size="large"
                       type="submit"
                       variant="contained"
                       disabled={
-                        errorField.name || errorField.email || errorField.phone
+                        errorField.name || errorField.email || loading
                       }
                       onClick={handleSubmit}
                     >
