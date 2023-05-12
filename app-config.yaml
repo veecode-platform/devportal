@@ -253,5 +253,5 @@ okta:
 kong: 
   api-manager: ${KONG_OKTETO_HOST}
   admin-token: ${KONG_ADMIN_TOKEN}
-  readOnlyMode: ${KONG_READ_ONLY_MODE} #boolean
+  readOnlyMode: false
   
