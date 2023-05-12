@@ -2466,7 +2466,7 @@
     testcontainers "^8.1.2"
     uuid "^8.0.0"
 
-"@backstage/catalog-client@^1.4.1", "@backstage/catalog-client@workspace:^":
+"@backstage/catalog-client@^1.4.1":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@backstage/catalog-client/-/catalog-client-1.4.1.tgz#73991da3c7b2243ac1b9ed6a89aadb2bfbc740be"
   integrity sha512-Jv5s+1TX8DHpOam2ID5Bt6KI1vMywdFEo2JIfgNFmHoDL+LFgdU7CdwSTfxxH8WCd0Cz0pAD1iRbV07CPi6Uqg==
@@ -3050,7 +3050,7 @@
     "@material-ui/lab" "4.0.0-alpha.61"
     react-use "^17.2.4"
 
-"@backstage/integration-react@^1.1.13-next.2", "@backstage/integration-react@workspace:^":
+"@backstage/integration-react@^1.1.13-next.2":
   version "1.1.13-next.2"
   resolved "https://registry.yarnpkg.com/@backstage/integration-react/-/integration-react-1.1.13-next.2.tgz#d0b34650762cd506ca2b09fcc7c9d3b0d3f595ae"
   integrity sha512-j8aFbH7C7vRqIZJmAEf3dIXb9/eWN64O+FxcZ6iP1Av2A3VK9Oc7OWMfNoMAGBZSPPApHLuYlIZU6NCMVw2V9w==
@@ -3351,7 +3351,7 @@
     yn "^4.0.0"
     zod "^3.21.4"
 
-"@backstage/plugin-catalog-common@^1.0.13", "@backstage/plugin-catalog-common@workspace:^":
+"@backstage/plugin-catalog-common@^1.0.13":
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-catalog-common/-/plugin-catalog-common-1.0.13.tgz#b0b77c840b2f3555c735d8ca405d5ceb59ea2879"
   integrity sha512-YXCNy8ArLZdYxuZsbNjPDlqn1/US889BG+4fPJozZtHwDdmTn+oCa60ixo65toDkjxrGD1jWPe+QcKptKE9dlA==
@@ -3720,7 +3720,7 @@
     zod "^3.21.4"
     zod-to-json-schema "^3.20.4"
 
-"@backstage/plugin-permission-react@^0.4.12", "@backstage/plugin-permission-react@workspace:^":
+"@backstage/plugin-permission-react@^0.4.12":
   version "0.4.12"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-permission-react/-/plugin-permission-react-0.4.12.tgz#e8e5a10fb7ff193031ab8a299fcde85d056e7d19"
   integrity sha512-//12gUQ19rbNoa7xAEUZ7q4R/RQDcVcwZN6RoHZaicW1pf3VWKeNjEUzIst8ThjdYFt7xRAbMbGixmGC/utsoQ==
@@ -4002,7 +4002,7 @@
     yn "^4.0.0"
     zod "^3.21.4"
 
-"@backstage/plugin-search-common@^1.2.3", "@backstage/plugin-search-common@workspace:^":
+"@backstage/plugin-search-common@^1.2.3":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-search-common/-/plugin-search-common-1.2.3.tgz#7aca4ec97e9e6f33c35d491a017b06cd34c64710"
   integrity sha512-3MEwjz/g5pDrxsH4AzRSuHA4RUoR59MDcIx/9Lp8jCVEDiFWNNKg2xh7aZhYZkwwg8ywzS6cs0iuxV3/E7eetg==
@@ -4019,25 +4019,6 @@
     "@backstage/core-plugin-api" "^1.5.1"
     "@backstage/plugin-search-common" "^1.2.3"
     "@backstage/theme" "^0.2.19"
-    "@backstage/types" "^1.0.2"
-    "@backstage/version-bridge" "^1.0.4"
-    "@material-ui/core" "^4.12.2"
-    "@material-ui/icons" "^4.9.1"
-    "@material-ui/lab" "4.0.0-alpha.61"
-    "@types/react" "^16.13.1 || ^17.0.0"
-    lodash "^4.17.21"
-    qs "^6.9.4"
-    react-use "^17.3.2"
-
-"@backstage/plugin-search-react@workspace:^":
-  version "1.6.0-next.2"
-  resolved "https://registry.yarnpkg.com/@backstage/plugin-search-react/-/plugin-search-react-1.6.0-next.2.tgz#905a2c37a532df82cc39ea39608914451126a733"
-  integrity sha512-ZcdAg3xvW1rf1rS8nTxhj2bMqZrrFYSATW4+BJBdl5Z/l4l30+AZXiISdvrzoOx6nxfDIzhABymFtBEA3PocOA==
-  dependencies:
-    "@backstage/core-components" "^0.13.1-next.1"
-    "@backstage/core-plugin-api" "^1.5.1"
-    "@backstage/plugin-search-common" "^1.2.3"
-    "@backstage/theme" "^0.3.0-next.0"
     "@backstage/types" "^1.0.2"
     "@backstage/version-bridge" "^1.0.4"
     "@material-ui/core" "^4.12.2"
@@ -6167,7 +6148,7 @@
     react-double-scrollbar "0.0.15"
     uuid "^3.4.0"
 
-"@material-ui/core@^4.11.0", "@material-ui/core@^4.12.2", "@material-ui/core@^4.9.13":
+"@material-ui/core@^4.11.0", "@material-ui/core@^4.12.2", "@material-ui/core@^4.12.4", "@material-ui/core@^4.9.13":
   version "4.12.4"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.12.4.tgz#4ac17488e8fcaf55eb6a7f5efb2a131e10138a73"
   integrity sha512-tr7xekNlM9LjA6pagJmL8QCgZXaubWUwkJnoYcMKd4gw/t4XiyvnTkjdGrUVicyB2BsdaAv1tvow45bPM4sSwQ==
@@ -6214,7 +6195,7 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@material-ui/lab@4.0.0-alpha.61", "@material-ui/lab@^4.0.0-alpha.57", "@material-ui/lab@^4.0.0-alpha.60":
+"@material-ui/lab@4.0.0-alpha.61", "@material-ui/lab@^4.0.0-alpha.57", "@material-ui/lab@^4.0.0-alpha.60", "@material-ui/lab@^4.0.0-alpha.61":
   version "4.0.0-alpha.61"
   resolved "https://registry.yarnpkg.com/@material-ui/lab/-/lab-4.0.0-alpha.61.tgz#9bf8eb389c0c26c15e40933cc114d4ad85e3d978"
   integrity sha512-rSzm+XKiNUjKegj8bzt5+pygZeckNLOr+IjykH8sYdVk7dE9y2ZuUSofiMV2bJk3qU+JHwexmw+q0RyNZB9ugg==
