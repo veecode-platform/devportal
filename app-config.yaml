@@ -222,6 +222,7 @@ enabledPlugins:
   grafana: true
   kubernetes: true
   argocd: true
+  gitlabPlugin: false
 
 enabledGuest:
   enabled: false
