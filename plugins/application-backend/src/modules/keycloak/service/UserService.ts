@@ -11,7 +11,9 @@ export class KeycloakUserService {
   }
   public async logOut(keycloakUserId: string){
     const kcAdminClient = await new KeycloakAdminClient().getClient()
-    const logout = await kcAdminClient.users.logout({id: keycloakUserId})
+    const user = await kcAdminClient.users.find({username:keycloakUserId})
+    if(user.length === 0) throw new Error("User not found")
+    const logout = await kcAdminClient.users.logout({id: user[0].id as string})
     return logout
   }
 
