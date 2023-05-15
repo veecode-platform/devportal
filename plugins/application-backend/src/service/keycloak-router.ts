@@ -4,10 +4,8 @@ import { TestGroups } from "../modules/keycloak/adminClient";
 import { KeycloakUserService } from "../modules/keycloak/service/UserService";
 import { UpdateUserDto, UserDto } from "../modules/keycloak/dtos/UserDto";
 import { NotAllowedError } from '@backstage/errors';
-import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerRepository";
 
 export async function createKeycloackRouter(options: RouterOptions): Promise<Router> {
-    const partnerRepository = await PostgresPartnerRepository.create(await options.database.getClient())
 
     const router = Router();
     const {identity} = options
@@ -16,12 +14,16 @@ export async function createKeycloackRouter(options: RouterOptions): Promise<Rou
     const userServiceKeycloak = new KeycloakUserService();
 
     router.get("/logout", async (request, response) =>{
-        const user = await identity.getIdentity({ request: request });
-        if(!user) throw new NotAllowedError('Unauthorized');
-        const userName = user?.identity.userEntityRef.split("/")[1] as string
-        const partner = await partnerRepository.getPartnerIdByUserName(userName) as any
-        const logout = await userServiceKeycloak.logOut(partner.keycloakId)
-        response.status(200).json({ status: 'ok', sessions: logout });
+        try{
+            const user = await identity.getIdentity({ request: request });
+            if(!user) throw new NotAllowedError('Unauthorized');
+            const userName = user?.identity.userEntityRef.split("/")[1] as string
+            const logout = await userServiceKeycloak.logOut(userName)
+            response.status(200).json({ status: 'ok', sessions: logout });
+        }
+        catch(e){
+            response.status(500).json({message: "User not found"})
+        }
     });
 
     router.get('/groups', async (_, response) => {
