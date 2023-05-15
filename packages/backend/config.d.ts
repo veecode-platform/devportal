@@ -38,6 +38,12 @@ export interface Config {
          * @visibility frontend
          */
         grafana: boolean
+        
+        /**
+         * gitlabPlugin launch control.
+         * @visibility frontend
+         */
+        gitlabPlugin: boolean
     
     };
     /**
