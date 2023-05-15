@@ -6,11 +6,11 @@ spec:
   replicas: {{ .Values.replicas | default 1 }}
   selector:
     matchLabels:
-      app: devportal-prod
+      app: devportal
   template:
     metadata:
       labels:
-        app: devportal-prod
+        app: devportal
     spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:

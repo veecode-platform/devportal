@@ -32,6 +32,7 @@ data:
         port: 7007
       database:
         client: {{ .Values.appConfig.database.client }}
+        pluginDivisionMode: schema
         connection:
           host: ${DATABASE_HOST}
           port: {{ .Values.appConfig.database.connection.port | default 80 }}
@@ -61,12 +62,12 @@ data:
       {{- end }}
       {{- if .Values.argocd.enabled | default false }}
       "/argocd/api":
-        target: ${ARGOCD_DOMAIN}
+        target: ${ARGOCD_URL_API}
         changeOrigin: true
         secure: true
         headers:
           Cookie:
-            $env: ARGOCD_TOKEN
+            $env: ARGOCD_AUTH_TOKEN
       {{- end }}
     {{- end }}
     organization:
@@ -102,8 +103,8 @@ data:
         - type: "config"
           instances:
             - name: argoInstance1
-              url: ${ARGOCD_URL}
-              token: ${ARGOCD_TOKEN}
+              url: ${ARGOCD_DOMAIN}
+              token: ${ARGOCD_AUTH_TOKEN}
     {{- end }}
     {{- if .Values.integrations }}
     integrations:
@@ -192,7 +193,7 @@ data:
             metadataUrl: ${KEYCLOAK_METADATA_URL}
             clientId: ${KEYCLOAK_CLIENT_ID}
             clientSecret: ${KEYCLOAK_CLIENT_SECRET}
-            prompt: {{ .Values.auth.providers.keycloak.prompt }}
+            prompt: {{ .Values.auth.providers.keycloak.prompt | default "auto"}}
         {{- end }}
         {{- if .Values.auth.providers.github }}
         github:
@@ -204,17 +205,19 @@ data:
     enabledPlugins:
       vault: {{ .Values.vault.enabled | default false }}
       grafana: {{ .Values.grafana.enabled | default false }}
-      kubernetes: {{ .Values.kubernetes | default false }}
+      kubernetes: {{ .Values.kubernetes.enabled | default false }}
       argocd: {{ .Values.argocd.enabled | default false }}
     platform:
       guest:
-        enabled: false
+        enabled: {{ .Values.platform.guest.enabled | default false }}
       apiManagement:
-        enabled: true
+        enabled: {{ .Values.platform.apiManagement.enabled | default false }}
+        readOnlyMode: {{ .Values.platform.apiManagement.readOnlyMode | default false }}
     {{- if .Values.vault.enabled }}
     vault:
       baseUrl: ${VAULT_BASE_URL}
       token: ${VAULT_TOKEN_RENEWABLE}
+      secretEngine: ${VAULT_SECRET_ENGINE}
     {{- end }}      
     grafana:
       domain: ${GRAFANA_DOMAIN}

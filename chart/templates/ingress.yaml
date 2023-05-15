@@ -2,26 +2,32 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: "devportal-prod"
+  name: "devportal"
   annotations:
     {{- if eq .Values.ingress.className "nginx" }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     {{- end }}
     {{- if eq .Values.ingress.className "kong" }}
+    {{- if .Values.ingress.tls.secretName }}
     konghq.com/https-redirect-status-code: "308"
     konghq.com/preserve-host: "true"
     konghq.com/protocols: "https"
+    {{- end }}
     konghq.com/strip-path: "false"
     {{- end }}
+    {{- if .Values.ingress.tls.secretName }}
     cert-manager.io/cluster-issuer: certmanager-issuer
     kubernetes.io/tls-acme: "true"
+    {{- end }}
   labels:
     app.kubernetes.io/name: {{ .Chart.Name }}
 spec:
+  {{- if .Values.ingress.tls.secretName }}
   tls:
   - secretName: {{ .Values.ingress.tls.secretName }}
     hosts:
     - {{ .Values.ingress.host }}
+  {{- end }}
   ingressClassName: {{ .Values.ingress.className }}
   rules:
     - host: {{ .Values.ingress.host }}
@@ -31,7 +37,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: devportal-prod
+                name: devportal
                 port:
                   number: {{ .Values.service.containerPort}}
  

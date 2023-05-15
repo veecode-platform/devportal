@@ -68,7 +68,7 @@ helm uninstall platform-devportal
 | `auth.providers.keycloak.metadataUrl`                     | Keycloak .well-known url                                     | ""             |
 | `auth.providers.keycloak.clientId`                        | Keycloak client id                                           | ""             |
 | `auth.providers.keycloak.clientSecret`                    | Keycloak client secret                                       | ""             |
-| `auth.providers.keycloak.prompt`                          | Enable Keycloak prompt                                       | ""             |
+| `auth.providers.keycloak.prompt`                          | Enable Keycloak prompt                                       | "auto"         |
 | `auth.providers.github.clientId`                          | Github Oauth application client id                           | ""             |
 | `auth.providers.github.clientSecret`                      | Github Oauth application client secret                       | ""             |
 | `integrations.github.host`                                | Github Server Host                                           | ""             |

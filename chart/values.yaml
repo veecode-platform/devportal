@@ -13,6 +13,7 @@ service:
 
 ingress:
   enabled: false
+  tls: {}
 
 resources:
   requests:
@@ -38,14 +39,19 @@ appConfig:
       user: postgres
       password: postgres
 
-grafana: {}
+grafana:
+  enabled: false
 
-argocd: {}
+argocd:
+  enabled: false
 
-vault: {}
+vault:
+  enabled: false
 
-kong: {}
+kong:
+  enabled: false
 
+okta: {}
 auth: {}
 
 integrations: {}
@@ -58,5 +64,6 @@ platform:
     enabled: true
   apiManagement:
     enabled: false
+    readOnlyMode: false
 
 kubernetes: {}
