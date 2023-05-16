@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import {
-  Navigate,
-  Outlet,
+  // Navigate,
+  // Outlet,
   Route,
 } from 'react-router';
 import {
@@ -56,7 +56,7 @@ import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_A
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { SignInPage } from '@internal/plugin-sign-in/src/components/SignInPage';
 import { useGuest } from './Hooks/useGuest';
-import { useApiManagement } from './Hooks/apiManagement';
+// import { useApiManagement } from './Hooks/apiManagement';
 import { GuestUserIdentity } from '@internal/plugin-sign-in/src/components/providers/guestUserIdentity';
 
 
@@ -67,12 +67,12 @@ const SignInComponent: any = (props: SignInPageProps) => {
     return <SignInPage {...props} providers={[providers[1]]} />
 };
 
-const ApiManagementComponent = () => {
+/* const ApiManagementComponent = () => {
   const ApiManagement = useApiManagement();
   return (
     ApiManagement ? <Outlet/> : <Navigate to="/" replace />
   )
-}
+}*/
 
 const app = createApp({
   apis,
@@ -174,18 +174,7 @@ const routes = (
       {searchPage}
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
-    
-    {/* <Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
-      <Route 
-        path="/services" 
-        element={<ServicesPage />} 
-    <Route path="/scaffolder" element={<ScaffolderPage />} />
-    {/* <Route path="/services" element={<SafeRoute allow={["admin"]}/>}>
-      <Route
-        path="/services"
-        element={<ServicesPage />}
-      />
-    </Route>*/}
+    {/*
     <Route path="/services" element={<ApiManagementComponent/>}>
        <Route path="/" element={<ServicesPage/>}/>
     </Route> 
@@ -194,7 +183,11 @@ const routes = (
     </Route>
     <Route path="/applications" element={<ApiManagementComponent/>}>
       <Route path="/" element={<ApplicationPage/>}/>
-    </Route>
+    </Route>*/}
+    <Route path="/services" element={<ServicesPage/>}/>
+    <Route path="/partners" element={<PartnersPage/>}/>
+    <Route path="/applications" element={<ApplicationPage/>}/>
+
   </FlatRoutes>
 );
 
