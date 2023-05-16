@@ -4,13 +4,17 @@ import { AuthorizeResult, PolicyDecision } from '@backstage/plugin-permission-co
 import { PermissionPolicy, PolicyQuery} from '@backstage/plugin-permission-node';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
+import { loadBackendConfig, getRootLogger } from '@backstage/backend-common';
 
 class DefaultPermissionPolicy implements PermissionPolicy {
   async handle(request: PolicyQuery, user: BackstageIdentityResponse): Promise<PolicyDecision> {
-    // console.log("Request policy: ", request, "User: ", user)
-    if (request.permission.name === 'admin.access.read' && user.identity.userEntityRef.split(":")[0] === "user") {
-      return { result: AuthorizeResult.DENY };
-    }
+    const config = await loadBackendConfig({
+      argv: process.argv,
+      logger: getRootLogger(),
+    });
+    if( request.permission.name === 'apiManagment.access.read' && !config.getBoolean("enabledPlugins.apiManagment")) return { result: AuthorizeResult.DENY };
+    if (request.permission.name === 'admin.access.read' && user.identity.userEntityRef.split(":")[0] === "user") return { result: AuthorizeResult.DENY };
+    
     return { result: AuthorizeResult.ALLOW };
   }
 }
