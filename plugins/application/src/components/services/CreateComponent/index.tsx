@@ -36,7 +36,7 @@ export const CreateComponent = () => {
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
   const BackendBaseUrl = useAppConfig().BackendBaseUrl;
-  const kongReadOnlyMode = useAppConfig().config.getBoolean("kong.readOnlyMode")
+  const kongReadOnlyMode = useAppConfig().config.getBoolean("platform.apiManagement.readOnlyMode")
 
   const handleOpenDialog = () => {
     setShowDialog(true);

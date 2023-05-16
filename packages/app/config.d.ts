@@ -50,33 +50,31 @@ export interface Config {
      * 
      * @visibility frontend
      */
-    enabledGuest: {
-        /**
-         * 
-         * @visibility frontend
-         */
-        enabled: boolean
-    };
-    /**
-     * 
-     * @visibility frontend
-     */
-    apiManagement: {
-        /**
-         * 
-         * @visibility frontend
-         */
-        enabled: boolean
+    platform: {
+        guest: {
+            /**
+             * 
+             * @visibility frontend
+             */
+            enabled: boolean
+        };
+        apiManagement: {
+            /**
+             * 
+             * @visibility frontend
+             */
+            enabled: boolean
+            /**
+             * 
+             * @visibility frontend
+             */
+            readOnlyMode: boolean
+        }
     }
-    /**
-     * 
-     * @visibility frontend
-     */
-    kong: {
-        /**
-         * 
-         * @visibility frontend
-         */
-        readOnlyMode: boolean
-    }
+    // /**
+    //  * 
+    //  * @visibility frontend
+    //  */
+    // kong: {
+    // }
   }

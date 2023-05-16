@@ -5320,7 +5320,7 @@
   resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.4.0.tgz#08d6c5e20cf7e4cc02fd181c4b0c225cd31dbb60"
   integrity sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==
 
-"@k-phoen/backstage-plugin-grafana@^0.1.17":
+"@k-phoen/backstage-plugin-grafana@^0.1.20":
   version "0.1.22"
   resolved "https://registry.yarnpkg.com/@k-phoen/backstage-plugin-grafana/-/backstage-plugin-grafana-0.1.22.tgz#b4dc3b2e4f382d8de9ecfdb966175c81d27f9ad2"
   integrity sha512-YGdfmRm559+MAQRWex2sHZn4tZVG4toSycvdkWYEMl9SNseIJgf1X9gaK7echSZppAOucDqAX8nk7FeCiAqStw==
@@ -9124,7 +9124,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@internal/plugin-scaffolder" "^0.1.0"
     "@internal/plugin-sign-in" "^0.1.0"
     "@internal/plugin-user-settings-platform" "^0.1.0"
-    "@k-phoen/backstage-plugin-grafana" "^0.1.17"
+    "@k-phoen/backstage-plugin-grafana" "^0.1.20"
     "@material-ui/core" "^4.12.2"
     "@material-ui/icons" "^4.9.1"
     "@react-hookz/web" "^20.0.3"

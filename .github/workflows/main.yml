@@ -43,7 +43,7 @@ jobs:
 
     - name: Build Package Helm
       run: |
-        yq e '.image.repository = "ipaasvertigo/devportal" ' -i chart/values.yaml
+        yq e '.image.repository = "veecode/devportal-bundle" ' -i chart/values.yaml
         yq e '.image.tag = "${{ env.version }}" ' -i chart/values.yaml
         yq e '.appVersion= "${{ env.version }}" ' -i chart/Chart.yaml
         cat chart/Chart.yaml
@@ -61,9 +61,9 @@ jobs:
 
       with:
          source_file: "charts/${{ env.chart }}"
-         destination_repo: 'vfipaas/public-charts'
+         destination_repo: 'veecode-platform/public-charts'
          destination_folder: 'charts'
-         destination_branch: 'gh-pages'
+         destination_branch: 'main'
          user_email: '${{ secrets.GIT_EMAIL }}'
          user_name: ${{ secrets.GIT_USER }}'
          commit_message: 'Commit via Pipeline Devportal'

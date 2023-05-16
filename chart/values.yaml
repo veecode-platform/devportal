@@ -1,43 +1,69 @@
-replicaCount: 1
+replicas: 1
 image:
-  repository: ipaasvertigo/devportal
-  tag: 0.2.0
+  repository: veecode/devportal
+  tag: bundle
   pullPolicy: IfNotPresent
 #imagePullSecrets:
-nodeEnv: development
+environment: development
+
 service:
-  name: devportal
+  enabled: true
   type: ClusterIP
   containerPort: 7007
+
 ingress:
   enabled: false
-  tls: false
-  ingressClassName: "kong"
-  annotations: {}
-  hosts:
-    - host:
-        paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: devportal
-              port:
-                number: 80
-#resources:
-  #requests:
-    #memory: 512Mi
-  #limits:
-    #memory: 1024Mi
+  tls: {}
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 250m
+  limits:
+    memory: 1024Mi
+    cpu: 500m
+
 appConfig:
+  title: Devportal
   app:
-    baseUrl: 
+    baseUrl: http://localhost:3000
   backend:
-    baseUrl: 
-auth:
-  okta:
-    clientId: 
-    clientSecret: 
-    audience: 
-githubToken: 
-githubSpecHouseURL: 
+    baseUrl: http://localhost:7007
+    secret: djaskldhaskljdaskljdsklajs
+  database:
+    client: pg
+    connection:
+      host: localhost
+      port: 5432
+      database: platform_devportal
+      user: postgres
+      password: postgres
+
+grafana:
+  enabled: false
+
+argocd:
+  enabled: false
+
+vault:
+  enabled: false
+
+kong:
+  enabled: false
+
+okta: {}
+auth: {}
+
+integrations: {}
+
+catalog:
+  providers: {}
+
+platform:
+  guest:
+    enabled: true
+  apiManagement:
+    enabled: false
+    readOnlyMode: false
+
+kubernetes: {}

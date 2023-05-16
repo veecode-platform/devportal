@@ -9,7 +9,7 @@
 import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-server';
 // Gitlab
 import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
-
+import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend-module-gitlab';
 
  export default async function createPlugin(
  env: PluginEnvironment,
@@ -48,6 +48,19 @@ import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-
           // scheduler: env.scheduler,
         }),
   )
+
+  builder.addEntityProvider(
+    ...GitlabDiscoveryEntityProvider.fromConfig(env.config, {
+      logger: env.logger,
+      // optional: alternatively, use scheduler with schedule defined in app-config.yaml
+      schedule: env.scheduler.createScheduledTaskRunner({
+        frequency: { minutes: 1 },
+        timeout: { minutes: 3 },
+      }),
+      // optional: alternatively, use schedule
+      scheduler: env.scheduler,
+    }),
+  );
 // gitlab provider
 if(env.config.getBoolean("enabledPlugins.gitlabPlugin")) {
    builder.addProcessor(new GitlabFillerProcessor(env.config));

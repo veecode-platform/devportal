@@ -63,7 +63,7 @@ export async function createServiceRouter(
     try {
       const service: ServiceDto = request.body.service;
       let plugins: Array<any> = []
-      if(!options.config.getBoolean("kong.readOnlyMode")) {
+      if(!options.config.getBoolean("platform.apiManagement.readOnlyMode")) {
         plugins = await controllPlugin.applySecurityType(service) as any;
       }
           
