@@ -12,7 +12,7 @@ class DefaultPermissionPolicy implements PermissionPolicy {
       argv: process.argv,
       logger: getRootLogger(),
     });
-    if( request.permission.name === 'apiManagment.access.read' && !config.getBoolean("enabledPlugins.apiManagment")) return { result: AuthorizeResult.DENY };
+    if( request.permission.name === 'apiManagment.access.read' && !config.getBoolean("platform.apiManagement.enabled")) return { result: AuthorizeResult.DENY };
     if (request.permission.name === 'admin.access.read' && user.identity.userEntityRef.split(":")[0] === "user") return { result: AuthorizeResult.DENY };
     
     return { result: AuthorizeResult.ALLOW };

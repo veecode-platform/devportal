@@ -7,10 +7,9 @@ export const adminAccessPermission = createPermission({
     attributes: { action: 'read' },
 });
 
-
-export const apiManagmentEnabledPermission = createPermission({
-    name: 'apiManagment.access.read',
+export const apiManagementEnabledPermission = createPermission({
+    name: 'apiManagement.access.read',
     attributes: { action: 'read' },
 });
 
-export const adminAccessPermissions = [adminAccessPermission, apiManagmentEnabledPermission];
+export const adminAccessPermissions = [adminAccessPermission, apiManagementEnabledPermission];

@@ -45,7 +45,7 @@ import ExtensionIcon from '@material-ui/icons/Extension';
 // import CategoryIcon from '@material-ui/icons/Category';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
 import { usePermission } from '@backstage/plugin-permission-react';
-import { adminAccessPermission, apiManagmentEnabledPermission } from '@internal/plugin-application-common';
+import { adminAccessPermission, apiManagementEnabledPermission } from '@internal/plugin-application-common';
 import CategoryIcon from '@material-ui/icons/Category';
 import LayersIcon from '@material-ui/icons/Layers';
 // import RenderItem from '../Routing/RenderItem';
@@ -84,7 +84,7 @@ const SidebarLogo = () => {
 };
 export const Root = ({ children }: PropsWithChildren<{}>) => { 
   const { loading: loadingPermission, allowed: adminView } = usePermission({permission: adminAccessPermission});
-  const { loading: loadingApiEnabledPermission, allowed: enabledApiManagment } = usePermission({permission: apiManagmentEnabledPermission});
+  const { loading: loadingApiEnabledPermission, allowed: enabledApiManagement } = usePermission({permission: apiManagementEnabledPermission});
 
   return(
   <SidebarPage>
@@ -105,7 +105,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
       </SidebarGroup>
 
       
-      {(!loadingApiEnabledPermission && enabledApiManagment) && (<>
+      {(!loadingApiEnabledPermission && enabledApiManagement) && (<>
         <SidebarGroup label="Api managment" icon={<AppsIcon />}>
           {(!loadingPermission && adminView) && (<>
             <SidebarItem icon={AppsIcon} to="/services" text="Services" />
