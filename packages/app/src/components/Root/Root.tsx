@@ -45,7 +45,7 @@ import ExtensionIcon from '@material-ui/icons/Extension';
 // import CategoryIcon from '@material-ui/icons/Category';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
 import { usePermission } from '@backstage/plugin-permission-react';
-import { adminAccessPermission } from '@internal/plugin-application-common';
+import { adminAccessPermission, apiManagmentEnabledPermission } from '@internal/plugin-application-common';
 import CategoryIcon from '@material-ui/icons/Category';
 import LayersIcon from '@material-ui/icons/Layers';
 // import RenderItem from '../Routing/RenderItem';
@@ -84,6 +84,7 @@ const SidebarLogo = () => {
 };
 export const Root = ({ children }: PropsWithChildren<{}>) => { 
   const { loading: loadingPermission, allowed: adminView } = usePermission({permission: adminAccessPermission});
+  const { loading: loadingApiEnabledPermission, allowed: enabledApiManagment } = usePermission({permission: apiManagmentEnabledPermission});
 
   return(
   <SidebarPage>
@@ -104,14 +105,16 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
       </SidebarGroup>
 
       
+      {(!loadingApiEnabledPermission && enabledApiManagment) && (<>
         <SidebarGroup label="Api managment" icon={<AppsIcon />}>
           {(!loadingPermission && adminView) && (<>
             <SidebarItem icon={AppsIcon} to="/services" text="Services" />
             <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />
           </>)}
-          <SidebarItem icon={LayersIcon} to="/applications" text="Applications"/>     
-          <SidebarDivider />
+          <SidebarItem icon={LayersIcon} to="/applications" text="Applications"/> 
+          <SidebarDivider />   
         </SidebarGroup>
+        </>)}
       
       <SidebarSpace />
       <SidebarDivider />
