@@ -8,11 +8,14 @@ import { loadBackendConfig, getRootLogger } from '@backstage/backend-common';
 
 class DefaultPermissionPolicy implements PermissionPolicy {
   async handle(request: PolicyQuery, user: BackstageIdentityResponse): Promise<PolicyDecision> {
-    const config = await loadBackendConfig({
-      argv: process.argv,
-      logger: getRootLogger(),
-    });
-    if( request.permission.name === 'apiManagement.access.read' && !config.getBoolean("platform.apiManagement.enabled")) return { result: AuthorizeResult.DENY };
+    if( request.permission.name === 'apiManagement.access.read'){
+      const config = await loadBackendConfig({
+        argv: process.argv,
+        logger: getRootLogger(),
+      });
+
+      if(!config.getBoolean("platform.apiManagement.enabled")) return { result: AuthorizeResult.DENY };
+    }  
     if (request.permission.name === 'admin.access.read' && user.identity.userEntityRef.split(":")[0] === "user") return { result: AuthorizeResult.DENY };
     
     return { result: AuthorizeResult.ALLOW };
