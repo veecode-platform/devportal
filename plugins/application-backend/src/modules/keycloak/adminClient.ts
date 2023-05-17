@@ -5,21 +5,24 @@ export class KeycloakAdminClient {
   public async getClient(): Promise<KcAdminClient> { // 
     const config = await PlatformConfig.Instance.getConfig();
     const baseUrl = config.getString("auth.providers.keycloak.development.baseUrl")
+    const user = config.getString("auth.providers.keycloak.development.username")
+    const password = config.getString("auth.providers.keycloak.development.password")
+
     const kcAdminClient = new KcAdminClient({
       baseUrl: baseUrl,
       realmName: 'master',
     });
     
     // Authorize with username / password
-      await kcAdminClient.auth({
-        username: 'admin',
-        password: 'admin',
-        grantType: 'password',
-        clientId: 'admin-cli',
-      });
-      kcAdminClient.setConfig({
-        realmName: 'platform-devportal',
-      });
+    await kcAdminClient.auth({
+      username: user,
+      password: password,
+      grantType: 'password',
+      clientId: 'admin-cli',
+    });
+    kcAdminClient.setConfig({
+      realmName: 'platform-devportal',
+    });
       return kcAdminClient
   }
 }
