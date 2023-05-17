@@ -204,6 +204,7 @@ auth:
         clientId: ${KEYCLOAK_CLIENT_ID}
         clientSecret: ${KEYCLOAK_CLIENT_SECRET}
         prompt: auto
+        baseUrl: ${KEYCLOAK_BASE_URL}
 
     github:
       development:

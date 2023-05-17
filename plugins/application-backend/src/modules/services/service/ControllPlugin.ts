@@ -26,7 +26,6 @@ export class ControllPlugin {
   public async applySecurityType(service: ServiceDto) {  
     try {
       const consumerGroupService = new ConsumerGroupService();
-      if(service.securityType?.toString() === "none") return;
       const plugins = []
 
       const consumerGroup: ConsumerGroup = new ConsumerGroup(`${service.kongServiceName}-group`);

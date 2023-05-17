@@ -1,9 +1,12 @@
 import KcAdminClient from '@keycloak/keycloak-admin-client';
+import { PlatformConfig } from '../utils/PlatformConfig';
 
 export class KeycloakAdminClient {
-  public async getClient(): Promise<KcAdminClient> {
+  public async getClient(): Promise<KcAdminClient> { // 
+    const config = await PlatformConfig.Instance.getConfig();
+    const baseUrl = config.getString("auth.providers.keycloak.development.baseUrl")
     const kcAdminClient = new KcAdminClient({
-      baseUrl: 'http://127.0.0.1:8080',
+      baseUrl: baseUrl,
       realmName: 'master',
     });
     
@@ -28,6 +31,3 @@ export class TestGroups {
     return groups;
   }
 }
-
-
-

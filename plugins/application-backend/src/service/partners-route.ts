@@ -26,7 +26,6 @@ export async function createPartnersRouter(
   const router = Router();
 
   router.get('/applications/:idPartner', async (request, response) => {
-    console.log('aqui')
     const code = request.params.idPartner
     const applications = await partnerApplicationRepository.getApplicationsByPartner(code)
     response.status(200).json({ applications: applications })
