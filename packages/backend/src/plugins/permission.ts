@@ -4,18 +4,15 @@ import { AuthorizeResult, PolicyDecision } from '@backstage/plugin-permission-co
 import { PermissionPolicy, PolicyQuery} from '@backstage/plugin-permission-node';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
-import { loadBackendConfig, getRootLogger } from '@backstage/backend-common';
+import { Config } from '@backstage/config';
 
 class DefaultPermissionPolicy implements PermissionPolicy {
+  env: Config;
+  constructor(env: Config) {
+    this.env = env;   
+  }
   async handle(request: PolicyQuery, user: BackstageIdentityResponse): Promise<PolicyDecision> {
-    if( request.permission.name === 'apiManagement.access.read'){
-      const config = await loadBackendConfig({
-        argv: process.argv,
-        logger: getRootLogger(),
-      });
-
-      if(!config.getBoolean("platform.apiManagement.enabled")) return { result: AuthorizeResult.DENY };
-    }  
+    if( request.permission.name === 'apiManagement.access.read' && !this.env.getBoolean("platform.apiManagement.enabled") ) return {result: AuthorizeResult.DENY};    
     if (request.permission.name === 'admin.access.read' && user.identity.userEntityRef.split(":")[0] === "user") return { result: AuthorizeResult.DENY };
     
     return { result: AuthorizeResult.ALLOW };
@@ -29,7 +26,7 @@ export default async function createPlugin(
     config: env.config,
     logger: env.logger,
     discovery: env.discovery,
-    policy: new DefaultPermissionPolicy(),
+    policy: new DefaultPermissionPolicy(env.config),
     identity: env.identity,
   });
 }
