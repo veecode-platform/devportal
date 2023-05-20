@@ -60,6 +60,8 @@ import { useGuest } from './Hooks/useGuest';
 import { GuestUserIdentity } from '@internal/plugin-sign-in/src/components/providers/guestUserIdentity';
 // import { RequirePermission } from '@backstage/plugin-permission-react';
 // import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
+import { ExplorePage } from '@backstage/plugin-explore';
+
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const Guest = useGuest();
@@ -127,6 +129,7 @@ const routes = (
     <Route path="/" element={<HomepageCompositionRoot />}>
       <HomePage />
     </Route>
+    <Route path="/explore" element={<ExplorePage />} />
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route path="/catalog-import" element={<CatalogImportPage />}/>
     <Route path="/catalog/:namespace/:kind/:name" element={<CatalogEntityPage />}>
