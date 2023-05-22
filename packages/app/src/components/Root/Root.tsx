@@ -33,7 +33,7 @@ import {
   SidebarItem,
   SidebarPage,
   // SidebarScrollWrapper,
-  SidebarSpace,
+  // SidebarSpace,
 } from '@backstage/core-components';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
