@@ -9,7 +9,7 @@ import {
   Content,
   ContentHeader,
 } from '@backstage/core-components';
-import { ICreateService } from '../utils/interfaces';
+// import { ICreateService } from '../utils/interfaces';
 import { FetchKongServices } from '../utils/kongUtils';
 import { securityItems } from '../utils/common';
 import { Select } from '../../shared';
@@ -20,10 +20,10 @@ import Help from '@material-ui/icons/HelpOutline';
 export const CreateComponent = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<boolean>(false)
-  const [service, setService] = useState<ICreateService>({
+  const [service, setService] = useState<any>({
     name: '',
     kongServiceName:'',
-    active: true,
+    active: '',
     description: '',
     kongServiceId: '',
     securityType: '',
@@ -65,7 +65,7 @@ export const CreateComponent = () => {
     const securityTypeCheck = kongReadOnlyMode ? false : applySecurity ? service.securityType==="" : false
     const rateLimitCheck = kongReadOnlyMode ? false : applyRateLimit ? service.rateLimiting===0 : false
 
-    const x = service.name.length===0 || service.kongServiceId==="" || service.description.length===0 || securityTypeCheck || rateLimitCheck;
+    const x = service.name.length===0 || service.kongServiceId==="" || service.description.length===0 || securityTypeCheck || rateLimitCheck || service.active ==="";
     setError(x)
   }, [service, applyRateLimit, applySecurity])
 

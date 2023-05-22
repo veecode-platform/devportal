@@ -58,8 +58,8 @@ import { SignInPage } from '@internal/plugin-sign-in/src/components/SignInPage';
 import { useGuest } from './Hooks/useGuest';
 // import { useApiManagement } from './Hooks/apiManagement';
 import { GuestUserIdentity } from '@internal/plugin-sign-in/src/components/providers/guestUserIdentity';
-
-
+// import { RequirePermission } from '@backstage/plugin-permission-react';
+// import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const Guest = useGuest();
@@ -128,18 +128,8 @@ const routes = (
       <HomePage />
     </Route>
     <Route path="/catalog" element={<CatalogIndexPage />} />
-    <Route
-      path="/catalog-import"
-      element={
-        // <RequirePermission permission={catalogEntityCreatePermission}>
-        <CatalogImportPage />
-        // </RequirePermission>
-      }
-    />
-    <Route
-      path="/catalog/:namespace/:kind/:name"
-      element={<CatalogEntityPage />}
-    >
+    <Route path="/catalog-import" element={<CatalogImportPage />}/>
+    <Route path="/catalog/:namespace/:kind/:name" element={<CatalogEntityPage />}>
       {entityPage}
     </Route>
     <Route
