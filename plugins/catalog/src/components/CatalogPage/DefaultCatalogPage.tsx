@@ -57,7 +57,7 @@ import { Entity } from '@backstage/catalog-model';
   export function DefaultCatalogPage(props: DefaultCatalogPageProps) {
     const {
       columns,
-      actions,
+      actions, 
       initiallySelectedFilter = 'owned',
       initialKind = 'component',
       tableOptions = {},
@@ -65,9 +65,11 @@ import { Entity } from '@backstage/catalog-model';
     const orgName =
       useApi(configApiRef).getOptionalString('organization.name') ?? 'Backstage';
     const createComponentLink = useRouteRef(createComponentRouteRef);
-  
+    const generatedSubtitle = "Find APIs, Components, and Templates";
+
+
     return (
-      <PageWithHeader title={`${orgName} Catalog`} themeId="home">
+      <PageWithHeader title={`${orgName} Catalog`} subtitle={generatedSubtitle} themeId="home">
         <EntityListProvider>
           <Content>
             <ContentHeader

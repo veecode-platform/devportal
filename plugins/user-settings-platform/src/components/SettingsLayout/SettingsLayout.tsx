@@ -71,7 +71,7 @@ export const SettingsLayout = (props: SettingsLayoutProps) => {
 
   return (
     <Page themeId="home">
-      {!isMobile && <Header title={title ?? 'Settings'} />}
+      {!isMobile && <Header title={title ?? 'Settings'} subtitle="Manage Platform Settings" />}
       <RoutedTabs routes={routes} />
     </Page>
   );
