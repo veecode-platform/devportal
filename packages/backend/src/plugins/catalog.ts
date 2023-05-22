@@ -26,15 +26,15 @@ import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend
    }),
   );
 
-  builder.addEntityProvider(
-    BitbucketCloudEntityProvider.fromConfig(env.config, {
-      logger: env.logger,
-     schedule: env.scheduler.createScheduledTaskRunner({
-         frequency: { minutes: 1 },
-         timeout: { minutes: 3 },
-       }),
-    }),
-  )
+  // builder.addEntityProvider(
+  //   BitbucketCloudEntityProvider.fromConfig(env.config, {
+  //     logger: env.logger,
+  //    schedule: env.scheduler.createScheduledTaskRunner({
+  //        frequency: { minutes: 1 },
+  //        timeout: { minutes: 3 },
+  //      }),
+  //   }),
+  // )
 
   builder.addEntityProvider(
     BitbucketServerEntityProvider.fromConfig(env.config, {

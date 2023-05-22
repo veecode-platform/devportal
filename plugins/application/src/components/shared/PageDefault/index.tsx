@@ -11,6 +11,7 @@ import {
 
 interface Props {
   title: string,
+  subtitle: string,
   refresh?: string,
   add: string,
   labelButton: string,
@@ -18,10 +19,10 @@ interface Props {
 }
 // TO DO >> Makestyles for button
 
-export const PageDefault = ({ title, refresh, add, labelButton, children }: Props) => (
+export const PageDefault = ({ title, subtitle, refresh, add, labelButton, children }: Props) => (
 
   <Page themeId="tool">
-    <Header title={title}> </Header>
+    <Header title={title} subtitle={subtitle}> </Header>
     <Content>
       <ContentHeader title=''>
         <Grid item xs={12} >

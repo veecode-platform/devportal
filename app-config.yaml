@@ -130,9 +130,9 @@ integrations:
   github:
     - host: github.com
       token: ${GITHUB_TOKEN_SECRET}
-  bitbucketCloud:
-    - username: ${BITBUCKET_CLOUD_USERNAME}
-      appPassword: ${BITBUCKET_CLOUD_TOKEN}
+  # bitbucketCloud:
+  #   - username: ${BITBUCKET_CLOUD_USERNAME}
+  #     appPassword: ${BITBUCKET_CLOUD_TOKEN}
   bitbucketServer:
     - host: ${BITBUCKET_SERVER_HOST}
       apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
@@ -154,13 +154,13 @@ catalog:
           repository: devportal-catalog # Regex
           validateLocationsExist: true
 
-    bitbucketCloud:
-      yourProviderId: # identifies your ingested dataset
-        catalogPath: /catalog-info.yaml # default value
-        filters: # optional
-        # projectKey: 'DEV' # optional; RegExp
-          repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
-        workspace: ${BITBUCKET_CLOUD_WORKSPACE}
+    # bitbucketCloud:
+    #   yourProviderId: # identifies your ingested dataset
+    #     catalogPath: /catalog-info.yaml # default value
+    #     filters: # optional
+    #     # projectKey: 'DEV' # optional; RegExp
+    #       repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
+    #     workspace: ${BITBUCKET_CLOUD_WORKSPACE}
 
     bitbucketServer:
       yourProviderId:
@@ -223,7 +223,7 @@ platform:
 
   apiManagement:
     enabled: true
-    readOnlyMode: ${KONG_READ_ONLY_MODE} #boolean
+    readOnlyMode: false #boolean
 
 vault:
   baseUrl: ${VAULT_BASE_URL}
