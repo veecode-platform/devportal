@@ -20,7 +20,7 @@ export const GithubRepoPicker = (props: {
 
   const { owner } = state;
 
-  const [ownerData, setOwnerData ] = useState<string>("teste");
+  const [ownerData, setOwnerData ] = useState<string>("");
   const [orgs, setOrgs] = useState<string[]>();
   const [orgsItems, setOrgsItems] = useState<SelectItem[]>();
   const { githubTokenIntegration } = useIntegrations();
