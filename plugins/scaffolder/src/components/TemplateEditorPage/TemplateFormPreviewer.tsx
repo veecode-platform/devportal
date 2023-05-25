@@ -68,6 +68,17 @@ parameters:
         ui:options:
           allowedHosts:
             - github.com
+  - title: Choose project repository
+    required:
+      - repoUrl
+    properties:
+      repoUrl:
+        title: Repository Location
+        type: string
+        ui:field: RepoUrlCustom
+        ui:options:
+          allowedHosts:
+            - github.com
 steps:
   - id: fetch-base
     name: Fetch Base

@@ -42,17 +42,18 @@ export async function getOwnerGitlab(token:string): Promise<string>{
         const response = await axios.get( GITLAB_USER_URL ,{ headers });
 
         if (response.status === 200){
+            console.log("data vindo do scaffolder", response);
             const owner = response.data.username;
             return owner
         }
         else {
             // lançar um erro  --- ver se vou retornar um array vazio ou disparar um erro
             console.log('Error');
-            return "not found";
+            return "Not found";
         }
     }
     catch(error){
         console.log('Error');
-        return "not found"
+        return "Not found"
     }
 }

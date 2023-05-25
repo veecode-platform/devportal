@@ -25,7 +25,7 @@ export const GitlabRepoPicker = (props: {
   const [orgs, setOrgs] = useState<string[]>();
   const [orgsItems, setOrgsItems] = useState<SelectItem[]>();
   const { gitlabTokenIntegration } = useIntegrations();
-  const messageError = "Missing integration configuration";
+  const messageLoading = "loading ...";
 
   const ownerList = [
     {
@@ -47,8 +47,8 @@ export const GitlabRepoPicker = (props: {
     }
     else{
       return [{
-        label: messageError,
-        value: messageError
+        label: messageLoading,
+        value: messageLoading
       }]
     }
   }
@@ -67,8 +67,8 @@ export const GitlabRepoPicker = (props: {
 
         }catch(err){
           console.log(err)
-          setOwnerData(messageError);
-          setOrgs([messageError]);
+          setOwnerData(messageLoading);
+          setOrgs([messageLoading]);
         }
       }
       fetchData()
@@ -76,7 +76,7 @@ export const GitlabRepoPicker = (props: {
 
   useEffect(()=>{
     const data = orgsList();
-    setOrgsItems( data != undefined ? data : [{label: messageError, value: messageError}]);
+    setOrgsItems( data != undefined ? data : [{label: messageLoading, value: messageLoading}]);
   },[orgs])
 
   return (
