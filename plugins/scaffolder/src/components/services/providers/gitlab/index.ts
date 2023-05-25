@@ -35,7 +35,7 @@ export async function getOrgsGitlab(token:string): Promise<string[]>{
 
 export async function getOwnerGitlab(token:string): Promise<string>{
     const headers = {
-        Authorization: `PRIVATE-TOKEN ${token}`
+        Authorization: `Bearer ${token}`
     }
 
     try{
