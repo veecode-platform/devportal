@@ -109,7 +109,7 @@ export const columnFactories = Object.freeze({
       title: 'Tags',
       field: 'entity.metadata.tags',
       cellStyle: {
-        padding: '0px 16px 0px 20px',
+        padding: '.8em .5em',
       },
       render: ({ entity }) => (
         <>
@@ -120,7 +120,7 @@ export const columnFactories = Object.freeze({
                 label={t}
                 size="small"
                 variant="outlined"
-                style={{ marginBottom: '0px' }}
+                style={{ margin:'0.2em' }}
               />
             ))}
         </>
