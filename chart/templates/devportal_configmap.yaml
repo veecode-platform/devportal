@@ -127,6 +127,12 @@ data:
       {{- if .Values.integrations.gitlab  }}
       gitlab:
       - host: {{ .Values.integrations.gitlab.host | default "gitlab.com" | quote }}
+        {{- if .Values.integrations.gitlab.apiBaseUrl }}
+        apiBaseUrl: {{ .Values.integrations.gitlab.apiBaseUrl | quote }}
+        {{- end }}
+        {{- if .Values.integrations.gitlab.baseUrl }}
+        baseUrl: {{ .Values.integrations.gitlab.baseUrl | quote }}
+        {{- end }}
         token: ${GITLAB_TOKEN_SECRET}
       {{- end }}
     {{- end }}
@@ -165,10 +171,14 @@ data:
         {{- if .Values.catalog.providers.gitlab }}
         gitlab:
           yourProviderId:
-            host: ${CATALOG_GITLAB_HOST} 
-            branch: ${CATALOG_GITLAB_BRANCH} 
-            group: ${CATALOG_GITLAB_GROUP_NAME} 
-            entityFilename: ${CATALOG_GITLAB_ENTITY_FILE_NAME} 
+            host: {{ .Values.catalog.providers.gitlab.host | default "gitlab.com" | quote }}
+            orgEnabled: {{ .Values.catalog.providers.gitlab.orgEnabled | default false }}
+            branch: {{ .Values.catalog.providers.gitlab.branch | default "main" | quote }} 
+            group: {{ .Values.catalog.providers.gitlab.group | quote }}
+            entityFilename: {{ .Values.catalog.providers.gitlab.entityFilename | default "catalog-info.yaml" | quote }}
+            {{- if .Values.catalog.providers.gitlab.projectPattern}}
+            projectPattern: {{ .Values.catalog.providers.gitlab.projectPattern | quote }}
+            {{- end }}
         {{- end }}
     {{- end }}
       {{- if .Values.locations }}
@@ -176,11 +186,11 @@ data:
         - type: {{- indent 1 .type }}
           target: {{- indent 1 .target }}
       {{- end }}
-      {{- else}}
-      locations:
-        - type: url
-          target: https://github.com/veecode-platform/devportal-catalog/blob/master/catalog-info.yaml
-      {{- end }}
+      # {{- else}}
+      # locations:
+      #   - type: url
+      #     target: https://github.com/veecode-platform/devportal-catalog/blob/master/catalog-info.yaml
+      # {{- end }}
     auth:
       environment: {{ .Values.auth.environment | default "development" | quote }}
       session:
@@ -194,6 +204,15 @@ data:
             clientId: ${KEYCLOAK_CLIENT_ID}
             clientSecret: ${KEYCLOAK_CLIENT_SECRET}
             prompt: {{ .Values.auth.providers.keycloak.prompt | default "auto"}}
+            baseUrl: ${KEYCLOAK_BASE_URL}
+            {{- if .Values.auth.providers.keycloak.admin }}
+            {{- if .Values.auth.providers.keycloak.admin.username }}
+            username: ${KEYCLOAK_ADMIN_USERNAME}
+            {{- end }}
+            {{- if .Values.auth.providers.keycloak.admin.password }}
+            password: ${KEYCLOAK_ADMIN_PASSWORD}
+            {{- end }}
+            {{- end }}
         {{- end }}
         {{- if .Values.auth.providers.github }}
         github:
@@ -207,6 +226,7 @@ data:
       grafana: {{ .Values.grafana.enabled | default false }}
       kubernetes: {{ .Values.kubernetes.enabled | default false }}
       argocd: {{ .Values.argocd.enabled | default false }}
+      gitlabPlugin: {{ hasKey .Values.integrations "gitlab" }}
     platform:
       guest:
         enabled: {{ .Values.platform.guest.enabled | default false }}
