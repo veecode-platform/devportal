@@ -70,7 +70,7 @@ import {
       return [
         columnFactories.createNameColumn({ defaultKind: filters.kind?.value }),
         ...createEntitySpecificColumns(),
-        columnFactories.createMetadataDescriptionColumn(),
+      //  columnFactories.createMetadataDescriptionColumn(),
         columnFactories.createTagsColumn(),
       ];
   
@@ -87,7 +87,7 @@ import {
             return [columnFactories.createSpecTypeColumn()];
           default:
             return [
-              columnFactories.createSystemColumn(),
+            //  columnFactories.createSystemColumn(),
               columnFactories.createOwnerColumn(),
               columnFactories.createSpecTypeColumn(),
               columnFactories.createSpecLifecycleColumn(),
