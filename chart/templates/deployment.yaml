@@ -11,6 +11,8 @@ spec:
     metadata:
       labels:
         app: devportal
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/devportal_configmap.yaml") . | sha256sum }}        
     spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:

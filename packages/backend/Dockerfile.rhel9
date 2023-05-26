@@ -1,0 +1,35 @@
+# This dockerfile builds an image for the backend package.
+# It should be executed with the root of the repo as docker context.
+#
+# Before building this image, be sure to have run the following commands in the repo root:
+#
+# yarn install
+# yarn tsc
+# yarn build
+#
+# Once the commands have been run, you can build the image using `yarn build-image`
+
+FROM registry.redhat.io/rhel9/nodejs-16:latest
+
+USER root
+
+RUN yum update -y && yum upgrade -y
+RUN yum install -y python3 python3-pip
+
+USER default
+
+WORKDIR /app
+
+COPY yarn.lock package.json packages/backend/dist/skeleton.tar.gz ./
+
+RUN tar -xzf skeleton.tar.gz && rm skeleton.tar.gz
+RUN pip3 install mkdocs-techdocs-core==1.0.1
+RUN npm install -g yarn
+RUN yarn install --frozen-lockfile --production --network-timeout 300000 && rm -rf "$(yarn cache dir)"
+
+# Then copy the rest of the backend bundle, along with any other files we might want.
+COPY packages/backend/dist/bundle.tar.gz app-config.yaml ./
+RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
+RUN file="$(ls /app/plugins/application-backend/migrations/)" && echo $file
+
+CMD ["node", "packages/backend", "--config", "app-config.yaml"]
