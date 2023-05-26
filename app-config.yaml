@@ -130,6 +130,7 @@ integrations:
   github:
     - host: github.com
       token: ${GITHUB_TOKEN_SECRET}
+      tokenFrontEnd: ${GITHUB_TOKEN_SECRET}
   # bitbucketCloud:
   #   - username: ${BITBUCKET_CLOUD_USERNAME}
   #     appPassword: ${BITBUCKET_CLOUD_TOKEN}
@@ -140,6 +141,7 @@ integrations:
   gitlab:
    - host: gitlab.com
      token: ${GITLAB_TOKEN_SECRET}
+     tokenFrontEnd: ${GITLAB_TOKEN_SECRET}
 
 catalog:
   rules:
