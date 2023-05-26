@@ -33,7 +33,7 @@ export async function getOrgsGithub(token:string): Promise<string[]>{
     }
 }
 
-export async function getOwnerGithub(token:string): Promise<string>{
+export async function getUserGithub(token:string): Promise<string>{
     const headers = {
         Authorization: `token ${token}`
     }

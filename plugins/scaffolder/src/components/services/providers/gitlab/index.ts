@@ -33,7 +33,7 @@ export async function getOrgsGitlab(token:string): Promise<string[]>{
     }
 }
 
-export async function getOwnerGitlab(token:string): Promise<string>{
+export async function getUserGitlab(token:string): Promise<string>{
     const headers = {
         Authorization: `Bearer ${token}`
     }

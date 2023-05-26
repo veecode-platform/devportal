@@ -1,2 +1,2 @@
-export * from "./GetOrgsType";
-export * from "./GetOwnerType";
+export * from "./ParamsService";
+export * from "./ResponseType";

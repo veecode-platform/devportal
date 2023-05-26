@@ -1,2 +1,3 @@
 export * from './getOrgs';
-export * from './getOwner';
+export * from './getUser';
+export * from './getUserAndOrgs';
