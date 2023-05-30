@@ -20,7 +20,6 @@ export async function getOrgsGithub(token:string): Promise<string[]>{
             return orgsList
         }
         else {
-            // lançar um erro  --- ver se vou retornar um array vazio ou disparar um erro
             console.log('Error');
             orgsList.push("Not orgs");
             return orgsList;
@@ -46,7 +45,6 @@ export async function getUserGithub(token:string): Promise<string>{
             return owner
         }
         else {
-            // lançar um erro  --- ver se vou retornar um array vazio ou disparar um erro
             console.log('Error');
             return "not found";
         }

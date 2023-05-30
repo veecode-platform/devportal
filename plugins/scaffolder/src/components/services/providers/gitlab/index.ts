@@ -20,7 +20,6 @@ export async function getOrgsGitlab(token:string): Promise<string[]>{
             return orgsList;
         }
         else {
-            // lançar um erro  --- ver se vou retornar um array vazio ou disparar um erro
             console.log('Error');
             orgsList.push("Not Orgs");
             return orgsList;
@@ -47,7 +46,6 @@ export async function getUserGitlab(token:string): Promise<string>{
             return owner
         }
         else {
-            // lançar um erro  --- ver se vou retornar um array vazio ou disparar um erro
             console.log('Error');
             return "Not found";
         }
