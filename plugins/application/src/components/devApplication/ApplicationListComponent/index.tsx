@@ -59,6 +59,7 @@ export const ApplicationListComponent = () => {
   return(
     <PageDefault
     title="Application for Partners"
+    subtitle="Create and Manage Applications"
     add="new-application"
     labelButton="CREATE APPLICATION"
     refresh='/applications'

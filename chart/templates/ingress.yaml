@@ -2,23 +2,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: "devportal"
+  name: {{ include "devportal-charts.fullname" . }}
+  {{- if or .Values.ingress.tls.secretName .Values.ingress.annotations }}
   annotations:
-    {{- if eq .Values.ingress.className "nginx" }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-    {{- end }}
-    {{- if eq .Values.ingress.className "kong" }}
-    {{- if .Values.ingress.tls.secretName }}
-    konghq.com/https-redirect-status-code: "308"
-    konghq.com/preserve-host: "true"
-    konghq.com/protocols: "https"
-    {{- end }}
-    konghq.com/strip-path: "false"
-    {{- end }}
     {{- if .Values.ingress.tls.secretName }}
     cert-manager.io/cluster-issuer: certmanager-issuer
     kubernetes.io/tls-acme: "true"
     {{- end }}
+    {{- if .Values.ingress.annotations }}
+    {{- .Values.ingress.annotations | toYaml | nindent 4}}
+    {{- end }}
+  {{- end }}
   labels:
     app.kubernetes.io/name: {{ .Chart.Name }}
 spec:

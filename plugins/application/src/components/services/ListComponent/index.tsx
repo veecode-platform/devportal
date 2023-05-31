@@ -59,6 +59,7 @@ export const ListComponent = () => {
   return(
     <PageDefault
       title="Services"
+      subtitle="Manage and Monitor Services"
       add="create-service"
       labelButton="CREATE SERVICE"
       refresh='/services'

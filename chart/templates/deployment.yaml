@@ -11,6 +11,8 @@ spec:
     metadata:
       labels:
         app: devportal
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/devportal_configmap.yaml") . | sha256sum }}        
     spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -33,7 +35,11 @@ spec:
                 name: {{ include "devportal-charts.fullname" . }}-app-env
           env:
             - name: NODE_ENV
-              value: {{ .Values.environment | default "development" }}      
+              value: {{ .Values.environment | default "development" }}
+            {{- range .Values.extraEnv }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
           volumeMounts:
           - name: app-config
             mountPath: /app/app-config.yaml

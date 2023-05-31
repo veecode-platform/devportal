@@ -33,7 +33,7 @@ import {
   SidebarItem,
   SidebarPage,
   // SidebarScrollWrapper,
-  SidebarSpace,
+  // SidebarSpace,
 } from '@backstage/core-components';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
@@ -82,50 +82,47 @@ const SidebarLogo = () => {
     </div>
   );
 };
-export const Root = ({ children }: PropsWithChildren<{}>) => { 
-  const { loading: loadingPermission, allowed: adminView } = usePermission({permission: adminAccessPermission});
-  const { loading: loadingApiEnabledPermission, allowed: enabledApiManagement } = usePermission({permission: apiManagementEnabledPermission});
+export const Root = ({ children }: PropsWithChildren<{}>) => {
+  const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
+  const { loading: loadingApiEnabledPermission, allowed: enabledApiManagement } = usePermission({ permission: apiManagementEnabledPermission });
 
-  return(
-  <SidebarPage>
-    <Sidebar>
-      <SidebarLogo />     
-      <SidebarDivider />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>
-        <SidebarItem icon={HomeIcon} to="/" text="Home" />
-        {(!loadingPermission && adminView) && (
-          <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" /> 
-        )}
-        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-        {(!loadingPermission && adminView) && (<>
-          <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />
-          <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
-        </>)}
+  return (
+    <SidebarPage>
+      <Sidebar>
+        <SidebarLogo />
         <SidebarDivider />
-      </SidebarGroup>
-
-      
-      {(!loadingApiEnabledPermission && enabledApiManagement) && (<>
-        <SidebarGroup label="Api managment" icon={<AppsIcon />}>
+        <SidebarGroup label="Menu" icon={<MenuIcon />}>
+          <SidebarItem icon={HomeIcon} to="/" text="Home" />
           {(!loadingPermission && adminView) && (<>
-            <SidebarItem icon={AppsIcon} to="/services" text="Services" />
-            <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />
-          </>)}
-          <SidebarItem icon={LayersIcon} to="/applications" text="Applications"/> 
-          <SidebarDivider />   
+            <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
+            <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />
+          </> )}     
+          <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
+          {(!loadingPermission && adminView) && (
+            <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+          )}
+          <SidebarDivider />
+        </SidebarGroup>     
+        {(!loadingApiEnabledPermission && enabledApiManagement) && (<>
+          <SidebarGroup label="Api managment" icon={<AppsIcon />}>
+            {(!loadingPermission && adminView) && (<>
+              <SidebarItem icon={AppsIcon} to="/services" text="Services" />
+              <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />
+            </>)}
+            <SidebarItem icon={LayersIcon} to="/applications" text="Applications" />
+            <SidebarDivider />
+          </SidebarGroup>
+        </>)}
+
+        <SidebarGroup
+          label="Settings"
+          icon={<UserSettingsSignInAvatar />}
+          to="/settings"
+        >
+          <SidebarSettings />
         </SidebarGroup>
-      </>)}
-      
-      <SidebarSpace />
-      <SidebarDivider />
-      <SidebarGroup
-        label="Settings"
-        icon={<UserSettingsSignInAvatar />}
-        to="/settings"
-      >
-        <SidebarSettings />
-      </SidebarGroup>
-    </Sidebar>
-    {children}
-  </SidebarPage>
-)};
+      </Sidebar>
+      {children}
+    </SidebarPage>
+  )
+};

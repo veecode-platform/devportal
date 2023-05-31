@@ -13,6 +13,7 @@ service:
 
 ingress:
   enabled: false
+  annotations: {}
   tls: {}
 
 resources:

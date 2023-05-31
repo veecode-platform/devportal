@@ -9,33 +9,38 @@
 #
 # Once the commands have been run, you can build the image using `yarn build-image`
 
-FROM node:16-bullseye-slim
-#FROM node:18.16.0-alpine 
+FROM registry.redhat.io/rhel9/nodejs-16:latest
 
-WORKDIR /app
+USER root
 
 # Copy repo skeleton first, to avoid unnecessary docker cache invalidation.
 # The skeleton contains the package.json of each package in the monorepo,
 # and along with yarn.lock and the root package.json, that's enough to run yarn install.
-COPY yarn.lock package.json packages/backend/dist/skeleton.tar.gz ./
-RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
 # install sqlite3 dependencies
-#RUN apt-get update && apt-get upgrade -y && \
-#    apt-get install -y libsqlite3-dev python3 cmake g++ python3-pip && \
+#RUN yum update && yum upgrade -y && \
+#    yum install -y libsqlite3-dev python3 cmake g++ python3-pip && \
 #    rm -rf /var/lib/apt/lists/* && \
 #    yarn config set python /usr/bin/python3
 #
-RUN apt-get update && apt-get upgrade -y
+RUN yum update -y && yum upgrade -y
 #RUN pip3 install mkdocs-techdocs-core==1.0.1
-RUN apt-get update && apt-get install -y python3 python3-pip
+RUN yum install -y python3 python3-pip
+USER default
+WORKDIR /app
+COPY yarn.lock package.json packages/backend/dist/skeleton.tar.gz ./
+RUN tar -xzf skeleton.tar.gz && rm skeleton.tar.gz
 RUN pip3 install mkdocs-techdocs-core==1.0.1
-
+RUN npm install -g yarn
 RUN yarn install --frozen-lockfile --production --network-timeout 300000 && rm -rf "$(yarn cache dir)"
-
 # Then copy the rest of the backend bundle, along with any other files we might want.
 COPY packages/backend/dist/bundle.tar.gz app-config.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
-# RUN file="$(ls /app/plugins/application-backend/migrations/)" && echo $file
+RUN file="$(ls /app/plugins/application-backend/migrations/)" && echo $file
+
+USER root
+RUN chown -R 1001:0 /app && chmod -R ug+rwx /app && \
+    rpm-file-permissions
+USER default
 
 CMD ["node", "packages/backend", "--config", "app-config.yaml"]

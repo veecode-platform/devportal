@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       ...theme.typography.h4,
+      borderRadius:'5px',
+      backgroundColor:theme.palette.background.paper,
+      padding:"0.3em 0.5em ",
+      border:'1px solid lightgrey'
     },
   }),
 );
@@ -104,8 +108,8 @@ export function CatalogKindHeader(props: CatalogKindHeaderProps) {
     allKinds?.filter(k =>
       allowedKinds
         ? allowedKinds.some(
-            a => a.toLocaleLowerCase('en-US') === k.toLocaleLowerCase('en-US'),
-          )
+          a => a.toLocaleLowerCase('en-US') === k.toLocaleLowerCase('en-US'),
+        )
         : true,
     ) ?? [],
   );
@@ -115,17 +119,17 @@ export function CatalogKindHeader(props: CatalogKindHeaderProps) {
   }, {} as Record<string, string>);
 
   return (
-    <Select
-      input={<InputBase value={selectedKind} />}
-      value={selectedKind}
-      onChange={e => setSelectedKind(e.target.value as string)}
-      classes={classes}
-    >
-      {Object.keys(options).map(kind => (
-        <MenuItem value={kind} key={kind}>
-          {`${options[kind]}s`}
-        </MenuItem>
-      ))}
-    </Select>
+      <Select
+        input={<InputBase value={selectedKind} />}
+        value={selectedKind}
+        onChange={e => setSelectedKind(e.target.value as string)}
+        classes={classes}
+      >
+        {Object.keys(options).map(kind => (
+          <MenuItem value={kind} key={kind}>
+            {`${options[kind]}s`}
+          </MenuItem>
+        ))}
+      </Select>
   );
 }
