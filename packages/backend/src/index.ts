@@ -81,7 +81,6 @@ async function main() {
   const createEnv = makeCreateEnv(config);
   const apiRouter = Router();
 
-  const applicationEnv = useHotMemoize(module, () => createEnv('application'));
   const catalogEnv = useHotMemoize(module, () => createEnv('catalog'));
   const scaffolderEnv = useHotMemoize(module, () => createEnv('scaffolder'));
   const authEnv = useHotMemoize(module, () => createEnv('auth'));
@@ -90,11 +89,12 @@ async function main() {
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
-  // const gitlabEnv = useHotMemoize(module, () => createEnv('gitlab'));
-  // const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
-  // const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
-  // const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
-  
+
+  if(config.getOptionalBoolean("platform.apiManagement.enabled")){
+    const applicationEnv = useHotMemoize(module, () => createEnv('application'));
+    apiRouter.use('/devportal', await application(applicationEnv));
+  }
+ 
   if(config.getOptionalBoolean("enabledPlugins.vault")){
     const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
     apiRouter.use('/vault', await vault(vaultEnv));
@@ -113,7 +113,6 @@ async function main() {
     apiRouter.use('/gitlab', await gitlab(gitlabEnv));
   }
 
-  apiRouter.use('/devportal', await application(applicationEnv));
   apiRouter.use('/catalog', await catalog(catalogEnv));
   apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));
   apiRouter.use('/auth', await auth(authEnv));
@@ -122,11 +121,6 @@ async function main() {
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
-  // apiRouter.use('/gitlab', await gitlab(gitlabEnv));
-  // apiRouter.use('/argocd', await argocd(argocdEnv));
-  // apiRouter.use('/vault', await vault(vaultEnv));
-  // apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
-
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());

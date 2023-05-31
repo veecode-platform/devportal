@@ -38,11 +38,7 @@ export default async function createPlugin(
 
       "keycloak": providers.oidc.create({
         signIn: {
-          resolver({result}, ctx) {
-              if(!result.userinfo.email_verified){
-                throw new Error('Email not verified');
-              }
-              
+          resolver({result}, ctx) {             
               const groups = result.userinfo.groups as Array<string>;
               const admin = groups.includes("admin");
               const user = groups.includes("user");

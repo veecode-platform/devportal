@@ -11,8 +11,8 @@ import CachedIcon from '@material-ui/icons/Cached';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { DefaultDetailsComponent } from './DefaultDetailsComponent';
 import { SecurityTypeEnum } from '../utils/enum';
-import AxiosInstance from '../../../api/Api';
-import { useAppConfig } from '../../../hooks/useAppConfig';
+import { createAxiosInstance } from '../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api';
 
 // makestyles
 const useStyles = makeStyles({
@@ -37,13 +37,13 @@ const useStyles = makeStyles({
 
 type Services = {
   service: IService | undefined;
+  axiosInstance: any;
 };
 
-const Details = ({ service }: Services) => {
+const Details = ({ service, axiosInstance }: Services) => {
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const classes = useStyles();
   const navigate = useNavigate();
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const handleOpenDialog = () => {
     setShowDialog(true);
@@ -58,8 +58,8 @@ const Details = ({ service }: Services) => {
   };
 
   const deleteServiceHandler = async () =>{
-    await AxiosInstance.delete(`${BackendBaseUrl}/services/${service?.id}`)
-    navigate('/services');
+    const response = await axiosInstance.delete(`/services/${service?.id}`)
+    if(response)navigate('/services');
   }
 
 
@@ -139,11 +139,14 @@ const Details = ({ service }: Services) => {
 export const DetailsComponent = () => {
   const location = useLocation();
   const id = location.search.split('?id=')[1];
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
-    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/services/${id}`)
-    const partnersList = await AxiosInstance.get(`${BackendBaseUrl}/services/${id}/partners`)
+    const {data} = await axiosInstance.get(`/services/${id}`)
+    const partnersList = await axiosInstance.get(`/services/${id}/partners`)
     return {
       ...data.service,
       partnersId: partnersList.data.partners
@@ -155,7 +158,7 @@ export const DetailsComponent = () => {
   } else if (error) {
     return <Alert severity="error">{error.message}</Alert>;
   }
-  return <Details service={value} />;
+  return <Details service={value} axiosInstance={axiosInstance} />;
 };
 
 type dialogProps = {

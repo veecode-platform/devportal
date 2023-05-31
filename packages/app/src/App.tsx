@@ -56,23 +56,15 @@ import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_A
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { SignInPage } from '@internal/plugin-sign-in/src/components/SignInPage';
 import { useGuest } from './Hooks/useGuest';
-// import { useApiManagement } from './Hooks/apiManagement';
 import { GuestUserIdentity } from '@internal/plugin-sign-in/src/components/providers/guestUserIdentity';
-// import { RequirePermission } from '@backstage/plugin-permission-react';
-// import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
+import { RequirePermission } from '@backstage/plugin-permission-react';
+import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const Guest = useGuest();
     if(Guest) props.onSignInSuccess(new GuestUserIdentity());
     return <SignInPage {...props} providers={[providers[1]]} />
 };
-
-/* const ApiManagementComponent = () => {
-  const ApiManagement = useApiManagement();
-  return (
-    ApiManagement ? <Outlet/> : <Navigate to="/" replace />
-  )
-}*/
 
 const app = createApp({
   apis,
@@ -164,20 +156,27 @@ const routes = (
       {searchPage}
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
-    {/*
-    <Route path="/services" element={<ApiManagementComponent/>}>
-       <Route path="/" element={<ServicesPage/>}/>
-    </Route> 
-    <Route path="/partners" element={<ApiManagementComponent/>}>
-       <Route path="/" element={<PartnersPage/>}/>
-    </Route>
-    <Route path="/applications" element={<ApiManagementComponent/>}>
-      <Route path="/" element={<ApplicationPage/>}/>
-    </Route>*/}
-    <Route path="/services" element={<ServicesPage/>}/>
-    <Route path="/partners" element={<PartnersPage/>}/>
-    <Route path="/applications" element={<ApplicationPage/>}/>
-
+    <Route path="/services"
+      element={
+        <RequirePermission permission={apiManagementEnabledPermission}>
+          <ServicesPage/>
+        </RequirePermission>
+      }
+    />
+    <Route path="/partners"
+      element={
+        <RequirePermission permission={apiManagementEnabledPermission}>
+          <PartnersPage/>
+        </RequirePermission>
+      }
+    />
+    <Route path="/applications"
+      element={
+        <RequirePermission permission={apiManagementEnabledPermission}>
+          <ApplicationPage/>
+        </RequirePermission>
+      }
+    /> 
   </FlatRoutes>
 );
 

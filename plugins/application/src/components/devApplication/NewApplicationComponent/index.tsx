@@ -1,7 +1,7 @@
 import React, {useEffect, useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
-import { AlertComponent, Select } from '../../shared';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import {  Select } from '../../shared';
 import {
   InfoCard,
   Header,
@@ -11,99 +11,37 @@ import {
   Progress,
 } from '@backstage/core-components';
 import { ICreateApplication } from '../interfaces';
-import AxiosInstance from '../../../api/Api';
-import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 import { Alert } from '@material-ui/lab';
 import useAsync from 'react-use/lib/useAsync';
 import {IErrorStatus} from '../interfaces';
 import { validateName } from '../../shared/commons/validate';
-import { useAppConfig } from '../../../hooks/useAppConfig';
 import { usePermission } from '@backstage/plugin-permission-react';
 import { adminAccessPermission } from '@internal/plugin-application-common';
-
-
-
-export const FetchServicesList = ({partner, setPartner}: any) => {
-  const user = useApi(identityApiRef);
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
-
-
-  const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const userIdentityToken = await user.getCredentials()
-    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/services`, {headers:{ Authorization: `Bearer ${userIdentityToken.token}`}});
-    return data.services
-  }, []);
-
-  if (loading) {
-    return <Progress />;
-  } else if (error) {
-    return <Alert severity="error">{error.message}</Alert>;
-  }
-  return (
-  <Select
-    placeholder="Services"
-    label="Services"
-    items={value.map((item: any) => {
-      return { ...{ label: item.name, value: item.id, key: item.id } };
-      })}
-    multiple
-    onChange={e => {
-    setPartner({ ...partner, servicesId: e });
-    }}
-  />)
-};
-
-export const FetchApplicationsList = ({partner, setPartner}: any) => {
-
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
-
-  const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/applications`);
-    return data.applications;
-  }, []);
-
-  if (loading) {
-    return <Progress />;
-  } else if (error) {
-    return <Alert severity="error">{error.message}</Alert>;
-  }
-  return (
-  <Select
-    placeholder="Applications"
-    label="Applications"
-    items={value.map((item: any) => {
-      return { ...{ label: item.name, value: item.id, key: item.id } };
-      })}
-    multiple
-    onChange={e => {
-    setPartner({ ...partner, applicationId: e });
-    }}
-  />)
-};
-
-
+import { createAxiosInstance } from '../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api'; 
 
 export const NewApplicationComponent = () => {
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
+  const navigate = useNavigate();
   const { loading: loadingPermission, allowed: adminView } = usePermission({permission: adminAccessPermission});
 
-  const user = useApi(identityApiRef)
   const [application, setApplication] = useState<ICreateApplication>({
     name: '',
     creator: "",
     active: true,
     servicesId: "",
   });
-  const [show, setShow] = useState<boolean>(false);
   const [errorField, setErrorField] = useState<IErrorStatus>({
     name: false
   });
-  const [loadingCreate, setLoadingCreate] = useState(false)
-
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if(!adminView){
-      user.getBackstageIdentity().then( res => {
+      identity.getBackstageIdentity().then( res => {
         return setApplication({ ...application, creator: res.userEntityRef.split("/")[1] });
       }).catch(() => {
         return setApplication({ ...application, creator: "default"});
@@ -112,19 +50,8 @@ export const NewApplicationComponent = () => {
   
   }, []);
 
-  const handleClose = (reason: string) => {
-    if (reason === 'clickaway') return;
-    setShow(false);
-    setApplication({
-      name: '',
-      creator: '',
-      active: true,
-      servicesId: '',
-    });
-  };
-
   const handleSubmit = async () => {  
-    setLoadingCreate(true)        
+    setLoading(true)        
     const applicationData = {
       application: {
         name: application.name,
@@ -133,24 +60,15 @@ export const NewApplicationComponent = () => {
         services: application.servicesId,
       },
     };
-    const response = await AxiosInstance.post(`${BackendBaseUrl}/applications`, JSON.stringify(applicationData))
-    setShow(true);
-    setTimeout(()=>{
-      //setLoadingCreate(false)
-      window.location.replace('/applications');
-    }, 2000);
-    return response.data
+    const response = await axiosInstance.post(`/applications`, JSON.stringify(applicationData))
+    setLoading(false)
+    if(response) navigate('/applications');
   };
   return (
     <Page themeId="tool">
       <Header title="New Application"> </Header>
       <Content>
         <ContentHeader title="Create a new Application"> </ContentHeader>
-        <AlertComponent
-          open={show}
-          close={handleClose}
-          message="Application created!"
-        />
         <Grid container direction="row" justifyContent="center">
           <Grid item sm={12} lg={6}>
             <InfoCard>
@@ -184,7 +102,7 @@ export const NewApplicationComponent = () => {
 
                 <Grid item xs={12}>
                   {(!loadingPermission && adminView) && 
-                    <UsersList application={application} setApplication={setApplication}/>
+                    <UsersList application={application} setApplication={setApplication} axiosInstance={axiosInstance}/>
                   }
                   {(!loadingPermission && !adminView) && 
                     <TextField
@@ -201,7 +119,7 @@ export const NewApplicationComponent = () => {
                   
                 </Grid>
                 <Grid item lg={12}>
-                  <FetchServicesList partner={application} setPartner={setApplication}/>
+                  <FetchServicesList partner={application} setPartner={setApplication} axiosInstance={axiosInstance}/>
                 </Grid>
                 <Grid item xs={12}>
                   <Grid container justifyContent="center" alignItems="center">
@@ -222,10 +140,10 @@ export const NewApplicationComponent = () => {
                       size="large"
                       type="submit"
                       variant="contained"
-                      disabled={errorField.name || loadingCreate}
+                      disabled={errorField.name || loading}
                       onClick={handleSubmit}
                     >
-                      Create
+                      {loading ? "loading" : "create"}
                     </Button>
                   </Grid>
                 </Grid>
@@ -238,10 +156,60 @@ export const NewApplicationComponent = () => {
   );
 };
 
-const UsersList = ({application, setApplication}: any) =>{
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+export const FetchServicesList = ({partner, setPartner, axiosInstance}: any) => { 
   const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/keycloak/users`);
+    const {data} = await axiosInstance.get("/services");
+    return data.services
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return (
+  <Select
+    placeholder="Services"
+    label="Services"
+    items={value.map((item: any) => {
+      return { ...{ label: item.name, value: item.id, key: item.id } };
+      })}
+    multiple
+    onChange={e => {
+    setPartner({ ...partner, servicesId: e });
+    }}
+  />)
+};
+
+export const FetchApplicationsList = ({partner, setPartner, axiosInstance}: any) => {
+  const { value, loading, error } = useAsync(async (): Promise<any> => {
+    const {data} = await axiosInstance.get(`/applications`);
+    return data.applications;
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+  return (
+  <Select
+    placeholder="Applications"
+    label="Applications"
+    items={value.map((item: any) => {
+      return { ...{ label: item.name, value: item.id, key: item.id } };
+      })}
+    multiple
+    onChange={e => {
+    setPartner({ ...partner, applicationId: e });
+    }}
+  />)
+};
+
+
+const UsersList = ({application, setApplication, axiosInstance}: any) =>{
+  const { value, loading, error } = useAsync(async (): Promise<any> => {
+    const {data} = await axiosInstance.get(`/keycloak/users`);
     return data.users;
   }, []);
 

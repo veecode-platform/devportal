@@ -4,7 +4,7 @@ import { ControllPlugin } from '../modules/services/service/ControllPlugin';
 import { PostgresServiceRepository } from '../modules/services/repositories/Knex/KnexServiceReppository';
 import { RouterOptions } from './router';
 import { ServiceDto } from '../modules/services/dtos/ServiceDto';
-import { AxiosError } from 'axios';
+// import { AxiosError } from 'axios';
 // import { AuthorizeResult } from '@backstage/plugin-permission-common';
 // import { adminAccessPermission } from '@internal/plugin-application-common';// nome da permissao criada anteriormente no plugin-common
 // import { NotAllowedError } from '@backstage/errors';
@@ -13,6 +13,7 @@ import { PostgresApplicationServiceRepository } from '../modules/applications/re
 import { PostgresPartnerServiceRepository } from '../modules/partners/repositories/Knex/knexPartnerServiceRepository';
 import { PostgresPluginRepository } from '../modules/plugins/repositories/Knex/KnexPluginRepository';
 import { Service } from '../modules/services/domain/Service';
+import { serviceErrorHandler } from '../modules/utils/ErrorHandler';
 
 /** @public */
 export async function createServiceRouter(
@@ -20,46 +21,57 @@ export async function createServiceRouter(
 ): Promise<Router> {
   // const { permissions } = options;
 
-  const serviceRepository = await PostgresServiceRepository.create(
-    await options.database.getClient(),
-  );
-
+  const serviceRepository = await PostgresServiceRepository.create(await options.database.getClient());
   const applicationServiceRepository = await PostgresApplicationServiceRepository.create(await options.database.getClient())
   const partnerServiceRepository = await PostgresPartnerServiceRepository.create(await options.database.getClient())
   const pluginRepository = await PostgresPluginRepository.create(await options.database.getClient())
-
   const controllPlugin = new ControllPlugin();
-
+  
   const serviceRouter = Router();
   serviceRouter.use(express.json());
 
-  serviceRouter.get('/', async (request, response) => {
+  serviceRouter.get('/', async (request, response, next) => {
     /* const token = getBearerTokenFromAuthorizationHeader(request.header('authorization'));
     const decision = (await permissions.authorize([{ permission: adminAccessPermission }], {token: token}))[0];
     if (decision.result === AuthorizeResult.DENY) {
       throw new NotAllowedError('Unauthorized');
     }*/
-    const limit: number = request.query.limit as any;
-    const offset: number = request.query.offset as any;
-    const services = await serviceRepository.getService(limit, offset);
-    const total = await serviceRepository.total()
-    response.status(200).json({ status: 'ok', services: services, total: total });
+    try{
+      const limit: number = request.query.limit as any;
+      const offset: number = request.query.offset as any;
+      const services = await serviceRepository.getService(limit, offset);
+      const total = await serviceRepository.total()
+      response.status(200).json({ status: 'ok', services: services, total: total });
+    }
+    catch(error){
+      next(error)
+    }
   });
 
 
-  serviceRouter.get('/:id', async (request, response) => {
-    const code = request.params.id;
-    const service = await serviceRepository.getServiceById(code);
-    response.status(200).json({ status: 'ok', service: service });
+  serviceRouter.get('/:id', async (request, response, next) => {
+    try{
+      const code = request.params.id;
+      const service = await serviceRepository.getServiceById(code);
+      response.status(200).json({ status: 'ok', service: service });
+    }
+    catch(error){
+      next(error)
+    }
   });
 
-  serviceRouter.get('/:id/partners', async (request, response) => {
-    const serviceId = request.params.id;
-    const partners = await partnerServiceRepository.getPartnerByservice(serviceId)
-    response.status(200).json({ status: 'ok', partners: partners });
+  serviceRouter.get('/:id/partners', async (request, response, next) => {
+    try{
+      const serviceId = request.params.id;
+      const partners = await partnerServiceRepository.getPartnerByservice(serviceId)
+      response.status(200).json({ status: 'ok', partners: partners });
+    }
+    catch(error){
+      next(error)
+    }
   });
 
-  serviceRouter.post('/', async (request, response) => {
+  serviceRouter.post('/', async (request, response, next) => {
     try {
       const service: ServiceDto = request.body.service;
       let plugins: Array<any> = []
@@ -77,27 +89,13 @@ export async function createServiceRouter(
           })
         })
       }
-      response.status(201).json({ status: 'ok', service: result });
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+      response.status(201).json({ status: 'ok', message: "Service created", service: result });
+    } catch (error) {
+        next(error)
     }
   });
 
-  serviceRouter.patch('/:id', async (request, response) => {
+  serviceRouter.patch('/:id', async (request, response, next) => {
     try {
       const serviceId = request.params.id
       const service = request.body.service;
@@ -106,7 +104,7 @@ export async function createServiceRouter(
         const partners = service.partnersId
         await partnerServiceRepository.deleteService(serviceId)
         await partnerServiceRepository.associatePartnersToService(partners, serviceId)
-        response.status(201).json({ status: 'ok', service: partners });
+        response.status(201).json({ status: 'ok', message: "Service updated"});
       }
       else{
       if(service.rateLimiting !== undefined){
@@ -118,38 +116,29 @@ export async function createServiceRouter(
       delete service.rateLimiting
       delete service.securityType
       await serviceRepository.patchService(serviceId, service)
-      response.status(201).json({ status: 'ok', service: service });
+      response.status(201).json({ status: 'ok', message: "Service updated"});
       }
 
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+    } catch (error) {
+      next(error)
     }
   });
   
-  serviceRouter.delete('/:id', async (request, response) => {
-    const serviceId = request.params.id;
-    await controllPlugin.deleteService(serviceId, options)
-    await applicationServiceRepository.deleteService(serviceId)
-    await partnerServiceRepository.deleteService(serviceId)
-
-    const result = await serviceRepository.deleteService(serviceId);
-    response.status(204).json({ status: 'ok', service: result });
+  serviceRouter.delete('/:id', async (request, response, next) => {
+    try{
+      const serviceId = request.params.id;
+      await controllPlugin.deleteService(serviceId, options)
+      await applicationServiceRepository.deleteService(serviceId)
+      await partnerServiceRepository.deleteService(serviceId)
+      await serviceRepository.deleteService(serviceId);
+      response.status(200).json({ status: 'ok', message: "Service deleted"});
+    }
+    catch(error){
+      next(error)
+    }
   });
 
+  serviceRouter.use(serviceErrorHandler)
   return serviceRouter;
 
 }

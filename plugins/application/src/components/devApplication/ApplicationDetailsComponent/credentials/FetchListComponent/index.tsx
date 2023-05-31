@@ -1,31 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Table, TableColumn, Progress } from '@backstage/core-components';
 import { Link as RouterLink } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import {AlertComponent} from '../../../../shared';
 import { ICredentials } from '../utils/interfaces';
-import AxiosInstance from '../../../../../api/Api';
-import { useAppConfig } from '../../../../../hooks/useAppConfig';
+import { createAxiosInstance } from '../../../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api'; 
 
 type DenseTableProps = {
   applicationId: string,
   credentials: ICredentials[];
+  axiosInstance: any;
+  refresh: any;
+  setRefresh: any;
 };
 
-export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
-  const [show, setShow] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>('');
-  const [messageStatus, setMessageStatus] = useState<string>('');
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+export const DenseTable = ({applicationId, credentials, axiosInstance, refresh, setRefresh} : DenseTableProps) => {
 
-  const handleClose = (reason: string) => {
-    if (reason === 'clickaway') return;
-    setShow(false);
-  };
-  
   const columns: TableColumn[] = [
     // { title: 'Id', field: 'id', width: '1fr' },
     { title: 'Client ID', field: 'clientId', width: '1fr' },
@@ -35,20 +28,8 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   ];
 
   const removeCredential = async (applicationID: string, credentialID: string, credentialType: string) => {
-    const response = await AxiosInstance.delete(`${BackendBaseUrl}/applications/${applicationID}/credentials?idCredential=${credentialID}&type=${credentialType}`)
-    if (response.status === 204) {
-      setShow(true);
-      setStatus('success');
-      setMessageStatus('Credential deleted!');
-      setTimeout(()=>{
-        window.location.reload();
-      }, 2000);
-    }
-    else{
-      setShow(true);
-      setStatus('error');
-      setMessageStatus('An error has occurred');
-    }
+    const response = await axiosInstance.delete(`/applications/${applicationID}/credentials?idCredential=${credentialID}&type=${credentialType}`)
+    if(response) setRefresh(!refresh)
   };
 
   const data = credentials.map(item => {
@@ -74,12 +55,6 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
 
   return (
     <>
-      <AlertComponent
-        open={show}
-        close={handleClose}
-        message={messageStatus}
-        status={status}
-      />
       <Table
         title={`All Credentials (${credentials.length})`}
         options={{ search: true, paging: true }}
@@ -91,15 +66,18 @@ export const DenseTable = ({applicationId, credentials} : DenseTableProps) => {
   );
 };
 
-export const FetchListComponent = ({ idApplication }: { idApplication: string }) => {
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+export const FetchListComponent = ({ idApplication, refresh, setRefresh }: { idApplication: string, refresh: any, setRefresh: any }) => {
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
   // list Credentias
   const { value, loading, error } = useAsync(async (): Promise<
     ICredentials[]
   > => {
-    const response =  await AxiosInstance.get(`${BackendBaseUrl}/applications/${idApplication}/credentials`)
+    const response =  await axiosInstance.get(`/applications/${idApplication}/credentials`)
     return response.data.credentials;
-  }, []);
+  }, [refresh]);
 
   if (loading) {
     return <Progress />;
@@ -107,5 +85,5 @@ export const FetchListComponent = ({ idApplication }: { idApplication: string })
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  return <DenseTable  applicationId={idApplication} credentials={value || []} />;
+  return <DenseTable applicationId={idApplication} credentials={value || []} axiosInstance={axiosInstance} refresh={refresh} setRefresh={setRefresh} />;
 };

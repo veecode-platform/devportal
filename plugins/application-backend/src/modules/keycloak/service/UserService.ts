@@ -10,11 +10,17 @@ export class KeycloakUserService {
     return this._instance || (this._instance = new this());
   }
   public async logOut(keycloakUserId: string){
-    const kcAdminClient = await new KeycloakAdminClient().getClient()
-    const user = await kcAdminClient.users.find({username:keycloakUserId})
-    if(user.length === 0) throw new Error("User not found")
-    const logout = await kcAdminClient.users.logout({id: user[0].id as string})
-    return logout
+    try {
+      const kcAdminClient = await new KeycloakAdminClient().getClient()
+      const user = await kcAdminClient.users.find({username:keycloakUserId})
+      if(user.length === 0) throw new Error("User not found")
+      const logout = await kcAdminClient.users.logout({id: user[0].id as string})
+      return logout
+    } 
+    catch (error:any) {
+      throw new Error(error.message);      
+    }
+
   }
 
   public async createUser(user: UserDto) {

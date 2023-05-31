@@ -12,6 +12,7 @@ import { Application } from '../domain/Application';
 import { ApplicationDto } from '../dtos/ApplicationDto';
 import { PostgresApplicationRepository } from '../repositories/knex/KnexApplicationRepository';
 import { PostgresApplicationServiceRepository } from '../repositories/knex/KnexApplicationServiceRepository';
+import { ApiManagmentError } from '../../utils/ApiManagmentError';
 
 export class ApplicationServices {
   private static _instance: ApplicationServices;
@@ -41,9 +42,9 @@ export class ApplicationServices {
       });
 
       return application
-    } catch (error) {
-      console.log(error)
-      return error
+    }
+    catch (error:any) {
+      throw new ApiManagmentError(error.message, "Error creting kong consumer", 5);     
     }
   }
 
@@ -55,10 +56,10 @@ export class ApplicationServices {
       const applicationRepository = await PostgresApplicationRepository.create(await options.database.getClient());
       const application = await applicationRepository.getApplicationById(applicationId) as Application;
       // ConsumerGroupService.Instance.removeConsumerFromGroups(application.externalId as string);
-      ConsumerService.Instance.deleteConsumer(application.externalId as string);
-      
-    } catch (error) {
-      return error;
+      ConsumerService.Instance.deleteConsumer(application.externalId as string);     
+    } 
+    catch (error:any) {
+      throw new ApiManagmentError(error.message, "Error removing kong consumer", 6);     
     }
   }
 
@@ -79,7 +80,6 @@ export class ApplicationServices {
 
       servicesPreviouslyAssociated.forEach( async (service: Service) => {
         await ConsumerService.Instance.removeAclFromConsumer(consumer, serviceConcatGroup(service.kongServiceName as string))
-        // await ConsumerGroupService.Instance.removeConsumerFromGroup(consumer.username, serviceConcatGroup(service.kongServiceName as string) )
       })
       await ConsumerGroupService.Instance.removeConsumerFromGroups(consumer.username)
       await applicationServiceRepository.deleteApplication(applicationId as string)
@@ -94,8 +94,9 @@ export class ApplicationServices {
 
       return newServices
 
-    } catch (error) {
-      throw new Error(`Impossible to update application ${applicationId}`)
+    } 
+    catch (error:any) {
+      throw new ApiManagmentError(error.message, "Error updating kong consumer", 7);     
     }
   }
 }

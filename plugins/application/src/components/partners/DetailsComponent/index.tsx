@@ -13,8 +13,8 @@ import { IPartner } from '../interfaces';
 import { TabedParterDetails } from './TabedPartnerDetails';
 //import EditIcon from '@material-ui/icons/Edit';
 import CachedIcon from '@material-ui/icons/Cached';
-import AxiosInstance from '../../../api/Api';
-import { useAppConfig } from '../../../hooks/useAppConfig';
+import { createAxiosInstance } from '../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api';
 
 type PartnerProps = {
   partner: IPartner | undefined;
@@ -55,7 +55,6 @@ const Details = ({ partner }: PartnerProps) => {
     name: partner?.name ?? '...',
     active: partner?.active ?? true,
     email: partner?.email ?? '...',
-    phone: partner?.phone ?? '...',
     createdAt: partner?.createdAt ?? '...',
     updatedAt : partner?.updatedAt ?? '...'
   }
@@ -108,12 +107,15 @@ const Details = ({ partner }: PartnerProps) => {
 
 
 export const DetailsComponent = () => {
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
   const location = useLocation();
   const id = location.search.split("?id=")[1];
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IPartner> => {
-    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/partners/${id}`)
+    const {data} = await axiosInstance.get(`/partners/${id}`)
     return data.partners;
   }, []);
 

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { kongConsumerExceptions } from '../exceptions/consumer/KongConsumerException';
 import { Consumer } from '../model/Consumer';
 import { KongServiceBase } from './KongServiceBase';
 
@@ -15,62 +14,84 @@ export class ConsumerService extends KongServiceBase {
   }
 
   public async findConsumer(consumerName: string) {
-    const url = `${await this.getBaseUrl()}/consumers/${consumerName}`;
-    const response = await axios
-      .get(url, {
-        headers: await this.getAuthHeader(),
-      })
-      .catch(kongConsumerExceptions);
-
-    return response.data;
+    try {
+      const url = `${await this.getBaseUrl()}/consumers/${consumerName}`;
+      const response = await axios
+        .get(url, {
+          headers: await this.getAuthHeader(),
+        })  
+      return response.data;
+    }       
+    catch(error:any){
+      throw new Error(error.message)
+    }
   }
 
   public async deleteConsumer(consumerId: string): Promise<Consumer> {
-    const url = `${await this.getBaseUrl()}/consumers/${consumerId}`;
-    const response = await axios
-      .delete(url, {
-        headers: await this.getAuthHeader(),
-      })
-      .catch(kongConsumerExceptions);
-    const consumer = response.data;
-    return consumer;
+    try {
+      const url = `${await this.getBaseUrl()}/consumers/${consumerId}`;
+      const response = await axios
+        .delete(url, {
+          headers: await this.getAuthHeader(),
+        })
+      const consumer = response.data;
+      return consumer;
+    } 
+    catch(error:any){
+      throw new Error(error.message)
+    }
   }
 
   public async createConsumer(consumer: Consumer): Promise<Consumer> {
-    const baseUrl = await this.getBaseUrl()
-    const url = `${baseUrl}/consumers`;
-    const response = await axios
-      .post(url, consumer, {
-        headers: await this.getAuthHeader(),
-      })
-      .catch(kongConsumerExceptions);
-    return response.data.consumer;
+    try {
+      const baseUrl = await this.getBaseUrl()
+      const url = `${baseUrl}/consumers`;
+      const response = await axios
+        .post(url, consumer, {
+          headers: await this.getAuthHeader(),
+        })
+      return response.data.consumer;  
+    } 
+    catch(error:any){
+      throw new Error(error.message)
+    }
   }
 
   public async addAclToConsumer(consumer: Consumer, service:string): Promise<Consumer> {
-    const baseUrl = await this.getBaseUrl()  
-    const url = `${baseUrl}/consumers/${consumer.username}/acls`;
-    const response = await axios.post(url, {"group": service}, {headers: await this.getAuthHeader()}).catch(kongConsumerExceptions);
-    return response.data.consumer;
+    try {
+      const baseUrl = await this.getBaseUrl()  
+      const url = `${baseUrl}/consumers/${consumer.username}/acls`;
+      const response = await axios.post(url, {"group": service}, {headers: await this.getAuthHeader()});
+      return response.data.consumer;
+    } 
+    catch(error:any){
+      throw new Error(error.message)
+    }
   }
 
   public async removeAclFromConsumer(consumer: Consumer, service:string): Promise<Consumer> {
-    const baseUrl = await this.getBaseUrl()  
-    const url = `${baseUrl}/consumers/${consumer.username}/acls/${service}`;
-    const response = await axios.delete(url).catch(kongConsumerExceptions);
-    return response.data.consumer;
+    try {
+      const baseUrl = await this.getBaseUrl()  
+      const url = `${baseUrl}/consumers/${consumer.username}/acls/${service}`;
+      const response = await axios.delete(url)
+      return response.data.consumer;
+    } 
+    catch(error:any){
+      throw new Error(error.message)
+    }
   }
 
-  public async updateConsumer(
-    consumerId: string,
-    consumer: Consumer,
-  ): Promise<Consumer> {
-    const url = `${await this.getBaseUrl()}/consumers/${consumerId}`;
-    const response = await axios
-      .put(url, consumer, {
-        headers: await this.getAuthHeader(),
-      })
-      .catch(kongConsumerExceptions);
-    return response.data.consumer;
+  public async updateConsumer(consumerId: string,consumer: Consumer): Promise<Consumer> {
+    try {
+      const url = `${await this.getBaseUrl()}/consumers/${consumerId}`;
+      const response = await axios
+        .put(url, consumer, {
+          headers: await this.getAuthHeader(),
+        })
+      return response.data.consumer; 
+    } 
+    catch(error:any){
+      throw new Error(error.message)
+    }
   }
 }

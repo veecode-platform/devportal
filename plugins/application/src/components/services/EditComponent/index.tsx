@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Button, Checkbox, FormControlLabel, } from '@material-ui/core';
 import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom';
-import { AlertComponent } from '../../shared';
 import useAsync from 'react-use/lib/useAsync';
 import Alert from '@material-ui/lab/Alert';
 import { Progress } from '@backstage/core-components';
@@ -16,15 +15,17 @@ import { IService } from '../utils/interfaces';
 import { Select } from '../../shared';
 import { securityItems } from '../utils/common';
 import { SecurityTypeEnum } from '../utils/enum';
-import AxiosInstance from '../../../api/Api';
-import { useAppConfig } from '../../../hooks/useAppConfig';
+import { createAxiosInstance } from '../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api';
 
 type ServiceProps = {
   serviceData: IService | undefined;
+  axiosInstance: any;
 };
 
-const EditPageComponent = ({ serviceData }: ServiceProps) => {
+const EditPageComponent = ({ serviceData, axiosInstance }: ServiceProps) => {
   const navigate = useNavigate();
+
   const [applySecurity, setApplySecurity] = useState<boolean>(false)
   const [applyRateLimit, setApplyRateLimit] = useState<boolean>(false)
   const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false)
@@ -35,31 +36,11 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
     active: serviceData?.active,
     description: serviceData?.description ?? '...',
     partnersId: serviceData?.partnersId ?? [],
-    rateLimiting: serviceData?.rateLimiting ?? 0,
+    rateLimiting: serviceData?.rateLimiting ?? "0",
     kongServiceName: serviceData?.kongServiceName ?? '...',
     kongServiceId: serviceData?.kongServiceId ?? '...',
     securityType: serviceData?.securityType ?? 'none',
   });
-  const [show, setShow] = useState(false);
-
-  const handleClose = (reason: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setShow(false);
-    setService({
-      name: '',
-      active: true,
-      description: '',
-      partnersId: [],
-      rateLimiting: 0,
-      kongServiceName: '',
-      kongServiceId: '',
-      securityType: '',
-    });
-  };
-
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const handleSubmit = async () => {
     setLoadingUpdate(true)
@@ -75,12 +56,9 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
       service: {...data}
     }
 
-    const response = await AxiosInstance.patch(`${BackendBaseUrl}/services/${service?.id}`, JSON.stringify(payload))
-    setShow(true);
-    setTimeout(() => {
-      navigate('/services');
-    }, 2000);
-    return response.data;
+    const response = await axiosInstance.patch(`/services/${service?.id}`, JSON.stringify(payload))
+    if(response)navigate('/services');
+    setLoadingUpdate(false)
   };
 
   return (
@@ -88,12 +66,6 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
       <Header title="Service"> </Header>
       <Content>
         <ContentHeader title="Edit Service"> </ContentHeader>
-        <AlertComponent
-          open={show}
-          close={handleClose}
-          message="Service Edited!"
-        />
-
         <Grid container direction="row" justifyContent="center" alignItems="center" alignContent="center">
           <Grid item sm={12} lg={6}>
             <InfoCard>
@@ -218,10 +190,13 @@ const EditPageComponent = ({ serviceData }: ServiceProps) => {
 export const EditComponent = () => {
   const location = useLocation();
   const id = location.search.split('?id=')[1];
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
 
   const { value, loading, error } = useAsync(async (): Promise<IService> => {
-    const { data } = await AxiosInstance.get(`${BackendBaseUrl}/services/${id}`)
+    const { data } = await axiosInstance.get(`/services/${id}`)
     return data.service;                            
   }, []);
 
@@ -230,5 +205,5 @@ export const EditComponent = () => {
   } else if (error) {
     return <Alert severity="error">{error.message}</Alert>;
   }
-  return <EditPageComponent serviceData={value} />;
+  return <EditPageComponent serviceData={value} axiosInstance={axiosInstance} />;
 };

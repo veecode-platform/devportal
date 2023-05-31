@@ -21,12 +21,11 @@ export class PostgresApplicationServiceRepository {
             .innerJoin('service', 'application_service.service_id', 'service.id')
             .select('*')
             .where('application_id', application_id)
-            .catch(error => console.error(error));
             return service
 
         }
-        catch(e){
-            throw new Error(`Impossible to fetch service from application ${application_id}`)
+        catch(error:any){
+            throw new Error(error.message)
         }
     }
 
@@ -42,8 +41,8 @@ export class PostgresApplicationServiceRepository {
                 await this.db<ApplicationService>('application_service').insert(data)
             }
         }
-        catch(e){
-            throw new Error(`Impossible to associate with ${applicationId}`)
+        catch(error:any){
+            throw new Error(error.message)
         }
     }
 
@@ -51,8 +50,8 @@ export class PostgresApplicationServiceRepository {
         try{
             await this.db<ApplicationService>('application_service').where("application_id", applicationId).del()
         }
-        catch(e){
-            throw new Error(`Impossible to delete ${applicationId}`)
+        catch(error:any){
+            throw new Error(error.message)
         }
 
     }
@@ -60,8 +59,8 @@ export class PostgresApplicationServiceRepository {
         try{
             await this.db<ApplicationService>('application_service').where("service_id", serviceId).del()
         }
-        catch(e){
-            throw new Error(`Impossible to delete ${serviceId}`)
+        catch(error:any){
+            throw new Error(error.message)
         }
 
     }

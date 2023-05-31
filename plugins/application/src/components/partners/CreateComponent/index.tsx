@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
-import { AlertComponent } from '../../shared';
-import AxiosInstance from '../../../api/Api';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Alert } from '@material-ui/lab';
 import useAsync from 'react-use/lib/useAsync';
 import { Select } from '../../shared';
+import { createAxiosInstance } from '../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api';
 
 import {
   InfoCard,
@@ -21,13 +21,11 @@ import {
   validateEmail,
   validateName,
 } from '../../shared/commons/validate';
-import { useAppConfig } from '../../../hooks/useAppConfig';
 
 
-const KeycloakUsersList = ({partner, setPartner}: any) =>{
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+const KeycloakUsersList = ({partner, setPartner, axiosInstance}: any) =>{
   const { value, loading, error } = useAsync(async (): Promise<any> => {
-    const {data} = await AxiosInstance.get(`${BackendBaseUrl}/keycloak/users`);
+    const {data} = await axiosInstance.get(`/keycloak/users`);
     return data.users;
   }, []);
 
@@ -57,6 +55,11 @@ const KeycloakUsersList = ({partner, setPartner}: any) =>{
 }
 
 export const CreateComponent = () => {
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
+  const navigate = useNavigate();
   const [partner, setPartner] = useState<any>({
     name: '',
     active: true,
@@ -65,27 +68,11 @@ export const CreateComponent = () => {
     servicesId: [],
   });
   const [loading, setLoading] = useState(false);
-  const [show, setShow] = useState(false);
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
-
   const [errorField, setErrorField] = useState<IErrorStatus>({
     name: false,
     email: false,
   });
 
-  const handleClose = (reason: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setShow(false);
-    setPartner({
-      name: '',
-      active: true,
-      email: '',
-      keycloakId: "",
-      servicesId: [],
-    });
-  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -99,12 +86,9 @@ export const CreateComponent = () => {
       },
     };
 
-    const {data} = await AxiosInstance.post(`${BackendBaseUrl}/partners`,JSON.stringify(dataPartner));
-    setShow(true);
-    setTimeout(() => {
-      window.location.replace('/partners');
-    }, 2000);
-     return data;
+    const response = await axiosInstance.post(`/partners`,JSON.stringify(dataPartner));
+    if(response) navigate("/partners")
+    setLoading(false)
   };
 
   return (
@@ -112,11 +96,6 @@ export const CreateComponent = () => {
       <Header title="Partner"> </Header>
       <Content>
         <ContentHeader title="New Partner"> </ContentHeader>
-        <AlertComponent
-          open={show}
-          close={handleClose}
-          message="Registered Partner!"
-        />
         <Grid container direction="row" justifyContent="center">
           <Grid item sm={12} lg={6}>
             <InfoCard>
@@ -127,7 +106,7 @@ export const CreateComponent = () => {
                 justifyContent="center"
               >
                 <Grid item xs={12}>
-                  <KeycloakUsersList partner={partner} setPartner={setPartner}/>
+                  <KeycloakUsersList partner={partner} setPartner={setPartner} axiosInstance={axiosInstance}/>
                 </Grid>
                 <Grid item xs={12}>
                   <FetchServicesList partner={partner} setPartner={setPartner}/>

@@ -16,28 +16,33 @@ export class PostgresPartnerApplicationRepository {
     }
 
     async getApplicationsByPartner(partner_id: string): Promise<PartnerApplication[] | unknown> {
-        const applications = await this.db<PartnerApplication>('partner_application')
+        try {
+            const applications = await this.db<PartnerApplication>('partner_application')
             .innerJoin('application', 'partner_application.application_id', 'application.id')
             .select('application_id')
             .where('partner_id', partner_id)
-            .catch(error => console.error(error));
-        console.log('applications: ', applications)
-        return applications
+        return applications   
+        } 
+        catch (error:any) {
+            throw new Error(error.message);           
+        }
+
     }
 
     async associate(partnerId: string, application_id: string[]) {
-        for (let i = 0; i < application_id.length; i++) {
-            const partner: PartnerApplication = PartnerApplication.create({
-                partner_id: partnerId,
-                application_id: application_id[i]
-            })
-            const data = await PartnerApplicationMapper.toPersistence(partner)
-            console.log(data)
-            await this.db<any>('partner_application')
-                .insert(data)
-                .catch(error => error);
-
+        try {
+            for (let i = 0; i < application_id.length; i++) {
+                const partner: PartnerApplication = PartnerApplication.create({
+                    partner_id: partnerId,
+                    application_id: application_id[i]
+                })
+                const data = await PartnerApplicationMapper.toPersistence(partner)
+                await this.db<any>('partner_application').insert(data)  
+            } 
+        } 
+        catch (error:any) {
+            throw new Error(error.message);
+            
         }
-
     }
 }

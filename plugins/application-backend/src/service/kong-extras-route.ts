@@ -170,7 +170,7 @@ export async function createKongRouter(
     });
 
 
-  router.get('/services', async (_, res) => {
+  router.get('/services', async (_, res, next) => {
     try {
       const serviceStore = await kongHandler.listServices();
       const limitedServiceStore = await Promise.all(serviceStore.map(async (kongService)=> {
@@ -183,50 +183,19 @@ export async function createKongRouter(
       if (serviceStore)
         res.json({ status: 'ok', services: filtered });
     } catch (error: any) {
-      if (error instanceof Error) {
-        res.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        res.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+      next(error)
     }
   });
 
-  router.get('/routes', async (_, res) => {
+  router.get('/routes', async (_, res, next) => {
     try {
       const serviceStore = await kongHandler.listRoutes();
       if (serviceStore)
         res.json({ status: 'ok', routes: serviceStore });
     } catch (error: any) {
-      if (error instanceof Error) {
-        res.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        res.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+      next(error)
     }
   });
-
-
- 
 
   // CONSUMER
   router.get('/consumers/:consumerName', async (request, response) => {

@@ -13,11 +13,12 @@ import { IApplication } from '../interfaces';
 import CachedIcon from '@material-ui/icons/Cached';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { DetailsComponent } from './DetailsComponent';
-import AxiosInstance from '../../../api/Api';
-import { useAppConfig } from '../../../hooks/useAppConfig';
+import { createAxiosInstance } from '../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api'; 
 
 type Application = {
   application: IApplication | undefined;
+  axiosInstance: any;
 }
 
 // makestyles
@@ -41,9 +42,8 @@ const useStyles = makeStyles({
   },
 });
 
-const Details = ({ application }: Application) => {
+const Details = ({ application, axiosInstance }: Application) => {
   const [showDialog, setShowDialog] = useState<boolean>(false)
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
   const navigate = useNavigate();
 
   const handleOpenDialog = () => {
@@ -53,7 +53,6 @@ const Details = ({ application }: Application) => {
   const handleCloseDialog = () => {
     setShowDialog(false);
   };
-
 
   const classes = useStyles();
 
@@ -71,7 +70,7 @@ const Details = ({ application }: Application) => {
   }
 
   const deleteApplicationHandler = async () =>{
-    await AxiosInstance.delete(`${BackendBaseUrl}/applications/${application?.id}`)
+    await axiosInstance.delete(`/applications/${application?.id}`)
     navigate('/applications');
 
   }
@@ -132,12 +131,15 @@ const Details = ({ application }: Application) => {
 
 
 export const ApplicationDetailsComponent = () => {
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
   const location = useLocation();
   const id = location.search.split("?id=")[1];
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
-    const response = await AxiosInstance.get(`${BackendBaseUrl}/applications/${id}`)
+    const response = await axiosInstance.get(`/applications/${id}`)
     return response.data.application;
   }, []);
 
@@ -147,7 +149,7 @@ export const ApplicationDetailsComponent = () => {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  return <Details application={value} />
+  return <Details application={value} axiosInstance={axiosInstance} />
 }
 
 type dialogProps = {

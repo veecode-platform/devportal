@@ -18,14 +18,18 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<Plugin[]>}
    */
   async getPlugins(): Promise<Plugin[]> {
-    const plugin = await this.db<Plugin>('plugin')
-      .select('*')
-      .catch(error => console.log(error));
-    const pluginDomain = PluginResponseDto.create({ plugins: plugin });
-    const responseData = await PluginMapper.listAllPluginsToResource(
-      pluginDomain,
-    );
-    return responseData.plugins ?? [];
+    try{
+      const plugin = await this.db<Plugin>('plugin').select('*')
+      const pluginDomain = PluginResponseDto.create({ plugins: plugin });
+      const responseData = await PluginMapper.listAllPluginsToResource(
+        pluginDomain,
+      );
+      return responseData.plugins ?? [];
+    }
+    catch(error:any){
+      throw new Error(error.message);     
+    }
+
   }
 
   /**
@@ -33,16 +37,17 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<string | Plugin>}
    */
   async getPluginById(id: string): Promise<string | Plugin> {
-    const plugin = await this.db<Plugin>('plugin')
-      .where('id', id)
-      .limit(1)
-      .select()
-      .catch(error => console.log(error));
-    const pluginDomain = PluginResponseDto.create({ pluginIt: plugin });
-    const responseData = await PluginMapper.listAllPluginsToResource(
-      pluginDomain,
-    );
-    return responseData.plugin ?? 'cannot find plugin';
+    try {
+      const plugin = await this.db<Plugin>('plugin').where('id', id).limit(1).select()
+      const pluginDomain = PluginResponseDto.create({ pluginIt: plugin });
+      const responseData = await PluginMapper.listAllPluginsToResource(
+        pluginDomain,
+      );
+      return responseData.plugin;
+    } catch (error:any) {
+      throw new Error(error.message)
+    }
+
   }
 
   async getPluginByServiceId(serviceId: string): Promise<any[]> {
@@ -50,18 +55,18 @@ export class PostgresPluginRepository implements IPluginRepository {
       const plugins = await this.db<Plugin>('plugin').where('service', serviceId).select();
       return plugins
     }
-    catch(error){
-      throw new Error(`impossible to fetch plugins from ${serviceId}`)
+    catch(error:any){
+      throw new Error(error.message)
     }
   }
 
   async getPluginByTypeOnService(serviceId: string, type: string): Promise<any>{
     try{
-      const plugin = (await this.db<Plugin>('plugin').where('service', serviceId).andWhere('name', type).first());
+      const plugin = await this.db<Plugin>('plugin').where('service', serviceId).andWhere('name', type).first();
       return plugin
     }
-    catch(error){
-      throw new Error(`impossible to fetch plugin from ${serviceId}`)
+    catch(error:any){
+      throw new Error(error.message)
     }
 
   }
@@ -71,13 +76,18 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<Plugin>}
    */
   async savePlugin(pluginDto: PluginDto): Promise<Plugin> {
-    const plugin: Plugin = Plugin.create({
-      name: pluginDto.name,
-      service: pluginDto.service,
-      kongPluginId: pluginDto.kongPluginId
-    });
-    PluginMapper.toPersistence(plugin);
-    return plugin;
+    try{
+      const plugin: Plugin = Plugin.create({
+        name: pluginDto.name,
+        service: pluginDto.service,
+        kongPluginId: pluginDto.kongPluginId
+      });
+      PluginMapper.toPersistence(plugin);
+      return plugin;
+    }
+    catch(error:any){
+      throw new Error(error.message);     
+    }
   }
 
   /**
@@ -85,10 +95,12 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<void>}
    */
   async deletePlugin(id: string): Promise<void> {
-    await this.db<Plugin>('plugin')
-      .where('id', id)
-      .del()
-      .catch(error => console.error(error));
+    try{
+      await this.db<Plugin>('plugin').where('id', id).del()
+    }
+    catch(error:any){
+      throw new Error(error.message);    
+    }
   }
 
   /**
@@ -96,36 +108,40 @@ export class PostgresPluginRepository implements IPluginRepository {
    * @returns {Promise<string | Plugin>}
    */
   async createPlugin(pluginDto: any): Promise<string | Plugin> {
-    const plugin: Plugin = Plugin.create({
-      name: pluginDto.name,
-      service: pluginDto.service,
-      kongPluginId: pluginDto.kongPluginId
-    });
-    const data = await PluginMapper.toPersistence(plugin);
-    const createdPlugin = await this.db('plugin')
-      .insert(data)
-      .catch(error => console.error(error));
-    return createdPlugin ? plugin : 'cannot create plugin';
+    try {
+      const plugin: Plugin = Plugin.create({
+        name: pluginDto.name,
+        service: pluginDto.service,
+        kongPluginId: pluginDto.kongPluginId
+      });
+      const data = await PluginMapper.toPersistence(plugin);
+      const createdPlugin = await this.db('plugin').insert(data)
+      return createdPlugin ? plugin : 'cannot create plugin';
+    }
+    catch(error:any){
+      throw new Error(error.message)
+    }
+
   }
 
   /**
    * Patch a plugin by id
    * @returns {Promise<string | Plugin>}
    */
-  async patchPlugin(
-    id: string,
-    pluginDto: PluginDto,
-  ): Promise<string | Plugin> {
-    const plugin: Plugin = Plugin.create({
-      name: pluginDto.name,
-      service: pluginDto.service,
-      kongPluginId: pluginDto.kongPluginId
-    });
-    const patchedPlugin = await this.db('plugin')
-      .where('id', id)
-      .update(pluginDto)
-      .catch(error => console.log(error));
-    return patchedPlugin ? plugin : 'cannot patch plugin';
+  async patchPlugin(id: string,pluginDto: PluginDto): Promise<string | Plugin> {
+    try {
+      const plugin: Plugin = Plugin.create({
+        name: pluginDto.name,
+        service: pluginDto.service,
+        kongPluginId: pluginDto.kongPluginId
+      });
+      await this.db('plugin').where('id', id).update(pluginDto)
+      return plugin;
+    } catch (error:any) {
+      throw new Error(error.message);
+      
+    }
+
   }
 
 

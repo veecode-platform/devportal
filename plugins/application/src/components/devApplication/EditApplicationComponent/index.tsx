@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Button, TextField} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import {Progress} from '@backstage/core-components';
-import { useLocation, Link as RouterLink } from 'react-router-dom';
+import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom';
 import useAsync from 'react-use/lib/useAsync';
 import {
   InfoCard,
@@ -12,24 +12,22 @@ import {
   ContentHeader,
 } from '@backstage/core-components';
 import { IApplication, IErrorStatus } from '../interfaces';
-import {AlertComponent } from '../../shared';
-import AxiosInstance from '../../../api/Api';
 import { validateName } from '../../shared/commons/validate';
-import { useAppConfig } from '../../../hooks/useAppConfig';
 import { FetchServicesList } from '../NewApplicationComponent';
+import { createAxiosInstance } from '../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api'; 
 
 type Application = {
   application: IApplication | undefined;
+  axiosInstance: any;
 }
 
-const EditApplicationComponent = ({ application }: Application) => {
-
+const EditApplicationComponent = ({ application, axiosInstance }: Application) => {
+  const navigate = useNavigate();
   const [app, setApp] = useState<IApplication | any>(application);
-  const [show, setShow] = useState<boolean>(false);
   const [errorField, setErrorField] = useState<IErrorStatus>({
     name: false
   });
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   useEffect(()=>{
     setApp({
@@ -40,10 +38,6 @@ const EditApplicationComponent = ({ application }: Application) => {
   },[application]);
 
 
-  const handleClose = (reason: string) => {
-    if (reason === 'clickaway') return;
-    setShow(false);
-  };
 
   const handleSubmit = async () => {
     const applicationData = {
@@ -54,20 +48,16 @@ const EditApplicationComponent = ({ application }: Application) => {
         active: true
       }
     }
-    const response = await AxiosInstance.patch(`${BackendBaseUrl}/applications/${application?.id}`,JSON.stringify(applicationData) )
-    setShow(true);
-    setTimeout(()=>{
-      window.location.replace('/applications');
-    }, 2000);
-    return response.data
+    const response = await axiosInstance.patch(`/applications/${application?.id}`,JSON.stringify(applicationData) )
+    if(response) navigate('/applications')
+    
+    return 
   }
   return (
     <Page themeId="tool">
     <Header title="Application"> </Header>
     <Content>
     <ContentHeader title='Edit Application'> </ContentHeader>
-    <AlertComponent open={show} close={handleClose} message="Success!" />
-
       <Grid container direction="row" justifyContent="center">
       <Grid item sm={12} lg={5}>
           <InfoCard>
@@ -107,7 +97,7 @@ const EditApplicationComponent = ({ application }: Application) => {
                 </Grid>
 
                 <Grid item lg={12}>
-                  <FetchServicesList partner={app} setPartner={setApp}/>
+                  <FetchServicesList partner={app} setPartner={setApp} axiosInstance={axiosInstance}/>
                 </Grid>
               <Grid item xs={12} >
                 <Grid container justifyContent='center' alignItems='center'>
@@ -131,12 +121,14 @@ const EditApplicationComponent = ({ application }: Application) => {
 export const EditComponent = () => {
   const location = useLocation();
   const id = location.search.split("?id=")[1];
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
 
   const { value, loading, error } = useAsync(async (): Promise<IApplication> => {
-    /* const response = await fetch(`http://localhost:7007/api/application/${id}`);
-    const data = await response.json();*/
-    const response = await AxiosInstance.get(`${BackendBaseUrl}/applications/${id}`)
+
+    const response = await axiosInstance.get(`/applications/${id}`)
     return response.data.application;
   }, []);
 
@@ -145,6 +137,6 @@ export const EditComponent = () => {
   } else if (error) {
     return <Alert severity="error">{error.message}</Alert>;
   }
-  return <EditApplicationComponent application={value}/>
+  return <EditApplicationComponent application={value} axiosInstance={axiosInstance}/>
   
 }

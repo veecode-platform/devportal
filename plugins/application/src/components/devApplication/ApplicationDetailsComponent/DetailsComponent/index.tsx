@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren, useState} from 'react';
 import { Grid, Button } from '@material-ui/core';
 import {
   CardTab,
@@ -7,11 +7,10 @@ import {
 } from '@backstage/core-components';
 import { Link as RouterLink } from 'react-router-dom';
 import { Credentials } from '../credentials';
-import {AlertComponent} from '../../../shared';
-import AxiosInstance from '../../../../api/Api';
 import { CredentialTypeEnum } from '../credentials/utils/enums';
-//import { useAppConfig } from '../../../../hooks/useAppConfig';
 import { FetchServicesFromApplicationListComponent } from '../services';
+import { createAxiosInstance } from '../../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api'; 
 
 const cardContentStyle = { heightX: 'auto', width: '100%', marginLeft: '2%' };
 
@@ -51,37 +50,18 @@ export default {
 };
 
 export const DetailsComponent = ({ metadata, back, remove }: Props) => {
-  const [show, setShow] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>('');
-  const [messageStatus, setMessageStatus] = useState<string>('');
-
-  // const kongConsumerId = metadata ? metadata.kongConsumerId : '';
-  const ApplicationId = metadata ? metadata.id : '';
-
-  const handleClose = (reason: string) => {
-    if (reason === 'clickaway') return;
-    setShow(false);
-  };
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
+  const applicationId = metadata ? metadata.id : ''
+  const [refresh, setRefresh] = useState(false)
 
   // generate Credentials
   const generateCredential = async (ID: string, type: string) => { 
+    const response = await axiosInstance.post(`/applications/${ID}/credentials`, {type})
+     if(response) setRefresh(!refresh)
 
-    //const BackendBaseUrl = useAppConfig().BackendBaseUrl;
-
-    const response = await AxiosInstance.post(`http://localhost:7007/api/devportal/applications/${ID}/credentials`, {type})
-    if (response.status === 201) {
-      setShow(true);
-      setStatus('success');
-      setMessageStatus('Credential created!');
-      setTimeout(()=>{
-        window.location.reload();
-      },2000)
-    }
-    else {
-      setShow(true);
-      setStatus('error');
-      setMessageStatus('An error has occurred');
-    }
   };
 
   return (
@@ -123,22 +103,10 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
               </Grid>
             </CardTab>
             <CardTab label="Services">
-              <AlertComponent
-                open={show}
-                close={handleClose}
-                message={messageStatus}
-                status={status}
-              />
-              <FetchServicesFromApplicationListComponent applicationId={ApplicationId}/>            
+              <FetchServicesFromApplicationListComponent applicationId={applicationId}/>            
             </CardTab>
             <CardTab label="Credentials">
-              <AlertComponent
-                open={show}
-                close={handleClose}
-                message={messageStatus}
-                status={status}
-              />
-              <Credentials idApplication={ApplicationId} />
+              <Credentials idApplication={applicationId} refresh={refresh} setRefresh={setRefresh} />
               <Grid
                 container
                 justifyContent="center"
@@ -148,7 +116,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
               >
                 <Grid item>
                   <Button
-                    onClick={() => generateCredential(ApplicationId, CredentialTypeEnum.oAuth2)}
+                    onClick={() => generateCredential(applicationId, CredentialTypeEnum.oAuth2)}
                     style={{ margin: "5px", background: "#20a082", color: "#fff" }} variant='contained' size='large'
                   >
                     New Credential OAuth2
@@ -156,7 +124,7 @@ export const DetailsComponent = ({ metadata, back, remove }: Props) => {
                 </Grid>
                 <Grid item>
                   <Button
-                    onClick={() => generateCredential(ApplicationId, CredentialTypeEnum.keyAuth)}
+                    onClick={() => generateCredential(applicationId, CredentialTypeEnum.keyAuth)}
                     style={{ margin: "5px", background: "#20a082", color: "#fff" }} variant='contained' size='large'
                   >
                     New Credential Key Auth

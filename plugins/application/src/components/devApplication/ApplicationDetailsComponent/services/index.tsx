@@ -2,32 +2,37 @@ import React, {useState} from 'react';
 import { Table, TableColumn, Progress } from '@backstage/core-components';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
-import AxiosInstance from '../../../../api/Api';
-import { useAppConfig } from '../../../../hooks/useAppConfig';
 import { IService } from '../../../services/utils/interfaces';
 import {IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button} from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { CopyBlock, vs2015 } from "react-code-blocks";
+import { createAxiosInstance } from '../../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api'; 
 
 type dialogProps = {
     show: boolean;
     handleClose: any;
     route:string | undefined;
+    oauth2: boolean;
   }
   
-  const ConfirmDialog = ({show, handleClose, route}: dialogProps) =>{
-    const option1 = 
+  const ConfirmDialog = ({show, handleClose, route, oauth2}: dialogProps) =>{
+    const option1 = oauth2 ?
 `curl -i -X POST '${route}oauth2/token' \\
 --header 'Content-Type: application/x-www-form-urlencoded' \\ 
 --data-urlencode 'client_id=XXXX' \\
 --data-urlencode 'client_secret=XXXX' \\
---data-urlencode 'grant_type=client_credentials'`
+--data-urlencode 'grant_type=client_credentials'` 
+  :
+  `curl -i '${route}' \\
+  --data 'apikey:your-api-key'`
 
-const option2 = 
+const option2 = oauth2 ?
 `curl -i -X POST '${route}oauth2/token' \\
 --header 'Content-Type: application/json' \\
---data-raw '{ "client_id": "XXXXX", "client_secret": "XXXX", "grant_type": "client_credentials" }'
-`
+--data-raw '{ "client_id": "XXXXX", "client_secret": "XXXX", "grant_type": "client_credentials" }'`
+: 
+`curl '${route}?apikey=your-api-key'`
 
     return (
       <Dialog
@@ -38,7 +43,7 @@ const option2 =
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Follow these steps to generate an Oauth2 token"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{oauth2 ? "Follow these steps to generate an Oauth2 token" : "Follow these steps to access your service with your key"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <CopyBlock
@@ -76,6 +81,7 @@ type DenseTableProps = {
 
     const [showDialog, setShowDialog] = useState(false)
     const [route, setRoute] = useState("")
+    const [oauth2, setOauth2] = useState(false)
 
     const handleShowDialog = () =>{
         setShowDialog(true)
@@ -94,10 +100,15 @@ type DenseTableProps = {
     return {
       name: service.name,
       kong: service.kongServiceName,
-      credentials: service.securityType === "oauth2" ? <IconButton onClick={()=>{
-        setRoute(service.route || "https://example.service.com")
-        handleShowDialog()
-    }}><InfoIcon/></IconButton> : null
+      credentials: 
+        <IconButton 
+          onClick={()=>{
+          setRoute(service.route || "https://example.service.com")
+          setOauth2(service.securityType === "oauth2")
+          handleShowDialog()
+          }}>
+          <InfoIcon/>
+        </IconButton> 
     };
   });
 
@@ -110,15 +121,18 @@ type DenseTableProps = {
         data={data}
         style={{ width: '100%', border: 'none' }}
       />
-      <ConfirmDialog show={showDialog} handleClose={handleCloseDialog} route={route}/>
+      <ConfirmDialog show={showDialog} handleClose={handleCloseDialog} route={route} oauth2={oauth2}/>
     </>
   );
 };
 
 export const FetchServicesFromApplicationListComponent = ({ applicationId }: { applicationId: string }) => {
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
   const { value, loading, error } = useAsync(async (): Promise<IService[]> => {
-    const response =  await AxiosInstance.get(`${BackendBaseUrl}/applications/${applicationId}/services`)
+    const response =  await axiosInstance.get(`/applications/${applicationId}/services`)
     return response.data.services;
   }, []);
 

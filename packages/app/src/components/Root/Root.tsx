@@ -114,7 +114,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
           <SidebarItem icon={LayersIcon} to="/applications" text="Applications"/> 
           <SidebarDivider />   
         </SidebarGroup>
-        </>)}
+      </>)}
       
       <SidebarSpace />
       <SidebarDivider />

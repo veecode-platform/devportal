@@ -24,8 +24,8 @@ export class PluginService extends KongServiceBase {
         tags: ["managed-by-devportal"]
       });
       return response.data;
-    } catch (error) {
-      return error
+    } catch (error:any) {
+      throw new Error(error.message)
     }
 
   }
@@ -35,26 +35,25 @@ export class PluginService extends KongServiceBase {
     pluginId: string,
     config: Map<string, string>,
   ) {
-    const url = `${await this.getUrl()}/services/${serviceName}/plugins/${pluginId}`;
     try {
-
+      const url = `${await this.getUrl()}/services/${serviceName}/plugins/${pluginId}`;
       const response = await axios.patch(url, {
         config: Object.fromEntries(config),
       });
 
       return response.data;
-    } catch (error) {
-      return error;
+    } catch (error:any) {
+      throw new Error(error.message)
     }
   }
 
   public async listPluginsKongService(serviceName: string) {
-    const url = `${await this.getUrl()}/services/${serviceName}/plugins`;
     try {
+      const url = `${await this.getUrl()}/services/${serviceName}/plugins`;
       const response = await axios.get(url);
       return response.data;
-    } catch (error) {
-      return error;
+    } catch (error:any) {
+      throw new Error(error.message)
     }
   }
 
@@ -63,8 +62,8 @@ export class PluginService extends KongServiceBase {
     try {
       const response = await axios.delete(url);
       return response.data;
-    } catch (error) {
-      return error
+    } catch (error:any) {
+      throw new Error(error.message)
     }
   }
 }

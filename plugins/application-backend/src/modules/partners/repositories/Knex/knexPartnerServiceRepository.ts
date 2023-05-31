@@ -17,21 +17,30 @@ export class PostgresPartnerServiceRepository {
     }
 
     async getServiceByPartner(partner_id: string): Promise<PartnerApplication[] | unknown> {
-        const services = await this.db<PartnerApplication>('partner_service')
+        try{
+            const services = await this.db<PartnerApplication>('partner_service')
             .innerJoin('service', 'partner_service.service_id', 'service.id')
             .select('*')
             .where('partner_id', partner_id)
-            .catch(error => console.error(error));
-        return services
+            return services
+        }
+        catch(error:any){
+            throw new Error(error.message);          
+        }
+
     }
 
     async getPartnerByservice(serviceId: string): Promise<PartnerService[] | unknown> {
-        const services = await this.db<PartnerApplication>('partner_service')
+        try{
+            const services = await this.db<PartnerApplication>('partner_service')
             .innerJoin('service', 'partner_service.service_id', 'service.id')
             .select('*')
             .where('service_id', serviceId)
-            .catch(error => console.error(error));
         return services
+        }
+        catch(error:any){
+            throw new Error(error.message);           
+        }
     }
 
     async associate(partnerId: string, services_id: string[]) {
@@ -42,12 +51,11 @@ export class PostgresPartnerServiceRepository {
                     service_id: services_id[i]
                 })
                 const data = await PartnerServiceMapper.toPersistence(partner)
-                await this.db<any>('partner_service')
-                    .insert(data)
-                    .catch(error => console.error(error));
+                await this.db<any>('partner_service').insert(data)
             }
-        } catch (error) {
-            return error
+        } 
+        catch (error:any) {
+            throw new Error(error.message);         
         }
     }
 
@@ -60,11 +68,11 @@ export class PostgresPartnerServiceRepository {
                     service_id: serviceId
                 })
                 const data = await PartnerServiceMapper.toPersistence(associate)
-                await this.db<any>('partner_service').insert(data).catch(error => console.error(error)); 
+                await this.db<any>('partner_service').insert(data); 
             })
         }
-        catch(e){
-            throw new Error("impossible to associate")
+        catch(error:any){
+            throw new Error(error.message)
         }
     }
 
@@ -76,8 +84,9 @@ export class PostgresPartnerServiceRepository {
                 }               
             )
         }
-        catch(error){
-            return error
+        catch(error:any){
+            throw new Error(error.message);
+            
         }
     }
 
@@ -85,8 +94,8 @@ export class PostgresPartnerServiceRepository {
         try{
             await this.db<PartnerService>('partner_service').where("service_id", serviceId).del()
         }
-        catch(e){
-            throw new Error(`Impossible to delete ${serviceId}`)
+        catch(error:any){
+            throw new Error(error.message)
         }
 
     }

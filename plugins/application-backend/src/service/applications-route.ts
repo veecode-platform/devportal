@@ -7,10 +7,10 @@ import { ApplicationDto } from "../modules/applications/dtos/ApplicationDto";
 import { ApplicationServices } from "../modules/applications/services/ApplicationServices";
 // import { AssociateService } from "../modules/kong-control/AssociateService";
 import { KongHandler, security } from "../modules/kong-control/KongHandler";
-import { AxiosError } from "axios";
 import { PostgresApplicationServiceRepository } from "../modules/applications/repositories/knex/KnexApplicationServiceRepository";
 // import { PostgresApplicationPartnerRepository } from "../modules/applications/repositories/knex/KnexApplicationPartnerRepository";
 import { PostgresPartnerRepository } from "../modules/partners/repositories/Knex/KnexPartnerRepository";
+import { serviceErrorHandler } from '../modules/utils/ErrorHandler';
 
 /** @public */
 export async function createApplicationRouter(
@@ -19,12 +19,8 @@ export async function createApplicationRouter(
 
   const {identity} = options
 
-  const applicationRepository = await PostgresApplicationRepository.create(
-    await options.database.getClient(),
-  );
-  const applicationServiceRepository = await PostgresApplicationServiceRepository.create(
-    await options.database.getClient(),
-  )
+  const applicationRepository = await PostgresApplicationRepository.create(await options.database.getClient());
+  const applicationServiceRepository = await PostgresApplicationServiceRepository.create(await options.database.getClient())
   const partnerRepository = await PostgresPartnerRepository.create(await options.database.getClient())
   // const applicationPartnerRepository = await PostgresApplicationPartnerRepository.create(await options.database.getClient())
 
@@ -33,7 +29,7 @@ export async function createApplicationRouter(
   // const associateService = new AssociateService();
   router.use(express.json())
 
-  router.get('/', async (request, response) => {
+  router.get('/', async (request, response, next) => {
     try {
       const user = await identity.getIdentity({ request: request });
       const isAdmin = user?.identity.userEntityRef.split(':')[0] === "admin" ? true : false
@@ -43,26 +39,13 @@ export async function createApplicationRouter(
       const responseData =  isAdmin ? await applicationRepository.getApplication(limit, offset) : await applicationRepository.getApplicationByCreator(creator, 10, 0)
       const total = await applicationRepository.total();
       response.json({ status: 'ok', applications: responseData, total: total });
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+    } 
+    catch (error) {
+      next(error)
     }
   });
 
-  router.get('/partners/:id', async (request, response) => {// get applications by creator
+  router.get('/partners/:id', async (request, response, next) => {// get applications by creator
     try {
       const creator = request.params.id
       const limit: number = request.query.limit as any;
@@ -70,142 +53,71 @@ export async function createApplicationRouter(
       const responseData =  await applicationRepository.getApplicationByCreator(creator, limit, offset)
       const total = await applicationRepository.total();
       response.json({ status: 'ok', applications: responseData, total: total });
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+    } 
+    catch (error) {
+      next(error)
     }
   });
 
 
 
-  router.post('/', async (request, response) => {
-    const data = request.body.application;
+  router.post('/', async (request, response, next) => {
     try {
+      const data = request.body.application;
       const partner = await partnerRepository.getPartnerIdByUserName(data.creator) as any
       await ApplicationServices.Instance.createApplication(data,partner.id, options);
       const result = await applicationRepository.createApplication(data, partner.id) as Application;
-      await applicationServiceRepository.associate(result._id as string, data.services)
-      
-      response.send({ status: 'ok', result: result});
+      await applicationServiceRepository.associate(result._id as string, data.services)     
+      response.send({ status: 'ok', message: "Application created", result: result});
     } 
-    catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+    catch (error) {
+      next(error)
     }
   });
 
-  router.patch('/:id', async (request, response) => {
+  router.patch('/:id', async (request, response, next) => {
     try {
       const data: ApplicationDto = request.body.application;
       const applicationId = request.params.id;
       const partner = await partnerRepository.getPartnerIdByUserName(data.creator) as any
-      const result = await applicationRepository.patchApplication(applicationId, data, partner);
-      if(data.services.length === 0) {
-        response.send({ status: 'OK', result: result}) 
+      await applicationRepository.patchApplication(applicationId, data, partner);
+      if(data.services.length > 0) {
+        await ApplicationServices.Instance.updateApplication(applicationId, data, options);
       }   
-      const associated = await ApplicationServices.Instance.updateApplication(applicationId, data, options);
-      response.send({ status: 'OK', result: result, associated: associated});
-
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+      response.send({ status: 'OK', message: "Application updated"});
+    }
+    catch (error) {
+      next(error)
     }
   });
 
-  router.get('/:id', async (request, response) => {
-    const code = request.params.id;
+  router.get('/:id', async (request, response, next) => {
     try {
+      const code = request.params.id;
       const result = await applicationRepository.getApplicationById(code);
       response.send({ status: 'ok', application: result });
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+    } 
+    catch (error) {
+      next(error)
     }
   });
 
-  router.delete('/:id', async (request, response) => {      
+  router.delete('/:id', async (request, response, next) => {      
     try {
       const id = request.params.id;
       await ApplicationServices.Instance.removeApplication(id, options);
-      const removeAssociation = await applicationServiceRepository.deleteApplication(id)
-      const result = await applicationRepository.deleteApplication(id);
-      response.status(204).json({ status: 'ok', applications: result, removed: removeAssociation })
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+      await applicationServiceRepository.deleteApplication(id)
+      await applicationRepository.deleteApplication(id);
+      response.status(200).json({ status: 'ok', message:"Application deleted" })
+    } 
+    catch (error) {
+      next(error)
     }
   });
 
-
   // associate applications with servicesId
 
-
-  router.get('/:id/services', async (request, response) => {
+  router.get('/:id/services', async (request, response, next) => {
     try {
       const idApplication = request.params.id;
       const services = await applicationServiceRepository.getServicesByApplication(idApplication)
@@ -216,225 +128,79 @@ export async function createApplicationRouter(
           route: route
         }
       }))
-
       response.status(200).json({ services: promises })
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+    } 
+    catch (error) {
+      next(error)
     }
   });
 
-
-
-  router.post('/services/:idApplication', async (request, response) => {
+  router.post('/services/:idApplication', async (request, response, next) => {
     try {
       const idApplication = request.params.idApplication;
       const servicesId = request.body.servicesId as string[];
       const services = await applicationServiceRepository.associate(idApplication, servicesId)
       response.status(200).json({ services: services })
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+    } 
+    catch (error) {
+      next(error)
     }
   });
 
 
-  router.patch('/associate/:id', async (request, response) => {
+  router.patch('/associate/:id', async (request, response, next) => {
     try {
       const id = request.params.id;
       const listServicesId: string[] = request.body.services;
       await applicationServiceRepository.associate(id, listServicesId);
-      response
-        .status(200)
-        .json({ status: 'ok', application: applicationRepository });
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+      response.status(200).json({ status: 'ok', application: applicationRepository });
+    } 
+    catch (error) {
+      next(error)
     }
   });
 
-
-  /* router.get('/associate/:id', async (request, response) => { refactor
-    try {
-      const services = await associateService.findAllAssociate(
-        options,
-        request.params.id,
-      );
-      response.json({ status: 'ok', associates: { services } });
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    }
-  });*/
-  /* router.delete('/associate/:id/', async (request, response) => { refactor
-    try {
-      const services = await associateService.removeAssociate(
-        options,
-        request.params.id,
-        request.query.service as string,
-      );
-      response.json({ status: 'ok', associates: { services } });
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    }
-  });*/
 
   // CREDENTIALS 
 
-  router.post('/:idApplication/credentials', async (req, res) => {
+  router.post('/:idApplication/credentials', async (req, res, next) => {
     try {
       const id = req.params.idApplication;
       const type = req.body.type as security
-      const serviceStore = await kongHandler.generateCredential(
-        options,
-        id,
-        type
-      );
-      res.status(201).json({ status: 'ok', response: serviceStore });
-    } catch (error: any) {
-      if (error instanceof Error) {
-        res.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        res.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+      await kongHandler.generateCredential(options,id,type);
+      res.status(201).json({ status: 'ok', message:`created ${type} credential` });
+    } 
+    catch (error) {
+      next(error)
     }
   });
 
-  router.get('/:idApplication/credentials', async (req, res) => { 
-
+  router.get('/:idApplication/credentials', async (req, res, next) => { 
     try {
       const id = req.params.idApplication;
-      const serviceStore = await kongHandler.listCredentialWithApplication(
-        options,
-        id
-      );
+      const serviceStore = await kongHandler.listCredentialWithApplication(options,id);
       res.status(200).json({ status: 'ok', credentials: serviceStore });
-    } catch (error: any) {
-      if (error instanceof Error) {
-        res.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        res.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+    } 
+    catch (error) {
+      next(error)
     }
   });
 
 
-  router.delete('/:idApplication/credentials', async (request, response) => {
+  router.delete('/:idApplication/credentials', async (request, response, next) => {
     try {
       const idCredential = request.query.idCredential as string;
       const type = request.query.type as security;
 
       const idApplication = request.params.idApplication;
-      const serviceStore = await kongHandler.removeCredencial(
-        options,
-        idApplication,
-        idCredential,
-        type
-      );
-      response.status(204).json({ status: 'ok', credentials: serviceStore });
-    } catch (error: any) {
-      if (error instanceof Error) {
-        response.status(500).json({
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        })
-      } else if (error instanceof AxiosError) {
-        error = AxiosError
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.errorSummary,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
+      await kongHandler.removeCredencial(options,idApplication,idCredential,type);
+      response.status(200).json({ status: 'ok', message: `deleted ${type} credential` });
+    } 
+    catch (error) {
+      next(error)
     }
   });
+
+  router.use(serviceErrorHandler)
   return router;
 }

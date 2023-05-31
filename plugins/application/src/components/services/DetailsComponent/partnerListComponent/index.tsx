@@ -9,13 +9,14 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { Grid, Button} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { IPartner } from '../../utils/interfaces';
-import AxiosInstance from '../../../../api/Api';
-import { useAppConfig } from '../../../../hooks/useAppConfig';
+import { createAxiosInstance } from '../../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api';
 
 type PartnerListProps = {
   partners: IPartner[];
   servicePartnerId: any[];
   serviceId: string;
+  axiosInstance: any;
 }
 
 type ActionsGridProps = {
@@ -43,11 +44,10 @@ const ActionsGrid = ({removeHandler, addHandler, partnerId}:ActionsGridProps) =>
   )
 }
 
-const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) =>{
+const PartnersList = ({partners, servicePartnerId, serviceId, axiosInstance}:PartnerListProps) =>{
 
   const [partnerList, setPartnerList] = useState<string[]>([]);
   const [loading, setLoading] = useState(false)
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
 
   useEffect(()=>{
     const associated = servicePartnerId.map((partner) => {
@@ -64,12 +64,8 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
         partnersId: partnerList
       }
     } 
-    await AxiosInstance.patch(`${BackendBaseUrl}/services/${serviceId}`, JSON.stringify(updateServicesPartners) )
-
-    new Promise (() =>{
-      setTimeout(()=>{setLoading(false)}, 1000);
-    })
-    
+    await axiosInstance.patch(`/services/${serviceId}`, JSON.stringify(updateServicesPartners) )
+    setLoading(false)  
   }
 
   const addHandler = (partnerId:string) => {
@@ -126,16 +122,19 @@ const PartnersList = ({partners, servicePartnerId, serviceId}:PartnerListProps) 
 }
 
 export const PartnerListComponent = ({servicePartnerId, serviceId}:any) => {
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
-    const { value, loading, error } = useAsync(async (): Promise<IPartner[]> => {
-      const {data} = await AxiosInstance.get(`${BackendBaseUrl}/partners`)
-      return data.partners;
-    }, []);
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
+  const { value, loading, error } = useAsync(async (): Promise<IPartner[]> => {
+    const {data} = await axiosInstance.get(`/partners`)
+    return data.partners;
+  }, []);
   
-    if (loading) {
-      return <Progress />;
-    } else if (error) {
-      return <Alert severity="error">{error.message}</Alert>;
-    }
-    return <PartnersList partners={value || []} servicePartnerId={servicePartnerId} serviceId={serviceId}/>;
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+    return <PartnersList partners={value || []} servicePartnerId={servicePartnerId} serviceId={serviceId} axiosInstance={axiosInstance}/>;
   };

@@ -21,8 +21,8 @@ export async function createKeycloackRouter(options: RouterOptions): Promise<Rou
             const logout = await userServiceKeycloak.logOut(userName)
             response.status(200).json({ status: 'ok', sessions: logout });
         }
-        catch(e){
-            response.status(500).json({message: "User not found"})
+        catch(e){          
+            throw new Error("User not found")
         }
     });
 

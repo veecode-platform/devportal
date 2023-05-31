@@ -38,6 +38,8 @@ import {
   } from '@backstage/plugin-catalog-react';
   import React from 'react';
   import { registerComponentRouteRef } from '../../routes';
+  import { usePermission } from '@backstage/plugin-permission-react';
+  import { adminAccessPermission } from '@internal/plugin-application-common';
   
   const defaultColumns: TableColumn<CatalogTableRow>[] = [
     CatalogTable.columns.createNameColumn({ defaultKind: 'API' }),
@@ -73,6 +75,7 @@ import {
       configApi.getOptionalString('organization.name') ?? 'Backstage'
     } API Explorer`;
     const registerComponentLink = useRouteRef(registerComponentRouteRef);
+    const { loading: loadingPermission, allowed: adminView } = usePermission({permission: adminAccessPermission});
   
     return (
       <PageWithHeader
@@ -83,10 +86,13 @@ import {
       >
         <Content>
           <ContentHeader title="">
-            <CreateButton
-              title="Register Existing API"
-              to={registerComponentLink?.()}
-            />
+            { (adminView && !loadingPermission) && (
+              <CreateButton
+                title="Register Existing API" 
+                to={registerComponentLink?.()}
+              />
+            )}
+
             {/* <SupportButton>All your APIs</SupportButton>*/}
           </ContentHeader>
           <EntityListProvider>

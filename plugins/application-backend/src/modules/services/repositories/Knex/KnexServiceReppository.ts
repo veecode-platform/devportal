@@ -5,8 +5,6 @@ import { ServiceResponseDto } from '../../dtos/ServiceResponseDto';
 import { ServiceMapper } from '../../mappers/ServiceMapper';
 import { IServiceRepository } from '../IServiceRepository';
 
-
-
 export class PostgresServiceRepository implements IServiceRepository {
   constructor(private readonly db: Knex) {}
   async total(): Promise<number> {
@@ -20,133 +18,141 @@ export class PostgresServiceRepository implements IServiceRepository {
   }
 
   async getServiceByUser(name: string): Promise<Service[] | void> {
-    const service = await this.db<Service>('service')
-      .where('email', name)
-      .select('*')
-      .catch(error => console.error(error));
-    return service;
+    try{
+      const service = await this.db<Service>('service').where('email', name).select('*')
+      return service;
+    }
+    catch(error:any){
+      throw new Error(error.message);      
+    }
   }
 
   async getService(limit: number, offset: number): Promise<Service[]> {
-    const service = await this.db<Service>('service')
-      .select('*')
-      .limit(limit)
-      .offset(offset)
-      .catch(error => console.error(error));
-    const servicesDomain = ServiceResponseDto.create({ services: service });
-    const responseData = await ServiceMapper.listAllServicesToResource(
-      servicesDomain,
-    );
-
-    return responseData.services ?? [];
+    try{
+      const service = await this.db<Service>('service').select('*').limit(limit).offset(offset)
+      const servicesDomain = ServiceResponseDto.create({ services: service });
+      const responseData = await ServiceMapper.listAllServicesToResource(servicesDomain);
+      return responseData.services ?? [];
+    }
+    catch(error:any){
+      throw new Error(error.message)
+    }   
   }
 
   // method get one service by id
   async getServiceById(id: string): Promise<Service> {
-    const service = await this.db<Service>('service')
-      .where('id', id)
-      .limit(1)
-      .select()
-      .catch(error => console.error(error));
-    const serviceDomain = ServiceResponseDto.create({ serviceIt: service });
-    const responseData = await ServiceMapper.listAllServicesToResource(
-      serviceDomain,
-    );
+    try{
+      const service = await this.db<Service>('service').where('id', id).limit(1).select()
+      const serviceDomain = ServiceResponseDto.create({ serviceIt: service });
+      const responseData = await ServiceMapper.listAllServicesToResource(serviceDomain);
+      return responseData.service as Service;
+    }
+    catch(error:any){
+      throw new Error(error.message)
+    }   
 
-    return responseData.service as Service;
   }
 
   async getServiceByKongId(id: string): Promise<Service | string> {
-    const service = await this.db<Service>('service')
-      .where('kongServiceId', id)
-      .limit(1)
-      .select('')
-      .catch(error => console.error(error));
+    try{
+      const service = await this.db<Service>('service').where('kongServiceId', id).limit(1).select('')    
+      const serviceDomain = ServiceResponseDto.create({ serviceIt: service });
+      const responseData = await ServiceMapper.listAllServicesToResource(serviceDomain);
+      return responseData.service as Service;
+    }
+    catch(error:any){
+      throw new Error(error.message)
+    }  
     
-    const serviceDomain = ServiceResponseDto.create({ serviceIt: service });
-    const responseData = await ServiceMapper.listAllServicesToResource(serviceDomain);
 
-    return responseData.service as Service;
   }
 
   async saveService(serviceDto: ServiceDto): Promise<Service> {
-    const service: Service = Service.create({
-      name: serviceDto.name,
-      active: serviceDto.active,
-      description: serviceDto.description,
-      kongServiceName: serviceDto.kongServiceName,
-      kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
-      securityType: serviceDto.securityType as SECURITY,
-    });
-    await ServiceMapper.toPersistence(service);
-    await this.db('service')
-    .insert(service)
-    .catch(error => console.error(error));
-    return service;
-  }
+    try{
+      const service: Service = Service.create({
+        name: serviceDto.name,
+        active: serviceDto.active,
+        description: serviceDto.description,
+        kongServiceName: serviceDto.kongServiceName,
+        kongServiceId: serviceDto.kongServiceId,
+        rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
+        securityType: serviceDto.securityType as SECURITY,
+      });
+      await ServiceMapper.toPersistence(service);
+      await this.db('service').insert(service)
+      return service;
+    }
+    catch(error:any){
+      throw new Error(error.message);    
+    }
+}
+
 
   // method to delete service
   async deleteService(id: string): Promise<void> {
-    await this.db<Service>('service')
-      .where('id', id)
-      .del()
-      .catch(error => console.error(error));
+    try {
+      await this.db<Service>('service').where('id', id).del()
+    } 
+    catch (error:any) {
+      throw new Error(error.message);     
+    }
+
   }
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
-    const service: Service = Service.create({
-      name: serviceDto.name,
-      active: serviceDto.active,
-      description: serviceDto.description,
-      kongServiceName: serviceDto.kongServiceName,
-      kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
-      securityType: serviceDto.securityType as SECURITY,
-    });
-    // if (serviceDto.securityType.valueOf() != 'none') {
-    // }
-    const data = await ServiceMapper.toPersistence(service);
-    const createdService = await this.db('service')
-      .insert(data)
-      .catch(error => console.error(error));
-    return createdService ? service : 'cannot create service';
+    try{
+      const service: Service = Service.create({
+        name: serviceDto.name,
+        active: serviceDto.active,
+        description: serviceDto.description,
+        kongServiceName: serviceDto.kongServiceName,
+        kongServiceId: serviceDto.kongServiceId,
+        rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
+        securityType: serviceDto.securityType as SECURITY,
+      });
+      const data = await ServiceMapper.toPersistence(service);
+      await this.db('service').insert(data)
+      return service ;
+    }
+    catch(error:any){
+      throw new Error(error.message)
+    }
+    
   }
   // asyn function to update full service object
-  async updateService(
-    id: string,
-    serviceDto: ServiceDto,
-  ): Promise<Service | string> {
-    const service: Service = Service.create({
-      name: serviceDto.name,
-      active: serviceDto.active,
-      description: serviceDto.description,
-      kongServiceName: serviceDto.kongServiceName,
-      kongServiceId: serviceDto.kongServiceId,
-      rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
-      securityType: serviceDto.securityType as SECURITY,
-    });
-    const data = await ServiceMapper.toPersistence(service);
-    const updatedService = await this.db('service')
-      .where('id', id)
-      .update(data)
-      .catch(error => console.error(error));
-    return updatedService ? service : 'cannot update service';
+  async updateService(id: string,serviceDto: ServiceDto): Promise<Service | string> {
+    try{
+      const service: Service = Service.create({
+        name: serviceDto.name,
+        active: serviceDto.active,
+        description: serviceDto.description,
+        kongServiceName: serviceDto.kongServiceName,
+        kongServiceId: serviceDto.kongServiceId,
+        rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
+        securityType: serviceDto.securityType as SECURITY,
+      });
+      const data = await ServiceMapper.toPersistence(service);
+      await this.db('service').where('id', id).update(data)
+      return service 
+    }
+    catch(error:any){
+      throw new Error(error.message)
+    }
   }
 
   // async updateService(code: string, serviceDto: ServiceDto): Promise<Service | null> {
   //     return null;
   // }
   // async function to patch partial  service object partial class type
-  async patchService(
-    id: string,
-    serviceDto: any,
-  ): Promise<Service | string> {
-    const service: Service = (await this.getServiceById(id)) as Service;
-    const patchedService = await this.db('service')
-      .where('id', id)
-      .update(serviceDto)
-      .catch(error => console.error(error));
-    return patchedService ? service : 'cannot patch service';
+  async patchService(id: string,serviceDto: any): Promise<Service | string> {
+    try{
+      const service: Service = (await this.getServiceById(id)) as Service;
+      await this.db('service').where('id', id).update(serviceDto)
+      return service;
+    }
+    catch(error:any){
+      throw new Error(error.message);     
+    }
+
   }
 }

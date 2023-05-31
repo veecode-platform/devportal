@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, TextField, Button, IconButton, Tooltip, Checkbox, FormControlLabel, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { Grid, TextField, Button, IconButton, Tooltip, Checkbox, FormControlLabel, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, InputAdornment } from '@material-ui/core';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { AlertComponent } from '../../shared';
 import {
   InfoCard,
   Header,
@@ -9,15 +8,19 @@ import {
   Content,
   ContentHeader,
 } from '@backstage/core-components';
-// import { ICreateService } from '../utils/interfaces';
 import { FetchKongServices } from '../utils/kongUtils';
 import { securityItems } from '../utils/common';
 import { Select } from '../../shared';
-import AxiosInstance from '../../../api/Api';
-import { useAppConfig } from '../../../hooks/useAppConfig';
 import Help from '@material-ui/icons/HelpOutline';
+import { createAxiosInstance } from '../../../api/Api';
+import { useApi, alertApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api'; 
 
 export const CreateComponent = () => {
+  const alert = useApi(alertApiRef)
+  const config = useApi(configApiRef)
+  const identity = useApi(identityApiRef)
+  const axiosInstance = createAxiosInstance({config, alert, identity})
+
   const navigate = useNavigate();
   const [error, setError] = useState<boolean>(false)
   const [service, setService] = useState<any>({
@@ -29,14 +32,12 @@ export const CreateComponent = () => {
     securityType: '',
     rateLimiting: 0,
   });
-  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [applySecurity, setApplySecurity] = useState<boolean>(false)
   const [applyRateLimit, setApplyRateLimit] = useState<boolean>(false)
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
-  const BackendBaseUrl = useAppConfig().BackendBaseUrl;
-  const kongReadOnlyMode = useAppConfig().config.getBoolean("platform.apiManagement.readOnlyMode")
+  const kongReadOnlyMode = config.getBoolean("platform.apiManagement.readOnlyMode")
 
   const handleOpenDialog = () => {
     setShowDialog(true);
@@ -46,21 +47,6 @@ export const CreateComponent = () => {
     setShowDialog(false);
   };
 
-  const handleClose = (reason: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setService({
-      name: '',
-      kongServiceName:'',
-      active: true,
-      description: '',
-      kongServiceId: '',
-      securityType: '',
-      rateLimiting: 0,
-    });
-  };
-  
   useEffect(()=>{
     const securityTypeCheck = kongReadOnlyMode ? false : applySecurity ? service.securityType==="" : false
     const rateLimitCheck = kongReadOnlyMode ? false : applyRateLimit ? service.rateLimiting===0 : false
@@ -78,28 +64,20 @@ export const CreateComponent = () => {
         active: service.active,
         description: service.description,
         kongServiceId: service.kongServiceId,
-        rateLimiting: applyRateLimit ? service.rateLimiting : 0,
+        rateLimiting: applyRateLimit ? service.rateLimiting : "0",
         securityType: applySecurity ? service.securityType : "none"
       },
     };
-    const response = await AxiosInstance.post(`${BackendBaseUrl}/services`, JSON.stringify(servicePost) )
-    setTimeout(() => {
-      navigate('/services');
-    }, 2000);
-    setShow(true);
-    return response.data;
+    const response = await axiosInstance.post("/services", JSON.stringify(servicePost))
+    if(response) navigate('/services');
+    setLoading(false)
   };
 
   return (
     <Page themeId="tool">
       <Header title="New Service"> </Header>
       <Content>
-        <ContentHeader title="Create a new Service"></ContentHeader>
-        <AlertComponent
-          open={show}
-          close={handleClose}
-          message="Service Registered!"
-        />
+        <ContentHeader title="Create a new Service"/>
         <Grid container direction="row" justifyContent="center" alignItems="center" alignContent="center">
           <Grid item sm={12} lg={6}>
             <InfoCard>
@@ -150,22 +128,7 @@ export const CreateComponent = () => {
                   />
                 </Grid>
 
-                <Grid container xs={12} justifyContent='space-between' alignContent='center' alignItems='center'
-                  /*style={{
-                    //display: 'grid',
-                    alignItems: 'center',
-                    border: "1px solid red"
-                  }}*/
-                   /* style={{
-                    display: 'grid',
-                    gridTemplate: 'auto / repeat(2, 1fr)',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap:'1em',
-                    width: '100%',
-                  }}*/
-                >               
-
+                <Grid container xs={12} justifyContent='space-between' alignContent='center' alignItems='center'>              
                   <Grid item xs={6}>
                     <FormControlLabel
                       value={applySecurity}
@@ -195,6 +158,9 @@ export const CreateComponent = () => {
                     type='number'
                     fullWidth
                     variant="outlined"
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end">/min</InputAdornment>,
+                    }}
                     value={service.rateLimiting}
                     disabled={kongReadOnlyMode || !applyRateLimit}
                     onChange={e => {
@@ -240,7 +206,7 @@ export const CreateComponent = () => {
                       disabled={loading || error}
                       onClick={kongReadOnlyMode ? handleOpenDialog : handleSubmit}
                     >
-                      Create
+                      {loading ? "loading..." : "create"}
                     </Button>
                     <ConfirmDialog show={showDialog} handleClose={handleCloseDialog} handleSubmit={handleSubmit}/>
                   </Grid>
