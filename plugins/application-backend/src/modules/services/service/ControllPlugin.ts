@@ -89,7 +89,12 @@ export class ControllPlugin {
       
       const acl = await pluginRepository.getPluginByTypeOnService(serviceId, "acl")
       if(acl === undefined){
-        await AclPlugin.Instance.configAclKongService(service.kongServiceName as string, [`${service.kongServiceName}-group`]);
+        const aclId = await AclPlugin.Instance.configAclKongService(service.kongServiceName as string, [`${service.kongServiceName}-group`]);
+        pluginRepository.createPlugin({
+          name: "acl",
+          kongPluginId: aclId.id,
+          service: serviceId
+        })
       }
 
       if (pluginType === SECURITY.OAUTH2.toString()) {
