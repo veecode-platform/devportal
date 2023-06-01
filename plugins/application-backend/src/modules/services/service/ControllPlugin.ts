@@ -86,6 +86,11 @@ export class ControllPlugin {
         await Oauth2Plugin.Instance.removePluginKongService(service.kongServiceName as string, plugin.kongPluginId)
         await pluginRepository.deletePlugin(plugin.id)
       }
+      
+      const acl = await pluginRepository.getPluginByTypeOnService(serviceId, "acl")
+      if(acl === undefined){
+        await AclPlugin.Instance.configAclKongService(service.kongServiceName as string, [`${service.kongServiceName}-group`]);
+      }
 
       if (pluginType === SECURITY.OAUTH2.toString()) {
         const oauth2 = await Oauth2Plugin.Instance.configureOauth(service.kongServiceName as string);
