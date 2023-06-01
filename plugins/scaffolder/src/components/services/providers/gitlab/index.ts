@@ -41,7 +41,6 @@ export async function getUserGitlab(token:string): Promise<string>{
         const response = await axios.get( GITLAB_USER_URL ,{ headers });
 
         if (response.status === 200){
-            console.log("data vindo do scaffolder", response);
             const owner = response.data.username;
             return owner
         }
