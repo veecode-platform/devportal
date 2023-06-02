@@ -69,11 +69,18 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     backgroundAttachment: 'fixed',
     boxShadow: theme.shadows[1],
-    padding: '10px 15px',
-    borderRadius: '30px',
+    borderRadius: '5px',
     outline: 'none',
-    border: 'mone',
+    border: 'none',
     margin: '10px auto',
+    '&:hover':{
+      outline: 'none',
+      borderColor: 'transparent',
+    },
+    '&:focus':{
+      outline: 'none',
+      border: 'transparent',
+    }
   },
   container: {
     margin: theme.spacing(5, 0),
@@ -83,7 +90,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: '10px 0px'
+    margin: '10px 0px',
   },
   starredContent:{
     backgroundColor: theme.palette.background.paper,
