@@ -6,25 +6,15 @@ on:
 
 jobs:
   requirements:
-    runs-on: [self-hosted, Linux, ARM64]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install Pre Requisitos
+      - name: Pre Requisitos
         run: |
           VERSION=`jq -r '.version' package.json`
           CHART_VERSION=$(yq e '.version' chart/Chart.yaml)
           echo "app_version=$VERSION" >> $GITHUB_ENV
           echo "chart_version=$CHART_VERSION" >> $GITHUB_ENV
-
-  
-  buildDevportal:
-    needs: [requirements]
-    strategy:
-      matrix:
-        os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
       - name: Building Devportal
         run: |
           yarn install --frozen-lockfile
@@ -50,11 +40,6 @@ jobs:
           tags: veecode/devportal-bundle:${{ env.app_version }}, veecode/devportal-bundle:latest
           push: true
   
-  publishHelm:
-    needs: [buildDevportal]
-    runs-on: [self-hosted, Linux, ARM64]
-    steps:
-      - uses: actions/checkout@v3
       - name: Build Package Helm
         run: |
           yq e '.image.repository = "veecode/devportal-bundle" ' -i chart/values.yaml
