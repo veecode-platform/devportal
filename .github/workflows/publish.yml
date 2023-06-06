@@ -12,7 +12,9 @@ jobs:
       - name: Install Pre Requisitos
         run: |
           VERSION=`jq -r '.version' package.json`
+          CHART_VERSION=$(yq e '.version' chart/Chart.yaml)
           echo "app_version=$VERSION" >> $GITHUB_ENV
+          echo "chart_version=$CHART_VERSION" >> $GITHUB_ENV
 
   
   buildDevportal:
@@ -22,6 +24,7 @@ jobs:
         os: [ubuntu-latest, [self-hosted, macOS, ARM64]]
     runs-on: ${{ matrix.os }}
     steps:
+      - uses: actions/checkout@v3
       - name: Building Devportal
         run: |
           yarn install --frozen-lockfile
@@ -57,8 +60,6 @@ jobs:
           yq e '.image.repository = "veecode/devportal-bundle" ' -i chart/values.yaml
           yq e '.image.tag = "${{ env.app_version }}" ' -i chart/values.yaml
           yq e '.appVersion= "${{ env.app_version }}" ' -i chart/Chart.yaml
-          CHART_VERSION=$(yq e '.version' chart/Chart.yaml)
-          echo "chart_version=$CHART_VERSION" >> $GITHUB_ENV
           mkdir -p charts
           helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
 
