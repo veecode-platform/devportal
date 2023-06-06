@@ -6,7 +6,7 @@ on:
 
 jobs:
   requirements:
-    runs-on: [self-hosted, macOS, ARM64]
+    runs-on: [self-hosted, Linux, ARM64]
     steps:
       - uses: actions/checkout@v3
       - name: Install Pre Requisitos
@@ -21,7 +21,7 @@ jobs:
     needs: [requirements]
     strategy:
       matrix:
-        os: [ubuntu-latest, [self-hosted, macOS, ARM64]]
+        os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
   
   publishHelm:
     needs: [buildDevportal]
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, ARM64]
     steps:
       - uses: actions/checkout@v3
       - name: Build Package Helm
