@@ -146,7 +146,7 @@ export const RepoUrlPlatform = (props: RepoUrlPlatformProps) => {
         onChange={host => setState(prevState => ({ ...prevState, host }))}
         rawErrors={rawErrors}
       />
-      {hostType === 'github' && (
+      {hostType?.includes('github') && (
         <GithubRepoPicker
           allowedOwners={allowedOwners}
           onChange={updateLocalState}
@@ -154,7 +154,7 @@ export const RepoUrlPlatform = (props: RepoUrlPlatformProps) => {
           state={state}
         />
       )}
-      {hostType === 'gitlab' && (
+      {hostType?.includes('gitlab') && (
         <GitlabRepoPicker
           allowedOwners={allowedOwners}
           rawErrors={rawErrors}
