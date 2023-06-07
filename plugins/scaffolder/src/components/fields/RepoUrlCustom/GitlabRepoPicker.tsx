@@ -23,12 +23,12 @@ export const GitlabRepoPicker = (props: {
   const [ownerData, setOwnerData ] = useState<string>("loading ...");
   const [items, setItems] = useState<string[]>();
   const [ownerList, setOwnerList] = useState<SelectItem[]>();
-  const { gitlabTokenIntegration } = useIntegrations();
+  const { gitlabTokenIntegration, gitlabHostIntegration } = useIntegrations();
   const messageLoading = "loading ...";
 
   useEffect(()=>{
     async function fetchData(){
-      const params = {provider: 'gitlab', token: gitlabTokenIntegration};
+      const params = {provider: 'gitlab', host: gitlabHostIntegration ,token: gitlabTokenIntegration};
       const getData = getUserAndOrgs(params);
       try{
         const user = (await getData).username;

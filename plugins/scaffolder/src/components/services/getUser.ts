@@ -2,11 +2,14 @@ import { getUserGithub, getUserGitlab } from "./providers";
 import { ParamsService } from "./types";
 
 export async function getUser(Params : ParamsService): Promise<string> {
-    switch (Params.provider) {
+
+    const {provider , host , token } = Params;
+
+    switch (provider) {
         case "github":
-            return await getUserGithub(Params.token)
+            return await getUserGithub({host, token})
         case "gitlab":
-            return await getUserGitlab(Params.token)
+            return await getUserGitlab({host, token})
         default:
             return "Not Owner avaliable";
     }

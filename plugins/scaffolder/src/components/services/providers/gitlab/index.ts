@@ -1,9 +1,12 @@
 import axios from 'axios';
+import { ParamsProvider } from '../../types';
 
-const GITLAB_ORGS_URL = "https://gitlab.com/api/v4/groups";
-const GITLAB_USER_URL = "https://gitlab.com/api/v4/user"
+export async function getOrgsGitlab(Params : ParamsProvider): Promise<string[]>{
 
-export async function getOrgsGitlab(token:string): Promise<string[]>{
+    const { host, token } = Params;
+
+    const GITLAB_ORGS_URL = `https://${host}/api/v4/groups`;
+
     const headers = {
         'Private-Token': token
     }
@@ -32,7 +35,12 @@ export async function getOrgsGitlab(token:string): Promise<string[]>{
     }
 }
 
-export async function getUserGitlab(token:string): Promise<string>{
+export async function getUserGitlab(Params: ParamsProvider): Promise<string>{
+
+    const { host, token } = Params;
+
+    const GITLAB_USER_URL = `https://${host}/api/v4/user`
+
     const headers = {
         Authorization: `Bearer ${token}`
     }
