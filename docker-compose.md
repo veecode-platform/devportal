@@ -10,13 +10,13 @@ Available profiles:
 ## Commads
 Complete profile:
 ```bash
-docker-compose --profile=complete up -d
+docker compose --profile=complete up -d
 ```
 Basic profile:
 ```bash
-docker-compose --profile=basic up -d
+docker compose --profile=basic up -d
 ```
 Down:
 ```bash
-docker-compose down
+docker compose down
 ```
