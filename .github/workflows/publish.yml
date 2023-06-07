@@ -16,9 +16,9 @@ jobs:
           echo "app_version=$VERSION" >> $GITHUB_ENV
           echo "chart_version=$CHART_VERSION" >> $GITHUB_ENV
           echo "node_version=$NODE_VERSION" >> $GITHUB_ENV
-          echo "node_version=${{ env.node_version }}"
-          echo "app_version=${{ env.app_version }}"
-          echo "chart_version=${{ env.chart_version }}"
+          echo "node_version=$NODE_VERSION"
+          echo "app_version=$VERSION"
+          echo "chart_version=$CHART_VERSION"
   
   # buildDevportal:
   #   needs: [requirements]
