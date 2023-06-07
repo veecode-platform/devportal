@@ -6,63 +6,76 @@ on:
 
 jobs:
   requirements:
-    runs-on: ubuntu-latest
-    env:
-      NODE_VERSION: 18
+    runs-on: [self-hosted, Linux, ARM64]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: yarn
       - name: Pre Requisitos
         run: |
           VERSION=`jq -r '.version' package.json`
           CHART_VERSION=$(yq e '.version' chart/Chart.yaml)
+          NODE_VERSION=$(cat .nvmrc | grep -o '[0-9]*')
           echo "app_version=$VERSION" >> $GITHUB_ENV
           echo "chart_version=$CHART_VERSION" >> $GITHUB_ENV
-      - name: Building Devportal
-        run: |
-          yarn install --frozen-lockfile
-          yarn tsc
-          yarn build
-      
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Publish to Docker Hub
-        uses: docker/build-push-action@v4
-        with:
-          file: packages/backend/Dockerfile
-          context: .
-          # platforms: linux/amd64,linux/arm64
-          tags: veecode/devportal-bundle:${{ env.app_version }}, veecode/devportal-bundle:latest
-          push: true
+          echo "node_version=$NODE_VERSION" >> $GITHUB_ENV
+          echo "node_version=${{ env.node_version }}"
+          echo "app_version=${{ env.app_version }}"
+          echo "chart_version=${{ env.chart_version }}"
   
-      - name: Build Package Helm
-        run: |
-          yq e '.image.repository = "veecode/devportal-bundle" ' -i chart/values.yaml
-          yq e '.image.tag = "${{ env.app_version }}" ' -i chart/values.yaml
-          yq e '.appVersion= "${{ env.app_version }}" ' -i chart/Chart.yaml
-          mkdir -p charts
-          helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
+  # buildDevportal:
+  #   needs: [requirements]
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
+  #   runs-on: ${{ matrix.os }}
+  #   env:
+  #     NODE_VERSION: 18
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ env.node_version }}
+  #         cache: yarn      
+  #     - name: Building Devportal
+  #       run: |
+  #         yarn install --frozen-lockfile
+  #         yarn tsc
+  #         yarn build
+      
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v2
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v2
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v2
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Publish Helm Charts
-        uses: dmnemec/copy_file_to_another_repo_action@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source_file: "charts/"
-          destination_repo: "veecode-platform/public-charts"
-          destination_folder: "charts"
-          destination_branch: "main"
-          user_email: "${{ secrets.GIT_EMAIL }}"
-          user_name: ${{ secrets.GIT_USER }}'
-          commit_message: "Publish new version devportal-${{ env.chart_version }}"
+  #     - name: Publish to Docker Hub
+  #       uses: docker/build-push-action@v4
+  #       with:
+  #         file: packages/backend/Dockerfile
+  #         context: .
+  #         # platforms: linux/amd64,linux/arm64
+  #         tags: veecode/devportal-bundle:${{ env.app_version }}, veecode/devportal-bundle:latest
+  #         push: true
+  
+  #     - name: Build Package Helm
+  #       run: |
+  #         yq e '.image.repository = "veecode/devportal-bundle" ' -i chart/values.yaml
+  #         yq e '.image.tag = "${{ env.app_version }}" ' -i chart/values.yaml
+  #         yq e '.appVersion= "${{ env.app_version }}" ' -i chart/Chart.yaml
+  #         mkdir -p charts
+  #         helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
+
+  #     - name: Publish Helm Charts
+  #       uses: dmnemec/copy_file_to_another_repo_action@main
+  #       env:
+  #         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+  #       with:
+  #         source_file: "charts/"
+  #         destination_repo: "veecode-platform/public-charts"
+  #         destination_folder: "charts"
+  #         destination_branch: "main"
+  #         user_email: "${{ secrets.GIT_EMAIL }}"
+  #         user_name: ${{ secrets.GIT_USER }}'
+  #         commit_message: "Publish new version devportal-${{ env.chart_version }}"
