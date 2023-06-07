@@ -33,6 +33,8 @@ import argocd from './plugins/argocd';
 import kubernetes from './plugins/kubernetes';
 // gitlab
 import gitlab from './plugins/gitlab';
+// aws
+import aws from './plugins/aws';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -89,6 +91,7 @@ async function main() {
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
+  const awsEnv = useHotMemoize(module, () => createEnv('aws'));
 
   if(config.getOptionalBoolean("platform.apiManagement.enabled")){
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));
@@ -121,6 +124,7 @@ async function main() {
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
+  apiRouter.use('/aws', await aws(awsEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());
