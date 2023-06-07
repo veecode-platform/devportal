@@ -5,37 +5,49 @@ on:
     branches: ["main"]
 
 jobs:
+  #Getting requided versions for next steps
   requirements:
-    runs-on: [self-hosted, macOS, ARM64]
+    runs-on: [self-hosted, Linux, ARM64]
+    outputs:
+      app_version: ${{ env.app_version }}
+      chart_version: ${{ env.chart_version }}
+      node_version: ${{ env.node_version }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Pre Requisitos
+      - name: Getting versions
         run: |
-          VERSION=`jq -r '.version' package.json`
-          echo "app_version=$VERSION" >> $GITHUB_ENV
+          echo "app_version=$(jq -r '.version' package.json)" >> $GITHUB_ENV
+          echo "chart_version=$(yq e '.version' chart/Chart.yaml)" >> $GITHUB_ENV
+          echo "node_version=$(cat .nvmrc | grep -o '[0-9]*')" >> $GITHUB_ENV
 
-  
+  #parallel build for x64 and amr64
   buildDevportal:
     needs: [requirements]
     strategy:
       matrix:
-        os: [ubuntu-latest, [self-hosted, macOS, ARM64]]
+        os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
     runs-on: ${{ matrix.os }}
+    env:
+      NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node_version }}
+          cache: yarn      
       - name: Building Devportal
         run: |
           yarn install --frozen-lockfile
           yarn tsc
           yarn build
       
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v2
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v2
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Publish to Docker Hub
@@ -43,22 +55,19 @@ jobs:
         with:
           file: packages/backend/Dockerfile
           context: .
-          platforms: linux/amd64,linux/arm64
-          tags: veecode/devportal-bundle:${{ env.app_version }}, veecode/devportal-bundle:latest
+          tags: veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}, veecode/devportal-bundle:latest
           push: true
   
   publishHelm:
-    needs: [buildDevportal]
-    runs-on: ubuntu-latest
+    needs: [requirements, buildDevportal]
+    runs-on: [self-hosted, Linux, ARM64]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3  
       - name: Build Package Helm
         run: |
           yq e '.image.repository = "veecode/devportal-bundle" ' -i chart/values.yaml
-          yq e '.image.tag = "${{ env.app_version }}" ' -i chart/values.yaml
-          yq e '.appVersion= "${{ env.app_version }}" ' -i chart/Chart.yaml
-          CHART_VERSION=$(yq e '.version' chart/Chart.yaml)
-          echo "chart_version=$CHART_VERSION" >> $GITHUB_ENV
+          yq e '.image.tag = "${{ needs.requirements.outputs.app_version }}" ' -i chart/values.yaml
+          yq e '.appVersion= "${{ needs.requirements.outputs.app_version }}" ' -i chart/Chart.yaml
           mkdir -p charts
           helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
 
@@ -71,6 +80,6 @@ jobs:
           destination_repo: "veecode-platform/public-charts"
           destination_folder: "charts"
           destination_branch: "main"
-          user_email: "${{ secrets.GIT_EMAIL }}"
-          user_name: ${{ secrets.GIT_USER }}'
-          commit_message: "Publish new version devportal-${{ env.chart_version }}"
+          user_email: 'veecode-bot@vee.codes'
+          user_name: 'veecode-bot'
+          commit_message: "Publish new version devportal-${{ needs.requirements.outputs.chart_version }}"
