@@ -11,6 +11,10 @@
 
 FROM node:18-bullseye-slim
 
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install mkdocs-techdocs-core==1.0.1
+
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
 
@@ -22,10 +26,6 @@ WORKDIR /app
 # This switches many Node.js dependencies to production mode.
 ENV NODE_ENV production
 
-RUN apt-get update && apt-get upgrade -y
-#RUN pip3 install mkdocs-techdocs-core==1.0.1
-RUN apt-get update && apt-get install -y python3 python3-pip
-RUN pip3 install mkdocs-techdocs-core==1.0.1
 
 # Copy repo skeleton first, to avoid unnecessary docker cache invalidation.
 # The skeleton contains the package.json of each package in the monorepo,
