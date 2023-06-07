@@ -24,7 +24,7 @@ jobs:
     needs: [requirements]
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
@@ -55,7 +55,6 @@ jobs:
         with:
           file: packages/backend/Dockerfile
           context: .
-          # platforms: linux/amd64,linux/arm64
           tags: veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}, veecode/devportal-bundle:latest
           push: true
   
