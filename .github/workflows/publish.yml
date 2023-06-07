@@ -73,13 +73,14 @@ jobs:
           helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
 
       - name: Publish Helm Charts
-        uses: cpina/github-action-push-to-another-repository@main
+        uses: dmnemec/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: 'charts/'
-          destination-github-username: ${{ github.repository_owner }}
-          destination-repository-name: 'public-charts'
-          user-email: github-actions@vee.codes
-          commit-message: "Publish new version devportal-${{ needs.requirements.outputs.chart_version }}"
-          target-branch: 'main'
+          source_file: "charts/"
+          destination_repo: "veecode-platform/public-charts"
+          destination_folder: "charts"
+          destination_branch: "main"
+          user_email: 'veecode-bot@vee.codes'
+          user_name: 'veecode-bot'
+          commit_message: "Publish new version devportal-${{ needs.requirements.outputs.chart_version }}"
