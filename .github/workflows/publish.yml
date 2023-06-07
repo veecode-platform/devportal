@@ -42,7 +42,7 @@ jobs:
         with:
           file: packages/backend/Dockerfile
           context: .
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
           tags: veecode/devportal-bundle:${{ env.app_version }}, veecode/devportal-bundle:latest
           push: true
   
