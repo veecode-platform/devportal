@@ -61,7 +61,7 @@ jobs:
   
   publishing:
     needs: [requirements, buildDevportal]
-    runs-on: [self-hosted, Linux, ARM64]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3  
       - name: Build Helm Package
