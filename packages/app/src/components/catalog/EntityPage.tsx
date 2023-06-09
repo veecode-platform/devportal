@@ -79,6 +79,11 @@ import {
   EntityGitlabPipelinesTable,
   EntityGitlabReleasesCard,
 } from '@immobiliarelabs/backstage-plugin-gitlab';
+// roadie-lambda
+import {
+  EntityAWSLambdaOverviewCard,
+  // isAWSLambdaAvailable
+} from '@roadiehq/backstage-plugin-aws-lambda';
 
 const cicdContent = (
   <EntitySwitch>
@@ -256,40 +261,45 @@ const overviewContent = (
       {/* github */}
       <EntitySwitch.Case if={isGithubInsightsAvailable}>
         <Grid item lg={6} md={12} xs={12}>
-          <EntityGithubInsightsReadmeCard maxHeight={350}/>
+          <EntityGithubInsightsReadmeCard maxHeight={350} />
         </Grid>
         <Grid item lg={6} md={12} xs={12}>
-          <EntityGithubInsightsLanguagesCard/>
+          <EntityGithubInsightsLanguagesCard />
           {/* <EntityGithubInsightsReleasesCard /> */}
         </Grid>
       </EntitySwitch.Case>
       {/* gitlab */}
       <EntitySwitch.Case if={isGitlabAvailable}>
-          <Grid item lg={8} md={12} xs={12}>
-              <EntityGitlabMergeRequestStatsCard />
-          </Grid>
-          <Grid item lg={6} md={12} xs={12}>
-              <EntityGitlabPeopleCard />
-          </Grid>
-          <Grid item lg={6} md={12} xs={12}>
-              <EntityGitlabLanguageCard />
-          </Grid>
-          <Grid item lg={6} md={12} xs={12}>
-              <EntityGitlabReleasesCard />
-          </Grid>
+        <Grid item lg={8} md={12} xs={12}>
+          <EntityGitlabMergeRequestStatsCard />
+        </Grid>
+        <Grid item lg={6} md={12} xs={12}>
+          <EntityGitlabPeopleCard />
+        </Grid>
+        <Grid item lg={6} md={12} xs={12}>
+          <EntityGitlabLanguageCard />
+        </Grid>
+        <Grid item lg={6} md={12} xs={12}>
+          <EntityGitlabReleasesCard />
+        </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-        {validateAnnotation('vault.io/secrets-path') && (
-        <Grid item lg={6} md={12} xs={12}>
-          <EntityVaultCard />
-        </Grid>
-        )}
-            {validateAnnotation('grafana/alert-label-selector') && (
-        <Grid item lg={6} md={12} xs={12}>
-          <EntityGrafanaAlertsCard />
-        </Grid>
+    {validateAnnotation('aws.com/lambda-function-name') && (
+      <Grid item lg={12}>
+        <EntityAWSLambdaOverviewCard />
+      </Grid>)
+    }
+    {validateAnnotation('vault.io/secrets-path') && (
+      <Grid item lg={6} md={12} xs={12}>
+        <EntityVaultCard />
+      </Grid>
     )}
-</Grid>
+    {validateAnnotation('grafana/alert-label-selector') && (
+      <Grid item lg={6} md={12} xs={12}>
+        <EntityGrafanaAlertsCard />
+      </Grid>
+    )}
+  </Grid>
 );
 
 const serviceEntityPage = (

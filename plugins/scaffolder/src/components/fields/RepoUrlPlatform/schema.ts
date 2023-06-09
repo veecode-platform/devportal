@@ -19,7 +19,7 @@ import { makeFieldSchemaFromZod } from '../utils';
 /**
  * @public
  */
-export const RepoUrlCustomFieldSchema = makeFieldSchemaFromZod(
+export const RepoUrlPlatformFieldSchema = makeFieldSchemaFromZod(
   z.string(),
   z.object({
     allowedHosts: z
@@ -88,12 +88,12 @@ export const RepoUrlCustomFieldSchema = makeFieldSchemaFromZod(
  *
  * @public
  */
-export type RepoUrlCustomUiOptions =
-  typeof RepoUrlCustomFieldSchema.uiOptionsType;
+export type RepoUrlPlatformUiOptions =
+  typeof RepoUrlPlatformFieldSchema.uiOptionsType;
 
-export type RepoUrlCustomProps = typeof RepoUrlCustomFieldSchema.type;
+export type RepoUrlPlatformProps = typeof RepoUrlPlatformFieldSchema.type;
 
 // NOTE: There is a bug with this failing validation in the custom field explorer due
 // to https://github.com/rjsf-team/react-jsonschema-form/issues/675 even if
 // requestUserCredentials is not defined
-export const RepoUrlCustomSchema = RepoUrlCustomFieldSchema.schema;
+export const RepoUrlPlatformSchema = RepoUrlPlatformFieldSchema.schema;

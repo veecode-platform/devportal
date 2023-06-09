@@ -23,12 +23,12 @@ export const GithubRepoPicker = (props: {
   const [ownerData, setOwnerData ] = useState<string>("loading ...");
   const [items, setItems] = useState<string[]>();
   const [ownerList, setOwnerList] = useState<SelectItem[]>();
-  const { githubTokenIntegration } = useIntegrations();
+  const { githubTokenIntegration, githubHostIntegration } = useIntegrations();
   const messageLoading = "loading ...";
 
   useEffect(()=>{
     async function fetchData(){
-      const params = {provider: 'github', token: githubTokenIntegration};
+      const params = {provider: 'github', host: githubHostIntegration, token: githubTokenIntegration};
       const getData = getUserAndOrgs(params);
       try{
         const user = (await getData).username;

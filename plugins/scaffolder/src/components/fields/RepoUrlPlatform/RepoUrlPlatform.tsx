@@ -6,15 +6,15 @@ import {
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { GithubRepoPicker } from './GithubRepoPicker';
 import { GitlabRepoPicker } from './GitlabRepoPicker';
-import { RepoUrlPickerHost } from './RepoUrlCustomHost';
-import { RepoUrlPickerRepoName } from './RepoUrlCustomRepoName';
+import { RepoUrlPickerHost } from './RepoUrlHost';
+import { RepoUrlPickerRepoName } from './RepoUrlRepoName';
 import { parseRepoPickerUrl, serializeRepoPickerUrl } from './utils';
-import { RepoUrlCustomProps } from './schema';
+import { RepoUrlPlatformProps } from './schema';
 import { RepoUrlPickerState } from './types';
 import useDebounce from 'react-use/lib/useDebounce';
 import { useTemplateSecrets } from '@backstage/plugin-scaffolder-react';
 
-export { RepoUrlCustomSchema } from './schema';
+export { RepoUrlPlatformSchema } from './schema';
 
 /**
  * The underlying component that is rendered in the form for the `RepoUrlPicker`
@@ -22,7 +22,7 @@ export { RepoUrlCustomSchema } from './schema';
  *
  * @public
  */
-export const RepoUrlCustom = (props: RepoUrlCustomProps) => {
+export const RepoUrlPlatform = (props: RepoUrlPlatformProps) => {
 
   const { uiSchema, onChange, rawErrors, formData } = props;
   const [state, setState] = useState<RepoUrlPickerState>(
@@ -146,7 +146,7 @@ export const RepoUrlCustom = (props: RepoUrlCustomProps) => {
         onChange={host => setState(prevState => ({ ...prevState, host }))}
         rawErrors={rawErrors}
       />
-      {hostType === 'github' && (
+      {hostType?.includes('github') && (
         <GithubRepoPicker
           allowedOwners={allowedOwners}
           onChange={updateLocalState}
@@ -154,7 +154,7 @@ export const RepoUrlCustom = (props: RepoUrlCustomProps) => {
           state={state}
         />
       )}
-      {hostType === 'gitlab' && (
+      {hostType?.includes('gitlab') && (
         <GitlabRepoPicker
           allowedOwners={allowedOwners}
           rawErrors={rawErrors}

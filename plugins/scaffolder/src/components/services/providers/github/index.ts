@@ -1,9 +1,13 @@
 import axios from "axios";
+import { ParamsProvider } from "../../types";
 
-const GITHUB_ORGS_URL = "https://api.github.com/user/orgs";
-const GITHUB_USER_URL = "https://api.github.com/user"
 
-export async function getOrgsGithub(token:string): Promise<string[]>{
+export async function getOrgsGithub(Params:ParamsProvider): Promise<string[]>{
+
+    const { host, token } = Params;
+
+    const GITHUB_ORGS_URL = `https://api.${host}/user/orgs`;
+
     const headers = {
         Authorization: `Bearer ${token}`
     }
@@ -32,7 +36,12 @@ export async function getOrgsGithub(token:string): Promise<string[]>{
     }
 }
 
-export async function getUserGithub(token:string): Promise<string>{
+export async function getUserGithub(Params:ParamsProvider): Promise<string>{
+
+    const { host, token } = Params;
+
+    const GITHUB_USER_URL = `https://api.${host}/user`;
+
     const headers = {
         Authorization: `token ${token}`
     }

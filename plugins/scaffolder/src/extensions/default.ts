@@ -40,9 +40,9 @@ import {
   OwnedEntityPickerSchema,
 } from '../components/fields/OwnedEntityPicker/OwnedEntityPicker';
 // Custom
-import { RepoUrlCustom } from '../components/fields/RepoUrlCustom/RepoUrlCustom'
+import { RepoUrlPlatform } from '../components/fields/RepoUrlPlatform/RepoUrlPlatform'
 import { repoCustomValidation } from '../components';
-import { RepoUrlCustomSchema } from '../components/fields/RepoUrlCustom/schema';
+import { RepoUrlPlatformSchema } from '../components/fields/RepoUrlPlatform/schema';
 
 export const DEFAULT_SCAFFOLDER_FIELD_EXTENSIONS = [
   {
@@ -78,9 +78,9 @@ export const DEFAULT_SCAFFOLDER_FIELD_EXTENSIONS = [
     schema: OwnedEntityPickerSchema,
   },
   {
-    component: RepoUrlCustom,
-    name: 'RepoUrlCustom',
+    component: RepoUrlPlatform,
+    name: 'RepoUrlPlatform',
     validation: repoCustomValidation,
-    schema: RepoUrlCustomSchema,
+    schema: RepoUrlPlatformSchema,
   }
 ];
