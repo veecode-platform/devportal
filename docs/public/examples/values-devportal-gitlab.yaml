@@ -1,0 +1,88 @@
+replicas: 1
+image:
+  repository: veecode/devportal-bundle
+  tag: latest
+  pullPolicy: IfNotPresent
+
+environment: development
+
+# Extra env for container if needed
+# extraEnv:
+  # - name: NODE_TLS_REJECT_UNAUTHORIZED
+    # value: "0"
+
+service:
+  enabled: true
+  name: devportal
+  type: ClusterIP
+  containerPort: 7007
+
+ingress:
+  enabled: true
+  host: $YOUR_DEVPORTAL_HOST #devportal.homolog.platform.vee.codes
+  tls:
+    secretName: devportal-secret
+  # className: nginx
+  className: kong
+  # annotations for Ingress Controller.
+  # Example for Kong.
+  # annotations:
+  #   konghq.com/https-redirect-status-code: "308"
+  #   konghq.com/preserve-host: "true"
+  #   konghq.com/protocols: "https"
+  #   konghq.com/strip-path: "false"
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+appConfig:
+  title: Devportal
+  app:
+    baseUrl: $YOUR_DEVPORTAL_HOST #https://devportal.homolog.platform.vee.codes
+  backend:
+    baseUrl: $YOUR_DEVPORTAL_HOST #https://devportal.homolog.platform.vee.codes
+    secret: 56616a93-ac28-42ab-929d-6ec1fc008c54
+  database:
+    client: pg
+    connection:
+      host: postgres-postgresql.vkpr
+      port: 5432
+      database: platform_devportal
+      user: postgres
+      password: $PASSWORD
+
+auth:
+  providers:
+    keycloak:
+      metadataUrl: $KEYCLOAK_WELL_KNOWN_URL #https://keycloak.homolog.platform.vee.codes/realms/platform-devportal/.well-known/openid-configuration
+      clientId: $CLIENT_ID
+      clientSecret: $CLIENT_SECRET
+      prompt`: auto
+
+integrations:
+  gitlab:
+    host: $YOUR_HOST_PROVIDER #gitlab.your-company.com
+    apiBaseUrl: $YOUR_apiBASEURL #https://gitlab.your-company.com/api/v4
+    token: $YOUR_GITLAB_TOKEN
+
+catalog:
+  providers:
+    gitlab:
+      host: $YOUR_HOST_PROVIDER # Identifies one of the hosts set up in the integrations -
+      # orgEnabled: true
+      branch: main # Optional. Uses `master` as default
+      group: $YOUR_GROUP # Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned
+      entityFilename: catalog-info.yaml # Optional. Defaults to `catalog-info.yaml`
+      projectPattern: devportal-templates
+platform:
+  guest:
+    enabled: false
+  apiManagement:
+    enabled: false
+    readOnlyMode: false
+

@@ -1,0 +1,86 @@
+replicas: 1
+image:
+  repository: veecode/devportal-bundle
+  tag: 0.3.0
+  pullPolicy: IfNotPresent
+
+environment: development
+
+# Extra env for container if needed
+# extraEnv:
+  # - name: NODE_TLS_REJECT_UNAUTHORIZED
+    # value: "0"
+
+service:
+  enabled: true
+  name: devportal
+  type: ClusterIP
+  containerPort: 7007
+
+ingress:
+  enabled: true
+  host: $YOUR_DEVPORTAL_HOST #devportal.homolog.platform.vee.codes
+  tls:
+    secretName: devportal-secret
+  # className: nginx
+  className: kong
+  # annotations for Ingress Controller.
+  # Example for Kong.
+  # annotations:
+  #   konghq.com/https-redirect-status-code: "308"
+  #   konghq.com/preserve-host: "true"
+  #   konghq.com/protocols: "https"
+  #   konghq.com/strip-path: "false"
+
+resources:
+  requests:
+    memory: 256Mi
+  limits:
+    memory: 512Mi
+
+appConfig:
+  title: Devportal
+  app:
+    baseUrl: $YOUR_DEVPORTAL_HOST #https://devportal.homolog.platform.vee.codes
+  backend:
+    baseUrl: $YOUR_DEVPORTAL_HOST #https://devportal.homolog.platform.vee.codes
+    secret: 13d08353-35a1-41ce-882c-c1370edcf838
+  database:
+    client: pg
+    connection:
+      host: postgres-postgresql.vkpr
+      port: 5432
+      database: platform_devportal_prod
+      user: postgres
+      password: vkpr123
+
+auth:
+  providers:
+    github:
+      clientId: $YOUR_CLIENT_ID
+      clientSecret: $YOUR_CLIENT_SECRET
+    keycloak:
+      metadataUrl: $KEYCLOAK_WELL_KNOWN_URL #https://keycloak.homolog.platform.vee.codes/realms/platform-devportal/.well-known/openid-configuration
+      clientId: devportal
+      clientSecret: $DEVPROTAL_CLIENT_SECRET
+      prompt: auto
+
+integrations:
+  github:
+    token: $YOUR_GITHUB_TOKEN
+
+catalog:
+  providers:
+    github:
+      organization: YOUR_GITHUB_ORG # string
+      catalogPath: /catalog-info.yaml # string
+      filters:
+        branch: master # string
+        repository: devportal-catalog # Regex
+        validateLocationsExist: true
+
+platform:
+  guest:
+    enabled: false
+  apiManagement:
+    enabled: false
