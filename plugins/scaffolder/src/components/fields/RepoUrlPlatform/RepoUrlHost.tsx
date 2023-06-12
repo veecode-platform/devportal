@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Progress, Select, SelectItem } from '@backstage/core-components';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { useApi } from '@backstage/core-plugin-api';
 import { scaffolderApiRef } from '@backstage/plugin-scaffolder-react';
 import useAsync from 'react-use/lib/useAsync';
+import { useIntegrations } from '../../hooks/useIntegrations';
 
 export const RepoUrlPickerHost = (props: {
   host?: string;
@@ -30,13 +31,61 @@ export const RepoUrlPickerHost = (props: {
   const { host, hosts, onChange, rawErrors } = props;
   const scaffolderApi = useApi(scaffolderApiRef);
 
+
+  const [hostsData, setHostsData]=useState<string[]>([]);
+  const [hostList, setHostList] = useState<SelectItem[]>();
+
+  const { githubIntegrationsExists, gitlabIntegrationsExists, githubHostIntegration, gitlabHostIntegration  } = useIntegrations();
+
   const { value: { integrations } = { integrations: [] }, loading } = useAsync(
     async () => {
-      return await scaffolderApi.getIntegrationsList({
-        allowedHosts: hosts ?? [],
-      });
+      // return await scaffolderApi.getIntegrationsList({
+      //   allowedHosts: hosts ?? [],
+      // });
+      const hosts = [];
+      if(githubIntegrationsExists) hosts.push(githubHostIntegration);
+      if(gitlabIntegrationsExists) hosts.push(gitlabHostIntegration);
+      return setHostsData(hosts);
     },
   );
+
+  useEffect(()=>{
+    async function fetchData(){
+      try{
+        const hosts = [];
+        if(githubIntegrationsExists) hosts.push(githubHostIntegration);
+        if(gitlabIntegrationsExists) hosts.push(gitlabHostIntegration);
+        setHostsData(hosts);
+      }catch(err){
+        console.log(err)
+      }
+    }
+    fetchData()
+},[]);
+
+  useEffect(()=>{
+  const data = itemsList(hostsData as string[]);
+  setHostList( data != undefined ? data : [{label: "loading ...", value: "loading ..."}]);
+},[hostsData]);
+
+const itemsList = (data:string[]) : SelectItem[] => {
+  if(data !== undefined){
+    const hosts:SelectItem[] = [];
+    data.forEach((item : string) =>{
+       hosts.push({
+        label: item,
+        value: item
+      })
+    })
+    return hosts;
+  }
+  else{
+    return [{
+      label: "loading",
+      value: "loading"
+    }]
+  }
+}
 
   useEffect(() => {
     // If there is no host chosen currently
@@ -45,19 +94,19 @@ export const RepoUrlPickerHost = (props: {
       if (hosts?.length) {
         onChange(hosts[0]);
         // if there's no hosts provided, fallback to using the first integration
-      } else if (integrations?.length) {
-        onChange(integrations[0].host);
+      } else if (hostsData?.length) {
+        onChange(hostsData[0]);
       }
     }
   }, [hosts, host, onChange, integrations]);
 
   // If there are no allowedHosts provided, then show all integrations. Otherwise, only show integrations
   // that are provided in the dropdown for the user to choose from.
-  const hostsOptions: SelectItem[] = integrations
-    ? integrations
-        .filter(i => (hosts?.length ? hosts?.includes(i.host) : true))
-        .map(i => ({ label: i.title, value: i.host }))
-    : [{ label: 'Loading...', value: 'loading' }];
+  // const hostsOptions: SelectItem[] = integrations
+  //   ? integrations
+  //       .filter(i => (hosts?.length ? hosts?.includes(i.host) : true))
+  //       .map(i => ({ label: i.title, value: i.host }))
+  //   : [{ label: 'Loading...', value: 'loading' }];
 
   if (loading) {
     return <Progress />;
@@ -75,8 +124,8 @@ export const RepoUrlPickerHost = (props: {
           disabled={hosts?.length === 1 ?? false}
           label="Host"
           onChange={s => onChange(String(Array.isArray(s) ? s[0] : s))}
-          selected={host}
-          items={hostsOptions}
+          selected={hostsData[0]}
+          items={hostList as SelectItem[]}
           data-testid="host-select"
         />
 
