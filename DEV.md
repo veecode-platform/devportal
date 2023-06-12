@@ -45,7 +45,7 @@ helm schema-gen values.yaml > values.schema.json
 ```
 
 
-docker build . -t veecode/devportal-bundle:latest -f packages/backend/Dockerfile.rhel8
+docker build . -t veecode/devportal-rhel9-bundle:latest -f packages/backend/Dockerfile.rhel9
 
 docker buildx build . -t veecode/devportal-bundle:1.0.11 -t veecode/devportal-bundle:latest --platform=linux/amd64 --platform=linux/arm64 -f packages/backend/Dockerfile --push
 
