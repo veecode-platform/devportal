@@ -3,7 +3,7 @@ image:
   repository: veecode/devportal #devportal image repository
   tag: bundle #devportal image tag
   pullPolicy: IfNotPresent #kubernetes pull policy
-#imagePullSecrets:
+#imagePullSecrets: {} #image pull secrets
 environment: development #application environment
 
 extraEnv: [] #environment variables
@@ -18,10 +18,10 @@ service:
 ingress:
   enabled: #false If `true`, an ingress is created
   annotations: {} #ingress annotations
-#    konghq.com/https-redirect-status-code: "308"
-#    konghq.com/preserve-host: "true"
-#    konghq.com/protocols: "https"
-#    konghq.com/strip-path: "false"
+  #  konghq.com/https-redirect-status-code: "308"
+  #  konghq.com/preserve-host: "true"
+  #  konghq.com/protocols: "https"
+  #  konghq.com/strip-path: "false"
   tls: {} #TLS secrets and which hosts they should be used for
 #    secretName: devportal-secret #tls secret name
 
@@ -76,7 +76,7 @@ auth: {}
 #      clientId:  #keycloak client id
 #      clientSecret:  #keycloak client secret
 #      prompt: auto #enable keycloak prompt
-#
+
 #    github:
 #      clientId:  #github Oauth application client id
 #      clientSecret:  #github Oauth application client secret
