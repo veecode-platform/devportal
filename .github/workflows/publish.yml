@@ -70,8 +70,8 @@ jobs:
       
       - name: Generating Helm Documentation
         run: |
-          ls -al 
-          bash ./chart/generate-docs.sh
+          ls -al chart/
+          bash chart/generate-docs.sh
 
       - name: Build Helm Package
         run: |
