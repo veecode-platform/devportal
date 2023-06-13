@@ -29,4 +29,4 @@ passphrase
 # Values docs
 values-docs.yaml
 values-tmp.yaml
-prepare-docs.sh
+generate-docs.sh

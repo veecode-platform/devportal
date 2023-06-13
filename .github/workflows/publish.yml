@@ -69,12 +69,7 @@ jobs:
         run:  pip install frigate
       
       - name: Generating Helm Documentation
-        run: |
-          mv chart/values.yaml chart/values-tmp.yaml
-          mv chart/values-docs.yaml chart/values.yaml
-          frigate gen ./chart/ --output-format markdown --no-credits > chart/README.md
-          mv chart/values.yaml chart/values-docs.yaml
-          mv chart/values-tmp.yaml chart/values.yaml
+        run: ./chart/generate-docs.sh
 
       - name: Build Helm Package
         run: |
