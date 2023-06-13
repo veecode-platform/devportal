@@ -31,7 +31,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: devportal
+                name: "{{- include "devportal-charts.fullname" . }}"
                 port:
                   number: {{ .Values.service.containerPort}}
  
