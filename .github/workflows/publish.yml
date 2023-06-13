@@ -1,8 +1,8 @@
 name: Publish Devportal Docker/Helm Chart
 
 on:
-  push:
-    branches: ["main"]
+#  push:
+#    branches: ["main"]
 
 jobs:
   #Getting requided versions for next steps
@@ -69,7 +69,9 @@ jobs:
         run:  pip install frigate
       
       - name: Generating Helm Documentation
-        run: ./chart/generate-docs.sh
+        run: |
+          ls -al 
+          bash ./chart/generate-docs.sh
 
       - name: Build Helm Package
         run: |
