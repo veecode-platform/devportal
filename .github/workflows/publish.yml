@@ -1,7 +1,7 @@
 name: Publish Devportal Docker/Helm Chart
 
 on:
-#  push:
+  push:
 #    branches: ["main"]
 
 jobs:
