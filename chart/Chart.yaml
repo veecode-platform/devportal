@@ -1,8 +1,8 @@
 apiVersion: v2
 name: devportal
-description: A Helm chart for Kubernetes
+description: Platform devportal helm chart.
 type: application
-version: 0.2.4
+version: 0.2.5
 appVersion: "0.2.0"
 home: https://platform.vee.codes/
 icon: https://platform.vee.codes/assets/logo/logo.png
@@ -12,3 +12,24 @@ keywords:
 - devportal
 - backstage
 - api management
+long_description: |
+  ## Adding Platform repository
+
+  ```sh
+  helm repo add veecode-platform https://veecode-platform.github.io/public-charts/
+  helm repo update
+  ```
+
+  ## Installing chart
+
+  ```sh
+  helm install platform-devportal --values ./values.yaml veecode-platform/devportal
+  ```
+
+  ## Removing chart
+
+  ```sh
+  helm uninstall platform-devportal
+  ```
+
+ 

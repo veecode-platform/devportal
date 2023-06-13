@@ -63,7 +63,22 @@ jobs:
     needs: [requirements, buildDevportal]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3  
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4 
+        with:
+          python-version: 'pypy3.9'
+      
+      - name: Installing frigate
+        run: pip3 install frigate --user
+      
+      - name: Generating Helm Documentation
+        run: |
+          mv chart/values.yaml chart/values-tmp.yaml
+          mv chart/values-docs.yaml chart/values.yaml
+          frigate gen ./chart/ --output-format markdown > chart/README.md
+          mv chart/values.yaml chart/values-docs.yaml
+          mv chart/values-tmp.yaml chart/values.yaml
+
       - name: Build Helm Package
         run: |
           yq e '.image.repository = "veecode/devportal-bundle" ' -i chart/values.yaml

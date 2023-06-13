@@ -31,7 +31,7 @@ data:
       listen:
         port: 7007
       database:
-        client: {{ .Values.appConfig.database.client }}
+        client: {{ .Values.appConfig.database.client | default "pg" }}
         pluginDivisionMode: schema
         connection:
           host: ${DATABASE_HOST}

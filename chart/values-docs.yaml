@@ -1,0 +1,140 @@
+replicas: 1 #number of devportal pod replicas to create
+image:
+  repository: veecode/devportal #devportal image repository
+  tag: bundle #devportal image tag
+  pullPolicy: IfNotPresent #kubernetes pull policy
+#imagePullSecrets:
+environment: development #application environment
+
+extraEnv: #extra environment variables
+  - name: ENV_KEY #key
+    value: ENV_VALUE #value
+ 
+service:
+  enabled: true #if `true`, an service is created
+  type: ClusterIP #service type, could be ‘ClusterIP’, ‘LoadBalancer’ or ‘NodePort’
+  containerPort: 7007 #port to serve on the internal service
+
+ingress:
+  enabled: #false If `true`, an ingress is created
+  annotations: {} #ingress annotations
+  tls: {} #TLS secrets and which hosts they should be used for
+#   secretName: devportal-secret #tls secret name
+
+resources:
+  requests:
+    memory: 256Mi #request memory
+    cpu: 150m #request cpu
+  limits:
+    memory: 512Mi #limit memory
+    cpu: 300m #limit cpu
+
+appConfig:
+  title: Devportal Platform #devportal title
+  app:
+    baseUrl: http://localhost:3000  #devportal base URL
+  backend:
+    baseUrl: http://localhost:7007  #devportal backend base URL
+    secret: 68f21bd9-4f05-4212-b445-6e4b47369a46  #devportal backend secret. Random value.
+  database:
+    client: pg #database client
+    connection:
+      host: postgres-postgresql.vkpr #database host
+      port: 5432 #database port number
+      database: platform_devportal #database name 
+      user: postgres  #database username
+      password: postgres  #database password
+
+grafana:
+  enabled: false #enable grafana plugin
+  domain:  #grafana domain
+  token:  #grafana token
+
+argocd:
+  enabled: false #enable ArgoCD plugin
+  domain:  #argoCD domain
+  username:  #argoCD username
+  token:  #argoCD token
+
+vault:
+  enabled: false #enable Vault plugin
+  domain:  #vault domain
+  token:  #vault token
+
+kong:
+  enabled: false #enable Kong integration
+  apiManager:  #kong api manager url
+  adminToken:  #kong admin token
+
+auth:
+    keycloak:
+      metadataUrl:  #keycloak .well-known url
+      clientId:  #keycloak client id
+      clientSecret:  #keycloak client secret
+      prompt: auto #enable keycloak prompt
+
+    github:
+      clientId:  #github Oauth application client id
+      clientSecret:  #github Oauth application client secret
+
+integrations:
+  github:
+    host:  #github Server Host
+    token:  #github Token
+  bitbucketCloud:
+    username:  #Bitbucket Cloud Username
+    appPassword:  #Bitbucket Cloud Password
+  bitbucketServer:
+    host:  #Bitbucket Cloud Host
+    apiBaseUrl:  #Bitbucket Cloud Api Base
+    token:  #Bitbucket Cloud Token
+  gitlab:
+    host:  #Gitlab Host
+    apiBaseUrl: #api base URL: https://gitlab.domain.com/api/v4
+    token:  #Gitlab Server Token
+
+catalog:
+  providers:
+    github:
+      organization: #github Organization Name
+      catalogPath: #path catalog info
+      filters:
+        branch: #which branch to filter
+        repository: #repository filter pattern
+        validateLocationsExist: #check if exists
+    bitbucketCloud:
+      catalogPath: #Path catalog info
+      workspace: #Bitbucket workspace
+      filters: 
+        projectKey: #Bitbucket project key
+        repoSlug: #Bitbucket repo slug
+    bitbucketServer:
+      host: 
+      catalogPath: #Path catalog info
+      filters: 
+        projectKey: #Bitbucket project key
+        repoSlug: #Bitbucket repo slug
+    gitlab:
+      host: #Identifies one of the hosts set up in the integrations
+      orgEnabled: false #Enable organization
+      branch: #Optional. Uses `master` as default
+      group: #Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned.
+      entityFilename: 'catalog-info.yaml' #Catalog file path
+      projectPattern: /[\s\S]*/ #Optional. Filters found projects based on provided patter.
+
+platform:
+  guest:
+    enabled: true #enable guest mode
+  apiManagement:
+    enabled: false #enable platform Api management module
+    readOnlyMode: false #Enable platform Api management readonly mode
+
+kubernetes:
+  type: "multiTenant" #Kubernetes type
+  url:  #Kubernetes url
+  name:  #Kubernetes name
+  authProvider: 'serviceAccount' #Kubernetes auth provider
+  skipTLSVerify: false #Kubernetes skip TLS verification
+  skipMetricsLookup: false #Kubernetes skip Metrics Lookup
+  serviceAccountToken:  #Kubernetes service Account Token
+  caData:  #Kubernetes certificate Data

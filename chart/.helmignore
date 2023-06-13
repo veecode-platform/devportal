@@ -25,3 +25,7 @@
 certificate.gpg
 passphrase
 .helmignore
+
+# Values docs
+values-docs.yaml
+values-tmp.yaml

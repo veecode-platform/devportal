@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: devportal
+  name: "{{- include "devportal-charts.fullname" . }}"
   {{- if not .Values.ingress.enabled | default false }}
   annotations:
     dev.okteto.com/auto-ingress: "true"
