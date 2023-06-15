@@ -2,7 +2,7 @@ apiVersion: v2
 name: devportal
 description: Platform devportal helm chart.
 type: application
-version: 0.3.2
+version: 1.0.0
 appVersion: "0.3.1"
 home: https://platform.vee.codes/
 icon: https://platform.vee.codes/assets/logo/logo.png

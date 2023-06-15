@@ -25,7 +25,8 @@ jobs:
     needs: [requirements]
     strategy:
       matrix:
-        os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
+        # os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
