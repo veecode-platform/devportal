@@ -8578,10 +8578,10 @@
     react-use "^17.2.4"
     zen-observable "^0.10.0"
 
-"@veecode-platform/plugin-scaffolder@^1.13.2-next.1":
-  version "1.13.2-next.1"
-  resolved "https://registry.yarnpkg.com/@veecode-platform/plugin-scaffolder/-/plugin-scaffolder-1.13.2-next.1.tgz#2ba83c7f71238383a2d44fae48d948b5b1efc220"
-  integrity sha512-APjocIWp5fiWHs0FJRlI61+m74N8NJ8FyXkOm6DaXKTqvnpDloLwIZ3JT34DBA+41ELzcp3fLVvv3Qt5y6KhJg==
+"@veecode-platform/plugin-scaffolder@^1.13.2-next.2":
+  version "1.13.2-next.2"
+  resolved "https://registry.yarnpkg.com/@veecode-platform/plugin-scaffolder/-/plugin-scaffolder-1.13.2-next.2.tgz#dcc2d06d00dd5cd1bee66563efc09934f2d84447"
+  integrity sha512-39NMMZBjv1CWNYXdvU9WcUwAAIMEBaq8GzudyMe0hamV5eXGJkj+DQPd8tHbSDgy6IMIMZ8fRwevw6WquWKA0g==
   dependencies:
     "@backstage/catalog-client" "^1.4.1"
     "@backstage/catalog-model" "^1.3.0"
@@ -9112,7 +9112,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@roadiehq/backstage-plugin-github-pull-requests" "^2.5.4"
     "@veecode-platform/plugin-api-docs" "^0.9.4-next.2"
     "@veecode-platform/plugin-catalog" "^1.11.1-next.1"
-    "@veecode-platform/plugin-scaffolder" "^1.13.2-next.1"
+    "@veecode-platform/plugin-scaffolder" "^1.13.2-next.2"
     "@veecode-platform/plugin-user-settings" "^0.7.4-next.3"
     history "^5.0.0"
     lodash "^4.17.21"
