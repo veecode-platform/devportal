@@ -4,7 +4,7 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityHasApisCard,
-} from '@internal/plugin-api-docs';
+} from '@veecode-platform/plugin-api-docs';
 import {
   EntityHasComponentsCard,
   EntityHasResourcesCard,
@@ -19,7 +19,7 @@ import {
   EntityAboutCard,
   EntityLayout,
   EntitySwitch
-} from '@internal/plugin-catalog';
+} from '@veecode-platform/plugin-catalog';
 import {
   isGithubActionsAvailable,
   EntityRecentGithubActionsRunsCard,

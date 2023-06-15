@@ -1,4 +1,4 @@
-import { VaultBuilder } from '@internal/plugin-vault-backend';
+import { VaultBuilder } from '@veecode-platform/plugin-vault-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 
