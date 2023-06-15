@@ -1,22 +1,22 @@
-import { wrapInTestApp, TestApiProvider } from '@backstage/test-utils';
+// import { wrapInTestApp, TestApiProvider } from '@backstage/test-utils';
 import {
   Content,
   Page
 } from '@backstage/core-components';
 import {
-  starredEntitiesApiRef,
+  // starredEntitiesApiRef,
   MockStarredEntitiesApi,
-  entityRouteRef,
+  // entityRouteRef,
 } from '@backstage/plugin-catalog-react';
-import { configApiRef } from '@backstage/core-plugin-api';
-import { ConfigReader } from '@backstage/config';
-import { HomePageSearchBar, searchPlugin } from '@backstage/plugin-search';
+// import { configApiRef } from '@backstage/core-plugin-api';
+// import { ConfigReader } from '@backstage/config';
+import { HomePageSearchBar, /*searchPlugin*/ } from '@backstage/plugin-search'; 
 import {
-  searchApiRef,
+  //searchApiRef,
   SearchContextProvider,
 } from '@backstage/plugin-search-react';
 import { Grid, makeStyles } from '@material-ui/core';
-import React, { ComponentType, useEffect } from 'react';
+import React, { /*ComponentType,*/ useEffect } from 'react';
 // custom
 import { Logo } from '../plataformLogo/plataformLogo';
 import BackstageLogo from "../../assets/backstage.png";
@@ -30,7 +30,7 @@ starredEntitiesApi.toggleStarred('component:default/example-starred-entity-4');
 
 export default {
   title: 'Plugins/Home/Templates',
-  decorators: [
+  /*decorators: [
     (Story: ComponentType<{}>) =>
       wrapInTestApp(
         <>
@@ -58,7 +58,7 @@ export default {
           },
         },
       ),
-  ],
+  ],*/
 };
 
 const useStyles = makeStyles(theme => ({

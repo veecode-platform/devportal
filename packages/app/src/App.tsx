@@ -8,12 +8,12 @@ import {
 import {
   apiDocsPlugin,
   ApiExplorerPage
-} from '@internal/plugin-api-docs';
+} from '@veecode-platform/plugin-api-docs';
 import {
   CatalogEntityPage,
   CatalogIndexPage,
   catalogPlugin,
-} from '@internal/plugin-catalog';
+} from '@veecode-platform/plugin-catalog';
 import {
   CatalogImportPage,
   catalogImportPlugin,
@@ -21,7 +21,7 @@ import {
 import {
   ScaffolderPage,
   scaffolderPlugin,
-} from '@internal/plugin-scaffolder';
+} from '@veecode-platform/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 import {
@@ -30,7 +30,7 @@ import {
   TechDocsReaderPage,
   DefaultTechDocsHome
 } from '@backstage/plugin-techdocs';
-import { UserSettingsPage } from '@internal/plugin-user-settings-platform';
+import { UserSettingsPage } from '@veecode-platform/plugin-user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';
@@ -41,7 +41,7 @@ import {
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api';
 // custom
-import { HomepageCompositionRoot } from '@internal/plugin-home-platform';
+import { HomepageCompositionRoot } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
 import { Light, Dark } from './components/theme/Theme';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -54,20 +54,22 @@ import { ServicesPage, PartnersPage, ApplicationPage } from '@internal/plugin-ap
 import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-import { SignInPage } from '@internal/plugin-sign-in/src/components/SignInPage';
-import { useGuest } from './Hooks/useGuest';
-import { GuestUserIdentity } from '@internal/plugin-sign-in/src/components/providers/guestUserIdentity';
+// import { SignInPage } from '@internal/plugin-sign-in/src/components/SignInPage';
+// import { useGuest } from './Hooks/useGuest';
+// import { GuestUserIdentity } from '@internal/plugin-sign-in/src/components/providers/guestUserIdentity';
+import { SignInPage, UserIdentity } from '@backstage/core-components';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
-// import { RequirePermission } from '@backstage/plugin-permission-react';
-// import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
 import { ExplorePage } from '@backstage/plugin-explore';
+import { configApiRef, useApi } from "@backstage/core-plugin-api";
 
 
 const SignInComponent: any = (props: SignInPageProps) => {
-  const Guest = useGuest();
-    if(Guest) props.onSignInSuccess(new GuestUserIdentity());
-    return <SignInPage {...props} providers={[providers[1]]} />
+  const config = useApi(configApiRef);
+  const guest = config.getBoolean("platform.guest.enabled");
+  if(guest) props.onSignInSuccess(UserIdentity.createGuest());
+  return <SignInPage {...props} provider={providers[1]}/>
+  // return <SignInPage align='center' {...props} providers={["guest", providers[1]]} />
 };
 
 const app = createApp({

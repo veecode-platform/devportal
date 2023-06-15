@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 // import { MyGroupsSidebarItem } from '@backstage/plugin-org';
-import React, { useContext, PropsWithChildren } from 'react';
+import React, { useContext, PropsWithChildren } from 'react'; 
 import { Link, makeStyles } from '@material-ui/core';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
@@ -22,7 +22,7 @@ import { NavLink } from 'react-router-dom';
 import {
   Settings as SidebarSettings,
   UserSettingsSignInAvatar,
-} from '@internal/plugin-user-settings-platform';
+} from '@veecode-platform/plugin-user-settings';
 // import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
   Sidebar,

@@ -42,7 +42,7 @@
     "@immobiliarelabs/backstage-plugin-gitlab-backend": "^5.0.2",
     "@internal/plugin-application-backend": "0.1.0",
     "@internal/plugin-application-common": "^0.1.0",
-    "@internal/plugin-vault-backend": "^0.2.5",
+    "@veecode-platform/plugin-vault-backend": "^0.3.2-next.1",
     "@keycloak/keycloak-admin-client": "18.0.2",
     "@roadiehq/backstage-plugin-argo-cd-backend": "^2.6.4",
     "@roadiehq/backstage-plugin-aws-auth": "^0.4.8",
