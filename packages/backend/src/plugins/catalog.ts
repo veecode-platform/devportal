@@ -10,6 +10,8 @@ import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend
 // Gitlab
 import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend-module-gitlab';
+// Keycloak Orgs
+import { KeycloakOrgEntityProvider } from '@janus-idp/backstage-plugin-keycloak-backend';
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -65,6 +67,18 @@ export default async function createPlugin(
     );
     builder.addProcessor(new GitlabFillerProcessor(env.config));
   }
+
+  builder.addEntityProvider(
+    KeycloakOrgEntityProvider.fromConfig(env.config, {
+      id: 'development',
+      logger: env.logger,
+      schedule: env.scheduler.createScheduledTaskRunner({
+        frequency: { minutes: 1 },
+        timeout: { minutes: 1 },
+        initialDelay: { seconds: 15 }
+      }),
+    }),
+  );
 
   builder.addProcessor(new ScaffolderEntitiesProcessor());
   const { processingEngine, router } = await builder.build();

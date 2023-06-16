@@ -3278,6 +3278,24 @@
   dependencies:
     "@backstage/backend-plugin-api" "^0.5.2"
 
+"@backstage/plugin-explore-backend@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-explore-backend/-/plugin-explore-backend-0.0.7.tgz#53446ff25fb7aac2183a86d1bb693333025b1cfa"
+  integrity sha512-MJnTzrNoh787dJRaNzaY5oTDCI9/H2F0oFNKIHa1ME0gSwyvrHkJhWKrMXdb1x0QwOrtlA/Pck8sSUYFaTTF3g==
+  dependencies:
+    "@backstage/backend-common" "^0.18.5"
+    "@backstage/config" "^1.0.7"
+    "@backstage/plugin-explore-common" "^0.0.1"
+    "@backstage/plugin-search-backend-module-explore" "^0.1.1"
+    "@backstage/plugin-search-common" "^1.2.3"
+    "@types/express" "*"
+    express "^4.18.1"
+    express-promise-router "^4.1.0"
+    lodash "^4.17.21"
+    node-fetch "^2.6.7"
+    winston "^3.2.1"
+    yn "^4.0.0"
+
 "@backstage/plugin-explore-common@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-explore-common/-/plugin-explore-common-0.0.1.tgz#6af10a05b1cbfeecd5383fdf8517c66b2dccfd51"
@@ -3737,6 +3755,21 @@
     "@backstage/plugin-permission-common" "^0.7.5"
     "@backstage/plugin-search-backend-node" "^1.2.1"
     "@backstage/plugin-search-common" "^1.2.3"
+
+"@backstage/plugin-search-backend-module-explore@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-search-backend-module-explore/-/plugin-search-backend-module-explore-0.1.1.tgz#b759de84183b22f5c1831ecd4fcc184ba1bc8a88"
+  integrity sha512-NXV4RyVMey1wEi92aqBsBrK29ZrQfDvNFnKoqeT/R+PCPEdQvT8piUn2q/U5vOPPWeQjbY2aauhbLJaEn6D1SA==
+  dependencies:
+    "@backstage/backend-common" "^0.18.5"
+    "@backstage/backend-plugin-api" "^0.5.2"
+    "@backstage/backend-tasks" "^0.5.2"
+    "@backstage/config" "^1.0.7"
+    "@backstage/plugin-explore-common" "^0.0.1"
+    "@backstage/plugin-search-backend-node" "^1.2.1"
+    "@backstage/plugin-search-common" "^1.2.3"
+    node-fetch "^2.6.7"
+    winston "^3.2.1"
 
 "@backstage/plugin-search-backend-module-techdocs@^0.1.1":
   version "0.1.1"
@@ -4796,6 +4829,21 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
+"@janus-idp/backstage-plugin-keycloak-backend@^1.3.9":
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/@janus-idp/backstage-plugin-keycloak-backend/-/backstage-plugin-keycloak-backend-1.3.9.tgz#0de7744fe6a4527343009bbc3502d15e0d45c185"
+  integrity sha512-FP86xhHnoSb10X00qqw+ThiJxfceH06ChfVp/rl7o/GFbb5JEGEgUbDK8zktdt63mEcZxbDl72a4TVii5L7Imw==
+  dependencies:
+    "@backstage/backend-common" "^0.18.5"
+    "@backstage/backend-tasks" "^0.5.2"
+    "@backstage/catalog-model" "^1.3.0"
+    "@backstage/config" "^1.0.7"
+    "@backstage/plugin-catalog-backend" "^1.9.1"
+    "@keycloak/keycloak-admin-client" "<19.0.0"
+    lodash "^4.14.189"
+    uuid "^9.0.0"
+    winston "^3.2.1"
+
 "@jest-mock/express@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@jest-mock/express/-/express-2.0.1.tgz#5985ad42e00394a375592596bcf15f00064bac20"
@@ -5113,7 +5161,7 @@
     jsep "^1.3.8"
     react-use "^17.2.4"
 
-"@keycloak/keycloak-admin-client@18.0.2":
+"@keycloak/keycloak-admin-client@18.0.2", "@keycloak/keycloak-admin-client@<19.0.0":
   version "18.0.2"
   resolved "https://registry.yarnpkg.com/@keycloak/keycloak-admin-client/-/keycloak-admin-client-18.0.2.tgz#e8329830ea2bc9fc7012e31b10c06a35ab58984c"
   integrity sha512-UCa+5FTPBzbbfCpC27Sb40XbNm27m78z+yax9kiw9aFwk+itiGId09bMzECBRDrqwvVMxo1vzLERLjAty3rTRg==
@@ -12734,7 +12782,7 @@ express-session@^1.17.1:
     safe-buffer "5.2.1"
     uid-safe "~2.1.5"
 
-express@^4.17.1, express@^4.17.3:
+express@^4.17.1, express@^4.17.3, express@^4.18.1:
   version "4.18.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.18.2.tgz#3fabe08296e930c796c19e3c516979386ba9fd59"
   integrity sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==
@@ -16284,7 +16332,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==
 
-lodash@^4.15.0, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.7.0:
+lodash@^4.14.189, lodash@^4.15.0, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==

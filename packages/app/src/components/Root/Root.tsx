@@ -93,6 +93,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarDivider />
         <SidebarGroup label="Menu" icon={<MenuIcon />}>
           <SidebarItem icon={HomeIcon} to="/" text="Home" />
+          <SidebarItem icon={LayersIcon} to="explore" text="Explore" />
           {(!loadingPermission && adminView) && (<>
             <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
             <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />

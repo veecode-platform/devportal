@@ -316,14 +316,32 @@ const serviceEntityPage = (
       {pullRequestsContent}
     </EntityLayout.Route>
 
-    {plugins.map((item : PluginItem) : any => {
+    {
+      plugins.map((item: PluginItem) =>{
+        return(
+          <EntityLayout.Route 
+            if={(entity)=>{ 
+              // console.log("entity: ", entity)
+              const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
+              if(show !== undefined) return show
+              return false
+            }} 
+            path={item.path} title={item.title}>
+            {item.content}
+        </EntityLayout.Route>
+        )
+      }) 
+    }
+
+
+    {/* plugins.map((item : PluginItem) : any => {
       if(!!validateAnnotation(item.annotation)) 
       return (
       <EntityLayout.Route path={item.path} title={item.title} key={item.title}>
         {item.content}
       </EntityLayout.Route>
       )
-    })}
+    })*/}
 
   </EntityLayout>
 );
@@ -342,13 +360,30 @@ const websiteEntityPage = (
       {pullRequestsContent}
     </EntityLayout.Route>
 
-    {plugins.map((item: PluginItem) : any => {
+    {
+      plugins.map((item: PluginItem) =>{
+        return(
+          <EntityLayout.Route 
+            if={(entity)=>{ 
+              // console.log("entity: ", entity)
+              const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
+              if(show !== undefined) return show
+              return false
+            }} 
+            path={item.path} title={item.title}>
+            {item.content}
+        </EntityLayout.Route>
+        )
+      }) 
+    }
+
+    {/* plugins.map((item: PluginItem) : any => {
       if(!!validateAnnotation(item.annotation)) 
       return (
       <EntityLayout.Route path={item.path} title={item.title} key={item.title}>
         {item.content}
       </EntityLayout.Route>)
-    })}
+    })*/}
 
   </EntityLayout>
 );

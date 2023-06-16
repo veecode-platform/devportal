@@ -35,6 +35,8 @@ import kubernetes from './plugins/kubernetes';
 import gitlab from './plugins/gitlab';
 // aws
 import aws from './plugins/aws';
+// explorer
+import explore from './plugins/explore';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -92,6 +94,7 @@ async function main() {
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
   const awsEnv = useHotMemoize(module, () => createEnv('aws'));
+  const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
 
   if(config.getOptionalBoolean("platform.apiManagement.enabled")){
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));
@@ -125,6 +128,7 @@ async function main() {
   apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
   apiRouter.use('/aws', await aws(awsEnv));
+  apiRouter.use('/explore', await explore(exploreEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());

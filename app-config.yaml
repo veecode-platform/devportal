@@ -156,6 +156,20 @@ catalog:
           repository: devportal-catalog # Regex
           validateLocationsExist: true
 
+    keycloakOrg:
+      default:
+        baseUrl: ${KEYCLOAK_HOST}
+        loginRealm: ${KEYCLOAK_REALM_DEFAULT}
+        realm: ${KEYCLOAK_REALM}
+        username: admin
+        password: admin
+        schedule:
+          frequency: { minutes: 1 }
+          timeout: { minutes: 1 }
+          initialDelay: { seconds: 15 }
+        userQuerySize: 500
+        groupQuerySize: 250
+
     # bitbucketCloud:
     #   yourProviderId: # identifies your ingested dataset
     #     catalogPath: /catalog-info.yaml # default value
