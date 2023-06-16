@@ -54,11 +54,12 @@ import { ServicesPage, PartnersPage, ApplicationPage } from '@internal/plugin-ap
 import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-import { SignInPage, UserIdentity } from '@backstage/core-components';
+import { UserIdentity } from '@backstage/core-components';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
 import { ExplorePage } from '@backstage/plugin-explore';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
+import { SignInPage } from './components/signInPage';
 
 
 const SignInComponent: any = (props: SignInPageProps) => {
