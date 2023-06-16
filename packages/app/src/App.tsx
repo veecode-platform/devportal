@@ -54,9 +54,6 @@ import { ServicesPage, PartnersPage, ApplicationPage } from '@internal/plugin-ap
 import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-// import { SignInPage } from '@internal/plugin-sign-in/src/components/SignInPage';
-// import { useGuest } from './Hooks/useGuest';
-// import { GuestUserIdentity } from '@internal/plugin-sign-in/src/components/providers/guestUserIdentity';
 import { SignInPage, UserIdentity } from '@backstage/core-components';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
