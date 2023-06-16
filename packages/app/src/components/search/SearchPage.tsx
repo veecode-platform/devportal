@@ -1,11 +1,12 @@
 import React from 'react';
-import { makeStyles, Theme, Grid, /* List,*/ Paper } from '@material-ui/core';
+import { makeStyles, Theme, Grid, List, Paper } from '@material-ui/core';
 import {
   catalogApiRef,
   CATALOG_FILTER_EXISTS,
 } from '@backstage/plugin-catalog-react';
 import { SearchType } from '@backstage/plugin-search';
 import {
+  DefaultResultListItem,
   SearchBar,
   SearchFilter,
   SearchPagination,
@@ -114,11 +115,58 @@ const SearchPage = () => {
           )}
           <Grid item xs>
             <SearchPagination />
-            <SearchResult>
+            {/* <SearchResult>
               <CatalogSearchResultListItem icon={<CatalogIcon />} />
               <TechDocsSearchResultListItem icon={<DocsIcon />} />
               <ToolSearchResultListItem icon={<BuildIcon />} />
-            </SearchResult>
+            </SearchResult> */}
+                        <SearchResult>
+                              {({ results }) => (
+                                <List>
+                                  {results.map(({ type, document, highlight, rank }) => {
+                                    switch (type) {
+                                      case 'software-catalog':
+                                        return (
+                                          <CatalogSearchResultListItem
+                                            key={document.location}
+                                            result={document}
+                                            highlight={highlight}
+                                            rank={rank}
+                                          />
+                                        );
+                                      case 'techdocs':
+                                        return (
+                                          <TechDocsSearchResultListItem
+                                            key={document.location}
+                                            result={document}
+                                            highlight={highlight}
+                                            rank={rank}
+                                          />
+                                        );
+                                      case 'tools':
+                                        return (
+                                          <ToolSearchResultListItem
+                                            icon={<BuildIcon />}
+                                            key={document.location}
+                                            result={document}
+                                            highlight={highlight}
+                                            rank={rank}
+                                          />
+                                        );
+                                      default:
+                                        return (
+                                          <DefaultResultListItem
+                                            key={document.location}
+                                            result={document}
+                                            highlight={highlight}
+                                            rank={rank}
+                                          />
+                                        );
+                                    }
+                                  })}
+                                </List>
+                              )}
+                            </SearchResult>
             <SearchResultPager />
           </Grid>
         </Grid>
