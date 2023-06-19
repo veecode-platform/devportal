@@ -1,41 +1,20 @@
-/*
- * Copyright 2020 The Backstage Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import {
   BackstageIdentityResponse,
-  configApiRef,
+  // configApiRef,
   SignInPageProps,
   useApi,
 } from '@backstage/core-plugin-api';
 import { UserIdentity } from './UserIdentity';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import React, { useState } from 'react';
 import { useMountEffect } from '@react-hookz/web';
 import { Progress } from '@backstage/core-components';
 import { Content } from '@backstage/core-components';
-import { ContentHeader } from '@backstage/core-components';
-import { Header } from '@backstage/core-components';
-import { InfoCard } from '@backstage/core-components';
 import { Page } from '@backstage/core-components';
 import { getSignInProviders, useSignInProviders } from './providers';
 import { GridItem, useStyles } from './styles';
 import { IdentityProviders, SignInProviderConfig } from './types';
-import { Paper } from '@material-ui/core';
 import { Logo } from './plataformLogo/plataformLogo';
 import BackstageLogo from "./assets/backstage.png";
 import KeycloakLogo from "./assets/keycloak.png";
@@ -56,10 +35,10 @@ export type Props = MultiSignInPageProps | SingleSignInPageProps;
 export const MultiSignInPage = ({
   onSignInSuccess,
   providers = [],
-  title,
-  align = 'left',
+  // title,
+  // align = 'left',
 }: MultiSignInPageProps) => {
-  const configApi = useApi(configApiRef);
+  // const configApi = useApi(configApiRef);
   const classes = useStyles();
 
   const signInProviders = getSignInProviders(providers);
@@ -75,18 +54,18 @@ export const MultiSignInPage = ({
   return (
     <Page themeId="home">
       {/* <Header title={configApi.getString('app.title')} /> */}
-      <Content>
+      <Content className={classes.wrapper}>
         {/* {title && <ContentHeader title={title} textAlign={align} />} */}
         <Grid  className={classes.logo}>
             <Logo/>
         </Grid>
         <Grid
-          container
-          justifyContent={align === 'center' ? align : 'flex-start'}
-          spacing={2}
-          component="ul"
-          classes={classes}
-        >
+            container
+            justifyContent="center"
+            spacing={2}
+            component="ul"
+            classes={classes}
+          >
           {providerElements}
         </Grid>
         <Grid item className={classes.footerWrapper} lg={12}>
@@ -112,7 +91,7 @@ export const SingleSignInPage = ({
 }: SingleSignInPageProps) => {
   const classes = useStyles();
   const authApi = useApi(provider.apiRef);
-  const configApi = useApi(configApiRef);
+  // const configApi = useApi(configApiRef);
 
   const [error, setError] = useState<Error>();
 

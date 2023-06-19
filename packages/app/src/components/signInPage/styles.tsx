@@ -99,7 +99,7 @@ export const useStyles = makeStyles( theme =>
     providerTitleBar:{
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       gap: '1rem',
       margin: '.5rem auto',
       fontSize: '1.1rem',
