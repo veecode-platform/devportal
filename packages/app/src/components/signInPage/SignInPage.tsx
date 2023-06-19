@@ -16,7 +16,7 @@
 
 import {
   BackstageIdentityResponse,
-  configApiRef,
+  // configApiRef,
   SignInPageProps,
   useApi,
 } from '@backstage/core-plugin-api';
@@ -28,14 +28,14 @@ import React, { useState } from 'react';
 import { useMountEffect } from '@react-hookz/web';
 import { Progress } from '@backstage/core-components';
 import { Content } from '@backstage/core-components';
-import { ContentHeader } from '@backstage/core-components';
-import { Header } from '@backstage/core-components';
+// import { ContentHeader } from '@backstage/core-components';
+// import { Header } from '@backstage/core-components';
 import { InfoCard } from '@backstage/core-components';
 import { Page } from '@backstage/core-components';
 import { getSignInProviders, useSignInProviders } from './providers';
 import { GridItem, useStyles } from './styles';
 import { IdentityProviders, SignInProviderConfig } from './types';
-import { Paper } from '@material-ui/core';
+// import { Paper } from '@material-ui/core';
 import { Logo } from './plataformLogo/plataformLogo';
 import BackstageLogo from "./assets/backstage.png";
 
@@ -55,10 +55,10 @@ export type Props = MultiSignInPageProps | SingleSignInPageProps;
 export const MultiSignInPage = ({
   onSignInSuccess,
   providers = [],
-  title,
+  // title,
   align = 'left',
 }: MultiSignInPageProps) => {
-  const configApi = useApi(configApiRef);
+  // const configApi = useApi(configApiRef);
   const classes = useStyles();
 
   const signInProviders = getSignInProviders(providers);
@@ -111,7 +111,7 @@ export const SingleSignInPage = ({
 }: SingleSignInPageProps) => {
   const classes = useStyles();
   const authApi = useApi(provider.apiRef);
-  const configApi = useApi(configApiRef);
+  // const configApi = useApi(configApiRef);
 
   const [error, setError] = useState<Error>();
 
