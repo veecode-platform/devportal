@@ -38,6 +38,7 @@ import { IdentityProviders, SignInProviderConfig } from './types';
 import { Paper } from '@material-ui/core';
 import { Logo } from './plataformLogo/plataformLogo';
 import BackstageLogo from "./assets/backstage.png";
+import KeycloakLogo from "./assets/keycloak.png";
 
 type MultiSignInPageProps = SignInPageProps & {
   providers: IdentityProviders;
@@ -171,7 +172,7 @@ export const SingleSignInPage = ({
   return showLoginPage ? (
     <Page themeId="home">
       {/* <Header title={configApi.getString('app.title')} /> */}
-      <Content>
+      <Content className={classes.wrapper}>
         <Grid  className={classes.logo}>
             <Logo />
         </Grid>
@@ -183,27 +184,33 @@ export const SingleSignInPage = ({
           classes={classes}
         >
           <GridItem>
-            <InfoCard
-              variant="fullHeight"
-              title={provider.title}
-              actions={
-                <Button
-                  className={classes.button}
-                  onClick={() => {
-                    login({ showPopup: true });
-                  }}
-                >
-                  Sign In
-                </Button>
-              }
+            <Grid
+              // title={provider.title}
+              className={classes.loginBox}
+              onClick={() => {
+                login({ showPopup: true });
+              }}
+              // actions={
+              //   <Button
+              //     className={classes.button}
+              //     onClick={() => {
+              //       login({ showPopup: true });
+              //     }}
+              //   >
+              //     Sign In
+              //   </Button>
+              // }
             >
-              <Typography variant="body1">{provider.message}</Typography>
+              <div className={classes.providerTitleBar}>
+                <img src={KeycloakLogo} alt={provider.title} className={classes.providerLogo}/>
+                <h3>{provider.message}</h3>
+              </div>
               {error && error.name !== 'PopupRejectedError' && (
                 <Typography variant="body1" color="error">
                   {error.message}
                 </Typography>
               )}
-            </InfoCard>
+            </Grid>
           </GridItem>
         </Grid>
         <Grid item className={classes.footerWrapper} lg={12}>
