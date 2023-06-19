@@ -66,7 +66,7 @@ const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
   if(guest) props.onSignInSuccess(UserIdentity.createGuest());
-  return <SignInPage {...props} providers={providers}/>
+  return <SignInPage {...props} provider={providers[1]}/>
   // return <SignInPage align='center' {...props} providers={["guest", providers[1]]} />
 };
 
