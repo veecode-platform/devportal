@@ -16,6 +16,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import BgSVG from './assets/bg.svg';
 
 export type SignInPageClassKey = 'container' | 'item';
 
@@ -27,7 +28,8 @@ export const useStyles = makeStyles( theme =>
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      background: `url('${BgSVG}')`
     },
     container: {
       padding: 0,
@@ -75,7 +77,7 @@ export const useStyles = makeStyles( theme =>
     },
     loginBox:{
       width: '100%',
-      padding: '1rem',
+      padding: '.5rem',
       borderRadius: '18px',
       margin: ' 1rem auto',
       cursor: 'pointer',
@@ -85,8 +87,14 @@ export const useStyles = makeStyles( theme =>
       fontSize: '1.2rem',
       flexDirection: 'column',
       boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
-      background: theme.palette.background.default,
-      border: `1px solid ${theme.palette.action.active}`,
+      background: `linear-gradient(270deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
+      border: `2px solid ${theme.palette.background.paper}`,
+      transition: 'all .5s ease-in-out',
+
+      "&:hover":{
+        border: `2px solid #33FFCE`,
+        transition: 'all .5s ease-in'
+      }
     },
     providerTitleBar:{
       display: 'flex',
@@ -94,10 +102,10 @@ export const useStyles = makeStyles( theme =>
       justifyContent: 'center',
       gap: '1rem',
       margin: '.5rem auto',
-      fontSize: '1.2rem',
+      fontSize: '1.1rem',
     },
     providerLogo:{
-      width: '60px'
+      width: '50px'
     },
     footerWrapper:{
       // width: '100%',

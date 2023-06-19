@@ -172,59 +172,48 @@ export const SingleSignInPage = ({
   return showLoginPage ? (
     <Page themeId="home">
       {/* <Header title={configApi.getString('app.title')} /> */}
-      <Content className={classes.wrapper}>
-        <Grid  className={classes.logo}>
-            <Logo />
-        </Grid>
-        <Grid
-          container
-          justifyContent="center"
-          spacing={2}
-          component="ul"
-          classes={classes}
-        >
-          <GridItem>
-            <Grid
-              // title={provider.title}
-              className={classes.loginBox}
-              onClick={() => {
-                login({ showPopup: true });
-              }}
-              // actions={
-              //   <Button
-              //     className={classes.button}
-              //     onClick={() => {
-              //       login({ showPopup: true });
-              //     }}
-              //   >
-              //     Sign In
-              //   </Button>
-              // }
-            >
-              <div className={classes.providerTitleBar}>
-                <img src={KeycloakLogo} alt={provider.title} className={classes.providerLogo}/>
-                <h3>{provider.message}</h3>
-              </div>
-              {error && error.name !== 'PopupRejectedError' && (
-                <Typography variant="body1" color="error">
-                  {error.message}
-                </Typography>
-              )}
-            </Grid>
-          </GridItem>
-        </Grid>
-        <Grid item className={classes.footerWrapper} lg={12}>
-              <p className={classes.footer}>
-                {' '}
-                <span className={classes.footerText}>Powered by </span>{' '}
-                <img
-                  src={BackstageLogo}
-                  alt="backstage logo"
-                  className={classes.logoBackstage}
-                />{' '}
-              </p>
-            </Grid>
-      </Content>
+        <Content className={classes.wrapper}>
+          <Grid  className={classes.logo}>
+              <Logo />
+          </Grid>
+          <Grid
+            container
+            justifyContent="center"
+            spacing={2}
+            component="ul"
+            classes={classes}
+          >
+            <GridItem>
+              <Grid
+                className={classes.loginBox}
+                onClick={() => {
+                  login({ showPopup: true });
+                }}
+              >
+                <div className={classes.providerTitleBar}>
+                  {provider.title === "Keycloak" && <img src={KeycloakLogo} alt={provider.title} className={classes.providerLogo}/>}
+                  <h3>{provider.message}</h3>
+                </div>
+                {error && error.name !== 'PopupRejectedError' && (
+                  <Typography variant="body1" color="error">
+                    {error.message}
+                  </Typography>
+                )}
+              </Grid>
+            </GridItem>
+          </Grid>
+          <Grid item className={classes.footerWrapper} lg={12}>
+                <p className={classes.footer}>
+                  {' '}
+                  <span className={classes.footerText}>Powered by </span>{' '}
+                  <img
+                    src={BackstageLogo}
+                    alt="backstage logo"
+                    className={classes.logoBackstage}
+                  />{' '}
+                </p>
+              </Grid>
+        </Content>
     </Page>
   ) : (
     <Progress />
