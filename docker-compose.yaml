@@ -75,6 +75,7 @@ services:
       - ./.docker-data/keycloak/keycloak.local+1.pem:/opt/keycloak/conf/server.crt.pem
       - ./.docker-data/keycloak/keycloak.local+1-key.pem:/opt/keycloak/conf/server.key.pem
       - ./keycloak/realm-platform-devportal.json:/opt/keycloak/data/import/realm-platform-devportal.json
+      - ./keycloak/themes/:/opt/keycloak/themes/platform-theme/
     ports:
       - 8080:8080
       - 8443:8443
