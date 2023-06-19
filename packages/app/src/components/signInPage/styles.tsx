@@ -43,7 +43,7 @@ export const useStyles = makeStyles(
       width: '120px',
       height: '56px',
       padding: '1em 0',
-      background: 'linear-gradient(270deg, #1c8068,#33FFCE )',
+      background: "linear-gradient(270deg,#27a386, #1c8068)",
       borderRadius: '.3rem',
       outline: 'none',
       border: '1px solid #33FFCE',
@@ -51,7 +51,7 @@ export const useStyles = makeStyles(
       cursor: 'pointer',
       fontSize: '16px',
       color: '#FAFAFA',
-      transition: 'all 0.8s linear'
+      transition: 'all 0.5s ease-in-out',
     },
     footerWrapper:{
       // width: '100%',
