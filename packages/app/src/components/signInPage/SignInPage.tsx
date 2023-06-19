@@ -18,6 +18,9 @@ import { IdentityProviders, SignInProviderConfig } from './types';
 import { Logo } from './plataformLogo/plataformLogo';
 import BackstageLogo from "./assets/backstage.png";
 import KeycloakLogo from "./assets/keycloak.png";
+import OktaLogo from "./assets/okta.png";
+import GithubLogo from "./assets/github.png";
+
 
 type MultiSignInPageProps = SignInPageProps & {
   providers: IdentityProviders;
@@ -171,6 +174,8 @@ export const SingleSignInPage = ({
               >
                 <div className={classes.providerTitleBar}>
                   {provider.title === "Keycloak" && <img src={KeycloakLogo} alt={provider.title} className={classes.providerLogo}/>}
+                  {provider.title === "Okta" && <img src={OktaLogo} alt={provider.title} className={classes.providerLogo} />}
+                  {provider.title === "GitHub" && <img src={GithubLogo} alt={provider.title} className={classes.providerLogo} />}
                   <h3>{provider.message}</h3>
                 </div>
                 {error && error.name !== 'PopupRejectedError' && (
