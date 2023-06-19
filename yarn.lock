@@ -8695,10 +8695,10 @@
     react-use "^17.2.4"
     zen-observable "^0.10.0"
 
-"@veecode-platform/plugin-vault-backend@^0.3.2-next.1":
-  version "0.3.2-next.1"
-  resolved "https://registry.yarnpkg.com/@veecode-platform/plugin-vault-backend/-/plugin-vault-backend-0.3.2-next.1.tgz#3554b6f0b2fe2603e7d4be96091f1b72d8e5ff6b"
-  integrity sha512-9AE+noJ5TBPYPRT63VGBmU0+z7oTXMk+ULk+PEckkEBfmeQ94hLnseO9qp6vi9VdyI1kTNq6QzBXQFwJtjj0fw==
+"@veecode-platform/plugin-vault-backend@^0.3.2-next.2":
+  version "0.3.2-next.2"
+  resolved "https://registry.yarnpkg.com/@veecode-platform/plugin-vault-backend/-/plugin-vault-backend-0.3.2-next.2.tgz#d7dc809641204bd2097f8c86ce2481b5b8ccf0e6"
+  integrity sha512-4bZzihlfWjgdfgb6hfIvkxxK0flBLKHDkTbNAPZsChDKyFc6w4TRaJzoIuYXIzuMLrfSc7OoMC6ets2fk+ALhg==
   dependencies:
     "@backstage/backend-common" "^0.18.5"
     "@backstage/backend-tasks" "^0.5.2"
