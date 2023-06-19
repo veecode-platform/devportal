@@ -37,8 +37,6 @@ export const MultiSignInPage = ({
   providers = [],
   // title,
   // align = 'left',
-  // title,
-  align = 'left',
 }: MultiSignInPageProps) => {
   // const configApi = useApi(configApiRef);
   const classes = useStyles();
