@@ -29,7 +29,7 @@ export const useStyles = makeStyles( theme =>
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
-      background: `url('${BgSVG}')`
+      background: `url('${BgSVG}')`,
     },
     container: {
       padding: 0,
@@ -53,7 +53,7 @@ export const useStyles = makeStyles( theme =>
       flexDirection: 'column',
       width: '100%',
       maxWidth: '400px',
-      margin: 0,
+      margin: '-.7rem 0',
       padding: 0,
     },
     button:{
