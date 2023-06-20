@@ -1,18 +1,3 @@
-/*
- * Copyright 2020 The Backstage Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 // import { MyGroupsSidebarItem } from '@backstage/plugin-org';
 import React, { useContext, PropsWithChildren } from 'react'; 
 import { Link, makeStyles } from '@material-ui/core';
@@ -52,9 +37,8 @@ import LayersIcon from '@material-ui/icons/Layers';
 // import RenderItem from '../Routing/RenderItem';
 // import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import PeopleIcon from '@material-ui/icons/People';
-import SignOutIcon from '@material-ui/icons/MeetingRoom';
-import { identityApiRef, configApiRef, useApi } from '@backstage/core-plugin-api';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SignUpElement from './signUp';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -92,17 +76,6 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
   const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
   const { loading: loadingApiEnabledPermission, allowed: enabledApiManagement } = usePermission({ permission: apiManagementEnabledPermission });
 
-  const identityApi = useApi(identityApiRef);
-  const config = useApi(configApiRef);
-
-  const handleKeycloakSessionLogout = async () => { 
-    const token = await identityApi.getCredentials();
-    const backendBaseUrl = config.getConfig('backend').get('baseUrl')
-     await fetch(`${backendBaseUrl}/api/devportal/keycloak/logout`, {
-      method: "GET",
-      headers:{ Authorization: `Bearer ${token.token}`}
-    })
-}
   return (
     <SidebarPage>
       <Sidebar>
@@ -144,11 +117,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarSpace />
         <SidebarDivider/>
         <SidebarGroup label="Sign Up" icon={<ExitToAppIcon />}>
-        <SidebarItem icon={SignOutIcon} text="Sign Out" 
-          onClick={async () => {
-            if (!config.getBoolean('platform.guest.enabled')) {await handleKeycloakSessionLogout()}
-            identityApi.signOut()
-            }}/>
+            <SignUpElement/>
           </SidebarGroup>
        </Sidebar>
       {children}
