@@ -10,7 +10,9 @@ const useStyles = makeStyles (theme=>({
                 bottom: '0',
                 left: '0',
                 right: '0',
-                padding: '2em'
+                padding: '2em',
+                width: '35rem',
+                height: 'auto',
         },
         fill:{
                 fill: theme.palette.primary.main
@@ -30,7 +32,9 @@ export const Logo = () => {
         const classes = useStyles();
 
   return ( 
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="200.000000pt" viewBox="0 0 1373.000000 554.000000" className={classes.logo}>
+<svg xmlns="http://www.w3.org/2000/svg" 
+width="100%" height="200.000000pt" 
+viewBox="0 0 1373.000000 554.000000" className={classes.logo}>
   <g id="Camada_2" data-name="Camada 2">
     <g id="Camada_1-2" data-name="Camada 1">
       <g>
