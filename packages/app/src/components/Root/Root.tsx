@@ -49,7 +49,8 @@ import { adminAccessPermission, apiManagementEnabledPermission } from '@internal
 import CategoryIcon from '@material-ui/icons/Category';
 import LayersIcon from '@material-ui/icons/Layers';
 // import RenderItem from '../Routing/RenderItem';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
+// import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import PeopleIcon from '@material-ui/icons/People';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -94,7 +95,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarDivider />
         <SidebarGroup label="Menu" icon={<MenuIcon />}>
           <SidebarItem icon={HomeIcon} to="/" text="Home" />
-          <SidebarItem icon={AccountTreeIcon} to="explore/groups" text="Groups" />
+          <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />
           {(!loadingPermission && adminView) && (<>
             <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
             <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />
