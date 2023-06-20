@@ -57,7 +57,7 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { UserIdentity } from '@backstage/core-components';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
-import { ExplorePage } from '@backstage/plugin-explore';
+import { ExplorePage } from './components/explorer/ExplorerPage';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { SignInPage } from './components/signInPage';
 
