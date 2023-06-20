@@ -64,6 +64,7 @@ vault:
   enabled: false #enable Vault plugin
 #  domain:  #vault domain
 #  token:  #vault token
+#  secretEngine: secrets #vault secret engine
 
 kong:
   enabled: false #enable Kong integration
@@ -83,17 +84,17 @@ auth: {}
 
 integrations: {}
 #  github:
-#    host:  #github Server Host
+#    host: github.com #github Server Host
 #    token:  #github Token
 #  bitbucketCloud:
 #    username:  #Bitbucket Cloud Username
 #    appPassword:  #Bitbucket Cloud Password
 #  bitbucketServer:
-#    host:  #Bitbucket Cloud Host
+#    host: bitbucket.org #Bitbucket Cloud Host
 #    apiBaseUrl:  #Bitbucket Cloud Api Base
 #    token:  #Bitbucket Cloud Token
 #  gitlab:
-#    host:  #Gitlab Host
+#    host: gitlab.com #Gitlab Host
 #    apiBaseUrl: #api base URL: https://gitlab.domain.com/api/v4
 #    token:  #Gitlab Server Token
 
@@ -119,9 +120,9 @@ catalog:
 #        projectKey: #Bitbucket project key
 #        repoSlug: #Bitbucket repo slug
 #    gitlab:
-#      host: #Identifies one of the hosts set up in the integrations
+#      host: gitlab.com #Identifies one of the hosts set up in the integrations
 #      orgEnabled: false #Enable organization
-#      branch: #Optional. Uses `master` as default
+#      branch: main #Optional. Uses `master` as default
 #      group: #Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned.
 #      entityFilename: 'catalog-info.yaml' #Catalog file path
 #      projectPattern: /[\s\S]*/ #Optional. Filters found projects based on provided patter.
