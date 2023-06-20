@@ -32,6 +32,7 @@ import {
   SidebarGroup,
   SidebarItem,
   SidebarPage,
+  SidebarSpace,
   // SidebarScrollWrapper,
   // SidebarSpace,
 } from '@backstage/core-components';
@@ -51,6 +52,9 @@ import LayersIcon from '@material-ui/icons/Layers';
 // import RenderItem from '../Routing/RenderItem';
 // import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import PeopleIcon from '@material-ui/icons/People';
+import SignOutIcon from '@material-ui/icons/MeetingRoom';
+import { identityApiRef, configApiRef, useApi } from '@backstage/core-plugin-api';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -64,7 +68,7 @@ const useSidebarLogoStyles = makeStyles({
   link: {
     width: sidebarConfig.drawerWidthClosed,
     marginLeft: 24,
-  },
+  }
 });
 
 const SidebarLogo = () => {
@@ -88,6 +92,17 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
   const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
   const { loading: loadingApiEnabledPermission, allowed: enabledApiManagement } = usePermission({ permission: apiManagementEnabledPermission });
 
+  const identityApi = useApi(identityApiRef);
+  const config = useApi(configApiRef);
+
+  const handleKeycloakSessionLogout = async () => { 
+    const token = await identityApi.getCredentials();
+    const backendBaseUrl = config.getConfig('backend').get('baseUrl')
+     await fetch(`${backendBaseUrl}/api/devportal/keycloak/logout`, {
+      method: "GET",
+      headers:{ Authorization: `Bearer ${token.token}`}
+    })
+}
   return (
     <SidebarPage>
       <Sidebar>
@@ -95,14 +110,16 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarDivider />
         <SidebarGroup label="Menu" icon={<MenuIcon />}>
           <SidebarItem icon={HomeIcon} to="/" text="Home" />
-          <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />
           {(!loadingPermission && adminView) && (<>
             <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
             <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />
           </> )}     
           <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
           {(!loadingPermission && adminView) && (
-            <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+            <>
+              <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+              <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />
+            </>
           )}
           <SidebarDivider />
         </SidebarGroup>     
@@ -124,7 +141,16 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         >
           <SidebarSettings />
         </SidebarGroup>
-      </Sidebar>
+        <SidebarSpace />
+        <SidebarDivider/>
+        <SidebarGroup label="Sign Up" icon={<ExitToAppIcon />}>
+        <SidebarItem icon={SignOutIcon} text="Sign Out" 
+          onClick={async () => {
+            if (!config.getBoolean('platform.guest.enabled')) {await handleKeycloakSessionLogout()}
+            identityApi.signOut()
+            }}/>
+          </SidebarGroup>
+       </Sidebar>
       {children}
     </SidebarPage>
   )
