@@ -1,5 +1,5 @@
 // import { MyGroupsSidebarItem } from '@backstage/plugin-org';
-import React, { useContext, PropsWithChildren } from 'react'; 
+import React, { useContext, PropsWithChildren } from 'react';
 import { Link, makeStyles } from '@material-ui/core';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
@@ -85,9 +85,9 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
           <SidebarItem icon={HomeIcon} to="/" text="Home" />
           {(!loadingPermission && adminView) && (<>
             <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
-          </> )}   
+          </>)}
           <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-          <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />  
+          {!enabledApiManagement && <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />}
           {(!loadingPermission && adminView) && (
             <>
               <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
@@ -95,7 +95,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             </>
           )}
           <SidebarDivider />
-        </SidebarGroup>     
+        </SidebarGroup>
         {(!loadingApiEnabledPermission && enabledApiManagement) && (<>
           <SidebarGroup label="Api managment" icon={<AppsIcon />}>
             {(!loadingPermission && adminView) && (<>
@@ -115,11 +115,11 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
           <SidebarSettings />
         </SidebarGroup>
         <SidebarSpace />
-        <SidebarDivider/>
+        <SidebarDivider />
         <SidebarGroup label="Sign Up" icon={<ExitToAppIcon />}>
-            <SignUpElement/>
-          </SidebarGroup>
-       </Sidebar>
+          <SignUpElement />
+        </SidebarGroup>
+      </Sidebar>
       {children}
     </SidebarPage>
   )
