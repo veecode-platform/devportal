@@ -39,6 +39,7 @@ import LayersIcon from '@material-ui/icons/Layers';
 import PeopleIcon from '@material-ui/icons/People';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SignUpElement from './signUp';
+import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -75,6 +76,8 @@ const SidebarLogo = () => {
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
   const { loading: loadingApiEnabledPermission, allowed: enabledApiManagement } = usePermission({ permission: apiManagementEnabledPermission });
+  const config = useApi(configApiRef);
+  const keycloakPlugin = config.getBoolean("enabledPlugins.keycloak");
 
   return (
     <SidebarPage>
@@ -91,7 +94,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
           {(!loadingPermission && adminView) && (
             <>
               <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
-              <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />
+              {keycloakPlugin && (<SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />)}
             </>
           )}
           <SidebarDivider />

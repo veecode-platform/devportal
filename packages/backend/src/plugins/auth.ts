@@ -38,11 +38,14 @@ export default async function createPlugin(
 
       "keycloak": providers.oidc.create({
         signIn: {
-          resolver({result}, ctx) {             
+          resolver({result}, ctx) { 
+              
+              const adminGroup = env.config.getConfig('platform').get('group.admin') as string;
+              const userGroup = env.config.getConfig('platform').get('group.user') as string;
               const groups = result.userinfo.groups as Array<string>;
-              const admin = groups.includes("admin");
-              const user = groups.includes("user");
-
+              const admin = groups.includes(`${adminGroup}`);
+              const user =  groups.includes(`${userGroup}`);      
+              
               if(!admin && !user){
                 throw new Error('Group not authorized');
               }

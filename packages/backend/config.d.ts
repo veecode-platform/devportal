@@ -43,6 +43,12 @@ export interface Config {
          * @visibility frontend
          */
         gitlabPlugin: boolean
+        
+        /**
+         * keycloakPlugin launch control.
+         * @visibility frontend
+         */
+        keycloak: boolean
     };
     /**
      * 
@@ -55,6 +61,18 @@ export interface Config {
              * @visibility frontend
              */
             enabled: boolean
+        };
+        groups: {
+            /**
+             * 
+             * @visibility frontend
+             */
+            admin: string
+            /**
+             * 
+             * @visibility frontend
+             */
+            user: string
         };
         apiManagement: {
             /**
