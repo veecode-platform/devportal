@@ -1,7 +1,7 @@
 replicas: 1 #number of devportal pod replicas to create
 image:
   repository: veecode/devportal #devportal image repository
-  tag: bundle #devportal image tag
+  tag: latest #devportal image tag
   pullPolicy: IfNotPresent #kubernetes pull policy
 #imagePullSecrets: {} #image pull secrets
 environment: development #application environment
@@ -41,13 +41,13 @@ appConfig:
     baseUrl: http://localhost:7007 #devportal backend base URL
     secret: 68f21bd9-4f05-4212-b445-6e4b47369a46 #devportal backend secret. Random value.
   database:
-    client: pg #database client
-    connection:
-      host: postgres-postgresql.vkpr #database host
-      port: 5432 #database port number
-      database: platform_devportal #database name 
-      user: postgres #database username
-      password: postgres #database password
+    client: better-sqlite3 #database client (better-sqlite3 | pg)
+#    connection:
+#      host: postgres-postgresql.vkpr #database host
+#      port: 5432 #database port number
+#      database: platform_devportal #database name 
+#      user: postgres #database username
+#      password: postgres #database password
 
 grafana:
   enabled: false #enable grafana plugin
@@ -126,7 +126,18 @@ catalog:
 #      group: #Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned.
 #      entityFilename: 'catalog-info.yaml' #Catalog file path
 #      projectPattern: /[\s\S]*/ #Optional. Filters found projects based on provided patter.
-
+#    keycloak: 
+#      baseUrl: #keycloak base url
+#      loginRealm: master #realm used to login
+#      realm: platform-devportal #realm to be managed
+#      username: #username to user with permissions to get groups and users
+#      password: #password
+#      schedule: #optional; same options as in TaskScheduleDefinition
+#        frequency: 5 #frequency to sync in minutes
+#        timeout: 1 #timeout in minutes
+#        initialDelay: 15 #initial delay in seconds
+#      userQuerySize: 500 #User query size to sync
+#      groupQuerySize: 250 #Group query size to sync
 
 platform:
   guest:
@@ -134,6 +145,10 @@ platform:
   apiManagement:
     enabled: false #enable platform Api management module
     readOnlyMode: false #Enable platform Api management readonly mode
+  defaultGroups:
+    admin: 'platform-admin' #Group to be mapped as devportal's admin group
+    user: 'platform-user' #Group to be mapped as devportal's user group
+
 
 kubernetes: {}
 #  type: "multiTenant" #Kubernetes type

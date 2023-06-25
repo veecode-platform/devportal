@@ -19,7 +19,7 @@ mv ${script_path}/modified_values.yaml ${script_path}/values.yaml
 
 sed -i '/^ +annotations:/!s/[{}]//g' ${script_path}/values.yaml
 
-frigate gen ./${script_path}/ --output-format markdown --no-credits > chart/README.md
+frigate gen ./${script_path}/ --output-format markdown --no-credits > ${script_path}/README.md
 
 mv ${script_path}/values-tmp.yaml ${script_path}/values.yaml
 # rm ${script_path}/values-tmp.yaml

@@ -31,14 +31,18 @@ data:
       listen:
         port: 7007
       database:
-        client: {{ .Values.appConfig.database.client | default "pg" }}
+        client: {{ .Values.appConfig.database.client }}
+        {{- if eq .Values.appConfig.database.client "better-sqlite3" }}
+        connection: ':memory:'
+        {{- else }}
         pluginDivisionMode: schema
         connection:
           host: ${DATABASE_HOST}
-          port: {{ .Values.appConfig.database.connection.port | default 80 }}
+          port: {{ .Values.appConfig.database.connection.port }}
           database: ${DATABASE_NAME}
           user: ${DATABASE_USER}
           password: ${DATABASE_PASSWORD}
+        {{- end }}
       cache:
         store: memory
       cors:
@@ -52,7 +56,7 @@ data:
           - host: example.com
           - host: "*.mozilla.org"
     
-    {{- if (or .Values.grafana.enabled .Values.argocd.enabled )}}
+    {{- if or .Values.grafana.enabled .Values.argocd.enabled }}
     proxy:
       {{- if .Values.grafana.enabled | default false }}
       "/grafana/api":
@@ -118,9 +122,9 @@ data:
         - username: ${BITBUCKET_CLOUD_USERNAME}
           appPassword: ${BITBUCKET_CLOUD_TOKEN}
       {{- end }}
-      {{- if .Values.integrations.bitbucketServer }}
+      {{- if .Values.integrations.bitbucketServer  }}
       bitbucketServer:
-        - host: {{ .Values.integrations.bitbucketServer.host }}
+        - host: {{ .Values.integrations.bitbucketServer.host | default "bitbucket.org" | quote }}
           apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
           token: ${BITBUCKET_SERVER_TOKEN}
       {{- end }}
@@ -180,6 +184,21 @@ data:
             projectPattern: {{ .Values.catalog.providers.gitlab.projectPattern | quote }}
             {{- end }}
         {{- end }}
+        {{- if hasKey .Values.keycloak "catalog" }}
+        keycloakOrg:
+          default:
+            baseUrl: {{ .Values.keycloak.catalog.baseUrl }}
+            loginRealm: {{ .Values.keycloak.catalog.loginRealm | default "master" }}
+            realm: {{ .Values.keycloak.catalog.realm | default "platform-devportal" }}
+            username: ${KEYCLOAK_ADMIN_USERNAME}
+            password: ${KEYCLOAK_ADMIN_PASSWORD}
+            schedule:
+              frequency: { minutes: {{ .Values.keycloak.catalog.schedule.frequency | default 5 }} }
+              timeout: { minutes: {{ .Values.keycloak.catalog.schedule.timeout | default 1 }} }
+              initialDelay: { seconds: {{ .Values.keycloak.catalog.schedule.initialDelay | default 15 }} }
+            userQuerySize: {{ .Values.keycloak.catalog.userQuerySize | default 500 }}
+            groupQuerySize: {{ .Values.keycloak.catalog.groupQuerySize | default 250 }}
+        {{- end }}
     {{- end }}
       {{- if .Values.locations }}
       locations: {{- range .Values.locations }}
@@ -227,12 +246,16 @@ data:
       kubernetes: {{ .Values.kubernetes.enabled | default false }}
       argocd: {{ .Values.argocd.enabled | default false }}
       gitlabPlugin: {{ hasKey .Values.integrations "gitlab" }}
+      keycloak: {{ hasKey .Values.keycloak "catalog" }}
     platform:
       guest:
         enabled: {{ .Values.platform.guest.enabled | default false }}
       apiManagement:
         enabled: {{ .Values.platform.apiManagement.enabled | default false }}
         readOnlyMode: {{ .Values.platform.apiManagement.readOnlyMode | default false }}
+      group:
+        admin: {{ .Values.platform.defaultGroups.admin | default "platform-admin" }}
+        user: {{ .Values.platform.defaultGroups.user | default "platform-user" }}
     {{- if .Values.vault.enabled }}
     vault:
       baseUrl: ${VAULT_BASE_URL}
