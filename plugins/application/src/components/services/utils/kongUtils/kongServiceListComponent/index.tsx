@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Select } from '../../../../shared';
 import { IKongServices } from '../../interfaces';
 import { Autocomplete } from '@material-ui/lab';
 import TextField from '@material-ui/core/TextField';
@@ -8,7 +7,7 @@ type KongServicesArray = {
   services: IKongServices[];
   value: any;
   setValue: any;
-  // selected?: any;
+  selected?: kongServiceOption | null;
 };
 
 type kongServiceOption = {
@@ -20,6 +19,7 @@ export const KongServicesListComponent = ({
   services,
   value,
   setValue,
+  selected
 }: KongServicesArray) => {
 
   const options = services.map(item=>{
@@ -36,6 +36,8 @@ export const KongServicesListComponent = ({
       options={options}
       getOptionLabel={(option) => option.name}
       renderInput={(params) => <TextField {...params} label="Kong service" variant="outlined" />}
+      value={selected}
+      getOptionSelected={(option, value) => option.name === value.name}
       /*renderOption={(option) => (
         <div style={{display:"flex", flexDirection:"column"}}>
           <span><b>{option.name}</b></span>
@@ -48,21 +50,5 @@ export const KongServicesListComponent = ({
         }
       }    
     />
-   
-    /* <Select
-      placeholder="Kong Service Name"
-      label="Kong Service Name"
-      selected={selected}
-      items= { services.map(item=>{
-        return{
-          label: `${item.name} - ${item.id}`,
-          value: `${item.name}---${item.id}`
-        }
-      })}
-      onChange={e => {
-        const nameId = e.toString().split("---")
-        setValue({...value, kongServiceName: nameId[0], kongServiceId: nameId[1]});
-      }}
-      />*/
   );
 };

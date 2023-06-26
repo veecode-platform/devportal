@@ -75,7 +75,7 @@ export class PostgresServiceRepository implements IServiceRepository {
         description: serviceDto.description,
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
+        rateLimiting: parseInt(serviceDto.rateLimiting?.value as string, 10),
         securityType: serviceDto.securityType as SECURITY,
       });
       await ServiceMapper.toPersistence(service);
@@ -107,7 +107,7 @@ export class PostgresServiceRepository implements IServiceRepository {
         description: serviceDto.description,
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
+        rateLimiting: parseInt(serviceDto.rateLimiting.value, 10),
         securityType: serviceDto.securityType as SECURITY,
       });
       const data = await ServiceMapper.toPersistence(service);
@@ -128,7 +128,7 @@ export class PostgresServiceRepository implements IServiceRepository {
         description: serviceDto.description,
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: parseInt(serviceDto.rateLimiting as string, 10),
+        rateLimiting: parseInt(serviceDto.rateLimiting?.value as string, 10),
         securityType: serviceDto.securityType as SECURITY,
       });
       const data = await ServiceMapper.toPersistence(service);

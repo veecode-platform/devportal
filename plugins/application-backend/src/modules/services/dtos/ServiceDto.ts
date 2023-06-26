@@ -1,12 +1,18 @@
 import { SECURITY } from "../domain/Service";
 
+type kongRatelimiting = {
+  value: string;
+  type: string;
+  limitBy: string;
+}
+
 export class ServiceDto {
   name: string;
   description: string;
   kongServiceName: string;
   kongServiceId: string;
   active: boolean;
-  rateLimiting?: string;
+  rateLimiting: kongRatelimiting;
   createdAt?: Date;
   updatedAt?: Date;
   securityType?: SECURITY;
@@ -17,7 +23,7 @@ export class ServiceDto {
     kongServicename: string,
     kongServiceId: string,
     active: boolean,
-    rateLimiting?: string,
+    rateLimiting: kongRatelimiting,
     createdAt?: Date,
     updatedAt?: Date,
     securityType?: SECURITY

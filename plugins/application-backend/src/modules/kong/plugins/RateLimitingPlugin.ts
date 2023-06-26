@@ -18,11 +18,13 @@ export class RateLimitingPlugin extends PluginService {
 
   public async configRateLimitingKongService(
     serviceName: string,
-    rateLimitingType: RateLimitingType,
-    rateLimiting: string,
+    rateLimitingType: string,
+    rateLimitingValue: string,
+    rateLimitingLimitBy: string
   ) {
-    const map: Map<string, number> = new Map<string, number>();
-    map.set(rateLimitingType.toString(), parseInt(rateLimiting, 10));
+    const map: Map<string, any> = new Map<string, any>();
+    map.set(rateLimitingType, parseInt(rateLimitingValue, 10));
+    map.set("limit_by", rateLimitingLimitBy)
     return this.applyPluginKongService(
       serviceName,
       PluginName.rate_limiting,

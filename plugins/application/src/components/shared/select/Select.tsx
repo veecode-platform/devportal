@@ -61,6 +61,31 @@ const BootstrapInput = withStyles(
     }),
   { name: 'BackstageSelectInputBase' },
 )(InputBase);
+const BootstrapInputNoBorder = withStyles(
+  (theme: Theme) =>
+    createStyles({
+      root: {
+        'label + &': {
+          marginTop: theme.spacing(3),
+        },
+      },
+      input: {
+        borderRadius: theme.shape.borderRadius,
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        fontSize: theme.typography.body1.fontSize,
+        padding: theme.spacing(1.25, 3.25, 1.25, 1.5),
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        fontFamily: 'Helvetica Neue',
+        '&:focus': {
+          background: theme.palette.background.paper,
+          borderRadius: theme.shape.borderRadius,
+        },
+      },
+    }),
+  { name: 'BackstageSelectInputBase' },
+)(InputBase);
+
 
 /** @public */
 export type SelectClassKey =
@@ -140,6 +165,7 @@ export type SelectProps = {
   native?: boolean;
   disabled?: boolean;
   margin?: 'dense' | 'none';
+  noBorder?: boolean;
 };
 
 /** @public */
@@ -155,6 +181,7 @@ export function SelectComponent(props: SelectProps) {
     native = false,
     disabled = false,
     margin,
+    noBorder
   } = props;
   const classes = useStyles();
   const [value, setValue] = useState<SelectedItems>(
@@ -218,7 +245,7 @@ export function SelectComponent(props: SelectProps) {
             onChange={handleChange}
             onClick={handleClick}
             open={isOpen}
-            input={<BootstrapInput />}
+            input={noBorder ? <BootstrapInputNoBorder/> :<BootstrapInput />}
             label={label}
             tabIndex={0}
             renderValue={s =>

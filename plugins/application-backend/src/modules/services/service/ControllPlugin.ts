@@ -45,8 +45,8 @@ export class ControllPlugin {
         plugins.push({name: "acl", id: acl.id})
       }
 
-      if(service.rateLimiting !== "0"){
-        const rateLimiting = await RateLimitingPlugin.Instance.configRateLimitingKongService(service.kongServiceName, RateLimitingType.minute, service.rateLimiting as string)
+      if(service.rateLimiting.value !== "0"){
+        const rateLimiting = await RateLimitingPlugin.Instance.configRateLimitingKongService(service.kongServiceName, service.rateLimiting.type , service.rateLimiting.value, service.rateLimiting.limitBy)
         plugins.push({name: "rateLimiting", id: rateLimiting.id})
       }
   
@@ -71,7 +71,7 @@ export class ControllPlugin {
           await RateLimitingPlugin.Instance.removePluginKongService(service.kongServiceName as string, plugin.kongPluginId)
           await pluginRepository.deletePlugin(plugin.id)
         }
-        const rateLimiting = await RateLimitingPlugin.Instance.configRateLimitingKongService(service.kongServiceName as string, RateLimitingType.minute, rateLimitingValue as string)
+        const rateLimiting = await RateLimitingPlugin.Instance.configRateLimitingKongService(service.kongServiceName as string, RateLimitingType.minute, rateLimitingValue as string, rateLimitingValue as string)// corrigir
         pluginRepository.createPlugin({
           name: "rateLimiting",
           kongPluginId: rateLimiting.id,
@@ -150,7 +150,7 @@ export class ControllPlugin {
     }
   }
 
-  public async changeToOauth2(routerOptions: RouterOptions, serviceId: string) {
+  /* public async changeToOauth2(routerOptions: RouterOptions, serviceId: string) {
     const ServiceRepository = await PostgresServiceRepository.create(
       await routerOptions.database.getClient(),
     );
@@ -176,5 +176,5 @@ export class ControllPlugin {
 
     service.active = status;
     ServiceRepository.updateService(serviceId, service as ServiceDto);
-  }
+  }*/
 }
