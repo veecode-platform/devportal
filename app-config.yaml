@@ -235,10 +235,15 @@ enabledPlugins:
   kubernetes: true
   argocd: true
   gitlabPlugin: false
+  keycloak: true
 
 platform:
   guest:
     enabled: false
+
+  group:
+    admin: ${GROUP_ADMIN}
+    user: ${GROUP_USER}
 
   apiManagement:
     enabled: true

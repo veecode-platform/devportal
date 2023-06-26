@@ -15,9 +15,6 @@
  */
 
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { InfoCard } from '@backstage/core-components';
 import {
   ProviderComponent,
   ProviderLoader,
@@ -25,9 +22,13 @@ import {
   SignInProviderConfig,
 } from './types';
 import { useApi, errorApiRef } from '@backstage/core-plugin-api';
-import { GridItem } from './styles';
+import { GridItem, useStyles } from './styles';
 import { ForwardedError } from '@backstage/errors';
 import { UserIdentity } from './UserIdentity';
+import { Grid } from '@material-ui/core';
+import KeycloakLogo from "./assets/keycloak.png";
+import OktaLogo from "./assets/okta.png";
+import GithubLogo from "./assets/github.png";
 
 const Component: ProviderComponent = ({
   config,
@@ -38,6 +39,7 @@ const Component: ProviderComponent = ({
   const { apiRef, title, message } = config as SignInProviderConfig;
   const authApi = useApi(apiRef);
   const errorApi = useApi(errorApiRef);
+  const classes = useStyles();
 
   const handleLogin = async () => {
     try {
@@ -69,17 +71,16 @@ const Component: ProviderComponent = ({
 
   return (
     <GridItem>
-      <InfoCard
-        variant="fullHeight"
-        title={title}
-        actions={
-          <Button color="primary" variant="outlined" onClick={handleLogin}>
-            Sign In
-          </Button>
-        }
-      >
-        <Typography variant="body1">{message}</Typography>
-      </InfoCard>
+      <Grid
+        className={classes.loginBox}
+        onClick={handleLogin}>
+        <div className={classes.providerTitleBar}>
+          {title === "Keycloak" && <img src={KeycloakLogo} alt={title} className={classes.providerLogo} />}
+          {title === "Okta" && <img src={OktaLogo} alt={title} className={classes.providerLogo} />}
+          {title === "GitHub" && <img src={GithubLogo} alt={title} className={classes.providerLogo} />}
+          <h3>{message}</h3>
+        </div>
+      </Grid>
     </GridItem>
   );
 };

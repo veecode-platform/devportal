@@ -68,6 +68,8 @@ export default async function createPlugin(
     builder.addProcessor(new GitlabFillerProcessor(env.config));
   }
 
+  // keycloak
+  if (env.config.getBoolean("enabledPlugins.keycloak")) {
   builder.addEntityProvider(
     KeycloakOrgEntityProvider.fromConfig(env.config, {
       id: 'development',
@@ -79,6 +81,7 @@ export default async function createPlugin(
       }),
     }),
   );
+  }
 
   builder.addProcessor(new ScaffolderEntitiesProcessor());
   const { processingEngine, router } = await builder.build();

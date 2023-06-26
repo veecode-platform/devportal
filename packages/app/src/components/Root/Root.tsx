@@ -1,20 +1,5 @@
-/*
- * Copyright 2020 The Backstage Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 // import { MyGroupsSidebarItem } from '@backstage/plugin-org';
-import React, { useContext, PropsWithChildren } from 'react'; 
+import React, { useContext, PropsWithChildren } from 'react';
 import { Link, makeStyles } from '@material-ui/core';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
@@ -32,6 +17,7 @@ import {
   SidebarGroup,
   SidebarItem,
   SidebarPage,
+  SidebarSpace,
   // SidebarScrollWrapper,
   // SidebarSpace,
 } from '@backstage/core-components';
@@ -49,6 +35,11 @@ import { adminAccessPermission, apiManagementEnabledPermission } from '@internal
 import CategoryIcon from '@material-ui/icons/Category';
 import LayersIcon from '@material-ui/icons/Layers';
 // import RenderItem from '../Routing/RenderItem';
+// import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import PeopleIcon from '@material-ui/icons/People';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SignUpElement from './signUp';
+import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -62,7 +53,7 @@ const useSidebarLogoStyles = makeStyles({
   link: {
     width: sidebarConfig.drawerWidthClosed,
     marginLeft: 24,
-  },
+  }
 });
 
 const SidebarLogo = () => {
@@ -85,6 +76,9 @@ const SidebarLogo = () => {
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
   const { loading: loadingApiEnabledPermission, allowed: enabledApiManagement } = usePermission({ permission: apiManagementEnabledPermission });
+  const config = useApi(configApiRef);
+  const keycloakPlugin = config.getBoolean("enabledPlugins.keycloak");
+  const Guest = config.getBoolean("platform.guest.enabled");
 
   return (
     <SidebarPage>
@@ -93,17 +87,19 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarDivider />
         <SidebarGroup label="Menu" icon={<MenuIcon />}>
           <SidebarItem icon={HomeIcon} to="/" text="Home" />
-          <SidebarItem icon={LayersIcon} to="explore" text="Explore" />
           {(!loadingPermission && adminView) && (<>
             <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
-            <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />
-          </> )}     
+          </>)}
           <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
+          {(!loadingPermission && adminView || Guest ) && <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />}
           {(!loadingPermission && adminView) && (
-            <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+            <>
+              <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+              {keycloakPlugin && (<SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />)}
+            </>
           )}
           <SidebarDivider />
-        </SidebarGroup>     
+        </SidebarGroup>
         {(!loadingApiEnabledPermission && enabledApiManagement) && (<>
           <SidebarGroup label="Api managment" icon={<AppsIcon />}>
             {(!loadingPermission && adminView) && (<>
@@ -121,6 +117,11 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
           to="/settings"
         >
           <SidebarSettings />
+        </SidebarGroup>
+        <SidebarSpace />
+        <SidebarDivider />
+        <SidebarGroup label="Sign Up" icon={<ExitToAppIcon />}>
+          <SignUpElement />
         </SidebarGroup>
       </Sidebar>
       {children}

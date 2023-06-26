@@ -15,6 +15,10 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get update && apt-get install -y python3 python3-pip
 RUN pip3 install mkdocs-techdocs-core==1.0.1
 
+# install sqlite3 dependencies
+RUN apt-get install -y libsqlite3-dev cmake g++
+RUN yarn config set python /usr/bin/python3
+
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
 
@@ -40,7 +44,15 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 # RUN file="$(ls /app/plugins/application-backend/migrations/)" && echo $file
-
+USER root
 RUN rm -rf "$(yarn cache dir)"
-
+RUN rm -rf /var/lib/apt/lists/*
+USER node
 CMD ["node", "packages/backend", "--config", "app-config.yaml"]
+# CMD [ "bash" ]
+
+# FROM gcr.io/distroless/nodejs18-debian11
+
+# COPY --from=build /app /
+# EXPOSE 3000
+# CMD ["bash"]
