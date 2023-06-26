@@ -47,7 +47,7 @@ export default async function createPlugin(
               const user =  groups.includes(`${userGroup}`);      
               
               if(!admin && !user){
-                throw new Error('Group not authorized');
+                env.logger.warn('Your user belongs to a group that does not exist in keycloak, so it will assume a default role...');
               }
 
               const userName = result.userinfo.preferred_username;
