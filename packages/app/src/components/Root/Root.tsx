@@ -78,6 +78,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
   const { loading: loadingApiEnabledPermission, allowed: enabledApiManagement } = usePermission({ permission: apiManagementEnabledPermission });
   const config = useApi(configApiRef);
   const keycloakPlugin = config.getBoolean("enabledPlugins.keycloak");
+  const Guest = config.getBoolean("platform.guest.enabled");
 
   return (
     <SidebarPage>
@@ -90,7 +91,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
           </>)}
           <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-          {!enabledApiManagement && <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />}
+          {(!loadingPermission && adminView || Guest ) && <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />}
           {(!loadingPermission && adminView) && (
             <>
               <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
