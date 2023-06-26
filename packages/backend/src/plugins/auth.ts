@@ -42,13 +42,18 @@ export default async function createPlugin(
               
               const adminGroup = env.config.getConfig('platform').get('group.admin') as string;
               const userGroup = env.config.getConfig('platform').get('group.user') as string;
+              const defaultGroup = env.config.getBoolean('platform.defaultGroup.enabled');
               const groups = result.userinfo.groups as Array<string>;
               const admin = groups.includes(`${adminGroup}`);
               const user =  groups.includes(`${userGroup}`);      
               
               if(!admin && !user){
-                env.logger.warn('Your user belongs to a group that does not exist in keycloak, so it will assume a default role...');
-              }
+                if(defaultGroup){
+                  env.logger.error('Your user belongs to a group that does not exist in keycloak');
+                  throw new Error('Group not authorized');
+                }
+                else env.logger.warn('Your user belongs to a group that does not exist in keycloak, so it will assume a default role...');
+              } 
 
               const userName = result.userinfo.preferred_username;
               

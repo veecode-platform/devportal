@@ -253,6 +253,13 @@ export interface Config {
              */
             enabled: boolean
         };
+        defaultGroup: {
+          /**
+           * 
+           * @visibility frontend
+           */
+          enabled: boolean
+       };
         group: {
             /**
              * 
