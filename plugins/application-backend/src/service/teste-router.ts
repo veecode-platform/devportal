@@ -172,30 +172,6 @@ export async function testeRoute(
     },
   );
 
-  // RATE LIMITING
-
-  router.post(
-    '/ratelimiting/:serviceName',
-    async (request, response) => {
-      try {
-        const serviceStore =
-          await rateLimitingPlugin.configRateLimitingKongService(
-            request.params.serviceName,
-            request.body.config.rateLimitingType,
-            request.body.config.rateLimiting,
-          );
-          response.json({ status: 'ok', plugins: serviceStore });
-      } catch (error: any) {
-        const date = new Date();
-        response.status(error.response.status).json({
-          status: 'ERROR',
-          message: error.response.data.message,
-          timestamp: new Date(date).toISOString(),
-        });
-      }
-    },
-  );
-
   router.delete(
     '/ratelimiting/:serviceName/:pluginId',
     async (request, response) => {
