@@ -91,7 +91,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
           </>)}
           <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-          {(!loadingPermission && adminView || Guest ) && <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />}
+          {(adminView || Guest) && <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />}
           {(!loadingPermission && adminView) && (
             <>
               <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
