@@ -38,9 +38,9 @@ COPY packages/backend/dist/bundle.tar.gz app-config.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 RUN file="$(ls /app/plugins/application-backend/migrations/)" && echo $file
 
-# USER root
-# RUN chown -R 1001:0 /app && chmod -R ug+rwx /app && \
-#     rpm-file-permissions
-# USER default
+USER root
+RUN chown -R 1001:0 /app && chmod -R ug+rwx /app && \
+    rpm-file-permissions
+USER default
 
 CMD ["node", "packages/backend", "--config", "app-config.yaml"]
