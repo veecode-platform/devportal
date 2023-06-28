@@ -184,7 +184,7 @@ data:
             projectPattern: {{ .Values.catalog.providers.gitlab.projectPattern | quote }}
             {{- end }}
         {{- end }}
-        {{- if hasKey .Values.keycloak "catalog" }}
+        {{- if hasKey .Values.catalog.providers "keycloak" }}
         keycloakOrg:
           default:
             baseUrl: {{ .Values.keycloak.catalog.baseUrl }}
