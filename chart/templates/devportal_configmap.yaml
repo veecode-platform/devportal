@@ -187,17 +187,17 @@ data:
         {{- if hasKey .Values.catalog.providers "keycloak" }}
         keycloakOrg:
           default:
-            baseUrl: {{ .Values.keycloak.catalog.baseUrl }}
-            loginRealm: {{ .Values.keycloak.catalog.loginRealm | default "master" }}
-            realm: {{ .Values.keycloak.catalog.realm | default "platform-devportal" }}
+            baseUrl: {{ .Values.catalog.providers.keycloak.baseUrl }}
+            loginRealm: {{ .Values.catalog.providers.keycloak.loginRealm | default "master" }}
+            realm: {{ .Values.catalog.providers.keycloak.realm | default "platform-devportal" }}
             username: ${KEYCLOAK_ADMIN_USERNAME}
             password: ${KEYCLOAK_ADMIN_PASSWORD}
             schedule:
-              frequency: { minutes: {{ .Values.keycloak.catalog.schedule.frequency | default 5 }} }
-              timeout: { minutes: {{ .Values.keycloak.catalog.schedule.timeout | default 1 }} }
-              initialDelay: { seconds: {{ .Values.keycloak.catalog.schedule.initialDelay | default 15 }} }
-            userQuerySize: {{ .Values.keycloak.catalog.userQuerySize | default 500 }}
-            groupQuerySize: {{ .Values.keycloak.catalog.groupQuerySize | default 250 }}
+              frequency: { minutes: {{ .Values.catalog.providers.keycloak.schedule.frequency | default 5 }} }
+              timeout: { minutes: {{ .Values.catalog.providers.keycloak.schedule.timeout | default 1 }} }
+              initialDelay: { seconds: {{ .Values.catalog.providers.keycloak.schedule.initialDelay | default 15 }} }
+            userQuerySize: {{ .Values.catalog.providers.keycloak.userQuerySize | default 500 }}
+            groupQuerySize: {{ .Values.catalog.providers.keycloak.groupQuerySize | default 250 }}
         {{- end }}
     {{- end }}
       {{- if .Values.locations }}
@@ -246,14 +246,14 @@ data:
       kubernetes: {{ .Values.kubernetes.enabled | default false }}
       argocd: {{ .Values.argocd.enabled | default false }}
       gitlabPlugin: {{ hasKey .Values.integrations "gitlab" }}
-      keycloak: {{ hasKey .Values.keycloak "catalog" }}
+      keycloak: {{ hasKey .Values.catalog.providers "keycloak" }}
     platform:
       guest:
         enabled: {{ .Values.platform.guest.enabled | default false }}
       apiManagement:
         enabled: {{ .Values.platform.apiManagement.enabled | default false }}
         readOnlyMode: {{ .Values.platform.apiManagement.readOnlyMode | default false }}
-      defaultGroups:
+      defaultGroup:
         enabled: {{ .Values.platform.defaultGroups.enabled | default false }}
       group:
         admin: {{ .Values.platform.defaultGroups.admin | default "platform-admin" }}

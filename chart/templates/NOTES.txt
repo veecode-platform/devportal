@@ -9,4 +9,4 @@ To learn more about the release, try:
   $ helm get all {{ .Release.Name }} -n {{ .Release.Namespace }}
   $ helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}
 
-Open a issue: https://github.com/veecode-platform/support
+Open an issue: https://github.com/veecode-platform/support
