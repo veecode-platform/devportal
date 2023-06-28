@@ -7,3 +7,6 @@ To learn more about the release, try:
   $ helm status {{ .Release.Name }} -n {{ .Release.namespace }}
   $ helm get all {{ .Release.Name }} -n {{ .Release.namespace }}
   $ helm uninstall {{ .Release.Name }} -n {{ .Release.namespace }}
+
+Doc: https://docs.platform.vee.codes/devportal/intro
+Issue: https://github.com/veecode-platform/support/issues

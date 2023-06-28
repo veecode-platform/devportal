@@ -49,10 +49,3 @@ RUN rm -rf "$(yarn cache dir)"
 RUN rm -rf /var/lib/apt/lists/*
 USER node
 CMD ["node", "packages/backend", "--config", "app-config.yaml"]
-# CMD [ "bash" ]
-
-# FROM gcr.io/distroless/nodejs18-debian11
-
-# COPY --from=build /app /
-# EXPOSE 3000
-# CMD ["bash"]

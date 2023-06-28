@@ -1,0 +1,178 @@
+{% extends "markdown.jinja2" %}
+
+#DESCRIPTION
+{% block description -%}
+
+## Adding Platform repository
+```sh
+helm repo add veecode-platform https://veecode-platform.github.io/public-charts/
+helm repo update
+```
+
+## Installing chart
+```sh
+helm install platform-devportal --values ./values.yaml veecode-platform/devportal
+```
+
+## Removing chart
+```sh
+helm uninstall platform-devportal
+```
+{%- endblock %}
+
+#FOOTNOTES
+{% block footnotes -%}
+
+## values for github
+```yaml
+replicas: 1
+image:
+  repository: veecode/devportal-bundle
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  enabled: true
+  name: devportal
+  type: ClusterIP
+  containerPort: 7007
+
+ingress:
+  enabled: true
+  host: <devportal-host> #devportal.com
+  className: nginx
+  # className: kong
+  # annotations:
+  #   konghq.com/https-redirect-status-code: "308"
+  #   konghq.com/preserve-host: "true"
+  #   konghq.com/protocols: "https"
+  #   konghq.com/strip-path: "false"
+  tls:
+    secretName: devportal-secret
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+appConfig:
+  title: Devportal
+  app:
+    baseUrl: <devportal-host>
+  backend:
+    baseUrl: <devportal-host>
+    secret: 56616a93-ac28-42ab-929d-6ec1fc008c54
+  database:
+    client: better-sqlite3
+
+auth:
+  providers:
+    github:
+      clientId: <github-client-id>
+      clientSecret: <github-client-secret>
+
+integrations:
+  github:
+    token: <github-token>
+
+catalog:
+  providers:
+    github:
+      organization: <github-organization> # string
+      catalogPath: /catalog-info.yaml # string
+      filters:
+        branch: main # Optional. Uses `master` as default
+        repository: <repository-name> #suggestion devportal-catalog
+        validateLocationsExist: true
+
+platform:
+  guest:
+    enabled: true
+  apiManagement:
+    enabled: false
+    readOnlyMode: false
+```
+
+## values for gitlab
+```yaml
+replicas: 1
+image:
+  repository: veecode/devportal-bundle
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  enabled: true
+  name: devportal
+  type: ClusterIP
+  containerPort: 7007
+
+ingress:
+  enabled: true
+  host: <devportal-host> #devportal.com
+  className: nginx
+  # className: kong
+  # annotations:
+  #   konghq.com/https-redirect-status-code: "308"
+  #   konghq.com/preserve-host: "true"
+  #   konghq.com/protocols: "https"
+  #   konghq.com/strip-path: "false"
+  tls:
+    secretName: devportal-secret
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+appConfig:
+  title: Devportal
+  app:
+    baseUrl: <devportal-host>
+  backend:
+    baseUrl: <devportal-host>
+    secret: 56616a93-ac28-42ab-929d-6ec1fc008c54
+  database:
+    client: better-sqlite3
+
+auth: {}
+
+integrations:
+  gitlab:
+    token: <gitlab-token>
+
+catalog:
+  providers:
+    gitlab:
+      branch: main # Optional. Uses `master` as default
+      group: <gitlab group/subgroup> # Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned
+      entityFilename: catalog-info.yaml # Optional. Defaults to `catalog-info.yaml`
+      projectPattern: <repository-name> #suggestion devportal-catalog
+
+platform:
+  guest:
+    enabled: true
+  apiManagement:
+    enabled: false
+    readOnlyMode: false
+```
+
+{%- endblock %}
+
+#CREDITS
+{% block credits -%}
+{%- endblock %}
+
+#FOOTER
+{% block footer -%}
+## For more details access devportal:
+* Site: https://platform.vee.codes<br/>
+* Doc: https://docs.platform.vee.codes/devportal/intro<br/>
+* Issue: https://github.com/veecode-platform/support/issues
+{%- endblock %}

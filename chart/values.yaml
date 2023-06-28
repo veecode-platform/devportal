@@ -16,7 +16,7 @@ service:
   containerPort: 7007 #port to serve on the internal service
 
 ingress:
-  enabled: #false If `true`, an ingress is created
+  enabled: false #If `true`, an ingress is created
   annotations: {} #ingress annotations
   #  konghq.com/https-redirect-status-code: "308"
   #  konghq.com/preserve-host: "true"
@@ -146,6 +146,7 @@ platform:
     enabled: false #enable platform Api management module
     readOnlyMode: false #Enable platform Api management readonly mode
   defaultGroups:
+    enabled: false #If 'false', the user will not be able to belong to any group. If 'true', the user will belong to the user group by default.
     admin: 'platform-admin' #Group to be mapped as devportal's admin group
     user: 'platform-user' #Group to be mapped as devportal's user group
 

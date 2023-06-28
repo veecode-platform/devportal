@@ -253,6 +253,8 @@ data:
       apiManagement:
         enabled: {{ .Values.platform.apiManagement.enabled | default false }}
         readOnlyMode: {{ .Values.platform.apiManagement.readOnlyMode | default false }}
+      defaultGroups:
+        enabled: {{ .Values.platform.defaultGroups.enabled | default false }}
       group:
         admin: {{ .Values.platform.defaultGroups.admin | default "platform-admin" }}
         user: {{ .Values.platform.defaultGroups.user | default "platform-user" }}

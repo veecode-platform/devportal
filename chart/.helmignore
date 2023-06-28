@@ -30,3 +30,6 @@ passphrase
 values-docs.yaml
 values-tmp.yaml
 generate-docs.sh
+
+# .frigate
+.frigate
