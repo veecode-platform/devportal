@@ -17,12 +17,14 @@ service:
 
 ingress:
   enabled: false #If `true`, an ingress is created
-  annotations: {} #ingress annotations
+#  host: # your host to devportal ingress
+#  className: nginx #ingress class name
+#  annotations: {} #ingress annotations
   #  konghq.com/https-redirect-status-code: "308"
   #  konghq.com/preserve-host: "true"
   #  konghq.com/protocols: "https"
   #  konghq.com/strip-path: "false"
-  tls: {} #TLS secrets and which hosts they should be used for
+#  tls: {} #TLS secrets and which hosts they should be used for
 #    secretName: devportal-secret #tls secret name
 
 resources:
