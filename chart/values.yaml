@@ -1,6 +1,6 @@
 replicas: 1 #number of devportal pod replicas to create
 image:
-  repository: veecode/devportal #devportal image repository
+  repository: veecode/devportal-bundle #devportal image repository
   tag: latest #devportal image tag
   pullPolicy: IfNotPresent #kubernetes pull policy
 #imagePullSecrets: {} #image pull secrets
@@ -50,6 +50,12 @@ appConfig:
 #      database: platform_devportal #database name 
 #      user: postgres #database username
 #      password: postgres #database password
+
+#locations:
+#  - type: #location type to import(url)
+#    target: #location target address
+#    rules:
+#        - allow: [] #Kinds to import (Component, Template, API, Group, User, Resource, System, Domain, Location)
 
 grafana:
   enabled: false #enable grafana plugin
@@ -101,6 +107,8 @@ integrations: {}
 #    token:  #Gitlab Server Token
 
 catalog:
+  rules:
+    - allow: [Component, API, Location, Template]
   providers: {}
 #    github:
 #      organization: #github Organization Name
