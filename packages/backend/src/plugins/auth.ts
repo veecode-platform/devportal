@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 // import { createOktaProvider, getDefaultOwnershipEntityRefs } from '@backstage/plugin-auth-backend';
-import { stringifyEntityRef } from '@backstage/catalog-model';
+import { stringifyEntityRef/* , DEFAULT_NAMESPACE*/ } from '@backstage/catalog-model';
 
 import {
   createRouter,
@@ -53,13 +53,22 @@ export default async function createPlugin(
                   throw new Error('Group not authorized');
                 }
                 else env.logger.warn('Your user belongs to a group that does not exist in keycloak, so it will assume a default role...');
-              } 
+              }
 
-              const userName = result.userinfo.preferred_username;
+              const userName = result.userinfo.name || result.userinfo.sub;
+
+               /*
+              return ctx.signInWithCatalogUser({
+                entityRef: { 
+                  // kind: admin ? "admin" : "user",
+                  namespace: DEFAULT_NAMESPACE,
+                  name: userName
+                }
+              })*/
               
               const userEntityRef = stringifyEntityRef({
                 kind: admin ? "admin" : "user",
-                name: userName || result.userinfo.sub,
+                name: userName,
                 namespace: "devportal",
               });
               return ctx.issueToken({
@@ -67,7 +76,7 @@ export default async function createPlugin(
                   sub: userEntityRef, // The user's own identity
                   ent: [userEntityRef], // A list of identities that the user claims ownership through
                 },
-              });           
+              });      
           },
         },
 

@@ -38,8 +38,8 @@ import LayersIcon from '@material-ui/icons/Layers';
 // import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import PeopleIcon from '@material-ui/icons/People';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import SignUpElement from './signUp';
-import { configApiRef, useApi } from '@backstage/core-plugin-api';
+import SignUpElement from './signOut';
+// import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -76,9 +76,9 @@ const SidebarLogo = () => {
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
   const { loading: loadingApiEnabledPermission, allowed: enabledApiManagement } = usePermission({ permission: apiManagementEnabledPermission });
-  const config = useApi(configApiRef);
-  const keycloakPlugin = config.getBoolean("enabledPlugins.keycloak");
-  const Guest = config.getBoolean("platform.guest.enabled");
+  // const config = useApi(configApiRef);
+  // const keycloakPlugin = config.getBoolean("enabledPlugins.keycloak");
+  // const Guest = config.getBoolean("platform.guest.enabled");
 
   return (
     <SidebarPage>
@@ -87,18 +87,15 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarDivider />
         <SidebarGroup label="Menu" icon={<MenuIcon />}>
           <SidebarItem icon={HomeIcon} to="/" text="Home" />
-          {(!loadingPermission && adminView) && (<>
-            <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
-          </>)}
+          <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
           <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-          {(adminView || Guest) && <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />}
-          {(!loadingPermission && adminView) && (
-            <>
-              <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
-              {keycloakPlugin && (<SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />)}
-            </>
+          <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />
+          <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+          {(!loadingApiEnabledPermission && enabledApiManagement) && (
+            <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />
           )}
           <SidebarDivider />
+
         </SidebarGroup>
         {(!loadingApiEnabledPermission && enabledApiManagement) && (<>
           <SidebarGroup label="Api managment" icon={<AppsIcon />}>
@@ -120,7 +117,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         </SidebarGroup>
         <SidebarSpace />
         <SidebarDivider />
-        <SidebarGroup label="Sign Up" icon={<ExitToAppIcon />}>
+        <SidebarGroup label="Sign Out" icon={<ExitToAppIcon />}>
           <SignUpElement />
         </SidebarGroup>
       </Sidebar>

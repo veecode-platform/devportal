@@ -4,7 +4,7 @@ import SignOutIcon from '@material-ui/icons/MeetingRoom';
 import { configApiRef, identityApiRef, useApi } from '@backstage/core-plugin-api';
 
 
-const SignUpElement = () => {
+const SignOutElement = () => {
 
   const identityApi = useApi(identityApiRef);
   const config = useApi(configApiRef);
@@ -34,4 +34,4 @@ const SignUpElement = () => {
   )
 }
 
-export default SignUpElement
+export default SignOutElement
