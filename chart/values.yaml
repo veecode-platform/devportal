@@ -30,10 +30,10 @@ ingress:
 resources:
   requests:
     memory: 256Mi #request memory
-    cpu: 150m #request cpu
+    cpu: 250m #request cpu
   limits:
     memory: 512Mi #limit memory
-    cpu: 300m #limit cpu
+    cpu: 500m #limit cpu
 
 appConfig:
   title: Devportal Platform #devportal title
