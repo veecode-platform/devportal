@@ -13,6 +13,8 @@ exports.up = async function up(knex) {
       table.boolean('active');
       table.string('description');
       table.integer('rateLimiting');
+      table.string('rateLimitingType');
+      table.string('rateLimitingBy');
       table.string('kongServiceName');
       table.string('kongServiceId');
       table

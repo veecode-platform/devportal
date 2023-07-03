@@ -1,6 +1,6 @@
 import { SECURITY } from "../domain/Service";
 
-type kongRatelimiting = {
+export type kongRatelimiting = {
   value: string;
   type: string;
   limitBy: string;
@@ -16,6 +16,7 @@ export class ServiceDto {
   createdAt?: Date;
   updatedAt?: Date;
   securityType?: SECURITY;
+  partnersId?: string[];
 
   constructor(
     name: string,
@@ -24,6 +25,7 @@ export class ServiceDto {
     kongServiceId: string,
     active: boolean,
     rateLimiting: kongRatelimiting,
+    partnersId?: string[],
     createdAt?: Date,
     updatedAt?: Date,
     securityType?: SECURITY
@@ -33,6 +35,7 @@ export class ServiceDto {
     this.kongServiceName = kongServicename;
     this.kongServiceId = kongServiceId;
     this.rateLimiting = rateLimiting;
+    this.partnersId = partnersId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.active = active;

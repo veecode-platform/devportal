@@ -7,6 +7,8 @@ export type ServiceProps = {
   kongServiceName: string;
   kongServiceId: string;
   rateLimiting: number;
+  rateLimitingType?: string;
+  rateLimitingBy?: string;
   createdAt?: Date;
   updatedAt?: Date;
   securityType: SECURITY;
@@ -19,6 +21,8 @@ export class Service extends Entity<ServiceProps> {
   kongServiceName?: string;
   kongServiceId?: string;
   rateLimiting?: number;
+  rateLimitingType?: string;
+  rateLimitingBy?: string;
   createdAt?: Date;
   updatedAt?: Date;
   securityType?: SECURITY;
