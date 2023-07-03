@@ -30,10 +30,10 @@ ingress:
 resources:
   requests:
     memory: 256Mi #request memory
-    cpu: 150m #request cpu
+    cpu: 250m #request cpu
   limits:
     memory: 512Mi #limit memory
-    cpu: 300m #limit cpu
+    cpu: 500m #limit cpu
 
 appConfig:
   title: Devportal Platform #devportal title
@@ -45,6 +45,7 @@ appConfig:
   database:
     client: better-sqlite3 #database client (better-sqlite3 | pg)
 #    connection:
+#      directory: #sqlite directory instead of memory storage
 #      host: postgres-postgresql.vkpr #database host
 #      port: 5432 #database port number
 #      database: platform_devportal #database name 

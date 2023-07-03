@@ -50,6 +50,7 @@ site
 
 .docker/
 pgdata/
+sqlite/
 
 # Docker data
 .docker-data/
