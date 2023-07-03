@@ -105,19 +105,9 @@ export async function createServiceRouter(
         await partnerServiceRepository.deleteService(serviceId)
         await partnerServiceRepository.associatePartnersToService(partners, serviceId)
         response.status(201).json({ status: 'ok', message: "Service updated"});
-      }
-      else{
-      if(service.rateLimiting !== undefined){
-        await controllPlugin.updateServicePlugins(serviceId, "rateLimiting", options, service.rateLimiting)
-      } 
-      if(service.securityType !== undefined){
-        await controllPlugin.updateServicePlugins(serviceId, service.securityType ,options)
-      }
-      delete service.rateLimiting
-      delete service.securityType
-      await serviceRepository.patchService(serviceId, service)
-      response.status(201).json({ status: 'ok', message: "Service updated"});
-      }
+      }   
+      await controllPlugin.updateServicePlugins(serviceId, service, options)
+      response.status(201).json({ status: 'ok', message: "Service updated"})    
 
     } catch (error) {
       next(error)

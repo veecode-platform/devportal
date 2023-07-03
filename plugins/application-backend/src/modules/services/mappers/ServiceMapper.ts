@@ -13,7 +13,9 @@ export class ServiceMapper {
       kongServiceId: service.props.kongServiceId,
       createdAt: service.props.createdAt,
       securityType: service.props.securityType,
-      rateLimiting: service.props.rateLimiting
+      rateLimiting: service.props.rateLimiting,
+      rateLimitingType: service.props.rateLimitingType,
+      rateLimitingBy: service.props.rateLimitingBy
     }
     
   }

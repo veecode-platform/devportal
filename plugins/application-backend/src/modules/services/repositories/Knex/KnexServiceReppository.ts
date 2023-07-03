@@ -101,13 +101,16 @@ export class PostgresServiceRepository implements IServiceRepository {
 
   async createService(serviceDto: ServiceDto): Promise<Service | string> {
     try{
+      const rateLimitingIntValue = parseInt(serviceDto.rateLimiting.value, 10)
       const service: Service = Service.create({
         name: serviceDto.name,
         active: serviceDto.active,
         description: serviceDto.description,
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: parseInt(serviceDto.rateLimiting.value, 10),
+        rateLimiting: rateLimitingIntValue,
+        rateLimitingBy: rateLimitingIntValue !== 0 ? serviceDto.rateLimiting.limitBy : "",
+        rateLimitingType: rateLimitingIntValue !== 0 ? serviceDto.rateLimiting.type : "",
         securityType: serviceDto.securityType as SECURITY,
       });
       const data = await ServiceMapper.toPersistence(service);
@@ -122,13 +125,16 @@ export class PostgresServiceRepository implements IServiceRepository {
   // asyn function to update full service object
   async updateService(id: string,serviceDto: ServiceDto): Promise<Service | string> {
     try{
+      const rateLimitingIntValue = parseInt(serviceDto.rateLimiting.value, 10)
       const service: Service = Service.create({
         name: serviceDto.name,
         active: serviceDto.active,
         description: serviceDto.description,
         kongServiceName: serviceDto.kongServiceName,
         kongServiceId: serviceDto.kongServiceId,
-        rateLimiting: parseInt(serviceDto.rateLimiting?.value as string, 10),
+        rateLimiting: rateLimitingIntValue,
+        rateLimitingBy: rateLimitingIntValue !== 0 ? serviceDto.rateLimiting.limitBy : "",
+        rateLimitingType: rateLimitingIntValue !== 0 ? serviceDto.rateLimiting.type : "",
         securityType: serviceDto.securityType as SECURITY,
       });
       const data = await ServiceMapper.toPersistence(service);

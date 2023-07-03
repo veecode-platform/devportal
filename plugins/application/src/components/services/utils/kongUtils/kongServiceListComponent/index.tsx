@@ -8,6 +8,7 @@ type KongServicesArray = {
   value: any;
   setValue: any;
   selected?: kongServiceOption | null;
+  disabled?: boolean;
 };
 
 type kongServiceOption = {
@@ -19,7 +20,8 @@ export const KongServicesListComponent = ({
   services,
   value,
   setValue,
-  selected
+  selected,
+  disabled
 }: KongServicesArray) => {
 
   const options = services.map(item=>{
@@ -34,6 +36,7 @@ export const KongServicesListComponent = ({
       id="search-kong-services"
       placeholder='Services'
       options={options}
+      disabled={disabled}
       getOptionLabel={(option) => option.name}
       renderInput={(params) => <TextField {...params} label="Kong service" variant="outlined" />}
       value={selected}
