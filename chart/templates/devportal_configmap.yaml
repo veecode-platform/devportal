@@ -33,7 +33,11 @@ data:
       database:
         client: {{ .Values.appConfig.database.client }}
         {{- if eq .Values.appConfig.database.client "better-sqlite3" }}
+          {{- if and .Values.appConfig.database.connection .Values.appConfig.database.connection.directory }}
+        directory: {{ .Values.appConfig.database.connection.directory }}
+          {{- else }}
         connection: ':memory:'
+          {{- end }}
         {{- else }}
         pluginDivisionMode: schema
         connection:

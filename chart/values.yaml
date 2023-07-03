@@ -45,6 +45,7 @@ appConfig:
   database:
     client: better-sqlite3 #database client (better-sqlite3 | pg)
 #    connection:
+#      directory: #sqlite directory instead of memory storage
 #      host: postgres-postgresql.vkpr #database host
 #      port: 5432 #database port number
 #      database: platform_devportal #database name 

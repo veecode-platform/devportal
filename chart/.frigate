@@ -23,7 +23,7 @@ helm uninstall platform-devportal
 #FOOTNOTES
 {% block footnotes -%}
 
-## values for github
+## Example values for github
 ```yaml
 replicas: 1
 image:
@@ -96,7 +96,7 @@ platform:
     readOnlyMode: false
 ```
 
-## values for gitlab
+## Example values for gitlab
 ```yaml
 replicas: 1
 image:
@@ -161,6 +161,19 @@ platform:
   apiManagement:
     enabled: false
     readOnlyMode: false
+```
+
+## Using Postgres
+```sh
+appConfig:
+  database:
+    client: pg #database client (better-sqlite3 | pg)
+    connection:
+      host: postgres-postgresql.vkpr #database host
+      port: 5432 #database port number
+      database: platform_devportal #database name 
+      user: postgres #database username
+      password: postgres #database password
 ```
 
 {%- endblock %}
