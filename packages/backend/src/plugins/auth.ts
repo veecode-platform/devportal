@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 // import { createOktaProvider, getDefaultOwnershipEntityRefs } from '@backstage/plugin-auth-backend';
-import { stringifyEntityRef/* , DEFAULT_NAMESPACE*/ } from '@backstage/catalog-model';
-
+import { stringifyEntityRef } from '@backstage/catalog-model';
 import {
   createRouter,
   providers,
@@ -38,54 +37,57 @@ export default async function createPlugin(
 
       "keycloak": providers.oidc.create({
         signIn: {
-          resolver({result}, ctx) { 
-              
-              const adminGroup = env.config.getConfig('platform').get('group.admin') as string;
-              const userGroup = env.config.getConfig('platform').get('group.user') as string;
-              const defaultGroup = env.config.getBoolean('platform.defaultGroup.enabled');
-              const groups = result.userinfo.groups as Array<string>;
-              const admin = groups.includes(`${adminGroup}`);
-              const user =  groups.includes(`${userGroup}`);      
-              
-              if(!admin && !user){
-                if(defaultGroup){
-                  env.logger.error('Your user belongs to a group that does not exist in keycloak');
-                  throw new Error('Group not authorized');
-                }
-                else env.logger.warn('Your user belongs to a group that does not exist in keycloak, so it will assume a default role...');
+          resolver: async ({ result }, ctx) => {
+
+            const allowedGroups = [env.config.getString("platform.group.admin"), env.config.getString("platform.group.user")]
+            const defaultGroup = env.config.getBoolean('platform.defaultGroup.enabled');
+
+            const userName = result.userinfo.preferred_username || result.userinfo.sub;
+
+            const { entity } = await ctx.findCatalogUser({
+              entityRef: {
+                name: userName
               }
+            });
 
-              const userName = result.userinfo.name || result.userinfo.sub;
+            const membershipGroups = entity.spec?.memberOf as Array<string>
+            const loginAsKnownUser = allowedGroups.some(groupValue => { return membershipGroups.includes(groupValue) })
 
-               /*
+            if (loginAsKnownUser) {
+              env.logger.warn("logging with catalog user")
               return ctx.signInWithCatalogUser({
-                entityRef: { 
-                  // kind: admin ? "admin" : "user",
-                  namespace: DEFAULT_NAMESPACE,
+                entityRef: {
                   name: userName
                 }
-              })*/
-              
-              const userEntityRef = stringifyEntityRef({
-                kind: admin ? "admin" : "user",
-                name: userName,
-                namespace: "devportal",
-              });
-              return ctx.issueToken({
-                claims: {
-                  sub: userEntityRef, // The user's own identity
-                  ent: [userEntityRef], // A list of identities that the user claims ownership through
-                },
-              });      
+              })
+            }
+
+            if (defaultGroup) {
+              env.logger.error('Your user belongs to a group that is not allowed in devportal');
+              throw new Error('Group not authorized');
+            }
+
+            env.logger.warn('Your user belongs to a group that is not allowed in devportal, so it will assume a default role...')
+            const userEntityRef = stringifyEntityRef({
+              kind: "user",
+              name: userName,
+            });
+            return ctx.issueToken({
+              claims: {
+                sub: userEntityRef, // The user's own identity
+                ent: [userEntityRef, `group:default/${env.config.getString("platform.group.user")}`], // A list of identities that the user claims ownership through 
+              },
+            });
+
           },
         },
 
       }),
 
       okta: providers.okta.create({
-        signIn:{
-          resolver: async ({profile, result}, ctx) => {
-            try{
+        signIn: {
+          resolver: async ({ profile, result }, ctx) => {
+            try {
               const groups = JSON.parse(Buffer.from(result.accessToken.split('.')[1], 'base64').toString()).groups;
 
               if (!profile.email) {
@@ -96,14 +98,14 @@ export default async function createPlugin(
               const userCategorie = groups.includes("devportal_admin") ? ["admin", "devportal_admin"] : ["user", "devportal_user"];
               // We again use the local part of the email as the user name.
               const [localPart] = profile.email.split('@');
-            
+
               // By using `stringifyEntityRef` we ensure that the reference is formatted correctly
               const userEntityRef = stringifyEntityRef({
                 kind: userCategorie[0],
                 name: localPart,
                 namespace: userCategorie[1],
               });
-            
+
               return ctx.issueToken({
                 claims: {
                   sub: userEntityRef,
@@ -111,7 +113,7 @@ export default async function createPlugin(
                 },
               });
             }
-            catch(e){
+            catch (e) {
               throw new Error("Login failed")
             }
           },

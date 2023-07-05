@@ -365,7 +365,6 @@ const websiteEntityPage = (
         return(
           <EntityLayout.Route 
             if={(entity)=>{ 
-              // console.log("entity: ", entity)
               const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
               if(show !== undefined) return show
               return false
