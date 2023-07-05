@@ -13,7 +13,7 @@ FROM node:18-bullseye-slim
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get update && apt-get install -y python3 python3-pip
-RUN pip3 install mkdocs-techdocs-core==1.0.1
+RUN pip3 install mkdocs-techdocs-core==1.1.7
 
 # install sqlite3 dependencies
 RUN apt-get install -y libsqlite3-dev cmake g++

@@ -163,11 +163,20 @@ platform:
     readOnlyMode: false
 ```
 
+## Using SQLite
+```sh
+appConfig:
+  database:
+    client: better-sqlite3
+    connection: #optional if you want to use database as file
+      directory: /app/sqlite #sqlite directory instead of memory storage
+```
+
 ## Using Postgres
 ```sh
 appConfig:
   database:
-    client: pg #database client (better-sqlite3 | pg)
+    client: pg
     connection:
       host: postgres-postgresql.vkpr #database host
       port: 5432 #database port number

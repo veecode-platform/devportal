@@ -41,9 +41,9 @@ appConfig:
     baseUrl: http://localhost:3000 #devportal base URL
   backend:
     baseUrl: http://localhost:7007 #devportal backend base URL
-    secret: 68f21bd9-4f05-4212-b445-6e4b47369a46 #devportal backend secret. Random value.
+#    secret: #devportal backend secret. Random value.
   database:
-    client: better-sqlite3 #database client (better-sqlite3 | pg)
+    client: better-sqlite3 #database client (better-sqlite3 or pg)
 #    connection:
 #      directory: #sqlite directory instead of memory storage
 #      host: postgres-postgresql.vkpr #database host
