@@ -22,7 +22,7 @@ export default async function createPlugin(
       logger: env.logger,
       // optional: alternatively, use scheduler with schedule defined in app-config.yaml
       schedule: env.scheduler.createScheduledTaskRunner({
-        frequency: { minutes: 1 },
+        frequency: { minutes: 10 },
         timeout: { minutes: 3 },
       }),
     }),
@@ -32,7 +32,7 @@ export default async function createPlugin(
     BitbucketCloudEntityProvider.fromConfig(env.config, {
       logger: env.logger,
       schedule: env.scheduler.createScheduledTaskRunner({
-        frequency: { minutes: 1 },
+        frequency: { minutes: 10 },
         timeout: { minutes: 3 },
       }),
     }),
@@ -43,7 +43,7 @@ export default async function createPlugin(
       logger: env.logger,
       // optional: alternatively, use scheduler with schedule defined in app-config.yaml
       schedule: env.scheduler.createScheduledTaskRunner({
-        frequency: { minutes: 1 },
+        frequency: { minutes: 10 },
         timeout: { minutes: 3 },
       }),
       // optional: alternatively, use schedule
@@ -58,7 +58,7 @@ export default async function createPlugin(
         logger: env.logger,
         // optional: alternatively, use scheduler with schedule defined in app-config.yaml
         schedule: env.scheduler.createScheduledTaskRunner({
-          frequency: { minutes: 1 },
+          frequency: { minutes: 10 },
           timeout: { minutes: 3 },
         }),
         // optional: alternatively, use schedule
@@ -75,7 +75,7 @@ export default async function createPlugin(
       id: 'development',
       logger: env.logger,
       schedule: env.scheduler.createScheduledTaskRunner({
-        frequency: { minutes: 1 },
+        frequency: { minutes: 10 },
         timeout: { minutes: 1 },
         initialDelay: { seconds: 15 }
       }),

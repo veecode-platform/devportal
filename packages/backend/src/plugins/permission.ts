@@ -1,7 +1,7 @@
 import { BackstageIdentityResponse } from '@backstage/plugin-auth-node';
 import { createRouter } from '@backstage/plugin-permission-backend';
 import { AuthorizeResult, PolicyDecision } from '@backstage/plugin-permission-common';
-import { PermissionPolicy, PolicyQuery} from '@backstage/plugin-permission-node';
+import { PermissionPolicy, PolicyQuery } from '@backstage/plugin-permission-node';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { Config } from '@backstage/config';
@@ -9,14 +9,14 @@ import { Config } from '@backstage/config';
 class DefaultPermissionPolicy implements PermissionPolicy {
   config: Config;
   constructor(config: Config) {
-    this.config = config;   
+    this.config = config;
   }
   async handle(request: PolicyQuery, user: BackstageIdentityResponse): Promise<PolicyDecision> {
     if (request.permission.name === 'catalog.entity.create' && this.config.getBoolean("platform.guest.enabled")) return { result: AuthorizeResult.DENY };
-    if (request.permission.name === 'apiManagement.access.read' && !this.config.getBoolean("platform.apiManagement.enabled") ) return { result: AuthorizeResult.DENY };
-    if (request.permission.name === 'apiManagement.access.read' && this.config.getBoolean("platform.guest.enabled") ) return { result: AuthorizeResult.DENY };    
-    if (request.permission.name === 'admin.access.read' && user.identity.userEntityRef.split(":")[0] === "user") return { result: AuthorizeResult.DENY };
-    
+    if (request.permission.name === 'apiManagement.access.read' && !this.config.getBoolean("platform.apiManagement.enabled")) return { result: AuthorizeResult.DENY };
+    if (request.permission.name === 'apiManagement.access.read' && this.config.getBoolean("platform.guest.enabled")) return { result: AuthorizeResult.DENY };
+    if (request.permission.name === 'admin.access.read' && user.identity.ownershipEntityRefs.includes(`group:default/${this.config.getString("platform.group.user")}`)) return { result: AuthorizeResult.DENY };
+
     return { result: AuthorizeResult.ALLOW };
   }
 }

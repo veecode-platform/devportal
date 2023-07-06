@@ -238,6 +238,15 @@ enabledPlugins:
   keycloak: true
 
 platform:
+  behaviour: 
+    mode: product #product, demo, workshop, anything else  - get config directly from here
+    home: true
+    catalog: true
+    apis: true
+    create: true
+    docs: true
+    groups: false
+    apiManagement: false
   guest:
     enabled: false
   
