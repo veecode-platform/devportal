@@ -44,8 +44,6 @@ import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api'
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
 import { devportalThemes } from './components/theme/Theme';
-// import { ThemeProvider } from '@material-ui/core/styles';
-// import CssBaseline from '@material-ui/core/CssBaseline';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import '../src/components/theme/theme.css';
@@ -60,8 +58,7 @@ import { apiManagementEnabledPermission } from '@internal/plugin-application-com
 import { ExplorePage } from './components/explorer/ExplorerPage';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { SignInPage } from './components/signInPage';
-import { UnifiedThemeProvider} from '@backstage/theme'; // future update to 1.15.0
-
+import { UnifiedThemeProvider } from '@backstage/theme';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
@@ -98,19 +95,14 @@ const app = createApp({
       title: 'Light Mode',
       variant: 'light',
       icon: <Brightness7Icon />,
-      Provider: ({ children }) => (
-        <UnifiedThemeProvider theme={devportalThemes.light} children={children} />
-      ),
+      Provider: ({ children }) => (<UnifiedThemeProvider theme={devportalThemes.light} children={children} />),
     },
     {
       id: 'Dark',
       title: 'Dark Mode',
       variant: 'dark',
       icon: <Brightness4Icon />,
-      Provider: ({ children }) => (
-        <UnifiedThemeProvider theme={devportalThemes.dark} children={children} />
-
-      ),
+      Provider: ({ children }) => (<UnifiedThemeProvider theme={devportalThemes.dark} children={children} />),
     },
   ],
 });

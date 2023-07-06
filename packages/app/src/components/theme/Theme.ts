@@ -1,12 +1,7 @@
 import {
-  // createTheme,
-  // darkTheme,
   genPageTheme,
-  // lightTheme,
   shapes,
   createUnifiedTheme,
-  // themes,
-  // createBaseThemeOptions
 } from '@backstage/theme';
 
 const devportalPalletes = {

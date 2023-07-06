@@ -7,7 +7,7 @@ import {
   notFoundHandler,
   CacheManager,
   DatabaseManager,
-  SingleHostDiscovery,
+  HostDiscovery,
   UrlReaders,
   ServerTokenManager,
 } from '@backstage/backend-common';
@@ -41,7 +41,7 @@ import explore from './plugins/explore';
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
   const reader = UrlReaders.default({ logger: root, config });
-  const discovery = SingleHostDiscovery.fromConfig(config);
+  const discovery = HostDiscovery.fromConfig(config);
   const cacheManager = CacheManager.fromConfig(config);
   const databaseManager = DatabaseManager.fromConfig(config);
   const tokenManager = ServerTokenManager.fromConfig(config, {logger: root});
