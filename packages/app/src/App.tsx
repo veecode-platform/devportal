@@ -59,7 +59,7 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
 import { ExplorePage } from './components/explorer/ExplorerPage';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
-import { SignInPage } from './components/signInPage';
+import { SignInPage } from '@veecode-platform/core-components';
 import { UnifiedThemeProvider} from '@backstage/theme'; // future update to 1.15.0
 
 
