@@ -57,8 +57,9 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
 import { ExplorePage } from './components/explorer/ExplorerPage';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
-import { SignInPage } from './components/signInPage';
-import { UnifiedThemeProvider } from '@backstage/theme';
+import { SignInPage } from '@veecode-platform/core-components';
+import { UnifiedThemeProvider} from '@backstage/theme';
+
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
