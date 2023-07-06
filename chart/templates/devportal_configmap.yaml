@@ -161,7 +161,7 @@ data:
             filters:
               branch: ${CATALOG_GITHUB_BRANCH} 
               repository: ${CATALOG_GITHUB_REPOSITORY} 
-              validateLocationsExist: ${CATALOG_GITHUB_LOCATION_VALIDATION} 
+            validateLocationsExist: ${CATALOG_GITHUB_LOCATION_VALIDATION} 
         {{- end }}
         {{- if .Values.catalog.providers.bitbucketCloud }}
         bitbucketCloud:
