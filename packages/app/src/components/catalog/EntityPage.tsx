@@ -24,7 +24,7 @@ import {
   isGithubActionsAvailable,
   EntityRecentGithubActionsRunsCard,
   EntityGithubActionsContent,
-} from '@backstage/plugin-github-actions';
+} from '@veecode-platform/plugin-github-actions';
 import {
   EntityUserProfileCard,
   EntityGroupProfileCard,
@@ -321,7 +321,6 @@ const serviceEntityPage = (
         return(
           <EntityLayout.Route 
             if={(entity)=>{ 
-              // console.log("entity: ", entity)
               const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
               if(show !== undefined) return show
               return false
@@ -332,16 +331,6 @@ const serviceEntityPage = (
         )
       }) 
     }
-
-
-    {/* plugins.map((item : PluginItem) : any => {
-      if(!!validateAnnotation(item.annotation)) 
-      return (
-      <EntityLayout.Route path={item.path} title={item.title} key={item.title}>
-        {item.content}
-      </EntityLayout.Route>
-      )
-    })*/}
 
   </EntityLayout>
 );
