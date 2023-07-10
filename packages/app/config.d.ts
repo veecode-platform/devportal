@@ -255,7 +255,7 @@ export interface Config {
       * 
       * @visibility frontend
       */
-      mode: boolean
+      mode: string
       /**
       * 
       * @visibility frontend
