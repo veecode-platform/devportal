@@ -16,6 +16,7 @@
 
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
+import devportalTheme from "../theme.json"
 
 const useStyles = makeStyles({
   align: {
@@ -23,11 +24,21 @@ const useStyles = makeStyles({
     height: 'auto',
     paddingRight: '30px'
   },
+  imgFromSrc: {
+    width: 30,
+    height: "auto"
+  }
 });
 const LogoIcon = () => {
   const classes = useStyles();
 
   return (
+    devportalTheme.logo.icon ?
+    <img src={devportalTheme.logo.icon}
+      alt='logoIcon'
+      className={classes.imgFromSrc}
+    />
+    :
     <svg
       version="1.1"
       id="Layer_1"

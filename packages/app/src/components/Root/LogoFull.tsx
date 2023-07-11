@@ -16,18 +16,29 @@
 
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
+import devportalTheme from "../theme.json"
 
 const useStyles = makeStyles({
-  align: {
+  alignSvg: {
     padding: '10px',
-    marginLeft: '30%'
+    marginLeft: '30%',
   },
+  imgFromSrc: {
+    width: 150,
+    height: "auto",
+  }
 });
 
 const LogoFull = () => {
   const classes = useStyles();
 
   return (
+    devportalTheme.logo.full ?
+    <img src={devportalTheme.logo.full}
+      alt='logoFull'
+      className={classes.imgFromSrc}
+    />
+    : 
     <svg
       version="1.1"
       id="Layer_1"
@@ -38,7 +49,7 @@ const LogoFull = () => {
       height="60.000000pt"
       viewBox="0 0 128.000000 147.000000"
       enableBackground="new 0 0 145 137"
-      className={classes.align}
+      className={classes.alignSvg}
     >
       <path
         fill="#ffffff00"

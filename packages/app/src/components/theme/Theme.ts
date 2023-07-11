@@ -4,6 +4,8 @@ import {
   createUnifiedTheme,
 } from '@backstage/theme';
 
+import devportaTheme from "../theme.json"
+
 const devportalPalletes = {
   light: {
     type: 'light' as const,
@@ -153,7 +155,8 @@ const devportalPalletes = {
 
 const devportalPageThemes = {
   light: {
-    home: genPageTheme({ colors: ['#52a88c', '#23c28e'], shape: shapes.round}),
+    // home: genPageTheme({ colors: ['#52a88c', '#23c28e'], shape: shapes.round}),
+    home: genPageTheme({ colors: [devportaTheme.colors.primary, devportaTheme.colors.secondary], shape: shapes.round}),
     documentation: genPageTheme({colors: ['#52a88c', '#23c28e'], shape: shapes.wave}),
     tool: genPageTheme({ colors: ['#52a88c', '#23c28e'], shape: shapes.wave2}),
     service: genPageTheme({colors: ['#52a88c', '#23c28e'], shape: shapes.round}),
@@ -165,7 +168,8 @@ const devportalPageThemes = {
     card: genPageTheme({ colors: ['#52a88c', '#23c28e'], shape: shapes.round}),
   },
   dark: {
-    home: genPageTheme({colors: ['#52a88c', '#23c28e'], shape: shapes.round}),
+    // home: genPageTheme({colors: ['#52a88c', '#23c28e'], shape: shapes.round}),
+    home: genPageTheme({ colors: [devportaTheme.colors.primary, devportaTheme.colors.secondary], shape: shapes.round}),
     documentation: genPageTheme({colors: ['#52a88c', '#23c28e'], shape: shapes.wave}),
     tool: genPageTheme({colors: ['#52a88c', '#23c28e'], shape: shapes.wave2}),
     service: genPageTheme({colors: ['#52a88c', '#23c28e'], shape: shapes.round}),
