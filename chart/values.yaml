@@ -160,7 +160,15 @@ platform:
     enabled: false #If 'false', the user will not be able to belong to any group. If 'true', the user will belong to the user group by default.
     admin: 'platform-admin' #Group to be mapped as devportal's admin group
     user: 'platform-user' #Group to be mapped as devportal's user group
-
+  behaviour: 
+    mode: product #(product, demo, workshop, custom)
+#    home: true #enable or disable menu if mode is custom selected
+#    catalog: true #enable or disable menu if mode is custom selected
+#    apis: true #enable or disable menu if mode is custom selected
+#    create: true #enable or disable menu if mode is custom selected
+#    docs: true #enable or disable menu if mode is custom selected
+#    groups: true #enable or disable menu if mode is custom selected
+#    apiManagement: true #enable or disable menu if mode is custom selected
 
 kubernetes: {}
 #  type: "multiTenant" #Kubernetes type

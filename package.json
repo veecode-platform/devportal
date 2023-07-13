@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.4.1",
+  "version": "0.5.3",
   "private": true,
   "engines": {
     "node": "16 || 18"
@@ -57,7 +57,7 @@
       "prettier --write"
     ]
   },
-  "packageManager": "yarn@1.22.19",
+  "packageManager": "yarn@3.6.1",
   "dependencies": {
     "knex-paginate": "^3.0.2"
   }

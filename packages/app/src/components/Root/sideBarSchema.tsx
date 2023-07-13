@@ -50,13 +50,13 @@ export function sideBarBehaviour(config: ConfigApi): sidebarDefaultType{
 
         default:
             return {
-                home: config.getBoolean("home"),
-                catalog: config.getBoolean("catalog"), 
-                apis: config.getBoolean("apis"), 
-                create: config.getBoolean("create"), 
-                docs: config.getBoolean("docs"), 
-                groups: config.getBoolean("groups"),
-                apiManagement: config.getBoolean("apiManagement")
+                home: config.getOptionalBoolean("home") ?? false,
+                catalog: config.getOptionalBoolean("catalog") ?? false, 
+                apis: config.getOptionalBoolean("apis") ?? false, 
+                create: config.getOptionalBoolean("create") ?? false, 
+                docs: config.getOptionalBoolean("docs") ?? false, 
+                groups: config.getOptionalBoolean("groups") ?? false,
+                apiManagement: config.getOptionalBoolean("apiManagement") ?? false
             }
     }
 }

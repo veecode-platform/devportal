@@ -267,6 +267,18 @@ data:
       group:
         admin: {{ .Values.platform.defaultGroups.admin | default "platform-admin" }}
         user: {{ .Values.platform.defaultGroups.user | default "platform-user" }}
+      behaviour: 
+        mode: {{ .Values.platform.behaviour.mode | default "product" | quote}}
+        {{- if eq .Values.platform.behaviour.mode "custom" }}
+        home: {{ .Values.platform.behaviour.home | default true }}
+        catalog: {{ .Values.platform.behaviour.catalog | default true }}
+        apis: {{ .Values.platform.behaviour.apis | default true }}
+        create: {{ .Values.platform.behaviour.create | default true }}
+        docs: {{ .Values.platform.behaviour.docs | default true }}
+        groups: {{ .Values.platform.behaviour.groups | default true }}
+        apiManagement: {{ .Values.platform.behaviour.apiManagement | default true }}
+        {{- end }}
+     
     {{- if .Values.vault.enabled }}
     vault:
       baseUrl: ${VAULT_BASE_URL}

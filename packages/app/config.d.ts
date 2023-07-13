@@ -294,37 +294,37 @@ export interface Config {
       * 
       * @visibility frontend
       */
-      home: boolean
+      home?: boolean
       /**
       * 
       * @visibility frontend
       */
-      catalog: boolean
+      catalog?: boolean
       /**
       * 
       * @visibility frontend
       */
-      apis: boolean
+      apis?: boolean
       /**
       * 
       * @visibility frontend
       */
-      create: boolean
+      create?: boolean
       /**
       * 
       * @visibility frontend
       */
-      docs: boolean
+      docs?: boolean
       /**
       * 
       * @visibility frontend
       */
-      groups: boolean
+      groups?: boolean
       /**
       * 
       * @visibility frontend
       */
-      apiManagement: boolean
+      apiManagement?: boolean
     };
     guest: {
       /**
