@@ -245,6 +245,40 @@ export interface Config {
    * 
    * @visibility frontend
    */
+  auth: {
+    /**
+     * 
+     * @visibility frontend
+     */
+    providers: {
+      /**
+       * 
+       * @visibility frontend
+       */
+      keycloak: {
+        /**
+         * 
+         * @visibility frontend
+         */
+        development: {
+          /**
+           * 
+           * @visibility frontend
+           */
+          metadataUrl: string
+          /**
+           * 
+           * @visibility frontend
+           */          
+          clientId: string
+        }
+      }
+    }
+  }
+  /**
+   * 
+   * @visibility frontend
+   */
   platform: {
     /**
     * 
@@ -255,7 +289,7 @@ export interface Config {
       * 
       * @visibility frontend
       */
-      mode: boolean
+      mode: string
       /**
       * 
       * @visibility frontend

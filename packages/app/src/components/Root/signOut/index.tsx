@@ -1,38 +1,38 @@
 import React, { useState } from 'react';
 import { SidebarItem } from '@backstage/core-components';
 import SignOutIcon from '@material-ui/icons/MeetingRoom';
-import { configApiRef, identityApiRef, useApi } from '@backstage/core-plugin-api';
-
+import { configApiRef, identityApiRef, useApi, errorApiRef } from '@backstage/core-plugin-api';
+import { keycloakOIDCAuthApiRef } from '../../../apis';
 
 const SignOutElement = () => {
 
   const identityApi = useApi(identityApiRef);
+  const keycloakApi = useApi(keycloakOIDCAuthApiRef)
   const config = useApi(configApiRef);
-  const providersConfig = config.getOptionalConfig('auth.providers');
-  const configuredProviders = providersConfig?.keys() || [];
+  const errorApi = useApi(errorApiRef)
   const [loading, setLoading] = useState(false)
 
-  const handleSessionLogout = async () => {
-    setLoading(true)
-    const token = await identityApi.getCredentials();
-    const backendBaseUrl = config.getConfig('backend').get('baseUrl');
-    if (configuredProviders.includes('keycloak')) {
-      await fetch(`${backendBaseUrl}/api/devportal/keycloak/logout`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token.token}` }
-      })
+  const handleKeycloakSessionLogout = async () => {
+    try {
+      setLoading(true)
+      const keycloakMetadataUrl = config.getString("auth.providers.keycloak.development.metadataUrl")
+      const keycloakClientId = config.getString("auth.providers.keycloak.development.clientId")
+      const appBaseUrl = config.getString("app.baseUrl")
+      const keycloakLogoutUrl = (await (await fetch(keycloakMetadataUrl)).json()).end_session_endpoint
+      const keycloakIdToken = await keycloakApi.getIdToken()
+      window.open(`${keycloakLogoutUrl}?post_logout_redirect_uri=${appBaseUrl}&id_token_hint=${keycloakIdToken}&client_id=${keycloakClientId}`, "_self")
     }
-    // add new providers as they are used
+    catch (e: any) { errorApi.post(e) }
   }
 
   return (
     <SidebarItem
-      icon={SignOutIcon} 
+      icon={SignOutIcon}
       text="Sign Out"
       onClick={async () => {
-        if(loading) return 
-        if (!config.getBoolean('platform.guest.enabled')) { await handleSessionLogout() }
-        identityApi.signOut();
+        if (loading) return
+        if (config.getBoolean('platform.guest.enabled')) await identityApi.signOut()
+        await handleKeycloakSessionLogout()
       }} />
   )
 }
