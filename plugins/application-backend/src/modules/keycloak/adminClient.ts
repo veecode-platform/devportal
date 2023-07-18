@@ -4,9 +4,9 @@ import { PlatformConfig } from '../utils/PlatformConfig';
 export class KeycloakAdminClient {
   public async getClient(): Promise<KcAdminClient> { // 
     const config = await PlatformConfig.Instance.getConfig();
-    const baseUrl = config.getString("auth.providers.keycloak.development.baseUrl")
-    const user = config.getString("auth.providers.keycloak.development.username")
-    const password = config.getString("auth.providers.keycloak.development.password")
+    const baseUrl = config.getOptionalString("auth.providers.keycloak.development.baseUrl") ?? ""
+    const user = config.getOptionalString("auth.providers.keycloak.development.username") ?? ""
+    const password = config.getOptionalString("auth.providers.keycloak.development.password") ?? ""
 
     const kcAdminClient = new KcAdminClient({
       baseUrl: baseUrl,
