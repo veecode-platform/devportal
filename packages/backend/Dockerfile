@@ -5,31 +5,35 @@
 #
 # yarn install
 # yarn tsc
-# yarn build
+# yarn build:backend
 #
 # Once the commands have been run, you can build the image using `yarn build-image`
 
 FROM node:18-bullseye-slim
 
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get update && apt-get install -y python3 python3-pip
-RUN pip3 install mkdocs-techdocs-core==1.1.7
-
-# install sqlite3 dependencies
-RUN apt-get install -y libsqlite3-dev cmake g++
-RUN yarn config set python /usr/bin/python3
+# Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
+# in which case you should also move better-sqlite3 to "devDependencies" in package.json.
+# Additionally, we install dependencies for `techdocs.generator.runIn: local`.
+# https://backstage.io/docs/features/techdocs/getting-started#disabling-docker-in-docker-situation-optional
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends libsqlite3-dev python3 python3-pip build-essential && \
+    yarn config set python /usr/bin/python3 && \
+    pip3 install mkdocs-techdocs-core==1.1.7
 
 # From here on we use the least-privileged `node` user to run the backend.
+WORKDIR /app
+RUN chown node:node /app
 USER node
 
-# This should create the app dir as `node`.
-# If it is instead created as `root` then the `tar` command below will fail: `can't create directory 'packages/': Permission denied`.
-# If this occurs, then ensure BuildKit is enabled (`DOCKER_BUILDKIT=1`) so the app dir is correctly created as `node`.
-WORKDIR /app
 
 # This switches many Node.js dependencies to production mode.
 ENV NODE_ENV production
 
+# Copy over Yarn 3 configuration, release, and plugins
+COPY --chown=node:node .yarn ./.yarn
+COPY --chown=node:node .yarnrc.yml ./
 
 # Copy repo skeleton first, to avoid unnecessary docker cache invalidation.
 # The skeleton contains the package.json of each package in the monorepo,
@@ -37,15 +41,13 @@ ENV NODE_ENV production
 COPY --chown=node:node yarn.lock package.json packages/backend/dist/skeleton.tar.gz ./
 RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
-RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000 \
-    yarn install --frozen-lockfile --production --network-timeout 400000
+# Note that this install is not immutable, which is one of the reasons we don't recommend Yarn 3 yet
+RUN --mount=type=cache,target=/home/node/.yarn/berry/cache,sharing=locked,uid=1000,gid=1000 \
+    yarn workspaces focus --all --production && \
+    yarn cache clean
 
 # Then copy the rest of the backend bundle, along with any other files we might want.
 COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
-# RUN file="$(ls /app/plugins/application-backend/migrations/)" && echo $file
-USER root
-RUN rm -rf "$(yarn cache dir)"
-RUN rm -rf /var/lib/apt/lists/*
-USER node
+
 CMD ["node", "packages/backend", "--config", "app-config.yaml"]

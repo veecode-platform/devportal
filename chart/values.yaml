@@ -7,8 +7,8 @@ image:
 environment: development #application environment
 
 extraEnv: [] #environment variables
-  # - name: ENV_KEY #key
-  #   value: ENV_VALUE #value
+  #  - name: NODE_TLS_REJECT_UNAUTHORIZED
+  #    value: 0
 
 service:
   enabled: true #if `true`, an service is created
@@ -108,7 +108,7 @@ integrations: {}
 #    token:  #Gitlab Server Token
 
 catalog:
-  rules:
+  rules: #Catalog rules
     - allow: [Component, API, Location, Template]
   providers: {}
 #    github:
