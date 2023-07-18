@@ -245,12 +245,12 @@ export interface Config {
    * 
    * @visibility frontend
    */
-  auth: {
+  auth?: {
     /**
      * 
      * @visibility frontend
      */
-    providers: {
+    providers?: {
       /**
        * 
        * @visibility frontend
