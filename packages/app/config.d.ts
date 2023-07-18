@@ -255,22 +255,22 @@ export interface Config {
        * 
        * @visibility frontend
        */
-      keycloak: {
+      keycloak?: {
         /**
          * 
          * @visibility frontend
          */
-        development: {
+        development?: {
           /**
            * 
            * @visibility frontend
            */
-          metadataUrl: string
+          metadataUrl?: string
           /**
            * 
            * @visibility frontend
            */          
-          clientId: string
+          clientId?: string
         }
       }
     }
