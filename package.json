@@ -57,7 +57,7 @@
       "prettier --write"
     ]
   },
-  "packageManager": "yarn@3.5.1",
+  "packageManager": "yarn@3.6.1",
   "dependencies": {
     "knex-paginate": "^3.0.2"
   }
