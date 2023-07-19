@@ -120,6 +120,7 @@ data:
       github:
         - host: {{ .Values.integrations.github.host | default "github.com" | quote }}
           token: ${GITHUB_TOKEN_SECRET}
+          tokenFrontEnd: ${GITHUB_TOKEN_SECRET}
       {{- end }}
       {{- if .Values.integrations.bitbucketCloud }}
       bitbucketCloud:
@@ -131,6 +132,7 @@ data:
         - host: {{ .Values.integrations.bitbucketServer.host | default "bitbucket.org" | quote }}
           apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
           token: ${BITBUCKET_SERVER_TOKEN}
+          tokenFrontEnd: ${BITBUCKET_SERVER_TOKEN}
       {{- end }}
       {{- if .Values.integrations.gitlab  }}
       gitlab:
@@ -142,6 +144,7 @@ data:
         baseUrl: {{ .Values.integrations.gitlab.baseUrl | quote }}
         {{- end }}
         token: ${GITLAB_TOKEN_SECRET}
+        tokenFrontEnd: ${GITLAB_TOKEN_SECRET}
       {{- end }}
     {{- end }}
     catalog:
