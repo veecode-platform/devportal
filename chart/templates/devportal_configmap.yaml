@@ -159,12 +159,14 @@ data:
         {{- if .Values.catalog.providers.github }}
         github:
           providerId: 
-            organization: ${CATALOG_GITHUB_ORGANIZATION} 
-            catalogPath: ${CATALOG_GITHUB_CATALOG_PATH} 
+            organization: {{ .Values.catalog.providers.github.organization | quote }}
+            catalogPath: {{ .Values.catalog.providers.github.catalogPath | quote }}
+            validateLocationsExist: {{ .Values.catalog.providers.github.validateLocationsExist | default true }}
+            {{- if .Values.catalog.providers.github.filters }}
             filters:
-              branch: ${CATALOG_GITHUB_BRANCH} 
-              repository: ${CATALOG_GITHUB_REPOSITORY} 
-            validateLocationsExist: ${CATALOG_GITHUB_LOCATION_VALIDATION} 
+              branch: {{ .Values.catalog.providers.github.filters.branch | default "main" | quote }}
+              repository: {{ .Values.catalog.providers.github.filters.repository | quote }}
+            {{- end }}
         {{- end }}
         {{- if .Values.catalog.providers.bitbucketCloud }}
         bitbucketCloud:

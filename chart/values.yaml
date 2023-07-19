@@ -114,10 +114,10 @@ catalog:
 #    github:
 #      organization: #github Organization Name
 #      catalogPath: #path catalog info
+#      validateLocationsExist: true #check if exists
 #      filters:
-#        branch: #which branch to filter
-#        repository: #repository filter pattern
-#        validateLocationsExist: #check if exists
+#        branch: main #branch to filter
+#        repository: ## Regex repository name
 #    bitbucketCloud:
 #      catalogPath: #Path catalog info
 #      workspace: #Bitbucket workspace
