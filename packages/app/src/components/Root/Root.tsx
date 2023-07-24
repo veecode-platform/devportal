@@ -52,6 +52,9 @@ const useSidebarLogoStyles = makeStyles({
 const SidebarLogo = () => {
   const classes = useSidebarLogoStyles();
   const { isOpen } = useSidebarOpenState();
+  const config = useApi(configApiRef);
+  const logoFullSrc = config.getOptionalString("platform.logo.full") ?? "https://platform.vee.codes/assets/logo/logo.png"
+  const logoIconSrc = config.getOptionalString("platform.logo.icon") ?? "https://platform.vee.codes/apple-touch-icon.png"
 
   return (
     <div className={classes.root}>
@@ -61,7 +64,7 @@ const SidebarLogo = () => {
         underline="none"
         className={classes.link}
       >
-        {isOpen ? <LogoFull /> : <LogoIcon />}
+        {isOpen ? <LogoFull src={logoFullSrc} /> : <LogoIcon src={logoIconSrc}  />}
       </Link>
     </div>
   );

@@ -60,7 +60,6 @@ import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { SignInPage } from '@veecode-platform/core-components';
 import { UnifiedThemeProvider} from '@backstage/theme';
 
-
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
@@ -68,6 +67,20 @@ const SignInComponent: any = (props: SignInPageProps) => {
   return <SignInPage {...props} provider={providers[1]}/>
   // return <SignInPage align='center' {...props} providers={["guest", providers[1]]} />
 };
+
+/* const ThemeComponent = ({children}: {children: ReactNode}) => {
+  // console.log("teste: :", process.env.THEME)
+  const teste = fetch('theme.json')
+  .then(res => res.json()
+    .then(result => {
+      return (<UnifiedThemeProvider theme={devportalThemes.light} children={children} />)
+    }     
+    )
+  )
+  .catch(_err => {return null})
+  return teste
+  // return <UnifiedThemeProvider theme={devportalThemes.light} children={children} />
+}*/
 
 const app = createApp({
   apis,
@@ -96,6 +109,7 @@ const app = createApp({
       title: 'Light Mode',
       variant: 'light',
       icon: <Brightness7Icon />,
+      // Provider: ({ children }) => (<ThemeComponent children={children}/>)
       Provider: ({ children }) => (<UnifiedThemeProvider theme={devportalThemes.light} children={children} />),
     },
     {

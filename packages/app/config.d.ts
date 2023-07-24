@@ -326,6 +326,19 @@ export interface Config {
       */
       apiManagement?: boolean
     };
+    /**
+    * @visibility frontend
+    */
+    logo?: {
+      /**
+      * @visibility frontend
+      */
+      icon?: string
+      /**
+      * @visibility frontend
+      */
+      full?: string
+    };
     guest: {
       /**
        * 
