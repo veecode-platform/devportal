@@ -61,7 +61,7 @@ backend:
   csp:
     connect-src: ["'self'", 'http:', 'https:']
     script-src: ["'self'", "'unsafe-eval'", 'https://www.google-analytics.com']
-    img-src: ["'self'", 'data:', 'https://www.google-analytics.com']
+    img-src: ["'self'", 'data:', 'https://www.google-analytics.com', 'https://platform.vee.codes']
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   reading:
@@ -260,6 +260,10 @@ platform:
   apiManagement:
     enabled: true
     readOnlyMode: false #boolean
+
+  logo:
+    icon: ${LOGO_ICON_IMG_SRC} #defaults to https://platform.vee.codes/apple-touch-icon.png
+    full: ${LOGO_FULL_IMG_SRC} #defaults to https://platform.vee.codes/assets/logo/logo.png
 
 vault:
   baseUrl: ${VAULT_BASE_URL}
