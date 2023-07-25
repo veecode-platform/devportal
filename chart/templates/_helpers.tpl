@@ -56,3 +56,8 @@ app-config file name
 {{- define "devportal.appConfigFilename" -}}
 {{- "app-config.yaml" -}}
 {{- end -}}
+
+{{- define "extract-host" -}}
+{{- $url := . -}}
+{{- printf "%s" (regexFind "^(https?://[^/]+)" $url) -}}
+{{- end -}}

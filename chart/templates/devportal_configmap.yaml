@@ -3,8 +3,8 @@
 
 {{/*Generating csp image src add logo images to allow list*/}}
 {{ $cspListValues := index .Values.appConfig.backend.csp "img-src" }}
-{{ $cspListValues := append $cspListValues (printf "%s" (regexFind "^(https?://[^/]+)" .Values.theme.logo.full)) }}
-{{ $cspListValues := append $cspListValues (printf "%s" (regexFind "^(https?://[^/]+)" .Values.theme.logo.icon)) }}
+{{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.full) }}
+{{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.icon) }}
 {{ $cspListValues := $cspListValues | uniq }}
 
 apiVersion: v1
