@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   // Navigate,
   // Outlet,
@@ -43,7 +43,6 @@ import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api'
 // custom
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
-import { devportalThemes } from './components/theme/Theme';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import '../src/components/theme/theme.css';
@@ -58,29 +57,33 @@ import { apiManagementEnabledPermission } from '@internal/plugin-application-com
 import { ExplorePage } from './components/explorer/ExplorerPage';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { SignInPage } from '@veecode-platform/core-components';
-import { UnifiedThemeProvider} from '@backstage/theme';
+import { UnifiedThemeProvider } from '@backstage/theme';
+import useAsync from 'react-use/lib/useAsync';
+import { makeLightTheme, makeDarkTheme } from './components/theme/Theme';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
-  if(guest) props.onSignInSuccess(UserIdentity.createGuest());
-  return <SignInPage {...props} provider={providers[1]}/>
+  if (guest) props.onSignInSuccess(UserIdentity.createGuest());
+  return <SignInPage {...props} provider={providers[1]} />
   // return <SignInPage align='center' {...props} providers={["guest", providers[1]]} />
 };
 
-/* const ThemeComponent = ({children}: {children: ReactNode}) => {
-  // console.log("teste: :", process.env.THEME)
-  const teste = fetch('theme.json')
-  .then(res => res.json()
-    .then(result => {
-      return (<UnifiedThemeProvider theme={devportalThemes.light} children={children} />)
-    }     
-    )
-  )
-  .catch(_err => {return null})
-  return teste
-  // return <UnifiedThemeProvider theme={devportalThemes.light} children={children} />
-}*/
+const ThemeComponent = ({ children, light }: { children: ReactNode, light?: boolean }) => {
+  const { value, loading } = useAsync(async (): Promise<any> => {
+    try{
+      const res = await fetch('theme.json')
+      const parsedJsonTheme = await res.json()  
+      return parsedJsonTheme
+    }
+    catch(_e){
+      return {} 
+    }
+  }, [])
+  if(loading) return null 
+  const theme = light ? makeLightTheme(value.light) : makeDarkTheme(value.dark)
+  return <UnifiedThemeProvider theme={theme} children={children} />
+}
 
 const app = createApp({
   apis,
@@ -109,15 +112,16 @@ const app = createApp({
       title: 'Light Mode',
       variant: 'light',
       icon: <Brightness7Icon />,
-      // Provider: ({ children }) => (<ThemeComponent children={children}/>)
-      Provider: ({ children }) => (<UnifiedThemeProvider theme={devportalThemes.light} children={children} />),
+      Provider: ({ children }) => (<ThemeComponent children={children} light />)
+      // Provider: ({ children }) => (<UnifiedThemeProvider theme={devportalThemes.light} children={children} />),
     },
     {
       id: 'Dark',
       title: 'Dark Mode',
       variant: 'dark',
       icon: <Brightness4Icon />,
-      Provider: ({ children }) => (<UnifiedThemeProvider theme={devportalThemes.dark} children={children} />),
+      Provider: ({ children }) => (<ThemeComponent children={children} />)
+      // Provider: ({ children }) => (<UnifiedThemeProvider theme={devportalThemes.dark} children={children} />),
     },
   ],
 });
@@ -130,7 +134,7 @@ const routes = (
     </Route>
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/catalog" element={<CatalogIndexPage />} />
-    <Route path="/catalog-import" element={<CatalogImportPage />}/>
+    <Route path="/catalog-import" element={<CatalogImportPage />} />
     <Route path="/catalog/:namespace/:kind/:name" element={<CatalogEntityPage />}>
       {entityPage}
     </Route>
@@ -159,7 +163,7 @@ const routes = (
     <Route path="/docs" element={<TechDocsIndexPage />}>
       <DefaultTechDocsHome />
     </Route>
-    <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />}/>
+    <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />} />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route path="/create" element={<ScaffolderPage />} />
     <Route path="/search" element={<SearchPage />}>
@@ -169,24 +173,24 @@ const routes = (
     <Route path="/services"
       element={
         <RequirePermission permission={apiManagementEnabledPermission}>
-          <ServicesPage/>
+          <ServicesPage />
         </RequirePermission>
       }
     />
     <Route path="/partners"
       element={
         <RequirePermission permission={apiManagementEnabledPermission}>
-          <PartnersPage/>
+          <PartnersPage />
         </RequirePermission>
       }
     />
     <Route path="/applications"
       element={
         <RequirePermission permission={apiManagementEnabledPermission}>
-          <ApplicationPage/>
+          <ApplicationPage />
         </RequirePermission>
       }
-    /> 
+    />
   </FlatRoutes>
 );
 
