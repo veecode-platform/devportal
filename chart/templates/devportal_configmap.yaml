@@ -55,6 +55,7 @@ data:
         credentials: true
       csp:
         connect-src: ["'self'", "http:", "https:"]
+        img-src: ["'self'", 'data:', 'https://platform.vee.codes']
       reading:
         allow:
           - host: example.com
