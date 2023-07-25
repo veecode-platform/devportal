@@ -42,6 +42,10 @@ appConfig:
   backend:
     baseUrl: http://localhost:7007 #devportal backend base URL
 #    secret: #devportal backend secret. Random value.
+    csp:
+      connect-src: ["'self'", "http:", "https:"]
+      img-src: ["'self'", 'data:']
+
   database:
     client: better-sqlite3 #database client (better-sqlite3 or pg)
 #    connection:
@@ -179,3 +183,7 @@ kubernetes: {}
 #  skipMetricsLookup: false #Kubernetes skip Metrics Lookup
 #  serviceAccountToken:  #Kubernetes service Account Token
 #  caData:  #Kubernetes certificate Data
+theme:
+  logo:
+    icon: "https://platform.vee.codes/apple-touch-icon.png" #Icon Url Endpoint
+    full: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url Endpoint
