@@ -35,6 +35,10 @@ resources:
     memory: 512Mi #limit memory
     cpu: 500m #limit cpu
 
+# use https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ to configure readinessProbe and livenessProbe
+#readinessProbe: {} #use k8s docs to implement 
+#livenessProbe: {} #use k8s docs to implement
+
 appConfig:
   title: Devportal Platform #devportal title
   app:

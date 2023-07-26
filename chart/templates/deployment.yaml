@@ -44,19 +44,14 @@ spec:
           - name: app-config
             mountPath: /app/app-config.yaml
             subPath: app-config
-
+          {{- if .Values.readinessProbe }}
           readinessProbe:
-            httpGet:
-              port: 7007
-              path: /healthcheck
-              initialDelaySeconds: 60
-              periodSeconds: 5
+          {{- toYaml .Values.readinessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.livenessProbe }}
           livenessProbe:
-            httpGet:
-              port: 7007
-              path: /healthcheck
-              initialDelaySeconds: 90
-              periodSeconds: 10
+          {{- toYaml .Values.livenessProbe | nindent 12 }}
+          {{- end }}
       volumes:
         - name: app-config
           configMap:
