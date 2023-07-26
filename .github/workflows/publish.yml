@@ -19,18 +19,6 @@ jobs:
           echo "app_version=$(jq -r '.version' package.json)" >> $GITHUB_ENV
           echo "chart_version=$(yq e '.version' chart/Chart.yaml)" >> $GITHUB_ENV
           echo "node_version=$(cat .nvmrc | grep -o '[0-9]*')" >> $GITHUB_ENV
-      
-      - name: Installing frigate
-        run:  pip install frigate
-
-      - name: Check if chart docs will be generated as expected
-        run: |
-          bash chart/generate-docs.sh
-          if [ ! -f "./chart/README.md" ]; then
-            echo "Error: chart/README.md does not exist."
-            exit 1
-          fi
-          rm chart/README.md
 
   #parallel build for x64 and amr64
   buildDevportal:
@@ -48,7 +36,6 @@ jobs:
         with:
           node-version: ${{ env.node_version }}
           cache: yarn
-
 
       - name: Building Devportal
         run: |
@@ -85,6 +72,15 @@ jobs:
       
       - name: Generating Helm Documentation
         run: bash chart/generate-docs.sh
+      
+      - name: Check if chart docs will be generated as expected
+        run: |
+          bash chart/generate-docs.sh
+          if [ ! -f "./chart/README.md" ]; then
+            echo "Error: chart/README.md does not exist."
+            exit 1
+          fi
+          rm chart/README.md
 
       - name: Build Helm Package
         run: |
