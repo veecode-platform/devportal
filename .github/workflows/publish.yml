@@ -19,6 +19,15 @@ jobs:
           echo "app_version=$(jq -r '.version' package.json)" >> $GITHUB_ENV
           echo "chart_version=$(yq e '.version' chart/Chart.yaml)" >> $GITHUB_ENV
           echo "node_version=$(cat .nvmrc | grep -o '[0-9]*')" >> $GITHUB_ENV
+          
+      - name: Check if chart docs will be generated as expected
+        run: |
+          bash chart/generate-docs.sh
+          if [ ! -f "./chart/README.md" ]; then
+            echo "Error: chart/README.md does not exist."
+            exit 1
+          fi
+          rm chart/README.md
 
   #parallel build for x64 and amr64
   buildDevportal:
@@ -30,20 +39,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
-    steps:
-      - uses: actions/checkout@v3
+      steps:
+        - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.node_version }}
           cache: yarn
 
-      - name: Check if chart docs will be generated as expected
-        run: |
-          bash chart/generate-docs.sh
-          if [ ! -f "./chart/README.md" ]; then
-            echo "Error: chart/README.md does not exist."
-            exit 1
-          fi
 
       - name: Building Devportal
         run: |
