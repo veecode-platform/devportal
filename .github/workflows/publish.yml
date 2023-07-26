@@ -19,7 +19,10 @@ jobs:
           echo "app_version=$(jq -r '.version' package.json)" >> $GITHUB_ENV
           echo "chart_version=$(yq e '.version' chart/Chart.yaml)" >> $GITHUB_ENV
           echo "node_version=$(cat .nvmrc | grep -o '[0-9]*')" >> $GITHUB_ENV
-          
+      
+      - name: Installing frigate
+        run:  pip install frigate
+
       - name: Check if chart docs will be generated as expected
         run: |
           bash chart/generate-docs.sh
