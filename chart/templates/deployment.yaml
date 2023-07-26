@@ -44,6 +44,16 @@ spec:
           - name: app-config
             mountPath: /app/app-config.yaml
             subPath: app-config
+
+          readinessProbe:
+            httpGet:
+              port: 7007
+              path: /healthcheck
+          livenessProbe:
+            httpGet:
+              port: 7007
+              path: /healthcheck
+
       volumes:
         - name: app-config
           configMap:

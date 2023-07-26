@@ -1,12 +1,34 @@
 =====================================================================
-Thank you for installing {{ .Chart.Name }}.
+# Welcome to Platform devportal!
 
-Your release is named {{ .Release.Name }}.
+Congratulations on successfully deploying your application using Helm! Here are some important notes and information to help you get started:
 
-To learn more about the release, try:
+## Application Versions
+- Chart version: {{.Chart.Version}}
+- App version: {{.Chart.AppVersion}}
+
+## Application Access
+- To access your application, use the following URL: {{ .Values.appConfig.app.baseUrl }}
+
+## Configuration
+- The Helm chart allows you to customize various aspects of your application's deployment. You can find the configuration values in the `values.yaml` file within the chart.
+- To modify the configuration, you can either pass the values directly during installation or use a separate `values.yaml` file.
+- Make sure to review and adjust the configuration according to your requirements before deploying.
+
+## Troubleshooting
+- If you encounter any issues or need assistance, refer to the application's documentation or reach out to our support team at support@yourcompany.com.
+- You can also check the application and deployment logs using the following command: `kubectl logs -f <pod-name>`
+
+## Additional Resources
+- If you want to explore more charts and applications, visit the Devportal Hub: https://artifacthub.io/packages/helm/veecode-platform/devportal
+
+
+## To learn more about the release, try:
 
   $ helm status {{ .Release.Name }} -n {{ .Release.Namespace }}
   $ helm get all {{ .Release.Name }} -n {{ .Release.Namespace }}
   $ helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}
 
 Open an issue: https://github.com/veecode-platform/support
+
+We hope you enjoy using your devportal! If you have any further questions or need assistance, feel free to ask. Happy charting!
