@@ -73,14 +73,14 @@ jobs:
       - name: Generating Helm Documentation
         run: bash chart/generate-docs.sh
       
-      - name: Check if chart docs will be generated as expected
+      - name: Check if chart docs have been generated as expected.
         run: |
           bash chart/generate-docs.sh
           if [ ! -f "./chart/README.md" ]; then
             echo "Error: chart/README.md does not exist."
             exit 1
           fi
-          rm chart/README.md
+          echo "chart/README.md created."
 
       - name: Build Helm Package
         run: |
