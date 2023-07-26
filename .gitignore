@@ -54,3 +54,6 @@ sqlite/
 
 # Docker data
 .docker-data/
+
+#CHART
+chart/README.md
