@@ -49,11 +49,14 @@ spec:
             httpGet:
               port: 7007
               path: /healthcheck
+              initialDelaySeconds: 60
+              periodSeconds: 5
           livenessProbe:
             httpGet:
               port: 7007
               path: /healthcheck
-
+              initialDelaySeconds: 90
+              periodSeconds: 10
       volumes:
         - name: app-config
           configMap:
