@@ -2,7 +2,7 @@
 {{- $backend_path_without_last_slash := trimSuffix "/" .Values.appConfig.backend.baseUrl }}
 
 {{/*Generating csp image src add logo images to allow list*/}}
-{{ $cspListValues := index .Values.appConfig.backend.csp "img-src" }}
+{{ $cspListValues := .Values.appConfig.backend.csp.imgSrc }}
 {{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.full) }}
 {{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.icon) }}
 {{ $cspListValues := $cspListValues | uniq }}
@@ -61,7 +61,10 @@ data:
         methods: [GET, POST, PUT, DELETE, PATCH]
         credentials: true
       csp:
-        connect-src: {{ index .Values.appConfig.backend.csp "connect-src" | toJson}}
+        {{- if hasPrefix "http://" .Values.appConfig.app.baseUrl }}
+        upgrade-insecure-requests: false
+        {{- end }}
+        connect-src: {{ index .Values.appConfig.backend.csp.connectSrc | toJson}}
         img-src: {{ $cspListValues | toJson }}
       reading:
         allow:
@@ -170,11 +173,11 @@ data:
             organization: {{ .Values.catalog.providers.github.organization | quote }}
             catalogPath: {{ .Values.catalog.providers.github.catalogPath | quote }}
             validateLocationsExist: {{ .Values.catalog.providers.github.validateLocationsExist | default true }}
-            {{- if .Values.catalog.providers.github.filters }}
             filters:
               branch: {{ .Values.catalog.providers.github.filters.branch | default "main" | quote }}
+              {{- if .Values.catalog.providers.github.filters.repository }}
               repository: {{ .Values.catalog.providers.github.filters.repository | quote }}
-            {{- end }}
+              {{- end }}
         {{- end }}
         {{- if .Values.catalog.providers.bitbucketCloud }}
         bitbucketCloud:

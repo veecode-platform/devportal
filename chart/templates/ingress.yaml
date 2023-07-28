@@ -3,9 +3,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "devportal-charts.fullname" . }}
-  {{- if or .Values.ingress.tls.secretName .Values.ingress.annotations }}
+  {{- if or ( and .Values.ingress.tls .Values.ingress.tls.secretName ) .Values.ingress.annotations }}
   annotations:
-    {{- if .Values.ingress.tls.secretName }}
+    {{- if and .Values.ingress.tls .Values.ingress.tls.secretName }}
     cert-manager.io/cluster-issuer: certmanager-issuer
     kubernetes.io/tls-acme: "true"
     {{- end }}
@@ -16,7 +16,7 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ .Chart.Name }}
 spec:
-  {{- if .Values.ingress.tls.secretName }}
+  {{- if and .Values.ingress.tls .Values.ingress.tls.secretName }}
   tls:
   - secretName: {{ .Values.ingress.tls.secretName }}
     hosts:
