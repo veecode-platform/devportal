@@ -20,34 +20,33 @@ export default async function createPlugin(
   builder.addEntityProvider(
     GithubEntityProvider.fromConfig(env.config, {
       logger: env.logger,
-      // optional: alternatively, use scheduler with schedule defined in app-config.yaml
-      schedule: env.scheduler.createScheduledTaskRunner({
+      scheduler: env.scheduler,
+      /* schedule: env.scheduler.createScheduledTaskRunner({
         frequency: { minutes: 10 },
         timeout: { minutes: 3 },
-      }),
+      }),*/
     }),
   );
 
   builder.addEntityProvider(
     BitbucketCloudEntityProvider.fromConfig(env.config, {
       logger: env.logger,
-      schedule: env.scheduler.createScheduledTaskRunner({
+      scheduler: env.scheduler,
+      /* schedule: env.scheduler.createScheduledTaskRunner({
         frequency: { minutes: 10 },
         timeout: { minutes: 3 },
-      }),
+      }),*/
     }),
   )
 
   builder.addEntityProvider(
     BitbucketServerEntityProvider.fromConfig(env.config, {
       logger: env.logger,
-      // optional: alternatively, use scheduler with schedule defined in app-config.yaml
-      schedule: env.scheduler.createScheduledTaskRunner({
+      scheduler: env.scheduler,
+      /* schedule: env.scheduler.createScheduledTaskRunner({
         frequency: { minutes: 10 },
         timeout: { minutes: 3 },
-      }),
-      // optional: alternatively, use schedule
-      // scheduler: env.scheduler,
+      }),*/
     }),
   )
 
@@ -56,13 +55,11 @@ export default async function createPlugin(
     builder.addEntityProvider(
       ...GitlabDiscoveryEntityProvider.fromConfig(env.config, {
         logger: env.logger,
-        // optional: alternatively, use scheduler with schedule defined in app-config.yaml
-        schedule: env.scheduler.createScheduledTaskRunner({
+        scheduler: env.scheduler,
+        /* schedule: env.scheduler.createScheduledTaskRunner({
           frequency: { minutes: 10 },
           timeout: { minutes: 3 },
-        }),
-        // optional: alternatively, use schedule
-        scheduler: env.scheduler,
+        }),*/      
       }),
     );
     builder.addProcessor(new GitlabFillerProcessor(env.config));
@@ -74,11 +71,11 @@ export default async function createPlugin(
     KeycloakOrgEntityProvider.fromConfig(env.config, {
       id: 'development',
       logger: env.logger,
-      schedule: env.scheduler.createScheduledTaskRunner({
+      scheduler: env.scheduler,
+      /* schedule: env.scheduler.createScheduledTaskRunner({
         frequency: { minutes: 10 },
         timeout: { minutes: 1 },
-        initialDelay: { seconds: 15 }
-      }),
+      }),*/
     }),
   );
   }

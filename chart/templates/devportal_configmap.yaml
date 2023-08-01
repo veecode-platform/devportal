@@ -168,6 +168,19 @@ data:
               branch: {{ .Values.catalog.providers.github.filters.branch | default "main" | quote }}
               repository: {{ .Values.catalog.providers.github.filters.repository | quote }}
             {{- end }}
+            schedule:    
+              frequency:
+                {{- if and .Values.catalog.providers.github.schedule .Values.catalog.providers.github.schedule.frequency }}
+                minutes: {{ .Values.catalog.providers.github.schedule.frequency }}
+                {{- else }}
+                minutes: 60
+                {{- end }}
+              timeout: 
+                {{- if and .Values.catalog.providers.github.schedule .Values.catalog.providers.github.schedule.timeout }}
+                minutes: {{ .Values.catalog.providers.github.schedule.timeout }}
+                {{- else }}
+                minutes: 3
+                {{- end }}
         {{- end }}
         {{- if .Values.catalog.providers.bitbucketCloud }}
         bitbucketCloud:
@@ -176,6 +189,19 @@ data:
           filters: 
             repoSlug: ${CATALOG_BITBUCKET_CLOUD_REPOSLUG} 
           workspace: ${CATALOG_BITBUCKET_CLOUD_WORKSPACE}
+          schedule:    
+            frequency:
+              {{- if and .Values.catalog.providers.bitbucketCloud.schedule .Values.catalog.providers.bitbucketCloud.schedule.frequency }}
+              minutes: {{ .Values.catalog.providers.bitbucketCloud.schedule.frequency }}
+              {{- else }}
+              minutes: 60
+              {{- end }}
+            timeout: 
+              {{- if and .Values.catalog.providers.bitbucketCloud.schedule .Values.catalog.providers.bitbucketCloud.schedule.timeout }}
+              minutes: {{ .Values.catalog.providers.bitbucketCloud.schedule.timeout }}
+              {{- else }}
+              minutes: 3
+              {{- end }}
         {{- end }}
         {{- if .Values.catalog.providers.bitbucketServer }}
         bitbucketServer:
@@ -185,6 +211,19 @@ data:
             filters: 
               projectKey: ${CATALOG_BITBUCKET_SERVER_PROJECT_KEY} 
               repoSlug: ${CATALOG_BITBUCKET_SERVER_REPO_SLUG}
+            schedule:    
+              frequency:
+                {{- if and .Values.catalog.providers.bitbucketServer.schedule .Values.catalog.providers.bitbucketServer.schedule.frequency }}
+                minutes: {{ .Values.catalog.providers.bitbucketServer.schedule.frequency }}
+                {{- else }}
+                minutes: 60
+                {{- end }}
+              timeout: 
+                {{- if and .Values.catalog.providers.bitbucketServer.schedule .Values.catalog.providers.bitbucketServer.schedule.timeout }}
+                minutes: {{ .Values.catalog.providers.bitbucketServer.schedule.timeout }}
+                {{- else }}
+                minutes: 3
+                {{- end }}
         {{- end }}
         {{- if .Values.catalog.providers.gitlab }}
         gitlab:
@@ -197,6 +236,19 @@ data:
             {{- if .Values.catalog.providers.gitlab.projectPattern}}
             projectPattern: {{ .Values.catalog.providers.gitlab.projectPattern | quote }}
             {{- end }}
+            schedule:    
+              frequency:
+                {{- if and .Values.catalog.providers.gitlab.schedule .Values.catalog.providers.gitlab.schedule.frequency }}
+                minutes: {{ .Values.catalog.providers.gitlab.schedule.frequency }}
+                {{- else }}
+                minutes: 60
+                {{- end }}
+              timeout: 
+                {{- if and .Values.catalog.providers.gitlab.schedule .Values.catalog.providers.gitlab.schedule.timeout }}
+                minutes: {{ .Values.catalog.providers.gitlab.schedule.timeout }}
+                {{- else }}
+                minutes: 3
+                {{- end }}
         {{- end }}
         {{- if hasKey .Values.catalog.providers "keycloak" }}
         keycloakOrg:
@@ -206,10 +258,19 @@ data:
             realm: {{ .Values.catalog.providers.keycloak.realm | default "platform-devportal" }}
             username: ${KEYCLOAK_ADMIN_USERNAME}
             password: ${KEYCLOAK_ADMIN_PASSWORD}
-            schedule:
-              frequency: { minutes: {{ .Values.catalog.providers.keycloak.schedule.frequency | default 5 }} }
-              timeout: { minutes: {{ .Values.catalog.providers.keycloak.schedule.timeout | default 1 }} }
-              initialDelay: { seconds: {{ .Values.catalog.providers.keycloak.schedule.initialDelay | default 15 }} }
+            schedule:    
+              frequency:
+                {{- if and .Values.catalog.providers.keycloak.schedule .Values.catalog.providers.keycloak.schedule.frequency }}
+                minutes: {{ .Values.catalog.providers.keycloak.schedule.frequency }}
+                {{- else }}
+                minutes: 60
+                {{- end }}
+              timeout: 
+                {{- if and .Values.catalog.providers.keycloak.schedule .Values.catalog.providers.keycloak.schedule.timeout }}
+                minutes: {{ .Values.catalog.providers.keycloak.schedule.timeout }}
+                {{- else }}
+                minutes: 3
+                {{- end }}
             userQuerySize: {{ .Values.catalog.providers.keycloak.userQuerySize | default 500 }}
             groupQuerySize: {{ .Values.catalog.providers.keycloak.groupQuerySize | default 250 }}
         {{- end }}

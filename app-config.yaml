@@ -155,6 +155,11 @@ catalog:
           branch: master # string
           repository: devportal-catalog # Regex
           validateLocationsExist: true
+        schedule:        
+          frequency: 
+            minutes: ${GITHUB_CATALOG_PROVIDER_REFRESH_FREQUENCY}
+          timeout: 
+            minutes: ${GITHUB_CATALOG_PROVIDER_TIMEOUT}
 
     keycloakOrg:
       default:
@@ -163,10 +168,11 @@ catalog:
         realm: ${KEYCLOAK_REALM}
         username: admin
         password: admin
-        schedule:
-          frequency: { minutes: 1 }
-          timeout: { minutes: 1 }
-          initialDelay: { seconds: 15 }
+        schedule:        
+          frequency: 
+            minutes: ${KEYCLOAK_CATALOG_PROVIDER_REFRESH_FREQUENCY}
+          timeout: 
+            minutes: ${KEYCLOAK_CATALOG_PROVIDER_TIMEOUT}
         userQuerySize: 500
         groupQuerySize: 250
 
@@ -177,6 +183,11 @@ catalog:
     #     # projectKey: 'DEV' # optional; RegExp
     #       repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
     #     workspace: ${BITBUCKET_CLOUD_WORKSPACE}
+    #      schedule:        
+    #      frequency: 
+    #        minutes: ${BITBUCKET_CLOUD_CATALOG_PROVIDER_REFRESH_FREQUENCY}
+    #      timeout: 
+    #        minutes: ${BITBUCKET_CLOUD_CATALOG_PROVIDER_TIMEOUT}
 
     bitbucketServer:
       yourProviderId:
@@ -185,6 +196,12 @@ catalog:
         filters: # optional
           projectKey: ${BITBUCKET_SERVER_PROJECT_KEY} # optional; RegExp
           repoSlug: ${BITBUCKET_SERVER_REPOSLUG} # optional; RegExp
+        schedule:        
+          frequency: 
+            minutes: ${BITBUCKET_SERVER_CATALOG_PROVIDER_REFRESH_FREQUENCY}
+          timeout: 
+            minutes: ${BITBUCKET_SERVER_CATALOG_PROVIDER_TIMEOUT}
+
     gitlab:
       yourProviderId:
         host: gitlab.com # Identifies one of the hosts set up in the integrations -
@@ -192,6 +209,11 @@ catalog:
         group: ${GITLAB_GROUP_NAME} # Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned
         entityFilename: catalog-info.yaml # Optional. Defaults to `catalog-info.yaml`
         #projectPattern: /[\s\S]*/ # Optional. Filters found projects based on provided patter. Defaults to `/[\s\S]*/`, what means to not filter anything
+        schedule:        
+          frequency: 
+            minutes: ${GITLAB_CATALOG_PROVIDER_REFRESH_FREQUENCY}
+          timeout: 
+            minutes: ${GITLAB_CATALOG_PROVIDER_TIMEOUT}
 
 #   locations:
 #   - type: url
