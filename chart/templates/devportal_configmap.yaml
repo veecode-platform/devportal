@@ -70,7 +70,7 @@ data:
         allow:
           - host: example.com
           - host: "*.mozilla.org"
-    
+
     {{- if or .Values.grafana.enabled .Values.argocd.enabled }}
     proxy:
       {{- if .Values.grafana.enabled | default false }}
@@ -164,18 +164,21 @@ data:
         - allow: {{ .allow | toJson }}
       {{- end }}
       {{- end }}
-      
       {{- if .Values.catalog.providers }}
       providers:
         {{- if .Values.catalog.providers.github }}
         github:
           providerId: 
             organization: {{ .Values.catalog.providers.github.organization | quote }}
-            catalogPath: {{ .Values.catalog.providers.github.catalogPath | quote }}
+            catalogPath: {{ .Values.catalog.providers.github.catalogPath | default "/catalog-info.yaml" | quote }}
             validateLocationsExist: {{ .Values.catalog.providers.github.validateLocationsExist | default true }}
             filters:
-              branch: {{ .Values.catalog.providers.github.filters.branch | default "main" | quote }}
-              {{- if .Values.catalog.providers.github.filters.repository }}
+              {{- if and .Values.catalog.providers.github.filters .Values.catalog.providers.github.filters.branch  }}
+              branch: {{ .Values.catalog.providers.github.filters.branch | quote }}
+              {{- else }}
+              branch: "main"
+              {{- end }}
+              {{- if and .Values.catalog.providers.github.filters .Values.catalog.providers.github.filters.repository }}
               repository: {{ .Values.catalog.providers.github.filters.repository | quote }}
               {{- end }}
         {{- end }}

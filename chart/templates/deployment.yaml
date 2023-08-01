@@ -6,11 +6,11 @@ spec:
   replicas: {{ .Values.replicas | default 1 }}
   selector:
     matchLabels:
-      app: devportal
+      app: {{ include "devportal-charts.fullname" . }}
   template:
     metadata:
       labels:
-        app: devportal
+        app: {{ include "devportal-charts.fullname" . }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/devportal_configmap.yaml") . | sha256sum }}        
     spec:

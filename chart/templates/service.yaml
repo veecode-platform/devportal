@@ -12,6 +12,6 @@ spec:
     - port: {{ .Values.service.containerPort }}
       targetPort: {{ .Values.service.containerPort }}
   selector:
-    app: devportal
+    app: {{ include "devportal-charts.fullname" . }}
   type: {{ .Values.service.type }}   
 {{- end }}

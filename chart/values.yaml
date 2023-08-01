@@ -88,7 +88,8 @@ kong:
 #  apiManager:  #kong api manager url
 #  adminToken:  #kong admin token
 
-auth: {}
+auth: 
+  providers: {}
 #    keycloak:
 #      metadataUrl:  #keycloak .well-known url
 #      clientId:  #keycloak client id
@@ -121,7 +122,7 @@ catalog:
   providers: {}
 #    github:
 #      organization: #github Organization Name
-#      catalogPath: #path catalog info
+#      catalogPath: /catalog-info.yaml #path catalog info
 #      validateLocationsExist: true #check if exists
 #      filters:
 #        branch: main #branch to filter
