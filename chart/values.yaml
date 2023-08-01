@@ -127,18 +127,27 @@ catalog:
 #      filters:
 #        branch: main #branch to filter
 #        repository: ## Regex repository name
+#      schedule:     
+#        frequency: 60 #time in minutes to refresh the catalog
+#        timeout: 3 #time in minutes to timeout after the refresh request 
 #    bitbucketCloud:
 #      catalogPath: #Path catalog info
 #      workspace: #Bitbucket workspace
 #      filters: 
 #        projectKey: #Bitbucket project key
 #        repoSlug: #Bitbucket repo slug
+#      schedule:        
+#        frequency: 60 #time in minutes to refresh the catalog
+#        timeout: 3 #time in minutes to timeout after the refresh request 
 #    bitbucketServer:
 #      host: 
 #      catalogPath: #Path catalog info
 #      filters: 
 #        projectKey: #Bitbucket project key
 #        repoSlug: #Bitbucket repo slug
+#      schedule:        
+#        frequency: 60 #time in minutes to refresh the catalog
+#        timeout: 3 #time in minutes to timeout after the refresh request 
 #    gitlab:
 #      host: gitlab.com #Identifies one of the hosts set up in the integrations
 #      orgEnabled: false #Enable organization
@@ -146,16 +155,18 @@ catalog:
 #      group: #Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned.
 #      entityFilename: 'catalog-info.yaml' #Catalog file path
 #      projectPattern: /[\s\S]*/ #Optional. Filters found projects based on provided patter.
+#      schedule:        
+#        frequency: 60 #time in minutes to refresh the catalog
+#        timeout: 3 #time in minutes to timeout after the refresh request 
 #    keycloak: 
 #      baseUrl: #keycloak base url
 #      loginRealm: master #realm used to login
 #      realm: platform-devportal #realm to be managed
 #      username: #username to user with permissions to get groups and users
 #      password: #password
-#      schedule: #optional; same options as in TaskScheduleDefinition
-#        frequency: 5 #frequency to sync in minutes
-#        timeout: 1 #timeout in minutes
-#        initialDelay: 15 #initial delay in seconds
+#      schedule:        
+#        frequency: 60 #time in minutes to refresh the catalog
+#        timeout: 3 #time in minutes to timeout after the refresh request
 #      userQuerySize: 500 #User query size to sync
 #      groupQuerySize: 250 #Group query size to sync
 
