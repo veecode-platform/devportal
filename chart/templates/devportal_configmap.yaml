@@ -186,7 +186,7 @@ data:
                 {{- if and .Values.catalog.providers.github.schedule .Values.catalog.providers.github.schedule.frequency }}
                 minutes: {{ .Values.catalog.providers.github.schedule.frequency }}
                 {{- else }}
-                minutes: 60
+                minutes: 5
                 {{- end }}
               timeout: 
                 {{- if and .Values.catalog.providers.github.schedule .Values.catalog.providers.github.schedule.timeout }}
@@ -207,7 +207,7 @@ data:
               {{- if and .Values.catalog.providers.bitbucketCloud.schedule .Values.catalog.providers.bitbucketCloud.schedule.frequency }}
               minutes: {{ .Values.catalog.providers.bitbucketCloud.schedule.frequency }}
               {{- else }}
-              minutes: 60
+              minutes: 5
               {{- end }}
             timeout: 
               {{- if and .Values.catalog.providers.bitbucketCloud.schedule .Values.catalog.providers.bitbucketCloud.schedule.timeout }}
@@ -229,7 +229,7 @@ data:
                 {{- if and .Values.catalog.providers.bitbucketServer.schedule .Values.catalog.providers.bitbucketServer.schedule.frequency }}
                 minutes: {{ .Values.catalog.providers.bitbucketServer.schedule.frequency }}
                 {{- else }}
-                minutes: 60
+                minutes: 5
                 {{- end }}
               timeout: 
                 {{- if and .Values.catalog.providers.bitbucketServer.schedule .Values.catalog.providers.bitbucketServer.schedule.timeout }}
@@ -254,7 +254,7 @@ data:
                 {{- if and .Values.catalog.providers.gitlab.schedule .Values.catalog.providers.gitlab.schedule.frequency }}
                 minutes: {{ .Values.catalog.providers.gitlab.schedule.frequency }}
                 {{- else }}
-                minutes: 60
+                minutes: 5
                 {{- end }}
               timeout: 
                 {{- if and .Values.catalog.providers.gitlab.schedule .Values.catalog.providers.gitlab.schedule.timeout }}
@@ -276,7 +276,7 @@ data:
                 {{- if and .Values.catalog.providers.keycloak.schedule .Values.catalog.providers.keycloak.schedule.frequency }}
                 minutes: {{ .Values.catalog.providers.keycloak.schedule.frequency }}
                 {{- else }}
-                minutes: 60
+                minutes: 5
                 {{- end }}
               timeout: 
                 {{- if and .Values.catalog.providers.keycloak.schedule .Values.catalog.providers.keycloak.schedule.timeout }}
