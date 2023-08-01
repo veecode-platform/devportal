@@ -177,7 +177,7 @@ data:
               branch: {{ .Values.catalog.providers.github.filters.branch | default "main" | quote }}
               {{- if .Values.catalog.providers.github.filters.repository }}
               repository: {{ .Values.catalog.providers.github.filters.repository | quote }}
-            {{- end }}
+              {{- end }}
             schedule:    
               frequency:
                 {{- if and .Values.catalog.providers.github.schedule .Values.catalog.providers.github.schedule.frequency }}
