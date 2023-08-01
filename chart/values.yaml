@@ -35,6 +35,10 @@ resources:
     memory: 512Mi #limit memory
     cpu: 500m #limit cpu
 
+  #use https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ to configure readinessProbe and livenessProbe
+#readinessProbe: {} #use k8s docs to implement 
+#livenessProbe: {} #use k8s docs to implement
+
 appConfig:
   title: Devportal Platform #devportal title
   app:
@@ -42,6 +46,10 @@ appConfig:
   backend:
     baseUrl: http://localhost:7007 #devportal backend base URL
 #    secret: #devportal backend secret. Random value.
+    csp:
+      connectSrc: ["'self'", "http:", "https:"]
+      imgSrc: ["'self'", 'data:']
+
   database:
     client: better-sqlite3 #database client (better-sqlite3 or pg)
 #    connection:
@@ -190,3 +198,7 @@ kubernetes: {}
 #  skipMetricsLookup: false #Kubernetes skip Metrics Lookup
 #  serviceAccountToken:  #Kubernetes service Account Token
 #  caData:  #Kubernetes certificate Data
+theme:
+  logo:
+    icon: "https://platform.vee.codes/apple-touch-icon.png" #Icon Url Endpoint
+    full: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url Endpoint

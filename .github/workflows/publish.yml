@@ -35,7 +35,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.node_version }}
-          cache: yarn      
+          cache: yarn
+
       - name: Building Devportal
         run: |
           yarn install --frozen-lockfile
@@ -71,6 +72,15 @@ jobs:
       
       - name: Generating Helm Documentation
         run: bash chart/generate-docs.sh
+      
+      - name: Check if chart docs have been generated as expected.
+        run: |
+          bash chart/generate-docs.sh
+          if [ ! -f "./chart/README.md" ]; then
+            echo "Error: chart/README.md does not exist."
+            exit 1
+          fi
+          echo "chart/README.md created."
 
       - name: Build Helm Package
         run: |

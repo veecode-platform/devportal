@@ -13,6 +13,7 @@ import {
 } from '@backstage/backend-common';
 import { TaskScheduler } from '@backstage/backend-tasks';
 import { Config } from '@backstage/config';
+import { metricsInit, metricsHandler } from './metrics';
 import app from './plugins/app';
 import auth from './plugins/auth';
 import catalog from './plugins/catalog';
@@ -20,6 +21,7 @@ import scaffolder from './plugins/scaffolder';
 import proxy from './plugins/proxy';
 import techdocs from './plugins/techdocs';
 import search from './plugins/search';
+import healthcheck from './plugins/healthcheck';
 // custom permission
 import permission from './plugins/permission';
 import vault from './plugins/vault';
@@ -77,14 +79,18 @@ function makeCreateEnv(config: Config) {
 }
 
 async function main() {
+  metricsInit();
+  const logger = getRootLogger();
+
   const config = await loadBackendConfig({
     argv: process.argv,
-    logger: getRootLogger(),
+    logger
   });
 
   const createEnv = makeCreateEnv(config);
   const apiRouter = Router();
 
+  const healthcheckEnv = useHotMemoize(module, () => createEnv('healthcheck'));
   const catalogEnv = useHotMemoize(module, () => createEnv('catalog'));
   const scaffolderEnv = useHotMemoize(module, () => createEnv('scaffolder'));
   const authEnv = useHotMemoize(module, () => createEnv('auth'));
@@ -96,25 +102,25 @@ async function main() {
   const awsEnv = useHotMemoize(module, () => createEnv('aws'));
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
 
-  if(config.getOptionalBoolean("platform.apiManagement.enabled")){
+  if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));
     apiRouter.use('/devportal', await application(applicationEnv));
   }
- 
-  if(config.getOptionalBoolean("enabledPlugins.vault")){
+
+  if (config.getOptionalBoolean("enabledPlugins.vault")) {
     const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
     apiRouter.use('/vault', await vault(vaultEnv));
   }
-  if(config.getOptionalBoolean("enabledPlugins.kubernetes")){
+  if (config.getOptionalBoolean("enabledPlugins.kubernetes")) {
     const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
     apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
   }
-  if(config.getOptionalBoolean("enabledPlugins.argocd")){
+  if (config.getOptionalBoolean("enabledPlugins.argocd")) {
     const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
     apiRouter.use('/argocd', await argocd(argocdEnv));
   }
 
-  if(config.getBoolean("enabledPlugins.gitlabPlugin")){
+  if (config.getBoolean("enabledPlugins.gitlabPlugin")) {
     const gitlabEnv = useHotMemoize(module, () => createEnv('gitlab'));
     apiRouter.use('/gitlab', await gitlab(gitlabEnv));
   }
@@ -135,13 +141,19 @@ async function main() {
 
   const service = createServiceBuilder(module)
     .loadConfig(config)
+    .addRouter('', await healthcheck(healthcheckEnv))
+    .addRouter('', metricsHandler())
     .addRouter('/api', apiRouter)
     .addRouter('', await app(appEnv));
-
-  await service.start().catch(err => {
+  
+    await service.start().catch(err => {
     console.log(err);
     process.exit(1);
   });
+
+  apiRouter.stack
+    .map(r => r.regexp)
+    .forEach(endpoint => logger.debug(`Endpoint: ${endpoint}`));
 }
 
 module.hot?.accept();

@@ -1,5 +1,12 @@
-{{- $app_path_without_last_slash := trimSuffix "/" .Values.appConfig.app.baseUrl}} 
-{{- $backend_path_without_last_slash := trimSuffix "/" .Values.appConfig.backend.baseUrl}} 
+{{- $app_path_without_last_slash := trimSuffix "/" .Values.appConfig.app.baseUrl }} 
+{{- $backend_path_without_last_slash := trimSuffix "/" .Values.appConfig.backend.baseUrl }}
+
+{{/*Generating csp image src add logo images to allow list*/}}
+{{ $cspListValues := .Values.appConfig.backend.csp.imgSrc }}
+{{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.full) }}
+{{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.icon) }}
+{{ $cspListValues := $cspListValues | uniq }}
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -54,8 +61,11 @@ data:
         methods: [GET, POST, PUT, DELETE, PATCH]
         credentials: true
       csp:
-        connect-src: ["'self'", "http:", "https:"]
-        img-src: ["'self'", 'data:', 'https://platform.vee.codes']
+        {{- if hasPrefix "http://" .Values.appConfig.app.baseUrl }}
+        upgrade-insecure-requests: false
+        {{- end }}
+        connect-src: {{ index .Values.appConfig.backend.csp.connectSrc | toJson}}
+        img-src: {{ $cspListValues | toJson }}
       reading:
         allow:
           - host: example.com
@@ -163,9 +173,9 @@ data:
             organization: {{ .Values.catalog.providers.github.organization | quote }}
             catalogPath: {{ .Values.catalog.providers.github.catalogPath | quote }}
             validateLocationsExist: {{ .Values.catalog.providers.github.validateLocationsExist | default true }}
-            {{- if .Values.catalog.providers.github.filters }}
             filters:
               branch: {{ .Values.catalog.providers.github.filters.branch | default "main" | quote }}
+              {{- if .Values.catalog.providers.github.filters.repository }}
               repository: {{ .Values.catalog.providers.github.filters.repository | quote }}
             {{- end }}
             schedule:    
@@ -345,7 +355,9 @@ data:
         groups: {{ .Values.platform.behaviour.groups | default true }}
         apiManagement: {{ .Values.platform.behaviour.apiManagement | default true }}
         {{- end }}
-     
+      logo:
+        icon: {{ .Values.theme.logo.icon }}
+        full: {{ .Values.theme.logo.full }}
     {{- if .Values.vault.enabled }}
     vault:
       baseUrl: ${VAULT_BASE_URL}

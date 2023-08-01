@@ -193,7 +193,7 @@ appConfig:
 
 #FOOTER
 {% block footer -%}
-## For more details access devportal:
+## For more details
 * Site: https://platform.vee.codes<br/>
 * Doc: https://docs.platform.vee.codes/devportal/intro<br/>
 * Issue: https://github.com/veecode-platform/support/issues
