@@ -88,7 +88,8 @@ kong:
 #  apiManager:  #kong api manager url
 #  adminToken:  #kong admin token
 
-auth: {}
+auth: 
+  providers: {}
 #    keycloak:
 #      metadataUrl:  #keycloak .well-known url
 #      clientId:  #keycloak client id
@@ -121,13 +122,13 @@ catalog:
   providers: {}
 #    github:
 #      organization: #github Organization Name
-#      catalogPath: #path catalog info
+#      catalogPath: /catalog-info.yaml #path catalog info
 #      validateLocationsExist: true #check if exists
 #      filters:
 #        branch: main #branch to filter
 #        repository: ## Regex repository name
 #      schedule:     
-#        frequency: 60 #time in minutes to refresh the catalog
+#        frequency: 5 #time in minutes to refresh the catalog
 #        timeout: 3 #time in minutes to timeout after the refresh request 
 #    bitbucketCloud:
 #      catalogPath: #Path catalog info
@@ -136,7 +137,7 @@ catalog:
 #        projectKey: #Bitbucket project key
 #        repoSlug: #Bitbucket repo slug
 #      schedule:        
-#        frequency: 60 #time in minutes to refresh the catalog
+#        frequency: 5 #time in minutes to refresh the catalog
 #        timeout: 3 #time in minutes to timeout after the refresh request 
 #    bitbucketServer:
 #      host: 
@@ -145,7 +146,7 @@ catalog:
 #        projectKey: #Bitbucket project key
 #        repoSlug: #Bitbucket repo slug
 #      schedule:        
-#        frequency: 60 #time in minutes to refresh the catalog
+#        frequency: 5 #time in minutes to refresh the catalog
 #        timeout: 3 #time in minutes to timeout after the refresh request 
 #    gitlab:
 #      host: gitlab.com #Identifies one of the hosts set up in the integrations
@@ -155,7 +156,7 @@ catalog:
 #      entityFilename: 'catalog-info.yaml' #Catalog file path
 #      projectPattern: /[\s\S]*/ #Optional. Filters found projects based on provided patter.
 #      schedule:        
-#        frequency: 60 #time in minutes to refresh the catalog
+#        frequency: 5 #time in minutes to refresh the catalog
 #        timeout: 3 #time in minutes to timeout after the refresh request 
 #    keycloak: 
 #      baseUrl: #keycloak base url
@@ -164,7 +165,7 @@ catalog:
 #      username: #username to user with permissions to get groups and users
 #      password: #password
 #      schedule:        
-#        frequency: 60 #time in minutes to refresh the catalog
+#        frequency: 5 #time in minutes to refresh the catalog
 #        timeout: 3 #time in minutes to timeout after the refresh request
 #      userQuerySize: 500 #User query size to sync
 #      groupQuerySize: 250 #Group query size to sync
