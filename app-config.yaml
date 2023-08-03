@@ -4,6 +4,7 @@ app:
   analytics:
     ga4:
       measurementId: ${GA_ANALYTICS_ID}
+      identity: optional
       #testMode: false # Prevents data being sent to GA
       #debug: true # Logs analytics event to the web console
 
