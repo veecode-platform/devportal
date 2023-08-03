@@ -1,22 +1,11 @@
 app:
   title: Devportal
   baseUrl: http://localhost:3000
-  #analytics: #https://github.com/backstage/backstage/blob/master/plugins/analytics-module-ga/README.md
-  #  ga:
-  #    trackingId: UA-0000000-0 #Id
-  #    identity: optional #or required
-  #    debug: true # for development
-  #    testMode: true # for development
-      # customDimensionsMetrics: # for development
-      #   - type: dimension 
-      #     index: 1 
-      #     source: context
-      #     key: pluginId
-      # virtualSearchPageView:  # seach website 
-      #   mode: only # Defaults to 'disabled'
-      #   mountPath: /virtual-search # Defaults to '/search'
-      #   searchQuery: term # Defaults to 'query'
-      #   categoryQuery: sc # Omitted by default
+  analytics:
+    ga4:
+      measurementId: ${GA_ANALYTICS_ID}
+      #testMode: false # Prevents data being sent to GA
+      #debug: true # Logs analytics event to the web console
 
   support:
     url: https://github.com/orgs/veecode-platform/discussions # Used by common ErrorPage
@@ -60,7 +49,7 @@ backend:
     credentials: true
   csp:
     connect-src: ["'self'", 'http:', 'https:']
-    script-src: ["'self'", "'unsafe-eval'", 'https://www.google-analytics.com']
+    script-src: ["'self'", "'unsafe-eval'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com']
     img-src: ["'self'", 'data:', 'https://www.google-analytics.com', 'https://platform.vee.codes']
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false

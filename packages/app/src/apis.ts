@@ -20,7 +20,7 @@ import {
 } from '@backstage/core-plugin-api';
 import { OAuth2 } from '@backstage/core-app-api';
 // google analytics
-import { GoogleAnalytics } from '@backstage/plugin-analytics-module-ga';
+import { GoogleAnalytics4 } from '@backstage/plugin-analytics-module-ga4';
 
 export const keycloakOIDCAuthApiRef: ApiRef<
   OpenIdConnectApi & ProfileInfoApi & BackstageIdentityApi & SessionApi
@@ -63,7 +63,7 @@ export const apis: AnyApiFactory[] = [
     api: analyticsApiRef,
     deps: { configApi: configApiRef, identityApi: identityApiRef },
     factory: ({ configApi, identityApi }) =>
-      GoogleAnalytics.fromConfig(configApi, {
+      GoogleAnalytics4.fromConfig(configApi, {
         identityApi,
       }),
   }),

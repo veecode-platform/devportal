@@ -3350,25 +3350,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-analytics-module-ga@npm:^0.1.30":
-  version: 0.1.31
-  resolution: "@backstage/plugin-analytics-module-ga@npm:0.1.31"
+"@backstage/plugin-analytics-module-ga4@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@backstage/plugin-analytics-module-ga4@npm:0.1.2"
   dependencies:
     "@backstage/config": ^1.0.8
     "@backstage/core-components": ^0.13.3
     "@backstage/core-plugin-api": ^1.5.3
     "@backstage/theme": ^0.4.1
-    "@material-ui/core": ^4.12.2
-    "@material-ui/icons": ^4.9.1
-    "@material-ui/lab": 4.0.0-alpha.61
-    prop-types: ^15.7.2
-    react-ga: ^3.3.0
+    react-ga4: ^2.0.0
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
     react-dom: ^16.13.1 || ^17.0.0
     react-router-dom: 6.0.0-beta.0 || ^6.3.0
-  checksum: 844e306f91b98b9df339493c1da892b599ad93e0b5d8a5211ffcb741eb387a53f67868c52ae0d0886a21f819e376f0bead8c82f5fbe7160f804dffb6b1e9bd7c
+  checksum: 8949d9fa71272219031dd8bc631547175bfdb939f99b6a857ca801bfa17aec97e92ad9dbe77fb81b02eab5bd2f21f735160a150910176c3c82e596766287db56
   languageName: node
   linkType: hard
 
@@ -12626,7 +12622,7 @@ __metadata:
     "@backstage/core-plugin-api": ^1.5.2
     "@backstage/errors": ^1.2.0
     "@backstage/integration-react": ^1.1.14
-    "@backstage/plugin-analytics-module-ga": ^0.1.30
+    "@backstage/plugin-analytics-module-ga4": ^0.1.2
     "@backstage/plugin-catalog-common": ^1.0.14
     "@backstage/plugin-catalog-graph": ^0.2.31
     "@backstage/plugin-catalog-import": ^0.9.9
@@ -27221,13 +27217,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-ga@npm:^3.3.0":
-  version: 3.3.1
-  resolution: "react-ga@npm:3.3.1"
-  peerDependencies:
-    prop-types: ^15.6.0
-    react: ^15.6.2 || ^16.0 || ^17 || ^18
-  checksum: 3026976d0249fbf80e7b5dad7707964198064d7ac460f3397de40524e76dd6c29dead0900f850e2bd3135a86a9b083af8cda9cfa087f195852bf8d2b17c1fcfb
+"react-ga4@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "react-ga4@npm:2.1.0"
+  checksum: f7fb41141418d4ad14756f1126a1e9958db37d4d84ae6cd798043dc03a390b6dba74d69311af0349f0b9580a43bda8930138194ccc29c4100efe446e2d6eb057
   languageName: node
   linkType: hard
 
