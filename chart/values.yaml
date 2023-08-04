@@ -49,6 +49,9 @@ appConfig:
     csp:
       connectSrc: ["'self'", "http:", "https:"]
       imgSrc: ["'self'", 'data:']
+#  analytics: 
+#    ga:
+#      measurementId: #Google analytics metrics ID
 
   database:
     client: better-sqlite3 #database client (better-sqlite3 or pg)

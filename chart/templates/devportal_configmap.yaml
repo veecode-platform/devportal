@@ -27,6 +27,14 @@ data:
             links:
               - url: https://github.com/veecode-platform/support/discussions
                 title: GitHub Issues
+      {{- if (and .Values.appConfig.analytics .Values.appConfig.analytics.ga .Values.appConfig.analytics.ga.measurementId) }}          
+      analytics:
+        ga4:
+          measurementId: ${GA_ANALYTICS_ID}
+          identity: optional
+          testMode: false
+          debug: true
+      {{- end }}
     permission:
       enabled: true
 
@@ -66,6 +74,7 @@ data:
         {{- end }}
         connect-src: {{ index .Values.appConfig.backend.csp.connectSrc | toJson}}
         img-src: {{ $cspListValues | toJson }}
+        script-src: ["'self'", "'unsafe-eval'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com']
       reading:
         allow:
           - host: example.com
