@@ -102,21 +102,21 @@ jobs:
           user_name: 'veecode-bot'
           commit_message: "Publish new version devportal-${{ needs.requirements.outputs.chart_version }}"
       
-      # - name: Generating dependencies version files
-      #   id: cli-version
-      #   run: |
-      #     mkdir -p gh-pages/docs/examples
-      #     cp -r docs/public/**/* gh-pages/docs/examples/
-      #     cp ./keycloak/realm-platform-devportal.json gh-pages/docs/examples/
-
-      # - name: Publishing docs files
-      #   uses: cpina/github-action-push-to-another-repository@main
-      #   env:
-      #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-      #   with:
-      #     source-directory: 'gh-pages'
-      #     destination-github-username: ${{ github.repository_owner }}
-      #     destination-repository-name: 'support'
-      #     user-email: veecode-bot@vee.codes
-      #     commit-message: 'Update docs samples'
-      #     target-branch: gh-pages
+      - name: Prepare doc references
+        run: |
+          mkdir -p tmpDocs/devportal
+          cp packages/app/public/theme.json tmpDocs/devportal/
+          cp keycloak/realm-platform-devportal.json tmpDocs/devportal/
+        
+      - name: Publishing doc references
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: "tmpDocs/devportal/"
+          destination_repo: "${{ github.repository_owner }}/support"
+          destination_branch: "gh-pages"
+          destination_folder: "references"
+          user_email: 'veecode-bot@vee.codes'
+          user_name: 'veecode-bot'
+          commit_message: "Update devportal docs reference"
