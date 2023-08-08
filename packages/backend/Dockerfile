@@ -58,4 +58,4 @@ USER node
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 
-CMD ["node", "packages/backend", "--config", "app-config.local.yaml"]
+CMD ["node", "packages/backend", "--config", "app-config.yaml"]
