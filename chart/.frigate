@@ -197,7 +197,7 @@ theme:
 ```
 ## Colors
 To customize your devportal colors you can provide an url with your theme file or put you theme file into a configmap.<br/>
-Get your theme file sample here to customize.
+Get your theme file sample [here](https://veecode-platform.github.io/support/references/devportal/theme.json) to customize.
 
 ### Loading theme from configmap
 Create a new configmap from your theme file:
