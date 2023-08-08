@@ -3,7 +3,7 @@
 
 {{/*Generating csp image src add logo images to allow list*/}}
 {{ $cspListValues := .Values.appConfig.backend.csp.imgSrc }}
-{{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.full) }}
+{{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.menu) }}
 {{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.icon) }}
 {{ $cspListValues := $cspListValues | uniq }}
 
@@ -14,6 +14,9 @@ metadata:
 data:
   {{- if not .Values.grafana.enabled }}
   GRAFANA_DOMAIN: ""
+  {{- end }}
+  {{- if and .Values.theme.custom .Values.theme.custom.downloadUrl }}
+  PLATFORM_DEVPORTAL_THEME_URL: {{ .Values.theme.custom.downloadUrl }}
   {{- end }}
   app-config: |
     app:
@@ -369,7 +372,7 @@ data:
         {{- end }}
       logo:
         icon: {{ .Values.theme.logo.icon }}
-        full: {{ .Values.theme.logo.full }}
+        full: {{ .Values.theme.logo.menu }}
     {{- if .Values.vault.enabled }}
     vault:
       baseUrl: ${VAULT_BASE_URL}

@@ -18,7 +18,7 @@ FROM node:18-bullseye-slim
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && \
-    apt-get install -y --no-install-recommends libsqlite3-dev python3 python3-pip build-essential && \
+    apt-get install -y --no-install-recommends libsqlite3-dev python3 python3-pip build-essential curl && \
     yarn config set python /usr/bin/python3 && \
     pip3 install mkdocs-techdocs-core==1.1.7
 
@@ -50,4 +50,12 @@ RUN --mount=type=cache,target=/home/node/.yarn/berry/cache,sharing=locked,uid=10
 COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
-CMD ["node", "packages/backend", "--config", "app-config.yaml"]
+# Create the entrypoint script
+USER root
+COPY packages/backend/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+USER node
+
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+CMD ["node", "packages/backend", "--config", "app-config.local.yaml"]

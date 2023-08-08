@@ -25,7 +25,7 @@ USER root
 #
 RUN yum update -y && yum upgrade -y
 #RUN pip3 install mkdocs-techdocs-core==1.0.1
-RUN yum install -y python3 python3-pip zlib-devel brotli-devel
+RUN yum install -y python3 python3-pip zlib-devel brotli-devel curl
 RUN npm install -g yarn
 RUN pip3 install mkdocs-techdocs-core==1.1.7
 
@@ -46,6 +46,12 @@ RUN file="$(ls /app/plugins/application-backend/migrations/)" && echo $file
 USER root
 RUN chown -R 1001:0 /app && chmod -R ug+rwx /app && \
     rpm-file-permissions
+
+# Create the entrypoint script
+COPY packages/backend/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 USER default
 
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["node", "packages/backend", "--config", "app-config.yaml"]

@@ -44,6 +44,11 @@ spec:
           - name: app-config
             mountPath: /app/app-config.yaml
             subPath: app-config
+          {{- if and .Values.theme.custom .Values.theme.custom.configmapName }}
+          - name: platform-devportal-theme
+            mountPath: /app/packages/app/dist/theme.json
+            subPath: theme.json
+          {{- end }}
           {{- if .Values.readinessProbe }}
           readinessProbe:
           {{- toYaml .Values.readinessProbe | nindent 12 }}
@@ -55,6 +60,9 @@ spec:
       volumes:
         - name: app-config
           configMap:
-            # Provide the name of the ConfigMap containing the files you want
-            # to add to the container
             name: "{{ include "devportal-charts.fullname" . }}-app-env"
+        {{- if and .Values.theme.custom .Values.theme.custom.configmapName }}
+        - name: platform-devportal-theme
+          configMap:
+            name: {{ .Values.theme.custom.configmapName }}
+        {{- end }}

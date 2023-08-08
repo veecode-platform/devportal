@@ -205,4 +205,8 @@ kubernetes: {}
 theme:
   logo:
     icon: "https://platform.vee.codes/apple-touch-icon.png" #Icon Url Endpoint
-    full: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url Endpoint
+    menu: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url Endpoint
+#  custom:
+     #use configmapName or downloadUrl
+#    configmapName: #Configmap with theme file created
+#    downloadUrl: #Theme file url
