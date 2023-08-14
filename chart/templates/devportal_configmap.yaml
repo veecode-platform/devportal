@@ -3,8 +3,8 @@
 
 {{/*Generating csp image src add logo images to allow list*/}}
 {{ $cspListValues := .Values.appConfig.backend.csp.imgSrc }}
-{{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.menu) }}
-{{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.logo.icon) }}
+{{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.images.sidebarFull) }}
+{{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.images.sidebarIcon) }}
 {{ $cspListValues := $cspListValues | uniq }}
 
 apiVersion: v1
@@ -17,6 +17,9 @@ data:
   {{- end }}
   {{- if and .Values.theme.custom .Values.theme.custom.downloadUrl }}
   PLATFORM_DEVPORTAL_THEME_URL: {{ .Values.theme.custom.downloadUrl }}
+  {{- end }}
+  {{- if .Values.theme.images.favicon }}
+  PLATFORM_DEVPORTAL_FAVICON: {{ .Values.theme.images.favicon }}
   {{- end }}
   app-config: |
     app:
@@ -371,8 +374,8 @@ data:
         apiManagement: {{ .Values.platform.behaviour.apiManagement | default true }}
         {{- end }}
       logo:
-        icon: {{ .Values.theme.logo.icon }}
-        full: {{ .Values.theme.logo.menu }}
+        icon: {{ .Values.theme.images.sidebarIcon }}
+        full: {{ .Values.theme.images.sidebarFull }}
     {{- if .Values.vault.enabled }}
     vault:
       baseUrl: ${VAULT_BASE_URL}

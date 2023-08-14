@@ -203,9 +203,10 @@ kubernetes: {}
 #  serviceAccountToken:  #Kubernetes service Account Token
 #  caData:  #Kubernetes certificate Data
 theme:
-  logo:
-    icon: "https://platform.vee.codes/apple-touch-icon.png" #Icon Url Endpoint
-    menu: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url Endpoint
+  images:
+    sidebarIcon: "https://platform.vee.codes/apple-touch-icon.png" #Icon Url
+    sidebarFull: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url
+#    favicon: #Favicon URL
 #  custom:
      #use configmapName or downloadUrl
 #    configmapName: #Configmap with theme file created
