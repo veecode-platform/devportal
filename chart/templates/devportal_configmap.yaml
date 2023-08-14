@@ -1,5 +1,6 @@
 {{- $app_path_without_last_slash := trimSuffix "/" .Values.appConfig.app.baseUrl }} 
 {{- $backend_path_without_last_slash := trimSuffix "/" .Values.appConfig.backend.baseUrl }}
+{{- $is_okteto_deploy := contains ".okteto.net" .Values.appConfig.app.baseUrl }}
 
 {{/*Generating csp image src add logo images to allow list*/}}
 {{ $cspListValues := .Values.appConfig.backend.csp.imgSrc }}
@@ -33,10 +34,14 @@ data:
             links:
               - url: https://github.com/veecode-platform/support/discussions
                 title: GitHub Issues
-      {{- if (and .Values.appConfig.analytics .Values.appConfig.analytics.ga .Values.appConfig.analytics.ga.measurementId) }}          
-      analytics:
+      {{- if or ($is_okteto_deploy) (and .Values.appConfig.analytics .Values.appConfig.analytics.ga .Values.appConfig.analytics.ga.measurementId) }}          
+      analytics: 
         ga4:
+          {{- if ($is_okteto_deploy) }}
+          measurementId: "G-8G2RQS1GFH"
+          {{- else }}
           measurementId: ${GA_ANALYTICS_ID}
+          {{- end }}
           identity: optional
           testMode: false
           debug: true
