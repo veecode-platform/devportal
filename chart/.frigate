@@ -187,13 +187,14 @@ appConfig:
 
 ## Custom theme
 
-### Changing images:
+### Changing images: 
 Use this to change icon and logo:
 ```yaml
 theme:
-  logo:
-    icon: "https://platform.vee.codes/apple-touch-icon.png" #Icon Url Endpoint
-    menu: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url Endpoint
+  images:
+    sidebarIcon: "https://platform.vee.codes/apple-touch-icon.png" #Icon Url Endpoint
+    sidebarFull: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url Endpoint
+    favicon: "https://platform.vee.codes/favicon.ico" #Menu logo Url Endpoint
 ```
 ## Colors
 To customize your devportal colors you can provide an url with your theme file or put you theme file into a configmap.<br/>
@@ -204,14 +205,14 @@ Create a new configmap from your theme file:
 ```sh
 kubectl create configmap platform-devportal-theme --from-file=./theme.json -n vkpr
 ```
-Now, provide your configmap name:
+Now, provide your configmap name in your values:
 ```yaml
 theme:
   custom:
     configmapName: platform-devportal-theme
 ```
 ### Loading theme from url
-Provide your theme file from a url:
+Provide your theme file from a url in your values:
 ```yaml
 theme:
   custom:

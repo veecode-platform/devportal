@@ -204,7 +204,7 @@ kubernetes: {}
 #  caData:  #Kubernetes certificate Data
 theme:
   images:
-    sidebarIcon: "https://platform.vee.codes/apple-touch-icon.png" #Icon Url
+    sidebarIcon: "https://platform.vee.codes/apple-touch-icon.png" #Menu Icon Url
     sidebarFull: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url
 #    favicon: #Favicon URL
 #  custom:
