@@ -71,6 +71,7 @@ const SidebarLogo = () => {
 };
 type sideBarDefaultGroupProps = {
   behaviour: sidebarDefaultType
+  apiManagementEnabled?: boolean
 }
 
 const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
@@ -87,10 +88,10 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
   )
 }
 
-const SideBarApimanagementGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
+const SideBarApimanagementGroup = ({ behaviour, apiManagementEnabled }: sideBarDefaultGroupProps) => {
   const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
   return (
-    behaviour.apiManagement ?
+    (behaviour.apiManagement && apiManagementEnabled ) ?
       <SidebarGroup label="Api managment" icon={<AppsIcon />}>
         {(!loadingPermission && adminView) ?
           <>
@@ -109,6 +110,7 @@ const SideBarApimanagementGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const config = useApi(configApiRef);
   const devportalBehaviour = sideBarBehaviour(config.getConfig("platform.behaviour"))
+  const apiManagementEnabled = config.getOptionalBoolean("platform.apiManagement.enabled")
 
   return (
     <SidebarPage>
@@ -116,7 +118,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarLogo />
         <SidebarDivider />
         <SideBarDefaultGroup behaviour={devportalBehaviour} />
-        <SideBarApimanagementGroup behaviour={devportalBehaviour} />
+        <SideBarApimanagementGroup behaviour={devportalBehaviour} apiManagementEnabled={apiManagementEnabled} />
         <SidebarGroup label="Settings" icon={<UserSettingsSignInAvatar />} to="/settings">
           <SidebarSettings />
         </SidebarGroup>
