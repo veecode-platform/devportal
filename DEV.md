@@ -43,7 +43,9 @@ helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphras
 helm plugin install https://github.com/mihaisee/helm-schema-gen.git
 helm schema-gen values.yaml > values.schema.json
 ```
-
+docker manifest create veecode/devportal-bundle-unique:latest veecode/devportal-bundle-amd64:latest veecode/devportal-bundle-arm64:latest
+Created manifest list docker.io/veecode/devportal-bundle-unique:latest
+ docker manifest push docker.io/veecode/devportal-bundle-unique:latest
 
 docker build . -t veecode/devportal-rhel9-bundle:latest -f packages/backend/Dockerfile.rhel9
 
@@ -63,7 +65,7 @@ helm upgrade platform-devportal --install --values ./values-full.yaml -n vkpr ve
 
 # build steps
 sed -i -e 's,https://registry.yarnpkg.com,https://nexus.selic.bc/nexus/repository/npm-public,g' yarn.lock
-docker run --rm -ti -u "$UID" -v $(pwd):/src -w /src registry.redhat.io/rhel9/nodejs-16:latest sh -c "npm i -g yarn && yarn config set \"strict-ssl\" false -g && yarn && yarn build"
+docker run --rm -ti -u "$UID" -v $(pwd):/src -w /src registry.redhat.io/rhel9/nodejs-18:latest sh -c "npm i -g yarn && yarn config set \"strict-ssl\" false -g && yarn && yarn build"
 docker build . -t veecode/devportal-bundle:latest -f packages/backend/Dockerfile.rhel9
 
 

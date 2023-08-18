@@ -38,7 +38,7 @@ jobs:
           cache: yarn
       - name: Building Devportal
         run: |
-          echo "OS: ${{ runner.arch }}"
+          echo "OS: ${{ runner.arch }}.toLowerCase()"
 
   #     - name: Building Devportal
   #       run: |
