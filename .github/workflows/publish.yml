@@ -38,7 +38,7 @@ jobs:
           cache: yarn
       - name: Building Devportal
         run: |
-          echo "OS: ${{ runner.os }}"
+          echo "OS: ${{ runner.arch }}"
 
   #     - name: Building Devportal
   #       run: |
