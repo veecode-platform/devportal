@@ -77,6 +77,8 @@ jobs:
 
       - name: Create/Publish version ${{ needs.requirements.outputs.app_version }} manifest
         run: |
+          docker pull veecode/devportal-bundle-amd64:${{ needs.requirements.outputs.app_version }}
+          docker pull veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
           docker manifest create veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }} \
             veecode/devportal-bundle-amd64:${{ needs.requirements.outputs.app_version }} \
             veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
