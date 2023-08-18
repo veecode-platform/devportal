@@ -62,20 +62,21 @@ backend:
 
 # See README.md in the proxy-backend plugin for information on the configuration format
 proxy:
-  "/grafana/api":
-    # May be a public or an internal DNS
-    target: ${GRAFANA_DOMAIN}
-    headers:
-      Authorization: Bearer ${GRAFANA_TOKEN}
+  endpoints:
+    "/grafana/api":
+      # May be a public or an internal DNS
+      target: ${GRAFANA_DOMAIN}
+      headers:
+        Authorization: Bearer ${GRAFANA_TOKEN}
 
-  "/argocd/api":
-    target: ${ARGOCD_DOMAIN}
-    changeOrigin: true
-    # only if your argocd api has self-signed cert
-    secure: true
-    headers:
-      Cookie:
-        $env: ARGOCD_AUTH_TOKEN
+    "/argocd/api":
+      target: ${ARGOCD_DOMAIN}
+      changeOrigin: true
+      # only if your argocd api has self-signed cert
+      secure: true
+      headers:
+        Cookie:
+          $env: ARGOCD_AUTH_TOKEN
 
 organization:
   name: Devportal
