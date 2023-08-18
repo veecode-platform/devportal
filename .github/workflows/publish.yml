@@ -87,6 +87,7 @@ jobs:
         with:
             inputs: veecode/devportal-bundle:latest
             images: veecode/devportal-bundle-amd64:latest,veecode/devportal-bundle-x64:latest
+            provenance: false
             push: true
 
   # publishing:
