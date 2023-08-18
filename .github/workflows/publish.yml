@@ -78,12 +78,14 @@ jobs:
       - name: Create/Publish version ${{ needs.requirements.outputs.app_version }} manifest
         run: |
           docker manifest create veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }} \
-            veecode/devportal-bundle-amd64:latest veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+            veecode/devportal-bundle-amd64:${{ needs.requirements.outputs.app_version }} \
+            veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
           docker manifest push docker.io/veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
 
       - name: Create/Publish latest manifest
         run: |
-          docker manifest create veecode/devportal-bundle:latest veecode/devportal-bundle-amd64:latest \
+          docker manifest create veecode/devportal-bundle:latest \
+            veecode/devportal-bundle-amd64:latest \
             veecode/devportal-bundle-x64:latest
           docker manifest push docker.io/veecode/devportal-bundle:latest
 
