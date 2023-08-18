@@ -74,23 +74,20 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
+      
       - name: Create/Publish version ${{ needs.requirements.outputs.app_version }} manifest
-        run: |
-          docker pull veecode/devportal-bundle-amd64:${{ needs.requirements.outputs.app_version }}
-          docker pull veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-          docker manifest create veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }} \
-            veecode/devportal-bundle-amd64:${{ needs.requirements.outputs.app_version }} \
-            veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-          docker manifest push docker.io/veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
+        uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
+        with:
+            inputs: veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
+            images: veecode/devportal-bundle-amd64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+            push: true
 
-      - name: Create/Publish latest manifest
-        run: |
-          docker manifest create veecode/devportal-bundle:latest \
-            veecode/devportal-bundle-amd64:latest \
-            veecode/devportal-bundle-x64:latest
-          docker manifest push docker.io/veecode/devportal-bundle:latest
-
+      - name: Create/Publish version latest manifest
+        uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
+        with:
+            inputs: veecode/devportal-bundle:latest
+            images: veecode/devportal-bundle-amd64:latest,veecode/devportal-bundle-x64:latest
+            push: true
 
   # publishing:
   #   needs: [requirements, buildDevportal]
