@@ -1,7 +1,7 @@
 .docker-data/
 .yarn/cache/
 .yarn/install-state.gz
-# app-config.local.yaml
+app-config.local.yaml
 dist-types/
 keycloak/
 node_modules/
