@@ -90,62 +90,62 @@ jobs:
             amend: true
             push: true
 
-  # publishing:
-  #   needs: [requirements, buildDevportal]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
+  publishing:
+    needs: [requirements, buildDevportal]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
       
-  #     - name: Installing frigate
-  #       run:  pip install frigate
+      - name: Installing frigate
+        run:  pip install frigate
       
-  #     - name: Generating Helm Documentation
-  #       run: bash chart/generate-docs.sh
+      - name: Generating Helm Documentation
+        run: bash chart/generate-docs.sh
       
-  #     - name: Check if chart docs have been generated as expected.
-  #       run: |
-  #         bash chart/generate-docs.sh
-  #         if [ ! -f "./chart/README.md" ]; then
-  #           echo "Error: chart/README.md does not exist."
-  #           exit 1
-  #         fi
-  #         echo "chart/README.md created."
+      - name: Check if chart docs have been generated as expected.
+        run: |
+          bash chart/generate-docs.sh
+          if [ ! -f "./chart/README.md" ]; then
+            echo "Error: chart/README.md does not exist."
+            exit 1
+          fi
+          echo "chart/README.md created."
 
-  #     - name: Build Helm Package
-  #       run: |
-  #         yq e '.image.repository = "veecode/devportal-bundle" ' -i chart/values.yaml
-  #         yq e '.image.tag = "${{ needs.requirements.outputs.app_version }}" ' -i chart/values.yaml
-  #         yq e '.appVersion= "${{ needs.requirements.outputs.app_version }}" ' -i chart/Chart.yaml
-  #         mkdir -p charts
-  #         helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
+      - name: Build Helm Package
+        run: |
+          yq e '.image.repository = "veecode/devportal-bundle" ' -i chart/values.yaml
+          yq e '.image.tag = "${{ needs.requirements.outputs.app_version }}" ' -i chart/values.yaml
+          yq e '.appVersion= "${{ needs.requirements.outputs.app_version }}" ' -i chart/Chart.yaml
+          mkdir -p charts
+          helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
 
-  #     - name: Publish Helm Charts
-  #       uses: dmnemec/copy_file_to_another_repo_action@main
-  #       env:
-  #         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-  #       with:
-  #         source_file: "charts/"
-  #         destination_repo: "veecode-platform/public-charts"
-  #         destination_branch: "main"
-  #         user_email: 'veecode-bot@vee.codes'
-  #         user_name: 'veecode-bot'
-  #         commit_message: "Publish new version devportal-${{ needs.requirements.outputs.chart_version }}"
+      - name: Publish Helm Charts
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: "charts/"
+          destination_repo: "veecode-platform/public-charts"
+          destination_branch: "main"
+          user_email: 'veecode-bot@vee.codes'
+          user_name: 'veecode-bot'
+          commit_message: "Publish new version devportal-${{ needs.requirements.outputs.chart_version }}"
       
-  #     - name: Prepare doc references
-  #       run: |
-  #         mkdir -p tmpDocs/devportal
-  #         cp packages/app/public/theme.json tmpDocs/devportal/
-  #         cp keycloak/realm-platform-devportal.json tmpDocs/devportal/
+      - name: Prepare doc references
+        run: |
+          mkdir -p tmpDocs/devportal
+          cp packages/app/public/theme.json tmpDocs/devportal/
+          cp keycloak/realm-platform-devportal.json tmpDocs/devportal/
         
-  #     - name: Publishing doc references
-  #       uses: dmnemec/copy_file_to_another_repo_action@main
-  #       env:
-  #         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-  #       with:
-  #         source_file: "tmpDocs/devportal/"
-  #         destination_repo: "${{ github.repository_owner }}/support"
-  #         destination_branch: "gh-pages"
-  #         destination_folder: "references"
-  #         user_email: 'veecode-bot@vee.codes'
-  #         user_name: 'veecode-bot'
-  #         commit_message: "Update devportal docs reference"
+      - name: Publishing doc references
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: "tmpDocs/devportal/"
+          destination_repo: "${{ github.repository_owner }}/support"
+          destination_branch: "gh-pages"
+          destination_folder: "references"
+          user_email: 'veecode-bot@vee.codes'
+          user_name: 'veecode-bot'
+          commit_message: "Update devportal docs reference"
