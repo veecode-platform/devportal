@@ -60,8 +60,8 @@ jobs:
           docker push veecode/devportal-bundle-${{env.ARCH}}:latest
           docker manifest create --amend veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }} veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
           docker manifest create --amend veecode/devportal-bundle:latest veecode/devportal-bundle-${{env.ARCH}}:latest
-          docker manifest veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
-          docker manifest veecode/devportal-bundle:latest
+          docker manifest publish veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
+          docker manifest publish veecode/devportal-bundle:latest
  
   # publishManifestDocker:
   #   needs: [requirements, buildDevportal]
