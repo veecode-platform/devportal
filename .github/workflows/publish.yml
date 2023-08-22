@@ -61,8 +61,16 @@ jobs:
         with:
           file: packages/backend/Dockerfile
           context: .
-          tags: veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}, veecode/devportal-bundle-${{env.ARCH}}:latest
+          tags: veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
           push: true
+      
+      - name: Create/Publish latest manifest ${{env.ARCH}}
+        uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
+        with:
+            inputs: veecode/devportal-bundle-${{env.ARCH}}:latest
+            images: veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
+            amend: true
+            push: true
   
   publishManifestDocker:
     needs: [requirements, buildDevportal]
