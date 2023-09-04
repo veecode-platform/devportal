@@ -25,6 +25,11 @@ import {
   EntityRecentGithubActionsRunsCard,
   EntityGithubActionsContent,
 } from '@veecode-platform/plugin-github-actions';
+import { 
+  GithubWorkflowsList,
+  isGithubWorkflowsAvailable,
+  GithubWorkflowsCard
+} from '@veecode-platform/backstage-plugin-github-workflows'
 import {
   EntityUserProfileCard,
   EntityGroupProfileCard,
@@ -253,6 +258,15 @@ const overviewContent = (
     <Grid item lg={4} md={12} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
+        <Grid item lg={8} xs={12}>
+            <GithubWorkflowsCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+
     {cicdCard}
     <Grid item lg={4} md={12} xs={12}>
       <EntityLinksCard />
@@ -310,6 +324,31 @@ const serviceEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/workflows" title="Workflows">
+       <EntitySwitch>
+    	<EntitySwitch.Case if={isGithubActionsAvailable}>
+      		<GithubWorkflowsList/>
+    	</EntitySwitch.Case>
+    	<EntitySwitch.Case>
+      	<EmptyState
+        title="No CI/CD available for this entity"
+        missing="info"
+        description="You need to add an annotation to your component if you want to enable CI/CD for it. You can read more about 
+        annotations in Backstage by clicking the button below."
+        action={
+          <Button
+            variant="contained"
+            color="primary"
+            href="https://backstage.io/docs/features/software-catalog/well-known-annotations"
+          >
+            Read more
+          </Button>
+        }
+      />
+    		</EntitySwitch.Case>
+  		</EntitySwitch>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
