@@ -41,6 +41,7 @@ site
 
 # Local configuration files
 *.local.yaml
+app-config.local.yaml.okteto
 
 # Sensitive credentials
 *-credentials.yaml

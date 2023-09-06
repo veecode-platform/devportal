@@ -11825,6 +11825,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@veecode-platform/backstage-plugin-github-workflows@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:0.1.0"
+  dependencies:
+    "@backstage/catalog-model": ^1.4.0
+    "@backstage/core-components": ^0.13.2
+    "@backstage/core-plugin-api": ^1.5.2
+    "@backstage/theme": ^0.4.0
+    "@material-ui/core": ^4.12.2
+    "@material-ui/icons": ^4.9.1
+    "@material-ui/lab": 4.0.0-alpha.61
+    js-yaml: ^4.1.0
+    react-use: ^17.2.4
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0
+  checksum: 285f6b30b76137119558d7ee6d8c3a94244ef5a375536e3fcba35633ce6c33e787953286d8bb0b5bfdb99aa18a79a6eea92b12d1036e274676aa399859fee5a6
+  languageName: node
+  linkType: hard
+
 "@veecode-platform/core-components@npm:*":
   version: 0.13.10
   resolution: "@veecode-platform/core-components@npm:0.13.10"
@@ -12698,6 +12717,7 @@ __metadata:
     "@types/jest": ^26.0.7
     "@types/node": ^14.14.32
     "@types/react-dom": "*"
+    "@veecode-platform/backstage-plugin-github-workflows": ^0.1.0
     "@veecode-platform/core-components": "*"
     "@veecode-platform/plugin-api-docs": "*"
     "@veecode-platform/plugin-catalog": "*"

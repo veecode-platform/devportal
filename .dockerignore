@@ -1,4 +1,3 @@
-# .git
 .docker-data/
 .yarn/cache/
 .yarn/install-state.gz
