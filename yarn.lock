@@ -6210,9 +6210,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-keycloak-backend@npm:^1.3.9":
-  version: 1.5.0
-  resolution: "@janus-idp/backstage-plugin-keycloak-backend@npm:1.5.0"
+"@janus-idp/backstage-plugin-keycloak-backend@npm:^1.5.3":
+  version: 1.5.3
+  resolution: "@janus-idp/backstage-plugin-keycloak-backend@npm:1.5.3"
   dependencies:
     "@backstage/backend-common": ^0.19.1
     "@backstage/backend-tasks": ^0.5.4
@@ -6223,7 +6223,7 @@ __metadata:
     lodash: ^4.14.189
     uuid: ^9.0.0
     winston: ^3.2.1
-  checksum: f4cd98d32a102d4f7ee8385196a7044e53994088c64593a7637d9993262a3e648a2789830443018f87300d75f7f125f55a1e011854fbc9c55d6b6fb6d8d20239
+  checksum: d92a82c4fe1c2a4e3b868081985eb85adf05747be214eec56cc4c1ca7b48c940deee5c6e04252bee292b5d790798235900ab49e1c9b16f64e76b953aa0d5bedc
   languageName: node
   linkType: hard
 
@@ -13477,7 +13477,7 @@ __metadata:
     "@immobiliarelabs/backstage-plugin-gitlab-backend": ^5.0.2
     "@internal/plugin-application-backend": 0.1.0
     "@internal/plugin-application-common": ^0.1.0
-    "@janus-idp/backstage-plugin-keycloak-backend": ^1.3.9
+    "@janus-idp/backstage-plugin-keycloak-backend": ^1.5.3
     "@keycloak/keycloak-admin-client": 18.0.2
     "@roadiehq/backstage-plugin-argo-cd-backend": ^2.6.4
     "@roadiehq/backstage-plugin-aws-auth": ^0.4.8
