@@ -36,7 +36,7 @@ data:
               - url: https://github.com/veecode-platform/support/discussions
                 title: GitHub Issues
       {{- if or ($is_okteto_deploy) (and .Values.appConfig.analytics .Values.appConfig.analytics.ga .Values.appConfig.analytics.ga.measurementId) }}          
-      analytics: 
+      analytics:
         ga4:
           {{- if ($is_okteto_deploy) }}
           measurementId: "G-8G2RQS1GFH"
@@ -94,30 +94,31 @@ data:
 
     {{- if or .Values.grafana.enabled .Values.argocd.enabled $is_github_provider }}
     proxy:
-      {{- if .Values.grafana.enabled | default false }}
-      "/grafana/api":
-        target: ${GRAFANA_DOMAIN}
-        headers:
-          Authorization: Bearer ${GRAFANA_TOKEN}
-      {{- end }}
-      {{- if .Values.argocd.enabled | default false }}
-      "/argocd/api":
-        target: ${ARGOCD_URL_API}
-        changeOrigin: true
-        secure: true
-        headers:
-          Cookie:
-            $env: ARGOCD_AUTH_TOKEN
-      {{- end }}
-      {{- if $is_github_provider }}
-      "/github-workflows":
-        target: https://api.github.com/repos
-        allowedHeaders: ['Authorization', 'X-GitHub-Api-Version']
-        headers: 
-          Authorization: Bearer ${GITHUB_TOKEN_SECRET}
-          Accept: application/vnd.github+json
-          X-GitHub-Api-Version: "2022-11-28"
-      {{- end }}
+      endpoints:
+        {{- if .Values.grafana.enabled | default false }}
+        "/grafana/api":
+          target: ${GRAFANA_DOMAIN}
+          headers:
+            Authorization: Bearer ${GRAFANA_TOKEN}
+        {{- end }}
+        {{- if .Values.argocd.enabled | default false }}
+        "/argocd/api":
+          target: ${ARGOCD_URL_API}
+          changeOrigin: true
+          secure: true
+          headers:
+            Cookie:
+              $env: ARGOCD_AUTH_TOKEN
+        {{- end }}
+        {{- if $is_github_provider }}
+        "/github-workflows":
+          target: https://api.github.com/repos
+          allowedHeaders: ['Authorization', 'X-GitHub-Api-Version']
+          headers: 
+            Authorization: Bearer ${GITHUB_TOKEN_SECRET}
+            Accept: application/vnd.github+json
+            X-GitHub-Api-Version: "2022-11-28"
+        {{- end }}
     {{- end }}
     organization:
       name: Devportal
