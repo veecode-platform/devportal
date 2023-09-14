@@ -7,7 +7,8 @@ export type sidebarDefaultType = {
     create: boolean, 
     docs: boolean, 
     groups: boolean,
-    apiManagement: boolean
+    apiManagement: boolean,
+    signOut: boolean
 }
 
 const sideBarDefaultValues: sidebarDefaultType = {  
@@ -17,7 +18,8 @@ const sideBarDefaultValues: sidebarDefaultType = {
     create: true, 
     docs: true, 
     groups: false,
-    apiManagement: false
+    apiManagement: false,
+    signOut: true
 }
 
 const sideBarProduct: sidebarDefaultType = {
@@ -27,7 +29,9 @@ const sideBarProduct: sidebarDefaultType = {
 }
 
 const sideBarDemo: sidebarDefaultType = {
-    ...sideBarDefaultValues
+    ...sideBarDefaultValues,
+    groups: false,
+    signOut: false
 }
 
 const sideBarWorkshop: sidebarDefaultType = {
@@ -56,7 +60,8 @@ export function sideBarBehaviour(config: ConfigApi): sidebarDefaultType{
                 create: config.getOptionalBoolean("create") ?? false, 
                 docs: config.getOptionalBoolean("docs") ?? false, 
                 groups: config.getOptionalBoolean("groups") ?? false,
-                apiManagement: config.getOptionalBoolean("apiManagement") ?? false
+                apiManagement: config.getOptionalBoolean("apiManagement") ?? false,
+                signOut: true
             }
     }
 }
