@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Devportal Demo</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #fullscreen-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="fullscreen-iframe" src="http://devportal.demo.vee.codes" frameborder="0"></iframe>
+    <script>
+        // Function to resize the iframe to fit the screen
+        function resizeIframe() {
+            const iframe = document.getElementById('fullscreen-iframe');
+            iframe.style.height = window.innerHeight + 'px';
+        }
+        // Attach the resize function to the window's resize event
+        window.addEventListener('resize', resizeIframe);
+        // Initialize the iframe size
+        resizeIframe();
+    </script>
+    <script type="text/javascript">
+	(function(n,r,l,d){try{var h=r.head||r.getElementsByTagName("head")[0],s=r.createElement("script");s.defer=true;s.setAttribute("type","text/javascript");s.setAttribute("src",l);n.neuroleadId=d;h.appendChild(s);}catch(e){}})(window,document,"https://cdn.leadster.com.br/neurolead/neurolead.min.js", "0sZSqQ97JALqVniW4NtoeFhKu");
+    </script>
+</body>
+</html>
