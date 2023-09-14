@@ -86,7 +86,10 @@ data:
         {{- end }}
         connect-src: {{ index .Values.appConfig.backend.csp.connectSrc | toJson}}
         img-src: {{ $cspListValues | toJson }}
-        script-src: ["'self'", "'unsafe-eval'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com']
+        script-src: {{ index .Values.appConfig.backend.csp.scriptSrc | toJson}}
+        {{- if .Values.appConfig.backend.csp.frameAncestors }}
+        frame-ancestors: {{ index .Values.appConfig.backend.csp.frameAncestors | toJson}}
+        {{- end }}
       reading:
         allow:
           - host: example.com

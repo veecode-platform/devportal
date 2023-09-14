@@ -49,6 +49,9 @@ appConfig:
     csp:
       connectSrc: ["'self'", "http:", "https:"]
       imgSrc: ["'self'", 'data:']
+      frameSrc: ["'self'", '*.platform.vee.codes']
+      scriptSrc: ["'self'", "'unsafe-eval'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com']
+      frameAncestors: ["'self'"]
 #  analytics: 
 #    ga:
 #      measurementId: #Google analytics metrics ID
