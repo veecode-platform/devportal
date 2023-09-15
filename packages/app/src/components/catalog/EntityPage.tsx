@@ -364,7 +364,7 @@ const serviceEntityPage = (
               if(show !== undefined) return show
               return false
             }} 
-            path={item.path} title={item.title}>
+            path={item.path} title={item.title} key={item.title}>
             {item.content}
         </EntityLayout.Route>
         )
@@ -397,7 +397,7 @@ const websiteEntityPage = (
               if(show !== undefined) return show
               return false
             }} 
-            path={item.path} title={item.title}>
+            path={item.path} title={item.title} key={item.title} >
             {item.content}
         </EntityLayout.Route>
         )
