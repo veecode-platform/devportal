@@ -124,9 +124,9 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         </SidebarGroup>
         <SidebarSpace />
         <SidebarDivider />
-        <SidebarGroup label="Sign Out" icon={<ExitToAppIcon />}>
+        {devportalBehaviour.signOut ? <SidebarGroup label="Sign Out" icon={<ExitToAppIcon />}>
           <SignUpElement />
-        </SidebarGroup>
+        </SidebarGroup> : null}
       </Sidebar>
       {children}
     </SidebarPage>

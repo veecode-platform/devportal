@@ -16,7 +16,7 @@ import {
   SearchContextProvider,
 } from '@backstage/plugin-search-react';
 import { Grid, makeStyles } from '@material-ui/core';
-import React, { /*ComponentType,*/ useEffect } from 'react';
+import React, { /*ComponentType,*/ } from 'react';
 // custom
 import { Logo } from '../plataformLogo/plataformLogo';
 import BackstageLogo from "../../assets/backstage.png";
@@ -130,10 +130,10 @@ const useStyles = makeStyles(theme => ({
 export const HomePage = () => {
   const classes = useStyles();
 
-  useEffect(()=>{
-    const annotations = localStorage.getItem("annotations");
-    if (annotations) localStorage.removeItem("annotations");
-  },[])
+  // useEffect(()=>{
+  //   const annotations = localStorage.getItem("annotations");
+  //   if (annotations) localStorage.removeItem("annotations");
+  // },[]);
 
   return (
     <SearchContextProvider>
