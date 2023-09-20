@@ -55,6 +55,7 @@
     "express": "^4.17.1",
     "express-prom-bundle": "^6.6.0",
     "express-promise-router": "^4.1.0",
+    "knex-paginate": "^3.0.2",
     "luxon": "^2.0.2",
     "pg": "^8.7.3",
     "prom-client": "^14.2.0",
