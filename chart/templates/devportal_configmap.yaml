@@ -118,7 +118,7 @@ data:
               $env: ARGOCD_AUTH_TOKEN
         {{- end }}
         {{- if $is_github_provider }}
-        "/github-workflows":
+        "/github/api":
           target: https://api.github.com/repos
           allowedHeaders: ['Authorization', 'X-GitHub-Api-Version']
           headers: 
