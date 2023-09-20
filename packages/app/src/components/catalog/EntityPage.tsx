@@ -30,6 +30,11 @@ import {
   isGithubWorkflowsAvailable,
   GithubWorkflowsCard
 } from '@veecode-platform/backstage-plugin-github-workflows'
+import { 
+  GitlabPipelineList,
+  isGitlabJobsAvailable,
+  GitlabJobs
+ } from '@veecode-platform/backstage-plugin-gitlab-pipelines';
 import {
   EntityUserProfileCard,
   EntityGroupProfileCard,
@@ -99,6 +104,10 @@ const cicdContent = (
     {/* Gitlab */}
     <EntitySwitch.Case if={isGitlabAvailable}>
       <EntityGitlabPipelinesTable />
+    </EntitySwitch.Case>
+
+    <EntitySwitch.Case if={isGitlabAvailable}>
+      <GitlabPipelineList/>
     </EntitySwitch.Case>
 
     <EntitySwitch.Case>
@@ -296,6 +305,11 @@ const overviewContent = (
         <Grid item lg={6} md={12} xs={12}>
           <EntityGitlabReleasesCard />
         </Grid>
+      </EntitySwitch.Case>
+      <EntitySwitch.Case if={isGitlabJobsAvailable}>
+        <Grid item lg={8} xs={12}>
+           <GitlabJobs />
+       </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
     {validateAnnotation('aws.com/lambda-function-name') && (
