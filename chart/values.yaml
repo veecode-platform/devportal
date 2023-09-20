@@ -47,11 +47,11 @@ appConfig:
     baseUrl: http://localhost:7007 #devportal backend base URL
 #    secret: #devportal backend secret. Random value.
     csp:
-      connectSrc: ["'self'", "http:", "https:"]
-      imgSrc: ["'self'", 'data:']
-      frameSrc: ["'self'", '*.platform.vee.codes']
-      scriptSrc: ["'self'", "'unsafe-eval'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com']
-      frameAncestors: ["'self'"]
+      connectSrc: ["'self'", "http:", "https:"] #CSP connect-src
+      imgSrc: ["'self'", 'data:'] #CSP img-src
+      scriptSrc: ["'self'", "'unsafe-eval'", 'htts://www.google-analytics.com', 'https://www.googletagmanager.com'] #CSP script-src
+#     frameAncestors: ["'self'", '*'] #CSP frame-ancestors
+#     frameSrc: ["'self'"] #CSP frame-src
 #  analytics: 
 #    ga:
 #      measurementId: #Google analytics metrics ID
