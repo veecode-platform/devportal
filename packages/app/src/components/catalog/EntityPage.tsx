@@ -25,11 +25,14 @@ import {
   EntityRecentGithubActionsRunsCard,
   EntityGithubActionsContent,
 } from '@veecode-platform/plugin-github-actions';
+// github-workflows
 import { 
   GithubWorkflowsList,
   isGithubWorkflowsAvailable,
-  GithubWorkflowsCard
-} from '@veecode-platform/backstage-plugin-github-workflows'
+  GithubWorkflowsCard,
+  isGithubAvailable
+} from '@veecode-platform/backstage-plugin-github-workflows';
+// gitlab-pipelines
 import { 
   GitlabPipelineList,
   isGitlabJobsAvailable,
@@ -48,6 +51,7 @@ import {
   EntityCatalogGraphCard,
 } from '@backstage/plugin-catalog-graph';
 import {
+  Entity,
   RELATION_API_CONSUMED_BY,
   RELATION_API_PROVIDED_BY,
   RELATION_CONSUMES_API,
@@ -77,7 +81,6 @@ import {
 import { EntityVaultCard } from '@backstage/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
-import { validateAnnotation } from './utils/validateAnnotation';
 import { PluginItem } from './utils/types';
 // gitlab
 import {
@@ -86,7 +89,6 @@ import {
   EntityGitlabPeopleCard,
   EntityGitlabMergeRequestsTable,
   EntityGitlabMergeRequestStatsCard,
-  EntityGitlabPipelinesTable,
   EntityGitlabReleasesCard,
 } from '@immobiliarelabs/backstage-plugin-gitlab';
 // roadie-lambda
@@ -95,6 +97,11 @@ import {
   // isAWSLambdaAvailable
 } from '@roadiehq/backstage-plugin-aws-lambda';
 
+
+// Entity validate
+ const isAnnotationAvailable = (entity: Entity, annotation: string) =>
+!!entity?.metadata.annotations?.[annotation];
+
 const cicdContent = (
   <EntitySwitch>
     {/* Github */}
@@ -102,10 +109,6 @@ const cicdContent = (
       <EntityGithubActionsContent />
     </EntitySwitch.Case>
     {/* Gitlab */}
-    <EntitySwitch.Case if={isGitlabAvailable}>
-      <EntityGitlabPipelinesTable />
-    </EntitySwitch.Case>
-
     <EntitySwitch.Case if={isGitlabAvailable}>
       <GitlabPipelineList/>
     </EntitySwitch.Case>
@@ -159,6 +162,31 @@ const entityWarningContent = (
 
   </>
 );
+
+const WorkflowsContent = (
+  <EntitySwitch>
+    <EntitySwitch.Case if={isGithubActionsAvailable}>
+      <GithubWorkflowsList/>
+    </EntitySwitch.Case>
+
+    <EntitySwitch.Case>
+      <EmptyState
+        title="No CI/CD available for this entity"
+        missing="info"
+        description="You need to add an annotation to your component if you want to enable CI/CD for it. You can read mor        about annotations in Backstage by clicking the button below."
+        action={
+          <Button
+            variant="contained"
+            color="primary"
+            href="https://backstage.io/docs/features/software-catalog/well-known-annotations"
+          >
+            Read more
+          </Button>
+        }
+      />
+    </EntitySwitch.Case>
+  </EntitySwitch>
+ );
 
 const argoCdContent = (
   <>
@@ -271,7 +299,15 @@ const overviewContent = (
     <EntitySwitch>
       <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
         <Grid item lg={8} xs={12}>
-            <GithubWorkflowsCard />
+          <GithubWorkflowsCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={isGitlabJobsAvailable}>
+        <Grid item lg={8} xs={12}>
+          <GitlabJobs />
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
@@ -293,40 +329,35 @@ const overviewContent = (
       </EntitySwitch.Case>
       {/* gitlab */}
       <EntitySwitch.Case if={isGitlabAvailable}>
-        <Grid item lg={8} md={12} xs={12}>
-          <EntityGitlabMergeRequestStatsCard />
-        </Grid>
         <Grid item lg={6} md={12} xs={12}>
-          <EntityGitlabPeopleCard />
+          <EntityGitlabMergeRequestStatsCard />
         </Grid>
         <Grid item lg={6} md={12} xs={12}>
           <EntityGitlabLanguageCard />
         </Grid>
         <Grid item lg={6} md={12} xs={12}>
+          <EntityGitlabPeopleCard />
+        </Grid>
+        <Grid item lg={6} md={12} xs={12}>
           <EntityGitlabReleasesCard />
         </Grid>
       </EntitySwitch.Case>
-      <EntitySwitch.Case if={isGitlabJobsAvailable}>
-        <Grid item lg={8} xs={12}>
-           <GitlabJobs />
-       </Grid>
-      </EntitySwitch.Case>
     </EntitySwitch>
-    {validateAnnotation('aws.com/lambda-function-name') && (
+    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'aws.com/lambda-function-name')}>
       <Grid item lg={12}>
         <EntityAWSLambdaOverviewCard />
-      </Grid>)
-    }
-    {validateAnnotation('vault.io/secrets-path') && (
+      </Grid>
+    </EntitySwitch.Case>
+    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'vault.io/secrets-path')}>
       <Grid item lg={6} md={12} xs={12}>
         <EntityVaultCard />
       </Grid>
-    )}
-    {validateAnnotation('grafana/alert-label-selector') && (
+    </EntitySwitch.Case>
+    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'grafana/alert-label-selector')}>
       <Grid item lg={6} md={12} xs={12}>
         <EntityGrafanaAlertsCard />
       </Grid>
-    )}
+    </EntitySwitch.Case>
   </Grid>
 );
 
@@ -340,29 +371,49 @@ const serviceEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/workflows" title="Workflows">
-       <EntitySwitch>
-    	<EntitySwitch.Case if={isGithubActionsAvailable}>
-      		<GithubWorkflowsList/>
-    	</EntitySwitch.Case>
-    	<EntitySwitch.Case>
-      	<EmptyState
-        title="No CI/CD available for this entity"
-        missing="info"
-        description="You need to add an annotation to your component if you want to enable CI/CD for it. You can read more about 
-        annotations in Backstage by clicking the button below."
-        action={
-          <Button
-            variant="contained"
-            color="primary"
-            href="https://backstage.io/docs/features/software-catalog/well-known-annotations"
-          >
-            Read more
-          </Button>
-        }
-      />
-    		</EntitySwitch.Case>
-  		</EntitySwitch>
+    <EntityLayout.Route
+      if={isGithubAvailable}
+      path="/workflows" title="Workflows">
+      {WorkflowsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+      {pullRequestsContent}
+    </EntityLayout.Route>
+
+    {
+      plugins.map((item: PluginItem) =>{
+        return(
+          <EntityLayout.Route 
+            if={(entity)=>{ 
+              const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
+              if(show !== undefined) return show
+              return false
+            }} 
+            path={item.path} title={item.title} key={item.title}>
+            {item.content}
+        </EntityLayout.Route>
+        )
+      }) 
+    }
+
+  </EntityLayout>
+);
+
+const devopsEntityPage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      {overviewContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/ci-cd" title="CI/CD">
+      {cicdContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route
+      if={isGithubAvailable}
+      path="/workflows" title="Workflows">
+      {WorkflowsContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
@@ -398,6 +449,12 @@ const websiteEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
+    <EntityLayout.Route
+      if={isGithubAvailable}
+      path="/workflows" title="Workflows">
+      {WorkflowsContent}
+    </EntityLayout.Route>
+
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
     </EntityLayout.Route>
@@ -427,11 +484,17 @@ const defaultEntityPage = (
       {overviewContent}
     </EntityLayout.Route>
     
-    {validateAnnotation('backstage.io/techdocs-ref') &&
-      <EntityLayout.Route path="/docs" title="Docs">
-        {techdocsContent}
-      </EntityLayout.Route>
-    }
+
+    <EntityLayout.Route
+      if={(entity) => {
+        const show = entity.metadata.annotations?.hasOwnProperty('backstage.io/techdocs-ref')
+        if (show !== undefined) return show
+        return false
+      }}
+      path="/docs" title="Docs" >
+      {techdocsContent}
+    </EntityLayout.Route>
+
   </EntityLayout>
 );
 
@@ -439,6 +502,10 @@ const componentPage = (
   <EntitySwitch>
     <EntitySwitch.Case if={isComponentType('service')}>
       {serviceEntityPage}
+    </EntitySwitch.Case>
+
+    <EntitySwitch.Case if={isComponentType('devops')}>
+      {devopsEntityPage}
     </EntitySwitch.Case>
 
     <EntitySwitch.Case if={isComponentType('website')}>
@@ -567,7 +634,6 @@ export const entityPage = (
     <EntitySwitch.Case if={isKind('user')} children={userPage} />
     <EntitySwitch.Case if={isKind('system')} children={systemPage} />
     <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
-
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
 );
