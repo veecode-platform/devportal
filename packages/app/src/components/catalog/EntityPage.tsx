@@ -22,7 +22,7 @@ import {
 } from '@veecode-platform/plugin-catalog';
 import {
   isGithubActionsAvailable,
-  EntityRecentGithubActionsRunsCard,
+  // EntityRecentGithubActionsRunsCard,
   EntityGithubActionsContent,
 } from '@veecode-platform/plugin-github-actions';
 // github-workflows
@@ -132,15 +132,15 @@ const cicdContent = (
   </EntitySwitch>
 );
 
-const cicdCard = (
-  <EntitySwitch>
-    <EntitySwitch.Case if={isGithubActionsAvailable}>
-      <Grid item lg={8} md={12} xs={12}>
-        <EntityRecentGithubActionsRunsCard limit={4} variant="gridItem" />
-      </Grid>
-    </EntitySwitch.Case>
-  </EntitySwitch>
-)
+// const cicdCard = (
+//   <EntitySwitch>
+//     <EntitySwitch.Case if={isGithubActionsAvailable}>
+//       <Grid item lg={8} md={12} xs={12}>
+//         <EntityRecentGithubActionsRunsCard limit={4} variant="gridItem" />
+//       </Grid>
+//     </EntitySwitch.Case>
+//   </EntitySwitch>
+// )
 
 const entityWarningContent = (
   <>
@@ -311,8 +311,7 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-
-    {cicdCard}
+    {/* {cicdCard} */}
     <Grid item lg={4} md={12} xs={12}>
       <EntityLinksCard />
     </Grid>
