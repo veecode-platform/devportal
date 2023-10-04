@@ -6,7 +6,7 @@ import { Oauth2Plugin } from '../../kong/plugins/Oauth2Plugin';
 import { RateLimitingPlugin } from '../../kong/plugins/RateLimitingPlugin';
 import { ConsumerGroupService } from '../../kong/services/ConsumerGroupService';
 import { SECURITY } from '../domain/Service';
-import { ServiceDto} from '../dtos/ServiceDto';
+import { ServiceDto } from '../dtos/ServiceDto';
 import { PostgresServiceRepository } from '../repositories/Knex/KnexServiceReppository';
 import { PostgresPluginRepository } from '../../plugins/repositories/Knex/KnexPluginRepository';
 import { ApiManagmentError } from '../../utils/ApiManagmentError';
@@ -18,14 +18,14 @@ export interface RouterOptions {
 export class ControllPlugin {
   private static _instance: ControllPlugin;
 
-  public constructor() {}
+  public constructor() { }
 
   public static get Instance() {
     return this._instance || (this._instance = new this());
   }
 
-  public async applySecurityType(service: ServiceDto) {  
-    try {      
+  public async applySecurityType(service: ServiceDto) {
+    try {
       const consumerGroupService = new ConsumerGroupService();
       const plugins = []
 
@@ -34,72 +34,72 @@ export class ControllPlugin {
 
       if (service.securityType?.toString() === SECURITY.OAUTH2.toString()) {
         const oauth2 = await Oauth2Plugin.Instance.configureOauth(service.kongServiceName);
-        plugins.push({name: "oauth2", id: oauth2.id})
-      } 
-      if (service.securityType?.toString() === SECURITY.KEY_AUTH.toString()) {   
-        const keyauth = await KeyAuthPlugin.Instance.configKeyAuthKongService(service.kongServiceName);
-        plugins.push({name: "key-auth", id: keyauth.id})
+        plugins.push({ name: "oauth2", id: oauth2.id })
       }
-      if(plugins.length > 0){ 
+      if (service.securityType?.toString() === SECURITY.KEY_AUTH.toString()) {
+        const keyauth = await KeyAuthPlugin.Instance.configKeyAuthKongService(service.kongServiceName);
+        plugins.push({ name: "key-auth", id: keyauth.id })
+      }
+      if (plugins.length > 0) {
         const acl = await AclPlugin.Instance.configAclKongService(service.kongServiceName, [`${service.kongServiceName}-group`]);
-        plugins.push({name: "acl", id: acl.id})
+        plugins.push({ name: "acl", id: acl.id })
       }
 
-      if(service.rateLimiting.value !== "0"){
-        const rateLimiting = await RateLimitingPlugin.Instance.configRateLimitingKongService(service.kongServiceName, service.rateLimiting.type , service.rateLimiting.value, service.rateLimiting.limitBy)
-        plugins.push({name: "rateLimiting", id: rateLimiting.id})
+      if (service.rateLimiting.value !== "0") {
+        const rateLimiting = await RateLimitingPlugin.Instance.configRateLimitingKongService(service.kongServiceName, service.rateLimiting.type, service.rateLimiting.value, service.rateLimiting.limitBy)
+        plugins.push({ name: "rateLimiting", id: rateLimiting.id })
       }
-  
+
       return plugins
 
-    } catch (error:any) {
+    } catch (error: any) {
       throw new ApiManagmentError(error.message, "Cannot create kong service", 1)
     }
   }
 
-   public async updateServicePlugins(serviceId: string, serviceDto: any, routerOptions: RouterOptions){
-    try{
+  public async updateServicePlugins(serviceId: string, serviceDto: any, routerOptions: RouterOptions) {
+    try {
       const pluginRepository = await PostgresPluginRepository.create(await routerOptions.database.getClient());
       const serviceRepository = await PostgresServiceRepository.create(await routerOptions.database.getClient());
       const service = await serviceRepository.getServiceById(serviceId)
 
       const plugins = await pluginRepository.getPluginByServiceId(serviceId)
 
-      if(plugins.length > 0){
-        plugins.forEach(async p => {
-          await AclPlugin.Instance.removePluginKongService(service.kongServiceName as string, p.kongPluginId);
-          await pluginRepository.deletePlugin(p.id)
-        });
+      if (plugins.length > 0) {
+            await Promise.all(plugins.map(async p => {
+            await AclPlugin.Instance.removePluginKongService(service.kongServiceName as string, p.kongPluginId);
+            await pluginRepository.deletePlugin(p.id)
+          }))
       }
 
-      if(serviceDto.rateLimiting.value !== '0'){
+      if (serviceDto.rateLimiting.value !== '0') {
         const rateLimiting = await RateLimitingPlugin.Instance.configRateLimitingKongService(service.kongServiceName as string, serviceDto.rateLimiting.type, serviceDto.rateLimiting.value, serviceDto.rateLimiting.limitBy)
-        pluginRepository.createPlugin({
+        await pluginRepository.createPlugin({
           name: "rateLimiting",
           kongPluginId: rateLimiting.id,
           service: serviceId
         })
       }
 
-      if(serviceDto.securityType !== "none"){
+      if (serviceDto.securityType !== "none") {
         const aclId = await AclPlugin.Instance.configAclKongService(service.kongServiceName as string, [`${service.kongServiceName}-group`]);
-        pluginRepository.createPlugin({
+        await pluginRepository.createPlugin({
           name: "acl",
           kongPluginId: aclId.id,
           service: serviceId
         })
 
-        if(serviceDto.securityType === SECURITY.OAUTH2.toString()){
+        if (serviceDto.securityType === SECURITY.OAUTH2.toString()) {
           const oauth2 = await Oauth2Plugin.Instance.configureOauth(service.kongServiceName as string);
-          pluginRepository.createPlugin({
+          await pluginRepository.createPlugin({
             name: "oauth2",
             kongPluginId: oauth2.id,
             service: serviceId
           })
         }
-        else{
+        else {
           const keyauth = await KeyAuthPlugin.Instance.configKeyAuthKongService(service.kongServiceName as string);
-          pluginRepository.createPlugin({
+          await pluginRepository.createPlugin({
             name: "key-auth",
             kongPluginId: keyauth.id,
             service: serviceId
@@ -116,16 +116,16 @@ export class ControllPlugin {
         active: serviceDto.active,
         description: serviceDto.description
       })
-  
+
     }
-    catch(error:any){
+    catch (error: any) {
       throw new ApiManagmentError(error.message, `Impossible to update plugin from service ${serviceId}`, 3)
     }
 
   }
 
-   public async deleteService(serviceId: string, routerOptions: RouterOptions){
-    try{
+  public async deleteService(serviceId: string, routerOptions: RouterOptions) {
+    try {
       const pluginRepository = await PostgresPluginRepository.create(await routerOptions.database.getClient());
       const serviceRepository = await PostgresServiceRepository.create(await routerOptions.database.getClient());
 
@@ -135,7 +135,7 @@ export class ControllPlugin {
       const consumerGroupService = new ConsumerGroupService();
       await consumerGroupService.deleteConsumerGroup(`${service.kongServiceName}-group`)
 
-      if(plugins.length > 0){
+      if (plugins.length > 0) {
         plugins.forEach(async p => {
           await AclPlugin.Instance.removePluginKongService(service.kongServiceName as string, p.kongPluginId);
           await pluginRepository.deletePlugin(p.id)
@@ -144,7 +144,7 @@ export class ControllPlugin {
 
       return plugins
     }
-    catch(error:any){
+    catch (error: any) {
       throw new ApiManagmentError(error.message, `Impossible to delete plugins from service ${serviceId}`, 4)
 
     }

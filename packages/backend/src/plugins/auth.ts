@@ -43,6 +43,48 @@ export default async function createPlugin(
             const defaultGroup = env.config.getBoolean('platform.defaultGroup.enabled');
 
             const userName = result.userinfo.preferred_username || result.userinfo.sub;
+            const membershipGroups = result.userinfo.groups as Array<string>
+            const loginAsKnownUser = allowedGroups.some(groupValue => { return membershipGroups.includes(groupValue) })
+
+            const userEntityRef = stringifyEntityRef({
+              kind: "user",
+              name: userName,
+            });
+
+            if (loginAsKnownUser) {
+              env.logger.warn("logging with known user")
+              const mapedGroupsEntityRef = membershipGroups.map(group => `group:default/${group}`)
+              mapedGroupsEntityRef.push(userEntityRef)
+              return ctx.issueToken({
+                claims: {
+                  sub: userEntityRef, // The user's own identity
+                  ent: mapedGroupsEntityRef, // A list of identities that the user claims ownership through 
+                },
+              });
+            }
+
+            if (defaultGroup) {
+              env.logger.error('Your user belongs to a group that is not allowed in devportal');
+              throw new Error('Group not authorized');
+            }
+
+            env.logger.warn('Your user belongs to a group that is not allowed in devportal, so it will assume a default role...')
+
+            return ctx.issueToken({
+              claims: {
+                sub: userEntityRef, // The user's own identity
+                ent: [userEntityRef, `group:default/${env.config.getString("platform.group.user")}`], // A list of identities that the user claims ownership through 
+              },
+            });
+
+          },
+          /* old
+          resolver: async ({ result }, ctx) => {
+
+            const allowedGroups = [env.config.getString("platform.group.admin"), env.config.getString("platform.group.user")]
+            const defaultGroup = env.config.getBoolean('platform.defaultGroup.enabled');
+
+            const userName = result.userinfo.preferred_username || result.userinfo.sub;
 
             const { entity } = await ctx.findCatalogUser({
               entityRef: {
@@ -79,7 +121,7 @@ export default async function createPlugin(
               },
             });
 
-          },
+          },*/
         },
 
       }),
