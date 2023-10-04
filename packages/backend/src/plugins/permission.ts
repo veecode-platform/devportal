@@ -15,9 +15,17 @@ class DefaultPermissionPolicy implements PermissionPolicy {
     if (request.permission.name === 'catalog.entity.create' && this.config.getBoolean("platform.guest.enabled")) return { result: AuthorizeResult.DENY };
     if (request.permission.name === 'apiManagement.access.read' && !this.config.getBoolean("platform.apiManagement.enabled")) return { result: AuthorizeResult.DENY };
     if (request.permission.name === 'apiManagement.access.read' && this.config.getBoolean("platform.guest.enabled")) return { result: AuthorizeResult.DENY };
-    if (request.permission.name === 'admin.access.read' && user.identity.ownershipEntityRefs.includes(`group:default/${this.config.getString("platform.group.user")}`)) return { result: AuthorizeResult.DENY };
+    if (request.permission.name === 'admin.access.read'){
+      if(this.config.getBoolean("platform.guest.enabled")){
+        return { result: AuthorizeResult.DENY }
+      }
+      if(user){
+        if(user.identity.ownershipEntityRefs.includes(`group:default/${this.config.getString("platform.group.user")}`)) return { result: AuthorizeResult.DENY };
+      }   
+    }
+    // if (request.permission.name === 'admin.access.read' && user.identity.ownershipEntityRefs.includes(`group:default/${this.config.getString("platform.group.user")}`)) return { result: AuthorizeResult.DENY };
 
-    return { result: AuthorizeResult.ALLOW };
+    return { result: AuthorizeResult.ALLOW }; 
   }
 }
 

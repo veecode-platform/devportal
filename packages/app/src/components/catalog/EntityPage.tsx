@@ -188,7 +188,7 @@ const WorkflowsContent = (
   </EntitySwitch>
  );
 
-const argoCdContent = (
+/* const argoCdContent = (
   <>
     <EntitySwitch>
       <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
@@ -200,7 +200,7 @@ const argoCdContent = (
 
   </>
 
-);
+);*/
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -265,12 +265,12 @@ const plugins = [
     title: "Grafana Alerts",
     content: grafanaAlertsContent
   },
-  {
+  /* {
     path:"/argo-cd",
     annotation: "argocd/app-name",
     title: "ArgoCD",
     content: argoCdContent
-  },
+  },*/
   {
     path:"/kubernetes",
     annotation: "backstage.io/kubernetes-id",
@@ -357,6 +357,13 @@ const overviewContent = (
         <EntityGrafanaAlertsCard />
       </Grid>
     </EntitySwitch.Case>
+    <EntitySwitch>
+      <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
+        <Grid item lg={6} md={12} xs={12} >
+          <EntityArgoCDOverviewCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
   </Grid>
 );
 
