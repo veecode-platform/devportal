@@ -12126,9 +12126,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-github-workflows@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:0.1.5"
+"@veecode-platform/backstage-plugin-github-workflows@npm:^0.1.6":
+  version: 0.1.6
+  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:0.1.6"
   dependencies:
     "@backstage/catalog-model": ^1.4.1
     "@backstage/core-components": ^0.13.4
@@ -12141,13 +12141,13 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: c2274198bd1b28d548a6b679f10b981d2a68f2fffe7a04cb1eb6efec1d8e2918d735035a61cbb1646f332a0c73447d744593b640a3a8992706e47108ced9d9ff
+  checksum: 540f6f7cab4abef723266d0a1e7ecc110bd5c20d83deb557f02bb8f091d158735e792b81f8cba57d1e3e938e090e725ba92840fcb6a79b6178d0c96d37668367
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-gitlab-pipelines@npm:^0.1.3":
-  version: 0.1.3
-  resolution: "@veecode-platform/backstage-plugin-gitlab-pipelines@npm:0.1.3"
+"@veecode-platform/backstage-plugin-gitlab-pipelines@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@veecode-platform/backstage-plugin-gitlab-pipelines@npm:0.1.4"
   dependencies:
     "@backstage/core-components": ^0.13.4
     "@backstage/core-plugin-api": ^1.5.3
@@ -12159,7 +12159,7 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: a0c3c89fe841c8d2788dff741439d96934d797161f79bdc82e33c0405b5b65e97e8229c594a0d7e87e43a125523375b065780d460b3c0fa01db508b1b7dbb9c9
+  checksum: 77297513f6f45ecb3d7c2d2f2f4eb55170e0f46accc71ba2057b0201ee3ae60f440848e0456d6c12ef721c5f956efb18cef8868755f86ac23ca8ab003b436bb2
   languageName: node
   linkType: hard
 
@@ -13072,8 +13072,8 @@ __metadata:
     "@types/jest": ^26.0.7
     "@types/node": ^14.14.32
     "@types/react-dom": "*"
-    "@veecode-platform/backstage-plugin-github-workflows": ^0.1.5
-    "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.1.3
+    "@veecode-platform/backstage-plugin-github-workflows": ^0.1.6
+    "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.1.4
     "@veecode-platform/core-components": ^0.13.12
     "@veecode-platform/plugin-api-docs": ^0.9.15
     "@veecode-platform/plugin-catalog": ^1.11.12

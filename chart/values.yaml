@@ -50,8 +50,8 @@ appConfig:
       connectSrc: ["'self'", "http:", "https:"] #CSP connect-src
       imgSrc: ["'self'", 'data:'] #CSP img-src
       scriptSrc: ["'self'", "'unsafe-eval'", 'htts://www.google-analytics.com', 'https://www.googletagmanager.com'] #CSP script-src
-#     frameAncestors: ["'self'", '*'] #CSP frame-ancestors
-#     frameSrc: ["'self'"] #CSP frame-src
+#      frameAncestors: ["'self'", '*'] #CSP frame-ancestors
+#      frameSrc: ["'self'"] #CSP frame-src
 #  analytics: 
 #    ga:
 #      measurementId: #Google analytics metrics ID
