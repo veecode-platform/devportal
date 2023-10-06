@@ -12,6 +12,8 @@ import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-
 import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend-module-gitlab';
 // Keycloak Orgs
 import { KeycloakOrgEntityProvider } from '@janus-idp/backstage-plugin-keycloak-backend';
+// custom
+import { PlatformEntitiesProcessor } from '../platformEntitiesProcessor';
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -79,6 +81,8 @@ export default async function createPlugin(
     }),
   );
   }
+
+  builder.addProcessor( new PlatformEntitiesProcessor());
 
   builder.addProcessor(new ScaffolderEntitiesProcessor());
   const { processingEngine, router } = await builder.build();
