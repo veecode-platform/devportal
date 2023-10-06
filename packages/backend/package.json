@@ -48,7 +48,7 @@
     "@keycloak/keycloak-admin-client": "18.0.2",
     "@roadiehq/backstage-plugin-argo-cd-backend": "^2.6.4",
     "@roadiehq/backstage-plugin-aws-auth": "^0.4.8",
-    "@veecode-platform/plugin-vault-backend": "^0.3.13",
+    "@veecode-platform/plugin-vault-backend": "^0.3.15",
     "app": "link:../app",
     "better-sqlite3": "^7.5.0",
     "dockerode": "^3.3.1",
