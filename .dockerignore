@@ -9,3 +9,9 @@ dist/
 node_modules/
 yarn-error.log
 sqlite/
+Dockerfile*
+.git
+.github
+.gitignore
+dist/**
+README.md
