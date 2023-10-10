@@ -112,7 +112,7 @@ jobs:
           echo "chart/README.md created."
       
       - name: Setup helm
-        uses: mirzakhany/install-helm-action@main
+        uses: azure/setup-helm@v3
 
       - name: Build Helm Package
         run: |
