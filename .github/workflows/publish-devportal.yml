@@ -7,7 +7,8 @@ on:
 jobs:
   #Getting requided versions for next steps
   requirements:
-    runs-on: [self-hosted, Linux, ARM64]
+    # runs-on: [self-hosted, Linux, ARM64]
+    runs-on: [ubuntu-latest]
     outputs:
       app_version: ${{ env.app_version }}
       chart_version: ${{ env.chart_version }}
@@ -25,8 +26,8 @@ jobs:
     needs: [requirements]
     strategy:
       matrix:
-        os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
-        # os: [ubuntu-latest]
+        # os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
