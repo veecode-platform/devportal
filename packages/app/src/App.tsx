@@ -55,32 +55,45 @@ import { UserIdentity } from '@backstage/core-components';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
 import { ExplorePage } from './components/explorer/ExplorerPage';
-import { configApiRef, useApi } from "@backstage/core-plugin-api";
+import { configApiRef, discoveryApiRef, useApi } from "@backstage/core-plugin-api";
 import { SignInPage } from '@veecode-platform/core-components';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import useAsync from 'react-use/lib/useAsync';
 import { makeLightTheme, makeDarkTheme } from './components/theme/Theme';
+import type { IdentityApi } from '@backstage/core-plugin-api';
+import { setTokenCookie } from './cookieAuth';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
   if (guest) props.onSignInSuccess(UserIdentity.createGuest());
-  return <SignInPage {...props} provider={providers[1]} />
-  // return <SignInPage align='center' {...props} providers={["guest", providers[1]]} />
+  const discoveryApi = useApi(discoveryApiRef);
+  return (<SignInPage
+    {...props}
+    provider={providers[1]}
+    onSignInSuccess={async (identityApi: IdentityApi) => {
+      setTokenCookie(
+        await discoveryApi.getBaseUrl('cookie'),
+        identityApi,
+      );
+      props.onSignInSuccess(identityApi);
+    }}
+
+  />)
 };
 
 const ThemeComponent = ({ children, light }: { children: ReactNode, light?: boolean }) => {
   const { value, loading } = useAsync(async (): Promise<any> => {
-    try{
+    try {
       const res = await fetch('theme.json')
-      const parsedJsonTheme = await res.json()  
+      const parsedJsonTheme = await res.json()
       return parsedJsonTheme
     }
-    catch(_e){
-      return {} 
+    catch (_e) {
+      return {}
     }
   }, [])
-  if(loading) return null 
+  if (loading) return null
   const theme = light ? makeLightTheme(value.light) : makeDarkTheme(value.dark)
   return <UnifiedThemeProvider theme={theme} children={children} />
 }

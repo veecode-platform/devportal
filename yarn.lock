@@ -13844,10 +13844,12 @@ __metadata:
     "@veecode-platform/plugin-vault-backend": ^0.3.13
     app: "link:../app"
     better-sqlite3: ^7.5.0
+    cookie-parser: ^1.4.6
     dockerode: ^3.3.1
     express: ^4.17.1
     express-prom-bundle: ^6.6.0
     express-promise-router: ^4.1.0
+    jose: ^4.15.4
     knex-paginate: ^3.0.2
     luxon: ^2.0.2
     pg: ^8.7.3
@@ -15545,7 +15547,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie-parser@npm:^1.4.5":
+"cookie-parser@npm:^1.4.5, cookie-parser@npm:^1.4.6":
   version: 1.4.6
   resolution: "cookie-parser@npm:1.4.6"
   dependencies:
@@ -21824,6 +21826,13 @@ __metadata:
   version: 4.14.4
   resolution: "jose@npm:4.14.4"
   checksum: 2d820a91a8fd97c05d8bc8eedc373b944a0cd7f5fe41063086da233d0473c73fb523912a9f026ea870782bd221f4a515f441a2d3af4de48c6f2c76dac5082377
+  languageName: node
+  linkType: hard
+
+"jose@npm:^4.15.4":
+  version: 4.15.4
+  resolution: "jose@npm:4.15.4"
+  checksum: dccad91cb3357f36423774a0b89ad830dd84b31090de65cd139b85488439f16a00f8c59c0773825e8a1adb0dd9d13ad725ad66e6ea33880ecb3959bb99e1ea5b
   languageName: node
   linkType: hard
 

@@ -39,6 +39,8 @@ import gitlab from './plugins/gitlab';
 import aws from './plugins/aws';
 // explorer
 import explore from './plugins/explore';
+import { createAuthMiddleware } from './authMiddleware';
+import cookieParser from 'cookie-parser';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -46,7 +48,7 @@ function makeCreateEnv(config: Config) {
   const discovery = HostDiscovery.fromConfig(config);
   const cacheManager = CacheManager.fromConfig(config);
   const databaseManager = DatabaseManager.fromConfig(config);
-  const tokenManager = ServerTokenManager.fromConfig(config, {logger: root});
+  const tokenManager = ServerTokenManager.fromConfig(config, { logger: root });
   const taskScheduler = TaskScheduler.fromConfig(config);
   const permissions = ServerPermissionClient.fromConfig(config, {
     discovery,
@@ -102,6 +104,24 @@ async function main() {
   const awsEnv = useHotMemoize(module, () => createEnv('aws'));
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
 
+  const authMiddleware = await createAuthMiddleware(config, appEnv)
+
+  apiRouter.use(cookieParser());
+  apiRouter.use('/auth', await auth(authEnv))
+  apiRouter.use('/explore', await explore(exploreEnv));
+  apiRouter.use('/cookie', authMiddleware, (_req, res) => {
+    res.status(200).send(`Coming right up`);
+  });
+
+  apiRouter.use('/catalog', authMiddleware, await catalog(catalogEnv));
+  apiRouter.use('/scaffolder', authMiddleware, await scaffolder(scaffolderEnv));;
+  apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
+  apiRouter.use('/proxy', authMiddleware, await proxy(proxyEnv));
+  apiRouter.use('/search', authMiddleware, await search(searchEnv));
+  apiRouter.use('/permission', authMiddleware, await permission(permissionEnv));
+  apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
+  apiRouter.use('/aws', authMiddleware, await aws(awsEnv));
+
   if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));
     apiRouter.use('/devportal', await application(applicationEnv));
@@ -125,17 +145,6 @@ async function main() {
     apiRouter.use('/gitlab', await gitlab(gitlabEnv));
   }
 
-  apiRouter.use('/catalog', await catalog(catalogEnv));
-  apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));
-  apiRouter.use('/auth', await auth(authEnv));
-  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
-  apiRouter.use('/proxy', await proxy(proxyEnv));
-  apiRouter.use('/search', await search(searchEnv));
-  apiRouter.use('/permission', await permission(permissionEnv));
-  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
-  apiRouter.use('/aws', await aws(awsEnv));
-  apiRouter.use('/explore', await explore(exploreEnv));
-
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());
 
@@ -145,8 +154,8 @@ async function main() {
     .addRouter('', metricsHandler())
     .addRouter('/api', apiRouter)
     .addRouter('', await app(appEnv));
-  
-    await service.start().catch(err => {
+
+  await service.start().catch(err => {
     console.log(err);
     process.exit(1);
   });
