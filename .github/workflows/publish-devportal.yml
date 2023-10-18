@@ -7,7 +7,7 @@ on:
 jobs:
   #Getting requided versions for next steps
   requirements:
-    runs-on: [self-hosted, Linux, ARM64]
+    runs-on: [self-hosted, macOS, ARM64]
     outputs:
       app_version: ${{ env.app_version }}
       chart_version: ${{ env.chart_version }}
@@ -25,8 +25,7 @@ jobs:
     needs: [requirements]
     strategy:
       matrix:
-        os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
-        # os: [ubuntu-latest]
+        os: [ubuntu-latest, [self-hosted, macOS, ARM64]]
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
@@ -46,6 +45,10 @@ jobs:
           yarn tsc
           yarn build
       
+      - name: Setup keychain
+        if: runner.os == 'macOS'
+        run: security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }}
+
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -61,7 +64,7 @@ jobs:
  
   publishManifestDocker:
     needs: [requirements, buildDevportal]
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS, ARM64]
     steps:
       - uses: actions/checkout@v3
       - name: Login to Docker Hub
@@ -92,6 +95,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      - name: Setup helm
+        uses: azure/setup-helm@v3
+
       - name: Installing frigate
         run:  pip install frigate
       

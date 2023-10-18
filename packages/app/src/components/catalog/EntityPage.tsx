@@ -632,6 +632,37 @@ const domainPage = (
   </EntityLayout>
 );
 
+const clusterPage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      {overviewContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/ci-cd" title="CI/CD">
+      {cicdContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route
+      if={isGithubAvailable}
+      path="/workflows" title="Workflows">
+      {WorkflowsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+      {pullRequestsContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route
+      if={(entity) => {
+        const show = entity.metadata.annotations?.hasOwnProperty('backstage.io/techdocs-ref')
+        if (show !== undefined) return show
+        return false
+      }}
+      path="/docs" title="Docs" >
+      {techdocsContent}
+    </EntityLayout.Route>
+  </EntityLayout>
+);
+
 export const entityPage = (
 <EntitySwitch>
     <EntitySwitch.Case if={isKind('component')} children={componentPage} />
@@ -640,6 +671,7 @@ export const entityPage = (
     <EntitySwitch.Case if={isKind('user')} children={userPage} />
     <EntitySwitch.Case if={isKind('system')} children={systemPage} />
     <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
+    <EntitySwitch.Case if={isKind('cluster')} children={clusterPage} />
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
 );
