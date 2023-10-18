@@ -11110,6 +11110,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/cookie-parser@npm:^1.4.5":
+  version: 1.4.5
+  resolution: "@types/cookie-parser@npm:1.4.5"
+  dependencies:
+    "@types/express": "*"
+  checksum: 45855721706d6a57bb0441db11fb59db407414ea83a0000a0df80d19230447cc3bcc43c436397bfb8998ec78db222265fa8083456b00c5b5054a0c03d06f0086
+  languageName: node
+  linkType: hard
+
 "@types/cookie@npm:^0.4.1":
   version: 0.4.1
   resolution: "@types/cookie@npm:0.4.1"
@@ -29243,6 +29252,7 @@ __metadata:
   dependencies:
     "@backstage/cli": ^0.22.12
     "@spotify/prettier-config": ^12.0.0
+    "@types/cookie-parser": ^1.4.5
     concurrently: ^6.0.0
     lerna: ^4.0.0
     prettier: ^2.3.2
