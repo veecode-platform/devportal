@@ -133,6 +133,7 @@ jobs:
         with:
           source_file: "charts/"
           destination_repo: "veecode-platform/public-charts"
+          destination_folder: devportal
           destination_branch: "main"
           user_email: 'veecode-bot@vee.codes'
           user_name: 'veecode-bot'
