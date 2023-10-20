@@ -1,10 +1,17 @@
 import { BackstageIdentityResponse } from '@backstage/plugin-auth-node';
 import { createRouter } from '@backstage/plugin-permission-backend';
-import { AuthorizeResult, PolicyDecision } from '@backstage/plugin-permission-common';
+import { AuthorizeResult, PolicyDecision, isPermission } from '@backstage/plugin-permission-common';
 import { PermissionPolicy, PolicyQuery } from '@backstage/plugin-permission-node';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { Config } from '@backstage/config';
+import {
+  catalogConditions,
+  createCatalogConditionalDecision,
+} from '@backstage/plugin-catalog-backend/alpha';
+import {
+  catalogEntityDeletePermission,
+} from '@backstage/plugin-catalog-common/alpha';
 
 class DefaultPermissionPolicy implements PermissionPolicy {
   config: Config;
@@ -21,9 +28,28 @@ class DefaultPermissionPolicy implements PermissionPolicy {
       }
       if(user){
         if(user.identity.ownershipEntityRefs.includes(`group:default/${this.config.getString("platform.group.user")}`)) return { result: AuthorizeResult.DENY };
-      }   
+      }
     }
     // if (request.permission.name === 'admin.access.read' && user.identity.ownershipEntityRefs.includes(`group:default/${this.config.getString("platform.group.user")}`)) return { result: AuthorizeResult.DENY };
+
+    // if (isResourcePermission(request.permission, 'catalog-entity')) {
+    //   return createCatalogConditionalDecision(
+    //     request.permission,
+    //     catalogConditions.isEntityOwner({
+    //       claims: user?.identity.ownershipEntityRefs ?? [],
+    //     }),
+    //   );
+    // }   
+
+    if (isPermission(request.permission, catalogEntityDeletePermission)) {
+      return createCatalogConditionalDecision(
+        request.permission,
+        catalogConditions.isEntityOwner({
+          claims: user?.identity.ownershipEntityRefs ?? [],
+        }),
+      );
+    }  
+    
 
     return { result: AuthorizeResult.ALLOW }; 
   }
