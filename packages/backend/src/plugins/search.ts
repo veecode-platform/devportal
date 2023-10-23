@@ -5,45 +5,38 @@ import {
   LunrSearchEngine,
 } from '@backstage/plugin-search-backend-node';
 import { PluginEnvironment } from '../types';
-import { DefaultCatalogCollatorFactory } from '@backstage/plugin-catalog-backend';
-import { DefaultTechDocsCollatorFactory } from '@backstage/plugin-techdocs-backend';
+import { DefaultCatalogCollatorFactory } from '@backstage/plugin-search-backend-module-catalog';
 import { Router } from 'express';
-import { Duration } from 'luxon';
-import { ToolDocumentCollatorFactory } from '@backstage/plugin-explore-backend';
+import { PgSearchEngine } from '@backstage/plugin-search-backend-module-pg';
+import { DefaultTechDocsCollatorFactory } from '@backstage/plugin-search-backend-module-techdocs';
 
 export default async function createPlugin(
   env: PluginEnvironment,
 ): Promise<Router> {
-  // Initialize a connection to a search engine.
-  const searchEngine = new LunrSearchEngine({
-    logger: env.logger,
-  });
+  const searchEngine = (await PgSearchEngine.supported(env.database))
+  ? await PgSearchEngine.fromConfig(env.config, { database: env.database })
+  : new LunrSearchEngine({ logger: env.logger });
   const indexBuilder = new IndexBuilder({
     logger: env.logger,
     searchEngine,
   });
 
-  const schedule = env.scheduler.createScheduledTaskRunner({
-    frequency: Duration.fromObject({ minutes: 10 }),
-    timeout: Duration.fromObject({ minutes: 15 }),
-    // A 3 second delay gives the backend server a chance to initialize before
-    // any collators are executed, which may attempt requests against the API.
-    initialDelay: Duration.fromObject({ seconds: 3 }),
+  const every10MinutesSchedule = env.scheduler.createScheduledTaskRunner({
+    frequency: { minutes: 10 },
+    timeout: { minutes: 15 },
+    initialDelay: { seconds: 3 },
   });
 
-  // Collators are responsible for gathering documents known to plugins. This
-  // collator gathers entities from the software catalog.
   indexBuilder.addCollator({
-    schedule,
+    schedule: every10MinutesSchedule,
     factory: DefaultCatalogCollatorFactory.fromConfig(env.config, {
       discovery: env.discovery,
       tokenManager: env.tokenManager,
     }),
   });
 
-  // collator gathers entities from techdocs.
   indexBuilder.addCollator({
-    schedule,
+    schedule: every10MinutesSchedule,
     factory: DefaultTechDocsCollatorFactory.fromConfig(env.config, {
       discovery: env.discovery,
       logger: env.logger,
@@ -51,20 +44,9 @@ export default async function createPlugin(
     }),
   });
 
-  // collator gathers entities from explore.
-  indexBuilder.addCollator({
-      schedule,
-      factory: ToolDocumentCollatorFactory.fromConfig(env.config, {
-        discovery: env.discovery,
-        logger: env.logger,
-      }),
-    });
-
-  // The scheduler controls when documents are gathered from collators and sent
-  // to the search engine for indexing.
   const { scheduler } = await indexBuilder.build();
-  scheduler.start();
 
+  scheduler.start();
   useHotCleanup(module, () => scheduler.stop());
 
   return await createRouter({

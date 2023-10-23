@@ -15,14 +15,14 @@ import {
   useSearch,
 } from '@backstage/plugin-search-react';
 import {
-  CatalogIcon,
+  // CatalogIcon,
   Content,
-  DocsIcon,
+  // DocsIcon,
   Header,
   Page,
   useSidebarPinState,
 } from '@backstage/core-components';
-import { useApi } from '@backstage/core-plugin-api'; 
+import { useApi } from '@backstage/core-plugin-api';
 import { TechDocsSearchResultListItem } from '@backstage/plugin-techdocs';
 import { ToolSearchResultListItem } from '@backstage/plugin-explore';
 import BuildIcon from '@material-ui/icons/Build';
@@ -59,22 +59,10 @@ const SearchPage = () => {
           </Grid>
           {!isMobile && (
             <Grid item xs={3}>
-              <SearchType.Accordion
-                name="Result Type"
-                defaultValue="software-catalog"
-                showCounts
-                types={[
-                  {
-                    value: 'software-catalog',
-                    name: 'Software Catalog',
-                    icon: <CatalogIcon />,
-                  },
-                  {
-                    value: 'techdocs',
-                    name: 'Documentation',
-                    icon: <DocsIcon />,
-                  },
-                ]}
+              <SearchType
+              values={["techdocs","software-catalog"]}
+              name="type"
+              defaultValue="software-catalog"
               />
               <Paper className={classes.filters}>
                 {types.includes('techdocs') && (
@@ -115,58 +103,53 @@ const SearchPage = () => {
           )}
           <Grid item xs>
             <SearchPagination />
-            {/* <SearchResult>
-              <CatalogSearchResultListItem icon={<CatalogIcon />} />
-              <TechDocsSearchResultListItem icon={<DocsIcon />} />
-              <ToolSearchResultListItem icon={<BuildIcon />} />
-            </SearchResult> */}
-                        <SearchResult>
-                              {({ results }) => (
-                                <List>
-                                  {results.map(({ type, document, highlight, rank }) => {
-                                    switch (type) {
-                                      case 'software-catalog':
-                                        return (
-                                          <CatalogSearchResultListItem
-                                            key={document.location}
-                                            result={document}
-                                            highlight={highlight}
-                                            rank={rank}
-                                          />
-                                        );
-                                      case 'techdocs':
-                                        return (
-                                          <TechDocsSearchResultListItem
-                                            key={document.location}
-                                            result={document}
-                                            highlight={highlight}
-                                            rank={rank}
-                                          />
-                                        );
-                                      case 'tools':
-                                        return (
-                                          <ToolSearchResultListItem
-                                            icon={<BuildIcon />}
-                                            key={document.location}
-                                            result={document}
-                                            highlight={highlight}
-                                            rank={rank}
-                                          />
-                                        );
-                                      default:
-                                        return (
-                                          <DefaultResultListItem
-                                            key={document.location}
-                                            result={document}
-                                            highlight={highlight}
-                                            rank={rank}
-                                          />
-                                        );
-                                    }
-                                  })}
-                                </List>
-                              )}
-                            </SearchResult>
+            <SearchResult>
+              {({ results }) => (
+                <List>
+                  {results.map(({ type, document, highlight, rank }) => {
+                    switch (type) {
+                      case 'software-catalog':
+                        return (
+                          <CatalogSearchResultListItem
+                            key={document.location}
+                            result={document}
+                            highlight={highlight}
+                            rank={rank}
+                          />
+                        );
+                      case 'techdocs':
+                        return (
+                          <TechDocsSearchResultListItem
+                            key={document.location}
+                            result={document}
+                            highlight={highlight}
+                            rank={rank}
+                          />
+                        );
+                      case 'tools':
+                        return (
+                          <ToolSearchResultListItem
+                            icon={<BuildIcon />}
+                            key={document.location}
+                            result={document}
+                            highlight={highlight}
+                            rank={rank}
+                          />
+                        );
+                      default:
+                        return (
+                          <DefaultResultListItem
+                            key={document.location}
+                            result={document}
+                            highlight={highlight}
+                            rank={rank}
+                          />
+                        );
+                    }
+                  })}
+                </List>
+              )}
+            </SearchResult>
             <SearchResultPager />
           </Grid>
         </Grid>
