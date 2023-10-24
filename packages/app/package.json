@@ -22,7 +22,7 @@
     "@backstage/plugin-catalog-react": "^1.8.3",
     "@backstage/plugin-explore": "^0.4.9",
     "@backstage/plugin-github-pull-requests-board": "^0.1.17",
-    "@backstage/plugin-home": "^0.5.7",
+    "@backstage/plugin-home": "^0.5.9",
     "@backstage/plugin-kubernetes": "^0.10.2",
     "@backstage/plugin-org": "^0.6.13",
     "@backstage/plugin-permission-react": "^0.4.14",
