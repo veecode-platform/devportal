@@ -4815,6 +4815,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/plugin-home-react@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@backstage/plugin-home-react@npm:0.1.4"
+  dependencies:
+    "@backstage/core-components": ^0.13.6
+    "@backstage/core-plugin-api": ^1.7.0
+    "@material-ui/core": ^4.12.2
+    "@material-ui/icons": ^4.9.1
+    "@rjsf/utils": 5.13.0
+    "@types/react": ^16.13.1 || ^17.0.0
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0
+    react-dom: ^16.13.1 || ^17.0.0
+    react-router-dom: 6.0.0-beta.0 || ^6.3.0
+  checksum: 52c528a8af4678308bf4341d85aa5360cfe8d1d90f024c59ca0d9bf9343c6964f025eef9c53c50560e65816b7dce052c27463d41b9609a2e125fa1ac637ac463
+  languageName: node
+  linkType: hard
+
 "@backstage/plugin-home@npm:^0.5.4":
   version: 0.5.5
   resolution: "@backstage/plugin-home@npm:0.5.5"
@@ -4847,35 +4865,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-home@npm:^0.5.7":
-  version: 0.5.7
-  resolution: "@backstage/plugin-home@npm:0.5.7"
+"@backstage/plugin-home@npm:^0.5.9":
+  version: 0.5.9
+  resolution: "@backstage/plugin-home@npm:0.5.9"
   dependencies:
-    "@backstage/catalog-model": ^1.4.1
-    "@backstage/config": ^1.0.8
-    "@backstage/core-components": ^0.13.4
-    "@backstage/core-plugin-api": ^1.5.3
-    "@backstage/plugin-catalog-react": ^1.8.3
-    "@backstage/plugin-home-react": ^0.1.2
-    "@backstage/theme": ^0.4.1
+    "@backstage/catalog-model": ^1.4.3
+    "@backstage/config": ^1.1.1
+    "@backstage/core-app-api": ^1.11.0
+    "@backstage/core-components": ^0.13.6
+    "@backstage/core-plugin-api": ^1.7.0
+    "@backstage/plugin-catalog-react": ^1.8.5
+    "@backstage/plugin-home-react": ^0.1.4
+    "@backstage/theme": ^0.4.3
+    "@backstage/types": ^1.1.1
     "@material-ui/core": ^4.12.2
     "@material-ui/icons": ^4.9.1
     "@material-ui/lab": 4.0.0-alpha.61
-    "@rjsf/core-v5": "npm:@rjsf/core@5.7.3"
-    "@rjsf/material-ui-v5": "npm:@rjsf/material-ui@5.7.3"
-    "@rjsf/utils": 5.7.3
-    "@rjsf/validator-ajv8": 5.7.3
+    "@rjsf/core-v5": "npm:@rjsf/core@5.13.0"
+    "@rjsf/material-ui-v5": "npm:@rjsf/material-ui@5.13.0"
+    "@rjsf/utils": 5.13.0
+    "@rjsf/validator-ajv8": 5.13.0
     "@types/react": ^16.13.1 || ^17.0.0
     lodash: ^4.17.21
+    luxon: ^3.4.3
     react-grid-layout: ^1.3.4
     react-resizable: ^3.0.4
     react-use: ^17.2.4
-    zod: ~3.21.4
+    zod: ^3.21.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
     react-dom: ^16.13.1 || ^17.0.0
     react-router-dom: 6.0.0-beta.0 || ^6.3.0
-  checksum: 9d6d77fc07507b5b861fa650eaba318af693f9c972eb33513b499eda4abba242ae75621403a59ae9a0ba1370c25229405081af208a3bd52455942cfa17aa89fe
+  checksum: 9443744646e87398ff8281ec437a28d8fafae2411ab70f0781dc2056f6bb6570006100d76fc465f1d7ed2cb4e9751041b12508dc95b635a947605befe31e7c1b
   languageName: node
   linkType: hard
 
@@ -9883,6 +9904,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rjsf/core-v5@npm:@rjsf/core@5.13.0":
+  version: 5.13.0
+  resolution: "@rjsf/core@npm:5.13.0"
+  dependencies:
+    lodash: ^4.17.21
+    lodash-es: ^4.17.21
+    markdown-to-jsx: ^7.3.2
+    nanoid: ^3.3.6
+    prop-types: ^15.8.1
+  peerDependencies:
+    "@rjsf/utils": ^5.12.x
+    react: ^16.14.0 || >=17
+  checksum: d7d66d20fcdf310f4b152c22e1ac1ca8abe5f40b502711c9cabc4241b3252ec0e58345aa194529d2bdfb7a51b9f1179c9ddefc0cdc7fd9f94ad10c5e5b1032b8
+  languageName: node
+  linkType: hard
+
 "@rjsf/core-v5@npm:@rjsf/core@5.7.3":
   version: 5.7.3
   resolution: "@rjsf/core@npm:5.7.3"
@@ -9918,6 +9955,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rjsf/material-ui-v5@npm:@rjsf/material-ui@5.13.0":
+  version: 5.13.0
+  resolution: "@rjsf/material-ui@npm:5.13.0"
+  peerDependencies:
+    "@material-ui/core": ^4.12.3
+    "@material-ui/icons": ^4.11.2
+    "@rjsf/core": ^5.12.x
+    "@rjsf/utils": ^5.12.x
+    react: ^16.14.0 || >=17
+  checksum: 4157a2f112aace66a284c4e40b3220676e884ef37ffdbda616406dfb1a30d58aef6e241c2093a589bbd2f73964db797d7378666e534acec952578075c62cbf6a
+  languageName: node
+  linkType: hard
+
 "@rjsf/material-ui-v5@npm:@rjsf/material-ui@5.7.3":
   version: 5.7.3
   resolution: "@rjsf/material-ui@npm:5.7.3"
@@ -9943,6 +9993,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rjsf/utils@npm:5.13.0":
+  version: 5.13.0
+  resolution: "@rjsf/utils@npm:5.13.0"
+  dependencies:
+    json-schema-merge-allof: ^0.8.1
+    jsonpointer: ^5.0.1
+    lodash: ^4.17.21
+    lodash-es: ^4.17.21
+    react-is: ^18.2.0
+  peerDependencies:
+    react: ^16.14.0 || >=17
+  checksum: 283e2b405eac2f4fdd243b2e35ade7e83a4bf7551eb5e075499e8eb5d3a3ae161e9c047bcf63d2e6fef7c6b2e7438f1a150f353b909df992e85194940c311f9b
+  languageName: node
+  linkType: hard
+
 "@rjsf/utils@npm:5.7.3":
   version: 5.7.3
   resolution: "@rjsf/utils@npm:5.7.3"
@@ -9955,6 +10020,20 @@ __metadata:
   peerDependencies:
     react: ^16.14.0 || >=17
   checksum: 30ceab80a98a33076eef3c680d079ca90bb7023d40524776fa6cce79f0dc21a5eeaec63fa786e3775b60ccee27f993d030b340d6704c3c4d23515f9d046d4354
+  languageName: node
+  linkType: hard
+
+"@rjsf/validator-ajv8@npm:5.13.0":
+  version: 5.13.0
+  resolution: "@rjsf/validator-ajv8@npm:5.13.0"
+  dependencies:
+    ajv: ^8.12.0
+    ajv-formats: ^2.1.1
+    lodash: ^4.17.21
+    lodash-es: ^4.17.21
+  peerDependencies:
+    "@rjsf/utils": ^5.12.x
+  checksum: dd36b12e26f213208b899087768b72f8e0763d9a9ac0ba478034270d4d5ac1cebb9ca3ec1a9150c95293b36620c41d5180efda677d23c644a4d4475d8fb49e75
   languageName: node
   linkType: hard
 
@@ -13874,7 +13953,7 @@ __metadata:
     "@backstage/plugin-catalog-react": ^1.8.3
     "@backstage/plugin-explore": ^0.4.9
     "@backstage/plugin-github-pull-requests-board": ^0.1.17
-    "@backstage/plugin-home": ^0.5.7
+    "@backstage/plugin-home": ^0.5.9
     "@backstage/plugin-kubernetes": ^0.10.2
     "@backstage/plugin-org": ^0.6.13
     "@backstage/plugin-permission-react": ^0.4.14
@@ -24096,6 +24175,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"luxon@npm:^3.4.3":
+  version: 3.4.3
+  resolution: "luxon@npm:3.4.3"
+  checksum: 3eade81506224d038ed24035a0cd0dd4887848d7eba9361dce9ad8ef81380596a68153240be3988721f9690c624fb449fcf8fd8c3fc0681a6a8496faf48e92a3
+  languageName: node
+  linkType: hard
+
 "lz-string@npm:^1.5.0":
   version: 1.5.0
   resolution: "lz-string@npm:1.5.0"
@@ -24290,7 +24376,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-to-jsx@npm:^7.2.0":
+"markdown-to-jsx@npm:^7.2.0, markdown-to-jsx@npm:^7.3.2":
   version: 7.3.2
   resolution: "markdown-to-jsx@npm:7.3.2"
   peerDependencies:
