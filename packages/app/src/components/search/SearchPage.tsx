@@ -15,9 +15,7 @@ import {
   useSearch,
 } from '@backstage/plugin-search-react';
 import {
-  // CatalogIcon,
   Content,
-  // DocsIcon,
   Header,
   Page,
   useSidebarPinState,
@@ -60,9 +58,9 @@ const SearchPage = () => {
           {!isMobile && (
             <Grid item xs={3}>
               <SearchType
-              values={["techdocs","software-catalog"]}
-              name="type"
-              defaultValue="software-catalog"
+                values={["techdocs", "software-catalog"]}
+                name="type"
+                defaultValue="software-catalog"
               />
               <Paper className={classes.filters}>
                 {types.includes('techdocs') && (
@@ -71,7 +69,6 @@ const SearchPage = () => {
                     label="Entity"
                     name="name"
                     values={async () => {
-                      // Return a list of entities which are documented.
                       const { items } = await catalogApi.getEntities({
                         fields: ['metadata.name'],
                         filter: {
@@ -86,18 +83,48 @@ const SearchPage = () => {
                     }}
                   />
                 )}
+
                 <SearchFilter.Select
-                  className={classes.filter}
-                  label="Kind"
-                  name="kind"
-                  values={['Component', 'Template']}
-                />
-                <SearchFilter.Checkbox
-                  className={classes.filter}
-                  label="Lifecycle"
-                  name="lifecycle"
-                  values={['experimental', 'production']}
-                />
+                    className={classes.filter}
+                    label="Kind"
+                    name="kind"
+                    values={async () => {
+                      const { facets } = await catalogApi.getEntityFacets({
+                        facets: ['kind'],
+                        filter: {
+                          'kind':
+                            CATALOG_FILTER_EXISTS,
+                        }
+                      });
+                      const kinds = facets['kind'].map(l => l.value);
+                      const kindsFiltereds = kinds.filter((i:string) => {
+                        if(i !== 'Group' && i !== 'Location' && i !== 'User'){
+                          return i
+                        }
+                        else return null
+                      })
+                      kindsFiltereds.sort();
+                      return kindsFiltereds
+                    }}
+                  />  
+
+                <SearchFilter.Select
+                    className={classes.filter}
+                    label="Lifecycle"
+                    name="lifecycle"
+                    values={async () => {
+                      const { facets } = await catalogApi.getEntityFacets({
+                        facets: ['spec.lifecycle'],
+                        filter: {
+                          'spec.lifecycle':
+                            CATALOG_FILTER_EXISTS,
+                        }
+                      });
+                      const lifecycles = facets['spec.lifecycle'].map(l => l.value)
+                      lifecycles.sort();
+                      return lifecycles
+                    }}
+                  />   
               </Paper>
             </Grid>
           )}
