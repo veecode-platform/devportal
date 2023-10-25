@@ -18,8 +18,6 @@ done < ${script_path}/values.yaml > ${script_path}/modified_values.yaml
 mv ${script_path}/modified_values.yaml ${script_path}/values.yaml
 
 sed -i '/^ +annotations:/!s/[{}]//g' ${script_path}/values.yaml
-sed -i 's/readinessProbe:/readinessProbe: {}/' ${script_path}/values.yaml
-sed -i 's/livenessProbe:/livenessProbe: {}/' ${script_path}/values.yaml
 
 frigate gen ./${script_path}/ --output-format markdown --no-credits > ${script_path}/README.md
 
