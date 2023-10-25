@@ -121,8 +121,10 @@ data:
         "/github/api":
           target: https://api.github.com/repos
           allowedHeaders: ['Authorization', 'X-GitHub-Api-Version']
-          headers: 
+          headers:
+            {{- if not .Values.auth.providers.github }}
             Authorization: Bearer ${GITHUB_TOKEN_SECRET}
+            {{- end }}
             Accept: application/vnd.github+json
             X-GitHub-Api-Version: "2022-11-28"
         {{- end }}
@@ -345,6 +347,16 @@ data:
           {{- end }}
       {{- end }}
       {{- end }}
+    search:
+      pg:
+        highlightOptions:
+          useHighlight: {{ .Values.search.pg.highlightOptions.useHighlight }}
+          maxWord: {{ .Values.search.pg.highlightOptions.maxWord }}
+          minWord: {{ .Values.search.pg.highlightOptions.minWord }}
+          shortWord: {{ .Values.search.pg.highlightOptions.shortWord }}
+          highlightAll: {{ .Values.search.pg.highlightOptions.highlightAll }}
+          maxFragments: {{ .Values.search.pg.highlightOptions.maxFragments }}
+          fragmentDelimiter:  {{ .Values.search.pg.highlightOptions.fragmentDelimiter }}
     auth:
       environment: {{ .Values.auth.environment | default "development" | quote }}
       session:
