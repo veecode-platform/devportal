@@ -39,7 +39,7 @@ import gitlab from './plugins/gitlab';
 import aws from './plugins/aws';
 // explorer
 import explore from './plugins/explore';
-import { createAuthMiddleware } from './authMiddleware';
+// import { createAuthMiddleware } from './authMiddleware';
 import cookieParser from 'cookie-parser';
 
 function makeCreateEnv(config: Config) {
@@ -104,23 +104,23 @@ async function main() {
   const awsEnv = useHotMemoize(module, () => createEnv('aws'));
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
 
-  const authMiddleware = await createAuthMiddleware(config, appEnv)
+  // const authMiddleware = await createAuthMiddleware(config, appEnv)
 
   apiRouter.use(cookieParser());
   apiRouter.use('/auth', await auth(authEnv))
   apiRouter.use('/explore', await explore(exploreEnv));
-  apiRouter.use('/cookie', authMiddleware, (_req, res) => {
+  apiRouter.use('/cookie', (_req, res) => {
     res.status(200).send(`Coming right up`);
   });
 
-  apiRouter.use('/catalog', authMiddleware, await catalog(catalogEnv));
-  apiRouter.use('/scaffolder', authMiddleware, await scaffolder(scaffolderEnv));;
-  apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
-  apiRouter.use('/proxy', authMiddleware, await proxy(proxyEnv));
-  apiRouter.use('/search', authMiddleware, await search(searchEnv));
-  apiRouter.use('/permission', authMiddleware, await permission(permissionEnv));
-  apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
-  apiRouter.use('/aws', authMiddleware, await aws(awsEnv));
+  apiRouter.use('/catalog', await catalog(catalogEnv));
+  apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));;
+  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
+  apiRouter.use('/proxy', await proxy(proxyEnv));
+  apiRouter.use('/search', await search(searchEnv));
+  apiRouter.use('/permission', await permission(permissionEnv));
+  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
+  apiRouter.use('/aws', await aws(awsEnv));
 
   if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));
