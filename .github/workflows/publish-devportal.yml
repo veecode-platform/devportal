@@ -127,18 +127,19 @@ jobs:
           helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
 
       - name: Publish Helm Charts
-        uses: dmnemec/copy_file_to_another_repo_action@main
+        uses: nkoppel/push-files-to-another-repository@v1.1.0
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source_file: "charts/"
-          destination_repo: "veecode-platform/public-charts"
-          destination_folder: devportal
-          destination_branch: "main"
-          user_email: 'veecode-bot@vee.codes'
-          user_name: 'veecode-bot'
-          commit_message: "Publish new version devportal-${{ needs.requirements.outputs.chart_version }}"
-      
+          source-files: "charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov"
+          destination-username: 'veecode-platform'
+          destination-repository: 'public-charts'
+          destination-branch: 'main'
+          destination-directory: 'devportal'
+          commit-email: 'veecode-bot@vee.codes'
+          commit-username: 'veecode-bot'
+          commit-message: "Publishing new version devportal-${{ needs.requirements.outputs.chart_version }}"
+ 
       - name: Prepare doc references
         run: |
           mkdir -p tmpDocs/devportal
