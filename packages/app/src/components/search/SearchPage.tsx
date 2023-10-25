@@ -96,7 +96,7 @@ const SearchPage = () => {
                             CATALOG_FILTER_EXISTS,
                         }
                       });
-                      const kinds = facets['kind'].map(l => l.value);
+                      const kinds = facets['kind'].map(k => k.value);
                       const kindsFiltereds = kinds.filter((i:string) => {
                         if(i !== 'Group' && i !== 'Location' && i !== 'User'){
                           return i
