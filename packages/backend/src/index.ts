@@ -109,9 +109,9 @@ async function main() {
   apiRouter.use(cookieParser());
   apiRouter.use('/auth', await auth(authEnv))
   apiRouter.use('/explore', await explore(exploreEnv));
-  apiRouter.use('/cookie', (_req, res) => {
-    res.status(200).send(`Coming right up`);
-  });
+  // apiRouter.use('/cookie', (_req, res) => {
+  //   res.status(200).send(`Coming right up`);
+  // });
 
   apiRouter.use('/catalog', await catalog(catalogEnv));
   apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));;
