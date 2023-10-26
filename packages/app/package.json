@@ -52,7 +52,7 @@
     "@veecode-platform/plugin-catalog": "^1.11.18",
     "@veecode-platform/plugin-github-actions": "^0.6.3",
     "@veecode-platform/plugin-scaffolder": "^1.14.17",
-    "@veecode-platform/plugin-user-settings": "^0.7.21",
+    "@veecode-platform/plugin-user-settings": "^0.7.23",
     "history": "^5.0.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",

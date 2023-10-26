@@ -145,7 +145,7 @@ integrations: {}
 
 catalog:
   rules: #Catalog rules
-    - allow: [Component, API, Location, Template]
+    - allow: [Component, API, Location, Template, Cluster]
   providers: {}
 #    github:
 #      organization: #github Organization Name

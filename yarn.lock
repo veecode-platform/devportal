@@ -13322,9 +13322,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-user-settings@npm:^0.7.21":
-  version: 0.7.21
-  resolution: "@veecode-platform/plugin-user-settings@npm:0.7.21"
+"@veecode-platform/plugin-user-settings@npm:^0.7.23":
+  version: 0.7.23
+  resolution: "@veecode-platform/plugin-user-settings@npm:0.7.23"
   dependencies:
     "@backstage/core-app-api": ^1.8.1
     "@backstage/core-components": ^0.13.2
@@ -13336,13 +13336,14 @@ __metadata:
     "@material-ui/core": ^4.12.2
     "@material-ui/icons": ^4.9.1
     "@material-ui/lab": 4.0.0-alpha.61
-    "@types/react": ^16.13.1 || ^17.0.0
+    "@types/react": ^17.0.0
+    react-use: ^17.2.4
+    zen-observable: ^0.10.0
+  peerDependencies:
     react: ^17.0.0
     react-dom: ^17.0.0
     react-router-dom: ^6.3.0
-    react-use: ^17.2.4
-    zen-observable: ^0.10.0
-  checksum: b8a29bb21f722401ad133eb0cedb38caf3979672b729d1173ab65cfa9d19c32567dc57cd37249dad90a0d7de96c9dba2deefe06d2d371b14e50949e6113de632
+  checksum: f3d6c3f2e0323bc0dcc170d39988c054137169e7c86ffd427b56dab83c5a1fd498bae9ab58c5201e9d4c1749c6f5932a5cc8afce1fbaebd5fd05da0946ef5e64
   languageName: node
   linkType: hard
 
@@ -13990,7 +13991,7 @@ __metadata:
     "@veecode-platform/plugin-catalog": ^1.11.18
     "@veecode-platform/plugin-github-actions": ^0.6.3
     "@veecode-platform/plugin-scaffolder": ^1.14.17
-    "@veecode-platform/plugin-user-settings": ^0.7.21
+    "@veecode-platform/plugin-user-settings": ^0.7.23
     cross-env: ^7.0.0
     cypress: ^7.3.0
     eslint-plugin-cypress: ^2.10.3
@@ -28843,7 +28844,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^17.0.0, react-dom@npm:^17.0.2":
+"react-dom@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-dom@npm:17.0.2"
   dependencies:
@@ -29258,7 +29259,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^17.0.0, react@npm:^17.0.2":
+"react@npm:^17.0.2":
   version: 17.0.2
   resolution: "react@npm:17.0.2"
   dependencies:
