@@ -309,6 +309,11 @@ export interface Config {
       * 
       * @visibility frontend
       */
+      clusters?: boolean
+      /**
+      * 
+      * @visibility frontend
+      */
       create?: boolean
       /**
       * 

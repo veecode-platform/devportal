@@ -280,6 +280,7 @@ platform:
     home: true
     catalog: true
     apis: true
+    clusters: true
     create: true
     docs: true
     groups: false
