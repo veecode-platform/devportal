@@ -235,6 +235,11 @@ search:
       highlightAll: false # If true the whole document will be used as the headline, ignoring the preceding three parameters. The default is false.
       maxFragments: 0 # Maximum number of text fragments to display. The default value of zero selects a non-fragment-based headline generation method. A value greater than zero selects fragment-based headline generation (see the linked documentation above for more details).
       fragmentDelimiter: ' ... ' 
+    schedule:        
+      frequency: 
+        minutes: 3
+      timeout: 
+        minutes: 5
 
 auth:
   environment: development

@@ -10,6 +10,23 @@ import { Router } from 'express';
 import { PgSearchEngine } from '@backstage/plugin-search-backend-module-pg';
 import { DefaultTechDocsCollatorFactory } from '@backstage/plugin-search-backend-module-techdocs';
 
+type ScheduleCustomType = {
+  highlightOptions: {
+    useHighlight: boolean,
+    maxWord: number,
+    minWord: number,
+    shortWord: number,
+    highlightAll: boolean,
+    maxFragments: number,
+    fragmentDelimiter: string
+  },
+  schedule: 
+  {
+     frequency: { minutes: number }, 
+     timeout: { minutes: number } 
+  } 
+}
+
 export default async function createPlugin(
   env: PluginEnvironment,
 ): Promise<Router> {
@@ -21,14 +38,18 @@ export default async function createPlugin(
     searchEngine,
   });
 
-  const every10MinutesSchedule = env.scheduler.createScheduledTaskRunner({
-    frequency: { minutes: 10 },
-    timeout: { minutes: 15 },
+  const scheduleConfig : ScheduleCustomType = env.config.getConfig('search').get('pg') ?? null;
+  const frequencyInMinutes = scheduleConfig && (scheduleConfig.schedule.frequency.minutes ? scheduleConfig.schedule.frequency.minutes : 10);
+  const timeoutInMinutes = scheduleConfig && (scheduleConfig.schedule.timeout.minutes ? scheduleConfig.schedule.timeout.minutes : 15);
+  
+  const minutesSchedule = env.scheduler.createScheduledTaskRunner({
+    frequency: { minutes: frequencyInMinutes },
+    timeout: { minutes: timeoutInMinutes },
     initialDelay: { seconds: 3 },
   });
 
   indexBuilder.addCollator({
-    schedule: every10MinutesSchedule,
+    schedule: minutesSchedule,
     factory: DefaultCatalogCollatorFactory.fromConfig(env.config, {
       discovery: env.discovery,
       tokenManager: env.tokenManager,
@@ -36,7 +57,7 @@ export default async function createPlugin(
   });
 
   indexBuilder.addCollator({
-    schedule: every10MinutesSchedule,
+    schedule: minutesSchedule,
     factory: DefaultTechDocsCollatorFactory.fromConfig(env.config, {
       discovery: env.discovery,
       logger: env.logger,
