@@ -93,7 +93,7 @@ services:
     - demo
     - vault
     container_name: vault_devportal
-    image: vault:latest
+    image: hashicorp/vault:latest
     ports:
       - "8200:8200"
     environment:
