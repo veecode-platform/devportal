@@ -2,7 +2,7 @@ import { GithubEntityProvider } from '@backstage/plugin-catalog-backend-module-g
 import { CatalogBuilder } from '@backstage/plugin-catalog-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
-import { ScaffolderEntitiesProcessor } from '@backstage/plugin-scaffolder-backend';
+import { ScaffolderEntitiesProcessor } from '@veecode-platform/plugin-scaffolder-backend';
 // Bitbucket Cloud
 import { BitbucketCloudEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-cloud';
 // Bitbucket Server
