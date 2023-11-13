@@ -27,8 +27,8 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /{{ .Values.ingress.path }}
-            pathType: Prefix
+          - path: {{ .Values.ingress.path | default "/" }}
+            pathType: {{ .Values.ingress.pathType | default "Prefix" }}
             backend:
               service:
                 name: "{{- include "devportal-charts.fullname" . }}"

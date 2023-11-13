@@ -19,6 +19,8 @@ ingress:
   enabled: false #If `true`, an ingress is created
 #  host: # your host to devportal ingress
 #  className: nginx #ingress class name
+#  path: / # Ingress path
+#  pathType: Prefix # Ingress pathType
 #  annotations: {} #ingress annotations
   #  konghq.com/https-redirect-status-code: "308"
   #  konghq.com/preserve-host: "true"
@@ -217,7 +219,7 @@ platform:
 #    groups: true #enable or disable menu if mode is custom selected
 #    apiManagement: true #enable or disable menu if mode is custom selected
 
-kubernetes: {}
+# kubernetes: {}
 #  type: "multiTenant" #Kubernetes type
 #  url:  #Kubernetes url
 #  name:  #Kubernetes name
@@ -226,6 +228,36 @@ kubernetes: {}
 #  skipMetricsLookup: false #Kubernetes skip Metrics Lookup
 #  serviceAccountToken:  #Kubernetes service Account Token
 #  caData:  #Kubernetes certificate Data
+
+kubernetes:
+  serviceLocatorMethod:
+    type: 'multiTenant' #determine which clusters a component is running in
+  clusterLocatorMethods:
+    - type: 'config' #determine where to retrieve cluster configuration from
+      clusters:
+        - url: http://127.0.0.1:9999
+          authProvider: 'serviceAccount'
+          oidcTokenProvider: okta
+          skipTLSVerify: false
+          skipMetricsLookup: true
+          serviceAccountToken: minikubeToken
+          dashboardUrl: http://127.0.0.1:64713 # url copied from running the command: minikube service kubernetes-dashboard -n kubernetes-dashboard
+          dashboardApp: standard
+          caData: minikube_data
+          caFile: '' # local path to CA file
+          customResources:
+            - group: 'argoproj.io'
+              apiVersion: 'v1alpha1'
+              plural: 'rollouts'
+        - url: http://127.0.0.2:9999
+          name: aws-cluster-1
+          authProvider: 'aws'
+    - type: 'gke'
+      projectId: 'gke-clusters'
+      region: 'europe-west1'
+      skipTLSVerify: true
+      skipMetricsLookup: true
+      exposeDashboard: true
 theme:
   images:
     sidebarIcon: "https://platform.vee.codes/apple-touch-icon.png" #Menu Icon Url
