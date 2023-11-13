@@ -147,20 +147,77 @@ data:
       publisher:
         type: "local"
 
-    {{- if .Values.kubernetes}}
+    {{- if .Values.kubernetes }}
     kubernetes:
       serviceLocatorMethod:
-        type: {{ .Values.kubernetes.type | default "multiTenant" }}
+        type: {{ .Values.kubernetes.serviceLocatorMethod.type | default "multiTenant" }}
       clusterLocatorMethods:
-        - type: "config"
+      {{- range .Values.kubernetes.clusterLocatorMethods }}
+        - type: '{{ .type | default "config" | squote }}'
+          {{- if .clusters }}
           clusters:
-            - url: {{ .Values.kubernetes.url | quote }}
-              name: {{ .Values.kubernetes.name  }}
-              authProvider: {{ .Values.kubernetes.authProvider | default "serviceAccount"}}
-              skipTLSVerify: {{ .Values.kubernetes.skipTLSVerify | default false}}
-              skipMetricsLookup: {{ .Values.kubernetes.skipMetricsLookup | default false}}
-              serviceAccountToken: ${KUBERNETES_SERVICE_ACCOUNT_TOKEN}
-              caData: ${KUBERNETES_CERTIFICATE_DATA}
+            {{- range $i, $e := .clusters}}
+            - name: {{ .name | default "config_{{$i}}" | squote }}
+              {{- if .url }}
+              url: '{{ .url }}'
+              {{- end }}
+              {{- if .authProvider }}
+              authProvider: '{{ .authProvider }}'
+              {{- end }}
+              {{- if .oidcTokenProvider }}
+              oidcTokenProvider: {{ .oidcTokenProvider }}
+              {{- end }}
+              {{- if .skipTLSVerify }}
+              skipTLSVerify: {{ .skipTLSVerify }}
+              {{- end }}
+              {{- if .skipMetricsLookup }}
+              skipMetricsLookup: {{ .skipMetricsLookup }}
+              {{- end }}
+              {{- if .serviceAccountToken }}
+              serviceAccountToken: ${KUBERNETES_SERVICE_ACCOUNT_TOKEN_{{$i}}}
+              {{- end }}
+              {{- if .projectId }}
+              dashboardUrl: .dashboardUrl
+              {{- end }}
+              {{- if .dashboardApp }}
+              dashboardApp: {{ .dashboardApp }}
+              {{- end }}
+              {{- if .caData }}
+              caData: ${KUBERNETES_CERTIFICATE_DATA_{{$i}}}
+              {{- end }}
+              {{- if .caFile }}
+              caFile: .caFile | default ''
+              {{- end }}
+              {{- if .customResources }}
+              customResources:
+                {{- range .customResources }}
+                - group: '{{ .group }}'
+                  {{- if .apiVersion }}
+                  apiVersion: '{{ .apiVersion }}'
+                  {{- end }}
+                  {{- if .plural }}
+                  plural: '{{ .plural }}'
+                  {{- end }}
+                {{- end }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- if .projectId }}
+          projectId: '{{ .projectId }}'
+          {{- end }}
+          {{- if .region }}
+          region: '{{ .region }}'
+          {{- end }}
+          {{- if .skipTLSVerify }}
+          skipTLSVerify: .skipTLSVerify
+          {{- end }}
+          {{- if .skipMetricsLookup }}
+          skipMetricsLookup: .skipMetricsLookup
+          {{- end }}
+          {{- if .exposeDashboard }}
+          exposeDashboard: .exposeDashboard
+          {{- end }}          
+      {{- end }}  
     {{- end }}
     {{- if .Values.argocd.enabled }}
     argocd:
@@ -408,13 +465,13 @@ data:
       behaviour: 
         mode: {{ .Values.platform.behaviour.mode | default "product" | quote}}
         {{- if eq .Values.platform.behaviour.mode "custom" }}
-        home: {{ .Values.platform.behaviour.home | default true }}
-        catalog: {{ .Values.platform.behaviour.catalog | default true }}
-        apis: {{ .Values.platform.behaviour.apis | default true }}
-        create: {{ .Values.platform.behaviour.create | default true }}
-        docs: {{ .Values.platform.behaviour.docs | default true }}
-        groups: {{ .Values.platform.behaviour.groups | default true }}
-        apiManagement: {{ .Values.platform.behaviour.apiManagement | default true }}
+        home: {{ eq .Values.platform.behaviour.home | default true }}
+        catalog: {{ eq .Values.platform.behaviour.catalog | default true }}
+        apis: {{ eq .Values.platform.behaviour.apis | default true }}
+        create: {{ eq .Values.platform.behaviour.create true }}
+        docs: {{ eq .Values.platform.behaviour.docs | default true }}
+        groups: {{ eq .Values.platform.behaviour.groups | default true }}
+        apiManagement: {{ eq .Values.platform.behaviour.apiManagement | default true }}
         {{- end }}
       logo:
         icon: {{ .Values.theme.images.sidebarIcon }}
