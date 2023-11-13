@@ -149,7 +149,7 @@ integrations:
 
 catalog:
   rules:
-    - allow: [Component, API, Location, Template]
+    - allow: [Component, API, Location, Cluster, Template]
   providers: 
     github:
       providerId: # the provider ID can be any camelCase string
