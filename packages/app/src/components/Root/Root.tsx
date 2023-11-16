@@ -32,6 +32,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SignUpElement from './signOut';
 import DeviceHubIcon from '@material-ui/icons/DeviceHub';
+import LanguageIcon from '@material-ui/icons/Language';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { sideBarBehaviour, sidebarDefaultType } from './sideBarSchema';
 
@@ -82,6 +83,7 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
       {behaviour.catalog ? <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" /> : null}
       {behaviour.apis ? <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" /> : null}
       {behaviour.clusters ? <SidebarItem icon={DeviceHubIcon} to="cluster-explorer" text="Clusters" /> : null}
+      {behaviour.environments ? <SidebarItem icon={LanguageIcon} to="environments-explorer" text="Environments"/> : null}
       {behaviour.create ? <SidebarItem icon={CreateComponentIcon} to="create" text="Create" /> : null}
       {behaviour.docs ? <SidebarItem icon={LibraryBooks} to="docs" text="Docs" /> : null}
       {behaviour.groups ? <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" /> : null}

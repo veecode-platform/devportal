@@ -13,7 +13,7 @@ import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend
 // Keycloak Orgs
 import { KeycloakOrgEntityProvider } from '@janus-idp/backstage-plugin-keycloak-backend';
 // custom
-import { PlatformEntitiesProcessor } from '../platformEntitiesProcessor';
+import { ClusterEntitiesProcessor, EnvironmentEntitiesProcessor } from '../platformEntitiesProcessor';
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -82,7 +82,8 @@ export default async function createPlugin(
   );
   }
 
-  builder.addProcessor( new PlatformEntitiesProcessor());
+  builder.addProcessor( new ClusterEntitiesProcessor());
+  builder.addProcessor( new EnvironmentEntitiesProcessor());
 
   builder.addProcessor(new ScaffolderEntitiesProcessor());
   const { processingEngine, router } = await builder.build();

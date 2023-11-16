@@ -1,11 +1,11 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "ComponentV1alpha1",
+    "$id": "EnvironmentV1alpha1",
     "description": "A Component describes a software component. It is typically intimately linked to the source code that constitutes the component, and should be what a developer may regard a \"unit of software\", usually with a distinct deployable or linkable artifact.",
     "examples": [
       {
         "apiVersion": "backstage.io/v1alpha1",
-        "kind": "Cluster",
+        "kind": "Environment",
         "metadata": {
           "name": "LoremService",
           "description": "Creates Lorems like a pro.",
@@ -35,7 +35,7 @@
             "enum": ["backstage.io/v1alpha1", "backstage.io/v1beta1"]
           },
           "kind": {
-            "enum": ["Cluster"]
+            "enum": ["Environment"]
           },
           "spec": {
             "type": "object",

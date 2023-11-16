@@ -314,6 +314,11 @@ export interface Config {
       * 
       * @visibility frontend
       */
+      enviroments?: boolean
+      /**
+      * 
+      * @visibility frontend
+      */
       create?: boolean
       /**
       * 

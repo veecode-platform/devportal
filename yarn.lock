@@ -7318,6 +7318,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@internal/plugin-veecode-platform-common@workspace:plugins/veecode-platform-common":
+  version: 0.0.0-use.local
+  resolution: "@internal/plugin-veecode-platform-common@workspace:plugins/veecode-platform-common"
+  dependencies:
+    "@backstage/cli": ^0.22.12
+  languageName: unknown
+  linkType: soft
+
 "@ioredis/commands@npm:^1.1.1":
   version: 1.2.0
   resolution: "@ioredis/commands@npm:1.2.0"

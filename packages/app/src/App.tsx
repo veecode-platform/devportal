@@ -61,6 +61,7 @@ import { UnifiedThemeProvider } from '@backstage/theme';
 import useAsync from 'react-use/lib/useAsync';
 import { makeLightTheme, makeDarkTheme } from './components/theme/Theme';
 import { ClusterExplorerPage } from './components/cluster-explorer';
+import { EnvironmentExplorerPage } from './components/environment-explorer';
 // import type { IdentityApi } from '@backstage/core-plugin-api';
 // import { setTokenCookie } from './cookieAuth';
 
@@ -179,7 +180,8 @@ const routes = (
     </Route>
     <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />} />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
-    <Route path="/cluster-explorer" element={<ClusterExplorerPage/>}/>
+    <Route path="/cluster-explorer" element={<ClusterExplorerPage/>}/> 
+    <Route path="/environments-explorer" element={<EnvironmentExplorerPage />}/>
     <Route path="/create" element={<ScaffolderPage />} />
     <Route path="/search" element={<SearchPage />}>
       {searchPage}

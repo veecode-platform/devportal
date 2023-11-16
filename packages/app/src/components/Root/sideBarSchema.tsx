@@ -5,6 +5,7 @@ export type sidebarDefaultType = {
     catalog: boolean, 
     apis: boolean, 
     clusters: boolean,
+    environments: boolean,
     create: boolean, 
     docs: boolean, 
     groups: boolean,
@@ -17,6 +18,7 @@ const sideBarDefaultValues: sidebarDefaultType = {
     catalog: true, 
     apis: true, 
     clusters: true,
+    environments: true,
     create: true, 
     docs: true, 
     groups: false,
@@ -33,7 +35,8 @@ const sideBarProduct: sidebarDefaultType = {
 const sideBarDemo: sidebarDefaultType = {
     ...sideBarDefaultValues,
     groups: false,
-    signOut: false
+    signOut: false,
+    environments: false
 }
 
 const sideBarWorkshop: sidebarDefaultType = {
@@ -60,6 +63,7 @@ export function sideBarBehaviour(config: ConfigApi): sidebarDefaultType{
                 catalog: config.getOptionalBoolean("catalog") ?? false, 
                 apis: config.getOptionalBoolean("apis") ?? false, 
                 clusters: config.getOptionalBoolean("clusters") ?? false,
+                environments: config.getOptionalBoolean("environments") ?? false,
                 create: config.getOptionalBoolean("create") ?? false, 
                 docs: config.getOptionalBoolean("docs") ?? false, 
                 groups: config.getOptionalBoolean("groups") ?? false,
