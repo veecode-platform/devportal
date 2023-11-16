@@ -96,7 +96,7 @@ import {
   EntityAWSLambdaOverviewCard,
   // isAWSLambdaAvailable
 } from '@roadiehq/backstage-plugin-aws-lambda';
-import { OverviewPage } from '../environment-explorer';
+import { EnvironmentOverview } from '@veecode-platform/plugin-environment-explorer';
 
 
 // Entity validate
@@ -669,7 +669,7 @@ const environmentPage = (
     <EntityLayout.Route path="/" title="Overview">
       <Grid container spacing={1} alignItems="stretch">
         <Grid item lg={6} md={12} xs={12}>
-          <OverviewPage />
+          <EnvironmentOverview />
         </Grid>
         <Grid item lg={6} md={12} xs={12} 
           // style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column', gap: '.5rem' }}

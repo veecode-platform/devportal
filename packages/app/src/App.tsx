@@ -61,7 +61,7 @@ import { UnifiedThemeProvider } from '@backstage/theme';
 import useAsync from 'react-use/lib/useAsync';
 import { makeLightTheme, makeDarkTheme } from './components/theme/Theme';
 import { ClusterExplorerPage } from './components/cluster-explorer';
-import { EnvironmentExplorerPage } from './components/environment-explorer';
+import { EnvironmentExplorerPage } from '@veecode-platform/plugin-environment-explorer';
 // import type { IdentityApi } from '@backstage/core-plugin-api';
 // import { setTokenCookie } from './cookieAuth';
 
