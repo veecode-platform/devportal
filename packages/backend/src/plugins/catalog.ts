@@ -12,8 +12,8 @@ import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-
 import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend-module-gitlab';
 // Keycloak Orgs
 import { KeycloakOrgEntityProvider } from '@janus-idp/backstage-plugin-keycloak-backend';
-// custom
-import { ClusterEntitiesProcessor, EnvironmentEntitiesProcessor } from '../platformEntitiesProcessor';
+import { ClusterEntitiesProcessor, EnvironmentEntitiesProcessor } from '@veecode-platform/plugin-veecode-platform-common';
+
 
 export default async function createPlugin(
   env: PluginEnvironment,
