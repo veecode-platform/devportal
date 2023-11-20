@@ -47,6 +47,7 @@
     "@roadiehq/backstage-plugin-github-pull-requests": "^2.5.4",
     "@veecode-platform/backstage-plugin-github-workflows": "^0.1.24",
     "@veecode-platform/backstage-plugin-gitlab-pipelines": "^0.1.21",
+    "@veecode-platform/backstage-plugin-k8s-cluster-overview": "^0.1.1",
     "@veecode-platform/core-components": "^0.13.23",
     "@veecode-platform/plugin-api-docs": "^0.9.26",
     "@veecode-platform/plugin-catalog": "^1.11.23",

@@ -97,6 +97,7 @@ import {
   // isAWSLambdaAvailable
 } from '@roadiehq/backstage-plugin-aws-lambda';
 import { EnvironmentOverview } from '@veecode-platform/plugin-environment-explorer';
+import { ClusterOverviewPage } from '@veecode-platform/backstage-plugin-k8s-cluster-overview';
 
 
 // Entity validate
@@ -636,7 +637,7 @@ const domainPage = (
 const clusterPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      {overviewContent}
+      <ClusterOverviewPage/>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
