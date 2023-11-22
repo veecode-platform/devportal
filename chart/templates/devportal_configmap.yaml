@@ -167,12 +167,8 @@ data:
               {{- if .oidcTokenProvider }}
               oidcTokenProvider: {{ .oidcTokenProvider }}
               {{- end }}
-              {{- if .skipTLSVerify }}
-              skipTLSVerify: {{ .skipTLSVerify }}
-              {{- end }}
-              {{- if .skipMetricsLookup }}
-              skipMetricsLookup: {{ .skipMetricsLookup }}
-              {{- end }}
+              skipTLSVerify: {{ .skipTLSVerify | default false}}
+              skipMetricsLookup: {{ .skipMetricsLookup | default false }}
               {{- if .serviceAccountToken }}
               serviceAccountToken: ${KUBERNETES_SERVICE_ACCOUNT_TOKEN_{{$i}}}
               {{- end }}
@@ -208,14 +204,8 @@ data:
           {{- if .region }}
           region: '{{ .region }}'
           {{- end }}
-          {{- if .skipTLSVerify }}
-          skipTLSVerify: .skipTLSVerify
-          {{- end }}
-          {{- if .skipMetricsLookup }}
-          skipMetricsLookup: .skipMetricsLookup
-          {{- end }}
           {{- if .exposeDashboard }}
-          exposeDashboard: .exposeDashboard
+          exposeDashboard: {{ .exposeDashboard }}
           {{- end }}          
       {{- end }}  
     {{- end }}
