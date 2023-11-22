@@ -153,11 +153,11 @@ data:
         type: {{ .Values.kubernetes.serviceLocatorMethod.type | default "multiTenant" }}
       clusterLocatorMethods:
       {{- range .Values.kubernetes.clusterLocatorMethods }}
-        - type: '{{ .type | default "config" | squote }}'
+        - type: '{{ .type | default "config" }}'
           {{- if .clusters }}
           clusters:
             {{- range $i, $e := .clusters}}
-            - name: {{ .name | default "config_{{$i}}" | squote }}
+            - name: {{ .name | default "config_{{$i}}" }}
               {{- if .url }}
               url: '{{ .url }}'
               {{- end }}
