@@ -219,7 +219,7 @@ platform:
 #    groups: true #enable or disable menu if mode is custom selected
 #    apiManagement: true #enable or disable menu if mode is custom selected
 
-#kubernetes:
+# kubernetes:
 #  serviceLocatorMethod:
 #    type: 'multiTenant' #determine which clusters a component is running in
 #  clusterLocatorMethods:

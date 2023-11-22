@@ -147,7 +147,7 @@ data:
       publisher:
         type: "local"
 
-    {{- if .Values.kubernetes }}
+    {{- if hasKey .Values "kubernetes" }}
     kubernetes:
       serviceLocatorMethod:
         type: {{ .Values.kubernetes.serviceLocatorMethod.type | default "multiTenant" }}
@@ -437,7 +437,7 @@ data:
     enabledPlugins:
       vault: {{ .Values.vault.enabled | default false }}
       grafana: {{ .Values.grafana.enabled | default false }}
-      kubernetes: {{ .Values.kubernetes.enabled | default false }}
+      kubernetes: {{ hasKey .Values "kubernetes" }}
       argocd: {{ .Values.argocd.enabled | default false }}
       gitlabPlugin: {{ hasKey .Values.integrations "gitlab" }}
       keycloak: {{ hasKey .Values.catalog.providers "keycloak" }}
