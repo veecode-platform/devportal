@@ -147,17 +147,17 @@ data:
       publisher:
         type: "local"
 
-    {{- if .Values.kubernetes }}
+    {{- if hasKey .Values "kubernetes" }}
     kubernetes:
       serviceLocatorMethod:
         type: {{ .Values.kubernetes.serviceLocatorMethod.type | default "multiTenant" }}
       clusterLocatorMethods:
       {{- range .Values.kubernetes.clusterLocatorMethods }}
-        - type: '{{ .type | default "config" | squote }}'
+        - type: '{{ .type | default "config" }}'
           {{- if .clusters }}
           clusters:
             {{- range $i, $e := .clusters}}
-            - name: {{ .name | default "config_{{$i}}" | squote }}
+            - name: {{ .name | default "config_{{$i}}" }}
               {{- if .url }}
               url: '{{ .url }}'
               {{- end }}
@@ -167,12 +167,8 @@ data:
               {{- if .oidcTokenProvider }}
               oidcTokenProvider: {{ .oidcTokenProvider }}
               {{- end }}
-              {{- if .skipTLSVerify }}
-              skipTLSVerify: {{ .skipTLSVerify }}
-              {{- end }}
-              {{- if .skipMetricsLookup }}
-              skipMetricsLookup: {{ .skipMetricsLookup }}
-              {{- end }}
+              skipTLSVerify: {{ .skipTLSVerify | default false}}
+              skipMetricsLookup: {{ .skipMetricsLookup | default false }}
               {{- if .serviceAccountToken }}
               serviceAccountToken: ${KUBERNETES_SERVICE_ACCOUNT_TOKEN_{{$i}}}
               {{- end }}
@@ -208,14 +204,8 @@ data:
           {{- if .region }}
           region: '{{ .region }}'
           {{- end }}
-          {{- if .skipTLSVerify }}
-          skipTLSVerify: .skipTLSVerify
-          {{- end }}
-          {{- if .skipMetricsLookup }}
-          skipMetricsLookup: .skipMetricsLookup
-          {{- end }}
           {{- if .exposeDashboard }}
-          exposeDashboard: .exposeDashboard
+          exposeDashboard: {{ .exposeDashboard }}
           {{- end }}          
       {{- end }}  
     {{- end }}
@@ -414,6 +404,11 @@ data:
           highlightAll: {{ .Values.search.pg.highlightOptions.highlightAll }}
           maxFragments: {{ .Values.search.pg.highlightOptions.maxFragments }}
           fragmentDelimiter:  {{ .Values.search.pg.highlightOptions.fragmentDelimiter }}
+        schedule:        
+          frequency: 
+            minutes: {{ .Values.search.pg.schedule.frequency.minutes }}
+          timeout: 
+            minutes: {{ .Values.search.pg.schedule.timeout.minutes }}
     auth:
       environment: {{ .Values.auth.environment | default "development" | quote }}
       session:
@@ -447,7 +442,7 @@ data:
     enabledPlugins:
       vault: {{ .Values.vault.enabled | default false }}
       grafana: {{ .Values.grafana.enabled | default false }}
-      kubernetes: {{ .Values.kubernetes.enabled | default false }}
+      kubernetes: {{ hasKey .Values "kubernetes" }}
       argocd: {{ .Values.argocd.enabled | default false }}
       gitlabPlugin: {{ hasKey .Values.integrations "gitlab" }}
       keycloak: {{ hasKey .Values.catalog.providers "keycloak" }}

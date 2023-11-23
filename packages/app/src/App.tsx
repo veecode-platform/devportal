@@ -60,7 +60,7 @@ import { SignInPage } from '@veecode-platform/core-components';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import useAsync from 'react-use/lib/useAsync';
 import { makeLightTheme, makeDarkTheme } from './components/theme/Theme';
-import { ClusterExplorerPage } from './components/cluster-explorer';
+import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-k8s-cluster-overview';
 import { EnvironmentExplorerPage } from '@veecode-platform/plugin-environment-explorer';
 // import type { IdentityApi } from '@backstage/core-plugin-api';
 // import { setTokenCookie } from './cookieAuth';

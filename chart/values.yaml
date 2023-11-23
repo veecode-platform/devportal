@@ -94,7 +94,11 @@ search:
       highlightAll: false # If true the whole document will be used as the headline, ignoring the preceding three parameters. The default is false.
       maxFragments: 0 # Maximum number of text fragments to display. The default value of zero selects a non-fragment-based headline generation method. A value greater than zero selects fragment-based headline generation (see the linked documentation above for more details).
       fragmentDelimiter: ' ... '
-
+    schedule:        
+      frequency: 
+        minutes: 3
+      timeout: 
+        minutes: 5
 grafana:
   enabled: false #enable grafana plugin
 #  domain:  #grafana domain
@@ -147,7 +151,7 @@ integrations: {}
 
 catalog:
   rules: #Catalog rules
-    - allow: [Component, API, Location, Template, Cluster]
+    - allow: [Component, API, Location, Template, Cluster, Environment]
   providers: {}
 #    github:
 #      organization: #github Organization Name
@@ -219,45 +223,31 @@ platform:
 #    groups: true #enable or disable menu if mode is custom selected
 #    apiManagement: true #enable or disable menu if mode is custom selected
 
-# kubernetes: {}
-#  type: "multiTenant" #Kubernetes type
-#  url:  #Kubernetes url
-#  name:  #Kubernetes name
-#  authProvider: 'serviceAccount' #Kubernetes auth provider
-#  skipTLSVerify: false #Kubernetes skip TLS verification
-#  skipMetricsLookup: false #Kubernetes skip Metrics Lookup
-#  serviceAccountToken:  #Kubernetes service Account Token
-#  caData:  #Kubernetes certificate Data
+# kubernetes:
+#  serviceLocatorMethod:
+#    type: 'multiTenant' #determine which clusters a component is running in
+#  clusterLocatorMethods:
+#    - type: 'config' #determine where to retrieve cluster configuration from
+#      clusters:
+#        - url: ''
+#          authProvider: ''
+#          oidcTokenProvider: 
+#          skipTLSVerify: false
+#          skipMetricsLookup: true
+#          serviceAccountToken: ''
+#          dashboardUrl:  # url copied from running the command: minikube service kubernetes-dashboard -n kubernetes-dashboard
+#          dashboardApp: 
+#          caData: 
+#          caFile: '' # local path to CA file
+#          customResources:
+#            - group: ''
+#              apiVersion: ''
+#              plural: ''
+#          name: 
+#          projectId: ''
+#          region: ''
+#          exposeDashboard: false
 
-kubernetes:
-  serviceLocatorMethod:
-    type: 'multiTenant' #determine which clusters a component is running in
-  clusterLocatorMethods:
-    - type: 'config' #determine where to retrieve cluster configuration from
-      clusters:
-        - url: http://127.0.0.1:9999
-          authProvider: 'serviceAccount'
-          oidcTokenProvider: okta
-          skipTLSVerify: false
-          skipMetricsLookup: true
-          serviceAccountToken: minikubeToken
-          dashboardUrl: http://127.0.0.1:64713 # url copied from running the command: minikube service kubernetes-dashboard -n kubernetes-dashboard
-          dashboardApp: standard
-          caData: minikube_data
-          caFile: '' # local path to CA file
-          customResources:
-            - group: 'argoproj.io'
-              apiVersion: 'v1alpha1'
-              plural: 'rollouts'
-        - url: http://127.0.0.2:9999
-          name: aws-cluster-1
-          authProvider: 'aws'
-    - type: 'gke'
-      projectId: 'gke-clusters'
-      region: 'europe-west1'
-      skipTLSVerify: true
-      skipMetricsLookup: true
-      exposeDashboard: true
 theme:
   images:
     sidebarIcon: "https://platform.vee.codes/apple-touch-icon.png" #Menu Icon Url
