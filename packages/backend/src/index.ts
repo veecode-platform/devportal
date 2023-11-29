@@ -41,6 +41,8 @@ import aws from './plugins/aws';
 import explore from './plugins/explore';
 // import { createAuthMiddleware } from './authMiddleware';
 import cookieParser from 'cookie-parser';
+// about
+import about from './plugins/about';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -103,7 +105,7 @@ async function main() {
   const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
   const awsEnv = useHotMemoize(module, () => createEnv('aws'));
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
-
+  const aboutEnv = useHotMemoize(module, () => createEnv('about'));
   // const authMiddleware = await createAuthMiddleware(config, appEnv)
 
   apiRouter.use(cookieParser());
@@ -121,6 +123,7 @@ async function main() {
   apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
   apiRouter.use('/aws', await aws(awsEnv));
+  apiRouter.use('/about', await about(aboutEnv));
 
   if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));

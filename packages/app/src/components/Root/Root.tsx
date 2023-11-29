@@ -33,6 +33,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SignUpElement from './signOut';
 import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import LanguageIcon from '@material-ui/icons/Language';
+import InfoIcon from '@material-ui/icons/Info';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { sideBarBehaviour, sidebarDefaultType } from './sideBarSchema';
 
@@ -126,6 +127,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarGroup label="Settings" icon={<UserSettingsSignInAvatar />} to="/settings">
           <SidebarSettings />
         </SidebarGroup>
+        <SidebarItem icon={InfoIcon} to="/about" text="About" />
         <SidebarSpace />
         <SidebarDivider />
         {devportalBehaviour.signOut ? <SidebarGroup label="Sign Out" icon={<ExitToAppIcon />}>

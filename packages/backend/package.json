@@ -43,6 +43,7 @@
     "@backstage/plugin-search-backend-node": "^1.2.10",
     "@backstage/plugin-techdocs-backend": "^1.6.7",
     "@immobiliarelabs/backstage-plugin-gitlab-backend": "^5.0.2",
+    "@internal/plugin-about-backend": "^0.1.0",
     "@internal/plugin-application-backend": "0.1.0",
     "@internal/plugin-application-common": "^0.1.0",
     "@janus-idp/backstage-plugin-keycloak-backend": "^1.5.3",

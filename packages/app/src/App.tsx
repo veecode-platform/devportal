@@ -64,6 +64,7 @@ import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-k8s-clus
 import { EnvironmentExplorerPage } from '@veecode-platform/plugin-environment-explorer';
 // import type { IdentityApi } from '@backstage/core-plugin-api';
 // import { setTokenCookie } from './cookieAuth';
+import { AboutPage } from '@internal/plugin-about';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
@@ -208,6 +209,7 @@ const routes = (
         </RequirePermission>
       }
     />
+    <Route path="/about" element={<AboutPage />} />
   </FlatRoutes>
 );
 

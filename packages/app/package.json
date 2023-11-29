@@ -35,6 +35,7 @@
     "@backstage/plugin-vault": "^0.1.17",
     "@backstage/theme": "^0.4.1",
     "@immobiliarelabs/backstage-plugin-gitlab": "^5.0.1",
+    "@internal/plugin-about": "^0.1.0",
     "@internal/plugin-application": "^0.1.0",
     "@internal/plugin-application-common": "^0.1.0",
     "@k-phoen/backstage-plugin-grafana": "^0.1.20",
