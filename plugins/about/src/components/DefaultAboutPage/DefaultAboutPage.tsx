@@ -41,7 +41,7 @@ export const DefaultAboutPage = () => {
         <TabbedLayout>
         <TabbedLayout.Route path="/" title="Info">
           <Grid container direction="row" spacing={3}>
-            <Grid item xs={12} md={8}>
+            <Grid item xs={12} md={12}>
               <InfoCard title="Details">
                 <List className={classes.flexContainer}>
                   {/**Devportal Version */}
