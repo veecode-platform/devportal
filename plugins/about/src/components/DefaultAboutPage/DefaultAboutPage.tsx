@@ -1,10 +1,13 @@
 import { Header, InfoCard, Page, Progress, TabbedLayout } from '@backstage/core-components'
-import { Avatar, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, makeStyles } from '@material-ui/core';
+import { Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText, makeStyles } from '@material-ui/core';
 import React from 'react';
 import { VeecodeLogoIcon } from './DevportalIcon';
 import { BackstageLogoIcon } from './BackstageLogoIcon';
 import { Alert } from '@material-ui/lab';
 import { useInfo } from '../../hooks';
+import DescriptionIcon from '@material-ui/icons/Description';
+import MemoryIcon from '@material-ui/icons/Memory';
+import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 
 const useStyles = makeStyles(theme => ({
   paperStyle: {
@@ -12,13 +15,13 @@ const useStyles = makeStyles(theme => ({
   },
   flexContainer: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     padding: 0,
-  },
-  copyButton: {
-    float: 'left',
-    margin: theme.spacing(2),
-  },
+    '& > :nth-child(odd)': {
+      backgroundColor: theme.palette.background.default,
+      borderRadius: '4px'
+    },
+  }
 }))
 
 export const DefaultAboutPage = () => {
@@ -38,9 +41,10 @@ export const DefaultAboutPage = () => {
         <TabbedLayout>
         <TabbedLayout.Route path="/" title="Info">
           <Grid container direction="row" spacing={3}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={8}>
               <InfoCard title="Details">
                 <List className={classes.flexContainer}>
+                  {/**Devportal Version */}
                   <ListItem>
                     <ListItemAvatar>
                       <Avatar>
@@ -49,10 +53,50 @@ export const DefaultAboutPage = () => {
                     </ListItemAvatar>
                     <ListItemText
                     primary="Devportal Version"
-                    secondary={"123"}
+                    secondary={about?.devportalVersion}
                     />
                   </ListItem>
-                  <Divider orientation="vertical" variant="middle" flexItem />
+               
+                 {/** Operating Sistem */}
+                 <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <DeveloperBoardIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Operating System"
+                      secondary={about?.operatingSystem}
+                    />
+                  </ListItem>
+                 
+                 {/**Resource Utilization */}
+                 <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <MemoryIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Resource utilization"
+                      secondary={about?.resourceUtilization}
+                    />
+                  </ListItem>
+
+                  {/** Node Version */}
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <DescriptionIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="NodeJS Version"
+                      secondary={about?.nodeJsVersion}
+                    />
+                  </ListItem>
+
+                  {/** Backstage Version */}
                   <ListItem>
                     <ListItemAvatar>
                       <Avatar>
