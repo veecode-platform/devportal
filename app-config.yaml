@@ -271,6 +271,15 @@ auth:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 
+    gitlab:
+      development:
+        clientId: ${AUTH_GITLAB_CLIENT_ID}
+        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+        ## uncomment if using self-hosted GitLab
+        # audience: https://gitlab.company.com
+        ## uncomment if using a custom redirect URI
+        # callbackUrl: https://${BASE_URL}/api/auth/gitlab/handler/frame
+
 enabledPlugins:
   vault: true
   grafana: true

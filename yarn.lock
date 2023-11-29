@@ -13559,9 +13559,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/core-components@npm:^0.13.24":
-  version: 0.13.24
-  resolution: "@veecode-platform/core-components@npm:0.13.24"
+"@veecode-platform/core-components@npm:^0.13.25":
+  version: 0.13.25
+  resolution: "@veecode-platform/core-components@npm:0.13.25"
   dependencies:
     "@backstage/config": ^1.0.8
     "@backstage/core-plugin-api": ^1.5.2
@@ -13609,7 +13609,7 @@ __metadata:
     react-dom: ^17.0.0
     react-router: ^6.3.0
     react-router-dom: ^6.3.0
-  checksum: 0828cb2643d79e6761e8ebd7d57821cd304c0a3a27ea7807b48dc2f907fbfc6f2bb20db4999e7a683da4de71704a188e9c634bc39bd9d637d2c0784b54038d16
+  checksum: 577cbd0d37b143c39ca9781b83f4f3507e0743c4c291fe9c6905407a243f7f770a87dea43a4bc8cf76aa7e9b2a015ab93cb2f75e7a4505a6c700eb8a787716f2
   languageName: node
   linkType: hard
 
@@ -13766,9 +13766,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-scaffolder-backend@npm:^1.0.6":
-  version: 1.0.6
-  resolution: "@veecode-platform/plugin-scaffolder-backend@npm:1.0.6"
+"@veecode-platform/plugin-scaffolder-backend@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "@veecode-platform/plugin-scaffolder-backend@npm:1.0.7"
   dependencies:
     "@backstage/backend-common": ^0.19.8
     "@backstage/backend-plugin-api": ^0.6.6
@@ -13823,7 +13823,7 @@ __metadata:
     yaml: ^2.0.0
     zen-observable: ^0.10.0
     zod: ^3.21.4
-  checksum: 71e6e5af054e106e9ef5471be69eb6a96c0f090a0f5d75250901fa8d708108bd6cb605519187359081661ea304166d215db3a8239fe94cfd830d6d648c50b2b2
+  checksum: b95ed44b561dd447cee88fbe066adacdcbbc869d38075e1e40d9c500176fa53657445da14f292f36359bab01ec99c5f880fda5e63b27774c8ec12e1b0d19db8c
   languageName: node
   linkType: hard
 
@@ -13909,9 +13909,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-vault-backend@npm:^0.3.25":
-  version: 0.3.25
-  resolution: "@veecode-platform/plugin-vault-backend@npm:0.3.25"
+"@veecode-platform/plugin-vault-backend@npm:^0.3.26":
+  version: 0.3.26
+  resolution: "@veecode-platform/plugin-vault-backend@npm:0.3.26"
   dependencies:
     "@backstage/backend-common": ^0.19.0
     "@backstage/backend-tasks": ^0.5.3
@@ -13927,14 +13927,14 @@ __metadata:
     p-limit: ^3.1.0
     winston: ^3.2.1
     yn: ^5.0.0
-  checksum: 7983af063275b5384634a9184ed0a1627dacfcafaaa485a0d9c04aad78558000f0781df00fd708d89990a00fc081c8de9cc6572c767e710795a930e9f37bf556
+  checksum: ccb2ecc03494d259e08d70fc465e54d19ee2c23c5b38e835c56925470312600e56424a6f0ff18ffa8a85ee7c3af762583d75e6517fb930b7f28bc73a37c1f1a5
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-veecode-platform-common@npm:^0.1.6":
-  version: 0.1.6
-  resolution: "@veecode-platform/plugin-veecode-platform-common@npm:0.1.6"
-  checksum: fafb1beeef677760147358e763c15018e6c77420f490ad9d85069a9c812cbf5c416f3ab5e42986bb9608ece2d199729bc3e6ed041ca6c36c3c3b40c87320b43f
+"@veecode-platform/plugin-veecode-platform-common@npm:^0.1.8":
+  version: 0.1.8
+  resolution: "@veecode-platform/plugin-veecode-platform-common@npm:0.1.8"
+  checksum: a2be76af1d9084ce305d0f1c2c271d4fd5600c01ec7aa4a476a174b3e802571e3196a35d03ee167f861d6a9ca18720271f01b0778416f40f407eaa5122f4aff6
   languageName: node
   linkType: hard
 
@@ -14557,7 +14557,7 @@ __metadata:
     "@veecode-platform/backstage-plugin-github-workflows": ^0.1.26
     "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.1.23
     "@veecode-platform/backstage-plugin-k8s-cluster-overview": ^0.1.2
-    "@veecode-platform/core-components": ^0.13.24
+    "@veecode-platform/core-components": ^0.13.25
     "@veecode-platform/plugin-api-docs": ^0.9.27
     "@veecode-platform/plugin-catalog": ^1.11.24
     "@veecode-platform/plugin-environment-explorer": ^0.1.6
@@ -15327,9 +15327,9 @@ __metadata:
     "@types/express": ^4.17.6
     "@types/express-serve-static-core": ^4.17.5
     "@types/luxon": ^2.0.4
-    "@veecode-platform/plugin-scaffolder-backend": ^1.0.6
-    "@veecode-platform/plugin-vault-backend": ^0.3.25
-    "@veecode-platform/plugin-veecode-platform-common": ^0.1.6
+    "@veecode-platform/plugin-scaffolder-backend": ^1.0.7
+    "@veecode-platform/plugin-vault-backend": ^0.3.26
+    "@veecode-platform/plugin-veecode-platform-common": ^0.1.8
     app: "link:../app"
     better-sqlite3: ^7.5.0
     cookie-parser: ^1.4.6

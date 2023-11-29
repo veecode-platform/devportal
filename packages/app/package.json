@@ -49,7 +49,7 @@
     "@veecode-platform/backstage-plugin-github-workflows": "^0.1.26",
     "@veecode-platform/backstage-plugin-gitlab-pipelines": "^0.1.23",
     "@veecode-platform/backstage-plugin-k8s-cluster-overview": "^0.1.2",
-    "@veecode-platform/core-components": "^0.13.24",
+    "@veecode-platform/core-components": "^0.13.25",
     "@veecode-platform/plugin-api-docs": "^0.9.27",
     "@veecode-platform/plugin-catalog": "^1.11.24",
     "@veecode-platform/plugin-environment-explorer": "^0.1.6",

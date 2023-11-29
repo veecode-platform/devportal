@@ -16,7 +16,7 @@ import {
   OpenIdConnectApi,
   ProfileInfoApi,
   SessionApi,
-  identityApiRef,
+  identityApiRef
 } from '@backstage/core-plugin-api';
 import { OAuth2 } from '@backstage/core-app-api';
 // google analytics
@@ -66,6 +66,6 @@ export const apis: AnyApiFactory[] = [
       GoogleAnalytics4.fromConfig(configApi, {
         identityApi,
       }),
-  }),
+  })
 ];
 
