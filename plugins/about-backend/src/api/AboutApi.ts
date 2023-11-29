@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-import { Config } from '@backstage/config';
-
-import { Logger } from 'winston';
+// import { Config } from '@backstage/config';
+// import { Logger } from 'winston';
 import { findPaths } from '@backstage/cli-common';
 import os from 'os';
 import fs from 'fs-extra';
 import { DevPortalInfo } from '../utils/types';
-import { PermissionEvaluator } from '@backstage/plugin-permission-common';
+// import { PermissionEvaluator } from '@backstage/plugin-permission-common';
 
 /** @public */
 export class AboutBackendApi {
   public constructor(
-    private readonly logger: Logger,
-    private readonly config: Config,
-    private readonly permissions: PermissionEvaluator
+ //   private readonly logger: Logger,
+ //   private readonly config: Config,
+ //   private readonly permissions: PermissionEvaluator
   ) {}
 
 
