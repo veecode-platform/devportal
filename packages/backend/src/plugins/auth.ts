@@ -186,7 +186,17 @@ export default async function createPlugin(
           },
         },
       }),
-
+      gitlab: providers.gitlab.create({
+        signIn: {
+          async resolver({ result: { fullProfile } }, ctx) {
+            return ctx.signInWithCatalogUser({
+              entityRef: {
+                name: fullProfile.id,
+              },
+            });
+          },
+        },
+      }),
     },
   });
 }
