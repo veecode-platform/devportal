@@ -3,7 +3,7 @@ import {
   loadBackendConfig,
   useHotMemoize,
   ServerTokenManager,
-  SingleHostDiscovery
+  HostDiscovery
 } from '@backstage/backend-common';
 import { Server } from 'http';
 import knexFactory from 'knex';
@@ -24,7 +24,7 @@ export async function startStandaloneServer(
   const logger = options.logger.child({ service: 'application-backend' });
   const config = await loadBackendConfig({ logger, argv: process.argv });
   const tokenManager = ServerTokenManager.fromConfig(config, {logger,});
-  const discovery = SingleHostDiscovery.fromConfig(config);
+  const discovery = HostDiscovery.fromConfig(config);
   const permissions = ServerPermissionClient.fromConfig(config, {discovery,tokenManager,});
   const db = useHotMemoize(module, () => {
     const knex = knexFactory({
