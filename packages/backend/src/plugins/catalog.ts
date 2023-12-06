@@ -2,7 +2,7 @@ import { GithubEntityProvider } from '@backstage/plugin-catalog-backend-module-g
 import { CatalogBuilder } from '@backstage/plugin-catalog-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
-import { ScaffolderEntitiesProcessor } from '@veecode-platform/plugin-scaffolder-backend';
+import { ScaffolderEntitiesProcessor } from '@backstage/plugin-catalog-backend-module-scaffolder-entity-model';
 // Bitbucket Cloud
 import { BitbucketCloudEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-cloud';
 // Bitbucket Server
@@ -11,6 +11,7 @@ import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend
 import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend-module-gitlab';
 // Keycloak Orgs
+// @ts-ignore
 import { KeycloakOrgEntityProvider } from '@janus-idp/backstage-plugin-keycloak-backend';
 import { ClusterEntitiesProcessor, EnvironmentEntitiesProcessor } from '@veecode-platform/plugin-veecode-platform-common';
 

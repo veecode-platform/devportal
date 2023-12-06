@@ -26,18 +26,18 @@ import {
   EntityGithubActionsContent,
 } from '@veecode-platform/plugin-github-actions';
 // github-workflows
-import { 
+import {
   GithubWorkflowsList,
   isGithubWorkflowsAvailable,
   GithubWorkflowsCard,
   isGithubAvailable
 } from '@veecode-platform/backstage-plugin-github-workflows';
 // gitlab-pipelines
-import { 
+import {
   GitlabPipelineList,
   isGitlabJobsAvailable,
   GitlabJobs
- } from '@veecode-platform/backstage-plugin-gitlab-pipelines';
+} from '@veecode-platform/backstage-plugin-gitlab-pipelines';
 import {
   EntityUserProfileCard,
   EntityGroupProfileCard,
@@ -101,8 +101,8 @@ import { ClusterOverviewPage } from '@veecode-platform/backstage-plugin-k8s-clus
 
 
 // Entity validate
- const isAnnotationAvailable = (entity: Entity, annotation: string) =>
-!!entity?.metadata.annotations?.[annotation];
+const isAnnotationAvailable = (entity: Entity, annotation: string) =>
+  !!entity?.metadata.annotations?.[annotation];
 
 const cicdContent = (
   <EntitySwitch>
@@ -112,7 +112,7 @@ const cicdContent = (
     </EntitySwitch.Case>
     {/* Gitlab */}
     <EntitySwitch.Case if={isGitlabAvailable}>
-      <GitlabPipelineList/>
+      <GitlabPipelineList />
     </EntitySwitch.Case>
 
     <EntitySwitch.Case>
@@ -168,7 +168,7 @@ const entityWarningContent = (
 const WorkflowsContent = (
   <EntitySwitch>
     <EntitySwitch.Case if={isGithubActionsAvailable}>
-      <GithubWorkflowsList/>
+      <GithubWorkflowsList />
     </EntitySwitch.Case>
 
     <EntitySwitch.Case>
@@ -188,7 +188,7 @@ const WorkflowsContent = (
       />
     </EntitySwitch.Case>
   </EntitySwitch>
- );
+);
 
 /* const argoCdContent = (
   <>
@@ -216,7 +216,7 @@ const techdocsContent = (
 const pullRequestsContent = (
   <EntitySwitch>
     <EntitySwitch.Case if={isGithubActionsAvailable}>
-      <EntityGithubPullRequestsTable/>
+      <EntityGithubPullRequestsTable />
     </EntitySwitch.Case>
     <EntitySwitch.Case if={isGitlabAvailable}>
       <EntityGitlabMergeRequestsTable />
@@ -226,20 +226,20 @@ const pullRequestsContent = (
 
 const vaultContent = (
   <Grid item>
-  <EntityVaultCard />
-</Grid>
+    <EntityVaultCard />
+  </Grid>
 );
 
 const grafanaContent = (
   <Grid item >
-  <EntityGrafanaDashboardsCard />
+    <EntityGrafanaDashboardsCard />
   </Grid>
 );
 
 const grafanaAlertsContent = (
   <Grid item  >
-  <EntityGrafanaAlertsCard />
-</Grid>
+    <EntityGrafanaAlertsCard />
+  </Grid>
 )
 
 const kubernetesContent = (
@@ -250,19 +250,19 @@ const kubernetesContent = (
 
 const plugins = [
   {
-    path:"/vault",
+    path: "/vault",
     annotation: "vault.io/secrets-path",
     title: "Vault",
     content: vaultContent
   },
   {
-    path:"/grafana",
+    path: "/grafana",
     annotation: "grafana/alert-label-selector",
     title: "Grafana",
     content: grafanaContent
   },
   {
-    path:"/grafana-alerts",
+    path: "/grafana-alerts",
     annotation: "grafana/alert-label-selector",
     title: "Grafana Alerts",
     content: grafanaAlertsContent
@@ -274,13 +274,13 @@ const plugins = [
     content: argoCdContent
   },*/
   {
-    path:"/kubernetes",
+    path: "/kubernetes",
     annotation: "backstage.io/kubernetes-id",
     title: "Kubernetes",
     content: kubernetesContent
   },
   {
-    path:"/docs",
+    path: "/docs",
     annotation: "backstage.io/techdocs-ref",
     title: "Docs",
     content: techdocsContent
@@ -390,19 +390,19 @@ const serviceEntityPage = (
     </EntityLayout.Route>
 
     {
-      plugins.map((item: PluginItem) =>{
-        return(
-          <EntityLayout.Route 
-            if={(entity)=>{ 
+      plugins.map((item: PluginItem) => {
+        return (
+          <EntityLayout.Route
+            if={(entity) => {
               const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
-              if(show !== undefined) return show
+              if (show !== undefined) return show
               return false
-            }} 
+            }}
             path={item.path} title={item.title} key={item.title}>
             {item.content}
-        </EntityLayout.Route>
+          </EntityLayout.Route>
         )
-      }) 
+      })
     }
 
   </EntityLayout>
@@ -429,19 +429,19 @@ const devopsEntityPage = (
     </EntityLayout.Route>
 
     {
-      plugins.map((item: PluginItem) =>{
-        return(
-          <EntityLayout.Route 
-            if={(entity)=>{ 
+      plugins.map((item: PluginItem) => {
+        return (
+          <EntityLayout.Route
+            if={(entity) => {
               const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
-              if(show !== undefined) return show
+              if (show !== undefined) return show
               return false
-            }} 
+            }}
             path={item.path} title={item.title} key={item.title}>
             {item.content}
-        </EntityLayout.Route>
+          </EntityLayout.Route>
         )
-      }) 
+      })
     }
 
   </EntityLayout>
@@ -468,19 +468,19 @@ const websiteEntityPage = (
     </EntityLayout.Route>
 
     {
-      plugins.map((item: PluginItem) =>{
-        return(
-          <EntityLayout.Route 
-            if={(entity)=>{ 
+      plugins.map((item: PluginItem) => {
+        return (
+          <EntityLayout.Route
+            if={(entity) => {
               const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
-              if(show !== undefined) return show
+              if (show !== undefined) return show
               return false
-            }} 
+            }}
             path={item.path} title={item.title} key={item.title} >
             {item.content}
-        </EntityLayout.Route>
+          </EntityLayout.Route>
         )
-      }) 
+      })
     }
   </EntityLayout>
 );
@@ -491,7 +491,7 @@ const defaultEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
-    
+
 
     <EntityLayout.Route
       if={(entity) => {
@@ -637,7 +637,21 @@ const domainPage = (
 const clusterPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <ClusterOverviewPage/>
+      <ClusterOverviewPage />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path='/about' title='About'>
+      <Grid container spacing={3} alignItems="stretch">
+        <Grid item md={6}>
+          <EntityAboutCard variant="gridItem" />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityCatalogGraphCard variant="gridItem" height={400} />
+        </Grid>
+        <Grid item md={4} xs={12}>
+          <EntityLinksCard />
+        </Grid>
+      </Grid>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
@@ -672,9 +686,9 @@ const environmentPage = (
         <Grid item lg={6} md={12} xs={12}>
           <EnvironmentOverview />
         </Grid>
-        <Grid item lg={6} md={12} xs={12} 
-          // style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column', gap: '.5rem' }}
-          >
+        <Grid item lg={6} md={12} xs={12}
+        // style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column', gap: '.5rem' }}
+        >
           {/* <EntityAboutCard variant='flex' /> */}
           <EntityCatalogGraphCard variant='flex' height={300} />
         </Grid>
@@ -684,7 +698,7 @@ const environmentPage = (
 )
 
 export const entityPage = (
-<EntitySwitch>
+  <EntitySwitch>
     <EntitySwitch.Case if={isKind('component')} children={componentPage} />
     <EntitySwitch.Case if={isKind('api')} children={apiPage} />
     <EntitySwitch.Case if={isKind('group')} children={groupPage} />
@@ -692,7 +706,7 @@ export const entityPage = (
     <EntitySwitch.Case if={isKind('system')} children={systemPage} />
     <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
     <EntitySwitch.Case if={isKind('cluster')} children={clusterPage} />
-    <EntitySwitch.Case if={isKind('environment')} children={environmentPage}/>
+    <EntitySwitch.Case if={isKind('environment')} children={environmentPage} />
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
 );

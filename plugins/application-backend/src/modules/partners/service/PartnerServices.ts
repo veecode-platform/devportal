@@ -23,7 +23,7 @@ export class PartnerServices {
     try {
       const user = new UserDto(partner.name, partner.email);
       const keycloakUser = await KeycloakUserService.Instance.createUser(user);
-      await KeycloakUserService.Instance.addUserToGroup(
+      return await KeycloakUserService.Instance.addUserToGroup(
         keycloakUser.id,
         groupId,
       );
@@ -37,7 +37,7 @@ export class PartnerServices {
       const partnerRepository = await PostgresPartnerRepository.create(
         await options.database.getClient(),
       );
-      await partnerRepository.getPartnerById(partnersId);
+      return await partnerRepository.getPartnerById(partnersId);
 
       /* if (partner instanceof Object) { refaactor
         const applications: string[] = partner.applicationId as string[];
@@ -88,7 +88,7 @@ export class PartnerServices {
             partnerDto.name as string,
             partnerDto.email as string,
           );
-          await KeycloakUserService.Instance.updateUser(
+          return await KeycloakUserService.Instance.updateUser(
             keycloakUser.id,
             userDto,
           );
@@ -131,6 +131,7 @@ export class PartnerServices {
           });
         }*/
       }
+      return 
     } catch (error) {
       return error
     }
