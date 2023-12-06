@@ -7,6 +7,10 @@ metadata:
   annotations:
     dev.okteto.com/auto-ingress: "true"
   {{- end }}
+  {{- if .Values.serviceMonitor.enabled }}
+  labels:
+    operated-prometheus: "true"
+  {{- end }}
 spec:
   ports:
     - port: {{ .Values.service.containerPort }}

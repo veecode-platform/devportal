@@ -61,7 +61,7 @@ appConfig:
     csp:
       connectSrc: ["'self'", "http:", "https:"] #CSP connect-src
       imgSrc: ["'self'", 'data:'] #CSP img-src
-      scriptSrc: ["'self'", "'unsafe-eval'", 'htts://www.google-analytics.com', 'https://www.googletagmanager.com'] #CSP script-src
+      scriptSrc: ["'self'", "'unsafe-eval'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com'] #CSP script-src
 #      frameAncestors: ["'self'", '*'] #CSP frame-ancestors
 #      frameSrc: ["'self'"] #CSP frame-src
 #  analytics: 
@@ -257,3 +257,8 @@ theme:
      #use configmapName or downloadUrl
 #    configmapName: #Configmap with theme file created
 #    downloadUrl: #Theme file url
+
+serviceMonitor: 
+  enabled: false #true to enable
+# selectors: 
+#   release: prometheus
