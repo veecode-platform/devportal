@@ -50,6 +50,8 @@ RUN --mount=type=cache,target=/home/node/.yarn/berry/cache,sharing=locked,uid=10
 COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
+COPY --chown=node:node devportal.json backstage.json ./
+
 # RUN npm prune --production
 
 # Create the entrypoint script
@@ -60,4 +62,4 @@ USER node
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 
-CMD ["node", "packages/backend", "--config", "app-config.yaml"]
+CMD ["node", "packages/backend", "--config", "app-config.local.yaml"]
