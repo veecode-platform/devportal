@@ -1,0 +1,34 @@
+name: Publish Devportal Homolog Helm Chart on apr Enviroment 
+
+on:
+  push:
+    branches: ["develop"]
+    
+jobs:
+   Install_Devportal_Homolog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: GitHub Action for DigitalOcean - doctl
+        uses: digitalocean/action-doctl@v2.3.0
+        with:
+          token: ${{ secrets.DO_TOKEN }}
+
+      - name: Install Helm  
+        shell: bash
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Helm update chart
+        shell: bash
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.CLUSTER_NAME }}
+
+          if helm ls -A | grep -q "platform-devportal-homolog"; then
+            NAMESPACE=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $2}')
+            helm get values platform-devportal-homolog -n $NAMESPACE | tail -n +2 > devportal.yaml
+            helm upgrade platform-devportal-homolog --install --recreate-pods --values ./devportal.yaml ./chart -n $NAMESPACE
+          else 
+            echo "Instalation of Platform devportal (Homolog) not found on ${{ secrets.CLUSTER_NAME }}"
+            exit 1
+          fi
