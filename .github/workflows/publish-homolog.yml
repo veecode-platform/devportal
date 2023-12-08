@@ -25,16 +25,12 @@ jobs:
           wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           chmod a+x /usr/local/bin/yq
           yq --version
-          
-      - name: Update app version on values
-        shell: bash
-        run: |
-          yq e ".image.tag = \"$(jq -r .version package.json)\"" -i ./chart/values.yaml
 
       - name: Helm update chart
         shell: bash
         run: |
           doctl kubernetes cluster kubeconfig save ${{ secrets.CLUSTER_NAME }}
+          yq e ".image.tag = \"$(jq -r .version package.json)\"" -i ./chart/values.yaml
 
           if helm ls -A | grep -q "platform-devportal-homolog"; then
             NAMESPACE=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $2}')
