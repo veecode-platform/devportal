@@ -18,8 +18,8 @@ jobs:
         shell: bash
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-          apt get yq && apt get jq
-
+          apt-get install yq jq
+          
       - name: Update app version on values
         shell: bash
         run: |
