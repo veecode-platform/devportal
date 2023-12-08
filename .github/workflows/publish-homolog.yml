@@ -14,10 +14,16 @@ jobs:
         with:
           token: ${{ secrets.DO_TOKEN }}
 
-      - name: Install Helm  
+      - name: Install Helm yq an jq
         shell: bash
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          apt get yq && apt get jq
+
+      - name: Update app version on values
+        shell: bash
+        run: |
+          yq e ".image.tag = \"$(jq -r .version package.json)\"" -i ./chart/values.yaml
 
       - name: Helm update chart
         shell: bash
