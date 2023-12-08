@@ -31,6 +31,7 @@ jobs:
         run: |
           doctl kubernetes cluster kubeconfig save ${{ secrets.CLUSTER_NAME }}
           yq e ".image.tag = \"$(jq -r .version package.json)\"" -i ./chart/values.yaml
+          yq e ".appVersion = \"$(jq -r .version package.json)\"" -i ./chart/Chart.yaml
 
           if helm ls -A | grep -q "platform-devportal-homolog"; then
             NAMESPACE=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $2}')
