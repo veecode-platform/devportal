@@ -14,11 +14,17 @@ jobs:
         with:
           token: ${{ secrets.DO_TOKEN }}
 
-      - name: Install Helm yq an jq
+      - name: Install Helm 
         shell: bash
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-          apt-get install yq jq
+
+      - name: Install yq 
+        shell: bash
+        run: |
+          wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod a+x /usr/local/bin/yq
+          yq --version
           
       - name: Update app version on values
         shell: bash
