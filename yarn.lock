@@ -6418,7 +6418,7 @@ __metadata:
     "@types/pg": ^8.6.6
     "@types/supertest": ^2.0.8
     "@types/uuid": ^8.0.0
-    axios: 0.27.0
+    axios: 1.6.0
     class-validator: ^0.11.0
     express: ^4.17.1
     express-promise-router: ^4.1.0
@@ -14074,16 +14074,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.27.0":
-  version: 0.27.0
-  resolution: "axios@npm:0.27.0"
-  dependencies:
-    follow-redirects: ^1.14.9
-    form-data: ^4.0.0
-  checksum: 57078fe72c3c01031f2e67c4b48569d15fb54d48aabc9916c0a3619856c958ea9e4e76a313ac83ec9d8d3bbe076c148d98c829a534db11a28513f3f72277fefb
-  languageName: node
-  linkType: hard
-
 "axios@npm:1.4.0":
   version: 1.4.0
   resolution: "axios@npm:1.4.0"
@@ -14092,6 +14082,17 @@ __metadata:
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
   checksum: 7fb6a4313bae7f45e89d62c70a800913c303df653f19eafec88e56cea2e3821066b8409bc68be1930ecca80e861c52aa787659df0ffec6ad4d451c7816b9386b
+  languageName: node
+  linkType: hard
+
+"axios@npm:1.6.0":
+  version: 1.6.0
+  resolution: "axios@npm:1.6.0"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: c7c9f2ae9e0b9bad7d6f9a4dff030930b12ee667dedf54c3c776714f91681feb743c509ac0796ae5c01e12c4ab4a2bee74905068dd200fbc1ab86f9814578fb0
   languageName: node
   linkType: hard
 
