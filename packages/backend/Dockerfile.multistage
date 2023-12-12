@@ -88,6 +88,7 @@ RUN npm prune --production
 COPY --from=build --chown=node:node /app/packages/backend/dist/bundle/ ./
 
 COPY --chown=node:node app-config.yaml ./
+COPY --chown=node:node devportal.json backstage.json ./
 
 ENV NODE_ENV production
 

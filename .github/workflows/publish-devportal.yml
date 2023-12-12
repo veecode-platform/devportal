@@ -44,6 +44,7 @@ jobs:
           yarn install --frozen-lockfile
           yarn tsc
           yarn build
+          jq --arg version "$(jq -r .version package.json)" '.version = $version' devportal.json > temp.json && mv temp.json devportal.json
       
       - name: Setup keychain
         if: runner.os == 'macOS'

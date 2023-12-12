@@ -52,6 +52,8 @@ RUN --mount=type=cache,target=/home/node/.yarn/berry/cache,sharing=locked,uid=10
 COPY --chown=default:default packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
+COPY --chown=default:default devportal.json backstage.json ./
+
 # Create the entrypoint script
 USER root
 COPY packages/backend/entrypoint.sh /app/entrypoint.sh
