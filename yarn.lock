@@ -6419,7 +6419,7 @@ __metadata:
     "@types/supertest": ^2.0.8
     "@types/uuid": ^8.0.0
     axios: 0.27.0
-    class-validator: ^0.11.0
+    class-validator: ^0.14.0
     express: ^4.17.1
     express-promise-router: ^4.1.0
     jest: ^29.3.1
@@ -12155,10 +12155,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/validator@npm:10.11.3":
-  version: 10.11.3
-  resolution: "@types/validator@npm:10.11.3"
-  checksum: 07db233c8717043594a41d3f9e044216ed29da0e7db74b345bc6b8a6cb0e3fc4f808e98f7ce63d3912ba1890af692a9673924bfa6078493ce5576ce857b20fa0
+"@types/validator@npm:^13.7.10":
+  version: 13.11.7
+  resolution: "@types/validator@npm:13.11.7"
+  checksum: 975ad31728f3e32278f090545b879453d5d2b26dd159c6b632efb79e748711bca15e6339b93e85c33b48208b1aee262d3043246118aa3c67a74fb0f89700b1d5
   languageName: node
   linkType: hard
 
@@ -15295,14 +15295,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-validator@npm:^0.11.0":
-  version: 0.11.1
-  resolution: "class-validator@npm:0.11.1"
+"class-validator@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "class-validator@npm:0.14.0"
   dependencies:
-    "@types/validator": 10.11.3
-    google-libphonenumber: ^3.1.6
-    validator: 12.0.0
-  checksum: 42a7df2ff0e4fa9f52458b6ffc54e3255417a7c1fe9601bf89c3103a832abfe804f185843c8347aab0a899367be9ea99ae0ca6cf5b4f4f2849156112d9430154
+    "@types/validator": ^13.7.10
+    libphonenumber-js: ^1.10.14
+    validator: ^13.7.0
+  checksum: f62e4a0ad24cee68f4b2bc70d32b96de90cb598f96bde362b4dbf4234151af8eb6ae225458312a38fc49fa3959844cf61c60e731a8205e9a570454cff8de2710
   languageName: node
   linkType: hard
 
@@ -20188,13 +20188,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"google-libphonenumber@npm:^3.1.6":
-  version: 3.2.33
-  resolution: "google-libphonenumber@npm:3.2.33"
-  checksum: d029c19c7278ac9acb446028c2e304df16341732905a0cf8a105ab595cb19c01456fd57d76e48a3220038044d8ce361edc539eea2bfd924ea36fb28178cf7dbe
-  languageName: node
-  linkType: hard
-
 "google-p12-pem@npm:^4.0.0":
   version: 4.0.1
   resolution: "google-p12-pem@npm:4.0.1"
@@ -23641,6 +23634,13 @@ __metadata:
     sigstore: ^1.4.0
     ssri: ^10.0.1
   checksum: 03bedb65eb2293cfe5039f925ec1041deea698c5ac802bb74f6a0d44ee70529c38c32eea7c722f3a1f1219b54314021ad7f4764f93b66d619bea62ce0759faa0
+  languageName: node
+  linkType: hard
+
+"libphonenumber-js@npm:^1.10.14":
+  version: 1.10.51
+  resolution: "libphonenumber-js@npm:1.10.51"
+  checksum: e3fd98e3cb7b2197e949f2a53744610942c831a9c3b864c6ce128f0b0ff6884b28ffd3f5f6fc6cb804a2556dfac3a07aa8c63b4bf9d36288a553bae2faea48d0
   languageName: node
   linkType: hard
 
@@ -33629,10 +33629,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"validator@npm:12.0.0":
-  version: 12.0.0
-  resolution: "validator@npm:12.0.0"
-  checksum: dbcd76d296537f7ee653791955b2273b61e6216f527a705196e84b595176e2a7459c0de593ccbcbde939818da5894b3845f2a52056cf81260f16826ac8fefa71
+"validator@npm:^13.7.0":
+  version: 13.11.0
+  resolution: "validator@npm:13.11.0"
+  checksum: d1e0c27022681420756da25bc03eb08d5f0c66fb008f8ff02ebc95812b77c6be6e03d3bd05cf80ca702e23eeb73dadd66b4b3683173ea2a0bc7cc72820bee131
   languageName: node
   linkType: hard
 
