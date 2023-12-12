@@ -55,32 +55,32 @@ import { UserIdentity } from '@backstage/core-components';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@internal/plugin-application-common';
 import { ExplorePage } from './components/explorer/ExplorerPage';
-import { configApiRef, /*discoveryApiRef,*/ useApi } from "@backstage/core-plugin-api";
+import { configApiRef, discoveryApiRef, useApi } from "@backstage/core-plugin-api";
 import { SignInPage } from '@veecode-platform/core-components';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import useAsync from 'react-use/lib/useAsync';
 import { makeLightTheme, makeDarkTheme } from './components/theme/Theme';
 import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-k8s-cluster-overview';
 import { EnvironmentExplorerPage } from '@veecode-platform/plugin-environment-explorer';
-// import type { IdentityApi } from '@backstage/core-plugin-api';
-// import { setTokenCookie } from './cookieAuth';
 import { AboutPage } from '@internal/plugin-about';
+import type { IdentityApi } from '@backstage/core-plugin-api';
+import { setTokenCookie } from './cookieAuth';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
   if (guest) props.onSignInSuccess(UserIdentity.createGuest());
-  // const discoveryApi = useApi(discoveryApiRef);
+  const discoveryApi = useApi(discoveryApiRef);
   return (<SignInPage
     {...props}
     provider={providers[1]}
-    /*onSignInSuccess={async (identityApi: IdentityApi) => {
+    onSignInSuccess={async (identityApi: IdentityApi) => {
       setTokenCookie(
-        await discoveryApi.getBaseUrl('cookie'),
+        await discoveryApi.getBaseUrl('cookie'), 
         identityApi,
       );
       props.onSignInSuccess(identityApi);
-    }}*/
+    }}
 
   />)
 };
@@ -110,6 +110,7 @@ const app = createApp({
     bind(catalogPlugin.externalRoutes, {
       createComponent: scaffolderPlugin.routes.root,
       viewTechDoc: techdocsPlugin.routes.docRoot,
+      createFromTemplate: scaffolderPlugin.routes.selectedTemplate,
     });
     bind(apiDocsPlugin.externalRoutes, {
       registerApi: catalogImportPlugin.routes.importPage,

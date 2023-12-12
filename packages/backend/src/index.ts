@@ -39,10 +39,10 @@ import gitlab from './plugins/gitlab';
 import aws from './plugins/aws';
 // explorer
 import explore from './plugins/explore';
-// import { createAuthMiddleware } from './authMiddleware';
-import cookieParser from 'cookie-parser';
 // about
 import about from './plugins/about';
+import { createAuthMiddleware } from './authMiddleware';
+import cookieParser from 'cookie-parser';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -56,6 +56,9 @@ function makeCreateEnv(config: Config) {
     discovery,
     tokenManager,
   });
+  const identity = DefaultIdentityClient.create({
+    discovery,
+  });
 
   root.info(`Created UrlReader ${reader}`);
 
@@ -64,9 +67,9 @@ function makeCreateEnv(config: Config) {
     const database = databaseManager.forPlugin(plugin);
     const cache = cacheManager.forPlugin(plugin);
     const scheduler = taskScheduler.forPlugin(plugin);
-    const identity = DefaultIdentityClient.create({
+    /*const identity = DefaultIdentityClient.create({
       discovery,
-    });
+    });*/
     return {
       logger,
       database,
@@ -92,7 +95,6 @@ async function main() {
   });
 
   const createEnv = makeCreateEnv(config);
-  const apiRouter = Router();
 
   const healthcheckEnv = useHotMemoize(module, () => createEnv('healthcheck'));
   const catalogEnv = useHotMemoize(module, () => createEnv('catalog'));
@@ -106,50 +108,52 @@ async function main() {
   const awsEnv = useHotMemoize(module, () => createEnv('aws'));
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
   const aboutEnv = useHotMemoize(module, () => createEnv('about'));
-  // const authMiddleware = await createAuthMiddleware(config, appEnv)
 
+  const authMiddleware = await createAuthMiddleware(config, appEnv);
+  
+  const apiRouter = Router();
   apiRouter.use(cookieParser());
   apiRouter.use('/auth', await auth(authEnv))
-  apiRouter.use('/explore', await explore(exploreEnv));
-  // apiRouter.use('/cookie', (_req, res) => {
-  //   res.status(200).send(`Coming right up`);
-  // });
+  apiRouter.use('/cookie', authMiddleware, (_req, res) => {
+    res.status(200).send(`Coming right up`);
+  });
 
-  apiRouter.use('/catalog', await catalog(catalogEnv));
-  apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));;
-  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
-  apiRouter.use('/proxy', await proxy(proxyEnv));
-  apiRouter.use('/search', await search(searchEnv));
-  apiRouter.use('/permission', await permission(permissionEnv));
-  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
-  apiRouter.use('/aws', await aws(awsEnv));
-  apiRouter.use('/about', await about(aboutEnv));
+  apiRouter.use('/explore', authMiddleware, await explore(exploreEnv));
+  apiRouter.use('/catalog', authMiddleware, await catalog(catalogEnv));
+  apiRouter.use('/scaffolder', authMiddleware, await scaffolder(scaffolderEnv));
+  apiRouter.use('/proxy', authMiddleware, await proxy(proxyEnv));
+  apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
+  apiRouter.use('/search', authMiddleware, await search(searchEnv));
+  apiRouter.use('/permission', authMiddleware, await permission(permissionEnv));
+  apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
+  apiRouter.use('/aws', authMiddleware, await aws(awsEnv));
+  apiRouter.use('/about', authMiddleware, await about(aboutEnv));
 
   if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));
-    apiRouter.use('/devportal', await application(applicationEnv));
+    apiRouter.use('/devportal', authMiddleware, await application(applicationEnv));
   }
 
   if (config.getOptionalBoolean("enabledPlugins.vault")) {
     const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
-    apiRouter.use('/vault', await vault(vaultEnv));
+    apiRouter.use('/vault', authMiddleware, await vault(vaultEnv));
   }
   if (config.getOptionalBoolean("enabledPlugins.kubernetes")) {
     const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
-    apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
+    apiRouter.use('/kubernetes', authMiddleware, await kubernetes(kubernetesEnv));
   }
   if (config.getOptionalBoolean("enabledPlugins.argocd")) {
     const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
-    apiRouter.use('/argocd', await argocd(argocdEnv));
+    apiRouter.use('/argocd', authMiddleware, await argocd(argocdEnv));
   }
 
   if (config.getBoolean("enabledPlugins.gitlabPlugin")) {
     const gitlabEnv = useHotMemoize(module, () => createEnv('gitlab'));
-    apiRouter.use('/gitlab', await gitlab(gitlabEnv));
+    apiRouter.use('/gitlab', authMiddleware, await gitlab(gitlabEnv));
   }
 
-  // Add backends ABOVE this line; this 404 handler is the catch-all fallback
-  apiRouter.use(notFoundHandler());
+  // Add backends ABOVE this line; this 404 handler is the catch-all fallback 
+  apiRouter.use(authMiddleware, notFoundHandler());
 
   const service = createServiceBuilder(module)
     .loadConfig(config)
