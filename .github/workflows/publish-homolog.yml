@@ -1,8 +1,10 @@
 name: Publish Devportal Homolog Helm Chart on apr Enviroment 
 
-on:
-  push:
-    branches: ["develop"]
+# on:
+#   push:
+#     branches: ["develop"]
+on: 
+  workflow_dispatch:
     
 jobs:
    Install_Devportal_Homolog:
