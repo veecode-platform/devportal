@@ -10,6 +10,11 @@
 {{ $cspListValues := append $cspListValues (include "extract-host" .Values.theme.images.sidebarIcon) }}
 {{ $cspListValues := $cspListValues | uniq }}
 
+{{/*Getting serviceLocatorMethod type*/}}
+{{- $kubernetes := .Values.kubernetes | default dict }}
+{{- $serviceLocatorMethod := $kubernetes.serviceLocatorMethod | default dict }}
+{{- $serviceLocatorMethodType := $serviceLocatorMethod.type | default "multiTenant" }}
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -150,7 +155,7 @@ data:
     {{- if hasKey .Values "kubernetes" }}
     kubernetes:
       serviceLocatorMethod:
-        type: {{ .Values.kubernetes.serviceLocatorMethod.type | default "multiTenant" }}
+        type: {{ $serviceLocatorMethodType }}
       clusterLocatorMethods:
       {{- range .Values.kubernetes.clusterLocatorMethods }}
         - type: '{{ .type | default "config" }}'
