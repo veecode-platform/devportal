@@ -189,11 +189,26 @@ export default async function createPlugin(
       gitlab: providers.gitlab.create({
         signIn: {
           async resolver({ result: { fullProfile } }, ctx) {
-            return ctx.signInWithCatalogUser({
-              entityRef: {
-                name: fullProfile.id,
+            const userId = fullProfile.id;
+            const userName = fullProfile.displayName
+            if (!userId) {
+              throw new Error(
+                `Gitlab user profile does not contain a userId`,
+              );
+            }
+
+            const userEntityRef = stringifyEntityRef({
+              kind: 'User',
+              name: userName,
+            });
+            
+            return ctx.issueToken({
+              claims: {
+                sub: userEntityRef,
+                ent: [userEntityRef],
               },
             });
+            
           },
         },
       }),
