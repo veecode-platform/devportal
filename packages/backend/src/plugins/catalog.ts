@@ -13,7 +13,7 @@ import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend
 // Keycloak Orgs
 // @ts-ignore
 import { KeycloakOrgEntityProvider } from '@janus-idp/backstage-plugin-keycloak-backend';
-import { ClusterEntitiesProcessor, EnvironmentEntitiesProcessor } from '@veecode-platform/plugin-veecode-platform-common';
+import { ClusterEntitiesProcessor, DatabaseEntitiesProcessor, EnvironmentEntitiesProcessor } from '@veecode-platform/plugin-veecode-platform-common';
 
 
 export default async function createPlugin(
@@ -85,6 +85,7 @@ export default async function createPlugin(
 
   builder.addProcessor( new ClusterEntitiesProcessor());
   builder.addProcessor( new EnvironmentEntitiesProcessor());
+  builder.addProcessor( new DatabaseEntitiesProcessor());
 
   builder.addProcessor(new ScaffolderEntitiesProcessor());
   const { processingEngine, router } = await builder.build();
