@@ -720,11 +720,20 @@ const databasePage = (
         <Grid item lg={6} md={12} xs={12}>
           <EnvironmentOverview />
         </Grid>
-        <Grid item lg={6} md={12} xs={12}
-        // style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column', gap: '.5rem' }}
-        >
-          {/* <EntityAboutCard variant='flex' /> */}
+        <Grid item lg={6} md={12} xs={12} >
           <EntityCatalogGraphCard variant='flex' height={300} />
+          <Grid item style={{marginTop: '1.2rem'}}>
+            <EntitySwitch>
+              {/* github */}
+              <EntitySwitch.Case if={isGithubInsightsAvailable}>     
+                  <EntityGithubInsightsLanguagesCard />
+              </EntitySwitch.Case>
+              {/* gitlab */}
+              <EntitySwitch.Case if={isGitlabAvailable}>
+                  <EntityGitlabLanguageCard />
+              </EntitySwitch.Case>
+            </EntitySwitch>
+          </Grid>
         </Grid>
       </Grid>
     </EntityLayout.Route>
