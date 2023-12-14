@@ -713,6 +713,24 @@ const environmentPage = (
   </EntityLayout>
 )
 
+const databasePage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      <Grid container spacing={1} alignItems="stretch">
+        <Grid item lg={6} md={12} xs={12}>
+          <EnvironmentOverview />
+        </Grid>
+        <Grid item lg={6} md={12} xs={12}
+        // style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column', gap: '.5rem' }}
+        >
+          {/* <EntityAboutCard variant='flex' /> */}
+          <EntityCatalogGraphCard variant='flex' height={300} />
+        </Grid>
+      </Grid>
+    </EntityLayout.Route>
+  </EntityLayout>
+)
+
 export const entityPage = (
   <EntitySwitch>
     <EntitySwitch.Case if={isKind('component')} children={componentPage} />
@@ -723,6 +741,7 @@ export const entityPage = (
     <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
     <EntitySwitch.Case if={isKind('cluster')} children={clusterPage} />
     <EntitySwitch.Case if={isKind('environment')} children={environmentPage} />
+    <EntitySwitch.Case if={isKind('database')} children={databasePage} />
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
 );

@@ -293,6 +293,7 @@ platform:
     apis: true
     clusters: true
     environments: true
+    databases: true
     create: true
     docs: true
     groups: false

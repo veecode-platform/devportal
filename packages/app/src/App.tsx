@@ -62,6 +62,7 @@ import useAsync from 'react-use/lib/useAsync';
 import { makeLightTheme, makeDarkTheme } from './components/theme/Theme';
 import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-k8s-cluster-overview';
 import { EnvironmentExplorerPage } from '@veecode-platform/plugin-environment-explorer';
+import { DatabaseExplorerPage } from '@veecode-platform/plugin-database-explorer';
 import { AboutPage } from '@internal/plugin-about';
 import type { IdentityApi } from '@backstage/core-plugin-api';
 import { setTokenCookie } from './cookieAuth';
@@ -184,6 +185,7 @@ const routes = (
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route path="/cluster-explorer" element={<ClusterExplorerPage/>}/> 
     <Route path="/environments-explorer" element={<EnvironmentExplorerPage />}/>
+    <Route path="/database-explorer" element={<DatabaseExplorerPage/>}/>
     <Route path="/create" element={<ScaffolderPage />} />
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
