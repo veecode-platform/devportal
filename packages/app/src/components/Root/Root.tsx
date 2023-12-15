@@ -33,14 +33,13 @@ import LayersIcon from '@material-ui/icons/Layers';
 import PeopleIcon from '@material-ui/icons/People';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SignUpElement from './signOut';
-import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import LanguageIcon from '@material-ui/icons/Language';
 import InfoIcon from '@material-ui/icons/Info';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { sideBarBehaviour, sidebarDefaultType } from './sideBarSchema';
-import DnsIcon from '@material-ui/icons/Dns';
-//import WorkIcon from '@material-ui/icons/Work';
-import {VeecodeLogoIcon} from './DevportalIcon'
+import {VeecodeLogoIcon} from './DevportalIcon';
+import { GrCluster } from "react-icons/gr";
+import { ImDatabase } from "react-icons/im";
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -98,12 +97,12 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
           <SidebarSubmenuItem
             title="Clusters"
             to="cluster-explorer"
-            icon={DeviceHubIcon}
+            icon={GrCluster}
           /> 
           <SidebarSubmenuItem
             title="Databases"
             to="database-explorer"
-            icon={DnsIcon}
+            icon={ImDatabase}
           />
           <SidebarDivider />
         </SidebarSubmenu>
