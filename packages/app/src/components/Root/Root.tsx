@@ -39,7 +39,8 @@ import InfoIcon from '@material-ui/icons/Info';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { sideBarBehaviour, sidebarDefaultType } from './sideBarSchema';
 import DnsIcon from '@material-ui/icons/Dns';
-import WorkIcon from '@material-ui/icons/Work';
+//import WorkIcon from '@material-ui/icons/Work';
+import {VeecodeLogoIcon} from './DevportalIcon'
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -86,7 +87,7 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
     <SidebarGroup label="Menu" icon={<MenuIcon />}>
       {behaviour.home ? <SidebarItem icon={HomeIcon} to="/" text="Home" /> : null}
       {behaviour.resources ?
-      <SidebarItem icon={WorkIcon} text="Resources">
+      <SidebarItem icon={VeecodeLogoIcon} text="Resources">
         <SidebarSubmenu title="">
           <SidebarDivider />
           <SidebarSubmenuItem
