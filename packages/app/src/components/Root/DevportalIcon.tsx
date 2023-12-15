@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme:Theme) => ({
         textAlign: 'center'
       },
     fill : {
-        fill: theme.palette.primary.main
+        fill: theme.palette.navigation.color
     }
   }));
 
