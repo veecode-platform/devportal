@@ -28,6 +28,7 @@ import {
   //TemplateBackstageLogoIcon,
 } from '@backstage/plugin-home';
 import Icon from './Icon'
+import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
 const starredEntitiesApi = new MockStarredEntitiesApi();
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity');
@@ -133,32 +134,36 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export const tools = [
-  {
-    url: 'https://docs.platform.vee.codes/',
-    label: 'Docs',
-    icon: <Icon src="https://platform.vee.codes/apple-touch-icon.png"/>,
-  },
-  {
-    url: 'https://github.com/orgs/veecode-platform/discussions',
-    label: 'Community',
-    icon: <Icon src="https://platform.vee.codes/apple-touch-icon.png"/>,
-  },
-  {
-    url: 'https://platform.vee.codes/',
-    label: 'Website',
-    icon: <Icon src="https://platform.vee.codes/apple-touch-icon.png"/>,
-  },
-  {
-    url: 'https://veecode-suporte.freshdesk.com/support/login',
-    label: 'Support',
-    icon: <Icon src="https://platform.vee.codes/apple-touch-icon.png"/>,
-  }
-];
 
 
 export const HomePage = () => {
+  
   const classes = useStyles();
+  const config = useApi(configApiRef);
+  const logoIconSrc = config.getOptionalString("platform.logo.icon") ?? "https://platform.vee.codes/apple-touch-icon.png"
+
+  const tools = [
+    {
+      url: 'https://docs.platform.vee.codes/',
+      label: 'Docs',
+      icon: <Icon src={logoIconSrc}/>,
+    },
+    {
+      url: 'https://github.com/orgs/veecode-platform/discussions',
+      label: 'Community',
+      icon: <Icon src={logoIconSrc}/>,
+    },
+    {
+      url: 'https://platform.vee.codes/',
+      label: 'Website',
+      icon: <Icon src={logoIconSrc}/>,
+    },
+    {
+      url: 'https://veecode-suporte.freshdesk.com/support/login',
+      label: 'Support',
+      icon: <Icon src={logoIconSrc}/>,
+    }
+  ];
 
   return (
     <SearchContextProvider>
