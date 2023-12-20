@@ -114,7 +114,7 @@ data:
       endpoints:
         {{- if .Values.grafana.enabled | default false }}
         "/grafana/api":
-          target: {{ $grafana_domain }}
+          target: {{ $grafana_domain | default "${GRAFANA_DOMAIN}" }}
           headers:
             Authorization: Bearer ${GRAFANA_TOKEN}
         {{- end }}
@@ -498,7 +498,7 @@ data:
       secretEngine: ${VAULT_SECRET_ENGINE}
     {{- end }}      
     grafana:
-      domain: {{ $grafana_domain }} 
+      domain: {{ $grafana_domain | default "${GRAFANA_DOMAIN}" }} 
       unifiedAlerting: true
     {{- if .Values.kong.enabled }}
     kong:
