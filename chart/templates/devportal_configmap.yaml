@@ -1,5 +1,10 @@
 {{- $app_path_without_last_slash := trimSuffix "/" .Values.appConfig.app.baseUrl }} 
 {{- $backend_path_without_last_slash := trimSuffix "/" .Values.appConfig.backend.baseUrl }}
+
+{{- $grafana := .Values.grafana | default dict }}
+{{- $grafana_default_domain := $grafana.domain | default "" }}
+{{- $grafana_domain := trimSuffix "/" $grafana_default_domain }}
+
 {{- $is_okteto_deploy := contains ".okteto.net" .Values.appConfig.app.baseUrl }}
 {{- $is_github_provider := hasKey .Values.integrations "github" }}
 {{- $is_gitlab_provider := hasKey .Values.integrations "gitlab" }}
@@ -109,7 +114,7 @@ data:
       endpoints:
         {{- if .Values.grafana.enabled | default false }}
         "/grafana/api":
-          target: ${GRAFANA_DOMAIN}
+          target: {{ $grafana_domain }}
           headers:
             Authorization: Bearer ${GRAFANA_TOKEN}
         {{- end }}
@@ -442,6 +447,16 @@ data:
           development:
             clientId: ${AUTH_GITHUB_CLIENT_ID}
             clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+            {{- if .Values.auth.providers.github.enterpriseInstanceUrl }}
+            enterpriseInstanceUrl: {{ .Values.auth.providers.github.enterpriseInstanceUrl | quote }}
+            {{- end }}
+        {{- end }}
+        {{- if .Values.auth.providers.gitlab }}
+        gitlab:
+          development: 
+             clientId: ${AUTH_GITLAB_CLIENT_ID}
+             clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+             audience: {{ .Values.auth.providers.gitlab.audience | default "https://gitlab.com" | quote }}
         {{- end }}
       {{- end }}
     enabledPlugins:
@@ -483,7 +498,7 @@ data:
       secretEngine: ${VAULT_SECRET_ENGINE}
     {{- end }}      
     grafana:
-      domain: ${GRAFANA_DOMAIN}
+      domain: {{ $grafana_domain }} 
       unifiedAlerting: true
     {{- if .Values.kong.enabled }}
     kong:
