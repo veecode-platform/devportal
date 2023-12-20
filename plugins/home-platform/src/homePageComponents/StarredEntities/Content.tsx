@@ -104,7 +104,7 @@ export const Content = (props: {
           <ListItem key={stringifyEntityRef(entity)}>
                 <Link 
                 to={entity.kind === "Template" ? 
-                `/scaffolder/templates/default/${entity.metadata.name}`
+                `/create/templates/default/${entity.metadata.name}`
                  : catalogEntityRoute(entityRouteParams(entity))}
                  onClick={()=>{if(entity.kind === "Component") localStorage.setItem("annotations", JSON.stringify(entity.metadata.annotations))}}
                 >
