@@ -66,6 +66,7 @@ import { DatabaseExplorerPage } from '@veecode-platform/plugin-database-explorer
 import { AboutPage } from '@internal/plugin-about';
 import type { IdentityApi } from '@backstage/core-plugin-api';
 import { setTokenCookie } from './cookieAuth';
+import { VisitListener } from '@backstage/plugin-home';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
@@ -222,6 +223,7 @@ export default app.createRoot(
     <AlertDisplay transientTimeoutMs={2500} />
     <OAuthRequestDialog />
     <AppRouter>
+      <VisitListener />
       <Root>
         {routes}
       </Root>

@@ -21,6 +21,13 @@ import React from 'react';
 import { Logo } from '../plataformLogo/plataformLogo';
 import BackstageLogo from "../../assets/backstage.png";
 import { HomePageStarredEntities,  HomePageCompanyLogo } from '@internal/plugin-home-platform';
+import {
+  HomePageToolkit,
+  HomePageTopVisited,
+  HomePageRecentlyVisited,
+  //TemplateBackstageLogoIcon,
+} from '@backstage/plugin-home';
+import Icon from './Icon'
 
 const starredEntitiesApi = new MockStarredEntitiesApi();
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity');
@@ -99,7 +106,7 @@ const useStyles = makeStyles(theme => ({
   }
   ,
   footerWrapper:{
-    marginTop: '10rem',    
+    marginTop: '3rem',    
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -126,6 +133,29 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
+export const tools = [
+  {
+    url: 'https://docs.platform.vee.codes/',
+    label: 'Docs',
+    icon: <Icon src="https://platform.vee.codes/apple-touch-icon.png"/>,
+  },
+  {
+    url: 'https://github.com/orgs/veecode-platform/discussions',
+    label: 'Community',
+    icon: <Icon src="https://platform.vee.codes/apple-touch-icon.png"/>,
+  },
+  {
+    url: 'https://platform.vee.codes/',
+    label: 'Website',
+    icon: <Icon src="https://platform.vee.codes/apple-touch-icon.png"/>,
+  },
+  {
+    url: 'https://veecode-suporte.freshdesk.com/support/login',
+    label: 'Support',
+    icon: <Icon src="https://platform.vee.codes/apple-touch-icon.png"/>,
+  }
+];
+
 
 export const HomePage = () => {
   const classes = useStyles();
@@ -143,9 +173,25 @@ export const HomePage = () => {
               />
             </Grid>
             <Grid container item xs={12} justifyContent="center">
-              <Grid item lg={11} xs={12}>
+              <Grid container item xs={12}>
+                <Grid item xs={12} md={6}>
+                  <HomePageTopVisited kind="recent"/>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <HomePageRecentlyVisited />
+                </Grid>
+              </Grid>
+              {/* <Grid item lg={11} xs={12}>
+                <HomePageStarredEntities />
+              </Grid> */}
+              <Grid container item xs={12}>
+              <Grid item xs={7}>
                 <HomePageStarredEntities />
               </Grid>
+              <Grid item xs={5}>
+                <HomePageToolkit tools={tools} />
+              </Grid>
+            </Grid>
             </Grid>
             <Grid item className={classes.footerWrapper} lg={12}>
               <p className={classes.footer}>
