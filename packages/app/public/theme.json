@@ -73,7 +73,7 @@
   },
   "dark": {
     "background": {
-      "default": "#1d1d1d",
+      "default": "#202020",
       "paper": "#2c2c2c"
     },
     "status": {
