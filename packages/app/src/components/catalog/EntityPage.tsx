@@ -739,7 +739,7 @@ const databasePage = (
           {/* Github */}
           <EntitySwitch>
             <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
-              <Grid item lg={8} xs={12}>
+              <Grid item lg={12} xs={12}>
                 <GithubWorkflowsCard />
               </Grid>
             </EntitySwitch.Case>
@@ -747,7 +747,7 @@ const databasePage = (
           {/* Gitlab */}
           <EntitySwitch>
             <EntitySwitch.Case if={isGitlabJobsAvailable}>
-              <Grid item lg={8} xs={12}>
+              <Grid item lg={12} xs={12}>
                 <GitlabJobs />
               </Grid>
             </EntitySwitch.Case>
