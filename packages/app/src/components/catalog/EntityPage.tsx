@@ -762,11 +762,38 @@ const databasePage = (
         <Grid item lg={6} md={12} xs={12}>
           <EnvironmentOverview />
         </Grid>
-        <Grid item lg={6} md={12} xs={12}
-        // style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column', gap: '.5rem' }}
-        >
-          {/* <EntityAboutCard variant='flex' /> */}
+        <Grid item lg={6} md={12} xs={12} >
           <EntityCatalogGraphCard variant='flex' height={300} />
+          <Grid item style={{marginTop: '1.2rem'}}>
+            <EntitySwitch>
+              {/* github */}
+              <EntitySwitch.Case if={isGithubInsightsAvailable}>     
+                  <EntityGithubInsightsLanguagesCard />
+              </EntitySwitch.Case>
+              {/* gitlab */}
+              <EntitySwitch.Case if={isGitlabAvailable}>
+                  <EntityGitlabLanguageCard />
+              </EntitySwitch.Case>
+            </EntitySwitch>
+          </Grid>
+        </Grid>
+        <Grid item lg={8} md={12} xs={12}>
+          {/* Github */}
+          <EntitySwitch>
+            <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
+              <Grid item lg={12} xs={12}>
+                <GithubWorkflowsCard />
+              </Grid>
+            </EntitySwitch.Case>
+          </EntitySwitch>
+          {/* Gitlab */}
+          <EntitySwitch>
+            <EntitySwitch.Case if={isGitlabJobsAvailable}>
+              <Grid item lg={12} xs={12}>
+                <GitlabJobs />
+              </Grid>
+            </EntitySwitch.Case>
+          </EntitySwitch>
         </Grid>
       </Grid>
     </EntityLayout.Route>

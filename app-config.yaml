@@ -291,9 +291,7 @@ platform:
     home: true
     catalog: true
     apis: true
-    clusters: true
-    environments: true
-    databases: true
+    resources: true
     create: true
     docs: true
     groups: false

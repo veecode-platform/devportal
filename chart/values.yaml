@@ -151,7 +151,7 @@ integrations: {}
 
 catalog:
   rules: #Catalog rules
-    - allow: [Component, API, Location, Template, Cluster, Environment]
+    - allow: [Component, API, Location, Cluster, Template, Environment, Database]
   providers: {}
 #    github:
 #      organization: #github Organization Name
@@ -223,42 +223,42 @@ platform:
 #    groups: true #enable or disable menu if mode is custom selected
 #    apiManagement: true #enable or disable menu if mode is custom selected
 
-# kubernetes:
-#  serviceLocatorMethod:
-#    type: 'multiTenant' #determine which clusters a component is running in
-#  clusterLocatorMethods:
-#    - type: 'config' #determine where to retrieve cluster configuration from
-#      clusters:
-#        - url: ''
-#          authProvider: ''
-#          oidcTokenProvider: 
-#          skipTLSVerify: false
-#          skipMetricsLookup: true
-#          serviceAccountToken: ''
-#          dashboardUrl:  # url copied from running the command: minikube service kubernetes-dashboard -n kubernetes-dashboard
-#          dashboardApp: 
-#          caData: 
-#          caFile: '' # local path to CA file
-#          customResources:
-#            - group: ''
-#              apiVersion: ''
-#              plural: ''
-#          name: 
-#          projectId: ''
-#          region: ''
-#          exposeDashboard: false
+#kubernetes:
+# serviceLocatorMethod:
+#   type: 'multiTenant' #determine which clusters a component is running in
+# clusterLocatorMethods:
+#   - type: 'config' #determine where to retrieve cluster configuration from
+#     clusters:
+#       - url: ''
+#         authProvider: ''
+#         oidcTokenProvider: 
+#         skipTLSVerify: false
+#         skipMetricsLookup: true
+#         serviceAccountToken: ''
+#         dashboardUrl:  # url copied from running the command: minikube service kubernetes-dashboard -n kubernetes-dashboard
+#         dashboardApp: 
+#         caData: 
+#         caFile: '' # local path to CA file
+#         customResources:
+#           - group: ''
+#             apiVersion: ''
+#             plural: ''
+#         name: 
+#         projectId: ''
+#         region: ''
+#         exposeDashboard: false
 
 theme:
   images:
     sidebarIcon: "https://platform.vee.codes/apple-touch-icon.png" #Menu Icon Url
     sidebarFull: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url
-#    favicon: #Favicon URL
-#  custom:
+    favicon: #Favicon URL
+  custom:
      #use configmapName or downloadUrl
-#    configmapName: #Configmap with theme file created
-#    downloadUrl: #Theme file url
+    configmapName: #Configmap with theme file created
+    downloadUrl: #Theme file url
 
 serviceMonitor: 
   enabled: false #true to enable
-# selectors: 
-#   release: prometheus
+#  selectors: 
+#    release: prometheus

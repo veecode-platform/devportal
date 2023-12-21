@@ -1,7 +1,7 @@
 {
   "light": {
     "background": {
-      "default": "#e7e7e7",
+      "default": "#efefef",
       "paper": "#ffffff"
     },
     "status": {
@@ -73,7 +73,7 @@
   },
   "dark": {
     "background": {
-      "default": "#1d1d1d",
+      "default": "#202020",
       "paper": "#2c2c2c"
     },
     "status": {
@@ -128,7 +128,7 @@
         "hoverBackground": "#404040"
       },
       "submenu": {
-        "background": "#404040"
+        "background": "#151515"
       }
     },
     "pinSidebarButton": {

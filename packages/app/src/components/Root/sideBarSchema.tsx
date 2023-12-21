@@ -2,11 +2,9 @@ import { ConfigApi } from "@backstage/core-plugin-api"
 
 export type sidebarDefaultType = {
     home: boolean,
+    resources: boolean,
     catalog: boolean, 
     apis: boolean, 
-    clusters: boolean,
-    environments: boolean,
-    databases: boolean,
     create: boolean, 
     docs: boolean, 
     groups: boolean,
@@ -16,11 +14,9 @@ export type sidebarDefaultType = {
 
 const sideBarDefaultValues: sidebarDefaultType = {  
     home: true,
+    resources: true,
     catalog: true, 
     apis: true, 
-    clusters: true,
-    environments: true,
-    databases: true,
     create: true, 
     docs: true, 
     groups: false,
@@ -38,7 +34,7 @@ const sideBarDemo: sidebarDefaultType = {
     ...sideBarDefaultValues,
     groups: false,
     signOut: false,
-    environments: false
+    resources: false
 }
 
 const sideBarWorkshop: sidebarDefaultType = {
@@ -64,9 +60,7 @@ export function sideBarBehaviour(config: ConfigApi): sidebarDefaultType{
                 home: config.getOptionalBoolean("home") ?? false,
                 catalog: config.getOptionalBoolean("catalog") ?? false, 
                 apis: config.getOptionalBoolean("apis") ?? false, 
-                clusters: config.getOptionalBoolean("clusters") ?? false,
-                environments: config.getOptionalBoolean("environments") ?? false,
-                databases: config.getOptionalBoolean("databases") ?? false,
+                resources: config.getOptionalBoolean("resources") ?? false,
                 create: config.getOptionalBoolean("create") ?? false, 
                 docs: config.getOptionalBoolean("docs") ?? false, 
                 groups: config.getOptionalBoolean("groups") ?? false,

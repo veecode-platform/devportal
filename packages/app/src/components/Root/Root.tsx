@@ -16,6 +16,8 @@ import {
   SidebarItem,
   SidebarPage,
   SidebarSpace,
+  SidebarSubmenu,
+  SidebarSubmenuItem,
 } from '@backstage/core-components';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
@@ -31,12 +33,13 @@ import LayersIcon from '@material-ui/icons/Layers';
 import PeopleIcon from '@material-ui/icons/People';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SignUpElement from './signOut';
-import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import LanguageIcon from '@material-ui/icons/Language';
 import InfoIcon from '@material-ui/icons/Info';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { sideBarBehaviour, sidebarDefaultType } from './sideBarSchema';
-import StorageIcon from '@material-ui/icons/Storage';
+import {VeecodeLogoIcon} from './DevportalIcon';
+import { GrCluster } from "react-icons/gr";
+import { ImDatabase } from "react-icons/im";
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -82,11 +85,30 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
   return (
     <SidebarGroup label="Menu" icon={<MenuIcon />}>
       {behaviour.home ? <SidebarItem icon={HomeIcon} to="/" text="Home" /> : null}
+      {behaviour.resources ?
+      <SidebarItem icon={VeecodeLogoIcon} text="Resources">
+        <SidebarSubmenu title="">
+          <SidebarDivider />
+          <SidebarSubmenuItem
+            title="Environments"
+            to="environments-explorer"
+            icon={LanguageIcon}
+          />
+          <SidebarSubmenuItem
+            title="Clusters"
+            to="cluster-explorer"
+            icon={GrCluster}
+          /> 
+          <SidebarSubmenuItem
+            title="Databases"
+            to="database-explorer"
+            icon={ImDatabase}
+          />
+          <SidebarDivider />
+        </SidebarSubmenu>
+      </SidebarItem> : null}
       {behaviour.catalog ? <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" /> : null}
       {behaviour.apis ? <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" /> : null}
-      {behaviour.clusters ? <SidebarItem icon={DeviceHubIcon} to="cluster-explorer" text="Clusters" /> : null}
-      {behaviour.environments ? <SidebarItem icon={LanguageIcon} to="environments-explorer" text="Environments"/> : null}
-      {behaviour.databases ? <SidebarItem icon={StorageIcon} to="database-explorer" text="Databases"/> : null}
       {behaviour.create ? <SidebarItem icon={CreateComponentIcon} to="create" text="Create" /> : null}
       {behaviour.docs ? <SidebarItem icon={LibraryBooks} to="docs" text="Docs" /> : null}
       {behaviour.groups ? <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" /> : null}
