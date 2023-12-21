@@ -141,7 +141,7 @@ integrations: {}
 #    username:  #Bitbucket Cloud Username
 #    appPassword:  #Bitbucket Cloud Password
 #  bitbucketServer:
-#    host: bitbucket.org #Bitbucket Cloud Host
+#    host: #Bitbucket Cloud Host ex. bitbucket.company.com
 #    apiBaseUrl:  #Bitbucket Cloud Api Base
 #    token:  #Bitbucket Cloud Token
 #  gitlab:
@@ -164,11 +164,11 @@ catalog:
 #        frequency: 5 #time in minutes to refresh the catalog
 #        timeout: 3 #time in minutes to timeout after the refresh request 
 #    bitbucketCloud:
-#      catalogPath: #Path catalog info
 #      workspace: #Bitbucket workspace
+#      catalogPath: "/catalog-info.yaml" #Path catalog info
 #      filters: 
-#        projectKey: #Bitbucket project key
-#        repoSlug: #Bitbucket repo slug
+#        projectKey: #optional Bitbucket project key
+#        repoSlug: ##optional Bitbucket repo slug
 #      schedule:        
 #        frequency: 5 #time in minutes to refresh the catalog
 #        timeout: 3 #time in minutes to timeout after the refresh request 
