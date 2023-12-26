@@ -187,10 +187,10 @@ export const HomePage = () => {
               </Grid> */}
 
               <Grid container item xs={12}>
-              <Grid item md={8} xs={12}>
+              <Grid item xl={8} lg={12} md={12} xs={12}>
                 <HomePageStarredEntities />
               </Grid>
-              <Grid item md={4} xs={12}>
+              <Grid item xl={4} lg={12} md={12} xs={12}>
                 <HomePageToolkit tools={tools} />
               </Grid>
             </Grid>
