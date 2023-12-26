@@ -58,6 +58,8 @@ import {
   RELATION_DEPENDENCY_OF,
   RELATION_DEPENDS_ON,
   RELATION_HAS_PART,
+  RELATION_OWNED_BY,
+  RELATION_OWNER_OF,
   RELATION_PART_OF,
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
@@ -272,7 +274,7 @@ const plugins = [
   },
   {
     path: "/grafana",
-    annotation: "grafana/alert-label-selector",
+    annotation: "grafana/dashboard-selector",
     title: "Grafana",
     content: grafanaContent
   },
@@ -329,6 +331,13 @@ const overviewContent = (
       </EntitySwitch.Case>
     </EntitySwitch>
     {/* {cicdCard} */}
+    <EntitySwitch>
+      <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
+        <Grid item lg={6} md={12} xs={12} >
+          <EntityArgoCDOverviewCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
     <Grid item lg={4} md={12} xs={12}>
       <EntityLinksCard />
     </Grid>
@@ -374,13 +383,6 @@ const overviewContent = (
         <EntityGrafanaAlertsCard />
       </Grid>
     </EntitySwitch.Case>
-    <EntitySwitch>
-      <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
-        <Grid item lg={6} md={12} xs={12} >
-          <EntityArgoCDOverviewCard />
-        </Grid>
-      </EntitySwitch.Case>
-    </EntitySwitch>
   </Grid>
 );
 
@@ -666,11 +668,35 @@ const clusterPage = (
 
     <EntityLayout.Route path='/about' title='About'>
       <Grid container spacing={3} alignItems="stretch">
-        <Grid item md={6}>
+        <Grid item md={3}>
           <EntityAboutCard variant="gridItem" />
         </Grid>
-        <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+        <Grid item md={9} xs={12}>
+          <EntityCatalogGraphCard
+            variant="gridItem"
+            direction={Direction.LEFT_RIGHT}
+            title="System Diagram"
+            height={300}
+            relations={[
+              RELATION_PART_OF,
+              RELATION_HAS_PART,
+              "environmentOf",
+              "fromEnvironment",
+              RELATION_OWNER_OF,
+              RELATION_OWNED_BY,
+            ]}
+            relationPairs={[
+              [RELATION_OWNER_OF, RELATION_OWNED_BY],
+              [RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY],
+              [RELATION_API_PROVIDED_BY, RELATION_PROVIDES_API],
+              [RELATION_HAS_PART, RELATION_PART_OF],
+              ["environmentOf", "fromEnvironment"]
+            ]}
+            unidirectional={false}
+          />
+        </Grid>
+        <Grid item md={5}>
+          <EntityHasComponentsCard variant="gridItem" />
         </Grid>
         {/* Github */}
         <EntitySwitch>
@@ -709,6 +735,22 @@ const clusterPage = (
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route
+      if={(entity) => {
+        const show = entity.metadata.annotations?.hasOwnProperty('grafana/dashboard-selector')
+        return show !== undefined
+      }}
+      path="/grafana" title="Grafana" >
+      {grafanaContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route
+      if={(entity) => {
+        const show = entity.metadata.annotations?.hasOwnProperty('grafana/alert-label-selector')
+        return show !== undefined
+      }}
+      path="/grafana-alerts" title="Grafana-alerts" >
+      {grafanaAlertsContent}
     </EntityLayout.Route>
     <EntityLayout.Route
       if={(entity) => {

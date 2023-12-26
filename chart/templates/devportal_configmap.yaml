@@ -241,26 +241,26 @@ data:
       {{- if .Values.integrations.bitbucketCloud }}
       bitbucketCloud:
         - username: ${BITBUCKET_CLOUD_USERNAME}
-          appPassword: ${BITBUCKET_CLOUD_TOKEN}
+          appPassword: ${BITBUCKET_CLOUD_PASSWORD}
       {{- end }}
-      {{- if .Values.integrations.bitbucketServer  }}
+      {{- if .Values.integrations.bitbucketServer }}
       bitbucketServer:
-        - host: {{ .Values.integrations.bitbucketServer.host | default "bitbucket.org" | quote }}
-          apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
+        - host: {{ .Values.integrations.bitbucketServer.host | quote }}
+          apiBaseUrl: {{ .Values.integrations.bitbucketServer.apiBaseUrl | quote }}
           token: ${BITBUCKET_SERVER_TOKEN}
           tokenFrontEnd: ${BITBUCKET_SERVER_TOKEN}
       {{- end }}
       {{- if .Values.integrations.gitlab  }}
       gitlab:
-      - host: {{ .Values.integrations.gitlab.host | default "gitlab.com" | quote }}
-        {{- if .Values.integrations.gitlab.apiBaseUrl }}
-        apiBaseUrl: {{ .Values.integrations.gitlab.apiBaseUrl | quote }}
-        {{- end }}
-        {{- if .Values.integrations.gitlab.baseUrl }}
-        baseUrl: {{ .Values.integrations.gitlab.baseUrl | quote }}
-        {{- end }}
-        token: ${GITLAB_TOKEN_SECRET}
-        tokenFrontEnd: ${GITLAB_TOKEN_SECRET}
+        - host: {{ .Values.integrations.gitlab.host | default "gitlab.com" | quote }}
+          {{- if .Values.integrations.gitlab.apiBaseUrl }}
+          apiBaseUrl: {{ .Values.integrations.gitlab.apiBaseUrl | quote }}
+          {{- end }}
+          {{- if .Values.integrations.gitlab.baseUrl }}
+          baseUrl: {{ .Values.integrations.gitlab.baseUrl | quote }}
+          {{- end }}
+          token: ${GITLAB_TOKEN_SECRET}
+          tokenFrontEnd: ${GITLAB_TOKEN_SECRET}
       {{- end }}
     {{- end }}
     catalog:
@@ -303,32 +303,45 @@ data:
         {{- if .Values.catalog.providers.bitbucketCloud }}
         bitbucketCloud:
           yourProviderId: 
-            catalogPath: ${CATALOG_BITBUCKET_CLOUD_CATALOG_PATH} 
-          filters: 
-            repoSlug: ${CATALOG_BITBUCKET_CLOUD_REPOSLUG} 
-          workspace: ${CATALOG_BITBUCKET_CLOUD_WORKSPACE}
-          schedule:    
-            frequency:
-              {{- if and .Values.catalog.providers.bitbucketCloud.schedule .Values.catalog.providers.bitbucketCloud.schedule.frequency }}
-              minutes: {{ .Values.catalog.providers.bitbucketCloud.schedule.frequency }}
-              {{- else }}
-              minutes: 5
+            workspace: {{ .Values.catalog.providers.bitbucketCloud.workspace | quote }}
+            catalogPath: {{ .Values.catalog.providers.bitbucketCloud.catalogPath | default "/catalog-info.yaml" | quote }}
+            {{- if and .Values.catalog.providers.bitbucketCloud.filters }}
+            filters:
+              {{- if and .Values.catalog.providers.bitbucketCloud.filters .Values.catalog.providers.bitbucketCloud.filters.projectKey }}
+              projectKey: {{ .Values.catalog.providers.bitbucketCloud.filters.projectKey | quote }}
               {{- end }}
-            timeout: 
-              {{- if and .Values.catalog.providers.bitbucketCloud.schedule .Values.catalog.providers.bitbucketCloud.schedule.timeout }}
-              minutes: {{ .Values.catalog.providers.bitbucketCloud.schedule.timeout }}
-              {{- else }}
-              minutes: 3
+              {{- if and .Values.catalog.providers.bitbucketCloud.filters .Values.catalog.providers.bitbucketCloud.filters.repoSlug }}
+              repoSlug: {{ .Values.catalog.providers.bitbucketCloud.filters.repoSlug | quote }}
               {{- end }}
+            {{- end }}
+            schedule:    
+              frequency:
+                {{- if and .Values.catalog.providers.bitbucketCloud.schedule .Values.catalog.providers.bitbucketCloud.schedule.frequency }}
+                minutes: {{ .Values.catalog.providers.bitbucketCloud.schedule.frequency }}
+                {{- else }}
+                minutes: 5
+                {{- end }}
+              timeout: 
+                {{- if and .Values.catalog.providers.bitbucketCloud.schedule .Values.catalog.providers.bitbucketCloud.schedule.timeout }}
+                minutes: {{ .Values.catalog.providers.bitbucketCloud.schedule.timeout }}
+                {{- else }}
+                minutes: 3
+                {{- end }}
         {{- end }}
         {{- if .Values.catalog.providers.bitbucketServer }}
         bitbucketServer:
           yourProviderId:
-            host: ${CATALOG_BITBUCKET_SERVER_HOST}
-            catalogPath: ${CATALOG_BITBUCKET_SERVER_CATALOG_PATH} 
-            filters: 
-              projectKey: ${CATALOG_BITBUCKET_SERVER_PROJECT_KEY} 
-              repoSlug: ${CATALOG_BITBUCKET_SERVER_REPO_SLUG}
+            host: {{ .Values.catalog.providers.bitbucketServer.host | quote }}
+            catalogPath: {{ .Values.catalog.providers.bitbucketServer.catalogPath | default "/catalog-info.yaml" | quote }}
+            {{- if and .Values.catalog.providers.bitbucketServer.filters }}
+            filters:
+              {{- if .Values.catalog.providers.bitbucketServer.filters.projectKey }} 
+              projectKey: {{ .Values.catalog.providers.bitbucketServer.filters.projectKey | quote }}
+              {{- end }}
+              {{- if .Values.catalog.providers.bitbucketServer.filters.repoSlug }}
+              repoSlug: {{ .Values.catalog.providers.bitbucketServer.filters.repoSlug | quote }}
+              {{- end }}
+            {{- end }}
             schedule:    
               frequency:
                 {{- if and .Values.catalog.providers.bitbucketServer.schedule .Values.catalog.providers.bitbucketServer.schedule.frequency }}

@@ -36,6 +36,10 @@ export const createAuthMiddleware = async (
     res: Response,
     next: NextFunction,
   ) => {
+    if(config.getOptionalBoolean('platform.guest.enabled') ?? false) {
+      console.log('[info] skipping auth middleware due to platform.guest.guest.enabled');
+      return next();
+    }
     try {   
       const token = getBearerTokenFromAuthorizationHeader(req.headers.authorization) || (req.cookies?.token as string | undefined)
       const skipHeader = (req.headers["x-authorization-identity"] as string | undefined)
