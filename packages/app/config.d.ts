@@ -239,6 +239,11 @@ export interface Config {
      * @visibility frontend
      */
     keycloak: boolean
+    /**
+     * AzureDevops Plugin launch control.
+     * @visibility frontend
+     */
+    azureDevops: boolean
 
   };
   /**
