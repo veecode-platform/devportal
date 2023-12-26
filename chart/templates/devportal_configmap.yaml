@@ -262,7 +262,24 @@ data:
           token: ${GITLAB_TOKEN_SECRET}
           tokenFrontEnd: ${GITLAB_TOKEN_SECRET}
       {{- end }}
-    {{- end }}
+      {{- if .Values.integrations.azure }}
+      azure:
+        {{- range .Values.integrations.azure }}
+        - host: {{ .host | default "dev.azure.com" | quote }}
+          credentials:
+            {{- range $i, $e := .credentials}}
+            - organizations:
+              {{- range .organizations }}
+                - {{ . }}
+              {{- end }}
+              clientId: ${AZURE_CLIENT_ID_{{$i}}}
+              clientSecret: ${AZURE_CLIENT_SECRET_{{$i}}}
+              tenantId: ${AZURE_TENANT_ID_{{$i}}}
+              personalAccessToken: ${AZURE_PERSONAL_ACCESS_TOKEN_{{$i}}}
+            {{- end }}
+        {{- end }}  
+      {{- end }}
+    {{- end }} 
     catalog:
       {{- if .Values.catalog.rules  }}
       rules:{{- range .Values.catalog.rules }}
@@ -517,4 +534,10 @@ data:
     kong:
       api-manager: ${KONG_API_MANAGER_HOST}
       admin-token: ${KONG_ADMIN_TOKEN}
+    {{- end }}
+    {{- if .Values.azureDevOps.enabled }}
+    azureDevOps:
+      host: {{ .Values.azureDevOps.host | default "dev.azure.com" | quote }}
+      organization: {{ .Values.azureDevOps.organization }}
+      token: ${AZURE_DEVOPS_TOKEN}
     {{- end }}

@@ -25,7 +25,8 @@ jobs:
     needs: [requirements]
     strategy:
       matrix:
-        os: [ubuntu-latest, [self-hosted, macOS, ARM64]]
+        # os: [ubuntu-latest, [self-hosted, macOS, ARM64]]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
@@ -65,7 +66,8 @@ jobs:
  
   publishManifestDocker:
     needs: [requirements, buildDevportal]
-    runs-on: [self-hosted, macOS, ARM64]
+    # runs-on: [self-hosted, macOS, ARM64]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       
@@ -95,6 +97,12 @@ jobs:
             amend: true
             push: true
 
+      - name: Clear Docker image for macOS runner
+        if: runner.os == 'macOS'
+        run: |
+          docker rmi veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
+          docker rmi veecode/devportal-bundle-${{env.ARCH}}:latest
+          
   publishing:
     needs: [requirements, buildDevportal]
     runs-on: ubuntu-latest

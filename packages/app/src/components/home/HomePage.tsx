@@ -23,9 +23,8 @@ import BackstageLogo from "../../assets/backstage.png";
 import { HomePageStarredEntities,  HomePageCompanyLogo } from '@internal/plugin-home-platform';
 import {
   HomePageToolkit,
-  HomePageTopVisited,
-  HomePageRecentlyVisited,
-  //TemplateBackstageLogoIcon,
+  // HomePageTopVisited,
+  // HomePageRecentlyVisited
 } from '@backstage/plugin-home';
 import Icon from './Icon'
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
@@ -107,7 +106,7 @@ const useStyles = makeStyles(theme => ({
   }
   ,
   footerWrapper:{
-    marginTop: '3rem',    
+    marginTop: '9rem',    
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -178,22 +177,20 @@ export const HomePage = () => {
               />
             </Grid>
             <Grid container item xs={12} justifyContent="center">
-              <Grid container item xs={12}>
+              {/* <Grid container item xs={12}>
                 <Grid item xs={12} md={6}>
                   <HomePageTopVisited kind="recent"/>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <HomePageRecentlyVisited />
                 </Grid>
-              </Grid>
-              {/* <Grid item lg={11} xs={12}>
-                <HomePageStarredEntities />
               </Grid> */}
+
               <Grid container item xs={12}>
-              <Grid item xs={7}>
+              <Grid item xl={8} lg={12} md={12} xs={12}>
                 <HomePageStarredEntities />
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xl={4} lg={12} md={12} xs={12}>
                 <HomePageToolkit tools={tools} />
               </Grid>
             </Grid>

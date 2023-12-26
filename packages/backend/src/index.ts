@@ -43,6 +43,8 @@ import explore from './plugins/explore';
 import about from './plugins/about';
 import { createAuthMiddleware } from './authMiddleware';
 import cookieParser from 'cookie-parser';
+// azure
+import azureDevOps from './plugins/azure-devops';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -150,6 +152,11 @@ async function main() {
   if (config.getBoolean("enabledPlugins.gitlabPlugin")) {
     const gitlabEnv = useHotMemoize(module, () => createEnv('gitlab'));
     apiRouter.use('/gitlab', authMiddleware, await gitlab(gitlabEnv));
+  }
+
+  if (config.getBoolean("enabledPlugins.azureDevops")) {
+    const azureDevOpsEnv = useHotMemoize(module, () => createEnv('azure-devops'));
+    apiRouter.use('/azure-devops', authMiddleware, await azureDevOps(azureDevOpsEnv));
   }
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback 

@@ -100,7 +100,11 @@ import {
 } from '@roadiehq/backstage-plugin-aws-lambda';
 import { EnvironmentOverview } from '@veecode-platform/plugin-environment-explorer';
 import { ClusterOverviewPage } from '@veecode-platform/backstage-plugin-k8s-cluster-overview';
-
+// AzureDevops
+import {
+  EntityAzurePipelinesContent,
+  isAzurePipelinesAvailable,
+} from '@backstage/plugin-azure-devops';
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -109,12 +113,23 @@ const isAnnotationAvailable = (entity: Entity, annotation: string) =>
 const cicdContent = (
   <EntitySwitch>
     {/* Github */}
-    <EntitySwitch.Case if={isGithubActionsAvailable}>
+    <EntitySwitch.Case if={(entity) => {
+      if (isGithubActionsAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+      return false
+    }}>
       <EntityGithubActionsContent />
     </EntitySwitch.Case>
     {/* Gitlab */}
-    <EntitySwitch.Case if={isGitlabAvailable}>
+    ( <EntitySwitch.Case if={(entity) => {
+      if (isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+      return false
+    }}>
       <GitlabPipelineList />
+    </EntitySwitch.Case>
+    )
+    {/* Azure */}
+    <EntitySwitch.Case if={isAzurePipelinesAvailable}>
+      <EntityAzurePipelinesContent defaultLimit={25} />
     </EntitySwitch.Case>
 
     <EntitySwitch.Case>
@@ -339,7 +354,7 @@ const overviewContent = (
       </EntitySwitch.Case>
       {/* gitlab */}
       <EntitySwitch.Case if={isGitlabAvailable}>
-        <Grid item lg={6} md={12} xs={12}>
+        <Grid item lg={8} md={12} xs={12}>
           <EntityGitlabMergeRequestStatsCard />
         </Grid>
         <Grid item lg={6} md={12} xs={12}>
@@ -382,7 +397,10 @@ const serviceEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route
-      if={isGithubAvailable}
+      if={(entity) => {
+        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+        return false
+        }}
       path="/workflows" title="Workflows">
       {WorkflowsContent}
     </EntityLayout.Route>
@@ -421,7 +439,10 @@ const devopsEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route
-      if={isGithubAvailable}
+      if={(entity) => {
+        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+        return false
+      }}
       path="/workflows" title="Workflows">
       {WorkflowsContent}
     </EntityLayout.Route>
@@ -460,7 +481,10 @@ const websiteEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route
-      if={isGithubAvailable}
+      if={(entity) => {
+        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+        return false
+      }}
       path="/workflows" title="Workflows">
       {WorkflowsContent}
     </EntityLayout.Route>
@@ -701,7 +725,10 @@ const clusterPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route
-      if={isGithubAvailable}
+      if={(entity) => {
+        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+        return false
+      }}
       path="/workflows" title="Workflows">
       {WorkflowsContent}
     </EntityLayout.Route>
@@ -796,6 +823,14 @@ const databasePage = (
           </EntitySwitch>
         </Grid>
       </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route
+      if={(entity) => {
+        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+        return false
+      }}
+      path="/workflows" title="Workflows">
+      {WorkflowsContent}
     </EntityLayout.Route>
   </EntityLayout>
 )

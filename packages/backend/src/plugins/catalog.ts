@@ -14,7 +14,8 @@ import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend
 // @ts-ignore
 import { KeycloakOrgEntityProvider } from '@janus-idp/backstage-plugin-keycloak-backend';
 import { ClusterEntitiesProcessor, DatabaseEntitiesProcessor, EnvironmentEntitiesProcessor } from '@veecode-platform/plugin-veecode-platform-common';
-
+// Azure
+import { AzureDevOpsAnnotatorProcessor } from '@backstage/plugin-azure-devops-backend';
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -82,6 +83,9 @@ export default async function createPlugin(
     }),
   );
   }
+
+  // Azure Devops Plugin
+  if (env.config.getBoolean("enabledPlugins.azureDevops"))  builder.addProcessor(AzureDevOpsAnnotatorProcessor.fromConfig(env.config));
 
   builder.addProcessor( new ClusterEntitiesProcessor());
   builder.addProcessor( new EnvironmentEntitiesProcessor());
