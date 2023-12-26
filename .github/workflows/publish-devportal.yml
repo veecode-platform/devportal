@@ -94,7 +94,8 @@ jobs:
         uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
         with:
             inputs: veecode/devportal-bundle:latest
-            images: veecode/devportal-bundle-arm64:latest,veecode/devportal-bundle-x64:latest
+            # images: veecode/devportal-bundle-arm64:latest,veecode/devportal-bundle-x64:latest
+            images: veecode/devportal-bundle-x64:latest
             amend: true
             push: true
 
