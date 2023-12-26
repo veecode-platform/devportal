@@ -354,7 +354,7 @@ const overviewContent = (
       </EntitySwitch.Case>
       {/* gitlab */}
       <EntitySwitch.Case if={isGitlabAvailable}>
-        <Grid item lg={6} md={12} xs={12}>
+        <Grid item lg={8} md={12} xs={12}>
           <EntityGitlabMergeRequestStatsCard />
         </Grid>
         <Grid item lg={6} md={12} xs={12}>
