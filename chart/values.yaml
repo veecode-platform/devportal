@@ -121,6 +121,12 @@ kong:
 #  apiManager:  #kong api manager url
 #  adminToken:  #kong admin token
 
+azureDevOps:
+  enabled: false #enable Azure DevOps plugin
+#  host: dev.azure.com #azure host
+#  token: #azure token
+#  organization: #azure organization
+
 auth: 
   providers: {}
 #    keycloak:
@@ -134,6 +140,14 @@ auth:
 #      clientSecret:  #github Oauth application client secret
 
 integrations: {}
+#  azure:
+#    - host: dev.azure.com #azure host
+#      credentials:
+#        - organizations: [] #list of organizations to sync
+#          clientId: #client id
+#          clientSecret: #client secret
+#          tenantId: #tenant id
+#          personalAccessToken: #personal access token      
 #  github:
 #    host: github.com #github Server Host
 #    token:  #github Token
