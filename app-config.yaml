@@ -144,6 +144,10 @@ integrations:
    - host: gitlab.com
      token: ${GITLAB_TOKEN_SECRET}
      tokenFrontEnd: ${GITLAB_TOKEN_SECRET}
+  azure:
+   - host: ${AZURE_HOST}
+     credentials:
+       - personalAccessToken: ${AZURE_TOKEN}
 
 catalog:
   rules:
@@ -340,6 +344,6 @@ kong:
   admin-token: ${KONG_ADMIN_TOKEN}
   
 azureDevOps:
-  host: ${ AZURE_HOST}
-  token: ${ AZURE_TOKEN}
-  organization: ${ AZURE_ORG }
+  host: ${AZURE_HOST}
+  token: ${AZURE_TOKEN}
+  organization: ${AZURE_ORG}
