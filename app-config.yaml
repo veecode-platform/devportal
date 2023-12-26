@@ -296,6 +296,7 @@ platform:
     docs: true
     groups: false
     apiManagement: false
+    azureDevops: false
   guest:
     enabled: false
   
@@ -338,3 +339,7 @@ kong:
   api-manager: ${KONG_OKTETO_HOST}
   admin-token: ${KONG_ADMIN_TOKEN}
   
+azureDevOps:
+  host: ${ AZURE_HOST}
+  token: ${ AZURE_TOKEN}
+  organization: ${ AZURE_ORG }
