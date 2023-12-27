@@ -496,6 +496,7 @@ data:
       argocd: {{ .Values.argocd.enabled | default false }}
       gitlabPlugin: {{ hasKey .Values.integrations "gitlab" }}
       keycloak: {{ hasKey .Values.catalog.providers "keycloak" }}
+      azureDevops: {{ .Values.azureDevOps.enabled | default false }}
     platform:
       guest:
         enabled: {{ .Values.platform.guest.enabled | default false }}
