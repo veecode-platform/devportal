@@ -288,6 +288,7 @@ enabledPlugins:
   argocd: true
   gitlabPlugin: false
   keycloak: true
+  azureDevops: false
 
 platform:
   behaviour: 
@@ -300,7 +301,6 @@ platform:
     docs: true
     groups: false
     apiManagement: false
-    azureDevops: false
   guest:
     enabled: false
   

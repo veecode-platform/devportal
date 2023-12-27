@@ -7,7 +7,8 @@ on:
 jobs:
   #Getting requided versions for next steps
   requirements:
-    runs-on: [self-hosted, macOS, ARM64]
+    # runs-on: [self-hosted, macOS, ARM64]
+    runs-on: ubuntu-latest
     outputs:
       app_version: ${{ env.app_version }}
       chart_version: ${{ env.chart_version }}
@@ -25,7 +26,8 @@ jobs:
     needs: [requirements]
     strategy:
       matrix:
-        os: [ubuntu-latest, [self-hosted, macOS, ARM64]]
+        # os: [ubuntu-latest, [self-hosted, macOS, ARM64]]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
@@ -65,7 +67,8 @@ jobs:
  
   publishManifestDocker:
     needs: [requirements, buildDevportal]
-    runs-on: [self-hosted, macOS, ARM64]
+    # runs-on: [self-hosted, macOS, ARM64]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       
@@ -83,7 +86,8 @@ jobs:
         uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
         with:
             inputs: veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
-            images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+            # images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+            images: veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
             amend: true
             push: true
 
@@ -91,10 +95,17 @@ jobs:
         uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
         with:
             inputs: veecode/devportal-bundle:latest
-            images: veecode/devportal-bundle-arm64:latest,veecode/devportal-bundle-x64:latest
+            # images: veecode/devportal-bundle-arm64:latest,veecode/devportal-bundle-x64:latest
+            images: veecode/devportal-bundle-x64:latest
             amend: true
             push: true
 
+      - name: Clear Docker image for macOS runner
+        if: runner.os == 'macOS'
+        run: |
+          docker rmi veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
+          docker rmi veecode/devportal-bundle-${{env.ARCH}}:latest
+          
   publishing:
     needs: [requirements, buildDevportal]
     runs-on: ubuntu-latest
