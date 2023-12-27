@@ -23,8 +23,8 @@ import BackstageLogo from "../../assets/backstage.png";
 import { HomePageStarredEntities,  HomePageCompanyLogo } from '@internal/plugin-home-platform';
 import {
   HomePageToolkit,
-  // HomePageTopVisited,
-  // HomePageRecentlyVisited
+  HomePageTopVisited,
+  HomePageRecentlyVisited
 } from '@backstage/plugin-home';
 import Icon from './Icon'
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
@@ -177,14 +177,14 @@ export const HomePage = () => {
               />
             </Grid>
             <Grid container item xs={12} justifyContent="center">
-              {/* <Grid container item xs={12}>
+              <Grid container item xs={12}>
                 <Grid item xs={12} md={6}>
                   <HomePageTopVisited kind="recent"/>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <HomePageRecentlyVisited />
                 </Grid>
-              </Grid> */}
+              </Grid>
 
               <Grid container item xs={12}>
               <Grid item xl={8} lg={12} md={12} xs={12}>
