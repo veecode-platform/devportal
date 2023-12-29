@@ -1,4 +1,4 @@
-name: Publish Devportal Homolog Helm Chart on apr Enviroment 
+name: Rollback of the approval environment
 
 on:
   workflow_dispatch:
