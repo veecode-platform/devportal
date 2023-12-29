@@ -25,7 +25,7 @@ jobs:
           doctl kubernetes cluster kubeconfig save ${{ secrets.CLUSTER_NAME }}
           if helm ls -A | grep -q "platform-devportal-homolog"; then
             NAMESPACE=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $2}')
-            REVISION=$(helm ls -A | grep prometheus-stack | awk -F' ' '{print $3}')
+            REVISION=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $3}')
             if [[ $REVISION -lt 2 ]]; then
               echo "First revision !!! no rollback to be done..."
             else
