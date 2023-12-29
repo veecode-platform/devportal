@@ -1,0 +1,39 @@
+name: Rollback of the approval environment
+
+on:
+  workflow_dispatch:
+     
+jobs:
+  Rollback:
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v3
+     - name: GitHub Action for DigitalOcean - doctl
+       uses: digitalocean/action-doctl@v2.3.0
+       with:
+         token: ${{ secrets.DO_TOKEN }}
+
+     - name: Install Helm 
+       shell: bash
+       run: |
+         curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+
+     - name: Helm rollback chart
+       shell: bash
+       run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.CLUSTER_NAME }}
+          if helm ls -A | grep -q "platform-devportal-homolog"; then
+            NAMESPACE=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $2}')
+            REVISION=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $3}')
+            if [[ $REVISION -lt 2 ]]; then
+              echo "First revision !!! no rollback to be done..."
+            else
+              ((REVISION-=1))
+              echo "Returning platform-devportal-homolog to revision $REVISION..."
+              helm rollback platform-devportal-homolog $REVISION -n $NAMESPACE
+            fi
+          else 
+            echo "Instalation of Platform devportal (Homolog) not found on ${{ secrets.CLUSTER_NAME }}"
+            exit 1
+          fi
