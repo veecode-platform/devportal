@@ -514,6 +514,7 @@ data:
         home: {{ eq .Values.platform.behaviour.home | default true }}
         catalog: {{ eq .Values.platform.behaviour.catalog | default true }}
         apis: {{ eq .Values.platform.behaviour.apis | default true }}
+        resources: {{ eq .Values.platform.behaviour.resources | default true }}
         create: {{ eq .Values.platform.behaviour.create true }}
         docs: {{ eq .Values.platform.behaviour.docs | default true }}
         groups: {{ eq .Values.platform.behaviour.groups | default true }}

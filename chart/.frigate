@@ -23,7 +23,7 @@ helm uninstall platform-devportal
 #FOOTNOTES
 {% block footnotes -%}
 
-## Example values for github
+## Example values for Github
 ```yaml
 replicas: 1
 image:
@@ -87,7 +87,9 @@ catalog:
         branch: main # Optional. Uses `master` as default
         repository: <repository-name> #suggestion devportal-catalog
         validateLocationsExist: true
-
+      schedule:
+        frequency: 5
+        timeout: 3
 platform:
   guest:
     enabled: true
@@ -96,7 +98,7 @@ platform:
     readOnlyMode: false
 ```
 
-## Example values for gitlab
+## Example values for Gitlab
 ```yaml
 replicas: 1
 image:
@@ -141,8 +143,6 @@ appConfig:
   database:
     client: better-sqlite3
 
-auth: {}
-
 integrations:
   gitlab:
     token: <gitlab-token>
@@ -154,7 +154,9 @@ catalog:
       group: <gitlab group/subgroup> # Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned
       entityFilename: catalog-info.yaml # Optional. Defaults to `catalog-info.yaml`
       projectPattern: <repository-name> #suggestion devportal-catalog
-
+      schedule:
+        frequency: 5
+        timeout: 3
 platform:
   guest:
     enabled: true
@@ -162,6 +164,77 @@ platform:
     enabled: false
     readOnlyMode: false
 ```
+
+## Example values for Bitbucket Cloud
+```yaml
+replicas: 1
+image:
+  repository: veecode/devportal-bundle
+  # tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  enabled: true
+  name: devportal
+  type: ClusterIP
+  containerPort: 7007
+
+ingress:
+  enabled: true
+  host: <devportal-host> #devportal.com
+  className: nginx
+  # className: kong
+  # annotations:
+  #   konghq.com/https-redirect-status-code: "308"
+  #   konghq.com/preserve-host: "true"
+  #   konghq.com/protocols: "https"
+  #   konghq.com/strip-path: "false"
+  tls:
+    secretName: devportal-secret
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+appConfig:
+  title: Devportal
+  app:
+    baseUrl: <devportal-host>
+  backend:
+    baseUrl: <devportal-host>
+    secret: 56616a93-ac28-42ab-929d-6ec1fc008c54
+  database:
+    client: better-sqlite3
+
+integrations:
+  bitbucketCloud:
+    appPassword: <app-password-token>
+    username: <username>
+
+catalog:
+  providers:
+    bitbucketCloud:
+      filters:
+        #repoSlug: devportal-catalog
+        projectKey: <project-key>
+      workspace: <your-workspace>
+      schedule:
+        frequency: 5
+        timeout: 3
+platform:
+  guest:
+    enabled: true
+  apiManagement:
+    enabled: false
+    readOnlyMode: false
+```
+
+
+# Database
 
 ## Using SQLite
 ```sh
@@ -185,6 +258,63 @@ appConfig:
       password: postgres #database password
 ```
 
+## Authentication
+
+### Configuring Keycloak as identity provider
+```yaml
+auth: 
+  providers:
+    keycloak:
+      metadataUrl: https://<keycloak-host>/realms/<realm-name>/.well-known/openid-configuration #keycloak .well-known url
+      clientId: <client-id> #keycloak client id
+      clientSecret: <secret>  #keycloak client secret
+      prompt: auto #enable keycloak prompt
+```
+
+### Configuring Github oauth provider
+```yaml
+auth: 
+  providers:
+    github:
+      clientId: <github-client-id> #github Oauth application client id
+      clientSecret: <github-client-secret> #github Oauth application client secret
+```
+
+### Configuring Gitlab oauth provider
+```yaml
+auth: 
+  providers:
+    gitlab:
+      clientId: #Gitlab Client ID
+      clientSecret: #Gitlab Client Secret
+      audience: "https://gitlab.com" #Gitlab Audience
+```
+## Veecode Platform 
+
+### Configuring Devportal menus and features
+```yaml
+platform:
+  guest:
+    enabled: true #enable guest mode
+  apiManagement:
+    enabled: false #enable platform Api management module
+    readOnlyMode: false #Enable platform Api management readonly mode
+  defaultGroups:
+    enabled: false #If 'false', the user will not be able to belong to any group. If 'true', the user will belong to the user group by default.
+    admin: 'platform-admin' #Group to be mapped as devportal's admin group
+    user: 'platform-user' #Group to be mapped as devportal's user group
+  behaviour: 
+    mode: product #(product, demo, workshop, custom)
+    home: true #enable or disable menu if mode is custom selected
+    catalog: true #enable or disable menu if mode is custom selected
+    apis: true #enable or disable menu if mode is custom selected
+    resources: true #enable or disable menu if mode is custom selected
+    create: true #enable or disable menu if mode is custom selected
+    docs: true #enable or disable menu if mode is custom selected
+    groups: true #enable or disable menu if mode is custom selected
+    apiManagement: true #enable or disable menu if mode is custom selected
+````
+
 ## Custom theme
 
 ### Changing images: 
@@ -196,7 +326,7 @@ theme:
     sidebarFull: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url Endpoint
     favicon: "https://platform.vee.codes/favicon.ico" #Menu logo Url Endpoint
 ```
-## Colors
+### Colors
 To customize your devportal colors you can provide an url with your theme file or put you theme file into a configmap.<br/>
 Get your theme file sample [here](https://veecode-platform.github.io/support/references/devportal/theme.json) to customize.
 
