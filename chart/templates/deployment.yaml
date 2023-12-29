@@ -7,6 +7,16 @@ spec:
   selector:
     matchLabels:
       app: {{ include "devportal-charts.fullname" . }}
+  {{- if .Values.hostAliases }}
+  hostAliases:
+  {{- range .Values.hostAliases }}
+  - ip: {{ .ip }}
+    hostnames:
+    {{- range .hostnames }}
+    - {{ . }}
+    {{- end }}
+  {{- end }}
+  {{- end }}
   template:
     metadata:
       labels:

@@ -7,8 +7,14 @@ image:
 environment: development #application environment
 
 extraEnv: [] #environment variables
-  #  - name: NODE_TLS_REJECT_UNAUTHORIZED
-  #    value: 0
+  #- name: NODE_TLS_REJECT_UNAUTHORIZED
+  #  value: 0
+
+ #Host aliases for devportal
+hostAliases: [] 
+  #- ip: "127.0.0.1" #host ip
+  #  hostnames:
+  #   - "foo.local" #hostnames
 
 service:
   enabled: true #if `true`, an service is created
@@ -22,10 +28,10 @@ ingress:
 #  path: / # Ingress path
 #  pathType: Prefix # Ingress pathType
 #  annotations: {} #ingress annotations
-  #  konghq.com/https-redirect-status-code: "308"
-  #  konghq.com/preserve-host: "true"
-  #  konghq.com/protocols: "https"
-  #  konghq.com/strip-path: "false"
+#  konghq.com/https-redirect-status-code: "308"
+#  konghq.com/preserve-host: "true"
+#  konghq.com/protocols: "https"
+#  konghq.com/strip-path: "false"
 #  tls: {} #TLS secrets and which hosts they should be used for
 #    secretName: devportal-secret #tls secret name
 
@@ -38,11 +44,11 @@ resources:
     cpu: 500m #limit cpu
 
   #use https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ to configure readinessProbe and livenessProbe
-#readinessProbe: #use k8s docs to implement 
+#readinessProbe: #use k8s docs to implement
 #   httpGet:
 #     path: #suggestion /healthcheck
 #     port: #suggestion 7007
-#   initialDelaySeconds: #suggestion 30 
+#   initialDelaySeconds: #suggestion 30
 #   periodSeconds: #suggestion 10
 #livenessProbe: #use k8s docs to implement
 #   httpGet:
@@ -57,16 +63,21 @@ appConfig:
     baseUrl: http://localhost:3000 #devportal base URL
   backend:
     baseUrl: http://localhost:7007 #devportal backend base URL
-#    secret: #devportal backend secret. Random value.
+    #    secret: #devportal backend secret. Random value.
     csp:
       connectSrc: ["'self'", "http:", "https:"] #CSP connect-src
-      imgSrc: ["'self'", 'data:'] #CSP img-src
-      scriptSrc: ["'self'", "'unsafe-eval'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com'] #CSP script-src
-#      frameAncestors: ["'self'", '*'] #CSP frame-ancestors
-#      frameSrc: ["'self'"] #CSP frame-src
-#  analytics: 
-#    ga:
-#      measurementId: #Google analytics metrics ID
+      imgSrc: ["'self'", "data:"] #CSP img-src
+      scriptSrc: [
+          "'self'",
+          "'unsafe-eval'",
+          "https://www.google-analytics.com",
+          "https://www.googletagmanager.com",
+        ] #CSP script-src
+  #      frameAncestors: ["'self'", '*'] #CSP frame-ancestors
+  #      frameSrc: ["'self'"] #CSP frame-src
+  #  analytics:
+  #    ga:
+  #      measurementId: #Google analytics metrics ID
 
   database:
     client: better-sqlite3 #database client (better-sqlite3 or pg)
@@ -74,7 +85,7 @@ appConfig:
 #      directory: #sqlite directory instead of memory storage
 #      host: postgres-postgresql.vkpr #database host
 #      port: 5432 #database port number
-#      database: platform_devportal #database name 
+#      database: platform_devportal #database name
 #      user: postgres #database username
 #      password: postgres #database password
 
@@ -93,11 +104,11 @@ search:
       shortWord: 3 # Words of this length or less will be dropped at the start and end of a headline, unless they are query terms. The default value of three (3) eliminates common English articles.
       highlightAll: false # If true the whole document will be used as the headline, ignoring the preceding three parameters. The default is false.
       maxFragments: 0 # Maximum number of text fragments to display. The default value of zero selects a non-fragment-based headline generation method. A value greater than zero selects fragment-based headline generation (see the linked documentation above for more details).
-      fragmentDelimiter: ' ... '
-    schedule:        
-      frequency: 
+      fragmentDelimiter: " ... "
+    schedule:
+      frequency:
         minutes: 3
-      timeout: 
+      timeout:
         minutes: 5
 grafana:
   enabled: false #enable grafana plugin
@@ -127,7 +138,7 @@ azureDevOps:
 #  token: #azure token
 #  organization: #azure organization
 
-auth: 
+auth:
   providers: {}
 #    keycloak:
 #      metadataUrl:  #keycloak .well-known url
@@ -150,7 +161,7 @@ integrations: {}
 #          clientId: #client id
 #          clientSecret: #client secret
 #          tenantId: #tenant id
-#          personalAccessToken: #personal access token      
+#          personalAccessToken: #personal access token
 #  github:
 #    host: github.com #github Server Host
 #    token:  #github Token
@@ -168,7 +179,8 @@ integrations: {}
 
 catalog:
   rules: #Catalog rules
-    - allow: [Component, API, Location, Cluster, Template, Environment, Database]
+    - allow:
+        [Component, API, Location, Cluster, Template, Environment, Database]
   providers: {}
 #    github:
 #      organization: #github Organization Name
@@ -177,27 +189,27 @@ catalog:
 #      filters:
 #        branch: main #branch to filter
 #        repository: ## Regex repository name
-#      schedule:     
+#      schedule:
 #        frequency: 5 #time in minutes to refresh the catalog
-#        timeout: 3 #time in minutes to timeout after the refresh request 
+#        timeout: 3 #time in minutes to timeout after the refresh request
 #    bitbucketCloud:
 #      workspace: #Bitbucket workspace
 #      catalogPath: "/catalog-info.yaml" #Path catalog info
-#      filters: 
+#      filters:
 #        projectKey: #optional Bitbucket project key
 #        repoSlug: ##optional Bitbucket repo slug
-#      schedule:        
+#      schedule:
 #        frequency: 5 #time in minutes to refresh the catalog
-#        timeout: 3 #time in minutes to timeout after the refresh request 
+#        timeout: 3 #time in minutes to timeout after the refresh request
 #    bitbucketServer:
-#      host: 
+#      host:
 #      catalogPath: #Path catalog info
-#      filters: 
+#      filters:
 #        projectKey: #Bitbucket project key
 #        repoSlug: #Bitbucket repo slug
-#      schedule:        
+#      schedule:
 #        frequency: 5 #time in minutes to refresh the catalog
-#        timeout: 3 #time in minutes to timeout after the refresh request 
+#        timeout: 3 #time in minutes to timeout after the refresh request
 #    gitlab:
 #      host: gitlab.com #Identifies one of the hosts set up in the integrations
 #      orgEnabled: false #Enable organization
@@ -205,16 +217,16 @@ catalog:
 #      group: #Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned.
 #      entityFilename: 'catalog-info.yaml' #Catalog file path
 #      projectPattern: /[\s\S]*/ #Optional. Filters found projects based on provided patter.
-#      schedule:        
+#      schedule:
 #        frequency: 5 #time in minutes to refresh the catalog
-#        timeout: 3 #time in minutes to timeout after the refresh request 
-#    keycloak: 
+#        timeout: 3 #time in minutes to timeout after the refresh request
+#    keycloak:
 #      baseUrl: #keycloak base url
 #      loginRealm: master #realm used to login
 #      realm: platform-devportal #realm to be managed
 #      username: #username to user with permissions to get groups and users
 #      password: #password
-#      schedule:        
+#      schedule:
 #        frequency: 5 #time in minutes to refresh the catalog
 #        timeout: 3 #time in minutes to timeout after the refresh request
 #      userQuerySize: 500 #User query size to sync
@@ -228,9 +240,9 @@ platform:
     readOnlyMode: false #Enable platform Api management readonly mode
   defaultGroups:
     enabled: false #If 'false', the user will not be able to belong to any group. If 'true', the user will belong to the user group by default.
-    admin: 'platform-admin' #Group to be mapped as devportal's admin group
-    user: 'platform-user' #Group to be mapped as devportal's user group
-  behaviour: 
+    admin: "platform-admin" #Group to be mapped as devportal's admin group
+    user: "platform-user" #Group to be mapped as devportal's user group
+  behaviour:
     mode: product #(product, demo, workshop, custom)
 #    home: true #enable or disable menu if mode is custom selected
 #    catalog: true #enable or disable menu if mode is custom selected
@@ -249,19 +261,19 @@ platform:
 #     clusters:
 #       - url: ''
 #         authProvider: ''
-#         oidcTokenProvider: 
+#         oidcTokenProvider:
 #         skipTLSVerify: false
 #         skipMetricsLookup: true
 #         serviceAccountToken: ''
 #         dashboardUrl:  # url copied from running the command: minikube service kubernetes-dashboard -n kubernetes-dashboard
-#         dashboardApp: 
-#         caData: 
+#         dashboardApp:
+#         caData:
 #         caFile: '' # local path to CA file
 #         customResources:
 #           - group: ''
 #             apiVersion: ''
 #             plural: ''
-#         name: 
+#         name:
 #         projectId: ''
 #         region: ''
 #         exposeDashboard: false
@@ -272,11 +284,11 @@ theme:
     sidebarFull: "https://platform.vee.codes/assets/logo/logo.png" #Menu logo Url
     favicon: #Favicon URL
   custom:
-     #use configmapName or downloadUrl
+    #use configmapName or downloadUrl
     configmapName: #Configmap with theme file created
     downloadUrl: #Theme file url
 
-serviceMonitor: 
+serviceMonitor:
   enabled: false #true to enable
-#  selectors: 
+#  selectors:
 #    release: prometheus

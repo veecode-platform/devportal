@@ -148,7 +148,7 @@ data:
         {{- end }}
     {{- end }}
     organization:
-      name: Devportal
+      name: Veecode Platform Devportal
 
     techdocs:
       builder: "local"
