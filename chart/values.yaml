@@ -134,10 +134,13 @@ auth:
 #      clientId:  #keycloak client id
 #      clientSecret:  #keycloak client secret
 #      prompt: auto #enable keycloak prompt
-
 #    github:
 #      clientId:  #github Oauth application client id
 #      clientSecret:  #github Oauth application client secret
+#    gitlab:
+#      clientId: #Gitlab Client ID
+#      clientSecret: #Gitlab Client Secret
+#      audience: "https://gitlab.com" #Gitlab Audience
 
 integrations: {}
 #  azure:
@@ -232,6 +235,7 @@ platform:
 #    home: true #enable or disable menu if mode is custom selected
 #    catalog: true #enable or disable menu if mode is custom selected
 #    apis: true #enable or disable menu if mode is custom selected
+#    resources: true #enable or disable menu if mode is custom selected
 #    create: true #enable or disable menu if mode is custom selected
 #    docs: true #enable or disable menu if mode is custom selected
 #    groups: true #enable or disable menu if mode is custom selected
