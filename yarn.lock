@@ -13264,9 +13264,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-github-workflows@npm:^0.2.11":
-  version: 0.2.11
-  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:0.2.11"
+"@veecode-platform/backstage-plugin-github-workflows@npm:^0.2.19":
+  version: 0.2.19
+  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:0.2.19"
   dependencies:
     "@backstage/catalog-model": ^1.4.3
     "@backstage/core-components": ^0.13.8
@@ -13280,13 +13280,13 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: d4f9a2af3a9ead2c723f5f49461149c6c19059539fd3182c58c4ca356f43fc1e406d271ad6c4144a436caf8fc0a53e05d5b0e16c4bf9376254af9918fe25d12a
+  checksum: 0dc07c7b398099479471fb7b5be011247aed23f2aadb69eb657654ed328eb4c00b34c78dfe7e08fb42814ce1a2864cb6515b374a9b286f7d5f501de459408ddb
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-gitlab-pipelines@npm:^0.2.11":
-  version: 0.2.11
-  resolution: "@veecode-platform/backstage-plugin-gitlab-pipelines@npm:0.2.11"
+"@veecode-platform/backstage-plugin-gitlab-pipelines@npm:^0.2.19":
+  version: 0.2.19
+  resolution: "@veecode-platform/backstage-plugin-gitlab-pipelines@npm:0.2.19"
   dependencies:
     "@backstage/core-components": ^0.13.8
     "@backstage/core-plugin-api": ^1.8.0
@@ -13298,13 +13298,13 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: 09cb6cfa68cd9252499a0e8e72fea8e17f059623585956bd8460f99a19dce4d6a13721dc94f7475929cc254bb21aec5f808c79eb7f3f179db5569e8a690936b2
+  checksum: d2f7faf132d3369214f720b4cdc92352ba2c887b0875467e9f497422f617a3b41244a602ecb5228103b84bd7c2fe896cee70b2f404d02beea9c387c27c73cb4f
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-k8s-cluster-overview@npm:^0.1.27":
-  version: 0.1.27
-  resolution: "@veecode-platform/backstage-plugin-k8s-cluster-overview@npm:0.1.27"
+"@veecode-platform/backstage-plugin-k8s-cluster-overview@npm:^0.1.35":
+  version: 0.1.35
+  resolution: "@veecode-platform/backstage-plugin-k8s-cluster-overview@npm:0.1.35"
   dependencies:
     "@backstage/catalog-model": ^1.4.3
     "@backstage/core-components": ^0.13.8
@@ -13320,7 +13320,7 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: d31da044596bdf514901066170919f6132efc3eeb3e8775d9ff3eba1a07a58dbfbf2ef3328542be5dcdb0d0d3c6b8438929d2bc51f0fc2879e70b23830fde373
+  checksum: 535059deb99112e1ae646b1db02a93bfb3950e620d608b2dc139541af34dd41484c208553207e080600f19fc8416fdf93fff6663c9d9ea837291f1f04a19c402
   languageName: node
   linkType: hard
 
@@ -14342,9 +14342,9 @@ __metadata:
     "@types/jest": ^26.0.7
     "@types/node": "*"
     "@types/react-dom": "*"
-    "@veecode-platform/backstage-plugin-github-workflows": ^0.2.11
-    "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.2.11
-    "@veecode-platform/backstage-plugin-k8s-cluster-overview": ^0.1.27
+    "@veecode-platform/backstage-plugin-github-workflows": ^0.2.19
+    "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.2.19
+    "@veecode-platform/backstage-plugin-k8s-cluster-overview": ^0.1.35
     "@veecode-platform/core-components": ^0.13.35
     "@veecode-platform/plugin-api-docs": ^0.10.11
     "@veecode-platform/plugin-catalog": ^1.15.11
