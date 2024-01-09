@@ -667,11 +667,11 @@ const clusterPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path='/about' title='About'>
-      <Grid container spacing={3} alignItems="stretch">
-        <Grid item md={3}>
+      <Grid container spacing={2} alignItems="stretch">
+        <Grid item lg={3} md={12} xs={12}>
           <EntityAboutCard variant="gridItem" />
         </Grid>
-        <Grid item md={9} xs={12}>
+        <Grid item lg={9} md={12} xs={12}>
           <EntityCatalogGraphCard
             variant="gridItem"
             direction={Direction.LEFT_RIGHT}
@@ -695,26 +695,26 @@ const clusterPage = (
             unidirectional={false}
           />
         </Grid>
-        <Grid item md={5}>
-          <EntityHasComponentsCard variant="gridItem" />
-        </Grid>
-        {/* Github */}
-        <EntitySwitch>
-          <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
-            <Grid item lg={8} xs={12}>
+        <Grid item lg={8} md={12}>
+          {/* Github */}
+          <EntitySwitch>
+            <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
               <GithubWorkflowsCard />
-            </Grid>
-          </EntitySwitch.Case>
-        </EntitySwitch>
-        {/* Gitlab */}
-        <EntitySwitch>
-          <EntitySwitch.Case if={isGitlabJobsAvailable}>
-            <Grid item lg={8} xs={12}>
+            </EntitySwitch.Case>
+          </EntitySwitch>
+          {/* Gitlab */}
+          <EntitySwitch>
+            <EntitySwitch.Case if={isGitlabJobsAvailable}>
               <GitlabJobs />
-            </Grid>
-          </EntitySwitch.Case>
-        </EntitySwitch>
-        <Grid item md={4} xs={12}>
+            </EntitySwitch.Case>
+          </EntitySwitch>
+          {/* Has Components */}
+          <Grid item lg={12} style={{ marginTop: '1rem' }}>
+            <EntityHasComponentsCard variant="gridItem" />
+          </Grid>
+        </Grid>
+
+        <Grid item lg={4} md={12}>
           <EntityLinksCard />
         </Grid>
       </Grid>
