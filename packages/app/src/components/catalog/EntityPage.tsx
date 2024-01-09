@@ -662,7 +662,16 @@ const domainPage = (
 
 const clusterPage = (
   <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
+
+    <EntityLayout.Route 
+      // if={(entity) => {
+      //   const environment = entity.metadata.environment;
+      //   if (typeof environment === 'object' && !Array.isArray(environment) && environment?.overview) {
+      //     return true;
+      //   }
+      //   return false;
+      // }}
+      path="/" title="Overview">
       <ClusterOverviewPage />
     </EntityLayout.Route>
 
