@@ -99,7 +99,7 @@ import {
   // isAWSLambdaAvailable
 } from '@roadiehq/backstage-plugin-aws-lambda';
 import { EnvironmentOverview } from '@veecode-platform/plugin-environment-explorer';
-import { ClusterOverviewPage } from '@veecode-platform/backstage-plugin-k8s-cluster-overview';
+import { ClusterOverviewPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
 // AzureDevops
 import {
   EntityAzurePipelinesContent,
