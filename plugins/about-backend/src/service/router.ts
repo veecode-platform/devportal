@@ -9,7 +9,7 @@ import { Logger } from 'winston';
 import { AboutBackendApi } from '../api';
 import { Config } from '@backstage/config';
 //import { getBearerTokenFromAuthorizationHeader } from '@backstage/plugin-auth-node';
-//import { adminAccessPermission } from '@internal/plugin-application-common';
+//import { adminAccessPermission } from '@veecode-platform/plugin-application-common';
 //import { NotAllowedError } from '@backstage/errors';
 
 /** @public */
