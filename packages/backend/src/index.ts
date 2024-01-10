@@ -133,7 +133,7 @@ async function main() {
 
   if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));
-    apiRouter.use('/devportal', authMiddleware, await application(applicationEnv));
+    apiRouter.use('/devportal', await application(applicationEnv));
   }
 
   if (config.getOptionalBoolean("enabledPlugins.vault")) {
