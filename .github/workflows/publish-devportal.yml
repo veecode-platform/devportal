@@ -2,7 +2,7 @@ name: Publish Devportal Docker/Helm Chart
 
 on:
   push:
-    branches: ["main"]
+    branches: ["develop"]
 
 jobs:
   #Getting requided versions for next steps
