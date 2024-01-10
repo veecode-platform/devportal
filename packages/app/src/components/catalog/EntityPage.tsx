@@ -833,6 +833,9 @@ const databasePage = (
         </Grid>
       </Grid>
     </EntityLayout.Route>
+    <EntityLayout.Route path="/ci-cd" title="CI/CD">
+      {cicdContent}
+    </EntityLayout.Route>
     <EntityLayout.Route
       if={(entity) => {
         if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
