@@ -1,4 +1,4 @@
-import { createRouter } from '@internal/plugin-application-backend';
+import { createRouter } from '@veecode-platform/plugin-application-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';

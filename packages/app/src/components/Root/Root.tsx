@@ -27,7 +27,7 @@ import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import ExtensionIcon from '@material-ui/icons/Extension';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
 import { usePermission } from '@backstage/plugin-permission-react';
-import { adminAccessPermission/* , apiManagementEnabledPermission*/ } from '@internal/plugin-application-common';
+import { adminAccessPermission/* , apiManagementEnabledPermission*/ } from '@veecode-platform/plugin-application-common';
 import CategoryIcon from '@material-ui/icons/Category';
 import LayersIcon from '@material-ui/icons/Layers';
 import PeopleIcon from '@material-ui/icons/People';
