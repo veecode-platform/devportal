@@ -105,6 +105,7 @@ import {
   EntityAzurePipelinesContent,
   isAzurePipelinesAvailable,
 } from '@backstage/plugin-azure-devops';
+import { DatabaseOverview } from '@veecode-platform/plugin-database-explorer';
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -796,7 +797,7 @@ const databasePage = (
     <EntityLayout.Route path="/" title="Overview">
       <Grid container spacing={1} alignItems="stretch">
         <Grid item lg={6} md={12} xs={12}>
-          <EnvironmentOverview />
+          <DatabaseOverview />
         </Grid>
         <Grid item lg={6} md={12} xs={12} >
           <EntityCatalogGraphCard variant='flex' height={300} />
