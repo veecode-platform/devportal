@@ -1,4 +1,4 @@
-name: Publish Devportal Docker/Helm Chart
+name: Publish Devportal Helm Chart
 
 on:
   push:
