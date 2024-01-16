@@ -13083,6 +13083,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@veecode-platform/backstage-plugin-cluster-explorer@npm:^0.1.47":
+  version: 0.1.47
+  resolution: "@veecode-platform/backstage-plugin-cluster-explorer@npm:0.1.47"
+  dependencies:
+    "@backstage/catalog-model": ^1.4.3
+    "@backstage/core-components": ^0.13.8
+    "@backstage/core-plugin-api": ^1.8.0
+    "@backstage/plugin-catalog-graph": ^0.3.1
+    "@backstage/plugin-catalog-react": ^1.9.1
+    "@backstage/plugin-kubernetes": ^0.11.2
+    "@backstage/theme": ^0.4.4
+    "@material-ui/core": ^4.9.13
+    "@material-ui/icons": ^4.9.1
+    "@material-ui/lab": ^4.0.0-alpha.61
+    pluralize: ^8.0.0
+    react-use: ^17.2.4
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0
+  checksum: ec3c54ac29585874cc88d6e4efd348831fd100a73d8282a3eaf712644bcdd88fe8bb5a6c1b95defa030a40ba7fec3b78b2251cb4e71468e4ac7032b87d1aab1a
+  languageName: node
+  linkType: hard
+
 "@veecode-platform/backstage-plugin-github-workflows@npm:^0.2.19":
   version: 0.2.19
   resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:0.2.19"
@@ -14226,6 +14248,7 @@ __metadata:
     "@types/jest": ^26.0.7
     "@types/node": "*"
     "@types/react-dom": "*"
+    "@veecode-platform/backstage-plugin-cluster-explorer": ^0.1.47
     "@veecode-platform/backstage-plugin-github-workflows": ^0.2.19
     "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.2.19
     "@veecode-platform/backstage-plugin-k8s-cluster-overview": ^0.1.35
