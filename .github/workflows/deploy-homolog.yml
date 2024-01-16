@@ -134,8 +134,9 @@ jobs:
          if helm ls -A | grep -q "platform-devportal-homolog"; then
            NAMESPACE=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $2}')
            helm get values platform-devportal-homolog -n $NAMESPACE | tail -n +2 > devportal.yaml
+           yq e ".image.tag = \"$(jq -r .version package.json)\"" -i ./devportal.yaml
            helm upgrade platform-devportal-homolog --install --recreate-pods --values ./devportal.yaml ./chart -n $NAMESPACE
          else 
-           echo "Instalation of Platform devportal (Homolog) not found on ${{ secrets.CLUSTER_NAME }}"
+           echo "Installation of Platform devportal (Homolog) not found on ${{ secrets.CLUSTER_NAME }}"
            exit 1
          fi
