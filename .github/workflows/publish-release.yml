@@ -2,7 +2,7 @@ name: Publish Devportal Helm Chart
 
 on:
   push:
-    branches: ["develop"]
+    branches: ["main"]
 
 jobs:
   #Getting requided versions for next steps
@@ -92,4 +92,4 @@ jobs:
         with:
           tag: "${{ needs.requirements.outputs.app_version }}"
           tag_exists_error: false
-          message: "Versão ${{ needs.requirements.outputs.app_version }}"
+          message: "Version ${{ needs.requirements.outputs.app_version }}"

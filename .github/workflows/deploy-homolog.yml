@@ -106,7 +106,7 @@ jobs:
           docker rmi veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
           docker rmi veecode/devportal-bundle-${{env.ARCH}}:latest
 
-  Install_Devportal_Homolog:
+  installDevportalHomolog:
    runs-on: ubuntu-latest
    needs: [requirements, publishManifestDocker]
    steps:
