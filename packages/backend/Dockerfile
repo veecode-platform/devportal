@@ -58,9 +58,7 @@ COPY --chown=node:node devportal.json backstage.json ./
 USER root
 COPY packages/backend/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
-USER node
-
-RUN echo 'node:node' | chpasswd
+# USER NODE
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 
