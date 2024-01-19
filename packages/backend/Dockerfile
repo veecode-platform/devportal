@@ -60,6 +60,8 @@ COPY packages/backend/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 USER node
 
+RUN echo 'node:node' | chpasswd
+
 ENTRYPOINT ["/app/entrypoint.sh"]
 
 CMD ["node", "packages/backend", "--config", "app-config.yaml"]
