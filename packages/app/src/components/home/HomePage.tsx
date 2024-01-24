@@ -27,7 +27,7 @@ import {
   HomePageRecentlyVisited
 } from '@backstage/plugin-home';
 import Icon from './Icon'
-import { configApiRef, useApi } from '@backstage/core-plugin-api';
+// import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
 const starredEntitiesApi = new MockStarredEntitiesApi();
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity');
@@ -138,7 +138,7 @@ const useStyles = makeStyles(theme => ({
 export const HomePage = () => {
   
   const classes = useStyles();
-  const config = useApi(configApiRef);
+  // const config = useApi(configApiRef);
   const logoIconSrc = "https://platform.vee.codes/apple-touch-icon.png"
 
   const tools = [
