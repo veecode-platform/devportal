@@ -290,5 +290,7 @@ theme:
 
 serviceMonitor:
   enabled: false #true to enable
+# interval: 30s
+# scrapeTimeout: 10s
 #  selectors:
 #    release: prometheus

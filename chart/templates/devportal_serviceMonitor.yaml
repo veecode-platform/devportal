@@ -14,8 +14,16 @@ metadata:
 spec:
   endpoints:
     - targetPort: 7007
+      {{- if .Values.serviceMonitor.interval }}
+      interval: {{ .Values.serviceMonitor.interval }}
+      {{- else }}
       interval: 30s
+      {{- end }}
+      {{- if .Values.serviceMonitor.scrapeTimeout }}
+      scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
+      {{- else }}
       scrapeTimeout: 10s
+      {{- end }}
       scheme: http
       path: /metrics
   selector:
