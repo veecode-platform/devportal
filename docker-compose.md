@@ -18,5 +18,9 @@ docker compose --profile=basic up -d
 ```
 Down:
 ```bash
-docker compose down
+docker compose --profile=complete down
+```
+
+```bash
+docker compose --profile=basic down
 ```
