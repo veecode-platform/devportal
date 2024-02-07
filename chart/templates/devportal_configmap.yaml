@@ -281,6 +281,7 @@ data:
       {{- end }}
     {{- end }} 
     catalog:
+      orphanStrategy: {{ .Values.catalog.orphanStrategy }}
       {{- if .Values.catalog.rules  }}
       rules:{{- range .Values.catalog.rules }}
         - allow: {{ .allow | toJson }}

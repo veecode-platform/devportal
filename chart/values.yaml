@@ -178,6 +178,7 @@ integrations: {}
 #    token:  #Gitlab Server Token
 
 catalog:
+  orphanStrategy: delete #Orphan strategy(delete|keep)
   rules: #Catalog rules
     - allow:
         [Component, API, Location, Cluster, Template, Environment, Database]
