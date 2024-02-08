@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "dbaeumer.vscode-eslint",
-        "abumalick.vscode-nvm"
+        "abumalick.vscode-nvm",
+        "VadzimNestsiarenka.helm-template-preview-and-more"
     ]
 }

@@ -178,6 +178,7 @@ integrations: {}
 #    token:  #Gitlab Server Token
 
 catalog:
+  orphanStrategy: delete #Orphan strategy(delete|keep)
   rules: #Catalog rules
     - allow:
         [Component, API, Location, Cluster, Template, Environment, Database]
@@ -290,5 +291,7 @@ theme:
 
 serviceMonitor:
   enabled: false #true to enable
+# interval: 30s
+# scrapeTimeout: 10s
 #  selectors:
 #    release: prometheus

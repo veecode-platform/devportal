@@ -8,7 +8,7 @@ services:
       - complete
       - basic
     container_name: postgres_devportal
-    image: postgres:15.1
+    image: postgres:15.5
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -50,7 +50,7 @@ services:
       - demo
       - keycloak
     container_name: keycloak_devportal
-    image: quay.io/keycloak/keycloak:19.0.3
+    image: quay.io/keycloak/keycloak:22.0.5
     # restart: unless-stopped
     environment:
       KC_METRICS_ENABLED: "true"
