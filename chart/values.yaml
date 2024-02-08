@@ -290,8 +290,8 @@ theme:
     downloadUrl: #Theme file url
 
 serviceMonitor:
-  enabled: false #true to enable
-# interval: 30s
-# scrapeTimeout: 10s
+#  enabled: false #true to enable
+#  interval: 30s
+#  scrapeTimeout: 10s
 #  selectors:
 #    release: prometheus
