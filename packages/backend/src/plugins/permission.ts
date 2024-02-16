@@ -20,8 +20,6 @@ class DefaultPermissionPolicy implements PermissionPolicy {
   }
   async handle(request: PolicyQuery, user: BackstageIdentityResponse): Promise<PolicyDecision> {
 
-    console.log(user, "YABADABADOOOO");
-
     if (request.permission.name === 'catalog.entity.create' && this.config.getBoolean("platform.guest.enabled")) return { result: AuthorizeResult.DENY };
     if (request.permission.name === 'apiManagement.access.read' && !this.config.getBoolean("platform.apiManagement.enabled")) return { result: AuthorizeResult.DENY };
     if (request.permission.name === 'apiManagement.access.read' && this.config.getBoolean("platform.guest.enabled")) return { result: AuthorizeResult.DENY };
