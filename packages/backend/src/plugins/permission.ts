@@ -33,6 +33,15 @@ class DefaultPermissionPolicy implements PermissionPolicy {
     }
 
     if (isPermission(request.permission, catalogEntityDeletePermission)) {
+       if(user){
+        const admin = this.config.getString("platform.group.admin");
+        const IsAdmin = user.identity.ownershipEntityRefs.some(
+          (item) => item.includes(admin) && item.startsWith('group:')
+        );
+        if(IsAdmin){
+          return { result: AuthorizeResult.ALLOW }; 
+        }
+      }
       return createCatalogConditionalDecision(
         request.permission,
         catalogConditions.isEntityOwner({
