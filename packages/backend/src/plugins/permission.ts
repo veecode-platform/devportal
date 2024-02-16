@@ -19,6 +19,9 @@ class DefaultPermissionPolicy implements PermissionPolicy {
     this.config = config;
   }
   async handle(request: PolicyQuery, user: BackstageIdentityResponse): Promise<PolicyDecision> {
+
+    console.log(user, "YABADABADOOOO");
+
     if (request.permission.name === 'catalog.entity.create' && this.config.getBoolean("platform.guest.enabled")) return { result: AuthorizeResult.DENY };
     if (request.permission.name === 'apiManagement.access.read' && !this.config.getBoolean("platform.apiManagement.enabled")) return { result: AuthorizeResult.DENY };
     if (request.permission.name === 'apiManagement.access.read' && this.config.getBoolean("platform.guest.enabled")) return { result: AuthorizeResult.DENY };
@@ -30,16 +33,6 @@ class DefaultPermissionPolicy implements PermissionPolicy {
         if(user.identity.ownershipEntityRefs.includes(`group:default/${this.config.getString("platform.group.user")}`)) return { result: AuthorizeResult.DENY };
       }
     }
-    // if (request.permission.name === 'admin.access.read' && user.identity.ownershipEntityRefs.includes(`group:default/${this.config.getString("platform.group.user")}`)) return { result: AuthorizeResult.DENY };
-
-    // if (isResourcePermission(request.permission, 'catalog-entity')) {
-    //   return createCatalogConditionalDecision(
-    //     request.permission,
-    //     catalogConditions.isEntityOwner({
-    //       claims: user?.identity.ownershipEntityRefs ?? [],
-    //     }),
-    //   );
-    // }   
 
     if (isPermission(request.permission, catalogEntityDeletePermission)) {
       return createCatalogConditionalDecision(
