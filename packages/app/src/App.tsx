@@ -67,6 +67,7 @@ import { AboutPage } from '@internal/plugin-about';
 import type { IdentityApi } from '@backstage/core-plugin-api';
 import { setTokenCookie } from './cookieAuth';
 import { VisitListener } from '@backstage/plugin-home';
+import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
@@ -187,6 +188,7 @@ const routes = (
     <Route path="/cluster-explorer" element={<ClusterExplorerPage/>}/> 
     <Route path="/environments-explorer" element={<EnvironmentExplorerPage />}/>
     <Route path="/database-explorer" element={<DatabaseExplorerPage/>}/>
+    <Route path="/vault-explorer" element={<VaultExplorerPage/>}/>
     <Route path="/create" element={<ScaffolderPage />} />
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
