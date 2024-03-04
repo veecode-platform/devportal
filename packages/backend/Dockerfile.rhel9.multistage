@@ -1,7 +1,7 @@
 ###
 # Stage 1 - Create yarn install skeleton layer
 ###
-FROM registry.redhat.io/rhel9/nodejs-18:latest AS packages
+FROM registry.redhat.io/rhel9/nodejs-20:latest AS packages
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -16,7 +16,7 @@ RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs
 ###
 # Stage 2 - Install dependencies and build packages
 ###
-FROM registry.redhat.io/rhel9/nodejs-18:latest AS build
+FROM registry.redhat.io/rhel9/nodejs-20:latest AS build
 
 USER 0
 # install sqlite3 dependencies
@@ -55,7 +55,7 @@ RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
 ###
 # Stage 3 - Build the actual backend image and install production dependencies
 ###
-FROM registry.redhat.io/rhel9/nodejs-18:latest
+FROM registry.redhat.io/rhel9/nodejs-20:latest
 
 USER 0
 # Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
