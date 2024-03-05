@@ -23,6 +23,8 @@ import { OAuth2 } from '@backstage/core-app-api';
 // google analytics
 import { GoogleAnalytics4 } from '@backstage/plugin-analytics-module-ga4';
 import { VisitsWebStorageApi, visitsApiRef } from '@backstage/plugin-home';
+import { tipsConfigRef, systemModelTips, extraTips} from '@dweber019/backstage-plugin-tips';
+import { platformTips } from './tips';
 
 export const keycloakOIDCAuthApiRef: ApiRef<
   OpenIdConnectApi & ProfileInfoApi & BackstageIdentityApi & SessionApi
@@ -76,6 +78,15 @@ export const apis: AnyApiFactory[] = [
       errorApi: errorApiRef
     },
     factory: ({ identityApi, errorApi }) => VisitsWebStorageApi.create({ identityApi, errorApi }),
+  }),
+  createApiFactory({
+    api: tipsConfigRef,
+    deps: {},
+    factory: () => {
+      return {
+        tips: [...extraTips, ...systemModelTips, ...platformTips],
+      };
+    },
   }),
 ];
 

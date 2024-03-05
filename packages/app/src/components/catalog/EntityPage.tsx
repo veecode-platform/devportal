@@ -108,6 +108,9 @@ import {
 import { DatabaseOverview } from '@veecode-platform/plugin-database-explorer';
 import { VaultOverview } from '@veecode-platform/plugin-vault-explorer';
 
+//tips plugin 
+import { EntityTipsDialog } from '@dweber019/backstage-plugin-tips';
+
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
   !!entity?.metadata.annotations?.[annotation];
@@ -181,6 +184,7 @@ const entityWarningContent = (
       </EntitySwitch.Case>
     </EntitySwitch>
 
+    <EntityTipsDialog />
   </>
 );
 

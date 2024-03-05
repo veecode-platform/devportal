@@ -35,6 +35,7 @@
     "@backstage/plugin-techdocs-react": "^1.1.16",
     "@backstage/plugin-vault": "^0.1.25",
     "@backstage/theme": "^0.5.1",
+    "@dweber019/backstage-plugin-tips": "^0.0.8",
     "@immobiliarelabs/backstage-plugin-gitlab": "^5.0.1",
     "@internal/plugin-about": "^0.1.0",
     "@k-phoen/backstage-plugin-grafana": "^0.1.22",
