@@ -112,6 +112,12 @@ data:
     {{- if or .Values.grafana.enabled .Values.argocd.enabled $is_github_provider $is_gitlab_provider }}
     proxy:
       endpoints:
+        "/kong-manager/api":
+          target: https://api.manager.apr.vee.codes/default
+          allowedHeaders: ['Authorization', 'Content-Type']
+          headers: 
+            Accept: application/json
+            Content-Type: 'application/json'
         {{- if .Values.grafana.enabled | default false }}
         "/grafana/api":
           target: {{ $grafana_domain | default "${GRAFANA_DOMAIN}" }}
