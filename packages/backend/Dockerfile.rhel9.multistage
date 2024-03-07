@@ -115,7 +115,7 @@ USER 1001
 # The upstream backstage image does not account for this and it causes the container to fail at runtime.
 RUN fix-permissions ./
 
-ENV NODE_OPTIONS "--max-old-space-size=400"
+ENV NODE_OPTIONS "--max-old-space-size=400 --no-node-snapshot"
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 

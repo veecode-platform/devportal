@@ -106,7 +106,7 @@ COPY packages/backend/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
 USER node
-ENV NODE_OPTIONS "--max-old-space-size=400"
+ENV NODE_OPTIONS "--max-old-space-size=400 --no-node-snapshot"
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 
