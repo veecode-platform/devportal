@@ -107,6 +107,7 @@ import {
 } from '@backstage/plugin-azure-devops';
 import { DatabaseOverview } from '@veecode-platform/plugin-database-explorer';
 import { VaultOverview } from '@veecode-platform/plugin-vault-explorer';
+import { KongServiceManagerPage, isKongServiceManagerAvailable } from '@veecode-platform/plugin-kong-service-manager';
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -411,6 +412,12 @@ const serviceEntityPage = (
       {pullRequestsContent}
     </EntityLayout.Route>
 
+    <EntityLayout.Route
+      if={isKongServiceManagerAvailable}
+      path="/kong-service-manager" title="Kong">
+      <KongServiceManagerPage/>
+    </EntityLayout.Route>
+
     {
       plugins.map((item: PluginItem) => {
         return (
@@ -491,6 +498,12 @@ const websiteEntityPage = (
       {WorkflowsContent}
     </EntityLayout.Route>
 
+    <EntityLayout.Route
+      if={isKongServiceManagerAvailable}
+      path="/kong-service-manager" title="Kong">
+      <KongServiceManagerPage/>
+    </EntityLayout.Route>
+
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
     </EntityLayout.Route>
@@ -519,7 +532,6 @@ const defaultEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
-
 
     <EntityLayout.Route
       if={(entity) => {

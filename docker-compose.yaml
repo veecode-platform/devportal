@@ -71,6 +71,7 @@ services:
       # KC_HTTPS_PROTOCOLS: TLSv1.3,TLSv1.2
       # KC_HTTP_ENABLED: "true"
       # KC_HTTP_PORT: 8080
+      # KC_HTTPS_PROTOCOLS: TLSv1.3docker compose --profile=basic up -d
     entrypoint: /opt/keycloak/bin/kc.sh start-dev --import-realm
     volumes:
       - ./.docker-data/keycloak/keycloak.local+1.pem:/opt/keycloak/conf/server.crt.pem
