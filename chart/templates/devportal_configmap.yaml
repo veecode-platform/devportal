@@ -281,7 +281,7 @@ data:
       {{- end }}
     {{- end }} 
     catalog:
-      orphanStrategy: {{ .Values.catalog.orphanStrategy }}
+      orphanStrategy: {{ .Values.catalog.orphanStrategy | quote }}
       {{- if .Values.catalog.rules  }}
       rules:{{- range .Values.catalog.rules }}
         - allow: {{ .allow | toJson }}
@@ -405,8 +405,18 @@ data:
             baseUrl: {{ .Values.catalog.providers.keycloak.baseUrl }}
             loginRealm: {{ .Values.catalog.providers.keycloak.loginRealm | default "master" }}
             realm: {{ .Values.catalog.providers.keycloak.realm | default "platform-devportal" }}
-            username: ${KEYCLOAK_ADMIN_USERNAME}
-            password: ${KEYCLOAK_ADMIN_PASSWORD}
+            {{- if .Values.catalog.providers.keycloak.username }}
+            username: ${CATALOG_KEYCLOAK_ADMIN_USERNAME}
+            {{- end }}
+            {{- if .Values.catalog.providers.keycloak.password }}
+            password: ${CATALOG_KEYCLOAK_ADMIN_PASSWORD}
+            {{- end }}
+            {{- if .Values.catalog.providers.keycloak.clientId }}
+            clientId: ${CATALOG_KEYCLOAK_CLIENT_ID}
+            {{- end }}
+            {{- if .Values.catalog.providers.keycloak.clientSecret }}
+            clientSecret: ${CATALOG_KEYCLOAK_CLIENT_SECRET}
+            {{- end }}
             schedule:    
               frequency:
                 {{- if and .Values.catalog.providers.keycloak.schedule .Values.catalog.providers.keycloak.schedule.frequency }}

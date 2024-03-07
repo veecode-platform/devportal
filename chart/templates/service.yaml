@@ -3,10 +3,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "{{- include "devportal-charts.fullname" . }}"
-  {{- if not .Values.ingress.enabled | default false }}
-  annotations:
-    dev.okteto.com/auto-ingress: "true"
-  {{- end }}
   {{- if .Values.serviceMonitor.enabled }}
   labels:
     operated-prometheus: "true"
@@ -17,5 +13,5 @@ spec:
       targetPort: {{ .Values.service.containerPort }}
   selector:
     app: {{ include "devportal-charts.fullname" . }}
-  type: {{ .Values.service.type }}   
+  type: {{ .Values.service.type }}
 {{- end }}
