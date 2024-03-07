@@ -233,6 +233,24 @@ platform:
     readOnlyMode: false
 ```
 
+# Ingress
+The ingress resource is used to expose the service to the internet. It can be used to add domain and tls configuration. 
+```yaml
+ingress:
+  enabled: false #If `true`, an ingress is created
+  host: # your host to devportal ingress
+  className: nginx #ingress class name
+  path: / # Ingress path
+  pathType: Prefix # Ingress pathType
+  #annotations: #ingress annotations
+  #  konghq.com/https-redirect-status-code: "308"
+  #  konghq.com/preserve-host: "true"
+  #  konghq.com/protocols: "https"
+  #  konghq.com/strip-path: "false"
+  tls:  #TLS secrets and which hosts they should be used for
+    secretName: devportal-secret #tls secret name
+```
+
 
 # Database
 
@@ -258,7 +276,7 @@ appConfig:
       password: postgres #database password
 ```
 
-## Authentication
+# Authentication
 
 ### Configuring Keycloak as identity provider
 ```yaml
@@ -289,6 +307,93 @@ auth:
       clientSecret: #Gitlab Client Secret
       audience: "https://gitlab.com" #Gitlab Audience
 ```
+
+## Catalog
+
+### Orphan Strategy
+This strategy is used to delete or keep orphaned resources from the catalog.
+> **Note**
+> This feature is only available for resources found via discovery.
+
+Default value is `delete`.
+```yaml
+catalog:
+  orphanStrategy: delete #Orphan strategy(delete|keep)
+```
+
+### Catalog Rules
+
+Here is an example of how to override the default catalog rules:
+> **Warning**
+> Be careful when overriding the default catalog rules, it may cause unexpected behavior.
+
+```yaml
+catalog:
+  rules: #Catalog rules
+    - allow:
+        [Component, API, Location, Cluster, Template, Environment, Database]
+```
+
+### Catalog provider configuration for Github
+```yaml
+catalog:
+  providers:
+    github:
+      organization: #github Organization Name
+      catalogPath: /catalog-info.yaml #path catalog info
+      validateLocationsExist: true #check if exists
+      filters:
+        branch: main #branch to filter
+        repository: ## Regex repository name
+      schedule:
+        frequency: 5 #time in minutes to refresh the catalog
+        timeout: 3 #time in minutes to timeout after the refresh request
+```
+
+### Catalog provider configuration for Gitlab
+```yaml
+catalog:
+  providers:
+    gitlab:
+      host: gitlab.com #Identifies one of the hosts set up in the integrations
+      orgEnabled: false #Enable organization
+      branch: main #Optional. Uses `master` as default
+      group: #Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned.
+      entityFilename: 'catalog-info.yaml' #Catalog file path
+      projectPattern: /[\s\S]*/ #Optional. Filters found projects based on provided patter.
+      schedule:
+        frequency: 5 #time in minutes to refresh the catalog
+        timeout: 3 #time in minutes to timeout after the refresh request
+```
+
+### Catalog provider configuration for keycloak
+
+If you want import our realm base, download the file [here](https://veecode-platform.github.io/support/references/devportal/realm-platform-devportal.json) and import it in your keycloak realm.
+
+When using client credentials, the access type must be set to `confidential`` and service accounts must be enabled. You must also add the following roles from the realm-management client role:
+* query-groups
+* query-users
+* view-users
+
+If you are using `username and password` ignore the following with `clientId and clientSecret`.
+```yaml
+catalog:
+  providers:
+    keycloak:
+      baseUrl: #keycloak base url
+      loginRealm: master #realm used to login
+      realm: platform-devportal #realm to be managed
+      username: #username
+      password: #password
+      clientId: client id #client id
+      clientSecret: client secret #client secret
+      schedule:
+        frequency: 5 #time in minutes to refresh the catalog
+        timeout: 3 #time in minutes to timeout after the refresh request
+      userQuerySize: 500 #User query size to sync
+      groupQuerySize: 250 #Group query size to sync
+```
+
 ## Veecode Platform 
 
 ### Configuring Devportal menus and features

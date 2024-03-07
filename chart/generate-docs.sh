@@ -17,7 +17,7 @@ done < ${script_path}/values.yaml > ${script_path}/modified_values.yaml
 # Overwrite the original file with the modified content
 mv ${script_path}/modified_values.yaml ${script_path}/values.yaml
 
-sed -i '/^ +annotations:/!s/[{}]//g' ${script_path}/values.yaml
+sed -i '/^ +:/!s/[{}]//g' ${script_path}/values.yaml
 
 frigate gen ${script_path}/ --output-format markdown --no-credits > ${script_path}/README.md
 

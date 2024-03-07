@@ -28,10 +28,10 @@ ingress:
 #  path: / # Ingress path
 #  pathType: Prefix # Ingress pathType
 #  annotations: {} #ingress annotations
-#  konghq.com/https-redirect-status-code: "308"
-#  konghq.com/preserve-host: "true"
-#  konghq.com/protocols: "https"
-#  konghq.com/strip-path: "false"
+    #konghq.com/https-redirect-status-code: "308"
+    #konghq.com/preserve-host: "true"
+    #konghq.com/protocols: "https"
+    #konghq.com/strip-path: "false"
 #  tls: {} #TLS secrets and which hosts they should be used for
 #    secretName: devportal-secret #tls secret name
 
@@ -231,8 +231,9 @@ catalog:
 #      realm: platform-devportal #realm to be managed
 #      username: #username to user with permissions to get groups and users
 #      password: #password
-#      clientId: client id
-#      clientSecret: client secret
+       # If you are using username and password ignore the following with clientId and clientSecret
+#      clientId: client id #client id
+#      clientSecret: client secret #client secret
 #      schedule:
 #        frequency: 5 #time in minutes to refresh the catalog
 #        timeout: 3 #time in minutes to timeout after the refresh request
