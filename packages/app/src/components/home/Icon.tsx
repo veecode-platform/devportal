@@ -19,9 +19,9 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
   imgFromSrc: {
-    width: '100%',
+    width: '95%',
     height: 'auto',
-    maxHeight: '55px',
+    maxHeight: '65px',
     padding: '10px'
   }
 });

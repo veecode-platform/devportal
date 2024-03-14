@@ -112,6 +112,12 @@ data:
     {{- if or .Values.grafana.enabled .Values.argocd.enabled $is_github_provider $is_gitlab_provider }}
     proxy:
       endpoints:
+        "/kong-manager/api":
+          target: https://api.manager.apr.vee.codes/default
+          allowedHeaders: ['Authorization', 'Content-Type']
+          headers: 
+            Accept: application/json
+            Content-Type: 'application/json'
         {{- if .Values.grafana.enabled | default false }}
         "/grafana/api":
           target: {{ $grafana_domain | default "${GRAFANA_DOMAIN}" }}
@@ -140,11 +146,12 @@ data:
         {{- end }}
         {{- if $is_gitlab_provider }}
         "/gitlab/api":
-          target: https://gitlab.com/api/v4
-          allowedHeaders: ['PRIVATE-TOKEN']
+          target: {{ default "https://gitlab.com/api/v4" (default .Values.integrations.gitlab.apiBaseUrl .Values.proxy.gitlab.target) }}
+          allowedHeaders: {{ .Values.proxy.gitlab.allowedHeaders | toJson }}
           headers:
-            PRIVATE-TOKEN: ${GITLAB_TOKEN_SECRET}
-            Accept: application/json
+          {{- range $key, $value := .Values.proxy.gitlab.headers }}
+            {{ $key }}: {{ $value | quote }}
+          {{- end }}
         {{- end }}
     {{- end }}
     organization:
@@ -281,7 +288,7 @@ data:
       {{- end }}
     {{- end }} 
     catalog:
-      orphanStrategy: {{ .Values.catalog.orphanStrategy }}
+      orphanStrategy: {{ .Values.catalog.orphanStrategy | quote }}
       {{- if .Values.catalog.rules  }}
       rules:{{- range .Values.catalog.rules }}
         - allow: {{ .allow | toJson }}
@@ -405,8 +412,18 @@ data:
             baseUrl: {{ .Values.catalog.providers.keycloak.baseUrl }}
             loginRealm: {{ .Values.catalog.providers.keycloak.loginRealm | default "master" }}
             realm: {{ .Values.catalog.providers.keycloak.realm | default "platform-devportal" }}
-            username: ${KEYCLOAK_ADMIN_USERNAME}
-            password: ${KEYCLOAK_ADMIN_PASSWORD}
+            {{- if .Values.catalog.providers.keycloak.username }}
+            username: ${CATALOG_KEYCLOAK_ADMIN_USERNAME}
+            {{- end }}
+            {{- if .Values.catalog.providers.keycloak.password }}
+            password: ${CATALOG_KEYCLOAK_ADMIN_PASSWORD}
+            {{- end }}
+            {{- if .Values.catalog.providers.keycloak.clientId }}
+            clientId: ${CATALOG_KEYCLOAK_CLIENT_ID}
+            {{- end }}
+            {{- if .Values.catalog.providers.keycloak.clientSecret }}
+            clientSecret: ${CATALOG_KEYCLOAK_CLIENT_SECRET}
+            {{- end }}
             schedule:    
               frequency:
                 {{- if and .Values.catalog.providers.keycloak.schedule .Values.catalog.providers.keycloak.schedule.frequency }}
@@ -487,7 +504,12 @@ data:
           development: 
              clientId: ${AUTH_GITLAB_CLIENT_ID}
              clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+             {{- if .Values.auth.providers.gitlab.audience }}
              audience: {{ .Values.auth.providers.gitlab.audience | default "https://gitlab.com" | quote }}
+             {{- end }}
+             {{- if or .Values.auth.providers.gitlab.callbackUrl .Values.auth.providers.gitlab.audience }}
+             callbackUrl: {{ .Values.auth.providers.gitlab.callbackUrl | default "{{ $backend_path_without_last_slash }}/api/auth/gitlab/handler/frame" | quote }}
+             {{- end }}
         {{- end }}
       {{- end }}
     enabledPlugins:

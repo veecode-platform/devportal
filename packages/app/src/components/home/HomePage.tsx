@@ -139,7 +139,7 @@ export const HomePage = () => {
   
   const classes = useStyles();
   // const config = useApi(configApiRef);
-  const logoIconSrc = "https://platform.vee.codes/apple-touch-icon.png"
+  const logoIconSrc = "/veecode-logo.png"
 
   const tools = [
     {

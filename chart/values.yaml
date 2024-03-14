@@ -28,10 +28,10 @@ ingress:
 #  path: / # Ingress path
 #  pathType: Prefix # Ingress pathType
 #  annotations: {} #ingress annotations
-#  konghq.com/https-redirect-status-code: "308"
-#  konghq.com/preserve-host: "true"
-#  konghq.com/protocols: "https"
-#  konghq.com/strip-path: "false"
+    #konghq.com/https-redirect-status-code: "308"
+    #konghq.com/preserve-host: "true"
+    #konghq.com/protocols: "https"
+    #konghq.com/strip-path: "false"
 #  tls: {} #TLS secrets and which hosts they should be used for
 #    secretName: devportal-secret #tls secret name
 
@@ -66,7 +66,11 @@ appConfig:
     #    secret: #devportal backend secret. Random value.
     csp:
       connectSrc: ["'self'", "http:", "https:"] #CSP connect-src
-      imgSrc: ["'self'", "data:"] #CSP img-src
+      imgSrc: [
+        "'self'",
+         "data:",
+         "https://raw.githubusercontent.com/"
+         ] #CSP img-src
       scriptSrc: [
           "'self'",
           "'unsafe-eval'",
@@ -138,6 +142,14 @@ azureDevOps:
 #  token: #azure token
 #  organization: #azure organization
 
+proxy:
+  gitlab:
+    # target: https://gitlab.com #(Optional)Auto generated, only override if needed
+    allowedHeaders: ["Authorization","Content-Type"]
+    headers:
+      Accept: application/json
+      Content-Type: 'application/json'
+
 auth:
   providers: {}
 #    keycloak:
@@ -176,6 +188,7 @@ integrations: {}
 #    host: gitlab.com #Gitlab Host
 #    apiBaseUrl: #api base URL: https://gitlab.domain.com/api/v4
 #    token:  #Gitlab Server Token
+#    callbackUrl: #The URL matching the Redirect URI registered when creating your GitLab OAuth App
 
 catalog:
   orphanStrategy: delete #Orphan strategy(delete|keep)
@@ -227,6 +240,9 @@ catalog:
 #      realm: platform-devportal #realm to be managed
 #      username: #username to user with permissions to get groups and users
 #      password: #password
+       # If you are using username and password ignore the following with clientId and clientSecret
+#      clientId: client id #client id
+#      clientSecret: client secret #client secret
 #      schedule:
 #        frequency: 5 #time in minutes to refresh the catalog
 #        timeout: 3 #time in minutes to timeout after the refresh request
@@ -291,7 +307,7 @@ theme:
 
 serviceMonitor:
   enabled: false #true to enable
-# interval: 30s
-# scrapeTimeout: 10s
+#  interval: 30s
+#  scrapeTimeout: 10s
 #  selectors:
 #    release: prometheus

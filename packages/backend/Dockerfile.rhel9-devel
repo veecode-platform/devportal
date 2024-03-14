@@ -1,5 +1,5 @@
 # This dockerfile builds an image for devportal build.
-FROM registry.redhat.io/rhel9/nodejs-18:latest
+FROM registry.redhat.io/rhel9/nodejs-20:latest
 
 USER root
 

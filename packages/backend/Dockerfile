@@ -9,7 +9,7 @@
 #
 # Once the commands have been run, you can build the image using `yarn build-image`
 
-FROM node:18-bullseye-slim
+FROM node:20-bullseye-slim
 
 # Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
 # in which case you should also move better-sqlite3 to "devDependencies" in package.json.
@@ -30,6 +30,7 @@ USER node
 
 # This switches many Node.js dependencies to production mode.
 ENV NODE_ENV production
+ENV NODE_OPTIONS "--no-node-snapshot"
 
 # Copy over Yarn 3 configuration, release, and plugins
 COPY --chown=node:node .yarn ./.yarn

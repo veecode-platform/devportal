@@ -40,6 +40,7 @@ import { sideBarBehaviour, sidebarDefaultType } from './sideBarSchema';
 import {VeecodeLogoIcon} from './DevportalIcon';
 import { GrCluster } from "react-icons/gr";
 import { ImDatabase } from "react-icons/im";
+import { PiVaultFill } from "react-icons/pi";
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -103,6 +104,11 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
             title="Databases"
             to="database-explorer"
             icon={ImDatabase}
+          />
+          <SidebarSubmenuItem
+            title="Vault"
+            to="vault-explorer"
+            icon={PiVaultFill}
           />
           <SidebarDivider />
         </SidebarSubmenu>
