@@ -146,11 +146,12 @@ data:
         {{- end }}
         {{- if $is_gitlab_provider }}
         "/gitlab/api":
-          target: https://gitlab.com/api/v4
-          allowedHeaders: ['PRIVATE-TOKEN']
+          target: {{ default "https://gitlab.com/api/v4" (default .Values.integrations.gitlab.apiBaseUrl .Values.proxy.gitlab.target) }}
+          allowedHeaders: {{ .Values.proxy.gitlab.allowedHeaders | toJson }}
           headers:
-            PRIVATE-TOKEN: ${GITLAB_TOKEN_SECRET}
-            Accept: application/json
+          {{- range $key, $value := .Values.proxy.gitlab.headers }}
+            {{ $key }}: {{ $value | quote }}
+          {{- end }}
         {{- end }}
     {{- end }}
     organization:
@@ -503,7 +504,12 @@ data:
           development: 
              clientId: ${AUTH_GITLAB_CLIENT_ID}
              clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+             {{- if .Values.auth.providers.gitlab.audience }}
              audience: {{ .Values.auth.providers.gitlab.audience | default "https://gitlab.com" | quote }}
+             {{- end }}
+             {{- if or .Values.auth.providers.gitlab.callbackUrl .Values.auth.providers.gitlab.audience }}
+             callbackUrl: {{ .Values.auth.providers.gitlab.callbackUrl | default "{{ $backend_path_without_last_slash }}/api/auth/gitlab/handler/frame" | quote }}
+             {{- end }}
         {{- end }}
       {{- end }}
     enabledPlugins:

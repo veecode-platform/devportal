@@ -305,7 +305,8 @@ auth:
     gitlab:
       clientId: #Gitlab Client ID
       clientSecret: #Gitlab Client Secret
-      audience: "https://gitlab.com" #Gitlab Audience
+      #audience: "https://gitlab.${YOUR_COMPANY}.com" #(Optional) Gitlab Audience
+      #callbackUrl: https://${BASE_URL}/api/auth/gitlab/handler/frame #(Optional) Auto generated, just override if needed
 ```
 
 ## Catalog
