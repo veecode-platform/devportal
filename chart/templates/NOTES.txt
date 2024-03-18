@@ -22,6 +22,10 @@ Congratulations on successfully deploying your application using Helm! Here are 
 ## Additional Resources
 - If you want to explore more charts and applications, visit the Devportal Hub: https://artifacthub.io/packages/helm/veecode-platform/devportal
 
+## Example configuration for the catalog-info of the Kong Manager plugin with configured instances:
+{{- range .Values.kong.instances }}
+kong-manager/instance: /kong-manager/{{ .name }}
+{{- end }}
 
 ## To learn more about the release, try:
 

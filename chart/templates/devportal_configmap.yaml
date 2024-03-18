@@ -109,15 +109,23 @@ data:
           - host: example.com
           - host: "*.mozilla.org"
 
-    {{- if or .Values.grafana.enabled .Values.argocd.enabled $is_github_provider $is_gitlab_provider }}
+    {{- if or (and .Values.kong.enabled .Values.kong.instances) .Values.grafana.enabled .Values.argocd.enabled $is_github_provider $is_gitlab_provider }}
     proxy:
       endpoints:
-        "/kong-manager/api":
-          target: https://api.manager.apr.vee.codes/default
-          allowedHeaders: ['Authorization', 'Content-Type']
-          headers: 
+        {{- range .Values.kong.instances }}
+        "/kong-manager/{{ .name }}":
+          target: {{.apiManager}}
+          allowedHeaders: {{ default (list "Authorization" "Content-Type") .allowedHeaders | toJson }}
+          headers:
+            {{- if .headers }}
+            {{- range $key, $value := .headers }}
+            {{ $key }}: {{ $value | quote }}
+            {{- end }}
+            {{- else }}
             Accept: application/json
             Content-Type: 'application/json'
+            {{- end }}
+        {{- end }}
         {{- if .Values.grafana.enabled | default false }}
         "/grafana/api":
           target: {{ $grafana_domain | default "${GRAFANA_DOMAIN}" }}

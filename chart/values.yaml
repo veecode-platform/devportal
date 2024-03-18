@@ -133,9 +133,13 @@ vault:
 
 kong:
   enabled: false #enable Kong integration
-#  apiManager:  #kong api manager url
-#  adminToken:  #kong admin token
-
+#  instances:
+#    - name: '' #Kong instance name
+#      apiManager: '' #Kong API Manager URL/NAMESPACE
+#      allowedHeaders: ["Authorization", "Content-Type"]
+#      headers:
+#        Accept: application/json
+#        Content-Type: 'application/json'
 azureDevOps:
   enabled: false #enable Azure DevOps plugin
 #  host: dev.azure.com #azure host
@@ -145,10 +149,10 @@ azureDevOps:
 proxy:
   gitlab:
     # target: https://gitlab.com #(Optional)Auto generated, only override if needed
-    allowedHeaders: ["Authorization","Content-Type"]
+    allowedHeaders: ["Authorization", "Content-Type"]
     headers:
       Accept: application/json
-      Content-Type: 'application/json'
+      Content-Type: "application/json"
 
 auth:
   providers: {}
