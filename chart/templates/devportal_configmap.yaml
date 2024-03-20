@@ -294,7 +294,18 @@ data:
             {{- end }}
         {{- end }}  
       {{- end }}
-    {{- end }} 
+    {{- end }}
+    {{- if .Values.scaffolder }}
+    {{ "" }}
+    scaffolder:
+      defaultAuthor:
+        name: {{ .Values.scaffolder.defaultAuthor.name | quote }}
+        email: {{ .Values.scaffolder.defaultAuthor.email | quote }}
+      {{- if .Values.scaffolder.defaultCommitMessage }}  
+      defaultCommitMessage: {{ .Values.scaffolder.defaultCommitMessage | quote }}
+      {{- end }}
+    {{- end }}
+
     catalog:
       orphanStrategy: {{ .Values.catalog.orphanStrategy | quote }}
       {{- if .Values.catalog.rules  }}

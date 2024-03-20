@@ -194,6 +194,12 @@ integrations: {}
 #    token:  #Gitlab Server Token
 #    callbackUrl: #The URL matching the Redirect URI registered when creating your GitLab OAuth App
 
+scaffolder:
+  defaultAuthor:
+    name: Scaffolder # Scaffolder Author Name
+    email: scaffolder@vee.codes # Scaffolder Author Email
+  defaultCommitMessage: "initial project commit" # Scaffolder Default Commit Message
+
 catalog:
   orphanStrategy: delete #Orphan strategy(delete|keep)
   rules: #Catalog rules
