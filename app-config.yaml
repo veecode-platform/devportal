@@ -97,6 +97,13 @@ proxy:
       headers: 
         Accept: application/json
         Content-Type: 'application/json'
+    
+    "/kong-manager/cluster-veecode":
+      target: https://api.manager.vkpr.platform.vee.codes/default
+      allowedHeaders: ["Authorization","Content-Type"]
+      headers:
+        Accept: application/json
+        Content-Type: 'application/json'    
 
 organization:
   name: Devportal

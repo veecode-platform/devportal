@@ -437,7 +437,7 @@ const serviceEntityPage = (
   </EntityLayout>
 );
 
-const devopsEntityPage = (
+const defaultEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
@@ -445,12 +445,6 @@ const devopsEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
-    </EntityLayout.Route>
-
-    <EntityLayout.Route
-      if={isKongServiceManagerAvailable}
-      path="/kong-service-manager" title="Kong">
-      <KongServiceManagerPage/>
     </EntityLayout.Route>
 
     <EntityLayout.Route
@@ -464,6 +458,12 @@ const devopsEntityPage = (
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route
+      if={isKongServiceManagerAvailable}
+      path="/kong-service-manager" title="Kong">
+      <KongServiceManagerPage/>
     </EntityLayout.Route>
 
     {
@@ -504,14 +504,14 @@ const websiteEntityPage = (
       {WorkflowsContent}
     </EntityLayout.Route>
 
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+      {pullRequestsContent}
+    </EntityLayout.Route>
+
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
       path="/kong-service-manager" title="Kong">
       <KongServiceManagerPage/>
-    </EntityLayout.Route>
-
-    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
-      {pullRequestsContent}
     </EntityLayout.Route>
 
     {
@@ -533,33 +533,11 @@ const websiteEntityPage = (
 );
 
 
-const defaultEntityPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      {overviewContent}
-    </EntityLayout.Route>
-
-    <EntityLayout.Route
-      if={(entity) => {
-        const show = entity.metadata.annotations?.hasOwnProperty('backstage.io/techdocs-ref')
-        if (show !== undefined) return show
-        return false
-      }}
-      path="/docs" title="Docs" >
-      {techdocsContent}
-    </EntityLayout.Route>
-
-  </EntityLayout>
-);
 
 const componentPage = (
   <EntitySwitch>
     <EntitySwitch.Case if={isComponentType('service')}>
       {serviceEntityPage}
-    </EntitySwitch.Case>
-
-    <EntitySwitch.Case if={isComponentType('devops')}>
-      {devopsEntityPage}
     </EntitySwitch.Case>
 
     <EntitySwitch.Case if={isComponentType('website')}>
