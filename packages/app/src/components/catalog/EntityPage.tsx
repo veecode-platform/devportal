@@ -448,6 +448,12 @@ const devopsEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route
+      if={isKongServiceManagerAvailable}
+      path="/kong-service-manager" title="Kong">
+      <KongServiceManagerPage/>
+    </EntityLayout.Route>
+
+    <EntityLayout.Route
       if={(entity) => {
         if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
         return false
