@@ -50,7 +50,7 @@
     "@roadiehq/backstage-plugin-argo-cd-backend": "^2.6.4",
     "@roadiehq/backstage-plugin-aws-auth": "^0.4.8",
     "@roadiehq/scaffolder-backend-module-http-request": "^4.1.9",
-    "@roadiehq/scaffolder-backend-module-utils": "^1.13.7",
+    "@roadiehq/scaffolder-backend-module-utils": "^1.14.0",
     "@veecode-platform/plugin-application-backend": "^0.1.36",
     "@veecode-platform/plugin-application-common": "^0.1.47",
     "@veecode-platform/plugin-scaffolder-backend": "^1.21.4",
