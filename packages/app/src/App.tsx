@@ -1,43 +1,18 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { ReactNode } from 'react';
-import {
-  // Navigate,
-  // Outlet,
-  Route,
-} from 'react-router';
-import {
-  apiDocsPlugin,
-  ApiExplorerPage
-} from '@veecode-platform/plugin-api-docs';
-import {
-  CatalogEntityPage,
-  CatalogIndexPage,
-  catalogPlugin,
-} from '@veecode-platform/plugin-catalog';
-import {
-  CatalogImportPage,
-  catalogImportPlugin,
-} from '@backstage/plugin-catalog-import';
-import {
-  ScaffolderPage,
-  scaffolderPlugin,
-} from '@veecode-platform/plugin-scaffolder';
+import { Route } from 'react-router';
+import { apiDocsPlugin, ApiExplorerPage } from '@veecode-platform/plugin-api-docs';
+import { CatalogEntityPage, CatalogIndexPage, catalogPlugin } from '@veecode-platform/plugin-catalog';
+import { CatalogImportPage, catalogImportPlugin } from '@backstage/plugin-catalog-import';
+import { ScaffolderPage, scaffolderPlugin } from '@veecode-platform/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
-import {
-  TechDocsIndexPage,
-  techdocsPlugin,
-  TechDocsReaderPage,
-  DefaultTechDocsHome
-} from '@backstage/plugin-techdocs';
+import { TechDocsIndexPage, techdocsPlugin, TechDocsReaderPage, DefaultTechDocsHome } from '@backstage/plugin-techdocs';
 import { UserSettingsPage } from '@veecode-platform/plugin-user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';
-import {
-  AlertDisplay,
-  OAuthRequestDialog
-} from '@backstage/core-components';
+import { AlertDisplay, OAuthRequestDialog } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api';
 // custom
@@ -56,7 +31,6 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@veecode-platform/plugin-application-common';
 import { ExplorePage } from './components/explorer/ExplorerPage';
 import { configApiRef, discoveryApiRef, useApi } from "@backstage/core-plugin-api";
-import { SignInPage } from '@veecode-platform/core-components';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import useAsync from 'react-use/lib/useAsync';
 import { makeLightTheme, makeDarkTheme } from './components/theme/Theme';
@@ -68,6 +42,7 @@ import type { IdentityApi } from '@backstage/core-plugin-api';
 import { setTokenCookie } from './cookieAuth';
 import { VisitListener } from '@backstage/plugin-home';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
+import { SignInPage } from './components/SignInPage';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);

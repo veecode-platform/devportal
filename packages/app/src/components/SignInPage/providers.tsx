@@ -8,7 +8,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an "ASuseSignInProviders IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -26,11 +26,11 @@ import {
   IdentityProviders,
   SignInProvider,
   SignInProviderConfig,
-} from '../types';
+} from './types';
 import { commonProvider } from './commonProvider';
 import { guestProvider } from './guestProvider';
 import { customProvider } from './customProvider';
-import { IdentityApiSignOutProxy } from './identityApiSignOutProxy';
+import { IdentityApiSignOutProxy } from './IdentityApiSignOutProxy';
 
 const PROVIDER_STORAGE_KEY = '@backstage/core:SignInPage:provider';
 
@@ -134,6 +134,7 @@ export const useSignInProviders = (
       .loader(apiHolder, provider.config?.apiRef!)
       .then(result => {
         if (didCancel) {
+          localStorage.removeItem(PROVIDER_STORAGE_KEY);
           return;
         }
         if (result) {
@@ -143,10 +144,10 @@ export const useSignInProviders = (
         }
       })
       .catch(error => {
+        localStorage.removeItem(PROVIDER_STORAGE_KEY);
         if (didCancel) {
           return;
         }
-        localStorage.removeItem(PROVIDER_STORAGE_KEY);
         errorApi.post(error);
         setLoading(false);
       });
@@ -172,16 +173,27 @@ export const useSignInProviders = (
         const { Component } = provider.components;
 
         const handleSignInSuccess = (result: IdentityApi) => {
-          localStorage.setItem(PROVIDER_STORAGE_KEY, provider.id);
-
           handleWrappedResult(result);
+        };
+
+        const handleSignInStarted = () => {
+          localStorage.setItem(
+            PROVIDER_STORAGE_KEY,
+            provider?.config?.id || provider.id,
+          );
+        };
+
+        const handleSignInFailure = () => {
+          localStorage.removeItem(PROVIDER_STORAGE_KEY);
         };
 
         return (
           <Component
             key={provider.id}
             config={provider.config!}
+            onSignInStarted={handleSignInStarted}
             onSignInSuccess={handleSignInSuccess}
+            onSignInFailure={handleSignInFailure}
           />
         );
       }),

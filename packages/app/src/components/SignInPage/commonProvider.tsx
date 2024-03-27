@@ -15,31 +15,46 @@
  */
 
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { InfoCard } from '@backstage/core-components';
 import {
   ProviderComponent,
   ProviderLoader,
   SignInProvider,
   SignInProviderConfig,
-} from '../types';
+} from './types';
 import { useApi, errorApiRef } from '@backstage/core-plugin-api';
-import { GridItem } from '../styles';
+import { GridItem, useStyles } from './styles';
 import { ForwardedError } from '@backstage/errors';
 import { UserIdentity } from '@backstage/core-components';
+import  Grid from '@material-ui/core/Grid';
+import { coreComponentsTranslationRef } from '../translation/translation';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { InfoCard } from '@backstage/core-components';
+import { Button, Typography } from '@material-ui/core';
 
-const Component: ProviderComponent = ({ config, onSignInSuccess }) => {
+const KeycloakLogo = "./assets/keycloak.png";
+const OktaLogo = "./assets/okta.png";
+const GithubLogo = "./assets/github.png";
+
+const Component: ProviderComponent = ({
+  config,
+  onSignInStarted,
+  onSignInSuccess,
+  onSignInFailure,
+}) => {
   const { apiRef, title, message } = config as SignInProviderConfig;
   const authApi = useApi(apiRef);
   const errorApi = useApi(errorApiRef);
+  const classes = useStyles();
+  const { t } = useTranslationRef(coreComponentsTranslationRef);
 
   const handleLogin = async () => {
     try {
+      onSignInStarted();
       const identityResponse = await authApi.getBackstageIdentity({
         instantPopup: true,
       });
       if (!identityResponse) {
+        onSignInFailure();
         throw new Error(
           `The ${title} provider is not configured to support sign-in`,
         );
@@ -55,23 +70,36 @@ const Component: ProviderComponent = ({ config, onSignInSuccess }) => {
         }),
       );
     } catch (error) {
-      errorApi.post(new ForwardedError('Login failed', error));
+      onSignInFailure();
+      errorApi.post(new ForwardedError(t('signIn.loginFailed'), error));
     }
   };
 
   return (
     <GridItem>
+      <>
+      <Grid
+        className={classes.loginBox}
+        onClick={handleLogin}>
+        <div className={classes.providerTitleBar}>
+          {title === "Keycloak" && <img src={KeycloakLogo} alt={title} className={classes.providerLogo} />}
+          {title === "Okta" && <img src={OktaLogo} alt={title} className={classes.providerLogo} />}
+          {title === "GitHub" && <img src={GithubLogo} alt={title} className={classes.providerLogo} />}
+          <h3>{message}</h3>
+        </div>
+      </Grid>
       <InfoCard
         variant="fullHeight"
         title={title}
         actions={
           <Button color="primary" variant="outlined" onClick={handleLogin}>
-            Sign In
+            {t('signIn.title')}
           </Button>
         }
       >
         <Typography variant="body1">{message}</Typography>
       </InfoCard>
+      </>
     </GridItem>
   );
 };
