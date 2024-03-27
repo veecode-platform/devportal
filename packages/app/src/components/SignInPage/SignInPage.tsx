@@ -37,8 +37,8 @@ import KeycloakLogo from "./assets/keycloak.png";
 import OktaLogo from "./assets/okta.png";
 import GithubLogo from "./assets/github.png";
 import GitlabLogo from "./assets/gitlab.png"
-import { coreComponentsTranslationRef } from '../translation/translation';
-import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+// import { coreComponentsTranslationRef } from '../translation/translation';
+// import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 type MultiSignInPageProps = SignInPageProps & {
   providers: IdentityProviders;
@@ -151,8 +151,7 @@ export const SingleSignInPage = ({
 }: SingleSignInPageProps) => {
   const classes = useStyles();
   const authApi = useApi(provider.apiRef);
-  // const configApi = useApi(configApiRef);
-  const { t } = useTranslationRef(coreComponentsTranslationRef);
+  // const { t } = useTranslationRef(coreComponentsTranslationRef);
 
   const [error, setError] = useState<Error>();
 
