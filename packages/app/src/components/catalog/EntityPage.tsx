@@ -341,9 +341,14 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-    <Grid item lg={4} md={12} xs={12}>
-      <EntityLinksCard />
-    </Grid>
+    <EntitySwitch.Case if={(entity:Entity)=> {
+      console.log(entity);
+      return true
+    }}>
+      <Grid item lg={4} md={12} xs={12}>
+        <EntityLinksCard />
+      </Grid>
+    </EntitySwitch.Case>
     <EntitySwitch>
       {/* github */}
       <EntitySwitch.Case if={isGithubInsightsAvailable}>
