@@ -2,13 +2,13 @@
 import React, { ReactNode } from 'react';
 import { Route } from 'react-router';
 import { apiDocsPlugin, ApiExplorerPage } from '@veecode-platform/plugin-api-docs';
-import { CatalogEntityPage, CatalogIndexPage, catalogPlugin } from '@veecode-platform/plugin-catalog';
+import { CatalogEntityPage, CatalogIndexPage, catalogPlugin } from '@backstage/plugin-catalog';
 import { CatalogImportPage, catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { ScaffolderPage, scaffolderPlugin } from '@veecode-platform/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 import { TechDocsIndexPage, techdocsPlugin, TechDocsReaderPage, DefaultTechDocsHome } from '@backstage/plugin-techdocs';
-import { UserSettingsPage } from '@veecode-platform/plugin-user-settings';
+import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';

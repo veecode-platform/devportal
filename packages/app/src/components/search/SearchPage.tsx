@@ -24,7 +24,7 @@ import { useApi } from '@backstage/core-plugin-api';
 import { TechDocsSearchResultListItem } from '@backstage/plugin-techdocs';
 import { ToolSearchResultListItem } from '@backstage/plugin-explore';
 import BuildIcon from '@material-ui/icons/Build';
-import { CatalogSearchResultListItem } from '@veecode-platform/plugin-catalog';
+import { CatalogSearchResultListItem } from '@backstage/plugin-catalog';
 
 const useStyles = makeStyles((theme: Theme) => ({
   bar: {

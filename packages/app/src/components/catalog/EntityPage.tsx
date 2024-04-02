@@ -19,7 +19,7 @@ import {
   EntityAboutCard,
   EntityLayout,
   EntitySwitch
-} from '@veecode-platform/plugin-catalog';
+} from '@backstage/plugin-catalog';
 import {
   isGithubActionsAvailable,
   // EntityRecentGithubActionsRunsCard,

@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import {
   Settings as SidebarSettings,
   UserSettingsSignInAvatar,
-} from '@veecode-platform/plugin-user-settings';
+} from '@backstage/plugin-user-settings';
 import {
   Sidebar,
   sidebarConfig,
