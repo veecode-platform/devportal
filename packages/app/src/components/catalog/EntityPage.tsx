@@ -4,7 +4,7 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityHasApisCard,
-} from '@veecode-platform/plugin-api-docs';
+} from '@backstage/plugin-api-docs';
 import {
   EntityHasComponentsCard,
   EntityHasResourcesCard,
@@ -333,6 +333,7 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
+
     {/* {cicdCard} */}
     <EntitySwitch>
       <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
@@ -341,14 +342,15 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-    <EntitySwitch.Case if={(entity:Entity)=> {
-      console.log(entity);
-      return true
-    }}>
-      <Grid item lg={4} md={12} xs={12}>
-        <EntityLinksCard />
-      </Grid>
-    </EntitySwitch.Case>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
+          <Grid item lg={4} md={12} xs={12}>
+            <EntityLinksCard />
+          </Grid>
+        </EntitySwitch.Case>
+    </EntitySwitch>
+
     <EntitySwitch>
       {/* github */}
       <EntitySwitch.Case if={isGithubInsightsAvailable}>
@@ -357,7 +359,6 @@ const overviewContent = (
         </Grid>
         <Grid item lg={6} md={12} xs={12}>
           <EntityGithubInsightsLanguagesCard />
-          {/* <EntityGithubInsightsReleasesCard /> */}
         </Grid>
       </EntitySwitch.Case>
       {/* gitlab */}
@@ -376,21 +377,30 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'aws.com/lambda-function-name')}>
-      <Grid item lg={12}>
-        <EntityAWSLambdaOverviewCard />
-      </Grid>
-    </EntitySwitch.Case>
-    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'vault.io/secrets-path')}>
-      <Grid item lg={6} md={12} xs={12}>
-        <EntityVaultCard />
-      </Grid>
-    </EntitySwitch.Case>
-    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'grafana/alert-label-selector')}>
-      <Grid item lg={6} md={12} xs={12}>
-        <EntityGrafanaAlertsCard />
-      </Grid>
-    </EntitySwitch.Case>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'aws.com/lambda-function-name')}>
+        <Grid item lg={12}>
+          <EntityAWSLambdaOverviewCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'vault.io/secrets-path')}>
+        <Grid item lg={6} md={12} xs={12}>
+          <EntityVaultCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'grafana/alert-label-selector')}>
+        <Grid item lg={6} md={12} xs={12}>
+          <EntityGrafanaAlertsCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
   </Grid>
 );
 
@@ -719,9 +729,14 @@ const clusterPage = (
           </Grid>
         </Grid>
 
-        <Grid item lg={4} md={12}>
-          <EntityLinksCard />
-        </Grid>
+        <EntitySwitch>
+          <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
+              <Grid item lg={4} md={12} xs={12}>
+                <EntityLinksCard />
+              </Grid>
+            </EntitySwitch.Case>
+        </EntitySwitch>
+
       </Grid>
     </EntityLayout.Route>
 

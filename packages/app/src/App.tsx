@@ -1,10 +1,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { ReactNode } from 'react';
 import { Route } from 'react-router';
-import { apiDocsPlugin, ApiExplorerPage } from '@veecode-platform/plugin-api-docs';
+import { apiDocsPlugin } from '@backstage/plugin-api-docs';
+import { ApiExplorerPage } from '@veecode-platform/backstage-plugin-api-explorer';
 import { CatalogEntityPage, CatalogIndexPage, catalogPlugin } from '@backstage/plugin-catalog';
 import { CatalogImportPage, catalogImportPlugin } from '@backstage/plugin-catalog-import';
-import { ScaffolderPage, scaffolderPlugin } from '@veecode-platform/plugin-scaffolder';
+import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 import { TechDocsIndexPage, techdocsPlugin, TechDocsReaderPage, DefaultTechDocsHome } from '@backstage/plugin-techdocs';
@@ -43,6 +44,8 @@ import { setTokenCookie } from './cookieAuth';
 import { VisitListener } from '@backstage/plugin-home';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
 import { SignInPage } from './components/SignInPage';
+import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
+import { RepoUrlSelectorExtension, ResourcePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
@@ -95,7 +98,7 @@ const app = createApp({
     });
     bind(scaffolderPlugin.externalRoutes, {
       registerComponent: catalogImportPlugin.routes.importPage,
-      viewTechDoc: techdocsPlugin.routes.docRoot,
+     // viewTechDoc: techdocsPlugin.routes.docRoot,
     });
     bind(orgPlugin.externalRoutes, {
       catalogIndex: catalogPlugin.routes.catalogIndex,
@@ -138,7 +141,7 @@ const routes = (
       element={
         <CatalogGraphPage
           initialState={{
-            selectedKinds: ['component', 'domain', 'system', 'api', 'group'],
+            selectedKinds: ['component', 'domain', 'system', 'api', 'group','cluster','environment','database','vault'],
             selectedRelations: [
               RELATION_OWNER_OF,
               RELATION_OWNED_BY,
@@ -164,7 +167,17 @@ const routes = (
     <Route path="/environments-explorer" element={<EnvironmentExplorerPage />}/>
     <Route path="/database-explorer" element={<DatabaseExplorerPage/>}/>
     <Route path="/vault-explorer" element={<VaultExplorerPage/>}/>
-    <Route path="/create" element={<ScaffolderPage />} />
+    <Route
+      path="/create"
+      element={
+        <ScaffolderPage/>
+      }
+    >
+      <ScaffolderFieldExtensions>
+        <RepoUrlSelectorExtension/>
+        <ResourcePickerExtension/>
+      </ScaffolderFieldExtensions>
+    </Route>
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
