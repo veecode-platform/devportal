@@ -723,11 +723,25 @@ const clusterPage = (
               <GitlabJobs />
             </EntitySwitch.Case>
           </EntitySwitch>
-          {/* Has Components */}
-          <Grid item lg={12} style={{ marginTop: '1rem' }}>
-            <EntityHasComponentsCard variant="gridItem" />
-          </Grid>
         </Grid>
+
+          <EntitySwitch>
+          {/* github */}
+            <EntitySwitch.Case if={isGithubInsightsAvailable}>
+             <Grid item lg={4} md={12} xs={12}>
+                <EntityGithubInsightsLanguagesCard />
+              </Grid>
+            </EntitySwitch.Case>
+          {/* gitlab */}
+            <EntitySwitch.Case if={isGitlabAvailable}>
+              <Grid item lg={6} md={12} xs={12}>
+                <EntityGitlabLanguageCard />
+              </Grid>
+              <Grid item lg={6} md={12} xs={12}>
+                <EntityGitlabReleasesCard />
+              </Grid>
+          </EntitySwitch.Case>
+          </EntitySwitch>
 
         <EntitySwitch>
           <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
@@ -737,7 +751,35 @@ const clusterPage = (
             </EntitySwitch.Case>
         </EntitySwitch>
 
+        <EntitySwitch>
+        {/* github */}
+          <EntitySwitch.Case if={isGithubInsightsAvailable}>
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityGithubInsightsReadmeCard maxHeight={350} />
+            </Grid>
+          </EntitySwitch.Case>
+          {/* gitlab */}
+          <EntitySwitch.Case if={isGitlabAvailable}>
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityGitlabLanguageCard />
+            </Grid>
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityGitlabReleasesCard />
+            </Grid>
+          </EntitySwitch.Case>
+        </EntitySwitch>
+
+        {/* Has Components */}
+        <EntitySwitch>
+          <EntitySwitch.Case if={(e:Entity) => e.relations!.some(rel => rel.type === 'hasPart')}>
+          <Grid item lg={6} md={12} xs={12}>
+            <EntityHasComponentsCard variant="gridItem" />
+          </Grid>
+          </EntitySwitch.Case>
+          </EntitySwitch>
+
       </Grid>
+
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
