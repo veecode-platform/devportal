@@ -100,7 +100,7 @@ export const HomePage = () => {
   
   const classes = useStyles();
   const logoIconSrc = "/veecode-logo.png";
-  const [showAlert, setShowAlert] = useState<boolean>(true);
+  const [showAlert, setShowAlert] = useState<boolean>(false); // the status will be handled by a license validator - TO DO
 
   const handleShowAlert = useCallback(()=>
     setShowAlert(false)

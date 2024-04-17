@@ -2,6 +2,7 @@ import { IconButton,makeStyles } from '@material-ui/core'
 import React, { memo } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import InfoIcon from '@material-ui/icons/Info';
+import { Link } from '@backstage/core-components';
 
 export type DismissableBannerPropsType = {
     handleShowAlert: ()=>void,
@@ -42,7 +43,7 @@ const DismissableBanner : React.FC<DismissableBannerPropsType> = ({handleShowAle
          <div className={bannerContent}>
          <div className={messageBox}>
             <InfoIcon/> 
-            <p>This instance is not supported, <strong>click to subscribe</strong></p> 
+            <p>This instance is not supported, <Link to="/support">click to subscribe</Link></p> 
         </div>
         <IconButton size="small" aria-label="close" color="inherit" onClick={handleShowAlert}>
             <CloseIcon fontSize="small" />
