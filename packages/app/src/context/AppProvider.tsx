@@ -6,7 +6,7 @@ interface AppProviderProps {
 };
 
 export const AppProvider:React.FC<AppProviderProps> = ({children})=> {
-    const [showAlert, setShowAlert] = useState<boolean>(true); // the status will be handled by a license validator - TO DO
+    const [showAlert, setShowAlert] = useState<boolean>(false); // the status will be handled by a license validator - TO DO
 
     const handleShowAlert = ()=>
       setShowAlert(false)
