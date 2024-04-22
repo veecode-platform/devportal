@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useContext } from 'react';
 import { Badge, Link, makeStyles } from '@material-ui/core';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
@@ -22,14 +22,14 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import CatalogIcon from '@material-ui/icons/MenuBook';
-import AppsIcon from '@material-ui/icons/Apps';
+// import AppsIcon from '@material-ui/icons/Apps';
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import ExtensionIcon from '@material-ui/icons/Extension';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
-import { usePermission } from '@backstage/plugin-permission-react';
-import { adminAccessPermission/* , apiManagementEnabledPermission*/ } from '@veecode-platform/plugin-application-common';
-import CategoryIcon from '@material-ui/icons/Category';
-import LayersIcon from '@material-ui/icons/Layers';
+// import { usePermission } from '@backstage/plugin-permission-react';
+// import { adminAccessPermission/* , apiManagementEnabledPermission*/ } from '@veecode-platform/plugin-application-common';
+// import CategoryIcon from '@material-ui/icons/Category';
+// import LayersIcon from '@material-ui/icons/Layers';
 import PeopleIcon from '@material-ui/icons/People';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SignUpElement from './signOut';
@@ -42,6 +42,7 @@ import { GrCluster } from "react-icons/gr";
 import { ImDatabase } from "react-icons/im";
 import { PiVaultFill } from "react-icons/pi";
 import ContactMailIcon from '@material-ui/icons/ContactMail';
+import { AppContext } from '../context';
 
 const useStyles = makeStyles({
   root: {
@@ -131,29 +132,30 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
   )
 }
 
-const SideBarApimanagementGroup = ({ behaviour, apiManagementEnabled }: sideBarDefaultGroupProps) => {
-  const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
-  return (
-    (behaviour.apiManagement && apiManagementEnabled ) ?
-      <SidebarGroup label="Api managment" icon={<AppsIcon />}>
-        {(!loadingPermission && adminView) ?
-          <>
-            <SidebarItem icon={AppsIcon} to="/services" text="Services" />
-            <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />
-          </>
-          : null
-        }
-        <SidebarItem icon={LayersIcon} to="/applications" text="Applications" />
-        <SidebarDivider />
-      </SidebarGroup>
-      : null
-  )
-}
+// const SideBarApimanagementGroup = ({ behaviour, apiManagementEnabled }: sideBarDefaultGroupProps) => {
+//   const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
+//   return (
+//     (behaviour.apiManagement && apiManagementEnabled ) ?
+//       <SidebarGroup label="Api managment" icon={<AppsIcon />}>
+//         {(!loadingPermission && adminView) ?
+//           <>
+//             <SidebarItem icon={AppsIcon} to="/services" text="Services" />
+//             <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />
+//           </>
+//           : null
+//         }
+//         <SidebarItem icon={LayersIcon} to="/applications" text="Applications" />
+//         <SidebarDivider />
+//       </SidebarGroup>
+//       : null
+//   )
+// }
 
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const config = useApi(configApiRef);
   const devportalBehaviour = sideBarBehaviour(config.getConfig("platform.behaviour"))
-  const apiManagementEnabled = config.getOptionalBoolean("platform.apiManagement.enabled");
+  const {showAlert} = useContext(AppContext);
+  // const apiManagementEnabled = config.getOptionalBoolean("platform.apiManagement.enabled");
   const classes = useStyles();
 
   return (
@@ -162,7 +164,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarLogo />
         <SidebarDivider />
         <SideBarDefaultGroup behaviour={devportalBehaviour} />
-        <SideBarApimanagementGroup behaviour={devportalBehaviour} apiManagementEnabled={apiManagementEnabled} />
+        {/** <SideBarApimanagementGroup behaviour={devportalBehaviour} apiManagementEnabled={apiManagementEnabled} /> **/}
         <SidebarGroup label="Settings" icon={<UserSettingsSignInAvatar />} to="/settings">
           <SidebarSettings />
         </SidebarGroup>
@@ -170,12 +172,15 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarSpace />
         <SidebarDivider />      
         <SidebarItem  icon={ContactMailIcon} to="/support" text="Support" className={classes.item}>
-          <Badge 
-            badgeContent={1} 
-            color="error" 
-            className={classes.badge} 
-            variant="dot"
-            />
+          {         
+              showAlert && (
+                <Badge 
+                badgeContent={1} 
+                color="error" 
+                className={classes.badge} 
+                />
+              )
+            }
         </SidebarItem>
         <SidebarDivider />
         {devportalBehaviour.signOut ? <SidebarGroup label="Sign Out" icon={<ExitToAppIcon />}>
