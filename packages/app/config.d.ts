@@ -393,10 +393,37 @@ export interface Config {
       readOnlyMode: boolean
     }
   }
-  // /**
-  //  * 
-  //  * @visibility frontend
-  //  */
-  // kong: {
-  // }
+  /**
+  * Configuration for scaffolder towards various external repository provider systems
+  * @visibility frontend
+  */
+  scaffolder?: {
+    /** Integration configuration for GitHub */
+    github?: Array<{
+      /**
+       * The hostname of the given GitHub instance
+       * @visibility frontend
+       */
+      host: string;
+      /**
+       * Token used to authenticate requests.
+       * @visibility frontend
+       */
+      token?: string;
+    }>;
+
+    /** Integration configuration for Gitlab */
+    gitlab?: Array<{
+      /**
+       * The hostname of the given Gitlab instance
+       * @visibility frontend
+       */
+      host: string;
+      /**
+       * Token used to authenticate requests.
+       * @visibility frontend
+       */
+      token?: string;
+    }>;
+  };
 }
