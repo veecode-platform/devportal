@@ -336,7 +336,7 @@ platform:
     user: ${GROUP_USER}
 
   apiManagement:
-    enabled: true
+    enabled: false
     readOnlyMode: false #boolean
 
   logo:
