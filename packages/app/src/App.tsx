@@ -47,7 +47,7 @@ import { SignInPage } from './components/SignInPage';
 import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
 import { RepoUrlSelectorExtension, ResourcePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
-import { AppProvider } from './components/context';
+import { AppProvider } from './context';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);

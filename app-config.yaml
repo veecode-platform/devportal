@@ -243,6 +243,14 @@ catalog:
 #   - type: url
 #     target: https://github.com/backstage/backstage/blob/master/catalog-info.yaml
 
+scaffolder:
+  github:
+    - host: github.com
+      token: ${GITHUB_TOKEN_SECRET}
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN_SECRET}
+
 search:
   pg:
     highlightOptions:

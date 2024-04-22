@@ -18,7 +18,7 @@ import {
 } from '@backstage/plugin-home';
 import Icon from './Icon'
 import DismissableBanner from './DismissableBanner';
-import { AppContext } from '../context';
+import { AppContext } from '../../context';
 
 const starredEntitiesApi = new MockStarredEntitiesApi();
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity');

@@ -42,7 +42,7 @@ import { GrCluster } from "react-icons/gr";
 import { ImDatabase } from "react-icons/im";
 import { PiVaultFill } from "react-icons/pi";
 import ContactMailIcon from '@material-ui/icons/ContactMail';
-import { AppContext } from '../context';
+import { AppContext } from '../../context';
 
 const useStyles = makeStyles({
   root: {

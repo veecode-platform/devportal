@@ -111,11 +111,6 @@ export interface Config {
        * The base url for the GitHub API, for example https://api.github.com
        * @visibility frontend
        */
-      tokenFrontEnd?: string;
-      /**
-       * The base url for the GitHub API, for example https://api.github.com
-       * @visibility frontend
-       */
       apiBaseUrl?: string;
       /**
        * The base url for GitHub raw resources, for example https://raw.githubusercontent.com
@@ -186,14 +181,6 @@ export interface Config {
        * @visibility secret
        */
       token?: string;
-      /**
-        * The authorization token to use for requests to this provider.
-        *
-        * If no token is specified, anonymous access is used.
-        *
-        * @visibility frontend
-        */
-      tokenFrontEnd?: string;
       /**
        * The baseUrl of this provider, e.g. "https://gitlab.com", which is
        * passed into the GitLab client.
