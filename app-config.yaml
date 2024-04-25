@@ -138,6 +138,11 @@ argocd:
           url: ${ARGOCD_URL}
           token: ${ARGOCD_AUTH_TOKEN}
 integrations:
+  # using github app
+  #github:
+  #  - host: github.com
+  #    apps:
+  #      - $include: github-app-backstage-devportal-gap-credentials.yaml
   github:
     - host: github.com
       token: ${GITHUB_TOKEN_SECRET}
