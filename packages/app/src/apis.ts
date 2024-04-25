@@ -17,12 +17,15 @@ import {
   ProfileInfoApi,
   SessionApi,
   identityApiRef,
-  errorApiRef
+  errorApiRef,
+  fetchApiRef
 } from '@backstage/core-plugin-api';
 import { OAuth2 } from '@backstage/core-app-api';
 // google analytics
 import { GoogleAnalytics4 } from '@backstage/plugin-analytics-module-ga4';
 import { VisitsWebStorageApi, visitsApiRef } from '@backstage/plugin-home';
+import { scaffolderApiRef } from '@backstage/plugin-scaffolder-react';
+import { ScaffolderClient } from '@backstage/plugin-scaffolder';
 
 export const keycloakOIDCAuthApiRef: ApiRef<
   OpenIdConnectApi & ProfileInfoApi & BackstageIdentityApi & SessionApi
@@ -77,5 +80,22 @@ export const apis: AnyApiFactory[] = [
     },
     factory: ({ identityApi, errorApi }) => VisitsWebStorageApi.create({ identityApi, errorApi }),
   }),
+  createApiFactory({
+    api: scaffolderApiRef,
+    deps: {
+      discoveryApi: discoveryApiRef,
+      identityApi: identityApiRef,
+      scmIntegrationsApi: scmIntegrationsApiRef,
+      fetchApi: fetchApiRef,
+    },
+    factory: ({ scmIntegrationsApi, discoveryApi, identityApi, fetchApi }) =>
+      new ScaffolderClient({
+        discoveryApi,
+        identityApi,
+        scmIntegrationsApi,
+        fetchApi,
+        useLongPollingLogs: true,
+      }),
+  })
 ];
 

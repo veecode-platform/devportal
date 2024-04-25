@@ -97,6 +97,13 @@ proxy:
       headers: 
         Accept: application/json
         Content-Type: 'application/json'
+    
+    "/kong-manager/cluster-veecode":
+      target: https://api.manager.vkpr.platform.vee.codes/default
+      allowedHeaders: ["Authorization","Content-Type"]
+      headers:
+        Accept: application/json
+        Content-Type: 'application/json'    
 
 organization:
   name: Devportal
@@ -241,6 +248,14 @@ catalog:
 #   - type: url
 #     target: https://github.com/backstage/backstage/blob/master/catalog-info.yaml
 
+scaffolder:
+  github:
+    - host: github.com
+      token: ${GITHUB_TOKEN_SECRET}
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN_SECRET}
+
 search:
   pg:
     highlightOptions:
@@ -326,7 +341,7 @@ platform:
     user: ${GROUP_USER}
 
   apiManagement:
-    enabled: true
+    enabled: false
     readOnlyMode: false #boolean
 
   logo:

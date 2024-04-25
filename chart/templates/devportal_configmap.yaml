@@ -109,15 +109,23 @@ data:
           - host: example.com
           - host: "*.mozilla.org"
 
-    {{- if or .Values.grafana.enabled .Values.argocd.enabled $is_github_provider $is_gitlab_provider }}
+    {{- if or (and .Values.kong.enabled .Values.kong.instances) .Values.grafana.enabled .Values.argocd.enabled $is_github_provider $is_gitlab_provider }}
     proxy:
       endpoints:
-        "/kong-manager/api":
-          target: https://api.manager.apr.vee.codes/default
-          allowedHeaders: ['Authorization', 'Content-Type']
-          headers: 
+        {{- range .Values.kong.instances }}
+        "/kong-manager/{{ .name }}":
+          target: {{.apiManager}}
+          allowedHeaders: {{ default (list "Authorization" "Content-Type") .allowedHeaders | toJson }}
+          headers:
+            {{- if .headers }}
+            {{- range $key, $value := .headers }}
+            {{ $key }}: {{ $value | quote }}
+            {{- end }}
+            {{- else }}
             Accept: application/json
             Content-Type: 'application/json'
+            {{- end }}
+        {{- end }}
         {{- if .Values.grafana.enabled | default false }}
         "/grafana/api":
           target: {{ $grafana_domain | default "${GRAFANA_DOMAIN}" }}
@@ -146,11 +154,12 @@ data:
         {{- end }}
         {{- if $is_gitlab_provider }}
         "/gitlab/api":
-          target: https://gitlab.com/api/v4
-          allowedHeaders: ['PRIVATE-TOKEN']
+          target: {{ default "https://gitlab.com/api/v4" (default .Values.integrations.gitlab.apiBaseUrl .Values.proxy.gitlab.target) }}
+          allowedHeaders: {{ .Values.proxy.gitlab.allowedHeaders | toJson }}
           headers:
-            PRIVATE-TOKEN: ${GITLAB_TOKEN_SECRET}
-            Accept: application/json
+          {{- range $key, $value := .Values.proxy.gitlab.headers }}
+            {{ $key }}: {{ $value | quote }}
+          {{- end }}
         {{- end }}
     {{- end }}
     organization:
@@ -285,7 +294,18 @@ data:
             {{- end }}
         {{- end }}  
       {{- end }}
-    {{- end }} 
+    {{- end }}
+    {{- if .Values.scaffolder }}
+    {{ "" }}
+    scaffolder:
+      defaultAuthor:
+        name: {{ .Values.scaffolder.defaultAuthor.name | quote }}
+        email: {{ .Values.scaffolder.defaultAuthor.email | quote }}
+      {{- if .Values.scaffolder.defaultCommitMessage }}  
+      defaultCommitMessage: {{ .Values.scaffolder.defaultCommitMessage | quote }}
+      {{- end }}
+    {{- end }}
+
     catalog:
       orphanStrategy: {{ .Values.catalog.orphanStrategy | quote }}
       {{- if .Values.catalog.rules  }}
@@ -503,7 +523,12 @@ data:
           development: 
              clientId: ${AUTH_GITLAB_CLIENT_ID}
              clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+             {{- if .Values.auth.providers.gitlab.audience }}
              audience: {{ .Values.auth.providers.gitlab.audience | default "https://gitlab.com" | quote }}
+             {{- end }}
+             {{- if or .Values.auth.providers.gitlab.callbackUrl .Values.auth.providers.gitlab.audience }}
+             callbackUrl: {{ .Values.auth.providers.gitlab.callbackUrl | default "{{ $backend_path_without_last_slash }}/api/auth/gitlab/handler/frame" | quote }}
+             {{- end }}
         {{- end }}
       {{- end }}
     enabledPlugins:

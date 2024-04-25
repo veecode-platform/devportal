@@ -1,4 +1,4 @@
-
+CREATE EXTENSION vector;
 CREATE user devportal WITH ENCRYPTED PASSWORD 'devportal';
 CREATE user keycloak_adm WITH ENCRYPTED PASSWORD 'keycloak_adm';
 

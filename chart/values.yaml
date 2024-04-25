@@ -133,14 +133,26 @@ vault:
 
 kong:
   enabled: false #enable Kong integration
-#  apiManager:  #kong api manager url
-#  adminToken:  #kong admin token
-
+#  instances:
+#    - name: '' #Kong instance name
+#      apiManager: '' #Kong API Manager URL/NAMESPACE
+#      allowedHeaders: ["Authorization", "Content-Type"]
+#      headers:
+#        Accept: application/json
+#        Content-Type: 'application/json'
 azureDevOps:
   enabled: false #enable Azure DevOps plugin
 #  host: dev.azure.com #azure host
 #  token: #azure token
 #  organization: #azure organization
+
+proxy:
+  gitlab:
+    # target: https://gitlab.com #(Optional)Auto generated, only override if needed
+    allowedHeaders: ["Authorization", "Content-Type"]
+    headers:
+      Accept: application/json
+      Content-Type: "application/json"
 
 auth:
   providers: {}
@@ -180,6 +192,13 @@ integrations: {}
 #    host: gitlab.com #Gitlab Host
 #    apiBaseUrl: #api base URL: https://gitlab.domain.com/api/v4
 #    token:  #Gitlab Server Token
+#    callbackUrl: #The URL matching the Redirect URI registered when creating your GitLab OAuth App
+
+scaffolder:
+  defaultAuthor:
+    name: Scaffolder # Scaffolder Author Name
+    email: scaffolder@vee.codes # Scaffolder Author Email
+  defaultCommitMessage: "initial project commit" # Scaffolder Default Commit Message
 
 catalog:
   orphanStrategy: delete #Orphan strategy(delete|keep)

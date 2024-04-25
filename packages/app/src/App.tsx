@@ -1,43 +1,19 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { ReactNode } from 'react';
-import {
-  // Navigate,
-  // Outlet,
-  Route,
-} from 'react-router';
-import {
-  apiDocsPlugin,
-  ApiExplorerPage
-} from '@veecode-platform/plugin-api-docs';
-import {
-  CatalogEntityPage,
-  CatalogIndexPage,
-  catalogPlugin,
-} from '@veecode-platform/plugin-catalog';
-import {
-  CatalogImportPage,
-  catalogImportPlugin,
-} from '@backstage/plugin-catalog-import';
-import {
-  ScaffolderPage,
-  scaffolderPlugin,
-} from '@veecode-platform/plugin-scaffolder';
+import { Route } from 'react-router';
+import { apiDocsPlugin } from '@backstage/plugin-api-docs';
+import { ApiExplorerPage } from '@veecode-platform/backstage-plugin-api-explorer';
+import { CatalogEntityPage, CatalogIndexPage, catalogPlugin } from '@backstage/plugin-catalog';
+import { CatalogImportPage, catalogImportPlugin } from '@backstage/plugin-catalog-import';
+import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
-import {
-  TechDocsIndexPage,
-  techdocsPlugin,
-  TechDocsReaderPage,
-  DefaultTechDocsHome
-} from '@backstage/plugin-techdocs';
-import { UserSettingsPage } from '@veecode-platform/plugin-user-settings';
+import { TechDocsIndexPage, techdocsPlugin, TechDocsReaderPage, DefaultTechDocsHome } from '@backstage/plugin-techdocs';
+import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';
-import {
-  AlertDisplay,
-  OAuthRequestDialog
-} from '@backstage/core-components';
+import { AlertDisplay, OAuthRequestDialog } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api';
 // custom
@@ -56,7 +32,6 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@veecode-platform/plugin-application-common';
 import { ExplorePage } from './components/explorer/ExplorerPage';
 import { configApiRef, discoveryApiRef, useApi } from "@backstage/core-plugin-api";
-import { SignInPage } from '@veecode-platform/core-components';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import useAsync from 'react-use/lib/useAsync';
 import { makeLightTheme, makeDarkTheme } from './components/theme/Theme';
@@ -68,6 +43,11 @@ import type { IdentityApi } from '@backstage/core-plugin-api';
 import { setTokenCookie } from './cookieAuth';
 import { VisitListener } from '@backstage/plugin-home';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
+import { SignInPage } from './components/SignInPage';
+import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
+import { RepoUrlSelectorExtension, ResourcePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
+import { SupportPage } from '@internal/backstage-plugin-support';
+import { AppProvider } from './context';
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
@@ -120,7 +100,7 @@ const app = createApp({
     });
     bind(scaffolderPlugin.externalRoutes, {
       registerComponent: catalogImportPlugin.routes.importPage,
-      viewTechDoc: techdocsPlugin.routes.docRoot,
+     // viewTechDoc: techdocsPlugin.routes.docRoot,
     });
     bind(orgPlugin.externalRoutes, {
       catalogIndex: catalogPlugin.routes.catalogIndex,
@@ -163,7 +143,7 @@ const routes = (
       element={
         <CatalogGraphPage
           initialState={{
-            selectedKinds: ['component', 'domain', 'system', 'api', 'group'],
+            selectedKinds: ['component', 'domain', 'system', 'api', 'group','cluster','environment','database','vault'],
             selectedRelations: [
               RELATION_OWNER_OF,
               RELATION_OWNED_BY,
@@ -189,7 +169,17 @@ const routes = (
     <Route path="/environments-explorer" element={<EnvironmentExplorerPage />}/>
     <Route path="/database-explorer" element={<DatabaseExplorerPage/>}/>
     <Route path="/vault-explorer" element={<VaultExplorerPage/>}/>
-    <Route path="/create" element={<ScaffolderPage />} />
+    <Route
+      path="/create"
+      element={
+        <ScaffolderPage/>
+      }
+    >
+      <ScaffolderFieldExtensions>
+        <RepoUrlSelectorExtension/>
+        <ResourcePickerExtension/>
+      </ScaffolderFieldExtensions>
+    </Route>
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
@@ -216,12 +206,13 @@ const routes = (
       }
     />
     <Route path="/about" element={<AboutPage />} />
+    <Route path="/support" element={<SupportPage />} />
   </FlatRoutes>
 );
 
 
 export default app.createRoot(
-  <>
+  <AppProvider>
     <AlertDisplay transientTimeoutMs={2500} />
     <OAuthRequestDialog />
     <AppRouter>
@@ -230,5 +221,5 @@ export default app.createRoot(
         {routes}
       </Root>
     </AppRouter>
-  </>,
+  </AppProvider>,
 );

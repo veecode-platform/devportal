@@ -21,7 +21,7 @@ jobs:
           echo "node_version=$(cat .nvmrc | grep -o '[0-9]*')" >> $GITHUB_ENV
          
   publishing:
-    needs: [requirements, buildDevportal]
+    needs: [requirements]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

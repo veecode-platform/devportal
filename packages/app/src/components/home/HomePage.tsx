@@ -1,22 +1,12 @@
-// import { wrapInTestApp, TestApiProvider } from '@backstage/test-utils';
-import {
-  Content,
-  Page
-} from '@backstage/core-components';
-import {
-  // starredEntitiesApiRef,
-  MockStarredEntitiesApi,
-  // entityRouteRef,
-} from '@backstage/plugin-catalog-react';
-// import { configApiRef } from '@backstage/core-plugin-api';
-// import { ConfigReader } from '@backstage/config';
+import { Content, Page } from '@backstage/core-components';
+import { MockStarredEntitiesApi,} from '@backstage/plugin-catalog-react';
 import { HomePageSearchBar, /*searchPlugin*/ } from '@backstage/plugin-search'; 
 import {
   //searchApiRef,
   SearchContextProvider,
 } from '@backstage/plugin-search-react';
 import { Grid, makeStyles } from '@material-ui/core';
-import React from 'react';
+import React, { useContext } from 'react';
 // custom
 import { Logo } from '../plataformLogo/plataformLogo';
 import BackstageLogo from "../../assets/backstage.png";
@@ -27,7 +17,8 @@ import {
   HomePageRecentlyVisited
 } from '@backstage/plugin-home';
 import Icon from './Icon'
-// import { configApiRef, useApi } from '@backstage/core-plugin-api';
+import DismissableBanner from './DismissableBanner';
+import { AppContext } from '../../context';
 
 const starredEntitiesApi = new MockStarredEntitiesApi();
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity');
@@ -37,35 +28,6 @@ starredEntitiesApi.toggleStarred('component:default/example-starred-entity-4');
 
 export default {
   title: 'Plugins/Home/Templates',
-  /*decorators: [
-    (Story: ComponentType<{}>) =>
-      wrapInTestApp(
-        <>
-          <TestApiProvider
-            apis={[
-              [starredEntitiesApiRef, starredEntitiesApi],
-              [searchApiRef, { query: () => Promise.resolve({ results: [] }) }],
-              [
-                configApiRef,
-                new ConfigReader({
-                  stackoverflow: {
-                    baseUrl: 'https://api.stackexchange.com/2.2',
-                  },
-                }),
-              ],
-            ]}
-          >
-            <Story />
-          </TestApiProvider>
-        </>,
-        {
-          mountedRoutes: {
-            '/hello-company': searchPlugin.routes.root,
-            '/catalog/:namespace/:kind/:name': entityRouteRef,
-          },
-        },
-      ),
-  ],*/
 };
 
 const useStyles = makeStyles(theme => ({
@@ -138,8 +100,9 @@ const useStyles = makeStyles(theme => ({
 export const HomePage = () => {
   
   const classes = useStyles();
-  // const config = useApi(configApiRef);
-  const logoIconSrc = "/veecode-logo.png"
+  const logoIconSrc = "/veecode-logo.png";
+
+  const {showAlert, handleShowAlert} = useContext(AppContext);
 
   const tools = [
     {
@@ -167,6 +130,7 @@ export const HomePage = () => {
   return (
     <SearchContextProvider>
       <Page themeId="home">
+        <DismissableBanner handleShowAlert={handleShowAlert} show={showAlert}/>
         <Content>
           <Grid container justifyContent="center" spacing={6}>
             <HomePageCompanyLogo className={classes.width} logo={<Logo />} />

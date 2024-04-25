@@ -1,12 +1,12 @@
-import React, { PropsWithChildren } from 'react';
-import { Link, makeStyles } from '@material-ui/core';
+import React, { PropsWithChildren, useContext } from 'react';
+import { Badge, Link, makeStyles } from '@material-ui/core';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 import { NavLink } from 'react-router-dom';
 import {
   Settings as SidebarSettings,
   UserSettingsSignInAvatar,
-} from '@veecode-platform/plugin-user-settings';
+} from '@backstage/plugin-user-settings';
 import {
   Sidebar,
   sidebarConfig,
@@ -41,8 +41,10 @@ import {VeecodeLogoIcon} from './DevportalIcon';
 import { GrCluster } from "react-icons/gr";
 import { ImDatabase } from "react-icons/im";
 import { PiVaultFill } from "react-icons/pi";
+import ContactMailIcon from '@material-ui/icons/ContactMail';
+import { AppContext } from '../../context';
 
-const useSidebarLogoStyles = makeStyles({
+const useStyles = makeStyles({
   root: {
     width: sidebarConfig.drawerWidthClosed,
     height: 3 * sidebarConfig.logoHeight,
@@ -54,11 +56,19 @@ const useSidebarLogoStyles = makeStyles({
   link: {
     width: sidebarConfig.drawerWidthClosed,
     marginLeft: 24,
+  },
+  item:{
+    position: 'relative',
+  },
+  badge:{
+    position: 'absolute',
+    top: '1.2rem',
+    left: '1.5rem',
   }
 });
 
 const SidebarLogo = () => {
-  const classes = useSidebarLogoStyles();
+  const classes = useStyles();
   const { isOpen } = useSidebarOpenState();
   const config = useApi(configApiRef);
   const logoFullSrc = config.getOptionalString("platform.logo.full") ?? "https://platform.vee.codes/assets/logo/logo.png"
@@ -145,7 +155,9 @@ const SideBarApimanagementGroup = ({ behaviour, apiManagementEnabled }: sideBarD
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const config = useApi(configApiRef);
   const devportalBehaviour = sideBarBehaviour(config.getConfig("platform.behaviour"))
-  const apiManagementEnabled = config.getOptionalBoolean("platform.apiManagement.enabled")
+  const {showAlert} = useContext(AppContext);
+  const apiManagementEnabled = config.getOptionalBoolean("platform.apiManagement.enabled");
+  const classes = useStyles();
 
   return (
     <SidebarPage>
@@ -159,6 +171,20 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         </SidebarGroup>
         <SidebarItem icon={InfoIcon} to="/about" text="About" />
         <SidebarSpace />
+        <SidebarDivider />      
+        <SidebarItem  icon={ContactMailIcon} to="/support" text="Support" className={classes.item}>
+          {         
+              showAlert && (
+                <Badge 
+                  badgeContent=" " 
+                  color="error" 
+                  overlap='circular'
+                  className={classes.badge} 
+                  variant='dot'
+                />
+              )
+            }
+        </SidebarItem>
         <SidebarDivider />
         {devportalBehaviour.signOut ? <SidebarGroup label="Sign Out" icon={<ExitToAppIcon />}>
           <SignUpElement />

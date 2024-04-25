@@ -4,7 +4,7 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityHasApisCard,
-} from '@veecode-platform/plugin-api-docs';
+} from '@backstage/plugin-api-docs';
 import {
   EntityHasComponentsCard,
   EntityHasResourcesCard,
@@ -19,7 +19,7 @@ import {
   EntityAboutCard,
   EntityLayout,
   EntitySwitch
-} from '@veecode-platform/plugin-catalog';
+} from '@backstage/plugin-catalog';
 import {
   isGithubActionsAvailable,
   // EntityRecentGithubActionsRunsCard,
@@ -333,6 +333,7 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
+
     {/* {cicdCard} */}
     <EntitySwitch>
       <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
@@ -341,9 +342,15 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-    <Grid item lg={4} md={12} xs={12}>
-      <EntityLinksCard />
-    </Grid>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
+          <Grid item lg={4} md={12} xs={12}>
+            <EntityLinksCard />
+          </Grid>
+        </EntitySwitch.Case>
+    </EntitySwitch>
+
     <EntitySwitch>
       {/* github */}
       <EntitySwitch.Case if={isGithubInsightsAvailable}>
@@ -352,7 +359,6 @@ const overviewContent = (
         </Grid>
         <Grid item lg={6} md={12} xs={12}>
           <EntityGithubInsightsLanguagesCard />
-          {/* <EntityGithubInsightsReleasesCard /> */}
         </Grid>
       </EntitySwitch.Case>
       {/* gitlab */}
@@ -371,21 +377,30 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'aws.com/lambda-function-name')}>
-      <Grid item lg={12}>
-        <EntityAWSLambdaOverviewCard />
-      </Grid>
-    </EntitySwitch.Case>
-    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'vault.io/secrets-path')}>
-      <Grid item lg={6} md={12} xs={12}>
-        <EntityVaultCard />
-      </Grid>
-    </EntitySwitch.Case>
-    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'grafana/alert-label-selector')}>
-      <Grid item lg={6} md={12} xs={12}>
-        <EntityGrafanaAlertsCard />
-      </Grid>
-    </EntitySwitch.Case>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'aws.com/lambda-function-name')}>
+        <Grid item lg={12}>
+          <EntityAWSLambdaOverviewCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'vault.io/secrets-path')}>
+        <Grid item lg={6} md={12} xs={12}>
+          <EntityVaultCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'grafana/alert-label-selector')}>
+        <Grid item lg={6} md={12} xs={12}>
+          <EntityGrafanaAlertsCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
   </Grid>
 );
 
@@ -437,7 +452,7 @@ const serviceEntityPage = (
   </EntityLayout>
 );
 
-const devopsEntityPage = (
+const defaultEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
@@ -458,6 +473,12 @@ const devopsEntityPage = (
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route
+      if={isKongServiceManagerAvailable}
+      path="/kong-service-manager" title="Kong">
+      <KongServiceManagerPage/>
     </EntityLayout.Route>
 
     {
@@ -498,14 +519,14 @@ const websiteEntityPage = (
       {WorkflowsContent}
     </EntityLayout.Route>
 
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+      {pullRequestsContent}
+    </EntityLayout.Route>
+
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
       path="/kong-service-manager" title="Kong">
       <KongServiceManagerPage/>
-    </EntityLayout.Route>
-
-    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
-      {pullRequestsContent}
     </EntityLayout.Route>
 
     {
@@ -527,33 +548,11 @@ const websiteEntityPage = (
 );
 
 
-const defaultEntityPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      {overviewContent}
-    </EntityLayout.Route>
-
-    <EntityLayout.Route
-      if={(entity) => {
-        const show = entity.metadata.annotations?.hasOwnProperty('backstage.io/techdocs-ref')
-        if (show !== undefined) return show
-        return false
-      }}
-      path="/docs" title="Docs" >
-      {techdocsContent}
-    </EntityLayout.Route>
-
-  </EntityLayout>
-);
 
 const componentPage = (
   <EntitySwitch>
     <EntitySwitch.Case if={isComponentType('service')}>
       {serviceEntityPage}
-    </EntitySwitch.Case>
-
-    <EntitySwitch.Case if={isComponentType('devops')}>
-      {devopsEntityPage}
     </EntitySwitch.Case>
 
     <EntitySwitch.Case if={isComponentType('website')}>
@@ -724,16 +723,63 @@ const clusterPage = (
               <GitlabJobs />
             </EntitySwitch.Case>
           </EntitySwitch>
-          {/* Has Components */}
-          <Grid item lg={12} style={{ marginTop: '1rem' }}>
-            <EntityHasComponentsCard variant="gridItem" />
-          </Grid>
         </Grid>
 
-        <Grid item lg={4} md={12}>
-          <EntityLinksCard />
-        </Grid>
+          <EntitySwitch>
+          {/* github */}
+            <EntitySwitch.Case if={isGithubInsightsAvailable}>
+             <Grid item lg={4} md={12} xs={12}>
+                <EntityGithubInsightsLanguagesCard />
+              </Grid>
+            </EntitySwitch.Case>
+          {/* gitlab */}
+            <EntitySwitch.Case if={isGitlabAvailable}>
+              <Grid item lg={6} md={12} xs={12}>
+                <EntityGitlabLanguageCard />
+              </Grid>
+              <Grid item lg={6} md={12} xs={12}>
+                <EntityGitlabReleasesCard />
+              </Grid>
+          </EntitySwitch.Case>
+          </EntitySwitch>
+
+        <EntitySwitch>
+          <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
+              <Grid item lg={4} md={12} xs={12}>
+                <EntityLinksCard />
+              </Grid>
+            </EntitySwitch.Case>
+        </EntitySwitch>
+
+        <EntitySwitch>
+        {/* github */}
+          <EntitySwitch.Case if={isGithubInsightsAvailable}>
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityGithubInsightsReadmeCard maxHeight={350} />
+            </Grid>
+          </EntitySwitch.Case>
+          {/* gitlab */}
+          <EntitySwitch.Case if={isGitlabAvailable}>
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityGitlabLanguageCard />
+            </Grid>
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityGitlabReleasesCard />
+            </Grid>
+          </EntitySwitch.Case>
+        </EntitySwitch>
+
+        {/* Has Components */}
+        <EntitySwitch>
+          <EntitySwitch.Case if={(e:Entity) => e.relations!.some(rel => rel.type === 'hasPart')}>
+          <Grid item lg={6} md={12} xs={12}>
+            <EntityHasComponentsCard variant="gridItem" />
+          </Grid>
+          </EntitySwitch.Case>
+          </EntitySwitch>
+
       </Grid>
+
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
