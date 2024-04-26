@@ -129,7 +129,7 @@ jobs:
          if helm ls -A | grep -q "platform-devportal-homolog"; then
            NAMESPACE=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $2}')
            helm get values platform-devportal-homolog -n $NAMESPACE | tail -n +2 > devportal.yaml
-           yq e ".image.tag = \"$(jq -r .version package.json)\"" -i ./devportal.yaml
+           yq e ".image.tag = \"homolog\"" -i ./devportal.yaml
            yq e ".image.pullPolicy = \"Always\"" -i ./devportal.yaml
            helm upgrade platform-devportal-homolog --install --recreate-pods --values ./devportal.yaml ./chart -n $NAMESPACE
          else 
