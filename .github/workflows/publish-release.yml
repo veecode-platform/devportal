@@ -19,7 +19,92 @@ jobs:
           echo "app_version=$(jq -r '.version' package.json)" >> $GITHUB_ENV
           echo "chart_version=$(yq e '.version' chart/Chart.yaml)" >> $GITHUB_ENV
           echo "node_version=$(cat .nvmrc | grep -o '[0-9]*')" >> $GITHUB_ENV
-         
+
+  #parallel build for x64 and amr64
+  buildDevportal:
+    needs: [requirements]
+    strategy:
+      matrix:
+        # os: [ubuntu-latest, [self-hosted, macOS, ARM64]]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node_version }}
+          cache: yarn
+      
+      - name: Getting arch
+        run: echo "ARCH=$(echo ${{ runner.arch }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      
+      - name: Building Devportal${{ runner.arch }}
+        run: |
+          yarn install --frozen-lockfile
+          yarn tsc
+          yarn build
+          jq --arg version "$(jq -r .version package.json)" '.version = $version' devportal.json > temp.json && mv temp.json devportal.json
+      
+      - name: Setup keychain
+        if: runner.os == 'macOS'
+        run: security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Publish to Docker Hub
+        run: |
+          docker build . -t veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }} -f packages/backend/Dockerfile
+          # docker tag veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }} veecode/devportal-bundle-${{env.ARCH}}:latest
+          docker push veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
+          # docker push veecode/devportal-bundle-${{env.ARCH}}:latest
+ 
+  publishManifestDocker:
+    needs: [requirements, buildDevportal]
+    # runs-on: [self-hosted, macOS, ARM64]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup keychain
+        if: runner.os == 'macOS'
+        run: security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }}      
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Create/Publish version ${{ needs.requirements.outputs.app_version }} manifest
+        uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
+        with:
+            inputs: veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
+            # images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+            images: veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+            amend: true
+            push: true
+
+      - name: Create/Publish version latest manifest
+        uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
+        with:
+            inputs: veecode/devportal-bundle:latest
+            # images: veecode/devportal-bundle-arm64:latest,veecode/devportal-bundle-x64:latest
+            images: veecode/devportal-bundle-x64:latest
+            amend: true
+            push: true
+
+      - name: Clear Docker image for macOS runner
+        if: runner.os == 'macOS'
+        run: |
+          docker rmi veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
+          docker rmi veecode/devportal-bundle-${{env.ARCH}}:latest
+
   publishing:
     needs: [requirements]
     runs-on: ubuntu-latest

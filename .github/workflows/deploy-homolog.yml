@@ -2,8 +2,6 @@ name: Build Devportal Docker
 
 on:
   workflow_dispatch:
-  push:
-    branches: ["develop"]
 
 jobs:
   #Getting requided versions for next steps
