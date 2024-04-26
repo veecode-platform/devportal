@@ -254,7 +254,6 @@ data:
       github:
         - host: {{ .Values.integrations.github.host | default "github.com" | quote }}
           token: ${GITHUB_TOKEN_SECRET}
-          tokenFrontEnd: ${GITHUB_TOKEN_SECRET}
       {{- end }}
       {{- if .Values.integrations.bitbucketCloud }}
       bitbucketCloud:
@@ -266,7 +265,6 @@ data:
         - host: {{ .Values.integrations.bitbucketServer.host | quote }}
           apiBaseUrl: {{ .Values.integrations.bitbucketServer.apiBaseUrl | quote }}
           token: ${BITBUCKET_SERVER_TOKEN}
-          tokenFrontEnd: ${BITBUCKET_SERVER_TOKEN}
       {{- end }}
       {{- if .Values.integrations.gitlab  }}
       gitlab:
@@ -298,14 +296,29 @@ data:
         {{- end }}  
       {{- end }}
     {{- end }}
-    {{- if .Values.scaffolder }}
+    {{- if or .Values.scaffolder .Values.integrations }}
     {{ "" }}
     scaffolder:
+      {{- if .Values.scaffolder.defaultAuthor }}
       defaultAuthor:
         name: {{ .Values.scaffolder.defaultAuthor.name | quote }}
         email: {{ .Values.scaffolder.defaultAuthor.email | quote }}
+      {{- end }}
       {{- if .Values.scaffolder.defaultCommitMessage }}  
       defaultCommitMessage: {{ .Values.scaffolder.defaultCommitMessage | quote }}
+      {{- if and .Values.integrations (or .Values.integrations.github .Values.integrations.gitlab) }}
+      integrations:
+        {{- if .Values.integrations.github }}
+        github:
+          - host: {{ .Values.integrations.github.host | default "github.com" | quote }}
+            token: ${GITHUB_TOKEN_SECRET}
+        {{- end }}
+        {{- if .Values.integrations.gitlab  }}
+        gitlab:
+          - host: {{ .Values.integrations.gitlab.host | default "gitlab.com" | quote }}
+            token: ${GITLAB_TOKEN_SECRET}
+        {{- end }}
+      {{- end }}
       {{- end }}
     {{- end }}
 
