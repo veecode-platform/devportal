@@ -7,7 +7,7 @@ jobs:
   Rollback:
    runs-on: ubuntu-latest
    steps:
-     - uses: actions/checkout@v3
+     - uses: actions/checkout@v4
      - name: GitHub Action for DigitalOcean - doctl
        uses: digitalocean/action-doctl@v2.3.0
        with:

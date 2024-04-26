@@ -13,7 +13,7 @@ jobs:
       chart_version: ${{ env.chart_version }}
       node_version: ${{ env.node_version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Getting versions
         run: |
           echo "app_version=$(jq -r '.version' package.json)" >> $GITHUB_ENV
@@ -24,7 +24,7 @@ jobs:
     needs: [requirements]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Setup helm
         uses: azure/setup-helm@v3
