@@ -127,9 +127,11 @@ argocd:
 
 vault:
   enabled: false #enable Vault plugin
-#  domain:  #vault domain
+  domain:  #vault domain
+#  publicUrl: #vault public url
 #  token:  #vault token
 #  secretEngine: secrets #vault secret engine
+#  kvVersion: 2 #vault kv version (1 | 2)
 
 kong:
   enabled: false #enable Kong integration

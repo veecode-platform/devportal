@@ -115,6 +115,9 @@ data:
         {{- range .Values.kong.instances }}
         "/kong-manager/{{ .name }}":
           target: {{.apiManager}}
+          {{- if hasKey . "changeOrigin" }}
+          changeOrigin: {{ .changeOrigin }}
+          {{- end }}
           allowedHeaders: {{ default (list "Authorization" "Content-Type") .allowedHeaders | toJson }}
           headers:
             {{- if .headers }}
@@ -567,9 +570,13 @@ data:
         full: {{ .Values.theme.images.sidebarFull }}
     {{- if .Values.vault.enabled }}
     vault:
-      baseUrl: ${VAULT_BASE_URL}
+      baseUrl: {{ .Values.vault.domain }}
+      {{- if .Values.vault.publicUrl }}
+      publicUrl: {{ .Values.vault.publicUrl }}
+      {{- end }}
       token: ${VAULT_TOKEN_RENEWABLE}
-      secretEngine: ${VAULT_SECRET_ENGINE}
+      secretEngine: {{ .Values.vault.secretEngine | default "secrets" }}
+      kvVersion: {{ .Values.vault.kvVersion | default 2 }}
     {{- end }}      
     grafana:
       domain: {{ $grafana_domain | default "${GRAFANA_DOMAIN}" }} 
