@@ -1,4 +1,4 @@
-name: Publish Devportal Helm Chart
+name: Publish Devportal Release
 
 on:
   push:
@@ -106,7 +106,7 @@ jobs:
           docker rmi veecode/devportal-bundle-${{env.ARCH}}:latest
 
   publishing:
-    needs: [requirements]
+    needs: [requirements, publishManifestDocker]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -1,4 +1,4 @@
-name: Build Deploy devportal homolog
+name: Build Deploy Devportal Homolog
 
 on:
   workflow_dispatch:
