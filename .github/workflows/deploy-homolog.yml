@@ -1,4 +1,4 @@
-name: Build Devportal Docker
+name: Build Deploy devportal homolog
 
 on:
   workflow_dispatch:
