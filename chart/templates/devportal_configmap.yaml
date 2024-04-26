@@ -307,7 +307,7 @@ data:
       {{- if .Values.scaffolder.defaultCommitMessage }}  
       defaultCommitMessage: {{ .Values.scaffolder.defaultCommitMessage | quote }}
       {{- if and .Values.integrations (or .Values.integrations.github .Values.integrations.gitlab) }}
-      integrations:
+      providers:
         {{- if .Values.integrations.github }}
         github:
           - host: {{ .Values.integrations.github.host | default "github.com" | quote }}
