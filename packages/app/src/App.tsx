@@ -45,7 +45,7 @@ import { VisitListener } from '@backstage/plugin-home';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
 import { SignInPage } from './components/SignInPage';
 import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
-import { RepoUrlSelectorExtension, ResourcePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
+import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
 
@@ -178,6 +178,7 @@ const routes = (
       <ScaffolderFieldExtensions>
         <RepoUrlSelectorExtension/>
         <ResourcePickerExtension/>
+        <UploadFilePickerExtension/>
       </ScaffolderFieldExtensions>
     </Route>
     <Route path="/search" element={<SearchPage />}>

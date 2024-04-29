@@ -19,6 +19,7 @@ import {
   createReplaceInFileAction,
 } from '@roadiehq/scaffolder-backend-module-utils';
 import { ScmIntegrations } from '@backstage/integration';
+import { parseJsonAction,createFileAction } from '@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions';
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -42,6 +43,8 @@ export default async function createPlugin(
     createYamlJSONataTransformAction(),
     createJsonJSONataTransformAction(),
     createReplaceInFileAction(),
+    parseJsonAction(),
+    createFileAction(),
     ...createBuiltinActions({
    //   containerRunner,
       integrations,
