@@ -386,13 +386,13 @@ const overviewContent = (
       </EntitySwitch.Case>
     </EntitySwitch>
 
-    <EntitySwitch>
+    {/* <EntitySwitch>
       <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'vault.io/secrets-path')}>
         <Grid item lg={6} md={12} xs={12}>
           <EntityVaultCard />
         </Grid>
       </EntitySwitch.Case>
-    </EntitySwitch>
+    </EntitySwitch> */}
 
     <EntitySwitch>
       <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'grafana/alert-label-selector')}>
