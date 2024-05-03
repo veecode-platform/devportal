@@ -20,11 +20,7 @@ import {
   EntityLayout,
   EntitySwitch
 } from '@backstage/plugin-catalog';
-import {
-  isGithubActionsAvailable,
-  // EntityRecentGithubActionsRunsCard,
-  EntityGithubActionsContent,
-} from '@veecode-platform/plugin-github-actions';
+import {isGithubActionsAvailable} from '@backstage/plugin-github-actions';
 // github-workflows
 import {
   GithubWorkflowsList,
@@ -117,10 +113,10 @@ const cicdContent = (
   <EntitySwitch>
     {/* Github */}
     <EntitySwitch.Case if={(entity) => {
-      if (isGithubActionsAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+      if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
       return false
     }}>
-      <EntityGithubActionsContent />
+      <GithubWorkflowsList/>
     </EntitySwitch.Case>
     {/* Gitlab */}
     ( <EntitySwitch.Case if={(entity) => {
@@ -154,16 +150,6 @@ const cicdContent = (
   </EntitySwitch>
 );
 
-// const cicdCard = (
-//   <EntitySwitch>
-//     <EntitySwitch.Case if={isGithubActionsAvailable}>
-//       <Grid item lg={8} md={12} xs={12}>
-//         <EntityRecentGithubActionsRunsCard limit={4} variant="gridItem" />
-//       </Grid>
-//     </EntitySwitch.Case>
-//   </EntitySwitch>
-// )
-
 const entityWarningContent = (
   <>
     <EntitySwitch>
@@ -183,31 +169,6 @@ const entityWarningContent = (
     </EntitySwitch>
 
   </>
-);
-
-const WorkflowsContent = (
-  <EntitySwitch>
-    <EntitySwitch.Case if={isGithubActionsAvailable}>
-      <GithubWorkflowsList />
-    </EntitySwitch.Case>
-
-    <EntitySwitch.Case>
-      <EmptyState
-        title="No CI/CD available for this entity"
-        missing="info"
-        description="You need to add an annotation to your component if you want to enable CI/CD for it. You can read mor        about annotations in Backstage by clicking the button below."
-        action={
-          <Button
-            variant="contained"
-            color="primary"
-            href="https://backstage.io/docs/features/software-catalog/well-known-annotations"
-          >
-            Read more
-          </Button>
-        }
-      />
-    </EntitySwitch.Case>
-  </EntitySwitch>
 );
 
 /* const argoCdContent = (
@@ -414,15 +375,6 @@ const serviceEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route
-      if={(entity) => {
-        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-        return false
-        }}
-      path="/workflows" title="Workflows">
-      {WorkflowsContent}
-    </EntityLayout.Route>
-
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
     </EntityLayout.Route>
@@ -462,15 +414,6 @@ const defaultEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route
-      if={(entity) => {
-        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-        return false
-      }}
-      path="/workflows" title="Workflows">
-      {WorkflowsContent}
-    </EntityLayout.Route>
-
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
     </EntityLayout.Route>
@@ -508,15 +451,6 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
-    </EntityLayout.Route>
-
-    <EntityLayout.Route
-      if={(entity) => {
-        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-        return false
-      }}
-      path="/workflows" title="Workflows">
-      {WorkflowsContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
@@ -786,15 +720,6 @@ const clusterPage = (
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route
-      if={(entity) => {
-        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-        return false
-      }}
-      path="/workflows" title="Workflows">
-      {WorkflowsContent}
-    </EntityLayout.Route>
-
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
     </EntityLayout.Route>
@@ -889,14 +814,7 @@ const databasePage = (
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
-    <EntityLayout.Route
-      if={(entity) => {
-        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-        return false
-      }}
-      path="/workflows" title="Workflows">
-      {WorkflowsContent}
-    </EntityLayout.Route>
+
   </EntityLayout>
 )
 
