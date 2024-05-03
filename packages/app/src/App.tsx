@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { Route } from 'react-router';
 import { apiDocsPlugin } from '@backstage/plugin-api-docs';
 import { ApiExplorerPage } from '@veecode-platform/backstage-plugin-api-explorer';
-import { CatalogEntityPage, CatalogIndexPage, catalogPlugin } from '@backstage/plugin-catalog';
+import { CatalogEntityPage, CatalogIndexPage, catalogPlugin, CatalogTable, CatalogTableColumnsFunc } from '@backstage/plugin-catalog';
 import { CatalogImportPage, catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
@@ -48,6 +48,8 @@ import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
 import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
+import { DefaultFilters } from '@backstage/plugin-catalog-react';
+
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
@@ -83,6 +85,21 @@ const ThemeComponent = ({ children, light }: { children: ReactNode, light?: bool
   const theme = light ? makeLightTheme(value.light) : makeDarkTheme(value.dark)
   return <UnifiedThemeProvider theme={theme} children={children} />
 }
+
+const customColumns: CatalogTableColumnsFunc = entityListContext => {
+  if (entityListContext.filters.kind?.value === 'Component') {
+    return [
+      CatalogTable.columns.createNameColumn(),
+      CatalogTable.columns.createOwnerColumn(),
+      CatalogTable.columns.createSpecTypeColumn(),
+      CatalogTable.columns.createSpecLifecycleColumn(),
+      CatalogTable.columns.createMetadataDescriptionColumn(),
+      CatalogTable.columns.createTagsColumn()
+    ];
+  }
+
+  return CatalogTable.defaultColumnsFunc(entityListContext);
+};
 
 const app = createApp({
   apis,
@@ -133,7 +150,20 @@ const routes = (
       <HomePage />
     </Route>
     <Route path="/explore" element={<ExplorePage />} />
-    <Route path="/catalog" element={<CatalogIndexPage />} />
+    <Route path="/catalog" element={
+          <CatalogIndexPage 
+                columns={customColumns}
+                filters={
+                  <>
+                    <DefaultFilters
+                      initialKind="Component"
+                      initiallySelectedFilter="all"
+                      ownerPickerMode="all"
+                    />
+                  </>
+                }
+              />
+      } />
     <Route path="/catalog-import" element={<CatalogImportPage />} />
     <Route path="/catalog/:namespace/:kind/:name" element={<CatalogEntityPage />}>
       {entityPage}
