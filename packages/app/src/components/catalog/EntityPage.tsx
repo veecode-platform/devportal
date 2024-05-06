@@ -724,27 +724,17 @@ const clusterPage = (
       {pullRequestsContent}
     </EntityLayout.Route>
     <EntityLayout.Route
-      if={(entity) => {
-        const show = entity.metadata.annotations?.hasOwnProperty('grafana/dashboard-selector')
-        return show !== undefined
-      }}
+      if={(entity) => isAnnotationAvailable(entity,'grafana/dashboard-selector')}
       path="/grafana" title="Grafana" >
       {grafanaContent}
     </EntityLayout.Route>
     <EntityLayout.Route
-      if={(entity) => {
-        const show = entity.metadata.annotations?.hasOwnProperty('grafana/alert-label-selector')
-        return show !== undefined
-      }}
+      if={(entity) => isAnnotationAvailable(entity,'grafana/alert-label-selector')}
       path="/grafana-alerts" title="Grafana-alerts" >
       {grafanaAlertsContent}
     </EntityLayout.Route>
     <EntityLayout.Route
-      if={(entity) => {
-        const show = entity.metadata.annotations?.hasOwnProperty('backstage.io/techdocs-ref')
-        if (show !== undefined) return show
-        return false
-      }}
+      if={(entity) => isAnnotationAvailable(entity,'backstage.io/techdocs-ref')}
       path="/docs" title="Docs" >
       {techdocsContent}
     </EntityLayout.Route>
@@ -758,10 +748,7 @@ const environmentPage = (
         <Grid item lg={6} md={12} xs={12}>
           <EnvironmentOverview />
         </Grid>
-        <Grid item lg={6} md={12} xs={12}
-        // style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column', gap: '.5rem' }}
-        >
-          {/* <EntityAboutCard variant='flex' /> */}
+        <Grid item lg={6} md={12} xs={12}>
           <EntityCatalogGraphCard variant='flex' height={300} />
         </Grid>
       </Grid>
