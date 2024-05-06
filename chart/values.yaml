@@ -70,7 +70,7 @@ appConfig:
         "'self'",
          "data:",
          "https://raw.githubusercontent.com/",
-         "https://avatars.githubusercontent.com/u/84424883?v=4"
+         "https://avatars.githubusercontent.com/"
          ] #CSP img-src
       scriptSrc: [
           "'self'",
