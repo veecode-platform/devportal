@@ -4,6 +4,8 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityHasApisCard,
+  EntityProvidingComponentsCard,
+  EntityConsumingComponentsCard
 } from '@backstage/plugin-api-docs';
 import {
   EntityHasComponentsCard,
@@ -499,7 +501,42 @@ const componentPage = (
 
 const apiPage = (
   <EntityLayout>
-    <EntityLayout.Route path="/" title="Definition">
+    <EntityLayout.Route path="/" title="Overview">
+      <Grid container spacing={3}>
+        {entityWarningContent}
+        <Grid item xs={12} md={6}>
+          <EntityAboutCard variant="gridItem" />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityCatalogGraphCard variant="gridItem" height={400} />
+        </Grid>
+        <Grid container item md={12}>
+          <EntitySwitch>
+            <EntitySwitch.Case
+              if={(e: Entity) =>
+                 e.relations!.some(rel => rel.type === 'apiProvidedBy')
+              }
+            >
+              <Grid item xs={12} md={6}>
+                <EntityProvidingComponentsCard />
+              </Grid>
+            </EntitySwitch.Case>
+          </EntitySwitch>
+          <EntitySwitch>
+            <EntitySwitch.Case
+              if={(e: Entity) =>
+                e.relations!.some(rel => rel.type === 'apiConsumedBy')
+              }
+            >
+              <Grid item xs={12} md={6}>
+                <EntityConsumingComponentsCard />
+              </Grid>
+            </EntitySwitch.Case>
+          </EntitySwitch>
+        </Grid>
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/definition" title="Definition">
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <EntityApiDefinitionCard />
