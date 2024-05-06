@@ -646,13 +646,11 @@ const domainPage = (
 
 const clusterPage = (
   <EntityLayout>
-
-    <EntityLayout.Route 
-      path="/" title="Overview">
+    <EntityLayout.Route path="/" title="Overview">
       <ClusterOverviewPage />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path='/about' title='About'>
+    <EntityLayout.Route path="/about" title="About">
       <Grid container spacing={2} alignItems="stretch">
         <Grid item lg={3} md={12} xs={12}>
           <EntityAboutCard variant="gridItem" />
@@ -666,8 +664,8 @@ const clusterPage = (
             relations={[
               RELATION_PART_OF,
               RELATION_HAS_PART,
-              "environmentOf",
-              "fromEnvironment",
+              'environmentOf',
+              'fromEnvironment',
               RELATION_OWNER_OF,
               RELATION_OWNED_BY,
             ]}
@@ -676,56 +674,60 @@ const clusterPage = (
               [RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY],
               [RELATION_API_PROVIDED_BY, RELATION_PROVIDES_API],
               [RELATION_HAS_PART, RELATION_PART_OF],
-              ["environmentOf", "fromEnvironment"]
+              ['environmentOf', 'fromEnvironment'],
             ]}
             unidirectional={false}
           />
         </Grid>
-        <Grid item lg={8} md={12}>
+
           {/* Github */}
           <EntitySwitch>
             <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
-              <GithubWorkflowsCard />
+              <Grid item lg={8} md={12}>
+                <GithubWorkflowsCard />
+              </Grid>
             </EntitySwitch.Case>
           </EntitySwitch>
+
           {/* Gitlab */}
           <EntitySwitch>
-            <EntitySwitch.Case if={isGitlabJobsAvailable}>
-              <GitlabJobs />
-            </EntitySwitch.Case>
-          </EntitySwitch>
-        </Grid>
-
-          <EntitySwitch>
-          {/* github */}
-            <EntitySwitch.Case if={isGithubInsightsAvailable}>
-             <Grid item lg={4} md={12} xs={12}>
-                <EntityGithubInsightsLanguagesCard />
-              </Grid>
-            </EntitySwitch.Case>
-          {/* gitlab */}
-            <EntitySwitch.Case if={isGitlabAvailable}>
-              <Grid item lg={6} md={12} xs={12}>
-                <EntityGitlabLanguageCard />
-              </Grid>
-              <Grid item lg={6} md={12} xs={12}>
-                <EntityGitlabReleasesCard />
-              </Grid>
-          </EntitySwitch.Case>
+              <EntitySwitch.Case if={isGitlabJobsAvailable}>
+                <Grid item lg={8} md={12}>
+                  <GitlabJobs />
+                </Grid>
+              </EntitySwitch.Case>
           </EntitySwitch>
 
         <EntitySwitch>
-          <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
-              <Grid item lg={4} md={12} xs={12}>
-                <EntityLinksCard />
-              </Grid>
-            </EntitySwitch.Case>
+          {/* github */}
+          <EntitySwitch.Case if={isGithubInsightsAvailable}>
+            <Grid item lg={4} md={12} xs={12}  >
+              <EntityGithubInsightsLanguagesCard />
+            </Grid>
+          </EntitySwitch.Case>
+          {/* gitlab */}
+          <EntitySwitch.Case if={isGitlabAvailable}>
+            <Grid item  lg={4} md={12} xs={12} >
+              <EntityGitlabLanguageCard />
+            </Grid>
+            <Grid item lg={4} md={12} xs={12} >
+              <EntityGitlabReleasesCard />
+            </Grid>
+          </EntitySwitch.Case>
         </EntitySwitch>
 
         <EntitySwitch>
-        {/* github */}
+          <EntitySwitch.Case if={(e: Entity) => !!e.metadata.links?.length}>
+            <Grid item lg={4} md={12} xs={12}>
+              <EntityLinksCard />
+            </Grid>
+          </EntitySwitch.Case>
+        </EntitySwitch>
+
+        <EntitySwitch>
+          {/* github */}
           <EntitySwitch.Case if={isGithubInsightsAvailable}>
-            <Grid item lg={6} md={12} xs={12}>
+            <Grid item lg={8} md={12} xs={12}>
               <EntityGithubInsightsReadmeCard maxHeight={350} />
             </Grid>
           </EntitySwitch.Case>
@@ -742,15 +744,15 @@ const clusterPage = (
 
         {/* Has Components */}
         <EntitySwitch>
-          <EntitySwitch.Case if={(e:Entity) => e.relations!.some(rel => rel.type === 'hasPart')}>
-          <Grid item lg={6} md={12} xs={12}>
-            <EntityHasComponentsCard variant="gridItem" />
-          </Grid>
+          <EntitySwitch.Case
+            if={(e: Entity) => e.relations!.some(rel => rel.type === 'hasPart')}
+          >
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityHasComponentsCard variant="gridItem" />
+            </Grid>
           </EntitySwitch.Case>
-          </EntitySwitch>
-
+        </EntitySwitch>
       </Grid>
-
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
@@ -761,18 +763,26 @@ const clusterPage = (
       {pullRequestsContent}
     </EntityLayout.Route>
     <EntityLayout.Route
-      if={(entity) => isAnnotationAvailable(entity,'grafana/dashboard-selector')}
-      path="/grafana" title="Grafana" >
+      if={entity => isAnnotationAvailable(entity, 'grafana/dashboard-selector')}
+      path="/grafana"
+      title="Grafana"
+    >
       {grafanaContent}
     </EntityLayout.Route>
     <EntityLayout.Route
-      if={(entity) => isAnnotationAvailable(entity,'grafana/alert-label-selector')}
-      path="/grafana-alerts" title="Grafana-alerts" >
+      if={entity =>
+        isAnnotationAvailable(entity, 'grafana/alert-label-selector')
+      }
+      path="/grafana-alerts"
+      title="Grafana-alerts"
+    >
       {grafanaAlertsContent}
     </EntityLayout.Route>
     <EntityLayout.Route
-      if={(entity) => isAnnotationAvailable(entity,'backstage.io/techdocs-ref')}
-      path="/docs" title="Docs" >
+      if={entity => isAnnotationAvailable(entity, 'backstage.io/techdocs-ref')}
+      path="/docs"
+      title="Docs"
+    >
       {techdocsContent}
     </EntityLayout.Route>
   </EntityLayout>
