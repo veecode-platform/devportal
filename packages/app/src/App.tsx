@@ -87,20 +87,23 @@ const ThemeComponent = ({ children, light }: { children: ReactNode, light?: bool
 }
 
 const customColumns: CatalogTableColumnsFunc = entityListContext => {
+
+  const nameColumn = CatalogTable.columns.createNameColumn()
+  const ownerColumn = CatalogTable.columns.createOwnerColumn()
+  const typeColumn = CatalogTable.columns.createSpecTypeColumn()
+  const lifecycleColumn = CatalogTable.columns.createSpecLifecycleColumn()
+  const descriptionColumn = CatalogTable.columns.createMetadataDescriptionColumn()
+  const tagsColumn = CatalogTable.columns.createTagsColumn();
+
+  nameColumn.width = 'auto';
+  typeColumn.width = 'auto';
+  ownerColumn.width = 'auto';
+  lifecycleColumn.width = 'auto';
+  descriptionColumn.width = 'auto';
+  tagsColumn.width = 'auto';
+
   if (entityListContext.filters.kind?.value !== 'Api') {
-    const nameColumn = CatalogTable.columns.createNameColumn()
-    const ownerColumn = CatalogTable.columns.createOwnerColumn()
-    const typeColumn = CatalogTable.columns.createSpecTypeColumn()
-    const lifecycleColumn = CatalogTable.columns.createSpecLifecycleColumn()
-    const descriptionColumn = CatalogTable.columns.createMetadataDescriptionColumn()
-
-    nameColumn.width = 'auto';
-    typeColumn.width = 'auto';
-    ownerColumn.width = 'auto';
-    lifecycleColumn.width = 'auto';
-    descriptionColumn.width = 'auto';
-
-    return [nameColumn,typeColumn,ownerColumn,lifecycleColumn,descriptionColumn];
+    return [nameColumn,ownerColumn,typeColumn,lifecycleColumn,descriptionColumn];
   }
 
   return CatalogTable.defaultColumnsFunc(entityListContext);
