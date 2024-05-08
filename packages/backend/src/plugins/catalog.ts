@@ -4,9 +4,9 @@ import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { ScaffolderEntitiesProcessor } from '@backstage/plugin-catalog-backend-module-scaffolder-entity-model';
 // Bitbucket Cloud
-import { BitbucketCloudEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-cloud';
+//import { BitbucketCloudEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-cloud';
 // Bitbucket Server
-import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-server';
+//import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-server';
 // Gitlab
 import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend-module-gitlab';
@@ -16,6 +16,11 @@ import { KeycloakOrgEntityProvider } from '@janus-idp/backstage-plugin-keycloak-
 import { ClusterEntitiesProcessor, DatabaseEntitiesProcessor, EnvironmentEntitiesProcessor, VaultEntitiesProcessor } from '@veecode-platform/plugin-veecode-platform-common';
 // Azure
 import { AzureDevOpsAnnotatorProcessor } from '@backstage/plugin-azure-devops-backend';
+//import {
+//  LibraryCheckUpdaterProcessor,
+//  LibraryCheckProcessor,
+//  LibraryCheckProvider,
+//} from '@anakz/backstage-plugin-library-check-backend';
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -32,27 +37,27 @@ export default async function createPlugin(
     }),
   );
 
-  builder.addEntityProvider(
-    BitbucketCloudEntityProvider.fromConfig(env.config, {
-      logger: env.logger,
-      scheduler: env.scheduler,
-      /* schedule: env.scheduler.createScheduledTaskRunner({
-        frequency: { minutes: 10 },
-        timeout: { minutes: 3 },
-      }),*/
-    }),
-  )
-
-  builder.addEntityProvider(
-    BitbucketServerEntityProvider.fromConfig(env.config, {
-      logger: env.logger,
-      scheduler: env.scheduler,
-      /* schedule: env.scheduler.createScheduledTaskRunner({
-        frequency: { minutes: 10 },
-        timeout: { minutes: 3 },
-      }),*/
-    }),
-  )
+  //builder.addEntityProvider(
+  //  BitbucketCloudEntityProvider.fromConfig(env.config, {
+  //    logger: env.logger,
+  //    scheduler: env.scheduler,
+  //    /* schedule: env.scheduler.createScheduledTaskRunner({
+  //      frequency: { minutes: 10 },
+  //      timeout: { minutes: 3 },
+  //    }),*/
+  //  }),
+  //)
+//
+  //builder.addEntityProvider(
+  //  BitbucketServerEntityProvider.fromConfig(env.config, {
+  //    logger: env.logger,
+  //    scheduler: env.scheduler,
+  //    /* schedule: env.scheduler.createScheduledTaskRunner({
+  //      frequency: { minutes: 10 },
+  //      timeout: { minutes: 3 },
+  //    }),*/
+  //  }),
+  //)
 
   // gitlab provider
   if (env.config.getBoolean("enabledPlugins.gitlabPlugin")) {
@@ -83,6 +88,39 @@ export default async function createPlugin(
     }),
   );
   }
+
+// // Library Check  
+//  LibraryCheckProvider.fromConfig({
+//    envId: 'production',
+//    logger: env.logger,
+//    discovery: env.discovery,
+//    schedule: env.scheduler.createScheduledTaskRunner({
+//      initialDelay: {
+//        seconds: 190,
+//      },
+//      frequency: {
+//        minutes: 15,
+//      },
+//      timeout: {
+//        minutes: 3,
+//      },
+//    }),
+//  }),
+//
+//
+//builder.addProcessor(
+//  LibraryCheckProcessor.fromConfig(env.config, {
+//    discoveryService: env.discovery,
+//    reader: env.reader,
+//    logger: env.logger,
+//  }),
+//
+//  LibraryCheckUpdaterProcessor.fromConfig(env.config, {
+//    discoveryService: env.discovery,
+//    reader: env.reader,
+//    logger: env.logger,
+//  }),
+//);
 
   // Azure Devops Plugin
   if (env.config.getBoolean("enabledPlugins.azureDevops"))  builder.addProcessor(AzureDevOpsAnnotatorProcessor.fromConfig(env.config));

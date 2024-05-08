@@ -335,6 +335,9 @@ platform:
   
   defaultGroup:
     enabled: false
+  
+  support:
+    licenseKey: ${PLATFORM_LICENSE_KEY}
 
   group:
     admin: ${GROUP_ADMIN}

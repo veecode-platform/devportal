@@ -37,7 +37,7 @@ import LanguageIcon from '@material-ui/icons/Language';
 import InfoIcon from '@material-ui/icons/Info';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { sideBarBehaviour, sidebarDefaultType } from './sideBarSchema';
-import {VeecodeLogoIcon} from './DevportalIcon';
+import { VeecodeLogoIcon } from './DevportalIcon';
 import { GrCluster } from "react-icons/gr";
 import { ImDatabase } from "react-icons/im";
 import { PiVaultFill } from "react-icons/pi";
@@ -57,10 +57,10 @@ const useStyles = makeStyles({
     width: sidebarConfig.drawerWidthClosed,
     marginLeft: 24,
   },
-  item:{
+  item: {
     position: 'relative',
   },
-  badge:{
+  badge: {
     position: 'absolute',
     top: '1.2rem',
     left: '1.5rem',
@@ -82,7 +82,7 @@ const SidebarLogo = () => {
         underline="none"
         className={classes.link}
       >
-        {isOpen ? <LogoFull src={logoFullSrc} /> : <LogoIcon src={logoIconSrc}  />}
+        {isOpen ? <LogoFull src={logoFullSrc} /> : <LogoIcon src={logoIconSrc} />}
       </Link>
     </div>
   );
@@ -97,32 +97,37 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
     <SidebarGroup label="Menu" icon={<MenuIcon />}>
       {behaviour.home ? <SidebarItem icon={HomeIcon} to="/" text="Home" /> : null}
       {behaviour.resources ?
-      <SidebarItem icon={VeecodeLogoIcon} text="Resources">
-        <SidebarSubmenu title="">
-          <SidebarDivider />
-          <SidebarSubmenuItem
-            title="Environments"
-            to="environments-explorer"
-            icon={LanguageIcon}
-          />
-          <SidebarSubmenuItem
-            title="Clusters"
-            to="cluster-explorer"
-            icon={GrCluster}
-          /> 
-          <SidebarSubmenuItem
-            title="Databases"
-            to="database-explorer"
-            icon={ImDatabase}
-          />
-          <SidebarSubmenuItem
-            title="Vault"
-            to="vault-explorer"
-            icon={PiVaultFill}
-          />
-          <SidebarDivider />
-        </SidebarSubmenu>
-      </SidebarItem> : null}
+        <SidebarItem icon={VeecodeLogoIcon} text="Resources">
+          <SidebarSubmenu title="">
+            <SidebarDivider />
+            <SidebarSubmenuItem
+              title="Environments"
+              to="environments-explorer"
+              icon={LanguageIcon}
+            />
+            <SidebarSubmenuItem
+              title="Clusters"
+              to="cluster-explorer"
+              icon={GrCluster}
+            />
+            <SidebarSubmenuItem
+              title="Databases"
+              to="database-explorer"
+              icon={ImDatabase}
+            />
+            <SidebarSubmenuItem
+              title="Vault"
+              to="vault-explorer"
+              icon={PiVaultFill}
+            />
+            <SidebarDivider />
+          </SidebarSubmenu>
+          {/*<SidebarItem
+            icon={ExtensionIcon}
+            to="library-check"
+            text="Libraries"
+      />*/}
+        </SidebarItem> : null}
       {behaviour.catalog ? <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" /> : null}
       {behaviour.apis ? <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" /> : null}
       {behaviour.create ? <SidebarItem icon={CreateComponentIcon} to="create" text="Create" /> : null}
@@ -136,7 +141,7 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
 const SideBarApimanagementGroup = ({ behaviour, apiManagementEnabled }: sideBarDefaultGroupProps) => {
   const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
   return (
-    (behaviour.apiManagement && apiManagementEnabled ) ?
+    (behaviour.apiManagement && apiManagementEnabled) ?
       <SidebarGroup label="Api managment" icon={<AppsIcon />}>
         {(!loadingPermission && adminView) ?
           <>
@@ -155,7 +160,7 @@ const SideBarApimanagementGroup = ({ behaviour, apiManagementEnabled }: sideBarD
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const config = useApi(configApiRef);
   const devportalBehaviour = sideBarBehaviour(config.getConfig("platform.behaviour"))
-  const {showAlert} = useContext(AppContext);
+  const { showAlert } = useContext(AppContext);
   const apiManagementEnabled = config.getOptionalBoolean("platform.apiManagement.enabled");
   const classes = useStyles();
 
@@ -171,19 +176,19 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         </SidebarGroup>
         <SidebarItem icon={InfoIcon} to="/about" text="About" />
         <SidebarSpace />
-        <SidebarDivider />      
-        <SidebarItem  icon={ContactMailIcon} to="/support" text="Support" className={classes.item}>
-          {         
-              showAlert && (
-                <Badge 
-                  badgeContent=" " 
-                  color="error" 
-                  overlap='circular'
-                  className={classes.badge} 
-                  variant='dot'
-                />
-              )
-            }
+        <SidebarDivider />
+        <SidebarItem icon={ContactMailIcon} to="/support" text="Support" className={classes.item}>
+          {
+            showAlert && (
+              <Badge
+                badgeContent=" "
+                color="error"
+                overlap='circular'
+                className={classes.badge}
+                variant='dot'
+              />
+            )
+          }
         </SidebarItem>
         <SidebarDivider />
         {devportalBehaviour.signOut ? <SidebarGroup label="Sign Out" icon={<ExitToAppIcon />}>
