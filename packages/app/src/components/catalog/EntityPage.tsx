@@ -108,6 +108,10 @@ import {
 import { DatabaseOverview } from '@veecode-platform/plugin-database-explorer';
 import { VaultOverview } from '@veecode-platform/plugin-vault-explorer';
 import { KongServiceManagerPage, isKongServiceManagerAvailable } from '@veecode-platform/plugin-kong-service-manager';
+//import {
+//  LibraryCheckPage,
+//  useIsProjectLibrariesAvailable,
+//} from '@anakz/backstage-plugin-library-check';
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -432,6 +436,14 @@ const serviceEntityPage = (
       path="/kong-service-manager" title="Kong">
       <KongServiceManagerPage/>
     </EntityLayout.Route>
+
+    {/*<EntityLayout.Route
+      path="/library-check"
+      title="Libraries"
+      if={useIsProjectLibrariesAvailable}
+    >
+      <LibraryCheckPage />
+    </EntityLayout.Route>*/}
 
     {
       plugins.map((item: PluginItem) => {

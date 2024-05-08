@@ -45,6 +45,7 @@ import { createAuthMiddleware } from './authMiddleware';
 import cookieParser from 'cookie-parser';
 // azure
 import azureDevOps from './plugins/azure-devops';
+//import libraryCheck from './plugins/libraryCheck';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -110,6 +111,7 @@ async function main() {
   const awsEnv = useHotMemoize(module, () => createEnv('aws'));
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
   const aboutEnv = useHotMemoize(module, () => createEnv('about'));
+  //const libraryCheckEnv = useHotMemoize(module, () => createEnv('libraryCheck'));
 
   const authMiddleware = await createAuthMiddleware(config, appEnv);
   
@@ -130,6 +132,7 @@ async function main() {
   apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
   apiRouter.use('/aws', authMiddleware, await aws(awsEnv));
   apiRouter.use('/about', authMiddleware, await about(aboutEnv));
+  //apiRouter.use('/library-check', await libraryCheck(libraryCheckEnv));
 
   if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));
