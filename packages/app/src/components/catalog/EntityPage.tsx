@@ -97,7 +97,7 @@ import {
   // isAWSLambdaAvailable
 } from '@roadiehq/backstage-plugin-aws-lambda';
 import { EnvironmentOverview } from '@veecode-platform/plugin-environment-explorer';
-import { ClusterOverviewPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
+import { ClusterInstructionsCard, ClusterOverviewPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
 // AzureDevops
 import {
   EntityAzurePipelinesContent,
@@ -701,16 +701,16 @@ const clusterPage = (
         <EntitySwitch>
           {/* github */}
           <EntitySwitch.Case if={isGithubInsightsAvailable}>
-            <Grid item lg={4} md={12} xs={12}  >
-              <EntityGithubInsightsLanguagesCard />
+            <Grid item lg={4} md={12} xs={12} >
+              <EntityGithubInsightsLanguagesCard/>
             </Grid>
           </EntitySwitch.Case>
           {/* gitlab */}
           <EntitySwitch.Case if={isGitlabAvailable}>
-            <Grid item  lg={4} md={12} xs={12} >
+            <Grid item  lg={8} md={12} xs={12} >
               <EntityGitlabLanguageCard />
             </Grid>
-            <Grid item lg={4} md={12} xs={12} >
+            <Grid item lg={6} md={12} xs={12} >
               <EntityGitlabReleasesCard />
             </Grid>
           </EntitySwitch.Case>
@@ -727,7 +727,7 @@ const clusterPage = (
         <EntitySwitch>
           {/* github */}
           <EntitySwitch.Case if={isGithubInsightsAvailable}>
-            <Grid item lg={8} md={12} xs={12}>
+            <Grid item lg={6} md={12} xs={12}>
               <EntityGithubInsightsReadmeCard maxHeight={350} />
             </Grid>
           </EntitySwitch.Case>
@@ -736,11 +736,12 @@ const clusterPage = (
             <Grid item lg={6} md={12} xs={12}>
               <EntityGitlabLanguageCard />
             </Grid>
-            <Grid item lg={6} md={12} xs={12}>
-              <EntityGitlabReleasesCard />
-            </Grid>
           </EntitySwitch.Case>
         </EntitySwitch>
+
+        <Grid item lg={6} md={12} xs={12}>
+            <ClusterInstructionsCard />
+        </Grid>
 
         {/* Has Components */}
         <EntitySwitch>
