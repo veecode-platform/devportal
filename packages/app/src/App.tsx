@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { Route } from 'react-router';
 import { apiDocsPlugin } from '@backstage/plugin-api-docs';
 import { ApiExplorerPage } from '@veecode-platform/backstage-plugin-api-explorer';
-import { CatalogEntityPage, CatalogIndexPage, catalogPlugin } from '@backstage/plugin-catalog';
+import { CatalogEntityPage, CatalogIndexPage, catalogPlugin, CatalogTable, CatalogTableColumnsFunc } from '@backstage/plugin-catalog';
 import { CatalogImportPage, catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
@@ -49,6 +49,8 @@ import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExte
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
 //import { LibraryCheckIndexPage } from '@anakz/backstage-plugin-library-check';
+import { DefaultFilters } from '@backstage/plugin-catalog-react';
+
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
@@ -84,6 +86,29 @@ const ThemeComponent = ({ children, light }: { children: ReactNode, light?: bool
   const theme = light ? makeLightTheme(value.light) : makeDarkTheme(value.dark)
   return <UnifiedThemeProvider theme={theme} children={children} />
 }
+
+const customColumns: CatalogTableColumnsFunc = entityListContext => {
+
+  const nameColumn = CatalogTable.columns.createNameColumn()
+  const ownerColumn = CatalogTable.columns.createOwnerColumn()
+  const typeColumn = CatalogTable.columns.createSpecTypeColumn()
+  const lifecycleColumn = CatalogTable.columns.createSpecLifecycleColumn()
+  const descriptionColumn = CatalogTable.columns.createMetadataDescriptionColumn()
+  const tagsColumn = CatalogTable.columns.createTagsColumn();
+
+  nameColumn.width = 'auto';
+  typeColumn.width = 'auto';
+  ownerColumn.width = 'auto';
+  lifecycleColumn.width = 'auto';
+  descriptionColumn.width = 'auto';
+  tagsColumn.width = 'auto';
+
+  if (entityListContext.filters.kind?.value !== 'Api') {
+    return [nameColumn,ownerColumn,typeColumn,lifecycleColumn,descriptionColumn];
+  }
+
+  return CatalogTable.defaultColumnsFunc(entityListContext);
+};
 
 const app = createApp({
   apis,
@@ -134,7 +159,20 @@ const routes = (
       <HomePage />
     </Route>
     <Route path="/explore" element={<ExplorePage />} />
-    <Route path="/catalog" element={<CatalogIndexPage />} />
+    <Route path="/catalog" element={
+          <CatalogIndexPage 
+                columns={customColumns}
+                filters={
+                  <>
+                    <DefaultFilters
+                      initialKind="Component"
+                      initiallySelectedFilter="all"
+                      ownerPickerMode="all"
+                    />
+                  </>
+                }
+              />
+      } />
     <Route path="/catalog-import" element={<CatalogImportPage />} />
     <Route path="/catalog/:namespace/:kind/:name" element={<CatalogEntityPage />}>
       {entityPage}
