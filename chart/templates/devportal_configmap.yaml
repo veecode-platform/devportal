@@ -39,12 +39,12 @@ data:
       title: {{ .Values.appConfig.title | default "Platform Devportal" }}
       baseUrl: {{ $app_path_without_last_slash |quote }}
       support:
-        url: https://github.com/veecode-platform/support/discussions 
+        url: https://github.com/veecode-platform/support/discussions/ 
         items: 
           - title: Issues
             icon: github
             links:
-              - url: https://github.com/veecode-platform/support/discussions
+              - url: https://github.com/veecode-platform/support/discussions/
                 title: GitHub Issues
       {{- if or ($is_okteto_deploy) (and .Values.appConfig.analytics .Values.appConfig.analytics.ga .Values.appConfig.analytics.ga.measurementId) }}          
       analytics:
