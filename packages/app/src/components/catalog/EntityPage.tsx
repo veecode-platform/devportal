@@ -727,19 +727,19 @@ const clusterPage = (
         <EntitySwitch>
           {/* github */}
           <EntitySwitch.Case if={isGithubInsightsAvailable}>
-            <Grid item lg={6} md={12} xs={12}>
+            <Grid item lg={7} md={12} xs={12}>
               <EntityGithubInsightsReadmeCard maxHeight={350} />
             </Grid>
           </EntitySwitch.Case>
           {/* gitlab */}
           <EntitySwitch.Case if={isGitlabAvailable}>
-            <Grid item lg={6} md={12} xs={12}>
+            <Grid item lg={7} md={12} xs={12}>
               <EntityGitlabLanguageCard />
             </Grid>
           </EntitySwitch.Case>
         </EntitySwitch>
 
-        <Grid item lg={6} md={12} xs={12}>
+        <Grid item lg={5} md={12} xs={12}>
             <ClusterInstructionsCard />
         </Grid>
 
