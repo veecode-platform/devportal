@@ -379,12 +379,12 @@ export interface Config {
        */
       readOnlyMode: boolean
     }
-    support:{
+    support?:{
       /**
        * 
        * @visibility frontend
        */
-      licenseKey: string   
+      licenseKey?: string   
     }
   }
   /**
