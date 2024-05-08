@@ -25,7 +25,7 @@ class Client {
     }
 
     async validateLicenseKey() {
-        const licenseKey =  this.configApi.getString("platform.support.licenseKey")
+        const licenseKey =  this.configApi.getOptionalString("platform.support.licenseKey") || '';
         const resp = await fetch(`${LICENSE_KEY_API_URL}/${licenseKey}`)
         return await resp.json()
     }
