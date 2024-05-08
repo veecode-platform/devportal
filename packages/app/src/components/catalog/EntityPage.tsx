@@ -683,7 +683,7 @@ const clusterPage = (
           {/* Github */}
           <EntitySwitch>
             <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
-              <Grid item lg={8} md={12}>
+              <Grid item lg={7} md={12}>
                 <GithubWorkflowsCard />
               </Grid>
             </EntitySwitch.Case>
@@ -692,7 +692,7 @@ const clusterPage = (
           {/* Gitlab */}
           <EntitySwitch>
               <EntitySwitch.Case if={isGitlabJobsAvailable}>
-                <Grid item lg={8} md={12}>
+                <Grid item lg={7} md={12}>
                   <GitlabJobs />
                 </Grid>
               </EntitySwitch.Case>
@@ -701,17 +701,14 @@ const clusterPage = (
         <EntitySwitch>
           {/* github */}
           <EntitySwitch.Case if={isGithubInsightsAvailable}>
-            <Grid item lg={4} md={12} xs={12} >
+            <Grid item lg={5} md={12} xs={12} >
               <EntityGithubInsightsLanguagesCard/>
             </Grid>
           </EntitySwitch.Case>
           {/* gitlab */}
           <EntitySwitch.Case if={isGitlabAvailable}>
-            <Grid item  lg={8} md={12} xs={12} >
+            <Grid item  lg={5} md={12} xs={12} >
               <EntityGitlabLanguageCard />
-            </Grid>
-            <Grid item lg={6} md={12} xs={12} >
-              <EntityGitlabReleasesCard />
             </Grid>
           </EntitySwitch.Case>
         </EntitySwitch>
