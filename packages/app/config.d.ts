@@ -379,6 +379,13 @@ export interface Config {
        */
       readOnlyMode: boolean
     }
+    support?:{
+      /**
+       * 
+       * @visibility frontend
+       */
+      licenseKey?: string   
+    }
   }
   /**
   * Configuration for scaffolder towards various external repository provider systems

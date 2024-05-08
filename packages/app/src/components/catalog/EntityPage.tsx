@@ -4,6 +4,8 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityHasApisCard,
+  EntityProvidingComponentsCard,
+  EntityConsumingComponentsCard
 } from '@backstage/plugin-api-docs';
 import {
   EntityHasComponentsCard,
@@ -20,11 +22,7 @@ import {
   EntityLayout,
   EntitySwitch
 } from '@backstage/plugin-catalog';
-import {
-  isGithubActionsAvailable,
-  // EntityRecentGithubActionsRunsCard,
-  EntityGithubActionsContent,
-} from '@veecode-platform/plugin-github-actions';
+import {isGithubActionsAvailable} from '@backstage/plugin-github-actions';
 // github-workflows
 import {
   GithubWorkflowsList,
@@ -99,7 +97,7 @@ import {
   // isAWSLambdaAvailable
 } from '@roadiehq/backstage-plugin-aws-lambda';
 import { EnvironmentOverview } from '@veecode-platform/plugin-environment-explorer';
-import { ClusterOverviewPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
+import { ClusterInstructionsCard, ClusterOverviewPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
 // AzureDevops
 import {
   EntityAzurePipelinesContent,
@@ -108,6 +106,10 @@ import {
 import { DatabaseOverview } from '@veecode-platform/plugin-database-explorer';
 import { VaultOverview } from '@veecode-platform/plugin-vault-explorer';
 import { KongServiceManagerPage, isKongServiceManagerAvailable } from '@veecode-platform/plugin-kong-service-manager';
+//import {
+//  LibraryCheckPage,
+//  useIsProjectLibrariesAvailable,
+//} from '@anakz/backstage-plugin-library-check';
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -117,10 +119,10 @@ const cicdContent = (
   <EntitySwitch>
     {/* Github */}
     <EntitySwitch.Case if={(entity) => {
-      if (isGithubActionsAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+      if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
       return false
     }}>
-      <EntityGithubActionsContent />
+      <GithubWorkflowsList/>
     </EntitySwitch.Case>
     {/* Gitlab */}
     ( <EntitySwitch.Case if={(entity) => {
@@ -154,16 +156,6 @@ const cicdContent = (
   </EntitySwitch>
 );
 
-// const cicdCard = (
-//   <EntitySwitch>
-//     <EntitySwitch.Case if={isGithubActionsAvailable}>
-//       <Grid item lg={8} md={12} xs={12}>
-//         <EntityRecentGithubActionsRunsCard limit={4} variant="gridItem" />
-//       </Grid>
-//     </EntitySwitch.Case>
-//   </EntitySwitch>
-// )
-
 const entityWarningContent = (
   <>
     <EntitySwitch>
@@ -183,31 +175,6 @@ const entityWarningContent = (
     </EntitySwitch>
 
   </>
-);
-
-const WorkflowsContent = (
-  <EntitySwitch>
-    <EntitySwitch.Case if={isGithubActionsAvailable}>
-      <GithubWorkflowsList />
-    </EntitySwitch.Case>
-
-    <EntitySwitch.Case>
-      <EmptyState
-        title="No CI/CD available for this entity"
-        missing="info"
-        description="You need to add an annotation to your component if you want to enable CI/CD for it. You can read mor        about annotations in Backstage by clicking the button below."
-        action={
-          <Button
-            variant="contained"
-            color="primary"
-            href="https://backstage.io/docs/features/software-catalog/well-known-annotations"
-          >
-            Read more
-          </Button>
-        }
-      />
-    </EntitySwitch.Case>
-  </EntitySwitch>
 );
 
 /* const argoCdContent = (
@@ -414,15 +381,6 @@ const serviceEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route
-      if={(entity) => {
-        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-        return false
-        }}
-      path="/workflows" title="Workflows">
-      {WorkflowsContent}
-    </EntityLayout.Route>
-
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
     </EntityLayout.Route>
@@ -432,6 +390,14 @@ const serviceEntityPage = (
       path="/kong-service-manager" title="Kong">
       <KongServiceManagerPage/>
     </EntityLayout.Route>
+
+    {/*<EntityLayout.Route
+      path="/library-check"
+      title="Libraries"
+      if={useIsProjectLibrariesAvailable}
+    >
+      <LibraryCheckPage />
+    </EntityLayout.Route>*/}
 
     {
       plugins.map((item: PluginItem) => {
@@ -460,15 +426,6 @@ const defaultEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
-    </EntityLayout.Route>
-
-    <EntityLayout.Route
-      if={(entity) => {
-        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-        return false
-      }}
-      path="/workflows" title="Workflows">
-      {WorkflowsContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
@@ -508,15 +465,6 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
-    </EntityLayout.Route>
-
-    <EntityLayout.Route
-      if={(entity) => {
-        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-        return false
-      }}
-      path="/workflows" title="Workflows">
-      {WorkflowsContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
@@ -565,7 +513,42 @@ const componentPage = (
 
 const apiPage = (
   <EntityLayout>
-    <EntityLayout.Route path="/" title="Definition">
+    <EntityLayout.Route path="/" title="Overview">
+      <Grid container spacing={3}>
+        {entityWarningContent}
+        <Grid item xs={12} md={6}>
+          <EntityAboutCard variant="gridItem" />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityCatalogGraphCard variant="gridItem" height={400} />
+        </Grid>
+        <Grid container item md={12}>
+          <EntitySwitch>
+            <EntitySwitch.Case
+              if={(e: Entity) =>
+                 e.relations!.some(rel => rel.type === 'apiProvidedBy')
+              }
+            >
+              <Grid item xs={12} md={6}>
+                <EntityProvidingComponentsCard />
+              </Grid>
+            </EntitySwitch.Case>
+          </EntitySwitch>
+          <EntitySwitch>
+            <EntitySwitch.Case
+              if={(e: Entity) =>
+                e.relations!.some(rel => rel.type === 'apiConsumedBy')
+              }
+            >
+              <Grid item xs={12} md={6}>
+                <EntityConsumingComponentsCard />
+              </Grid>
+            </EntitySwitch.Case>
+          </EntitySwitch>
+        </Grid>
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/definition" title="Definition">
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <EntityApiDefinitionCard />
@@ -675,13 +658,11 @@ const domainPage = (
 
 const clusterPage = (
   <EntityLayout>
-
-    <EntityLayout.Route 
-      path="/" title="Overview">
+    <EntityLayout.Route path="/" title="Overview">
       <ClusterOverviewPage />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path='/about' title='About'>
+    <EntityLayout.Route path="/about" title="About">
       <Grid container spacing={2} alignItems="stretch">
         <Grid item lg={3} md={12} xs={12}>
           <EntityAboutCard variant="gridItem" />
@@ -695,8 +676,8 @@ const clusterPage = (
             relations={[
               RELATION_PART_OF,
               RELATION_HAS_PART,
-              "environmentOf",
-              "fromEnvironment",
+              'environmentOf',
+              'fromEnvironment',
               RELATION_OWNER_OF,
               RELATION_OWNED_BY,
             ]}
@@ -705,122 +686,126 @@ const clusterPage = (
               [RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY],
               [RELATION_API_PROVIDED_BY, RELATION_PROVIDES_API],
               [RELATION_HAS_PART, RELATION_PART_OF],
-              ["environmentOf", "fromEnvironment"]
+              ['environmentOf', 'fromEnvironment'],
             ]}
             unidirectional={false}
           />
         </Grid>
-        <Grid item lg={8} md={12}>
+
           {/* Github */}
           <EntitySwitch>
             <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
-              <GithubWorkflowsCard />
+              <Grid item lg={7} md={12}>
+                <GithubWorkflowsCard />
+              </Grid>
             </EntitySwitch.Case>
           </EntitySwitch>
+
           {/* Gitlab */}
           <EntitySwitch>
-            <EntitySwitch.Case if={isGitlabJobsAvailable}>
-              <GitlabJobs />
-            </EntitySwitch.Case>
-          </EntitySwitch>
-        </Grid>
-
-          <EntitySwitch>
-          {/* github */}
-            <EntitySwitch.Case if={isGithubInsightsAvailable}>
-             <Grid item lg={4} md={12} xs={12}>
-                <EntityGithubInsightsLanguagesCard />
-              </Grid>
-            </EntitySwitch.Case>
-          {/* gitlab */}
-            <EntitySwitch.Case if={isGitlabAvailable}>
-              <Grid item lg={6} md={12} xs={12}>
-                <EntityGitlabLanguageCard />
-              </Grid>
-              <Grid item lg={6} md={12} xs={12}>
-                <EntityGitlabReleasesCard />
-              </Grid>
-          </EntitySwitch.Case>
+              <EntitySwitch.Case if={isGitlabJobsAvailable}>
+                <Grid item lg={7} md={12}>
+                  <GitlabJobs />
+                </Grid>
+              </EntitySwitch.Case>
           </EntitySwitch>
 
         <EntitySwitch>
-          <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
-              <Grid item lg={4} md={12} xs={12}>
-                <EntityLinksCard />
-              </Grid>
-            </EntitySwitch.Case>
+          {/* github */}
+          <EntitySwitch.Case if={isGithubInsightsAvailable}>
+            <Grid item lg={5} md={12} xs={12} >
+              <EntityGithubInsightsLanguagesCard/>
+            </Grid>
+          </EntitySwitch.Case>
+          {/* gitlab */}
+          <EntitySwitch.Case if={isGitlabAvailable}>
+            <Grid item  lg={5} md={12} xs={12} >
+              <EntityGitlabLanguageCard />
+            </Grid>
+          </EntitySwitch.Case>
         </EntitySwitch>
 
         <EntitySwitch>
-        {/* github */}
+          <EntitySwitch.Case if={(e: Entity) => !!e.metadata.links?.length}>
+            <Grid item lg={4} md={12} xs={12}>
+              <EntityLinksCard />
+            </Grid>
+          </EntitySwitch.Case>
+        </EntitySwitch>
+
+        <EntitySwitch>
+          {/* github */}
           <EntitySwitch.Case if={isGithubInsightsAvailable}>
-            <Grid item lg={6} md={12} xs={12}>
+            <Grid item lg={7} md={12} xs={12}>
               <EntityGithubInsightsReadmeCard maxHeight={350} />
             </Grid>
           </EntitySwitch.Case>
           {/* gitlab */}
           <EntitySwitch.Case if={isGitlabAvailable}>
-            <Grid item lg={6} md={12} xs={12}>
+            <Grid item lg={7} md={12} xs={12}>
               <EntityGitlabLanguageCard />
-            </Grid>
-            <Grid item lg={6} md={12} xs={12}>
-              <EntityGitlabReleasesCard />
             </Grid>
           </EntitySwitch.Case>
         </EntitySwitch>
 
+        <Grid item lg={5} md={12} xs={12}>
+            <ClusterInstructionsCard />
+        </Grid>
+
         {/* Has Components */}
         <EntitySwitch>
-          <EntitySwitch.Case if={(e:Entity) => e.relations!.some(rel => rel.type === 'hasPart')}>
-          <Grid item lg={6} md={12} xs={12}>
-            <EntityHasComponentsCard variant="gridItem" />
-          </Grid>
+          <EntitySwitch.Case
+            if={(e: Entity) => e.relations!.some(rel => rel.type === 'hasPart')}
+          >
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityHasComponentsCard variant="gridItem" />
+            </Grid>
           </EntitySwitch.Case>
-          </EntitySwitch>
-
+        </EntitySwitch>
       </Grid>
-
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/ci-cd" title="CI/CD">
+    <EntityLayout.Route  
+      if={(entity) => {
+          if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+          return false
+        }} 
+      path="/ci-cd" title="CI/CD"
+      >
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route
-      if={(entity) => {
-        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-        return false
-      }}
-      path="/workflows" title="Workflows">
-      {WorkflowsContent}
-    </EntityLayout.Route>
-
-    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+    <EntityLayout.Route 
+        if={(entity) => {
+            if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+            return false
+          }} 
+        path="/pull-requests" 
+        title="Pull Requests"
+      >
       {pullRequestsContent}
     </EntityLayout.Route>
     <EntityLayout.Route
-      if={(entity) => {
-        const show = entity.metadata.annotations?.hasOwnProperty('grafana/dashboard-selector')
-        return show !== undefined
-      }}
-      path="/grafana" title="Grafana" >
+      if={entity => isAnnotationAvailable(entity, 'grafana/dashboard-selector')}
+      path="/grafana"
+      title="Grafana"
+    >
       {grafanaContent}
     </EntityLayout.Route>
     <EntityLayout.Route
-      if={(entity) => {
-        const show = entity.metadata.annotations?.hasOwnProperty('grafana/alert-label-selector')
-        return show !== undefined
-      }}
-      path="/grafana-alerts" title="Grafana-alerts" >
+      if={entity =>
+        isAnnotationAvailable(entity, 'grafana/alert-label-selector')
+      }
+      path="/grafana-alerts"
+      title="Grafana-alerts"
+    >
       {grafanaAlertsContent}
     </EntityLayout.Route>
     <EntityLayout.Route
-      if={(entity) => {
-        const show = entity.metadata.annotations?.hasOwnProperty('backstage.io/techdocs-ref')
-        if (show !== undefined) return show
-        return false
-      }}
-      path="/docs" title="Docs" >
+      if={entity => isAnnotationAvailable(entity, 'backstage.io/techdocs-ref')}
+      path="/docs"
+      title="Docs"
+    >
       {techdocsContent}
     </EntityLayout.Route>
   </EntityLayout>
@@ -833,10 +818,7 @@ const environmentPage = (
         <Grid item lg={6} md={12} xs={12}>
           <EnvironmentOverview />
         </Grid>
-        <Grid item lg={6} md={12} xs={12}
-        // style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column', gap: '.5rem' }}
-        >
-          {/* <EntityAboutCard variant='flex' /> */}
+        <Grid item lg={6} md={12} xs={12}>
           <EntityCatalogGraphCard variant='flex' height={300} />
         </Grid>
       </Grid>
@@ -889,14 +871,7 @@ const databasePage = (
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
-    <EntityLayout.Route
-      if={(entity) => {
-        if(isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-        return false
-      }}
-      path="/workflows" title="Workflows">
-      {WorkflowsContent}
-    </EntityLayout.Route>
+
   </EntityLayout>
 )
 

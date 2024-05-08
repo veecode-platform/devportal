@@ -1,4 +1,4 @@
-import { Content, Header, InfoCard, Page } from '@backstage/core-components'
+import { Content, Header, InfoCard, Page, Progress } from '@backstage/core-components'
 import { Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText, makeStyles } from '@material-ui/core';
 import React from 'react';
 import { IoMdMail } from "react-icons/io";
@@ -6,6 +6,9 @@ import { FaDiscord } from "react-icons/fa6";
 import { HiMiniDocumentText } from "react-icons/hi2";
 import { BsCursorFill } from "react-icons/bs";
 import { FaAws } from "react-icons/fa6";
+import { useApi, alertApiRef } from '@backstage/core-plugin-api';
+import { licenseKeyApiRef } from '../../api';
+import useAsync from 'react-use/lib/useAsync';
 
 const useStyles = makeStyles(theme => ({
   paperStyle: {
@@ -31,7 +34,20 @@ const useStyles = makeStyles(theme => ({
 export const DefaultSupportPage = () => {
 
   const classes = useStyles();
+  const licenseKeyApi = useApi(licenseKeyApiRef);
+  const alertApi = useApi(alertApiRef);
 
+  const { value, loading} = useAsync(async (): Promise<any> => {
+    const license = await licenseKeyApi.validateLicenseKey()
+    return license
+  }, []);
+
+  if (loading) {
+    return <Progress />;
+  }
+
+  alertApi.post({message: value?.message || "Impossible to validate you key.", severity: value?.valid_key ? 'success' : 'error'});
+  
   return (
     <Page themeId="tool">
       <Header title="Support" subtitle="" />
