@@ -43,6 +43,7 @@ import { ImDatabase } from "react-icons/im";
 import { PiVaultFill } from "react-icons/pi";
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import { AppContext } from '../../context';
+//import { Administration } from '@janus-idp/backstage-plugin-rbac';
 
 const useStyles = makeStyles({
   root: {
@@ -172,6 +173,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SideBarDefaultGroup behaviour={devportalBehaviour} />
         <SideBarApimanagementGroup behaviour={devportalBehaviour} apiManagementEnabled={apiManagementEnabled} />
         <SidebarGroup label="Settings" icon={<UserSettingsSignInAvatar />} to="/settings">
+          {/*<Administration />*/}
           <SidebarSettings />
         </SidebarGroup>
         <SidebarItem icon={InfoIcon} to="/about" text="About" />

@@ -128,6 +128,13 @@ async function main() {
   apiRouter.use('/proxy', authMiddleware, await proxy(proxyEnv));
   apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
   apiRouter.use('/search', authMiddleware, await search(searchEnv));
+  //apiRouter.use(
+  //  '/permission',
+  //  await permission(permissionEnv, {
+  //    // return list static plugin which supports Backstage permissions.
+  //    getPluginIds: () => ['catalog', 'scaffolder', 'permission'],
+  //  }),
+  //);
   apiRouter.use('/permission', authMiddleware, await permission(permissionEnv));
   apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
   apiRouter.use('/aws', authMiddleware, await aws(awsEnv));

@@ -48,6 +48,7 @@
     "@immobiliarelabs/backstage-plugin-gitlab-backend": "^5.0.2",
     "@internal/plugin-about-backend": "^0.1.0",
     "@janus-idp/backstage-plugin-keycloak-backend": "^1.7.8",
+    "@janus-idp/backstage-plugin-rbac-backend": "^2.8.1",
     "@keycloak/keycloak-admin-client": "18.0.2",
     "@roadiehq/backstage-plugin-argo-cd-backend": "^2.6.4",
     "@roadiehq/backstage-plugin-aws-auth": "^0.4.8",
