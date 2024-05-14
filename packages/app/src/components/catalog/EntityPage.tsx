@@ -765,11 +765,24 @@ const clusterPage = (
       </Grid>
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/ci-cd" title="CI/CD">
+    <EntityLayout.Route  
+      if={(entity) => {
+          if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+          return false
+        }} 
+      path="/ci-cd" title="CI/CD"
+      >
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+    <EntityLayout.Route 
+        if={(entity) => {
+            if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+            return false
+          }} 
+        path="/pull-requests" 
+        title="Pull Requests"
+      >
       {pullRequestsContent}
     </EntityLayout.Route>
     <EntityLayout.Route
