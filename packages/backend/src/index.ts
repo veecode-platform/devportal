@@ -41,8 +41,6 @@ import aws from './plugins/aws';
 import explore from './plugins/explore';
 // about
 import about from './plugins/about';
-import { createAuthMiddleware } from './authMiddleware';
-import cookieParser from 'cookie-parser';
 // azure
 import azureDevOps from './plugins/azure-devops';
 //import libraryCheck from './plugins/libraryCheck';
@@ -113,21 +111,19 @@ async function main() {
   const aboutEnv = useHotMemoize(module, () => createEnv('about'));
   //const libraryCheckEnv = useHotMemoize(module, () => createEnv('libraryCheck'));
 
-  const authMiddleware = await createAuthMiddleware(config, appEnv);
-  
+
   const apiRouter = Router();
-  apiRouter.use(cookieParser());
   apiRouter.use('/auth', await auth(authEnv))
-  apiRouter.use('/cookie', authMiddleware, (_req, res) => {
+  apiRouter.use('/cookie', (_req, res) => {
     res.status(200).send(`Coming right up`);
   });
 
-  apiRouter.use('/explore', authMiddleware, await explore(exploreEnv));
-  apiRouter.use('/catalog', authMiddleware, await catalog(catalogEnv));
-  apiRouter.use('/scaffolder', authMiddleware, await scaffolder(scaffolderEnv));
-  apiRouter.use('/proxy', authMiddleware, await proxy(proxyEnv));
-  apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
-  apiRouter.use('/search', authMiddleware, await search(searchEnv));
+  apiRouter.use('/explore', await explore(exploreEnv));
+  apiRouter.use('/catalog', await catalog(catalogEnv));
+  apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));
+  apiRouter.use('/proxy', await proxy(proxyEnv));
+  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
+  apiRouter.use('/search', await search(searchEnv));
   //apiRouter.use(
   //  '/permission',
   //  await permission(permissionEnv, {
@@ -135,10 +131,10 @@ async function main() {
   //    getPluginIds: () => ['catalog', 'scaffolder', 'permission'],
   //  }),
   //);
-  apiRouter.use('/permission', authMiddleware, await permission(permissionEnv));
-  apiRouter.use('/techdocs', authMiddleware, await techdocs(techdocsEnv));
-  apiRouter.use('/aws', authMiddleware, await aws(awsEnv));
-  apiRouter.use('/about', authMiddleware, await about(aboutEnv));
+  apiRouter.use('/permission', await permission(permissionEnv));
+  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
+  apiRouter.use('/aws', await aws(awsEnv));
+  apiRouter.use('/about', await about(aboutEnv));
   //apiRouter.use('/library-check', await libraryCheck(libraryCheckEnv));
 
   if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
@@ -148,29 +144,29 @@ async function main() {
 
   if (config.getOptionalBoolean("enabledPlugins.vault")) {
     const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
-    apiRouter.use('/vault', authMiddleware, await vault(vaultEnv));
+    apiRouter.use('/vault', await vault(vaultEnv));
   }
   if (config.getOptionalBoolean("enabledPlugins.kubernetes")) {
     const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
-    apiRouter.use('/kubernetes', authMiddleware, await kubernetes(kubernetesEnv));
+    apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
   }
   if (config.getOptionalBoolean("enabledPlugins.argocd")) {
     const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
-    apiRouter.use('/argocd', authMiddleware, await argocd(argocdEnv));
+    apiRouter.use('/argocd', await argocd(argocdEnv));
   }
 
   if (config.getBoolean("enabledPlugins.gitlabPlugin")) {
     const gitlabEnv = useHotMemoize(module, () => createEnv('gitlab'));
-    apiRouter.use('/gitlab', authMiddleware, await gitlab(gitlabEnv));
+    apiRouter.use('/gitlab', await gitlab(gitlabEnv));
   }
 
   if (config.getBoolean("enabledPlugins.azureDevops")) {
     const azureDevOpsEnv = useHotMemoize(module, () => createEnv('azure-devops'));
-    apiRouter.use('/azure-devops', authMiddleware, await azureDevOps(azureDevOpsEnv));
+    apiRouter.use('/azure-devops', await azureDevOps(azureDevOpsEnv));
   }
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback 
-  apiRouter.use(authMiddleware, notFoundHandler());
+  apiRouter.use(notFoundHandler());
 
   const service = createServiceBuilder(module)
     .loadConfig(config)
