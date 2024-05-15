@@ -43,13 +43,14 @@ import type { IdentityApi } from '@backstage/core-plugin-api';
 import { VisitListener } from '@backstage/plugin-home';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
 import { SignInPage } from './components/SignInPage';
-import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
+import { ScaffolderFieldExtensions,ScaffolderLayouts } from '@backstage/plugin-scaffolder-react';
 import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
 //import { LibraryCheckIndexPage } from '@anakz/backstage-plugin-library-check';
 import { DefaultFilters } from '@backstage/plugin-catalog-react';
 //import { RbacPage } from '@janus-idp/backstage-plugin-rbac';
+import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 
 
 const SignInComponent: any = (props: SignInPageProps) => {
@@ -210,11 +211,14 @@ const routes = (
         <ScaffolderPage/>
       }
     >
-      <ScaffolderFieldExtensions>
-        <RepoUrlSelectorExtension/>
-        <ResourcePickerExtension/>
-        <UploadFilePickerExtension/>
-      </ScaffolderFieldExtensions>
+       <ScaffolderLayouts>
+        <ScaffolderFieldExtensions>
+          <LayoutCustom/>
+          <RepoUrlSelectorExtension/>
+          <ResourcePickerExtension/>
+          <UploadFilePickerExtension/>
+        </ScaffolderFieldExtensions>
+      </ScaffolderLayouts>
     </Route>
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
