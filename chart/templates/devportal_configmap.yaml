@@ -253,7 +253,13 @@ data:
       {{- if .Values.integrations.github }}
       github:
         - host: {{ .Values.integrations.github.host | default "github.com" | quote }}
+          {{- if .Values.integrations.github.token }}
           token: ${GITHUB_TOKEN_SECRET}
+          {{- end }}
+          {{- if .Values.integrations.github.apps }}
+          apps:
+            - $include: github-app-credentials.yaml
+          {{- end }}
       {{- end }}
       {{- if .Values.integrations.bitbucketCloud }}
       bitbucketCloud:

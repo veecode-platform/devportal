@@ -60,6 +60,11 @@ spec:
             mountPath: /app/packages/app/dist/theme.json
             subPath: theme.json
           {{- end }}
+          {{- if and .Values.integrations.github .Values.integrations.github.apps }}
+          - name: platform-devportal-github-app
+            mountPath: /app/github-app-credentials.yaml
+            subPath: github-app-credentials
+          {{- end }}
           {{- if .Values.readinessProbe }}
           readinessProbe:
           {{- toYaml .Values.readinessProbe | nindent 12 }}
@@ -76,4 +81,9 @@ spec:
         - name: platform-devportal-theme
           configMap:
             name: {{ .Values.theme.custom.configmapName }}
+        {{- end }}
+        {{- if and .Values.integrations.github .Values.integrations.github.apps }}
+        - name: platform-devportal-github-app
+          secret:
+            name: "{{ include "devportal-charts.fullname" . }}-github-app"
         {{- end }}
