@@ -46,7 +46,6 @@ export default async function createPlugin(
     parseJsonAction(),
     createFileAction(),
     ...createBuiltinActions({
-   //   containerRunner,
       integrations,
       config: env.config,
       catalogClient,
