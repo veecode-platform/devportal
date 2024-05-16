@@ -1,7 +1,6 @@
 import { createApiRef, ConfigApi } from '@backstage/core-plugin-api';
 
-const LICENSE_KEY_API_URL = "https://oyegfe9i74.execute-api.us-east-1.amazonaws.com/v1/licenses"
-
+const LICENSE_KEY_API_URL = "https://api.platform.vee.codes/license-key/v1/licenses"
 
 export interface LicenseKeyApi {
     validateLicenseKey(): Promise<any>;
@@ -25,11 +24,20 @@ class Client {
     }
 
     async validateLicenseKey() {
-        const licenseKey =  this.configApi.getOptionalString("platform.support.licenseKey") || '';
-        const resp = await fetch(`${LICENSE_KEY_API_URL}/${licenseKey}`)
+        const licenseKey = this.configApi.getOptionalString("platform.support.licenseKey");
+
+        if (!licenseKey) return await new Response(JSON.stringify({
+            valid_key: false,
+            message: "Key not found!"
+        })).json()
+
+        const resp = await fetch(`${LICENSE_KEY_API_URL}/${licenseKey}`, {
+            headers: {
+                "X-api-key": "018f779d-6ee2-790e-8f2d-ac16204d9609"
+            }
+        })
         return await resp.json()
     }
- 
 }
 
 export class LicenseKeyApiClient implements LicenseKeyApi {
