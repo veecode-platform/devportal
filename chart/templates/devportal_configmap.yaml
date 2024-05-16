@@ -584,6 +584,10 @@ data:
         groups: {{ eq .Values.platform.behaviour.groups | default true }}
         apiManagement: {{ eq .Values.platform.behaviour.apiManagement | default true }}
         {{- end }}
+      {{- if and .Values.platform.support .Values.platform.support.licenseKey }}
+      support:
+        licenseKey : {{ .Values.platform.support.licenseKey }}
+      {{- end}}
       logo:
         icon: {{ .Values.theme.images.sidebarIcon }}
         full: {{ .Values.theme.images.sidebarFull }}

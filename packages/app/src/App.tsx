@@ -31,7 +31,7 @@ import { UserIdentity } from '@backstage/core-components';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { apiManagementEnabledPermission } from '@veecode-platform/plugin-application-common';
 import { ExplorePage } from './components/explorer/ExplorerPage';
-import { configApiRef, discoveryApiRef, useApi } from "@backstage/core-plugin-api";
+import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { UnifiedThemeProvider } from '@backstage/theme';
 import useAsync from 'react-use/lib/useAsync';
 import { makeLightTheme, makeDarkTheme } from './components/theme/Theme';
@@ -40,31 +40,27 @@ import { EnvironmentExplorerPage } from '@veecode-platform/plugin-environment-ex
 import { DatabaseExplorerPage } from '@veecode-platform/plugin-database-explorer';
 import { AboutPage } from '@internal/plugin-about';
 import type { IdentityApi } from '@backstage/core-plugin-api';
-import { setTokenCookie } from './cookieAuth';
 import { VisitListener } from '@backstage/plugin-home';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
 import { SignInPage } from './components/SignInPage';
-import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
+import { ScaffolderFieldExtensions,ScaffolderLayouts } from '@backstage/plugin-scaffolder-react';
 import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
 //import { LibraryCheckIndexPage } from '@anakz/backstage-plugin-library-check';
 import { DefaultFilters } from '@backstage/plugin-catalog-react';
+//import { RbacPage } from '@janus-idp/backstage-plugin-rbac';
+import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
   if (guest) props.onSignInSuccess(UserIdentity.createGuest());
-  const discoveryApi = useApi(discoveryApiRef);
   return (<SignInPage
     {...props}
     provider={providers[1]}
     onSignInSuccess={async (identityApi: IdentityApi) => {
-      setTokenCookie(
-        await discoveryApi.getBaseUrl('cookie'), 
-        identityApi,
-      );
       props.onSignInSuccess(identityApi);
     }}
 
@@ -215,15 +211,19 @@ const routes = (
         <ScaffolderPage/>
       }
     >
-      <ScaffolderFieldExtensions>
-        <RepoUrlSelectorExtension/>
-        <ResourcePickerExtension/>
-        <UploadFilePickerExtension/>
-      </ScaffolderFieldExtensions>
+       <ScaffolderLayouts>
+        <ScaffolderFieldExtensions>
+          <LayoutCustom/>
+          <RepoUrlSelectorExtension/>
+          <ResourcePickerExtension/>
+          <UploadFilePickerExtension/>
+        </ScaffolderFieldExtensions>
+      </ScaffolderLayouts>
     </Route>
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
+    {/*<Route path="/rbac" element={<RbacPage />} />;*/}
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/services"
       element={

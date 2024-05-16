@@ -78,7 +78,7 @@ export default async function createPlugin(
             });
 
           },
-          /* old
+          /*
           resolver: async ({ result }, ctx) => {
 
             const allowedGroups = [env.config.getString("platform.group.admin"), env.config.getString("platform.group.user")]

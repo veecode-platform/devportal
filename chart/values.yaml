@@ -300,6 +300,8 @@ platform:
 #    docs: true #enable or disable menu if mode is custom selected
 #    groups: true #enable or disable menu if mode is custom selected
 #    apiManagement: true #enable or disable menu if mode is custom selected
+  support:
+    licenseKey: 018f7d81-2a20-77aa-a55d-98ee54798372
 
 #kubernetes:
 # serviceLocatorMethod:

@@ -397,7 +397,7 @@ const serviceEntityPage = (
       if={useIsProjectLibrariesAvailable}
     >
       <LibraryCheckPage />
-    </EntityLayout.Route>*/}
+</EntityLayout.Route>*/}
 
     {
       plugins.map((item: PluginItem) => {

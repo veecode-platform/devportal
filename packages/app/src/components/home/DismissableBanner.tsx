@@ -45,7 +45,7 @@ const DismissableBanner : React.FC<DismissableBannerPropsType> = ({handleShowAle
             <InfoIcon/> 
             <p>This instance is not supported, <Link to="/support">click to subscribe</Link></p> 
         </div>
-        <IconButton size="small" aria-label="close" color="inherit" onClick={handleShowAlert}>
+        <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleShowAlert()}>
             <CloseIcon fontSize="small" />
         </IconButton>
          </div>

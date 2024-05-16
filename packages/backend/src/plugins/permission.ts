@@ -13,6 +13,11 @@ import {
   catalogEntityDeletePermission,
 } from '@backstage/plugin-catalog-common/alpha';
 
+/*import {
+  PluginIdProvider,
+  PolicyBuilder,
+} from '@janus-idp/backstage-plugin-rbac-backend';*/
+
 class DefaultPermissionPolicy implements PermissionPolicy {
   config: Config;
   constructor(config: Config) {
@@ -55,6 +60,24 @@ class DefaultPermissionPolicy implements PermissionPolicy {
   }
 }
 
+//export default async function createPlugin(
+//  env: PluginEnvironment,
+//  pluginIdProvider: PluginIdProvider,
+//): Promise<Router> {
+//  return PolicyBuilder.build(
+//    {
+//      config: env.config,
+//      logger: env.logger,
+//      discovery: env.discovery,
+//      identity: env.identity,
+//      permissions: env.permissions,
+//      tokenManager: env.tokenManager,
+//    },
+//    pluginIdProvider,
+//  );
+//}
+
+//old model
 export default async function createPlugin(
   env: PluginEnvironment,
 ): Promise<Router> {
