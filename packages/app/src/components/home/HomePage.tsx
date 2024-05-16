@@ -6,7 +6,7 @@ import {
   SearchContextProvider,
 } from '@backstage/plugin-search-react';
 import { Grid, makeStyles } from '@material-ui/core';
-import React, { useContext } from 'react';
+import React from 'react';
 // custom
 import { Logo } from '../plataformLogo/plataformLogo';
 import BackstageLogo from "../../assets/backstage.png";
@@ -18,7 +18,7 @@ import {
 } from '@backstage/plugin-home';
 import Icon from './Icon'
 import DismissableBanner from './DismissableBanner';
-import { AppContext } from '../../context';
+import { useAppContext } from '../../context/AppProvider';
 
 const starredEntitiesApi = new MockStarredEntitiesApi();
 starredEntitiesApi.toggleStarred('component:default/example-starred-entity');
@@ -102,7 +102,7 @@ export const HomePage = () => {
   const classes = useStyles();
   const logoIconSrc = "/veecode-logo.png";
 
-  const {showAlert, handleShowAlert} = useContext(AppContext);
+  const {showAlert, handleShowAlert} = useAppContext();
 
   const tools = [
     {
