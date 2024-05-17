@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExploreLayout , GroupsExplorerContent } from '@backstage/plugin-explore';
+import { ExploreLayout , GroupsExplorerContent } from '@backstage-community/plugin-explore';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
 export const ExplorePage = () => {
