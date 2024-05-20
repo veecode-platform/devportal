@@ -9,20 +9,27 @@ export type DismissableBannerPropsType = {
     show: boolean
 }
 
+
 const useStyle = makeStyles({
    banner:{
     background: '#60a5fa40',
-    width: '100vw',
-    position: 'absolute',
-    left: '0',
+    width:'100%',
+    position: 'fixed',
     padding: '.6rem 1rem',
-    ['z-index']: '999999',
+    ['z-index']: '999',
+   },
+   bannerFull:{
+    background: 'green',
+    width:'100%',
+    position: 'fixed',
+    padding: '.6rem 1rem',
+    ['z-index']: '999',
    },
    bannerContent: {
-    width:'100%',
+    width:'88%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
    },
    messageBox:{
     width: '100%',
@@ -33,11 +40,12 @@ const useStyle = makeStyles({
    }
    
 })
+
 const DismissableBanner : React.FC<DismissableBannerPropsType> = ({handleShowAlert, show}) => {
 
   const { banner,bannerContent, messageBox } = useStyle();
 
-  if(!show) return null
+  if(!show) return null;
 
   return (
      <div className={banner}>
