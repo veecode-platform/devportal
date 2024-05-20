@@ -20,13 +20,13 @@ const useStyle = makeStyles({
    },
    bannerFull:{
     background: 'green',
-    width:'100vw',
+    width:'100%',
     position: 'fixed',
     padding: '.6rem 1rem',
     ['z-index']: '999',
    },
    bannerContent: {
-    width:'95%',
+    width:'88%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'
