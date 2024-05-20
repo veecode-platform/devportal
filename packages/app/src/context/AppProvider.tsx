@@ -1,4 +1,4 @@
-import React,{ ReactNode, useEffect, useState } from "react";
+import React,{ ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { AppContext } from "./AppContext";
 import { licenseKeyApiRef } from "@internal/backstage-plugin-support"
 import { useApi } from '@backstage/core-plugin-api';
@@ -22,18 +22,19 @@ export const AppProvider:React.FC<AppProviderProps> = ({children})=> {
       setShowAlert(!value?.valid_key)
     }, [value])
 
-    const handleShowAlert = () => {
-      setShowAlert(false)
-    }
+    const handleShowAlert = useCallback(()=>setShowAlert(false),[showAlert])
 
     return (
         <AppContext.Provider
          value={{
             showAlert: showAlert,
-            handleShowAlert: handleShowAlert
+            handleShowAlert: handleShowAlert,
+            hasSupport: !value?.valid_key ?? false
          }}
          >
             {children}
         </AppContext.Provider>
     )
 }
+
+export const useAppContext = () => useContext(AppContext);

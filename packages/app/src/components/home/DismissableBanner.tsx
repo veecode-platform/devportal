@@ -12,13 +12,14 @@ export type DismissableBannerPropsType = {
 const useStyle = makeStyles({
    banner:{
     background: '#60a5fa40',
-    width: '100%',
-    position: 'fixed',
+    width: '100vw',
+    position: 'absolute',
+    left: '0',
     padding: '.6rem 1rem',
     ['z-index']: '999999',
    },
    bannerContent: {
-    width:'88%',
+    width:'100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -45,7 +46,7 @@ const DismissableBanner : React.FC<DismissableBannerPropsType> = ({handleShowAle
             <InfoIcon/> 
             <p>This instance is not supported, <Link to="/support">click to subscribe</Link></p> 
         </div>
-        <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleShowAlert()}>
+        <IconButton size="small" aria-label="close" color="inherit" onClick={handleShowAlert}>
             <CloseIcon fontSize="small" />
         </IconButton>
          </div>

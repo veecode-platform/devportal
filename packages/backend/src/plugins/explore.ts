@@ -1,8 +1,8 @@
 import {
     createRouter,
     StaticExploreToolProvider,
-  } from '@backstage/plugin-explore-backend';
-  import { ExploreTool } from '@backstage/plugin-explore-common';
+  } from '@backstage-community/plugin-explore-backend';
+  import { ExploreTool } from '@backstage-community/plugin-explore-common';
   import { Router } from 'express';
   import { PluginEnvironment } from '../types';
   

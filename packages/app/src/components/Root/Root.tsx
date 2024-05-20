@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useContext } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Badge, Link, makeStyles } from '@material-ui/core';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
@@ -42,7 +42,7 @@ import { GrCluster } from "react-icons/gr";
 import { ImDatabase } from "react-icons/im";
 import { PiVaultFill } from "react-icons/pi";
 import ContactMailIcon from '@material-ui/icons/ContactMail';
-import { AppContext } from '../../context';
+import { useAppContext } from '../../context/AppProvider';
 //import { Administration } from '@janus-idp/backstage-plugin-rbac';
 
 const useStyles = makeStyles({
@@ -161,7 +161,7 @@ const SideBarApimanagementGroup = ({ behaviour, apiManagementEnabled }: sideBarD
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const config = useApi(configApiRef);
   const devportalBehaviour = sideBarBehaviour(config.getConfig("platform.behaviour"))
-  const { showAlert } = useContext(AppContext);
+  const { hasSupport } = useAppContext();
   const apiManagementEnabled = config.getOptionalBoolean("platform.apiManagement.enabled");
   const classes = useStyles();
 
@@ -181,7 +181,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarDivider />
         <SidebarItem icon={ContactMailIcon} to="/support" text="Support" className={classes.item}>
           {
-            showAlert && (
+            hasSupport && (
               <Badge
                 badgeContent=" "
                 color="error"

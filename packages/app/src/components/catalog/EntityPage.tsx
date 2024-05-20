@@ -78,7 +78,7 @@ import { ReportIssue, TextSize } from '@backstage/plugin-techdocs-module-addons-
 import {
   EntityGithubPullRequestsTable
 } from '@roadiehq/backstage-plugin-github-pull-requests';
-import { EntityVaultCard } from '@backstage/plugin-vault';
+import { EntityVaultCard } from '@backstage-community/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
 import { PluginItem } from './utils/types';
@@ -102,7 +102,7 @@ import { ClusterInstructionsCard, ClusterOverviewPage } from '@veecode-platform/
 import {
   EntityAzurePipelinesContent,
   isAzurePipelinesAvailable,
-} from '@backstage/plugin-azure-devops';
+} from '@backstage-community/plugin-azure-devops';
 import { DatabaseOverview } from '@veecode-platform/plugin-database-explorer';
 import { VaultOverview } from '@veecode-platform/plugin-vault-explorer';
 import { KongServiceManagerPage, isKongServiceManagerAvailable } from '@veecode-platform/plugin-kong-service-manager';

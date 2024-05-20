@@ -15,7 +15,7 @@ import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend
 import { KeycloakOrgEntityProvider } from '@janus-idp/backstage-plugin-keycloak-backend';
 import { ClusterEntitiesProcessor, DatabaseEntitiesProcessor, EnvironmentEntitiesProcessor, VaultEntitiesProcessor } from '@veecode-platform/plugin-veecode-platform-common';
 // Azure
-import { AzureDevOpsAnnotatorProcessor } from '@backstage/plugin-azure-devops-backend';
+import { AzureDevOpsAnnotatorProcessor } from '@backstage-community/plugin-azure-devops-backend';
 /*import {
   LibraryCheckUpdaterProcessor,
   LibraryCheckProcessor,
