@@ -22,7 +22,7 @@ import {
 } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
 import { TechDocsSearchResultListItem } from '@backstage/plugin-techdocs';
-import { ToolSearchResultListItem } from '@backstage/plugin-explore';
+import { ToolSearchResultListItem } from '@backstage-community/plugin-explore';
 import BuildIcon from '@material-ui/icons/Build';
 import { CatalogSearchResultListItem } from '@backstage/plugin-catalog';
 

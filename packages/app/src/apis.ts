@@ -22,7 +22,7 @@ import {
 } from '@backstage/core-plugin-api';
 import { OAuth2 } from '@backstage/core-app-api';
 // google analytics
-import { GoogleAnalytics4 } from '@backstage/plugin-analytics-module-ga4';
+import { GoogleAnalytics4 } from '@backstage-community/plugin-analytics-module-ga4';
 import { VisitsWebStorageApi, visitsApiRef } from '@backstage/plugin-home';
 import { scaffolderApiRef } from '@backstage/plugin-scaffolder-react';
 import { ScaffolderClient } from '@backstage/plugin-scaffolder';
