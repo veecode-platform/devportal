@@ -85,5 +85,9 @@ spec:
         {{- if and .Values.integrations.github .Values.integrations.github.apps }}
         - name: platform-devportal-github-app
           secret:
-            name: "{{ include "devportal-charts.fullname" . }}-github-app"
+            {{- if .Values.integrations.github.apps.secretName }}
+            secretName: {{ .Values.integrations.github.apps.secretName }}
+            {{- else }}
+            secretName: "{{ include "devportal-charts.fullname" . }}-github-app"
+            {{- end }}
         {{- end }}

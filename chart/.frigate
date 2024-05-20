@@ -11,7 +11,7 @@ helm repo update
 
 ## Installing chart
 ```sh
-helm install platform-devportal --values ./values.yaml veecode-platform/devportal
+helm install platform-devportal veecode-platform/devportal --values ./values.yaml
 ```
 
 ## Removing chart
@@ -269,11 +269,67 @@ appConfig:
   database:
     client: pg
     connection:
-      host: postgres-postgresql.vkpr #database host
+      host: postgres-postgresql.platform #database host
       port: 5432 #database port number
       database: platform_devportal #database name 
       user: postgres #database username
       password: postgres #database password
+```
+
+# Integrations
+
+## Configuring Github integration
+
+### Using Personal Access Token(PAT)
+```yaml
+integrations:
+  github:
+    host: github.com #github server Host
+    token:  #github Token
+```
+
+# Using Github App integration
+```yaml
+integrations:
+  github:
+    apps:
+      appId: app id
+      allowedInstallationOwners: ['owner1', 'owner2']
+      clientId: client id
+      clientSecret: client secret
+      webhookSecret: webhook secret
+      privateKey: |
+        -----BEGIN RSA PRIVATE KEY-----
+        -----END RSA PRIVATE KEY-----
+```
+### Using Github App from secret (recommended)
+Setting up the Github App credentials secret:
+```bash
+kubectl create secret generic devportal-github-app  \
+    --type=Opaque \
+    --from-file=github-app-credentials=./github-app-devportal-credentials.yaml
+```
+Updating the values.yaml file:
+```yaml
+integrations:
+  github:
+    apps:
+      secretName: devportal-github-app
+```
+Updating devportal installation:
+```bash
+helm install platform-devportal veecode-platform/devportal \
+  --values ./values.yaml
+```
+## Configuring Gitlab integration
+
+Using Gitlab token
+
+```yaml
+integrations:
+  gitlab:
+    host: gitlab.com #gitlab server Host
+    token:  #gitlab Token
 ```
 
 # Authentication
@@ -439,7 +495,7 @@ Get your theme file sample [here](https://veecode-platform.github.io/support/ref
 ### Loading theme from configmap
 Create a new configmap from your theme file:
 ```sh
-kubectl create configmap platform-devportal-theme --from-file=./theme.json -n vkpr
+kubectl create configmap platform-devportal-theme --from-file=./theme.json -n platform
 ```
 Now, provide your configmap name in your values:
 ```yaml
