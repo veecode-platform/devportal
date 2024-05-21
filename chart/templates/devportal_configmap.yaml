@@ -112,14 +112,29 @@ data:
     {{- if or (and .Values.kong.enabled .Values.kong.instances) .Values.grafana.enabled .Values.argocd.enabled $is_github_provider $is_gitlab_provider }}
     proxy:
       endpoints:
-        {{- range .Values.kong.instances }}
+        {{- range $i, $e := .Values.kong.instances }}
         "/kong-manager/{{ .name }}":
           target: {{.apiManager}}
           {{- if hasKey . "changeOrigin" }}
           changeOrigin: {{ .changeOrigin }}
           {{- end }}
-          allowedHeaders: {{ default (list "Authorization" "Content-Type") .allowedHeaders | toJson }}
+          {{- $defaultAllowedHeaders := default (list "Authorization" "Content-Type") .allowedHeaders }}
+          {{- if .authorization.adminToken }}
+          {{- $defaultAllowedHeaders = append $defaultAllowedHeaders "Kong-Admin-Token" }}
+          {{- end }}
+          {{- if and .authorization .authorization.custom .authorization.custom.header }}
+          {{- $defaultAllowedHeaders = append $defaultAllowedHeaders .authorization.custom.header }}
+          {{- end }}
+          allowedHeaders: {{ $defaultAllowedHeaders | toJson }}
           headers:
+            {{- if .authorization }}
+            {{- if .authorization.adminToken }}
+            Kong-Admin-Token: ${KONG_ADMIN_TOKEN_{{$i}}}
+            {{- end }}
+            {{- if and .authorization.custom .authorization.custom.header }}
+            {{ .authorization.custom.header }}: ${KONG_ADMIN_CUSTOM_TOKEN_{{$i}}}
+            {{- end }}
+            {{- end }}
             {{- if .headers }}
             {{- range $key, $value := .headers }}
             {{ $key }}: {{ $value | quote }}

@@ -136,15 +136,18 @@ vault:
 
 kong:
   enabled: false #enable Kong integration
-  instances:
-    - name: '' #Kong instance name
-      apiManager: '' #Kong API Manager URL/NAMESPACE
-      workspace: default #Kong workspace
-      adminToken: ADMINtokenSEcret
-      allowedHeaders: ["Authorization", "Content-Type"]
-      headers:
-        Accept: application/json
-        Content-Type: 'application/json'
+#  instances:
+#    - name: '' #Kong instance name
+#      apiManager: '' #Kong API Manager URL/NAMESPACE
+#      authorization: 
+#        adminToken: '' #Kong admin token (optional)
+#        custom:
+#          header: '' #custom header
+#          value: '' #custom header value
+#      allowedHeaders: ["Authorization", "Content-Type"]
+#      headers:
+#        Accept: application/json
+#        Content-Type: 'application/json'
 azureDevOps:
   enabled: false #enable Azure DevOps plugin
 #  host: dev.azure.com #azure host
@@ -174,7 +177,7 @@ auth:
 #      clientSecret: #Gitlab Client Secret
 #      audience: "https://gitlab.com" #Gitlab Audience
 
-integrations:
+integrations: {}
 #  azure:
 #    - host: dev.azure.com #azure host
 #      credentials:
