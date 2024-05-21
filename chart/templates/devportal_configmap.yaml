@@ -118,14 +118,14 @@ data:
           {{- if hasKey . "changeOrigin" }}
           changeOrigin: {{ .changeOrigin }}
           {{- end }}
-          {{- $defaultAllowedHeaders := default (list "Authorization" "Content-Type") .allowedHeaders }}
+          {{- $defaultAllowedHeaders := default (list "Content-Type") .allowedHeaders }}
           {{- if .authorization.adminToken }}
           {{- $defaultAllowedHeaders = append $defaultAllowedHeaders "Kong-Admin-Token" }}
           {{- end }}
           {{- if and .authorization .authorization.custom .authorization.custom.header }}
           {{- $defaultAllowedHeaders = append $defaultAllowedHeaders .authorization.custom.header }}
           {{- end }}
-          allowedHeaders: {{ $defaultAllowedHeaders | toJson }}
+          allowedHeaders: {{ $defaultAllowedHeaders  | uniq | toJson }}
           headers:
             {{- if .authorization }}
             {{- if .authorization.adminToken }}
