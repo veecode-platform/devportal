@@ -110,6 +110,7 @@ import { KongServiceManagerPage, isKongServiceManagerAvailable } from '@veecode-
 //  LibraryCheckPage,
 //  useIsProjectLibrariesAvailable,
 //} from '@anakz/backstage-plugin-library-check';
+import { K8sGPTPage } from '@suxess-it/backstage-plugin-k8sgpt';
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -801,6 +802,11 @@ const clusterPage = (
     >
       {grafanaAlertsContent}
     </EntityLayout.Route>
+
+    <EntityLayout.Route path="/k8sgpt" title="K8sGPT">
+      <K8sGPTPage />
+    </EntityLayout.Route>
+    
     <EntityLayout.Route
       if={entity => isAnnotationAvailable(entity, 'backstage.io/techdocs-ref')}
       path="/docs"
