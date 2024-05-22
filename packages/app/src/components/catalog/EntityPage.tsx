@@ -22,7 +22,7 @@ import {
   EntityLayout,
   EntitySwitch
 } from '@backstage/plugin-catalog';
-import {isGithubActionsAvailable} from '@backstage/plugin-github-actions';
+import {isGithubActionsAvailable} from '@backstage-community/plugin-github-actions';
 // github-workflows
 import {
   GithubWorkflowsList,
