@@ -138,7 +138,8 @@ kong:
   enabled: false #enable Kong integration
 #  instances:
 #    - name: '' #Kong instance name
-#      apiManager: '' #Kong API Manager URL/NAMESPACE
+#      apiManager: '' #Kong API Manager
+#      namespace: 'default' #Kong namespace
 #      authorization: 
 #        adminToken: '' #Kong admin token (optional)
 #        custom:

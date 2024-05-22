@@ -115,6 +115,7 @@ data:
         {{- range $i, $e := .Values.kong.instances }}
         "/kong-manager/{{ .name }}":
           target: {{.apiManager}}
+          workspace: {{ .workspace | default "default" | quote}}
           {{- if hasKey . "changeOrigin" }}
           changeOrigin: {{ .changeOrigin }}
           {{- end }}
