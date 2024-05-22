@@ -119,7 +119,7 @@ data:
           changeOrigin: {{ .changeOrigin }}
           {{- end }}
           {{- $defaultAllowedHeaders := default (list "Content-Type") .allowedHeaders }}
-          {{- if .authorization.adminToken }}
+          {{- if and .authorization .authorization.adminToken }}
           {{- $defaultAllowedHeaders = append $defaultAllowedHeaders "Kong-Admin-Token" }}
           {{- end }}
           {{- if and .authorization .authorization.custom .authorization.custom.header }}
