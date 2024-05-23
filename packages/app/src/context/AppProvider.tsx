@@ -11,7 +11,7 @@ interface AppProviderProps {
 
 export const AppProvider:React.FC<AppProviderProps> = ({children})=> {
     const licenseKeyApi = useApi(licenseKeyApiRef);
-    const [showAlert, setShowAlert] = useState<boolean>(true); 
+    const [showAlert, setShowAlert] = useState<boolean>(false); 
 
     const { value } = useAsync(async (): Promise<any> => {
         const license = await licenseKeyApi.validateLicenseKey()

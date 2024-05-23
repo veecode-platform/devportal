@@ -106,11 +106,13 @@ import {
 import { DatabaseOverview } from '@veecode-platform/plugin-database-explorer';
 import { VaultOverview } from '@veecode-platform/plugin-vault-explorer';
 import { KongServiceManagerPage, isKongServiceManagerAvailable } from '@veecode-platform/plugin-kong-service-manager';
+import K8sGptPage from '../k8sgpt/K8sGptPage';
 //import {
 //  LibraryCheckPage,
 //  useIsProjectLibrariesAvailable,
 //} from '@anakz/backstage-plugin-library-check';
-import { K8sGPTPage } from '@suxess-it/backstage-plugin-k8sgpt';
+// import { K8sGPTPage } from '@suxess-it/backstage-plugin-k8sgpt';
+
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -804,9 +806,10 @@ const clusterPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/k8sgpt" title="K8sGPT">
-      <K8sGPTPage />
+      {/* <K8sGPTPage /> */}
+      <K8sGptPage/>
     </EntityLayout.Route>
-    
+
     <EntityLayout.Route
       if={entity => isAnnotationAvailable(entity, 'backstage.io/techdocs-ref')}
       path="/docs"
