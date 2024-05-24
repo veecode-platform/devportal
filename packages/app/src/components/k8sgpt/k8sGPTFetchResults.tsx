@@ -81,10 +81,6 @@ export const K8sGPTFetchResults = ({}: CustomResourcesProps) => {
     setTimeout(()=>setLoading(false),1000);
   },[])
 
-  useEffect(()=>{
-    console.log(kubernetesObjects)
-  },[kubernetesObjects])
-
   if(loading) return <Progress/>
 
   return (
