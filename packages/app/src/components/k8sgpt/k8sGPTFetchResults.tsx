@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCustomResources} from '@backstage/plugin-kubernetes';
 import { CustomResourceMatcher } from '@backstage/plugin-kubernetes-common';
 import { useEntity} from '@backstage/plugin-catalog-react';
-import { Table, TableColumn } from '@backstage/core-components';
+import { Progress, Table, TableColumn } from '@backstage/core-components';
 
 interface CustomResourcesProps {
   children?: React.ReactNode;
@@ -13,7 +13,7 @@ const customResourceMatchers: CustomResourceMatcher[] = [
   {
     group: 'core.k8sgpt.ai',
     apiVersion: 'v1alpha1',
-    plural: 'results',
+    plural: 'results'
   }
 ];
 
@@ -54,9 +54,9 @@ interface Result {
 }
 
 export const K8sGPTFetchResults = ({}: CustomResourcesProps) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const { entity } = useEntity();
   const { kubernetesObjects } = useCustomResources(entity,customResourceMatchers);
-  const dataResults = useCustomResources(entity,customResourceMatchers);
 
   const results: Result[] = []
 
@@ -77,20 +77,22 @@ export const K8sGPTFetchResults = ({}: CustomResourcesProps) => {
   }
 
   useEffect(()=>{
-    console.log("data completa  >> ",dataResults);
-    console.log("kubernetsObjects  >>",kubernetesObjects)
-  },[dataResults])
+    setLoading(true);
+    setTimeout(()=>setLoading(false),1000);
+  },[])
+
+  useEffect(()=>{
+    console.log(kubernetesObjects)
+  },[kubernetesObjects])
+
+  if(loading) return <Progress/>
 
   return (
-    <>
-      {results.length !== 0 ? (
         <Table
           title="K8sGPT Results"
-          data={results}
+          data={results??[]}
           columns={columns}
           options={{ paging: true, search: false, emptyRowsWhenPaging: false }}
         />
-      ):<h1>Hello world</h1>}
-    </>
   );
 };

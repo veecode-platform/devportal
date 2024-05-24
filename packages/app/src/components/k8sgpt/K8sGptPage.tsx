@@ -11,7 +11,7 @@ import { K8sGPTFetchResults } from './k8sGPTFetchResults';
 const K8sGptPage = () => (
   <Page themeId="tool">
     <Content>
-      <ContentHeader title="K8sGPT - gives Kubernetes Superpowers to everyone">
+      <ContentHeader title="✨ K8sGPT - gives Kubernetes Superpowers to everyone">
         <SupportButton>Here are all K8sGPT analyzes related to your K8s service</SupportButton>
       </ContentHeader>
       <Grid container spacing={3} direction="column">

@@ -809,7 +809,7 @@ const clusterPage = (
       {/* <K8sGPTPage /> */}
       <K8sGptPage/>
     </EntityLayout.Route>
-
+    
     <EntityLayout.Route
       if={entity => isAnnotationAvailable(entity, 'backstage.io/techdocs-ref')}
       path="/docs"
