@@ -1,3 +1,6 @@
+{{ $adminGroup := .Values.platform.defaultGroups.admin | default "platform-admin" }}
+{{ $userGroup := .Values.platform.defaultGroups.user | default "platform-user" }}
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -24,7 +27,7 @@ data:
     p, role:default/devportal-admin, kong.service.manager.update, update, allow
     p, role:default/devportal-admin, kong.service.manager.delete, delete, allow
     
-    g, group:default/platform-admin, role:default/devportal-admin
+    g, group:default/{{ $adminGroup }}, role:default/devportal-admin
     
     p, role:default/devportal-user, catalog-entity, read, allow
     p, role:default/devportal-user, catalog.entity.create, create, deny
@@ -46,4 +49,4 @@ data:
     p, role:default/devportal-user, kong.service.manager.update, update, allow
     p, role:default/devportal-user, kong.service.manager.delete, delete, allow
     
-    g, group:default/platform-user, role:default/devportal-user
+    g, group:default/{{ $userGroup }}, role:default/devportal-user
