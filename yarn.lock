@@ -3813,7 +3813,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/cli@npm:^0.26.5":
+"@backstage/cli@npm:^0.26.6":
   version: 0.26.6
   resolution: "@backstage/cli@npm:0.26.6"
   dependencies:
@@ -4775,7 +4775,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-backend-module-gitlab@npm:^0.3.15":
+"@backstage/plugin-catalog-backend-module-gitlab@npm:^0.3.17":
   version: 0.3.17
   resolution: "@backstage/plugin-catalog-backend-module-gitlab@npm:0.3.17"
   dependencies:
@@ -5068,32 +5068,6 @@ __metadata:
   dependencies:
     "@backstage/backend-plugin-api": ^0.6.18
   checksum: 227ac4a275f7a8cd115c1678dc80bc40cf345f7adcb6757201df6e0758c21582701278b3f5e58829ec3ded8fab585e84c5d02f5aa83bba70fea531edeac84f3b
-  languageName: node
-  linkType: hard
-
-"@backstage/plugin-github-actions@npm:^0.6.16":
-  version: 0.6.16
-  resolution: "@backstage/plugin-github-actions@npm:0.6.16"
-  dependencies:
-    "@backstage/catalog-model": ^1.4.5
-    "@backstage/core-components": ^0.14.4
-    "@backstage/core-plugin-api": ^1.9.2
-    "@backstage/integration": ^1.10.0
-    "@backstage/integration-react": ^1.1.26
-    "@backstage/plugin-catalog-react": ^1.11.3
-    "@material-ui/core": ^4.12.2
-    "@material-ui/icons": ^4.9.1
-    "@material-ui/lab": 4.0.0-alpha.61
-    "@octokit/rest": ^19.0.3
-    "@types/react": ^16.13.1 || ^17.0.0 || ^18.0.0
-    git-url-parse: ^14.0.0
-    luxon: ^3.0.0
-    react-use: ^17.2.4
-  peerDependencies:
-    react: ^16.13.1 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
-    react-router-dom: 6.0.0-beta.0 || ^6.3.0
-  checksum: df1c9c4491835fff44a314f2df7062434e21a243e3d91d9846ebb31285b2959a9da39505714e82837ad19f371693340f6979c98641899fa56fc3987a8faa8f19
   languageName: node
   linkType: hard
 
@@ -5683,7 +5657,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-scaffolder@npm:^1.20.0":
+"@backstage/plugin-scaffolder@npm:^1.20.1":
   version: 1.20.1
   resolution: "@backstage/plugin-scaffolder@npm:1.20.1"
   dependencies:
@@ -7560,7 +7534,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@internal/backstage-plugin-support@workspace:plugins/support"
   dependencies:
-    "@backstage/cli": ^0.26.5
+    "@backstage/cli": ^0.26.6
     "@backstage/core-app-api": ^1.12.5
     "@backstage/core-components": ^0.14.7
     "@backstage/core-plugin-api": ^1.9.2
@@ -7586,8 +7560,8 @@ __metadata:
   dependencies:
     "@backstage/backend-common": ^0.22.0
     "@backstage/backend-defaults": ^0.2.18
-    "@backstage/backend-plugin-api": ^0.6.7
-    "@backstage/cli": ^0.26.5
+    "@backstage/backend-plugin-api": ^0.6.18
+    "@backstage/cli": ^0.26.6
     "@backstage/config": ^1.2.0
     "@backstage/plugin-auth-backend": ^0.22.5
     "@backstage/plugin-auth-backend-module-guest-provider": ^0.1.4
@@ -7613,7 +7587,7 @@ __metadata:
   resolution: "@internal/plugin-about-backend@workspace:plugins/about-backend"
   dependencies:
     "@backstage/backend-common": ^0.22.0
-    "@backstage/cli": ^0.26.5
+    "@backstage/cli": ^0.26.6
     "@backstage/config": ^1.2.0
     "@types/express": "*"
     "@types/fs-extra": ^11.0.4
@@ -7633,7 +7607,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@internal/plugin-about@workspace:plugins/about"
   dependencies:
-    "@backstage/cli": ^0.26.5
+    "@backstage/cli": ^0.26.6
     "@backstage/core-app-api": ^1.12.5
     "@backstage/core-components": ^0.14.7
     "@backstage/core-plugin-api": ^1.9.2
@@ -7659,7 +7633,7 @@ __metadata:
   resolution: "@internal/plugin-home-platform@workspace:plugins/home-platform"
   dependencies:
     "@backstage/catalog-model": ^1.5.0
-    "@backstage/cli": ^0.26.5
+    "@backstage/cli": ^0.26.6
     "@backstage/config": ^1.2.0
     "@backstage/core-app-api": ^1.12.5
     "@backstage/core-components": ^0.14.7
@@ -16195,12 +16169,13 @@ __metadata:
     "@backstage-community/plugin-analytics-module-ga4": ^0.2.5
     "@backstage-community/plugin-azure-devops": ^0.4.4
     "@backstage-community/plugin-explore": ^0.4.21
+    "@backstage-community/plugin-github-actions": ^0.6.16
     "@backstage-community/plugin-github-pull-requests-board": ^0.2.1
     "@backstage-community/plugin-tech-radar": ^0.7.4
     "@backstage-community/plugin-vault": ^0.1.30
     "@backstage/app-defaults": ^1.5.5
     "@backstage/catalog-model": ^1.5.0
-    "@backstage/cli": ^0.26.5
+    "@backstage/cli": ^0.26.6
     "@backstage/core-app-api": ^1.12.5
     "@backstage/core-components": ^0.14.7
     "@backstage/core-plugin-api": ^1.9.2
@@ -16210,12 +16185,11 @@ __metadata:
     "@backstage/plugin-catalog-graph": ^0.4.5
     "@backstage/plugin-catalog-import": ^0.11.0
     "@backstage/plugin-catalog-react": ^1.12.0
-    "@backstage/plugin-github-actions": ^0.6.16
     "@backstage/plugin-home": ^0.7.4
     "@backstage/plugin-kubernetes": ^0.11.10
     "@backstage/plugin-org": ^0.6.25
     "@backstage/plugin-permission-react": ^0.4.22
-    "@backstage/plugin-scaffolder": ^1.20.0
+    "@backstage/plugin-scaffolder": ^1.20.1
     "@backstage/plugin-search": ^1.4.11
     "@backstage/plugin-search-react": ^1.7.11
     "@backstage/plugin-techdocs": ^1.10.5
@@ -17092,7 +17066,7 @@ __metadata:
     "@backstage/backend-tasks": ^0.5.23
     "@backstage/catalog-client": ^1.6.5
     "@backstage/catalog-model": ^1.5.0
-    "@backstage/cli": ^0.26.5
+    "@backstage/cli": ^0.26.6
     "@backstage/config": ^1.2.0
     "@backstage/integration": ^1.11.0
     "@backstage/plugin-app-backend": ^0.3.67
@@ -17102,7 +17076,7 @@ __metadata:
     "@backstage/plugin-catalog-backend-module-bitbucket-cloud": ^0.2.5
     "@backstage/plugin-catalog-backend-module-bitbucket-server": ^0.1.32
     "@backstage/plugin-catalog-backend-module-github": ^0.6.1
-    "@backstage/plugin-catalog-backend-module-gitlab": ^0.3.15
+    "@backstage/plugin-catalog-backend-module-gitlab": ^0.3.17
     "@backstage/plugin-kubernetes-backend": ^0.17.1
     "@backstage/plugin-permission-backend": ^0.5.42
     "@backstage/plugin-permission-common": ^0.7.13
@@ -33788,7 +33762,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root@workspace:."
   dependencies:
-    "@backstage/cli": ^0.26.5
+    "@backstage/cli": ^0.26.6
     "@spotify/prettier-config": ^12.0.0
     "@types/cookie-parser": ^1.4.5
     concurrently: ^6.0.0

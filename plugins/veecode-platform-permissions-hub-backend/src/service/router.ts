@@ -19,7 +19,7 @@ export interface RouterOptions {
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { logger, permissions } = options;
+  const { logger/*, permissions */} = options;
 
   const permissionIntegrationRouter = createPermissionIntegrationRouter({
     permissions: [...clusterExplorerPermissions, ...gitlabPipelinesPermissions, ...githubWorkflowsPermissions, ...adminAccessPermissions, ...kongServiceManagerPermissions],
