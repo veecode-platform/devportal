@@ -58,3 +58,6 @@ sqlite/
 
 #CHART
 chart/README.md
+
+#policy csv
+rbac-policy.csv

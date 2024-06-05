@@ -13,12 +13,12 @@ import {
   catalogEntityDeletePermission,
 } from '@backstage/plugin-catalog-common/alpha';
 
-/*import {
+import {
   PluginIdProvider,
   PolicyBuilder,
-} from '@janus-idp/backstage-plugin-rbac-backend';*/
+} from '@janus-idp/backstage-plugin-rbac-backend';
 
-class DefaultPermissionPolicy implements PermissionPolicy {
+/*class DefaultPermissionPolicy implements PermissionPolicy {
   config: Config;
   constructor(config: Config) {
     this.config = config;
@@ -58,34 +58,33 @@ class DefaultPermissionPolicy implements PermissionPolicy {
 
     return { result: AuthorizeResult.ALLOW }; 
   }
-}
+}*/
 
-//export default async function createPlugin(
-//  env: PluginEnvironment,
-//  pluginIdProvider: PluginIdProvider,
-//): Promise<Router> {
-//  return PolicyBuilder.build(
-//    {
-//      config: env.config,
-//      logger: env.logger,
-//      discovery: env.discovery,
-//      identity: env.identity,
-//      permissions: env.permissions,
-//      tokenManager: env.tokenManager,
-//    },
-//    pluginIdProvider,
-//  );
-//}
-
-//old model
 export default async function createPlugin(
   env: PluginEnvironment,
+  pluginIdProvider: PluginIdProvider,
 ): Promise<Router> {
-  return await createRouter({
-    config: env.config,
-    logger: env.logger,
-    discovery: env.discovery,
-    policy: new DefaultPermissionPolicy(env.config),
-    identity: env.identity,
-  });
+  return PolicyBuilder.build(
+    {
+      config: env.config,
+      logger: env.logger,
+      discovery: env.discovery,
+      identity: env.identity,
+      permissions: env.permissions,
+    },
+    pluginIdProvider,
+  );
 }
+
+//old model
+//export default async function createPlugin(
+//  env: PluginEnvironment,
+//): Promise<Router> {
+//  return await createRouter({
+//    config: env.config,
+//    logger: env.logger,
+//    discovery: env.discovery,
+//    policy: new DefaultPermissionPolicy(env.config),
+//    identity: env.identity,
+//  });
+//}

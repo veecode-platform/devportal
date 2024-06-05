@@ -1,0 +1,43 @@
+p, role:default/devportal-admin, catalog-entity, read, allow
+p, role:default/devportal-admin, catalog.entity.create, create, allow
+p, role:default/devportal-admin, policy-entity, read, allow
+p, role:default/devportal-admin, policy-entity, create, allow
+p, role:default/devportal-admin, policy-entity, update, allow
+p, role:default/devportal-admin, policy-entity, delete, allow
+
+p, role:default/devportal-admin, cluster.explorer.read, read, allow
+p, role:default/devportal-admin, cluster.explorer.public.environment.read, read, allow
+p, role:default/devportal-admin, gitlab.pipelines.read, read, allow
+p, role:default/devportal-admin, gitlab.pipelines.create, create, allow
+p, role:default/devportal-admin, github.workflows.read, read, allow
+p, role:default/devportal-admin, github.workflows.create, create, allow
+p, role:default/devportal-admin, admin.access.read, read, allow
+p, role:default/devportal-admin, apiManagement.access.read, read, allow
+p, role:default/devportal-admin, kong.service.manager.read, read, allow
+p, role:default/devportal-admin, kong.service.manager.create, create, allow
+p, role:default/devportal-admin, kong.service.manager.update, update, allow
+p, role:default/devportal-admin, kong.service.manager.delete, delete, allow
+
+g, group:default/platform-admin, role:default/devportal-admin
+
+p, role:default/devportal-user, catalog-entity, read, allow
+p, role:default/devportal-user, catalog.entity.create, create, deny
+p, role:default/devportal-user, policy-entity, read, deny
+p, role:default/devportal-user, policy-entity, create, deny
+p, role:default/devportal-user, policy-entity, update, deny
+p, role:default/devportal-user, policy-entity, delete, deny
+
+p, role:default/devportal-user, cluster.explorer.read, read, allow
+p, role:default/devportal-user, cluster.explorer.public.environment.read, read, allow
+p, role:default/devportal-user, gitlab.pipelines.read, read, allow
+p, role:default/devportal-user, gitlab.pipelines.create, create, allow
+p, role:default/devportal-user, github.workflows.read, read, allow
+p, role:default/devportal-user, github.workflows.create, create, allow
+p, role:default/devportal-user, admin.access.read, read, deny
+p, role:default/devportal-user, apiManagement.access.read, read, deny
+p, role:default/devportal-user, kong.service.manager.read, read, allow
+p, role:default/devportal-user, kong.service.manager.create, create, allow
+p, role:default/devportal-user, kong.service.manager.update, update, allow
+p, role:default/devportal-user, kong.service.manager.delete, delete, allow
+
+g, group:default/platform-user, role:default/devportal-user
