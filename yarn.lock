@@ -7407,19 +7407,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-audit-log-node@npm:1.0.3":
-  version: 1.0.3
-  resolution: "@janus-idp/backstage-plugin-audit-log-node@npm:1.0.3"
-  dependencies:
-    "@backstage/backend-plugin-api": ^0.6.17
-    "@backstage/errors": ^1.2.4
-    "@backstage/types": ^1.1.1
-    express: ^4.19.2
-    lodash: ^4.17.21
-  checksum: 86aca9c62c6533ba2bd80d2d551c6d3120746a06871875eeb31f288abeaa7eab2a4c111ab127e9b1d963b5e3116b14f2e7bc05442358ac47a523a3d845571861
-  languageName: node
-  linkType: hard
-
 "@janus-idp/backstage-plugin-keycloak-backend@npm:^1.9.12":
   version: 1.9.12
   resolution: "@janus-idp/backstage-plugin-keycloak-backend@npm:1.9.12"
@@ -7439,9 +7426,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-rbac-backend@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "@janus-idp/backstage-plugin-rbac-backend@npm:4.1.0"
+"@janus-idp/backstage-plugin-rbac-backend@npm:4.0.0":
+  version: 4.0.0
+  resolution: "@janus-idp/backstage-plugin-rbac-backend@npm:4.0.0"
   dependencies:
     "@backstage/backend-common": ^0.21.7
     "@backstage/backend-plugin-api": ^0.6.17
@@ -7456,9 +7443,8 @@ __metadata:
     "@backstage/plugin-permission-common": ^0.7.13
     "@backstage/plugin-permission-node": ^0.7.28
     "@dagrejs/graphlib": ^2.1.13
-    "@janus-idp/backstage-plugin-audit-log-node": 1.0.3
-    "@janus-idp/backstage-plugin-rbac-common": 1.5.0
-    "@janus-idp/backstage-plugin-rbac-node": 1.1.2
+    "@janus-idp/backstage-plugin-rbac-common": 1.4.2
+    "@janus-idp/backstage-plugin-rbac-node": 1.1.1
     casbin: ^5.27.1
     chokidar: ^3.6.0
     csv-parse: ^5.5.5
@@ -7470,7 +7456,16 @@ __metadata:
     typeorm-adapter: ^1.6.1
     winston: ^3.11.0
     yn: ^4.0.0
-  checksum: 9b31285e05ce00a07a64bdf631cd5485cda3bffd4d0e31bc033f5d964018b69585604a191b05f0a23c9a902e068b50a3d2bf0d9162f92bb08903b2192325f080
+  checksum: 40cf26c682f2b760ed7ab28f3a41f739a36b81637a5c60e04c5aace16a6006489f542edde625ec899bed677f1b4018b31e5d21f5636baf11a57ac9c6ee2963d4
+  languageName: node
+  linkType: hard
+
+"@janus-idp/backstage-plugin-rbac-common@npm:1.4.2":
+  version: 1.4.2
+  resolution: "@janus-idp/backstage-plugin-rbac-common@npm:1.4.2"
+  dependencies:
+    "@backstage/plugin-permission-common": ^0.7.13
+  checksum: d6ac4f633292c9cffaba04fe9430805f330b59a5ed3065e31600d42bec273216d42ade155e909ca4db11a23bc2736103febbacfb4dbc63b019b576800dc58004
   languageName: node
   linkType: hard
 
@@ -7484,12 +7479,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-rbac-node@npm:1.1.2":
-  version: 1.1.2
-  resolution: "@janus-idp/backstage-plugin-rbac-node@npm:1.1.2"
+"@janus-idp/backstage-plugin-rbac-node@npm:1.1.1":
+  version: 1.1.1
+  resolution: "@janus-idp/backstage-plugin-rbac-node@npm:1.1.1"
   dependencies:
     "@backstage/backend-plugin-api": ^0.6.17
-  checksum: c54f158aaaaa52b614523f73f244e0b71f1f2ddd085e44946c664f257fbc36f077a708c2a7d2742ecd5e20e80cdc32a0f8a0324840a61494f8253caa68b21ee6
+  checksum: 698f931df3e3c5e81379accabca11d309f2a196f780a6233d5f8a3a867d7eabdac2fedd730aaa9424e9e506dabd42133030dbd2176f500d7d1ca75dfe5574719
   languageName: node
   linkType: hard
 
@@ -16878,7 +16873,7 @@ __metadata:
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": ^0.1.0
     "@internal/plugin-about-backend": ^0.1.0
     "@janus-idp/backstage-plugin-keycloak-backend": ^1.9.12
-    "@janus-idp/backstage-plugin-rbac-backend": ^4.1.0
+    "@janus-idp/backstage-plugin-rbac-backend": 4.0.0
     "@keycloak/keycloak-admin-client": 18.0.2
     "@roadiehq/backstage-plugin-argo-cd-backend": ^3.0.2
     "@roadiehq/backstage-plugin-aws-auth": ^0.4.23
