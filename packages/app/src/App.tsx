@@ -49,7 +49,7 @@ import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
 //import { LibraryCheckIndexPage } from '@anakz/backstage-plugin-library-check';
 import { DefaultFilters } from '@backstage/plugin-catalog-react';
-//import { RbacPage } from '@janus-idp/backstage-plugin-rbac';
+import { RbacPage } from '@janus-idp/backstage-plugin-rbac';
 import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 
 
@@ -223,7 +223,7 @@ const routes = (
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
-    {/*<Route path="/rbac" element={<RbacPage />} />;*/}
+    <Route path="/rbac" element={<RbacPage />} />;
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/services"
       element={

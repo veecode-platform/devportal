@@ -55,6 +55,9 @@ spec:
           - name: app-config
             mountPath: /app/app-config.yaml
             subPath: app-config
+          - name: platform-devportal-policies
+            mountPath: /app/rbac-policy.csv
+            subPath: rbac-policies
           {{- if and .Values.theme.custom .Values.theme.custom.configmapName }}
           - name: platform-devportal-theme
             mountPath: /app/packages/app/dist/theme.json
@@ -77,6 +80,9 @@ spec:
         - name: app-config
           configMap:
             name: "{{ include "devportal-charts.fullname" . }}-app-env"
+        - name: platform-devportal-policies
+          configMap:
+            name: "{{- include "devportal-charts.fullname" . }}-roles-env"
         {{- if and .Values.theme.custom .Values.theme.custom.configmapName }}
         - name: platform-devportal-theme
           configMap:

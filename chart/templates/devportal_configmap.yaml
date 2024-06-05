@@ -60,6 +60,9 @@ data:
       {{- end }}
     permission:
       enabled: true
+      rbac:
+        policies-csv-file: /app/rbac-policy.csv
+        policyFileReload: true
 
     backend:
       auth:

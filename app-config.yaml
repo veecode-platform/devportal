@@ -19,6 +19,14 @@ app:
 #add permission
 permission:
   enabled: true
+  rbac:
+    admin:
+    #  users:
+    #    - name: user:default/admin #acesso ao plugin rbac e ao catalogo
+      superUsers:
+        - name: user:default/admin #allow em qlr permission configurada
+    #policies-csv-file: ../../rbac-policy.csv #import por csv
+    #policyFileReload: true
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins

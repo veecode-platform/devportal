@@ -43,6 +43,7 @@ import explore from './plugins/explore';
 import about from './plugins/about';
 // azure
 import azureDevOps from './plugins/azure-devops';
+import permissionsHub from './plugins/permissionsHub';
 //import libraryCheck from './plugins/libraryCheck';
 
 function makeCreateEnv(config: Config) {
@@ -68,9 +69,7 @@ function makeCreateEnv(config: Config) {
     const database = databaseManager.forPlugin(plugin);
     const cache = cacheManager.forPlugin(plugin);
     const scheduler = taskScheduler.forPlugin(plugin);
-    /*const identity = DefaultIdentityClient.create({
-      discovery,
-    });*/
+
     return {
       logger,
       database,
@@ -109,29 +108,26 @@ async function main() {
   const awsEnv = useHotMemoize(module, () => createEnv('aws'));
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
   const aboutEnv = useHotMemoize(module, () => createEnv('about'));
+  const permissionsHubEnv = useHotMemoize(module, () => createEnv('veecode-platform-permissions-hub'));
   //const libraryCheckEnv = useHotMemoize(module, () => createEnv('libraryCheck'));
 
 
   const apiRouter = Router();
   apiRouter.use('/auth', await auth(authEnv))
-  apiRouter.use('/cookie', (_req, res) => {
-    res.status(200).send(`Coming right up`);
-  });
-
   apiRouter.use('/explore', await explore(exploreEnv));
   apiRouter.use('/catalog', await catalog(catalogEnv));
   apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));
   apiRouter.use('/proxy', await proxy(proxyEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
   apiRouter.use('/search', await search(searchEnv));
-  //apiRouter.use(
-  //  '/permission',
-  //  await permission(permissionEnv, {
-  //    // return list static plugin which supports Backstage permissions.
-  //    getPluginIds: () => ['catalog', 'scaffolder', 'permission'],
-  //  }),
-  //);
-  apiRouter.use('/permission', await permission(permissionEnv));
+  apiRouter.use('/veecode-platform-permissions-hub', await permissionsHub(permissionsHubEnv))
+  apiRouter.use( 
+    '/permission',
+    await permission(permissionEnv, {
+      getPluginIds: () => ['catalog', 'scaffolder', 'permission', 'kubernetes', 'veecode-platform-permissions-hub'],
+    }),
+  );
+  //apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
   apiRouter.use('/aws', await aws(awsEnv));
   apiRouter.use('/about', await about(aboutEnv));
