@@ -26,7 +26,15 @@ data:
     p, role:default/devportal-admin, kong.service.manager.create, create, allow
     p, role:default/devportal-admin, kong.service.manager.update, update, allow
     p, role:default/devportal-admin, kong.service.manager.delete, delete, allow
-    
+    p, role:default/devportal-admin, catalog-entity, delete, allow
+    p, role:default/devportal-admin, catalog-entity, update, allow
+    p, role:default/devportal-admin, catalog.location.read, read, allow
+    p, role:default/devportal-admin, catalog.location.create, create, allow
+    p, role:default/devportal-admin, catalog.location.delete, delete, allow
+    p, role:default/devportal-admin, scaffolder-template, read, allow
+    p, role:default/devportal-admin, scaffolder-action, use, allow
+    p, role:default/devportal-admin, kubernetes.proxy, use, allow
+
     g, group:default/{{ $adminGroup }}, role:default/devportal-admin
     
     p, role:default/devportal-user, catalog-entity, read, allow
