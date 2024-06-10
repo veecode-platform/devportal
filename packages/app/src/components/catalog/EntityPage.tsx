@@ -86,9 +86,9 @@ import { PluginItem } from './utils/types';
 import {
   isGitlabAvailable,
   EntityGitlabLanguageCard,
-  EntityGitlabPeopleCard,
   EntityGitlabMergeRequestsTable,
-  EntityGitlabMergeRequestStatsCard,
+  EntityGitlabPeopleCard,
+  EntityGitlabReadmeCard,
   EntityGitlabReleasesCard,
 } from '@immobiliarelabs/backstage-plugin-gitlab';
 // roadie-lambda
@@ -274,6 +274,52 @@ const plugins = [
   }
 ]
 
+const linkContent = (
+  <EntitySwitch>
+    <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
+        <Grid item lg={4} md={12} xs={12}>
+          <EntityLinksCard />
+        </Grid>
+      </EntitySwitch.Case>
+  </EntitySwitch>
+)
+
+const gitlabContent = (
+  <>
+    <Grid item lg={8} xs={12}>
+      <GitlabJobs />
+    </Grid>
+    {linkContent}
+    <Grid item lg={4} md={12} xs={12}>
+      <EntityGitlabLanguageCard />
+    </Grid>
+    <Grid item lg={6} md={12} xs={12}>
+      <EntityGitlabReadmeCard />
+    </Grid>
+    <Grid item lg={6} md={12} xs={12}>
+      <EntityGitlabPeopleCard />
+    </Grid>
+    <Grid item lg={6} md={12} xs={12}>
+      <EntityGitlabReleasesCard />
+    </Grid>
+  </>
+);
+
+const githubContent = (
+  <>
+    <Grid item lg={8} xs={12}>
+      <GithubWorkflowsCard />
+    </Grid>
+    {linkContent}
+    <Grid item lg={6} md={12} xs={12}>
+      <EntityGithubInsightsReadmeCard maxHeight={350} />
+    </Grid>
+    <Grid item lg={6} md={12} xs={12}>
+      <EntityGithubInsightsLanguagesCard />
+    </Grid>
+  </>
+);
+
 
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
@@ -287,60 +333,21 @@ const overviewContent = (
 
     <EntitySwitch>
       <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
-        <Grid item lg={8} xs={12}>
-          <GithubWorkflowsCard />
-        </Grid>
+       {githubContent}
       </EntitySwitch.Case>
     </EntitySwitch>
 
     <EntitySwitch>
       <EntitySwitch.Case if={isGitlabJobsAvailable}>
-        <Grid item lg={8} xs={12}>
-          <GitlabJobs />
-        </Grid>
+       {gitlabContent}
       </EntitySwitch.Case>
     </EntitySwitch>
 
-    {/* {cicdCard} */}
+    {/* {ArgoCD card} */}
     <EntitySwitch>
       <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
         <Grid item lg={6} md={12} xs={12} >
           <EntityArgoCDOverviewCard />
-        </Grid>
-      </EntitySwitch.Case>
-    </EntitySwitch>
-
-    <EntitySwitch>
-      <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
-          <Grid item lg={4} md={12} xs={12}>
-            <EntityLinksCard />
-          </Grid>
-        </EntitySwitch.Case>
-    </EntitySwitch>
-
-    <EntitySwitch>
-      {/* github */}
-      <EntitySwitch.Case if={isGithubInsightsAvailable}>
-        <Grid item lg={6} md={12} xs={12}>
-          <EntityGithubInsightsReadmeCard maxHeight={350} />
-        </Grid>
-        <Grid item lg={6} md={12} xs={12}>
-          <EntityGithubInsightsLanguagesCard />
-        </Grid>
-      </EntitySwitch.Case>
-      {/* gitlab */}
-      <EntitySwitch.Case if={isGitlabAvailable}>
-        <Grid item lg={8} md={12} xs={12}>
-          <EntityGitlabMergeRequestStatsCard />
-        </Grid>
-        <Grid item lg={6} md={12} xs={12}>
-          <EntityGitlabLanguageCard />
-        </Grid>
-        <Grid item lg={6} md={12} xs={12}>
-          <EntityGitlabPeopleCard />
-        </Grid>
-        <Grid item lg={6} md={12} xs={12}>
-          <EntityGitlabReleasesCard />
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
@@ -695,62 +702,45 @@ const clusterPage = (
           {/* Github */}
           <EntitySwitch>
             <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
-              <Grid item lg={7} md={12}>
-                <GithubWorkflowsCard />
-              </Grid>
+            <Grid item lg={8} xs={12}>
+              <GithubWorkflowsCard />
+            </Grid>
+            <Grid item lg={4} md={12} xs={12}>
+              <EntityGithubInsightsLanguagesCard />
+            </Grid>
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityGithubInsightsReadmeCard maxHeight={350} />
+            </Grid>
+    
             </EntitySwitch.Case>
           </EntitySwitch>
 
           {/* Gitlab */}
           <EntitySwitch>
               <EntitySwitch.Case if={isGitlabJobsAvailable}>
-                <Grid item lg={7} md={12}>
-                  <GitlabJobs />
-                </Grid>
+              <Grid item lg={8} xs={12}>
+                <GitlabJobs />
+              </Grid>      
+              <Grid item lg={4} md={12} xs={12}>
+                <EntityGitlabLanguageCard />
+              </Grid>
+              <Grid item lg={6} md={12} xs={12}>
+                <EntityGitlabReadmeCard />
+              </Grid>
               </EntitySwitch.Case>
           </EntitySwitch>
 
-        <EntitySwitch>
-          {/* github */}
-          <EntitySwitch.Case if={isGithubInsightsAvailable}>
-            <Grid item lg={5} md={12} xs={12} >
-              <EntityGithubInsightsLanguagesCard/>
-            </Grid>
-          </EntitySwitch.Case>
-          {/* gitlab */}
-          <EntitySwitch.Case if={isGitlabAvailable}>
-            <Grid item  lg={5} md={12} xs={12} >
-              <EntityGitlabLanguageCard />
-            </Grid>
-          </EntitySwitch.Case>
-        </EntitySwitch>
-
-        <EntitySwitch>
-          <EntitySwitch.Case if={(e: Entity) => !!e.metadata.links?.length}>
-            <Grid item lg={4} md={12} xs={12}>
-              <EntityLinksCard />
-            </Grid>
-          </EntitySwitch.Case>
-        </EntitySwitch>
-
-        <EntitySwitch>
-          {/* github */}
-          <EntitySwitch.Case if={isGithubInsightsAvailable}>
-            <Grid item lg={7} md={12} xs={12}>
-              <EntityGithubInsightsReadmeCard maxHeight={350} />
-            </Grid>
-          </EntitySwitch.Case>
-          {/* gitlab */}
-          <EntitySwitch.Case if={isGitlabAvailable}>
-            <Grid item lg={7} md={12} xs={12}>
-              <EntityGitlabLanguageCard />
-            </Grid>
-          </EntitySwitch.Case>
-        </EntitySwitch>
-
-        <Grid item lg={5} md={12} xs={12}>
+        <Grid item lg={6} md={12} xs={12}>
             <ClusterInstructionsCard />
         </Grid>
+
+        <EntitySwitch>
+          <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
+              <Grid item lg={6} md={12} xs={12}>
+                <EntityLinksCard />
+              </Grid>
+            </EntitySwitch.Case>
+        </EntitySwitch>
 
         {/* Has Components */}
         <EntitySwitch>
@@ -767,7 +757,10 @@ const clusterPage = (
 
     <EntityLayout.Route  
       if={(entity) => {
-          if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+          if (
+            isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity) ||
+            isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity)
+          ) return true;
           return false
         }} 
       path="/ci-cd" title="CI/CD"
@@ -777,7 +770,10 @@ const clusterPage = (
 
     <EntityLayout.Route 
         if={(entity) => {
-            if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
+            if (
+              isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity) ||
+              isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity)
+            ) return true;
             return false
           }} 
         path="/pull-requests" 
