@@ -252,7 +252,6 @@ catalog:
 
     infracost:
       default:
-        baseUrl: http://localhost:7007
         schedule:        
           frequency: 
             minutes: ${INFRACOST_PROVIDER_REFRESH_FREQUENCY}
@@ -337,6 +336,7 @@ enabledPlugins:
   gitlabPlugin: false
   keycloak: true
   azureDevops: false
+  infracost: true
 
 platform:
   behaviour: 

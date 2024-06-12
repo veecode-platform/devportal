@@ -112,9 +112,6 @@ async function main() {
   const aboutEnv = useHotMemoize(module, () => createEnv('about'));
   const permissionsHubEnv = useHotMemoize(module, () => createEnv('veecode-platform-permissions-hub'));
   //const libraryCheckEnv = useHotMemoize(module, () => createEnv('libraryCheck'));
-  // infracost
-  const infraconstEnv = useHotMemoize(module, () => createEnv('infracost'));
-
 
   const apiRouter = Router();
   apiRouter.use('/auth', await auth(authEnv))
@@ -164,7 +161,11 @@ async function main() {
     const azureDevOpsEnv = useHotMemoize(module, () => createEnv('azure-devops'));
     apiRouter.use('/azure-devops', await azureDevOps(azureDevOpsEnv));
   }
-  apiRouter.use('/infracost', await infracost(infraconstEnv));
+
+  if (config.getOptionalBoolean("enabledPlugins.infracost")) {
+    const infraconstEnv = useHotMemoize(module, () => createEnv('infracost'));
+    apiRouter.use('/infracost', await infracost(infraconstEnv));
+  }
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback 
   apiRouter.use(notFoundHandler());

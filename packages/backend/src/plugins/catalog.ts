@@ -99,25 +99,27 @@ builder.addProcessor(
 );*/
 
   // start infracost config 
-  const infracostEntityProviders = InfracostEntityProvider.fromConfig(env.config, {
-    id: 'default',
-    logger: env.logger,
-    cache: cacheService,
-    database: env.database,
-    schedule: env.scheduler.createScheduledTaskRunner({
-         frequency: {minutes: 30},
-         timeout: {minutes: 1},
-         initialDelay: {seconds: 15}
-    }),
- });
+  if (env.config.getBoolean("enabledPlugins.infracost"))
+    {
+        const infracostEntityProviders = InfracostEntityProvider.fromConfig(env.config, {
+          id: 'default',
+          logger: env.logger,
+          cache: cacheService,
+          database: env.database,
+          schedule: env.scheduler.createScheduledTaskRunner({
+              frequency: {minutes: 30},
+              timeout: {minutes: 1},
+              initialDelay: {seconds: 15}
+          }),
+      });
 
-  builder.addEntityProvider(
-    infracostEntityProviders,
-  );
-    
-const infracostProcessor = new InfracostEntityProcessor(env.config, env.logger, cacheService)
-builder.addProcessor(infracostProcessor)
-
+        builder.addEntityProvider(
+          infracostEntityProviders,
+        );
+          
+      const infracostProcessor = new InfracostEntityProcessor(env.config, env.logger, cacheService)
+      builder.addProcessor(infracostProcessor)
+  }
 // end infracost config
 
   // Azure Devops Plugin
