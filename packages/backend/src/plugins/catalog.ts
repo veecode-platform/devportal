@@ -3,10 +3,6 @@ import { CatalogBuilder } from '@backstage/plugin-catalog-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { ScaffolderEntitiesProcessor } from '@backstage/plugin-catalog-backend-module-scaffolder-entity-model';
-// Bitbucket Cloud
-//import { BitbucketCloudEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-cloud';
-// Bitbucket Server
-//import { BitbucketServerEntityProvider } from '@backstage/plugin-catalog-backend-module-bitbucket-server';
 // Gitlab
 import { GitlabFillerProcessor } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 import { GitlabDiscoveryEntityProvider } from '@backstage/plugin-catalog-backend-module-gitlab';
@@ -16,6 +12,7 @@ import { KeycloakOrgEntityProvider } from '@janus-idp/backstage-plugin-keycloak-
 import { ClusterEntitiesProcessor, DatabaseEntitiesProcessor, EnvironmentEntitiesProcessor, VaultEntitiesProcessor } from '@veecode-platform/plugin-veecode-platform-common';
 // Azure
 import { AzureDevOpsAnnotatorProcessor } from '@backstage-community/plugin-azure-devops-backend';
+import { InfracostEntityProcessor, InfracostEntityProvider } from '@veecode-platform/backstage-plugin-infracost-backend';
 /*import {
   LibraryCheckUpdaterProcessor,
   LibraryCheckProcessor,
@@ -26,6 +23,7 @@ export default async function createPlugin(
   env: PluginEnvironment,
 ): Promise<Router> {
   const builder = await CatalogBuilder.create(env);
+  const cacheService = env.cache.getClient();
   builder.addEntityProvider(
     GithubEntityProvider.fromConfig(env.config, {
       logger: env.logger,
@@ -36,28 +34,6 @@ export default async function createPlugin(
       }),*/
     }),
   );
-
-  //builder.addEntityProvider(
-  //  BitbucketCloudEntityProvider.fromConfig(env.config, {
-  //    logger: env.logger,
-  //    scheduler: env.scheduler,
-  //    /* schedule: env.scheduler.createScheduledTaskRunner({
-  //      frequency: { minutes: 10 },
-  //      timeout: { minutes: 3 },
-  //    }),*/
-  //  }),
-  //)
-//
-  //builder.addEntityProvider(
-  //  BitbucketServerEntityProvider.fromConfig(env.config, {
-  //    logger: env.logger,
-  //    scheduler: env.scheduler,
-  //    /* schedule: env.scheduler.createScheduledTaskRunner({
-  //      frequency: { minutes: 10 },
-  //      timeout: { minutes: 3 },
-  //    }),*/
-  //  }),
-  //)
 
   // gitlab provider
   if (env.config.getBoolean("enabledPlugins.gitlabPlugin")) {
@@ -121,6 +97,28 @@ builder.addProcessor(
     logger: env.logger,
   }),
 );*/
+
+  // start infracost config 
+  const infracostEntityProviders = InfracostEntityProvider.fromConfig(env.config, {
+    id: 'default',
+    logger: env.logger,
+    cache: cacheService,
+    database: env.database,
+    schedule: env.scheduler.createScheduledTaskRunner({
+         frequency: {minutes: 30},
+         timeout: {minutes: 1},
+         initialDelay: {seconds: 15}
+    }),
+ });
+
+  builder.addEntityProvider(
+    infracostEntityProviders,
+  );
+    
+const infracostProcessor = new InfracostEntityProcessor(env.config, env.logger, cacheService)
+builder.addProcessor(infracostProcessor)
+
+// end infracost config
 
   // Azure Devops Plugin
   if (env.config.getBoolean("enabledPlugins.azureDevops"))  builder.addProcessor(AzureDevOpsAnnotatorProcessor.fromConfig(env.config));
