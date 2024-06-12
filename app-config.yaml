@@ -180,7 +180,7 @@ integrations:
 
 catalog:
   rules:
-    - allow: [Component, API, Location, Cluster, Template, Environment, Database, Vault]
+    - allow: [Component, API, Location, Cluster, Template, Environment, Database, Vault, Infracost]
   providers: 
     github:
       providerId: # the provider ID can be any camelCase string
@@ -249,6 +249,17 @@ catalog:
             minutes: ${GITLAB_CATALOG_PROVIDER_REFRESH_FREQUENCY}
           timeout: 
             minutes: ${GITLAB_CATALOG_PROVIDER_TIMEOUT}
+
+    infracost:
+      default:
+        baseUrl: http://localhost:7007
+        schedule:        
+          frequency: 
+            minutes: ${INFRACOST_PROVIDER_REFRESH_FREQUENCY}
+          timeout: 
+            minutes: ${INFRACOST_PROVIDER_TIMEOUT}
+          initialDelay:
+            seconds: ${INFRACOST_PROVIDER_INITIAL_DELAY}
 
 #   locations:
 #   - type: url
