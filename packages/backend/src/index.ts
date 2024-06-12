@@ -45,6 +45,8 @@ import about from './plugins/about';
 import azureDevOps from './plugins/azure-devops';
 import permissionsHub from './plugins/permissionsHub';
 //import libraryCheck from './plugins/libraryCheck';
+// infracost
+import infracost from './plugins/infracost'
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -110,6 +112,8 @@ async function main() {
   const aboutEnv = useHotMemoize(module, () => createEnv('about'));
   const permissionsHubEnv = useHotMemoize(module, () => createEnv('veecode-platform-permissions-hub'));
   //const libraryCheckEnv = useHotMemoize(module, () => createEnv('libraryCheck'));
+  // infracost
+  const infraconstEnv = useHotMemoize(module, () => createEnv('infracost'));
 
 
   const apiRouter = Router();
@@ -160,6 +164,7 @@ async function main() {
     const azureDevOpsEnv = useHotMemoize(module, () => createEnv('azure-devops'));
     apiRouter.use('/azure-devops', await azureDevOps(azureDevOpsEnv));
   }
+  apiRouter.use('/infracost', await infracost(infraconstEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback 
   apiRouter.use(notFoundHandler());
