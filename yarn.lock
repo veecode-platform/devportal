@@ -7273,11 +7273,11 @@ __metadata:
     "@backstage/plugin-auth-backend-module-guest-provider": ^0.1.4
     "@types/express": "*"
     "@types/supertest": ^2.0.8
-    "@veecode-platform/backstage-plugin-cluster-explorer-common": ^0.2.5
-    "@veecode-platform/backstage-plugin-github-workflows-common": ^0.2.5
-    "@veecode-platform/backstage-plugin-gitlab-pipelines-common": ^0.2.5
-    "@veecode-platform/backstage-plugin-kong-service-manager-common": ^0.2.5
-    "@veecode-platform/plugin-veecode-platform-common": ^0.3.5
+    "@veecode-platform/backstage-plugin-cluster-explorer-common": ^0.2.6
+    "@veecode-platform/backstage-plugin-github-workflows-common": ^0.2.6
+    "@veecode-platform/backstage-plugin-gitlab-pipelines-common": ^0.2.6
+    "@veecode-platform/backstage-plugin-kong-service-manager-common": ^0.2.6
+    "@veecode-platform/plugin-veecode-platform-common": ^0.3.6
     express: ^4.17.1
     express-promise-router: ^4.1.0
     msw: ^1.0.0
@@ -14910,9 +14910,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-api-explorer@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/backstage-plugin-api-explorer@npm:0.3.5"
+"@veecode-platform/backstage-plugin-api-explorer@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/backstage-plugin-api-explorer@npm:0.3.6"
   dependencies:
     "@backstage/core-components": ^0.14.7
     "@backstage/core-plugin-api": ^1.9.2
@@ -14923,20 +14923,20 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 31a2b640b5ac600864f0ba54193e95400da02b8976b68df1a5fb8f8036aaaef8bd6a1d5277ad1d3e3a9d86bc67f3125d6130ada12c5ffc5e9397a1c2981d1950
+  checksum: 05a989db8a75fbf437d620776abca9ef412c1d7d7ceeaabe11060b76fbe0c92086df5bc1b31495e4c8bf1fd30499b23e0785880f3af0b72f99210fb2e95b1472
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-cluster-explorer-common@npm:^0.2.5":
-  version: 0.2.5
-  resolution: "@veecode-platform/backstage-plugin-cluster-explorer-common@npm:0.2.5"
-  checksum: 350602c4aadeb5b1c923c55b4a99a78b33bd73402fe6d8d8815664ec983eed5d4748ae72788adb90bb500fd59c3441acf82db2246541a02c0ce47b99b6ad0cef
+"@veecode-platform/backstage-plugin-cluster-explorer-common@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "@veecode-platform/backstage-plugin-cluster-explorer-common@npm:0.2.6"
+  checksum: d5b27f33a38b8dcbb3e81c591021cc29727fae84ff0070bf664ae8ac6fb7c9dc8e170d77630ace2d188e8e608786d5d24108221a1389fce8775d8d27549f5d28
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-cluster-explorer@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/backstage-plugin-cluster-explorer@npm:0.3.5"
+"@veecode-platform/backstage-plugin-cluster-explorer@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/backstage-plugin-cluster-explorer@npm:0.3.6"
   dependencies:
     "@backstage/catalog-model": ^1.5.0
     "@backstage/core-components": ^0.14.7
@@ -14952,20 +14952,20 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: 3b5ebbf8b20355ec5386bae03561fce8503f93666ec5fe3b70df2f4a970d5d209827a1e4b7257d1f1cdd09de1cdfb4c98027d6139c4478b26df3058348ca2a2d
+  checksum: 68e5ffce03d775e02a91c6467a4b4af4e085cdd0d67e5269a5ebead6b8f44fbc22814c99d8dc17f45848b8e9e90e34b11794dedf6ff33aff19367e2ab00a4909
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-github-workflows-common@npm:^0.2.5":
-  version: 0.2.5
-  resolution: "@veecode-platform/backstage-plugin-github-workflows-common@npm:0.2.5"
-  checksum: 4149747d1b27ac517f5bc5345d76e34bb6a6b25d6f8c75e441156cc8c28355a1c86b6c6332b773ad69246543175d439c884c5fb978de99f41b3e239aabda27ab
+"@veecode-platform/backstage-plugin-github-workflows-common@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "@veecode-platform/backstage-plugin-github-workflows-common@npm:0.2.6"
+  checksum: 4240e5c623b8d69cc69af4d7bc20b7da4e7f91c258c0aa1f72dd7e126636ec3e54a08f14ddafbed9e8c856f3b0aa9b5985d2c2d4a6b2059c11b4807926602973
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-github-workflows@npm:^0.5.5":
-  version: 0.5.5
-  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:0.5.5"
+"@veecode-platform/backstage-plugin-github-workflows@npm:^0.5.6":
+  version: 0.5.6
+  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:0.5.6"
   dependencies:
     "@backstage/catalog-model": ^1.5.0
     "@backstage/core-components": ^0.14.7
@@ -14982,20 +14982,20 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: 0654abbc9d604270893cf1fea89cfd42c939a7b5b508eefb80fe1e2d08dbe3b2f5e36acec1d607e6a720d70400dcf0287ccac2cf01a4646f5adc182b84738e0b
+  checksum: a24da02409826e6d79677e19a242f7d64e27248112876e08afc764adffc1c5fc8f0844dfd746551ef254f0ff31a209d16f0fa6c70e03229bef0c29420a6e1293
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-gitlab-pipelines-common@npm:^0.2.5":
-  version: 0.2.5
-  resolution: "@veecode-platform/backstage-plugin-gitlab-pipelines-common@npm:0.2.5"
-  checksum: 68bf5ac1c95006ca1e4c4e3a368bf5a177938f0d7f8b689987afc87c0931e62d9d5cc1aa917e052c928430e1a7bff57f0df2ef2bf7badaa46e1e60e605ab26c2
+"@veecode-platform/backstage-plugin-gitlab-pipelines-common@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "@veecode-platform/backstage-plugin-gitlab-pipelines-common@npm:0.2.6"
+  checksum: c45f400df262617ffceef24d77384edf10c153152e9542160e5b21c8aa2371e2df50d036bcaa1a5d3e690307e43a6e3c1079e3860d1d8f8801410e82db37e15f
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-gitlab-pipelines@npm:^0.4.5":
-  version: 0.4.5
-  resolution: "@veecode-platform/backstage-plugin-gitlab-pipelines@npm:0.4.5"
+"@veecode-platform/backstage-plugin-gitlab-pipelines@npm:^0.4.6":
+  version: 0.4.6
+  resolution: "@veecode-platform/backstage-plugin-gitlab-pipelines@npm:0.4.6"
   dependencies:
     "@backstage/catalog-model": ^1.5.0
     "@backstage/core-components": ^0.14.7
@@ -15009,13 +15009,13 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: 89dbe70491c9557f26671a50eabb736a9d76aae738eee0152874e2cb1684176091b586a77bbb2add08c4299c7d21e562528413e2746e245ea903fa78f0458632
+  checksum: 14cd2878d9b4f2c081fcd0ef4a2d33c68eae68a20f0b6e438eeb400e21c6374f74337a3a7c4180375f23c0cb215646901f14c43e317d0dd502806fd7631a97cc
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-infracost-backend@npm:^0.2.5":
-  version: 0.2.5
-  resolution: "@veecode-platform/backstage-plugin-infracost-backend@npm:0.2.5"
+"@veecode-platform/backstage-plugin-infracost-backend@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "@veecode-platform/backstage-plugin-infracost-backend@npm:0.2.6"
   dependencies:
     "@backstage/backend-common": ^0.22.0
     "@backstage/backend-defaults": ^0.2.18
@@ -15030,7 +15030,7 @@ __metadata:
     node-fetch: ^2.6.7
     winston: ^3.2.1
     yn: ^4.0.0
-  checksum: 8efcad2ced21d4c857a0547d24cdb56b96f74c0521cefb00a0d221f214ff20260e197fd01caf190d19b248602893311864f6eb7fb49c0de7c44d2eff63263f95
+  checksum: f627699df3a8ac3ca6b9bc5988cf1e738795b155fa22519f80d83d3287cd102b78710c47e9bfd8390859b74a5572fd24ec46d45112f39c2ede613b2461cb59a5
   languageName: node
   linkType: hard
 
@@ -15056,16 +15056,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-kong-service-manager-common@npm:^0.2.5":
-  version: 0.2.5
-  resolution: "@veecode-platform/backstage-plugin-kong-service-manager-common@npm:0.2.5"
-  checksum: 74fde6d932d22b658a871c8249d192b5a72c281c827d14fe3a8fda484309f354382f7bbd4060bf778db2c12d057635cb5f03ee689204c24ff0fd8a3514062cd7
+"@veecode-platform/backstage-plugin-kong-service-manager-common@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "@veecode-platform/backstage-plugin-kong-service-manager-common@npm:0.2.6"
+  checksum: fe4a65b43bb29a24864329057cfb04933607171be9da32411c22243217255c63dd678969dfea537bc633109e49d40d3b98f6d62111ff38c46c5224e6c1c9cc27
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:0.3.5"
+"@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:0.3.6"
   dependencies:
     "@backstage/backend-common": ^0.22.0
     "@backstage/backend-plugin-api": ^0.6.18
@@ -15073,13 +15073,13 @@ __metadata:
     "@backstage/plugin-scaffolder-node": ^0.4.4
     fs-extra: ^10.0.0
     jsonata: ^1.8.6
-  checksum: 7b439db35df16b8a01451083fe2354c4d8a24d4edb257c06f8a0602d09c62061e7b5464de1cb7de74be99897c038ce1870440344890979b52a408afe58c6417d
+  checksum: a41f850ff1e1031628f76283dff491f48f7455e69ea957d91092b2832ffa2ecc058308da7d8918a12bf083f707bd075936781066e736175a8cdc4f69fc214210
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-application-backend@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/plugin-application-backend@npm:0.3.5"
+"@veecode-platform/plugin-application-backend@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/plugin-application-backend@npm:0.3.6"
   dependencies:
     "@backstage/backend-common": ^0.22.0
     "@backstage/config": ^1.2.0
@@ -15102,7 +15102,7 @@ __metadata:
     uuid: 8.0.0
     winston: ^3.2.1
     yn: ^4.0.0
-  checksum: 423723cfb7932fb91e8238eb2601190fec765843e3e0c4cf41aaccdea43627e054b071db3e8bdafe6b60a5ee2a8cc24ceaaa3b25ec2c2a61749a6f3364dd89f9
+  checksum: a7318aa4707233d7dcd871ff3e7e6f7f407c24070edac5f32ba6d45a1091ea31cdae86cdd29323d4716e9de6c17858ecc4f15b08e8ff148ba3b6b1379d396560
   languageName: node
   linkType: hard
 
@@ -15115,18 +15115,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-application-common@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/plugin-application-common@npm:0.3.5"
+"@veecode-platform/plugin-application-common@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/plugin-application-common@npm:0.3.6"
   dependencies:
     "@backstage/plugin-permission-common": ^0.7.13
-  checksum: a6d3450d0ac2a93102a69d312b24cf33870a0e1428c92fe2a124fa260eabfa5857a229971f2d8a1301476d0545371524d07dba2918d3afa50bfc0ef1434d5f47
+  checksum: 42517b505f09c112f0e7355a1bd593783f7976814154b16103123eb4edc8e5bfd470e199a897846f5ebaf84a5ca945548332358951beb3ed73f71c3ee2943894
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-application@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/plugin-application@npm:0.3.5"
+"@veecode-platform/plugin-application@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/plugin-application@npm:0.3.6"
   dependencies:
     "@backstage-community/plugin-github-actions": ^0.6.16
     "@backstage/catalog-model": ^1.5.0
@@ -15149,13 +15149,13 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^17.0.2
-  checksum: a74cd4ba0a915b8db4ff7e4bcfba9f7a1252309a485d5f363afb79fff59b393ff2b4d3838ace04a884267636c908565b9f2666e5de7d48674c1fe87c1f3ca648
+  checksum: 65bde85f77b771e965637d6cff1c57c7d6e4a30d15b3e1dee942606c565c3d6333bb6911361183d5d44bda80b2186121333f43df75c72ce391450093671ac00f
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-database-explorer@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/plugin-database-explorer@npm:0.3.5"
+"@veecode-platform/plugin-database-explorer@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/plugin-database-explorer@npm:0.3.6"
   dependencies:
     "@backstage/core-components": ^0.14.7
     "@backstage/core-plugin-api": ^1.9.2
@@ -15166,13 +15166,13 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: 53abe6396b46ba859fc055c8bf9852f6a3b6ac5ff65dac663b2035b97950910e02f17332ffa6341c2d2e476589cabdcf31d02f0877a31f9b6066539199c20ca6
+  checksum: 6e7b1ebaf8de435065012f11043b4c1d222760348f2c2eac689d483a87a1e3b2ac66bfb544d449bce6eaefc9d3234bbac84fd51228f04d3643e9815cb626dddb
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-environment-explorer@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/plugin-environment-explorer@npm:0.3.5"
+"@veecode-platform/plugin-environment-explorer@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/plugin-environment-explorer@npm:0.3.6"
   dependencies:
     "@backstage/core-components": ^0.14.7
     "@backstage/core-plugin-api": ^1.9.2
@@ -15183,7 +15183,7 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: 191bd817bb19a8320b4f4e8f9222a2facd19ec43d7ae21bed20b0ee0335e6d3bc46c5badf506f73eadafe43654c049b90e698bbe2fe5f141fb0549692aff0f0e
+  checksum: 15969e340dd24c32d1a0ecc53ac62b34a9606d1d20593559f11a72504a3cca36a228dea1ced350d44a59b6c4d36f136fb3e9b910617db8b07ef6d7da5fdff3ce
   languageName: node
   linkType: hard
 
@@ -15213,9 +15213,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-kong-service-manager@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/plugin-kong-service-manager@npm:0.3.5"
+"@veecode-platform/plugin-kong-service-manager@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/plugin-kong-service-manager@npm:0.3.6"
   dependencies:
     "@backstage/catalog-model": ^1.5.0
     "@backstage/core-components": ^0.14.7
@@ -15228,13 +15228,13 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^17.0.0
-  checksum: 730c1010e00ee35f248baf766f33c982870300dec2a5f2c1ff4e6b87f22cc9e46ca66dcb41afe2334ac5003083d81e6bfb9446a2fa73522008bbb94cad032e23
+  checksum: 185b33849788dde00d08e2e10532b1cf66ff1a5b2ec866ff5387cdb04f24c024603ec67fc4edac70ecb2713c1e3e969cdd48c72d91201b803b98034ecb50d6df
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-vault-explorer@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/plugin-vault-explorer@npm:0.3.5"
+"@veecode-platform/plugin-vault-explorer@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/plugin-vault-explorer@npm:0.3.6"
   dependencies:
     "@backstage/core-components": ^0.14.7
     "@backstage/core-plugin-api": ^1.9.2
@@ -15245,20 +15245,20 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: d5ed5f5526897bd7df15aa6e1c10dca23a0ca5ed386fa0a1f6bf42430cb519845baeb5265b9dc758aeb74506e56f89147697ecb5afcff70b060256149c4d36ad
+  checksum: 2393459bce80122de2f016b0873fc96d7ed0924280f2d673d7d84cbe3db8ebe156c62fe35ae7b53b1a01e0d0b68c57bae452d5dbe50c1d9cc9e4d88c752ff78c
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-veecode-platform-common@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/plugin-veecode-platform-common@npm:0.3.5"
-  checksum: a0b407976919122c2f4d9cd01b87cc757667e0ccddf2d959db5077f89e58bb39c4ce52020066d6b7083336f58cf5b33a970e5e926ca6bf21b03b522c51cfb7a3
+"@veecode-platform/plugin-veecode-platform-common@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/plugin-veecode-platform-common@npm:0.3.6"
+  checksum: a0afab468d4f079df2c905cb159141128bba8003b4a21e02ec1c700cda2ea7a14503602b40a9bd719159b061b0f6cabb7bfd4900bfd6d7d3c8fd0197acc2cba4
   languageName: node
   linkType: hard
 
-"@veecode-platform/veecode-scaffolder-extensions@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@veecode-platform/veecode-scaffolder-extensions@npm:0.3.5"
+"@veecode-platform/veecode-scaffolder-extensions@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@veecode-platform/veecode-scaffolder-extensions@npm:0.3.6"
   dependencies:
     "@backstage/core-components": ^0.14.7
     "@backstage/core-plugin-api": ^1.9.2
@@ -15270,7 +15270,7 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 9cb47c8bea9af514eed01e25773261dba5d38b3e961a0822d34028d922eb15049cb4bd82ae967e3b34de291c9dd69a1b51584ea46c3c22859c82244765f52116
+  checksum: a2d156754e3a02f52db31a7a897efded332494ce6961dd5eb608a47694c41ca4c99dbe57af0948073c3f71ffda5bf33b3b983c22ee2445885016742e78599253
   languageName: node
   linkType: hard
 
@@ -16027,19 +16027,19 @@ __metadata:
     "@types/lodash": ^4.17.0
     "@types/node": "*"
     "@types/react-dom": "*"
-    "@veecode-platform/backstage-plugin-api-explorer": ^0.3.5
-    "@veecode-platform/backstage-plugin-cluster-explorer": ^0.3.5
-    "@veecode-platform/backstage-plugin-github-workflows": ^0.5.5
-    "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.4.5
+    "@veecode-platform/backstage-plugin-api-explorer": ^0.3.6
+    "@veecode-platform/backstage-plugin-cluster-explorer": ^0.3.6
+    "@veecode-platform/backstage-plugin-github-workflows": ^0.5.6
+    "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.4.6
     "@veecode-platform/backstage-plugin-k8s-cluster-overview": ^0.1.36
-    "@veecode-platform/plugin-application": ^0.3.5
-    "@veecode-platform/plugin-application-common": ^0.3.5
-    "@veecode-platform/plugin-database-explorer": ^0.3.5
-    "@veecode-platform/plugin-environment-explorer": ^0.3.5
+    "@veecode-platform/plugin-application": ^0.3.6
+    "@veecode-platform/plugin-application-common": ^0.3.6
+    "@veecode-platform/plugin-database-explorer": ^0.3.6
+    "@veecode-platform/plugin-environment-explorer": ^0.3.6
     "@veecode-platform/plugin-github-actions": ^0.6.3
-    "@veecode-platform/plugin-kong-service-manager": ^0.3.5
-    "@veecode-platform/plugin-vault-explorer": ^0.3.5
-    "@veecode-platform/veecode-scaffolder-extensions": ^0.3.5
+    "@veecode-platform/plugin-kong-service-manager": ^0.3.6
+    "@veecode-platform/plugin-vault-explorer": ^0.3.6
+    "@veecode-platform/veecode-scaffolder-extensions": ^0.3.6
     cross-env: ^7.0.0
     cypress: ^7.3.0
     eslint-plugin-cypress: ^2.10.3
@@ -16911,11 +16911,11 @@ __metadata:
     "@types/express": ^4.17.6
     "@types/express-serve-static-core": ^4.17.5
     "@types/luxon": ^2.0.4
-    "@veecode-platform/backstage-plugin-infracost-backend": ^0.2.5
-    "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": ^0.3.5
-    "@veecode-platform/plugin-application-backend": ^0.3.5
-    "@veecode-platform/plugin-application-common": ^0.3.5
-    "@veecode-platform/plugin-veecode-platform-common": ^0.3.5
+    "@veecode-platform/backstage-plugin-infracost-backend": ^0.2.6
+    "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": ^0.3.6
+    "@veecode-platform/plugin-application-backend": ^0.3.6
+    "@veecode-platform/plugin-application-common": ^0.3.6
+    "@veecode-platform/plugin-veecode-platform-common": ^0.3.6
     app: "link:../app"
     better-sqlite3: ^9.4.3
     dockerode: ^3.3.1
