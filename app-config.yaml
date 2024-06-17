@@ -336,7 +336,7 @@ enabledPlugins:
   gitlabPlugin: false
   keycloak: true
   azureDevops: false
-  infracost: true
+  infracost: false
 
 platform:
   behaviour: 
