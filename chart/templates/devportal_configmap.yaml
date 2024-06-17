@@ -500,6 +500,30 @@ data:
             userQuerySize: {{ .Values.catalog.providers.keycloak.userQuerySize | default 500 }}
             groupQuerySize: {{ .Values.catalog.providers.keycloak.groupQuerySize | default 250 }}
         {{- end }}
+        {{- if .Values.catalog.providers.infracost }}
+        infracost:
+          providerId: 
+            organization: {{ .Values.catalog.providers.infracost.organization | quote }}
+            schedule:    
+              frequency:
+                {{- if and .Values.catalog.providers.infracost.schedule .Values.catalog.providers.infracost.schedule.frequency }}
+                minutes: {{ .Values.catalog.providers.infracost.schedule.frequency }}
+                {{- else }}
+                minutes: 5
+                {{- end }}
+              timeout: 
+                {{- if and .Values.catalog.providers.infracost.schedule .Values.catalog.providers.infracost.schedule.timeout }}
+                minutes: {{ .Values.catalog.providers.infracost.schedule.timeout }}
+                {{- else }}
+                minutes: 3
+                {{- end }}
+              initialDelay: 
+                {{- if and .Values.catalog.providers.infracost.schedule .Values.catalog.providers.infracost.schedule.initialDelay }}
+                seconds: {{ .Values.catalog.providers.infracost.schedule.initialDelay }}
+                {{- else }}
+                seconds: 15
+                {{- end }}
+        {{- end }}
       {{- end }}
       {{- if .Values.locations }}
       locations: {{- range .Values.locations }}
@@ -580,6 +604,7 @@ data:
       gitlabPlugin: {{ hasKey .Values.integrations "gitlab" }}
       keycloak: {{ hasKey .Values.catalog.providers "keycloak" }}
       azureDevops: {{ .Values.azureDevOps.enabled | default false }}
+      infracost: {{ .Values.infracost.enabled | default false }}
     platform:
       guest:
         enabled: {{ .Values.platform.guest.enabled | default false }}

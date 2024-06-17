@@ -154,6 +154,9 @@ azureDevOps:
 #  token: #azure token
 #  organization: #azure organization
 
+infracost:
+  enabled: false
+
 proxy:
   gitlab:
     # target: https://gitlab.com #(Optional)Auto generated, only override if needed
@@ -220,7 +223,7 @@ catalog:
   orphanStrategy: delete #Orphan strategy(delete|keep)
   rules: #Catalog rules
     - allow:
-        [Component, API, Location, Cluster, Template, Environment, Database]
+        [Component, API, Location, Cluster, Template, Environment, Database, Infracost]
   providers: {}
 #    github:
 #      organization: #github Organization Name
