@@ -24,6 +24,12 @@ export default async function createPlugin(
 ): Promise<Router> {
   const builder = await CatalogBuilder.create(env);
   const cacheService = env.cache.getClient();
+
+  builder.addProcessor( new ClusterEntitiesProcessor());
+  builder.addProcessor( new EnvironmentEntitiesProcessor());
+  builder.addProcessor( new DatabaseEntitiesProcessor());
+  builder.addProcessor( new VaultEntitiesProcessor());
+  
   builder.addEntityProvider(
     GithubEntityProvider.fromConfig(env.config, {
       logger: env.logger,
@@ -124,11 +130,6 @@ builder.addProcessor(
 
   // Azure Devops Plugin
   if (env.config.getBoolean("enabledPlugins.azureDevops"))  builder.addProcessor(AzureDevOpsAnnotatorProcessor.fromConfig(env.config));
-
-  builder.addProcessor( new ClusterEntitiesProcessor());
-  builder.addProcessor( new EnvironmentEntitiesProcessor());
-  builder.addProcessor( new DatabaseEntitiesProcessor());
-  builder.addProcessor( new VaultEntitiesProcessor());
 
   builder.addProcessor(new ScaffolderEntitiesProcessor());
   const { processingEngine, router } = await builder.build();

@@ -80,7 +80,7 @@ import {
 } from '@roadiehq/backstage-plugin-github-pull-requests';
 import { EntityVaultCard } from '@backstage-community/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
-import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
+import { EntityKubernetesContent, isKubernetesAvailable } from '@backstage/plugin-kubernetes';
 import { PluginItem } from './utils/types';
 // gitlab
 import {
@@ -110,6 +110,7 @@ import { KongServiceManagerPage, isKongServiceManagerAvailable } from '@veecode-
 //  LibraryCheckPage,
 //  useIsProjectLibrariesAvailable,
 //} from '@anakz/backstage-plugin-library-check';
+import { KubernetesGptAnalyzerPage,KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -730,6 +731,14 @@ const clusterPage = (
               </EntitySwitch.Case>
           </EntitySwitch>
 
+        <EntitySwitch>
+          <EntitySwitch.Case if={isKubernetesAvailable}>
+            <Grid item lg={6} md={12} xs={12}>
+              <KubernetesGptAnalyzerCard />
+            </Grid>
+          </EntitySwitch.Case>
+        </EntitySwitch>
+
         <Grid item lg={6} md={12} xs={12}>
             <ClusterInstructionsCard />
         </Grid>
@@ -781,6 +790,7 @@ const clusterPage = (
       >
       {pullRequestsContent}
     </EntityLayout.Route>
+
     <EntityLayout.Route
       if={entity => isAnnotationAvailable(entity, 'grafana/dashboard-selector')}
       path="/grafana"
@@ -788,6 +798,7 @@ const clusterPage = (
     >
       {grafanaContent}
     </EntityLayout.Route>
+
     <EntityLayout.Route
       if={entity =>
         isAnnotationAvailable(entity, 'grafana/alert-label-selector')
@@ -797,6 +808,11 @@ const clusterPage = (
     >
       {grafanaAlertsContent}
     </EntityLayout.Route>
+
+    <EntityLayout.Route if={isKubernetesAvailable} path="/kubernetes-gpt-analyzer" title="Kubernetes GPT">
+      <KubernetesGptAnalyzerPage />
+    </EntityLayout.Route>
+
     <EntityLayout.Route
       if={entity => isAnnotationAvailable(entity, 'backstage.io/techdocs-ref')}
       path="/docs"
