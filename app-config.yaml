@@ -297,14 +297,6 @@ auth:
   session:
     secret: ${AUTH_USER_SESSION_SECRET}
   providers:
-    okta:
-      development:
-        clientId: ${OKTA_CLIENT_ID}
-        clientSecret: ${OKTA_CLIENT_SECRET}
-        audience: ${OKTA_AUDIENCE}
-        authServerId: ${OKTA_AUTH_SERVER_ID}
-        apiToken: ${OKTA_API_TOKEN}
-
     keycloak:
       development:
         metadataUrl: ${KEYCLOAK_METADATA_URL}
@@ -319,6 +311,11 @@ auth:
       development:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+        signIn:
+          resolvers:
+            - resolver: usernameMatchingUserEntityName
+            - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName
 
     gitlab:
      development:
@@ -327,6 +324,11 @@ auth:
         audience: https://gitlab.com
         ## uncomment if using a custom redirect URI
         # callbackUrl: https://${BASE_URL}/api/auth/gitlab/handler/frame
+        signIn:
+          resolvers:
+            - resolver: usernameMatchingUserEntityName
+            - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName
 
 enabledPlugins:
   vault: true

@@ -4464,6 +4464,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/plugin-catalog-backend-module-azure@npm:^0.1.38":
+  version: 0.1.38
+  resolution: "@backstage/plugin-catalog-backend-module-azure@npm:0.1.38"
+  dependencies:
+    "@backstage/backend-common": ^0.22.0
+    "@backstage/backend-plugin-api": ^0.6.18
+    "@backstage/backend-tasks": ^0.5.23
+    "@backstage/config": ^1.2.0
+    "@backstage/integration": ^1.11.0
+    "@backstage/plugin-catalog-common": ^1.0.23
+    "@backstage/plugin-catalog-node": ^1.12.0
+    node-fetch: ^2.6.7
+    uuid: ^9.0.0
+  checksum: 59e95c38c77c3933a819b3f4db54fdb2edbe9d5b3991dde30c9dc833f906849f2bed49bd5106400299fc999d38515cb530997e78d6e6fe9bdaf4fb0b6f8285ad
+  languageName: node
+  linkType: hard
+
 "@backstage/plugin-catalog-backend-module-bitbucket-cloud@npm:^0.2.5":
   version: 0.2.5
   resolution: "@backstage/plugin-catalog-backend-module-bitbucket-cloud@npm:0.2.5"
@@ -5044,6 +5061,18 @@ __metadata:
     react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-router-dom: 6.0.0-beta.0 || ^6.3.0
   checksum: ab62873f29a9af8021c61d3d401475270507f045b887ed8067a90838db47be299cee55d0abf6e33daed78521d6d3d7b14e75b74d22b859838772faee3832a8d3
+  languageName: node
+  linkType: hard
+
+"@backstage/plugin-permission-backend-module-allow-all-policy@npm:^0.1.15":
+  version: 0.1.15
+  resolution: "@backstage/plugin-permission-backend-module-allow-all-policy@npm:0.1.15"
+  dependencies:
+    "@backstage/backend-plugin-api": ^0.6.18
+    "@backstage/plugin-auth-node": ^0.4.13
+    "@backstage/plugin-permission-common": ^0.7.13
+    "@backstage/plugin-permission-node": ^0.7.29
+  checksum: 5d2f49868555121c1003f1ce01b8f4172a255cfc41a56d9d87223f99fd63d6fba771c452b3bc11b7ffd099b5e919de6510a56fe53fd35910eabeccda0c97f2c7
   languageName: node
   linkType: hard
 
@@ -16872,6 +16901,8 @@ __metadata:
     "@backstage-community/plugin-explore-common": ^0.0.3
     "@backstage-community/plugin-vault-backend": ^0.4.11
     "@backstage/backend-common": ^0.22.0
+    "@backstage/backend-defaults": ^0.2.18
+    "@backstage/backend-plugin-api": ^0.6.18
     "@backstage/backend-tasks": ^0.5.23
     "@backstage/catalog-client": ^1.6.5
     "@backstage/catalog-model": ^1.5.0
@@ -16880,19 +16911,25 @@ __metadata:
     "@backstage/integration": ^1.11.0
     "@backstage/plugin-app-backend": ^0.3.67
     "@backstage/plugin-auth-backend": ^0.22.5
+    "@backstage/plugin-auth-backend-module-github-provider": ^0.1.15
+    "@backstage/plugin-auth-backend-module-gitlab-provider": ^0.1.15
     "@backstage/plugin-auth-node": ^0.4.13
     "@backstage/plugin-catalog-backend": ^1.22.0
+    "@backstage/plugin-catalog-backend-module-azure": ^0.1.38
     "@backstage/plugin-catalog-backend-module-bitbucket-cloud": ^0.2.5
     "@backstage/plugin-catalog-backend-module-bitbucket-server": ^0.1.32
     "@backstage/plugin-catalog-backend-module-github": ^0.6.1
     "@backstage/plugin-catalog-backend-module-gitlab": ^0.3.17
+    "@backstage/plugin-catalog-node": ^1.12.0
     "@backstage/plugin-kubernetes-backend": ^0.17.1
     "@backstage/plugin-permission-backend": ^0.5.42
+    "@backstage/plugin-permission-backend-module-allow-all-policy": ^0.1.15
     "@backstage/plugin-permission-common": ^0.7.13
     "@backstage/plugin-permission-node": ^0.7.29
     "@backstage/plugin-proxy-backend": ^0.4.16
     "@backstage/plugin-scaffolder-backend": ^1.22.7
     "@backstage/plugin-search-backend": ^1.5.9
+    "@backstage/plugin-search-backend-module-catalog": ^0.1.24
     "@backstage/plugin-search-backend-module-pg": ^0.5.27
     "@backstage/plugin-search-backend-module-techdocs": ^0.1.23
     "@backstage/plugin-search-backend-node": ^1.2.23

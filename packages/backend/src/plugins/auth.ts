@@ -84,57 +84,6 @@ export default async function createPlugin(
         },
 
       }),
-      github: providers.github.create({
-        signIn: {
-          async resolver({ result: { fullProfile } }, ctx) {
-            const userId = fullProfile.username;
-            if (!userId) {
-              throw new Error(
-                `GitHub user profile does not contain a username`,
-              );
-            }
-
-            const userEntityRef = stringifyEntityRef({
-              kind: 'User',
-              name: userId,
-              namespace: 'DEFAULT_NAMESPACE',
-            });
-
-            return ctx.issueToken({
-              claims: {
-                sub: userEntityRef,
-                ent: [userEntityRef],
-              },
-            });
-          },
-        },
-      }),
-      gitlab: providers.gitlab.create({
-        signIn: {
-          async resolver({ result: { fullProfile } }, ctx) {
-            const userId = fullProfile.id;
-            const userName = fullProfile.displayName
-            if (!userId) {
-              throw new Error(
-                `Gitlab user profile does not contain a userId`,
-              );
-            }
-
-            const userEntityRef = stringifyEntityRef({
-              kind: 'User',
-              name: userName,
-            });
-            
-            return ctx.issueToken({
-              claims: {
-                sub: userEntityRef,
-                ent: [userEntityRef],
-              },
-            });
-            
-          },
-        },
-      }),
     },
   });
 }
