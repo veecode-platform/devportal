@@ -47,6 +47,7 @@ import permissionsHub from './plugins/permissionsHub';
 //import libraryCheck from './plugins/libraryCheck';
 // infracost
 import infracost from './plugins/infracost'
+import rbacMigrations from './plugins/rbac-migrations'
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -166,6 +167,9 @@ async function main() {
     const infraconstEnv = useHotMemoize(module, () => createEnv('infracost'));
     apiRouter.use('/infracost', await infracost(infraconstEnv));
   }
+
+  const rbacMigrationsEnv = useHotMemoize(module, () => createEnv('rbac-migrations'));
+  apiRouter.use('/rbac-migrations', await rbacMigrations(rbacMigrationsEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback 
   apiRouter.use(notFoundHandler());
