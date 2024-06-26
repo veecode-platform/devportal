@@ -3600,7 +3600,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/backend-test-utils@npm:^0.3.3, @backstage/backend-test-utils@npm:^0.3.7":
+"@backstage/backend-test-utils@npm:^0.3.3, @backstage/backend-test-utils@npm:^0.3.8":
   version: 0.3.8
   resolution: "@backstage/backend-test-utils@npm:0.3.8"
   dependencies:
@@ -3660,7 +3660,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/cli-node@npm:^0.2.6":
+"@backstage/cli-node@npm:^0.2.5, @backstage/cli-node@npm:^0.2.6":
   version: 0.2.6
   resolution: "@backstage/cli-node@npm:0.2.6"
   dependencies:
@@ -3673,6 +3673,141 @@ __metadata:
     semver: ^7.5.3
     zod: ^3.22.4
   checksum: 01b14fd7134e97874d0b300a43c1a246e1fa0b741c34fba07410efc1841dafbbb1ea020c5a8eb61908bc787ca0f33826c4cdb215fe2246eeeb655d5f9d7bf695
+  languageName: node
+  linkType: hard
+
+"@backstage/cli@npm:0.26.6":
+  version: 0.26.6
+  resolution: "@backstage/cli@npm:0.26.6"
+  dependencies:
+    "@backstage/catalog-model": ^1.5.0
+    "@backstage/cli-common": ^0.1.13
+    "@backstage/cli-node": ^0.2.5
+    "@backstage/config": ^1.2.0
+    "@backstage/config-loader": ^1.8.0
+    "@backstage/errors": ^1.2.4
+    "@backstage/eslint-plugin": ^0.1.8
+    "@backstage/integration": ^1.11.0
+    "@backstage/release-manifests": ^0.0.11
+    "@backstage/types": ^1.1.1
+    "@manypkg/get-packages": ^1.1.3
+    "@octokit/graphql": ^5.0.0
+    "@octokit/graphql-schema": ^13.7.0
+    "@octokit/oauth-app": ^4.2.0
+    "@octokit/request": ^6.0.0
+    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.7
+    "@rollup/plugin-commonjs": ^25.0.0
+    "@rollup/plugin-json": ^6.0.0
+    "@rollup/plugin-node-resolve": ^15.0.0
+    "@rollup/plugin-yaml": ^4.0.0
+    "@spotify/eslint-config-base": ^15.0.0
+    "@spotify/eslint-config-react": ^15.0.0
+    "@spotify/eslint-config-typescript": ^15.0.0
+    "@sucrase/webpack-loader": ^2.0.0
+    "@svgr/core": 6.5.x
+    "@svgr/plugin-jsx": 6.5.x
+    "@svgr/plugin-svgo": 6.5.x
+    "@svgr/rollup": 6.5.x
+    "@svgr/webpack": 6.5.x
+    "@swc/core": ^1.3.46
+    "@swc/helpers": ^0.5.0
+    "@swc/jest": ^0.2.22
+    "@types/jest": ^29.5.11
+    "@types/webpack-env": ^1.15.2
+    "@typescript-eslint/eslint-plugin": ^6.12.0
+    "@typescript-eslint/parser": ^6.7.2
+    "@yarnpkg/lockfile": ^1.1.0
+    "@yarnpkg/parsers": ^3.0.0-rc.4
+    bfj: ^8.0.0
+    buffer: ^6.0.3
+    chalk: ^4.0.0
+    chokidar: ^3.3.1
+    commander: ^12.0.0
+    cross-fetch: ^4.0.0
+    cross-spawn: ^7.0.3
+    css-loader: ^6.5.1
+    ctrlc-windows: ^2.1.0
+    diff: ^5.0.0
+    esbuild: ^0.20.0
+    esbuild-loader: ^4.0.0
+    eslint: ^8.6.0
+    eslint-config-prettier: ^9.0.0
+    eslint-formatter-friendly: ^7.0.0
+    eslint-plugin-deprecation: ^2.0.0
+    eslint-plugin-import: ^2.25.4
+    eslint-plugin-jest: ^27.0.0
+    eslint-plugin-jsx-a11y: ^6.5.1
+    eslint-plugin-react: ^7.28.0
+    eslint-plugin-react-hooks: ^4.3.0
+    eslint-plugin-unused-imports: ^3.0.0
+    eslint-webpack-plugin: ^4.0.0
+    express: ^4.17.1
+    fork-ts-checker-webpack-plugin: ^9.0.0
+    fs-extra: ^11.2.0
+    git-url-parse: ^14.0.0
+    glob: ^7.1.7
+    global-agent: ^3.0.0
+    handlebars: ^4.7.3
+    html-webpack-plugin: ^5.3.1
+    inquirer: ^8.2.0
+    jest: ^29.7.0
+    jest-css-modules: ^2.1.0
+    jest-environment-jsdom: ^29.0.2
+    jest-runtime: ^29.0.2
+    json-schema: ^0.4.0
+    lodash: ^4.17.21
+    mini-css-extract-plugin: ^2.4.2
+    minimatch: ^9.0.0
+    node-fetch: ^2.6.7
+    node-libs-browser: ^2.2.1
+    npm-packlist: ^5.0.0
+    ora: ^5.3.0
+    p-limit: ^3.1.0
+    p-queue: ^6.6.2
+    pirates: ^4.0.6
+    postcss: ^8.1.0
+    process: ^0.11.10
+    react-dev-utils: ^12.0.0-next.60
+    react-refresh: ^0.14.0
+    recursive-readdir: ^2.2.2
+    replace-in-file: ^7.1.0
+    rollup: ^4.0.0
+    rollup-plugin-dts: ^6.1.0
+    rollup-plugin-esbuild: ^6.1.1
+    rollup-plugin-postcss: ^4.0.0
+    rollup-pluginutils: ^2.8.2
+    run-script-webpack-plugin: ^0.2.0
+    semver: ^7.5.3
+    style-loader: ^3.3.1
+    sucrase: ^3.20.2
+    swc-loader: ^0.2.3
+    tar: ^6.1.12
+    terser-webpack-plugin: ^5.1.3
+    util: ^0.12.3
+    webpack: ^5.70.0
+    webpack-dev-server: ^5.0.0
+    webpack-node-externals: ^3.0.0
+    yaml: ^2.0.0
+    yml-loader: ^2.1.0
+    yn: ^4.0.0
+    zod: ^3.22.4
+  peerDependencies:
+    "@vitejs/plugin-react": ^4.0.4
+    vite: ^4.4.9
+    vite-plugin-html: ^3.2.0
+    vite-plugin-node-polyfills: ^0.21.0
+  peerDependenciesMeta:
+    "@vitejs/plugin-react":
+      optional: true
+    vite:
+      optional: true
+    vite-plugin-html:
+      optional: true
+    vite-plugin-node-polyfills:
+      optional: true
+  bin:
+    backstage-cli: bin/backstage-cli
+  checksum: 8006e935cc1b6b11a7da8b0b963bc90ab565ada8920cc7b20940eeca8ca1e7aa083aad38aa7a37296552b90bdfb73a58e0fc925f08c6eae9e2df384208b2c37a
   languageName: node
   linkType: hard
 
@@ -5169,7 +5304,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-permission-backend@npm:^0.5.41, @backstage/plugin-permission-backend@npm:^0.5.42":
+"@backstage/plugin-permission-backend@npm:^0.5.42":
   version: 0.5.44
   resolution: "@backstage/plugin-permission-backend@npm:0.5.44"
   dependencies:
@@ -5206,7 +5341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-permission-node@npm:^0.7.28, @backstage/plugin-permission-node@npm:^0.7.29, @backstage/plugin-permission-node@npm:^0.7.31":
+"@backstage/plugin-permission-node@npm:^0.7.29, @backstage/plugin-permission-node@npm:^0.7.31":
   version: 0.7.31
   resolution: "@backstage/plugin-permission-node@npm:0.7.31"
   dependencies:
@@ -7684,6 +7819,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@janus-idp/backstage-plugin-audit-log-node@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@janus-idp/backstage-plugin-audit-log-node@npm:1.2.0"
+  dependencies:
+    "@backstage/backend-plugin-api": ^0.6.18
+    "@backstage/errors": ^1.2.4
+    "@backstage/types": ^1.1.1
+    express: ^4.19.2
+    lodash: ^4.17.21
+  checksum: b3ba2df7b96b89a46071735469d9d34995525ac282459775e5dd986ab86c118480a7075ee2ae1ff3321739c50e9fd5825aafa8a12c96914be83c510f65099702
+  languageName: node
+  linkType: hard
+
 "@janus-idp/backstage-plugin-keycloak-backend@npm:^1.9.12":
   version: 1.11.0
   resolution: "@janus-idp/backstage-plugin-keycloak-backend@npm:1.11.0"
@@ -7702,69 +7850,66 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-rbac-backend@npm:4.0.0":
-  version: 4.0.0
-  resolution: "@janus-idp/backstage-plugin-rbac-backend@npm:4.0.0"
+"@janus-idp/backstage-plugin-rbac-backend@5.0.0, @janus-idp/backstage-plugin-rbac-backend@workspace:plugins/rbac-backend":
+  version: 0.0.0-use.local
+  resolution: "@janus-idp/backstage-plugin-rbac-backend@workspace:plugins/rbac-backend"
   dependencies:
-    "@backstage/backend-common": ^0.21.7
-    "@backstage/backend-plugin-api": ^0.6.17
-    "@backstage/backend-test-utils": ^0.3.7
-    "@backstage/catalog-client": ^1.6.4
-    "@backstage/catalog-model": ^1.4.5
+    "@backstage/backend-common": ^0.22.0
+    "@backstage/backend-plugin-api": ^0.6.18
+    "@backstage/backend-test-utils": ^0.3.8
+    "@backstage/catalog-client": ^1.6.5
+    "@backstage/catalog-model": ^1.5.0
+    "@backstage/cli": 0.26.6
     "@backstage/config": ^1.2.0
     "@backstage/core-plugin-api": ^1.9.2
     "@backstage/errors": ^1.2.4
-    "@backstage/plugin-auth-node": ^0.4.12
-    "@backstage/plugin-permission-backend": ^0.5.41
+    "@backstage/plugin-auth-node": ^0.4.13
+    "@backstage/plugin-permission-backend": ^0.5.42
     "@backstage/plugin-permission-common": ^0.7.13
-    "@backstage/plugin-permission-node": ^0.7.28
+    "@backstage/plugin-permission-node": ^0.7.29
     "@dagrejs/graphlib": ^2.1.13
-    "@janus-idp/backstage-plugin-rbac-common": 1.4.2
-    "@janus-idp/backstage-plugin-rbac-node": 1.1.1
+    "@janus-idp/backstage-plugin-audit-log-node": 1.2.0
+    "@janus-idp/backstage-plugin-rbac-common": 1.6.0
+    "@janus-idp/backstage-plugin-rbac-node": 1.2.0
+    "@types/express": 4.17.21
+    "@types/node": 18.19.34
+    "@types/supertest": 2.0.16
     casbin: ^5.27.1
     chokidar: ^3.6.0
     csv-parse: ^5.5.5
     express: ^4.18.2
     express-promise-router: ^4.1.1
     knex: ^3.0.0
+    knex-mock-client: 2.0.1
     lodash: ^4.17.21
+    msw: 1.3.3
     qs: ^6.11.2
+    supertest: 6.3.4
     typeorm-adapter: ^1.6.1
-    winston: ^3.11.0
     yn: ^4.0.0
-  checksum: 40cf26c682f2b760ed7ab28f3a41f739a36b81637a5c60e04c5aace16a6006489f542edde625ec899bed677f1b4018b31e5d21f5636baf11a57ac9c6ee2963d4
-  languageName: node
-  linkType: hard
+  languageName: unknown
+  linkType: soft
 
-"@janus-idp/backstage-plugin-rbac-common@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@janus-idp/backstage-plugin-rbac-common@npm:1.4.2"
+"@janus-idp/backstage-plugin-rbac-common@1.6.0, @janus-idp/backstage-plugin-rbac-common@workspace:plugins/rbac-common":
+  version: 0.0.0-use.local
+  resolution: "@janus-idp/backstage-plugin-rbac-common@workspace:plugins/rbac-common"
   dependencies:
-    "@backstage/plugin-permission-common": ^0.7.13
-  checksum: d6ac4f633292c9cffaba04fe9430805f330b59a5ed3065e31600d42bec273216d42ade155e909ca4db11a23bc2736103febbacfb4dbc63b019b576800dc58004
-  languageName: node
-  linkType: hard
-
-"@janus-idp/backstage-plugin-rbac-common@npm:1.6.0":
-  version: 1.6.0
-  resolution: "@janus-idp/backstage-plugin-rbac-common@npm:1.6.0"
-  dependencies:
+    "@backstage/cli": 0.26.6
     "@backstage/errors": ^1.2.4
     "@backstage/plugin-permission-common": ^0.7.13
-  checksum: 94cf2674ece14a787b789d2f7f4cd18968c202263a3cf43f75f0920be81e1188973acecd53059c77bc1c01f5f71df2562764a11cb65eae6200ce8a3fd3755c96
-  languageName: node
-  linkType: hard
+  languageName: unknown
+  linkType: soft
 
-"@janus-idp/backstage-plugin-rbac-node@npm:1.1.1":
-  version: 1.1.1
-  resolution: "@janus-idp/backstage-plugin-rbac-node@npm:1.1.1"
+"@janus-idp/backstage-plugin-rbac-node@1.2.0, @janus-idp/backstage-plugin-rbac-node@workspace:plugins/rbac-node":
+  version: 0.0.0-use.local
+  resolution: "@janus-idp/backstage-plugin-rbac-node@workspace:plugins/rbac-node"
   dependencies:
-    "@backstage/backend-plugin-api": ^0.6.17
-  checksum: 698f931df3e3c5e81379accabca11d309f2a196f780a6233d5f8a3a867d7eabdac2fedd730aaa9424e9e506dabd42133030dbd2176f500d7d1ca75dfe5574719
-  languageName: node
-  linkType: hard
+    "@backstage/backend-plugin-api": ^0.6.18
+    "@backstage/cli": 0.26.6
+  languageName: unknown
+  linkType: soft
 
-"@janus-idp/backstage-plugin-rbac@npm:^1.20.14":
+"@janus-idp/backstage-plugin-rbac@npm:^1.22.0":
   version: 1.22.0
   resolution: "@janus-idp/backstage-plugin-rbac@npm:1.22.0"
   dependencies:
@@ -13758,7 +13903,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:*, @types/express@npm:^4.17.11, @types/express@npm:^4.17.14, @types/express@npm:^4.17.21, @types/express@npm:^4.17.6":
+"@types/express@npm:*, @types/express@npm:4.17.21, @types/express@npm:^4.17.11, @types/express@npm:^4.17.14, @types/express@npm:^4.17.21, @types/express@npm:^4.17.6":
   version: 4.17.21
   resolution: "@types/express@npm:4.17.21"
   dependencies:
@@ -14078,6 +14223,15 @@ __metadata:
   dependencies:
     undici-types: ~5.26.4
   checksum: a9128840005d4a0aba68826e22ac0fdd86bb9073f1d274217d3509b52f969d1aab83415c85a8461259f33cf34f9eee02fb13dca059865bed2ba2e728bc936a76
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:18.19.34":
+  version: 18.19.34
+  resolution: "@types/node@npm:18.19.34"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: ae6369baa1529ec3564da29611ec7eb8ccb219080d717292151b6b899820d25290243d01c9240f11a63d1a42e47198cd6310fab67b6d17bea723221fea07b644
   languageName: node
   linkType: hard
 
@@ -14435,7 +14589,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/supertest@npm:^2.0.8":
+"@types/supertest@npm:2.0.16, @types/supertest@npm:^2.0.8":
   version: 2.0.16
   resolution: "@types/supertest@npm:2.0.16"
   dependencies:
@@ -15417,7 +15571,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/parsers@npm:^3.0.0":
+"@yarnpkg/parsers@npm:^3.0.0, @yarnpkg/parsers@npm:^3.0.0-rc.4":
   version: 3.0.2
   resolution: "@yarnpkg/parsers@npm:3.0.2"
   dependencies:
@@ -15900,7 +16054,7 @@ __metadata:
     "@immobiliarelabs/backstage-plugin-gitlab": ^6.5.1
     "@internal/backstage-plugin-support": ^0.1.0
     "@internal/plugin-about": ^0.1.0
-    "@janus-idp/backstage-plugin-rbac": ^1.20.14
+    "@janus-idp/backstage-plugin-rbac": ^1.22.0
     "@k-phoen/backstage-plugin-grafana": ^0.1.22
     "@material-ui/core": ^4.12.2
     "@material-ui/icons": ^4.9.1
@@ -16781,7 +16935,7 @@ __metadata:
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": ^0.1.0
     "@internal/plugin-about-backend": ^0.1.0
     "@janus-idp/backstage-plugin-keycloak-backend": ^1.9.12
-    "@janus-idp/backstage-plugin-rbac-backend": 4.0.0
+    "@janus-idp/backstage-plugin-rbac-backend": 5.0.0
     "@keycloak/keycloak-admin-client": 18.0.2
     "@roadiehq/backstage-plugin-argo-cd-backend": ^3.0.2
     "@roadiehq/backstage-plugin-aws-auth": ^0.4.23
@@ -26207,6 +26361,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"knex-mock-client@npm:2.0.1":
+  version: 2.0.1
+  resolution: "knex-mock-client@npm:2.0.1"
+  dependencies:
+    lodash.clonedeep: ^4.5.0
+  peerDependencies:
+    knex: ">=2.0.0"
+  checksum: 18d152f58cbadc908f38091b642d9f816df67e75dfc4b98d7d8dfdc25a707be474d931180dfc05edc9b1434a2fe44b732892c89d58bdcccdb8452e8095bd33a6
+  languageName: node
+  linkType: hard
+
 "knex-paginate@npm:^3.0.2":
   version: 3.1.4
   resolution: "knex-paginate@npm:3.1.4"
@@ -28321,6 +28486,40 @@ __metadata:
   languageName: node
   linkType: hard
 
+"msw@npm:1.3.3, msw@npm:^1.0.0, msw@npm:^1.0.1":
+  version: 1.3.3
+  resolution: "msw@npm:1.3.3"
+  dependencies:
+    "@mswjs/cookies": ^0.2.2
+    "@mswjs/interceptors": ^0.17.10
+    "@open-draft/until": ^1.0.3
+    "@types/cookie": ^0.4.1
+    "@types/js-levenshtein": ^1.1.1
+    chalk: ^4.1.1
+    chokidar: ^3.4.2
+    cookie: ^0.4.2
+    graphql: ^16.8.1
+    headers-polyfill: 3.2.5
+    inquirer: ^8.2.0
+    is-node-process: ^1.2.0
+    js-levenshtein: ^1.1.6
+    node-fetch: ^2.6.7
+    outvariant: ^1.4.0
+    path-to-regexp: ^6.2.0
+    strict-event-emitter: ^0.4.3
+    type-fest: ^2.19.0
+    yargs: ^17.3.1
+  peerDependencies:
+    typescript: ">= 4.4.x"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  bin:
+    msw: cli/index.js
+  checksum: cb3fda1519485f219d36c4e5ac1e1190ffe77dab66121c88cb9db0bace1ecb5a45c83db49e68e7c688b330ce43eed17d00939e09812dc710c0d4b3e59925730c
+  languageName: node
+  linkType: hard
+
 "msw@npm:^0.49.0":
   version: 0.49.3
   resolution: "msw@npm:0.49.3"
@@ -28352,40 +28551,6 @@ __metadata:
   bin:
     msw: cli/index.js
   checksum: 8322cd42cd69f289c05517d02bde22fc2f10e86fc2d0d209d9df54bd03d10b8123723c5587a2654dcd2cd0f314a016f9eccac88cffa30fafd1f9fead16db639e
-  languageName: node
-  linkType: hard
-
-"msw@npm:^1.0.0, msw@npm:^1.0.1":
-  version: 1.3.3
-  resolution: "msw@npm:1.3.3"
-  dependencies:
-    "@mswjs/cookies": ^0.2.2
-    "@mswjs/interceptors": ^0.17.10
-    "@open-draft/until": ^1.0.3
-    "@types/cookie": ^0.4.1
-    "@types/js-levenshtein": ^1.1.1
-    chalk: ^4.1.1
-    chokidar: ^3.4.2
-    cookie: ^0.4.2
-    graphql: ^16.8.1
-    headers-polyfill: 3.2.5
-    inquirer: ^8.2.0
-    is-node-process: ^1.2.0
-    js-levenshtein: ^1.1.6
-    node-fetch: ^2.6.7
-    outvariant: ^1.4.0
-    path-to-regexp: ^6.2.0
-    strict-event-emitter: ^0.4.3
-    type-fest: ^2.19.0
-    yargs: ^17.3.1
-  peerDependencies:
-    typescript: ">= 4.4.x"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  bin:
-    msw: cli/index.js
-  checksum: cb3fda1519485f219d36c4e5ac1e1190ffe77dab66121c88cb9db0bace1ecb5a45c83db49e68e7c688b330ce43eed17d00939e09812dc710c0d4b3e59925730c
   languageName: node
   linkType: hard
 
@@ -34844,7 +35009,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supertest@npm:^6.2.4, supertest@npm:^6.3.3":
+"supertest@npm:6.3.4, supertest@npm:^6.2.4, supertest@npm:^6.3.3":
   version: 6.3.4
   resolution: "supertest@npm:6.3.4"
   dependencies:
@@ -37369,7 +37534,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"winston@npm:^3.11.0, winston@npm:^3.2.1":
+"winston@npm:^3.2.1":
   version: 3.13.0
   resolution: "winston@npm:3.13.0"
   dependencies:
