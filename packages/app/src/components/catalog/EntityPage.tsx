@@ -111,6 +111,7 @@ import { KongServiceManagerPage, isKongServiceManagerAvailable } from '@veecode-
 //  useIsProjectLibrariesAvailable,
 //} from '@anakz/backstage-plugin-library-check';
 import { KubernetesGptAnalyzerPage,KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
+import { InfracostOverviewPage, isInfracostAvailable } from '@veecode-platform/backstage-plugin-infracost';
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -811,6 +812,10 @@ const clusterPage = (
 
     <EntityLayout.Route if={isKubernetesAvailable} path="/kubernetes-gpt-analyzer" title="Kubernetes GPT">
       <KubernetesGptAnalyzerPage />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route if={isInfracostAvailable} path="/infracost" title="Infracost">
+     <InfracostOverviewPage/>
     </EntityLayout.Route>
 
     <EntityLayout.Route
