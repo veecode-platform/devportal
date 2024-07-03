@@ -27,7 +27,7 @@ const sideBarDefaultValues: sidebarDefaultType = {
 const sideBarProduct: sidebarDefaultType = {
     ...sideBarDefaultValues,
     groups: true,
-    apiManagement: true
+    apiManagement: false  // remove apiManagement
 }
 
 const sideBarDemo: sidebarDefaultType = {
