@@ -50,7 +50,7 @@
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": "^0.1.0",
     "@internal/plugin-about-backend": "^0.1.0",
     "@janus-idp/backstage-plugin-keycloak-backend": "^1.9.12",
-    "@janus-idp/backstage-plugin-rbac-backend": "4.0.0",
+    "@janus-idp/backstage-plugin-rbac-backend": "4.3.2",
     "@keycloak/keycloak-admin-client": "18.0.2",
     "@roadiehq/backstage-plugin-argo-cd-backend": "^3.0.2",
     "@roadiehq/backstage-plugin-aws-auth": "^0.4.23",
