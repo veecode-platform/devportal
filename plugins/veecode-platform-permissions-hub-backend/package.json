@@ -22,16 +22,16 @@
     "postpack": "backstage-cli package postpack"
   },
   "dependencies": {
-    "@backstage/backend-common": "^0.22.0",
-    "@backstage/backend-defaults": "^0.2.18",
-    "@backstage/backend-plugin-api": "^0.6.18",
+    "@backstage/backend-common": "^0.23.2",
+    "@backstage/backend-defaults": "^0.3.3",
+    "@backstage/backend-plugin-api": "^0.6.21",
     "@backstage/config": "^1.2.0",
     "@types/express": "*",
-    "@veecode-platform/backstage-plugin-cluster-explorer-common": "^0.2.15",
-    "@veecode-platform/backstage-plugin-github-workflows-common": "^0.2.15",
-    "@veecode-platform/backstage-plugin-gitlab-pipelines-common": "^0.2.15",
-    "@veecode-platform/backstage-plugin-kong-service-manager-common": "^0.2.15",
-    "@veecode-platform/plugin-veecode-platform-common": "^0.3.15",
+    "@veecode-platform/backstage-plugin-cluster-explorer-common": "^0.2.16",
+    "@veecode-platform/backstage-plugin-github-workflows-common": "^0.2.16",
+    "@veecode-platform/backstage-plugin-gitlab-pipelines-common": "^0.2.16",
+    "@veecode-platform/backstage-plugin-kong-service-manager-common": "^0.2.16",
+    "@veecode-platform/plugin-veecode-platform-common": "^0.3.16",
     "express": "^4.17.1",
     "express-promise-router": "^4.1.0",
     "node-fetch": "^2.6.7",
@@ -39,9 +39,9 @@
     "yn": "^4.0.0"
   },
   "devDependencies": {
-    "@backstage/cli": "^0.26.6",
-    "@backstage/plugin-auth-backend": "^0.22.5",
-    "@backstage/plugin-auth-backend-module-guest-provider": "^0.1.4",
+    "@backstage/cli": "^0.26.10",
+    "@backstage/plugin-auth-backend": "^0.22.8",
+    "@backstage/plugin-auth-backend-module-guest-provider": "^0.1.7",
     "@types/supertest": "^2.0.8",
     "msw": "^1.0.0",
     "supertest": "^6.2.4"

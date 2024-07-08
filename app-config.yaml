@@ -74,11 +74,13 @@ proxy:
     "/grafana/api":
       # May be a public or an internal DNS
       target: ${GRAFANA_DOMAIN}
+      credentials: require
       headers:
         Authorization: Bearer ${GRAFANA_TOKEN}
 
     "/argocd/api":
       target: ${ARGOCD_DOMAIN}
+      credentials: require
       changeOrigin: true
       # only if your argocd api has self-signed cert
       secure: true
@@ -87,6 +89,7 @@ proxy:
 
     "/github/api":
       target: https://api.github.com/repos
+      credentials: require
       allowedHeaders: ['Authorization', 'X-GitHub-Api-Version']
       headers: 
         Accept: application/vnd.github+json
@@ -94,6 +97,7 @@ proxy:
 
     '/gitlab/api':
       target: https://gitlab.com/api/v4
+      credentials: require
       allowedHeaders: ['Authorization', 'Content-Type']
       headers:
         Accept: application/json
@@ -101,6 +105,7 @@ proxy:
 
     "/kong-manager/api":
       target: https://api.manager.apr.vee.codes/default
+      credentials: require
       allowedHeaders: ['Authorization', 'Content-Type']
       headers: 
         Accept: application/json
@@ -108,6 +113,7 @@ proxy:
     
     "/kong-manager/cluster-veecode":
       target: https://api.manager.vkpr.platform.vee.codes/default
+      credentials: require
       allowedHeaders: ["Authorization","Content-Type"]
       headers:
         Accept: application/json
