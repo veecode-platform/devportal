@@ -1,3 +1,4 @@
+{{- if .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
 {{ $adminGroup := .Values.platform.defaultGroups.admin | default "platform-admin" }}
 {{ $userGroup := .Values.platform.defaultGroups.user | default "platform-user" }}
 
@@ -58,3 +59,4 @@ data:
     p, role:default/devportal-user, kong.service.manager.delete, delete, allow
     
     g, group:default/{{ $userGroup }}, role:default/devportal-user
+{{- end }}

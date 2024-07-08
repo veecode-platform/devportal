@@ -42,7 +42,7 @@
     "@immobiliarelabs/backstage-plugin-gitlab": "^6.5.1",
     "@internal/backstage-plugin-support": "^0.1.0",
     "@internal/plugin-about": "^0.1.0",
-    "@janus-idp/backstage-plugin-rbac": "^1.20.14",
+    "@janus-idp/backstage-plugin-rbac": "^1.22.1",
     "@k-phoen/backstage-plugin-grafana": "^0.1.22",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.9.1",

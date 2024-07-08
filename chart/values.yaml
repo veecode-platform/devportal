@@ -212,6 +212,16 @@ integrations: {}
 #    apiBaseUrl: #api base URL: https://gitlab.domain.com/api/v4
 #    token:  #Gitlab Server Token
 #    callbackUrl: #The URL matching the Redirect URI registered when creating your GitLab OAuth App
+permission:
+  enabled: true
+  rbac:
+    admin:
+      defaultAdminRoleEnabled: true
+#      superUsers:
+#        - name: user:default/<user-name>
+#      users:
+#        - name: user:default/<user-name>
+#    maxDepth: 1
 
 scaffolder:
   defaultAuthor:

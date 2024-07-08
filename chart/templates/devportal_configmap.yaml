@@ -59,10 +59,30 @@ data:
           debug: true
       {{- end }}
     permission:
-      enabled: true
+      enabled: {{ .Values.permission.enabled | default true }}
       rbac:
+        {{- if .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
         policies-csv-file: /app/rbac-policy.csv
         policyFileReload: true
+        {{- end }}
+        {{- if .Values.permission.rbac.maxDepth }}
+        maxDepth: {{ .Values.permission.rbac.maxDepth }}
+        {{- end }}
+        {{- if or (and .Values.permission.rbac.admin .Values.permission.rbac.admin.superUsers) (and .Values.permission.rbac.admin .Values.permission.rbac.admin.users) }}
+        admin:
+          {{- if .Values.permission.rbac.admin.superUsers }}
+          superUsers:
+          {{- range .Values.permission.rbac.admin.superUsers }}
+            - name: {{ .name }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.permission.rbac.admin.users }}
+          users:
+          {{- range .Values.permission.rbac.admin.users }}
+            - name: {{ .name }}
+          {{- end }}
+          {{- end }}
+        {{- end }}
 
     backend:
       auth:
