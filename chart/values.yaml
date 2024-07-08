@@ -214,9 +214,9 @@ integrations: {}
 #    callbackUrl: #The URL matching the Redirect URI registered when creating your GitLab OAuth App
 permission:
   enabled: true
-#  rbac:
-#    admin:
-#      defaultAdminRoleEnabled: true
+  rbac:
+    admin:
+      defaultAdminRoleEnabled: true
 #      superUsers:
 #        - name: user:default/<user-name>
 #      users:
