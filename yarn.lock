@@ -5328,6 +5328,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/plugin-kubernetes-node@npm:^0.1.15":
+  version: 0.1.15
+  resolution: "@backstage/plugin-kubernetes-node@npm:0.1.15"
+  dependencies:
+    "@backstage/backend-plugin-api": ^0.6.21
+    "@backstage/catalog-model": ^1.5.0
+    "@backstage/plugin-kubernetes-common": ^0.8.0
+    "@backstage/types": ^1.1.1
+    "@kubernetes/client-node": ^0.20.0
+    node-fetch: ^2.6.7
+    winston: ^3.2.1
+  checksum: f0a10468bb533139cf5b8485ab57983d3ccc9058b7441748cc091e326f379279598484977b89d8049b0fda1fe9b93cf31daf3fb0ac39b735778610fed10c1b37
+  languageName: node
+  linkType: hard
+
 "@backstage/plugin-kubernetes-react@npm:^0.3.5":
   version: 0.3.5
   resolution: "@backstage/plugin-kubernetes-react@npm:0.3.5"
@@ -7746,6 +7761,19 @@ __metadata:
   checksum: a831877e21902cb643ea37309a7a62026771a4f1462a2830b9d8b60fa2ce8f0148bb22a22ef5b7475654401972e207a778a591157db474fce873087e4b8a4eb2
   languageName: node
   linkType: hard
+
+"@internal/backstage-plugin-kubernetes-backend-module-custom-auth@^0.1.0, @internal/backstage-plugin-kubernetes-backend-module-custom-auth@workspace:plugins/kubernetes-backend-module-custom-auth":
+  version: 0.0.0-use.local
+  resolution: "@internal/backstage-plugin-kubernetes-backend-module-custom-auth@workspace:plugins/kubernetes-backend-module-custom-auth"
+  dependencies:
+    "@backstage/backend-common": ^0.22.0
+    "@backstage/backend-plugin-api": ^0.6.18
+    "@backstage/backend-test-utils": ^0.3.7
+    "@backstage/cli": ^0.26.6
+    "@backstage/plugin-kubernetes-common": ^0.8.0
+    "@backstage/plugin-kubernetes-node": ^0.1.15
+  languageName: unknown
+  linkType: soft
 
 "@internal/backstage-plugin-support@^0.1.0, @internal/backstage-plugin-support@workspace:plugins/support":
   version: 0.0.0-use.local
@@ -17594,6 +17622,7 @@ __metadata:
     "@backstage/plugin-search-backend-node": ^1.2.23
     "@backstage/plugin-techdocs-backend": ^1.10.5
     "@immobiliarelabs/backstage-plugin-gitlab-backend": ^6.5.1
+    "@internal/backstage-plugin-kubernetes-backend-module-custom-auth": ^0.1.0
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": ^0.1.0
     "@internal/plugin-about-backend": ^0.1.0
     "@janus-idp/backstage-plugin-keycloak-backend": ^1.9.12
