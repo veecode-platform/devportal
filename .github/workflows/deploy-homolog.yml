@@ -111,7 +111,7 @@ jobs:
    steps:
      - uses: actions/checkout@v4
      - name: GitHub Action for DigitalOcean - doctl
-       uses: digitalocean/action-doctl@v2.3.0
+       uses: digitalocean/action-doctl@v2
        with:
          token: ${{ secrets.DO_TOKEN }}
      - name: Install Helm 
