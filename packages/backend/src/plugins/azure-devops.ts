@@ -9,6 +9,7 @@ export default function createPlugin(
     logger: env.logger,
     config: env.config,
     reader: env.reader,
-    permissions: env.permissions
+    permissions: env.permissions,
+    discovery: env.discovery,
   });
 }
