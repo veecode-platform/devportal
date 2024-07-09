@@ -7504,11 +7504,11 @@ __metadata:
     "@backstage/plugin-auth-backend-module-guest-provider": ^0.1.7
     "@types/express": "*"
     "@types/supertest": ^2.0.8
-    "@veecode-platform/backstage-plugin-cluster-explorer-common": ^0.2.15
-    "@veecode-platform/backstage-plugin-github-workflows-common": ^0.2.15
-    "@veecode-platform/backstage-plugin-gitlab-pipelines-common": ^0.2.15
-    "@veecode-platform/backstage-plugin-kong-service-manager-common": ^0.2.15
-    "@veecode-platform/plugin-veecode-platform-common": ^0.3.15
+    "@veecode-platform/backstage-plugin-cluster-explorer-common": ^0.2.16
+    "@veecode-platform/backstage-plugin-github-workflows-common": ^0.2.16
+    "@veecode-platform/backstage-plugin-gitlab-pipelines-common": ^0.2.16
+    "@veecode-platform/backstage-plugin-kong-service-manager-common": ^0.2.16
+    "@veecode-platform/plugin-veecode-platform-common": ^0.3.16
     express: ^4.17.1
     express-promise-router: ^4.1.0
     msw: ^1.0.0
@@ -7722,7 +7722,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-rbac@npm:^1.22.1":
+"@janus-idp/backstage-plugin-rbac@npm:^1.23.0":
   version: 1.23.0
   resolution: "@janus-idp/backstage-plugin-rbac@npm:1.23.0"
   dependencies:
@@ -14898,7 +14898,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-cluster-explorer-common@npm:^0.2.15":
+"@veecode-platform/backstage-plugin-cluster-explorer-common@npm:^0.2.16":
   version: 0.2.16
   resolution: "@veecode-platform/backstage-plugin-cluster-explorer-common@npm:0.2.16"
   checksum: 238dd4036df8bb0f938f4258ffe451d3c0b795b127493415bc0ca6db6dc2f217ee594bcbd26dd2d4680b169a939638197cbdacfc73a048d6123042f95178b64c
@@ -14927,7 +14927,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-github-workflows-common@npm:^0.2.15":
+"@veecode-platform/backstage-plugin-github-workflows-common@npm:^0.2.16":
   version: 0.2.16
   resolution: "@veecode-platform/backstage-plugin-github-workflows-common@npm:0.2.16"
   checksum: 7f87a855729089fdab55dba0b14474da8eec5e1644f29b88732bd84c850cf25b8095efca1301e65456c5726edc484eeab5f64f8675b247e5e6c3702b9b7bef85
@@ -14957,7 +14957,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-gitlab-pipelines-common@npm:^0.2.15":
+"@veecode-platform/backstage-plugin-gitlab-pipelines-common@npm:^0.2.16":
   version: 0.2.16
   resolution: "@veecode-platform/backstage-plugin-gitlab-pipelines-common@npm:0.2.16"
   checksum: 38daa4ed5ec030fb01e3169ef2248e65b9bb655fa9379a59830bd0595a14c37a2e64b6299431b8e0549d51a2383b68aee6d61e2743b1c589de746b9c5124fef1
@@ -15071,7 +15071,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-kong-service-manager-common@npm:^0.2.15":
+"@veecode-platform/backstage-plugin-kong-service-manager-common@npm:^0.2.16":
   version: 0.2.16
   resolution: "@veecode-platform/backstage-plugin-kong-service-manager-common@npm:0.2.16"
   checksum: e0b88957992198ab59232c560d91233c614a0933a04777301939c0c7e80469c843f2fa791cb39f2484e6ae67e82f46069f15ed149c544a1d7853727cc644e2d2
@@ -15290,7 +15290,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-veecode-platform-common@npm:^0.3.15, @veecode-platform/plugin-veecode-platform-common@npm:^0.3.16":
+"@veecode-platform/plugin-veecode-platform-common@npm:^0.3.16":
   version: 0.3.16
   resolution: "@veecode-platform/plugin-veecode-platform-common@npm:0.3.16"
   checksum: ece4dcdd826d44f8a0ed388b4f7fb2143b84feafe4b4062bb77120da1812675ad98492a44bcf8f17e71359990d70eb259611de74ce7c0d88dc185f4249a4b9d4
@@ -16024,7 +16024,7 @@ __metadata:
     "@immobiliarelabs/backstage-plugin-gitlab": ^6.5.1
     "@internal/backstage-plugin-support": ^0.1.0
     "@internal/plugin-about": ^0.1.0
-    "@janus-idp/backstage-plugin-rbac": ^1.22.1
+    "@janus-idp/backstage-plugin-rbac": ^1.23.0
     "@k-phoen/backstage-plugin-grafana": ^0.1.22
     "@material-ui/core": ^4.12.2
     "@material-ui/icons": ^4.9.1
