@@ -135,8 +135,8 @@ jobs:
           yq e '.image.repository = "veecode/devportal-bundle"' -i chart/values.yaml
           yq e '.image.tag = "${{needs.requirements.outputs.app_version}}"' -i chart/values.yaml
           yq e '.appVersion= "${{needs.requirements.outputs.app_version}}"' -i chart/Chart.yaml
-          mkdir -p charts
-          helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
+          mkdir -p ${{ github.workspace }}/charts
+          helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination ${{ github.workspace }}/charts
 
       - name: List files    
         run: |
@@ -180,7 +180,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-files: 'charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov'
+          source-files: '${{ github.workspace }}/charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz ${{ github.workspace }}/charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov'
           destination-username: 'veecode-platform'
           destination-repository: 'public-charts'
           destination-branch: 'main'
