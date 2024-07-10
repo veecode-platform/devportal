@@ -142,7 +142,9 @@ jobs:
           cat chart/values.yaml
       
       - name: List files    
-        run: ls -al ./charts
+        run: |
+          sleep 10
+          ls -al ./charts
 
       # - name: Publish Helm Charts
       #   env:
