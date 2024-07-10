@@ -180,7 +180,8 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-files: 'charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov'
+          # source-files: 'charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov'
+          source-files: 'charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz*'
           destination-username: 'veecode-platform'
           destination-repository: 'public-charts'
           destination-branch: 'main'
