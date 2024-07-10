@@ -154,8 +154,8 @@ jobs:
           git clone -b main https://${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.TARGET_OWNER }}/${{ env.TARGET_REPOSITORY }}.git $TMP_DIR
           
           #Copy charts from the source repository
-          cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz $TEMP_DIR
-          cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov $TEMP_DIR
+          cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz $TMP_DIR
+          cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov $TMP_DIR
           
           #Commit and push changes
           cd $TMP_DIR
