@@ -151,7 +151,7 @@ jobs:
           
           git config --global user.email "github-admin@vee.codes"
           git config --global user.name "veecode-bot"
-          git clone -b main https://x-access-token:${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.TARGET_OWNER }}/${{ env.TARGET_REPOSITORY }}.git $TMP_DIR
+          git clone -b main https://${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.TARGET_OWNER }}/${{ env.TARGET_REPOSITORY }}.git $TMP_DIR
           
           #Copy charts from the source repository
           cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz $TMP_DIR
