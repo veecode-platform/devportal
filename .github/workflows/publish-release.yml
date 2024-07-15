@@ -107,6 +107,7 @@ jobs:
 
   publishing:
     needs: [requirements, publishManifestDocker]
+    # needs: [requirements]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -131,25 +132,60 @@ jobs:
 
       - name: Build Helm Package
         run: |
-          yq e '.image.repository = "veecode/devportal-bundle" ' -i chart/values.yaml
-          yq e '.image.tag = "${{ needs.requirements.outputs.app_version }}" ' -i chart/values.yaml
-          yq e '.appVersion= "${{ needs.requirements.outputs.app_version }}" ' -i chart/Chart.yaml
+          yq e '.image.repository = "veecode/devportal-bundle"' -i chart/values.yaml
+          yq e '.image.tag = "${{needs.requirements.outputs.app_version}}"' -i chart/values.yaml
+          yq e '.appVersion= "${{needs.requirements.outputs.app_version}}"' -i chart/Chart.yaml
           mkdir -p charts
           helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
 
+      - name: List files    
+        run: |
+          pwd
+          ls -l charts/
+
       - name: Publish Helm Charts
-        uses: nkoppel/push-files-to-another-repository@v1.1.0
         env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-files: "charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov"
-          destination-username: 'veecode-platform'
-          destination-repository: 'public-charts'
-          destination-branch: 'main'
-          destination-directory: 'devportal'
-          commit-email: 'veecode-bot@vee.codes'
-          commit-username: 'veecode-bot'
-          commit-message: "Publishing new version devportal-${{ needs.requirements.outputs.chart_version }}"
+          TARGET_OWNER: 'veecode-platform'
+          TARGET_REPOSITORY: 'public-charts'
+        run: |
+          TMP_DIR=$(mktemp -d)
+          echo "Temporary directory $TMP_DIR"
+          
+          git config --global user.email "github-admin@vee.codes"
+          git config --global user.name "veecode-bot"
+          git clone -b main https://${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.TARGET_OWNER }}/${{ env.TARGET_REPOSITORY }}.git $TMP_DIR
+          
+          #Copy charts from the source repository
+          # cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz $TMP_DIR/devportal
+          # cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov $TMP_DIR/devportal
+          cp charts/* $TMP_DIR/devportal
+          
+          #Commit and push changes
+          cd $TMP_DIR
+          git add .
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Publishing new version devportal-${{ needs.requirements.outputs.chart_version }}"
+            git push origin 
+          else
+            echo "No changes to commit, skipping commit and push."
+          fi
+
+          #Remove temporary directory
+          rm -rf $TMP_DIR
+
+      # - name: Publish Helm Charts
+      #   uses: nkoppel/push-files-to-another-repository@v1.1.3
+      #   env:
+      #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      #   with:
+      #     source-files: 'charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov'
+      #     destination-username: 'veecode-platform'
+      #     destination-repository: 'public-charts'
+      #     destination-branch: 'main'
+      #     destination-directory: 'devportal'
+      #     commit-email: 'veecode-bot@vee.codes'
+      #     commit-username: 'veecode-bot'
+      #     commit-message: "Publishing new version devportal-${{ needs.requirements.outputs.chart_version }}"
  
       - name: Prepare doc references
         run: |
