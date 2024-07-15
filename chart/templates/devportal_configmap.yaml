@@ -183,17 +183,6 @@ data:
             Cookie:
               $env: ARGOCD_AUTH_TOKEN
         {{- end }}
-        {{- if $is_github_provider }}
-        "/github/api":
-          target: https://api.github.com/repos
-          allowedHeaders: ['Authorization', 'X-GitHub-Api-Version']
-          headers:
-            {{- if not .Values.auth.providers.github }}
-            Authorization: Bearer ${GITHUB_TOKEN_SECRET}
-            {{- end }}
-            Accept: application/vnd.github+json
-            X-GitHub-Api-Version: "2022-11-28"
-        {{- end }}
         {{- if $is_gitlab_provider }}
         "/gitlab/api":
           target: {{ default "https://gitlab.com/api/v4" (default .Values.integrations.gitlab.apiBaseUrl .Values.proxy.gitlab.target) }}
@@ -292,6 +281,7 @@ data:
       {{- if .Values.integrations.github }}
       github:
         - host: {{ .Values.integrations.github.host | default "github.com" | quote }}
+          apiBaseUrl: {{ .Values.integrations.github.apiBaseUrl | default "https://api.github.com" | quote }}
           {{- if .Values.integrations.github.token }}
           token: ${GITHUB_TOKEN_SECRET}
           {{- end }}

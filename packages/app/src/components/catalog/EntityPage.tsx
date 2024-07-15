@@ -22,7 +22,7 @@ import {
   EntityLayout,
   EntitySwitch
 } from '@backstage/plugin-catalog';
-import {isGithubActionsAvailable} from '@backstage-community/plugin-github-actions';
+import { isGithubActionsAvailable } from '@backstage-community/plugin-github-actions';
 // github-workflows
 import {
   GithubWorkflowsList,
@@ -110,7 +110,7 @@ import { KongServiceManagerPage, isKongServiceManagerAvailable } from '@veecode-
 //  LibraryCheckPage,
 //  useIsProjectLibrariesAvailable,
 //} from '@anakz/backstage-plugin-library-check';
-import { KubernetesGptAnalyzerPage,KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
+import { KubernetesGptAnalyzerPage, KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
 import { InfracostOverviewPage, isInfracostAvailable } from '@veecode-platform/backstage-plugin-infracost';
 
 // Entity validate
@@ -124,7 +124,7 @@ const cicdContent = (
       if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
       return false
     }}>
-      <GithubWorkflowsList/>
+      <GithubWorkflowsList />
     </EntitySwitch.Case>
     {/* Gitlab */}
     ( <EntitySwitch.Case if={(entity) => {
@@ -278,11 +278,11 @@ const plugins = [
 
 const linkContent = (
   <EntitySwitch>
-    <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
-        <Grid item lg={4} md={12} xs={12}>
-          <EntityLinksCard />
-        </Grid>
-      </EntitySwitch.Case>
+    <EntitySwitch.Case if={(e: Entity) => !!e.metadata.links?.length}>
+      <Grid item lg={4} md={12} xs={12}>
+        <EntityLinksCard />
+      </Grid>
+    </EntitySwitch.Case>
   </EntitySwitch>
 )
 
@@ -335,13 +335,13 @@ const overviewContent = (
 
     <EntitySwitch>
       <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
-       {githubContent}
+        {githubContent}
       </EntitySwitch.Case>
     </EntitySwitch>
 
     <EntitySwitch>
       <EntitySwitch.Case if={isGitlabJobsAvailable}>
-       {gitlabContent}
+        {gitlabContent}
       </EntitySwitch.Case>
     </EntitySwitch>
 
@@ -397,7 +397,7 @@ const serviceEntityPage = (
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
       path="/kong-service-manager" title="Kong">
-      <KongServiceManagerPage/>
+      <KongServiceManagerPage />
     </EntityLayout.Route>
 
     {/*<EntityLayout.Route
@@ -444,7 +444,7 @@ const defaultEntityPage = (
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
       path="/kong-service-manager" title="Kong">
-      <KongServiceManagerPage/>
+      <KongServiceManagerPage />
     </EntityLayout.Route>
 
     {
@@ -483,7 +483,7 @@ const websiteEntityPage = (
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
       path="/kong-service-manager" title="Kong">
-      <KongServiceManagerPage/>
+      <KongServiceManagerPage />
     </EntityLayout.Route>
 
     {
@@ -535,7 +535,7 @@ const apiPage = (
           <EntitySwitch>
             <EntitySwitch.Case
               if={(e: Entity) =>
-                 e.relations!.some(rel => rel.type === 'apiProvidedBy')
+                e.relations!.some(rel => rel.type === 'apiProvidedBy')
               }
             >
               <Grid item xs={12} md={6}>
@@ -701,9 +701,9 @@ const clusterPage = (
           />
         </Grid>
 
-          {/* Github */}
-          <EntitySwitch>
-            <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
+        {/* Github */}
+        <EntitySwitch>
+          <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
             <Grid item lg={8} xs={12}>
               <GithubWorkflowsCard />
             </Grid>
@@ -713,24 +713,24 @@ const clusterPage = (
             <Grid item lg={6} md={12} xs={12}>
               <EntityGithubInsightsReadmeCard maxHeight={350} />
             </Grid>
-    
-            </EntitySwitch.Case>
-          </EntitySwitch>
 
-          {/* Gitlab */}
-          <EntitySwitch>
-              <EntitySwitch.Case if={isGitlabJobsAvailable}>
-              <Grid item lg={8} xs={12}>
-                <GitlabJobs />
-              </Grid>      
-              <Grid item lg={4} md={12} xs={12}>
-                <EntityGitlabLanguageCard />
-              </Grid>
-              <Grid item lg={6} md={12} xs={12}>
-                <EntityGitlabReadmeCard />
-              </Grid>
-              </EntitySwitch.Case>
-          </EntitySwitch>
+          </EntitySwitch.Case>
+        </EntitySwitch>
+
+        {/* Gitlab */}
+        <EntitySwitch>
+          <EntitySwitch.Case if={isGitlabJobsAvailable}>
+            <Grid item lg={8} xs={12}>
+              <GitlabJobs />
+            </Grid>
+            <Grid item lg={4} md={12} xs={12}>
+              <EntityGitlabLanguageCard />
+            </Grid>
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityGitlabReadmeCard />
+            </Grid>
+          </EntitySwitch.Case>
+        </EntitySwitch>
 
         <EntitySwitch>
           <EntitySwitch.Case if={isKubernetesAvailable}>
@@ -741,15 +741,15 @@ const clusterPage = (
         </EntitySwitch>
 
         <Grid item lg={6} md={12} xs={12}>
-            <ClusterInstructionsCard />
+          <ClusterInstructionsCard />
         </Grid>
 
         <EntitySwitch>
-          <EntitySwitch.Case if={(e:Entity) => !!e.metadata.links?.length}>
-              <Grid item lg={6} md={12} xs={12}>
-                <EntityLinksCard />
-              </Grid>
-            </EntitySwitch.Case>
+          <EntitySwitch.Case if={(e: Entity) => !!e.metadata.links?.length}>
+            <Grid item lg={6} md={12} xs={12}>
+              <EntityLinksCard />
+            </Grid>
+          </EntitySwitch.Case>
         </EntitySwitch>
 
         {/* Has Components */}
@@ -765,30 +765,30 @@ const clusterPage = (
       </Grid>
     </EntityLayout.Route>
 
-    <EntityLayout.Route  
+    <EntityLayout.Route
       if={(entity) => {
-          if (
-            isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity) ||
-            isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity)
-          ) return true;
-          return false
-        }} 
+        if (
+          isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity) ||
+          isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity)
+        ) return true;
+        return false
+      }}
       path="/ci-cd" title="CI/CD"
-      >
+    >
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route 
-        if={(entity) => {
-            if (
-              isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity) ||
-              isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity)
-            ) return true;
-            return false
-          }} 
-        path="/pull-requests" 
-        title="Pull Requests"
-      >
+    <EntityLayout.Route
+      if={(entity) => {
+        if (
+          isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity) ||
+          isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity)
+        ) return true;
+        return false
+      }}
+      path="/pull-requests"
+      title="Pull Requests"
+    >
       {pullRequestsContent}
     </EntityLayout.Route>
 
@@ -815,7 +815,7 @@ const clusterPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route if={isInfracostAvailable} path="/infracost" title="Infracost">
-     <InfracostOverviewPage/>
+      <InfracostOverviewPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route
@@ -852,15 +852,15 @@ const databasePage = (
         </Grid>
         <Grid item lg={6} md={12} xs={12} >
           <EntityCatalogGraphCard variant='flex' height={300} />
-          <Grid item style={{marginTop: '1.2rem'}}>
+          <Grid item style={{ marginTop: '1.2rem' }}>
             <EntitySwitch>
               {/* github */}
-              <EntitySwitch.Case if={isGithubInsightsAvailable}>     
-                  <EntityGithubInsightsLanguagesCard />
+              <EntitySwitch.Case if={isGithubInsightsAvailable}>
+                <EntityGithubInsightsLanguagesCard />
               </EntitySwitch.Case>
               {/* gitlab */}
               <EntitySwitch.Case if={isGitlabAvailable}>
-                  <EntityGitlabLanguageCard />
+                <EntityGitlabLanguageCard />
               </EntitySwitch.Case>
             </EntitySwitch>
           </Grid>
@@ -884,9 +884,13 @@ const databasePage = (
           </EntitySwitch>
         </Grid>
       </Grid>
+
     </EntityLayout.Route>
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route if={isInfracostAvailable} path="/infracost" title="Infracost">
+      <InfracostOverviewPage />
     </EntityLayout.Route>
 
   </EntityLayout>
