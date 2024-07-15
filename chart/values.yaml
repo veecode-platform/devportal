@@ -191,6 +191,7 @@ integrations: {}
 #          personalAccessToken: #personal access token
 #  github:
 #    host: github.com #github Server Host
+#    apiBaseUrl: https://api.github.com
 #    token:  #github Token
 #    apps:
 #      secretName: #Github App Secret Name
