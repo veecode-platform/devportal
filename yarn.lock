@@ -7505,7 +7505,7 @@ __metadata:
     "@types/express": "*"
     "@types/supertest": ^2.0.8
     "@veecode-platform/backstage-plugin-cluster-explorer-common": ^0.2.16
-    "@veecode-platform/backstage-plugin-github-workflows-common": ^0.2.16
+    "@veecode-platform/backstage-plugin-github-workflows-common": ^0.2.17
     "@veecode-platform/backstage-plugin-gitlab-pipelines-common": ^0.2.16
     "@veecode-platform/backstage-plugin-kong-service-manager-common": ^0.2.16
     "@veecode-platform/plugin-veecode-platform-common": ^0.3.16
@@ -14927,20 +14927,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-github-workflows-common@npm:^0.2.16":
-  version: 0.2.16
-  resolution: "@veecode-platform/backstage-plugin-github-workflows-common@npm:0.2.16"
-  checksum: 7f87a855729089fdab55dba0b14474da8eec5e1644f29b88732bd84c850cf25b8095efca1301e65456c5726edc484eeab5f64f8675b247e5e6c3702b9b7bef85
+"@veecode-platform/backstage-plugin-github-workflows-common@npm:^0.2.17":
+  version: 0.2.17
+  resolution: "@veecode-platform/backstage-plugin-github-workflows-common@npm:0.2.17"
+  checksum: c076329d1c542e2815180da56c0a8b723b1e42c0dd0b6ffef992c589937bb7f85d7969ce8b377e09eb7cb36946a67c6da8cebeaea45a2a4eea3015bfedbc6d90
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-github-workflows@npm:^0.5.17":
-  version: 0.5.17
-  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:0.5.17"
+"@veecode-platform/backstage-plugin-github-workflows@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:0.6.0"
   dependencies:
     "@backstage/catalog-model": ^1.5.0
     "@backstage/core-components": ^0.14.8
     "@backstage/core-plugin-api": ^1.9.3
+    "@backstage/integration": ^1.12.0
     "@backstage/integration-react": ^1.1.28
     "@backstage/plugin-catalog-react": ^1.12.1
     "@backstage/theme": ^0.5.6
@@ -14949,11 +14950,14 @@ __metadata:
     "@material-ui/lab": 4.0.0-alpha.61
     "@octokit/rest": ^20.1.0
     dayjs: ^1.11.9
+    git-url-parse: ^14.0.0
     js-yaml: ^4.1.0
+    react-icons: ^5.2.1
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: 6adb4f721c5405fc3fea8a684ea97be880dc26fe5ab70772464944d5fb76bff662e1bc9d8cde6c7d70389b343fba712889d52200cc785c8eb5fe385f568a84aa
+    react-router-dom: ^6.24.1
+  checksum: 54797134711d0ce1cdfc25ca530c060f9cb8ee59618450637b07bbf0ce998b13c4e2922d6a80f41c81b71f416a6ae8b8f7410eab2618e0f047ebc102b2110544
   languageName: node
   linkType: hard
 
@@ -16052,7 +16056,7 @@ __metadata:
     "@types/react-dom": "*"
     "@veecode-platform/backstage-plugin-api-explorer": ^0.3.17
     "@veecode-platform/backstage-plugin-cluster-explorer": ^0.3.17
-    "@veecode-platform/backstage-plugin-github-workflows": ^0.5.17
+    "@veecode-platform/backstage-plugin-github-workflows": ^0.6.0
     "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.4.17
     "@veecode-platform/backstage-plugin-infracost": ^0.1.7
     "@veecode-platform/backstage-plugin-k8s-cluster-overview": ^0.1.36
