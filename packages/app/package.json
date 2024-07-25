@@ -55,7 +55,7 @@
     "@veecode-platform/backstage-plugin-cluster-explorer": "^0.3.17",
     "@veecode-platform/backstage-plugin-github-workflows": "^0.6.0",
     "@veecode-platform/backstage-plugin-gitlab-pipelines": "^0.4.17",
-    "@veecode-platform/backstage-plugin-infracost": "^0.1.8",
+    "@veecode-platform/backstage-plugin-infracost": "^0.1.9",
     "@veecode-platform/backstage-plugin-k8s-cluster-overview": "^0.1.36",
     "@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer": "^0.1.11",
     "@veecode-platform/plugin-application": "^0.3.17",

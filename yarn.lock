@@ -15028,9 +15028,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-infracost@npm:^0.1.8":
-  version: 0.1.8
-  resolution: "@veecode-platform/backstage-plugin-infracost@npm:0.1.8"
+"@veecode-platform/backstage-plugin-infracost@npm:^0.1.9":
+  version: 0.1.9
+  resolution: "@veecode-platform/backstage-plugin-infracost@npm:0.1.9"
   dependencies:
     "@backstage/catalog-model": ^1.5.0
     "@backstage/core-components": ^0.14.8
@@ -15049,7 +15049,7 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 77310ac90698a595b92d4de7a34a3557cab47274273ed6293472d4419fa44cdacacd113145e54607850c9ac205f0b2dcfa94177fdd4ef086991fa2eda72c1e84
+  checksum: dcaf513eb055edf6aa5237e17451335967ad680d0008b99bc6a180331ad3b49687e12a84b6dfa5e44cd3da7884223ba4f6d29758cf05a63cc8e0690a84044277
   languageName: node
   linkType: hard
 
@@ -16049,7 +16049,7 @@ __metadata:
     "@veecode-platform/backstage-plugin-cluster-explorer": ^0.3.17
     "@veecode-platform/backstage-plugin-github-workflows": ^0.6.0
     "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.4.17
-    "@veecode-platform/backstage-plugin-infracost": ^0.1.8
+    "@veecode-platform/backstage-plugin-infracost": ^0.1.9
     "@veecode-platform/backstage-plugin-k8s-cluster-overview": ^0.1.36
     "@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer": ^0.1.11
     "@veecode-platform/plugin-application": ^0.3.17
