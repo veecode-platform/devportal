@@ -513,7 +513,6 @@ data:
         {{- if .Values.infracost.enabled }}
         infracost:
           providerId: 
-            organization: {{ .Values.infracost.organization | quote }}
             schedule:    
               frequency:
                 {{- if and .Values.infracost.schedule .Values.infracost.schedule.frequency }}

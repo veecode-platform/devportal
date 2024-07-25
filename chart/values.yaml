@@ -156,7 +156,6 @@ azureDevOps:
 
 infracost:
   enabled: false
-#  organization: #infracost organization
 #  schedule:
 #    frequency: 5 #time in minutes to refresh the catalog
 #    timeout: 3 #time in minutes to timeout after the refresh request
