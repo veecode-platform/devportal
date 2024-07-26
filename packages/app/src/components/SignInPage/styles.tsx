@@ -30,6 +30,7 @@ export const useStyles = makeStyles( theme =>
       alignItems: 'center',
       flexDirection: 'column',
       background: `url('${BgSVG}')`,
+      backgroundSize: 'cover'
     },
     container: {
       padding: 0,
