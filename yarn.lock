@@ -15258,9 +15258,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-kong-service-manager@npm:0.4.3":
-  version: 0.4.3
-  resolution: "@veecode-platform/plugin-kong-service-manager@npm:0.4.3"
+"@veecode-platform/plugin-kong-service-manager@npm:0.4.4":
+  version: 0.4.4
+  resolution: "@veecode-platform/plugin-kong-service-manager@npm:0.4.4"
   dependencies:
     "@backstage/catalog-model": ^1.5.0
     "@backstage/core-components": ^0.14.8
@@ -15273,7 +15273,7 @@ __metadata:
     react-use: ^17.2.4
   peerDependencies:
     react: ^17.0.0
-  checksum: e9573601de23a1dbf3f66319fe1a0bb8d4c5c87cda9f1f3273fa7344307d352bfcb740ee6f2bc9346f8b19aa956cf31be5895ef84e4a3154db24947e49b86b1b
+  checksum: de41374f2938be0576640a0f41c19738b71f34e88e2de609da30eaed71ca3d85a19427188a9f9848286fca739785d604eee2edfeba3d8069ca0795493d10dbfe
   languageName: node
   linkType: hard
 
@@ -16057,7 +16057,7 @@ __metadata:
     "@veecode-platform/plugin-database-explorer": ^0.3.17
     "@veecode-platform/plugin-environment-explorer": ^0.3.17
     "@veecode-platform/plugin-github-actions": ^0.6.3
-    "@veecode-platform/plugin-kong-service-manager": 0.4.3
+    "@veecode-platform/plugin-kong-service-manager": 0.4.4
     "@veecode-platform/plugin-vault-explorer": ^0.3.17
     "@veecode-platform/veecode-scaffolder-extensions": ^0.4.2
     cross-env: ^7.0.0

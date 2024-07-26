@@ -63,7 +63,7 @@
     "@veecode-platform/plugin-database-explorer": "^0.3.17",
     "@veecode-platform/plugin-environment-explorer": "^0.3.17",
     "@veecode-platform/plugin-github-actions": "^0.6.3",
-    "@veecode-platform/plugin-kong-service-manager": "0.4.3",
+    "@veecode-platform/plugin-kong-service-manager": "0.4.4",
     "@veecode-platform/plugin-vault-explorer": "^0.3.17",
     "@veecode-platform/veecode-scaffolder-extensions": "^0.4.2",
     "history": "^5.0.0",
