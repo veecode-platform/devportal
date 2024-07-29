@@ -51,7 +51,7 @@ export const DefaultAboutPage = () => {
 
   const textDevportalVersion = (): string => {
     return (about?.devportalVersion !== lastVersion)
-      ? `Its current version is ${about?.devportalVersion}. Update to version ${lastVersion}!` 
+      ? `Its current version is ${about?.devportalVersion}. Update to version ${lastVersion}` 
       : `You are using the latest available version: ${about?.devportalVersion}`;
   }
 
