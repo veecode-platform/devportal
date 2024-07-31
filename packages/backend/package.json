@@ -16,7 +16,6 @@
     "build-image": "docker build ../.. -f Dockerfile --tag backstage"
   },
   "dependencies": {
-    "@anakz/backstage-plugin-library-check-backend": "^0.2.0",
     "@backstage-community/plugin-azure-devops-backend": "^0.6.5",
     "@backstage-community/plugin-explore-backend": "^0.0.28",
     "@backstage-community/plugin-explore-common": "^0.0.3",

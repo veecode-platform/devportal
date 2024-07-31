@@ -123,11 +123,6 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
             />
             <SidebarDivider />
           </SidebarSubmenu>
-          {/*<SidebarItem
-            icon={ExtensionIcon}
-            to="library-check"
-            text="Libraries"
-      />*/}
         </SidebarItem> : null}
       {behaviour.catalog ? <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" /> : null}
       {behaviour.apis ? <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" /> : null}

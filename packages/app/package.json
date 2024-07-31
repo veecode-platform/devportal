@@ -7,7 +7,6 @@
     "role": "frontend"
   },
   "dependencies": {
-    "@anakz/backstage-plugin-library-check": "^0.1.0",
     "@backstage-community/plugin-analytics-module-ga4": "^0.2.5",
     "@backstage-community/plugin-azure-devops": "^0.4.4",
     "@backstage-community/plugin-explore": "^0.4.21",

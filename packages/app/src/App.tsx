@@ -47,7 +47,6 @@ import { ScaffolderFieldExtensions,ScaffolderLayouts } from '@backstage/plugin-s
 import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
-//import { LibraryCheckIndexPage } from '@anakz/backstage-plugin-library-check';
 import { DefaultFilters } from '@backstage/plugin-catalog-react';
 import { RbacPage } from '@janus-idp/backstage-plugin-rbac';
 import { LayoutCustom } from './components/scaffolder/LayoutCustom';
@@ -198,7 +197,6 @@ const routes = (
     <Route path="/docs" element={<TechDocsIndexPage />}>
       <DefaultTechDocsHome />
     </Route>
-    {/*<Route path="/library-check" element={<LibraryCheckIndexPage />} />*/}
     <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />} />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route path="/cluster-explorer" element={<ClusterExplorerPage/>}/> 
