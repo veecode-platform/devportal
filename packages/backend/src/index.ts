@@ -44,7 +44,6 @@ import about from './plugins/about';
 // azure
 import azureDevOps from './plugins/azure-devops';
 import permissionsHub from './plugins/permissionsHub';
-//import libraryCheck from './plugins/libraryCheck';
 // infracost
 import infracost from './plugins/infracost'
 
@@ -111,7 +110,6 @@ async function main() {
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
   const aboutEnv = useHotMemoize(module, () => createEnv('about'));
   const permissionsHubEnv = useHotMemoize(module, () => createEnv('veecode-platform-permissions-hub'));
-  //const libraryCheckEnv = useHotMemoize(module, () => createEnv('libraryCheck'));
 
   const apiRouter = Router();
   apiRouter.use('/auth', await auth(authEnv))
@@ -132,7 +130,6 @@ async function main() {
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
   apiRouter.use('/aws', await aws(awsEnv));
   apiRouter.use('/about', await about(aboutEnv));
-  //apiRouter.use('/library-check', await libraryCheck(libraryCheckEnv));
 
   if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));

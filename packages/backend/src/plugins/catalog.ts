@@ -13,11 +13,6 @@ import { ClusterEntitiesProcessor, DatabaseEntitiesProcessor, EnvironmentEntitie
 // Azure
 import { AzureDevOpsAnnotatorProcessor } from '@backstage-community/plugin-azure-devops-backend';
 import { InfracostEntityProcessor, InfracostEntityProvider } from '@veecode-platform/backstage-plugin-infracost-backend';
-/*import {
-  LibraryCheckUpdaterProcessor,
-  LibraryCheckProcessor,
-  LibraryCheckProvider,
-} from '@anakz/backstage-plugin-library-check-backend';*/
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -70,39 +65,6 @@ export default async function createPlugin(
     }),
   );
   }
-
- // Library Check  
-  /*LibraryCheckProvider.fromConfig({
-    envId: 'production',
-    logger: env.logger,
-    discovery: env.discovery,
-    schedule: env.scheduler.createScheduledTaskRunner({
-      initialDelay: {
-        seconds: 190,
-      },
-      frequency: {
-        minutes: 15,
-      },
-      timeout: {
-        minutes: 3,
-      },
-    }),
-  }),
-
-
-builder.addProcessor(
-  LibraryCheckProcessor.fromConfig(env.config, {
-    discoveryService: env.discovery,
-    reader: env.reader,
-    logger: env.logger,
-  }),
-
-  LibraryCheckUpdaterProcessor.fromConfig(env.config, {
-    discoveryService: env.discovery,
-    reader: env.reader,
-    logger: env.logger,
-  }),
-);*/
 
   // start infracost config 
   if (env.config.getBoolean("enabledPlugins.infracost"))
