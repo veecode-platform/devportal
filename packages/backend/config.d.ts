@@ -25,6 +25,11 @@ export interface Config {
          * vault launch control.
          * @visibility frontend
          */
+        rbac: boolean
+        /**
+         * vault launch control.
+         * @visibility frontend
+         */
         vault: boolean
 
         /**

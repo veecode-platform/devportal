@@ -326,6 +326,7 @@ auth:
         # callbackUrl: https://${BASE_URL}/api/auth/gitlab/handler/frame
 
 enabledPlugins:
+  rbac: false
   vault: true
   grafana: true
   kubernetes: true
