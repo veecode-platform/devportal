@@ -22,8 +22,6 @@ import proxy from './plugins/proxy';
 import techdocs from './plugins/techdocs';
 import search from './plugins/search';
 import healthcheck from './plugins/healthcheck';
-// custom permission
-import permission from './plugins/permission';
 import vault from './plugins/vault';
 import application from './plugins/application'
 import { PluginEnvironment } from './types';
@@ -43,10 +41,13 @@ import explore from './plugins/explore';
 import about from './plugins/about';
 // azure
 import azureDevOps from './plugins/azure-devops';
-import permissionsHub from './plugins/permissionsHub';
 //import libraryCheck from './plugins/libraryCheck';
 // infracost
 import infracost from './plugins/infracost'
+// custom permission
+import permissionWithRbac from './plugins/permissionWithRbac';
+import permissionsHub from './plugins/permissionPluginsHub';
+import permission from './plugins/permission';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -110,8 +111,6 @@ async function main() {
   const awsEnv = useHotMemoize(module, () => createEnv('aws'));
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
   const aboutEnv = useHotMemoize(module, () => createEnv('about'));
-  const permissionsHubEnv = useHotMemoize(module, () => createEnv('veecode-platform-permissions-hub'));
-  //const libraryCheckEnv = useHotMemoize(module, () => createEnv('libraryCheck'));
 
   const apiRouter = Router();
   apiRouter.use('/auth', await auth(authEnv))
@@ -121,18 +120,23 @@ async function main() {
   apiRouter.use('/proxy', await proxy(proxyEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
   apiRouter.use('/search', await search(searchEnv));
-  apiRouter.use('/veecode-platform-permissions-hub', await permissionsHub(permissionsHubEnv))
-  apiRouter.use( 
-    '/permission',
-    await permission(permissionEnv, {
-      getPluginIds: () => ['catalog', 'scaffolder', 'permission', 'kubernetes', 'veecode-platform-permissions-hub'],
-    }),
-  );
-  //apiRouter.use('/permission', await permission(permissionEnv));
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
   apiRouter.use('/aws', await aws(awsEnv));
   apiRouter.use('/about', await about(aboutEnv));
-  //apiRouter.use('/library-check', await libraryCheck(libraryCheckEnv));
+
+  if(config.getOptionalBoolean("enabledPlugins.rbac")){
+    const permissionsHubEnv = useHotMemoize(module, () => createEnv('veecode-platform-permissions-hub'));
+    apiRouter.use('/veecode-platform-permissions-hub', await permissionsHub(permissionsHubEnv))
+    apiRouter.use( 
+      '/permission',
+      await permissionWithRbac(permissionEnv, {
+        getPluginIds: () => ['catalog', 'scaffolder', 'permission', 'kubernetes', 'veecode-platform-permissions-hub'],
+      }),
+    );
+  }
+  if(!config.getOptionalBoolean("enabledPlugins.rbac")){
+    apiRouter.use('/permission', await permission(permissionEnv));
+  }
 
   if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
     const applicationEnv = useHotMemoize(module, () => createEnv('application'));
