@@ -80,7 +80,7 @@ import {
 } from '@roadiehq/backstage-plugin-github-pull-requests';
 import { EntityVaultCard } from '@backstage-community/plugin-vault';
 import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
-import { EntityKubernetesContent, isKubernetesAvailable } from '@backstage/plugin-kubernetes';
+import { EntityKubernetesContent, isKubernetesAvailable } from '@veecode-platform/plugin-kubernetes';
 import { PluginItem } from './utils/types';
 // gitlab
 import {
