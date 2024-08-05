@@ -30,22 +30,29 @@ export class VeecodeCustomAuthStrategy implements AuthenticationStrategy {
     public async getCredential(
         clusterDetails: VeecodeClusterDetails,
     ): Promise<KubernetesCredential> {
+        console.log("ENTERED CUSTOM CLUSTER AUTH")
 
         const kc = new KubeConfig();
+        console.log("NEW KUBECONFIG")
         kc.loadFromDefault();
-        
+        console.log("LOADED FROM DEFAULT", kc)
+
         const k8sApi = kc.makeApiClient(CoreV1Api);
+        console.log("MAKE API CLIENT", k8sApi)
+
         const secretName = clusterDetails.secretName || `${clusterDetails.name}-secret`
         const namespace = clusterDetails.namespace
 
-        const response = (await k8sApi.readNamespacedSecret(secretName, namespace)).body.data?.token
+        const response = await k8sApi.readNamespacedSecret(secretName, namespace)
+        console.log("GET SECRET RESPONSE MSG: ", response.response)
 
-        if(!response){
-            console.log("CLUSTER AUTH ERROR: ", k8sApi )
+        if(!response.body.data?.token){
+            console.log("CLUSTER AUTH ERROR: ", response.body )
             throw new Error("Impossible to fetch token secret from config")
         }
 
-        const token = Buffer.from(response, 'base64').toString('utf-8');
+        const token = Buffer.from(response.body.data.token, 'base64').toString('utf-8');
+        console.log("DONE CUSTOM AUTH")
 
         return { type: 'bearer token', token };
         
