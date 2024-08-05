@@ -44,6 +44,8 @@ import {
     async getClusters(_options?: {
       credentials: BackstageCredentials;
     }): Promise<ClusterDetails[]> {
+      console.log("ENTERED CUSTOM CLUSTER LOCATOR")
+
       const apiServerKey = `metadata.annotations.${ANNOTATION_KUBERNETES_API_SERVER}`;
       //const apiServerCaKey = `metadata.annotations.${ANNOTATION_KUBERNETES_API_SERVER_CA}`;
       const authProviderKey = `metadata.annotations.${ANNOTATION_KUBERNETES_AUTH_PROVIDER}`;
@@ -89,7 +91,7 @@ import {
           dashboardApp: annotations[ANNOTATION_KUBERNETES_DASHBOARD_APP],
           dashboardParameters: this.getDashboardParameters(annotations),
         };
-        
+        console.log("ADDED NEW CLUSTER:", clusterDetails.name)
         return clusterDetails;
       });
     }
