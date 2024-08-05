@@ -2791,35 +2791,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage-community/plugin-azure-devops-backend@npm:^0.6.5":
-  version: 0.6.9
-  resolution: "@backstage-community/plugin-azure-devops-backend@npm:0.6.9"
+"@backstage-community/plugin-azure-devops-backend@npm:0.6.5":
+  version: 0.6.5
+  resolution: "@backstage-community/plugin-azure-devops-backend@npm:0.6.5"
   dependencies:
-    "@backstage-community/plugin-azure-devops-common": ^0.4.6
-    "@backstage/backend-common": ^0.23.3
-    "@backstage/backend-plugin-api": ^0.7.0
-    "@backstage/catalog-model": ^1.5.0
+    "@backstage-community/plugin-azure-devops-common": ^0.4.2
+    "@backstage/backend-common": ^0.21.7
+    "@backstage/backend-plugin-api": ^0.6.17
+    "@backstage/catalog-model": ^1.4.5
     "@backstage/config": ^1.2.0
     "@backstage/errors": ^1.2.4
-    "@backstage/integration": ^1.13.0
-    "@backstage/plugin-auth-node": ^0.4.17
-    "@backstage/plugin-catalog-common": ^1.0.25
-    "@backstage/plugin-catalog-node": ^1.12.4
-    "@backstage/plugin-permission-common": ^0.8.0
-    "@backstage/plugin-permission-node": ^0.8.0
+    "@backstage/integration": ^1.10.0
+    "@backstage/plugin-auth-node": ^0.4.12
+    "@backstage/plugin-catalog-common": ^1.0.22
+    "@backstage/plugin-catalog-node": ^1.11.1
+    "@backstage/plugin-permission-common": ^0.7.13
+    "@backstage/plugin-permission-node": ^0.7.28
     "@types/express": ^4.17.6
-    azure-devops-node-api: ^13.0.0
+    azure-devops-node-api: ^12.0.0
     express: ^4.17.1
     express-promise-router: ^4.1.0
     lodash: ^4.17.21
     mime-types: ^2.1.27
     p-limit: ^3.1.0
     yn: ^4.0.0
-  checksum: aba64d765c3f3f93cc0bf36b8a62f939b7a33eea1c3059a5c5e515e07d35e6f7068532c75165691d2abd23cef87ca3fa4cdf7ae283b28f283dbfda8c2c9a1a6d
+  checksum: f8a08a1fa8ac03ffb2fc36e2662cec2e48dc4b93fc6283874b1c5ce60c00ac1d3169e77ade69e7ae833f7a7cf0dbb60759dce04c97104cfd19da4d3431a7a851
   languageName: node
   linkType: hard
 
-"@backstage-community/plugin-azure-devops-common@npm:^0.4.6":
+"@backstage-community/plugin-azure-devops-common@npm:^0.4.2, @backstage-community/plugin-azure-devops-common@npm:^0.4.6":
   version: 0.4.6
   resolution: "@backstage-community/plugin-azure-devops-common@npm:0.4.6"
   dependencies:
@@ -4768,7 +4768,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-common@npm:^1.0.24, @backstage/plugin-catalog-common@npm:^1.0.25":
+"@backstage/plugin-catalog-common@npm:^1.0.22, @backstage/plugin-catalog-common@npm:^1.0.24, @backstage/plugin-catalog-common@npm:^1.0.25":
   version: 1.0.25
   resolution: "@backstage/plugin-catalog-common@npm:1.0.25"
   dependencies:
@@ -4843,7 +4843,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-node@npm:^1.12.4":
+"@backstage/plugin-catalog-node@npm:^1.11.1, @backstage/plugin-catalog-node@npm:^1.12.4":
   version: 1.12.4
   resolution: "@backstage/plugin-catalog-node@npm:1.12.4"
   dependencies:
@@ -5169,7 +5169,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-permission-node@npm:^0.7.29, @backstage/plugin-permission-node@npm:^0.7.32":
+"@backstage/plugin-permission-node@npm:^0.7.28, @backstage/plugin-permission-node@npm:^0.7.29, @backstage/plugin-permission-node@npm:^0.7.32":
   version: 0.7.32
   resolution: "@backstage/plugin-permission-node@npm:0.7.32"
   dependencies:
@@ -16753,16 +16753,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azure-devops-node-api@npm:^13.0.0":
-  version: 13.0.0
-  resolution: "azure-devops-node-api@npm:13.0.0"
-  dependencies:
-    tunnel: 0.0.6
-    typed-rest-client: ^1.8.4
-  checksum: 89c8a08b705b458887a78792c7d0aae9c80793f977cc3ef8ccfe07c1432832fb2561f9c85747ab62b57075ae85b3426236633f31ceb42065b8c9c75618ebb35c
-  languageName: node
-  linkType: hard
-
 "b4a@npm:^1.6.4":
   version: 1.6.6
   resolution: "b4a@npm:1.6.6"
@@ -16933,7 +16923,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "backend@workspace:packages/backend"
   dependencies:
-    "@backstage-community/plugin-azure-devops-backend": ^0.6.5
+    "@backstage-community/plugin-azure-devops-backend": 0.6.5
     "@backstage-community/plugin-explore-backend": ^0.0.28
     "@backstage-community/plugin-explore-common": ^0.0.3
     "@backstage-community/plugin-vault-backend": ^0.4.11
