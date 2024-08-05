@@ -44,7 +44,7 @@ export class VeecodeCustomAuthStrategy implements AuthenticationStrategy {
         const namespace = clusterDetails.namespace
 
         const response = await k8sApi.readNamespacedSecret(secretName, namespace)
-        console.log("GET SECRET RESPONSE MSG: ", response.response)
+        console.log("GET SECRET RESPONSE MSG: ", response.response.statusMessage, response.response.statusCode)
 
         if(!response.body.data?.token){
             console.log("CLUSTER AUTH ERROR: ", response.body )
