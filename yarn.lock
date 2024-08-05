@@ -23218,13 +23218,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"google-libphonenumber@npm:^3.1.6":
-  version: 3.2.38
-  resolution: "google-libphonenumber@npm:3.2.38"
-  checksum: 5e30ced0399b3803e61d41c0f7a69e289baf0912568381a0f2f0a5f0e5d3403dd8a26dd758ecb52e56337d83f45865fb36c0d7bfec255868286f05cc03a6b920
-  languageName: node
-  linkType: hard
-
 "gopd@npm:^1.0.1":
   version: 1.0.1
   resolution: "gopd@npm:1.0.1"
