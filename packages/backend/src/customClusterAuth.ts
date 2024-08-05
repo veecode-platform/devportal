@@ -38,7 +38,7 @@ export class VeecodeCustomAuthStrategy implements AuthenticationStrategy {
         const secretName = clusterDetails.secretName || `${clusterDetails.name}-secret`
         const namespace = clusterDetails.namespace
 
-        const response = (await k8sApi.readNamespacedSecret(secretName, namespace)).body.data?.toke
+        const response = (await k8sApi.readNamespacedSecret(secretName, namespace)).body.data?.token
 
         if(!response){
             console.log("CLUSTER AUTH ERROR: ", k8sApi )
