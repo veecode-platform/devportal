@@ -35,10 +35,10 @@ export class VeecodeCustomAuthStrategy implements AuthenticationStrategy {
         const kc = new KubeConfig();
         console.log("NEW KUBECONFIG")
         kc.loadFromDefault();
-        console.log("LOADED FROM DEFAULT", kc)
+        console.log("LOADED FROM DEFAULT: ", kc)
 
         const k8sApi = kc.makeApiClient(CoreV1Api);
-        console.log("MAKE API CLIENT", k8sApi)
+        console.log("MAKE API CLIENT: ", k8sApi)
 
         const secretName = clusterDetails.secretName || `${clusterDetails.name}-secret`
         const namespace = clusterDetails.namespace

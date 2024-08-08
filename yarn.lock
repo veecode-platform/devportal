@@ -14954,9 +14954,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-cluster-explorer@npm:^0.3.19":
-  version: 0.3.19
-  resolution: "@veecode-platform/backstage-plugin-cluster-explorer@npm:0.3.19"
+"@veecode-platform/backstage-plugin-cluster-explorer@npm:^0.3.20":
+  version: 0.3.20
+  resolution: "@veecode-platform/backstage-plugin-cluster-explorer@npm:0.3.20"
   dependencies:
     "@backstage/catalog-model": ^1.5.0
     "@backstage/core-components": ^0.14.8
@@ -14964,16 +14964,19 @@ __metadata:
     "@backstage/plugin-catalog-graph": ^0.4.6
     "@backstage/plugin-catalog-react": ^1.12.1
     "@backstage/theme": ^0.5.6
+    "@backstage/types": ^1.1.1
     "@material-ui/core": ^4.9.13
     "@material-ui/icons": ^4.9.1
     "@material-ui/lab": ^4.0.0-alpha.61
-    "@veecode-platform/plugin-kubernetes": 0.11.13-next.2
+    "@veecode-platform/plugin-kubernetes": ^0.11.13-next.2
     "@veecode-platform/plugin-kubernetes-react": 0.4.2-next.1
+    lodash: ^4.17.21
     pluralize: ^8.0.0
     react-use: ^17.2.4
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
-  checksum: cce4467bacd284748dfb77ae1fbdd0fabbd71d872576ac0464dca32415925a0aabc3e374d90e052f3f70084cbf2699d63eb2976eaab15f957e382dd3be0cd263
+    react-router-dom: ^6.24.1
+  checksum: a7cd9732ddcb475a9ce9f7c706eda7158ad40c52e517df89bd5bfa0bead77ce791b2a7831e7b9682279b76997717146f7af2a64b1fc57a513bd0465d92ff89fa
   languageName: node
   linkType: hard
 
@@ -16129,7 +16132,7 @@ __metadata:
     "@types/node": "*"
     "@types/react-dom": "*"
     "@veecode-platform/backstage-plugin-api-explorer": ^0.3.17
-    "@veecode-platform/backstage-plugin-cluster-explorer": ^0.3.19
+    "@veecode-platform/backstage-plugin-cluster-explorer": ^0.3.20
     "@veecode-platform/backstage-plugin-github-workflows": ^0.6.0
     "@veecode-platform/backstage-plugin-gitlab-pipelines": ^0.4.17
     "@veecode-platform/backstage-plugin-infracost": ^0.1.9
