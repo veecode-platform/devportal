@@ -61,3 +61,10 @@ app-config file name
 {{- $url := . -}}
 {{- printf "%s" (regexFind "^(https?://[^/]+)" $url) -}}
 {{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "devportal.serviceAccountName" -}}
+{{- default (include "devportal-charts.fullname" .) .Values.serviceAccount.name }}
+{{- end }}

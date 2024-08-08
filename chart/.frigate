@@ -521,5 +521,5 @@ theme:
 ## For more details
 * Site: https://platform.vee.codes<br/>
 * Doc: https://docs.platform.vee.codes/devportal/intro<br/>
-* Issue: https://github.com/veecode-platform/support/issues
+* Issue: https://github.com/orgs/veecode-platform/discussions
 {%- endblock %}
