@@ -129,7 +129,7 @@ jobs:
            helm get values platform-devportal-homolog -n $NAMESPACE | tail -n +2 > devportal.yaml
            yq e ".image.tag = \"${{ needs.requirements.outputs.app_version }}\"" -i ./devportal.yaml
            yq e ".image.pullPolicy = \"Always\"" -i ./devportal.yaml
-           helm upgrade platform-devportal-homolog --install --recreate-pods --values ./devportal.yaml ./chart -n $NAMESPACE
+           helm upgrade platform-devportal-homolog --install --recreate-pods --values ./devportal.yaml ./chart -n $NAMESPACE --wait
          else 
            echo "Installation of Platform devportal (Homolog) not found on ${{ secrets.CLUSTER_NAME }}"
            exit 1
