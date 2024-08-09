@@ -60,6 +60,7 @@ data:
       {{- end }}
     permission:
       enabled: {{ .Values.permission.enabled | default true }}
+      {{- if .Values.permission.rbac.enabled }}
       rbac:
         {{- if .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
         policies-csv-file: /app/rbac-policy.csv
@@ -83,6 +84,7 @@ data:
           {{- end }}
           {{- end }}
         {{- end }}
+      {{- end }}
 
     backend:
       auth:
@@ -606,6 +608,7 @@ data:
         {{- end }}
       {{- end }}
     enabledPlugins:
+      rbac: {{ include "rbac-enabled" . }}
       vault: {{ .Values.vault.enabled | default false }}
       grafana: {{ .Values.grafana.enabled | default false }}
       kubernetes: {{ hasKey .Values "kubernetes" }}

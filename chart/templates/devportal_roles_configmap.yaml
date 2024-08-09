@@ -1,4 +1,4 @@
-{{- if .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
+{{ if and (not .Values.platform.guest.enabled) .Values.permission.rbac.enabled .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
 {{ $adminGroup := .Values.platform.defaultGroups.admin | default "platform-admin" }}
 {{ $userGroup := .Values.platform.defaultGroups.user | default "platform-user" }}
 

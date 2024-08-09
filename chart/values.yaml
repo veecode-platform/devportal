@@ -227,6 +227,7 @@ integrations: {}
 permission:
   enabled: true
   rbac:
+    enabled: true
     admin:
       defaultAdminRoleEnabled: true
       superUsers:
