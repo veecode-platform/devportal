@@ -95,7 +95,7 @@ jobs:
         with:
             inputs: veecode/devportal-bundle:latest
             # images: veecode/devportal-bundle-arm64:latest,veecode/devportal-bundle-x64:latest
-            images: veecode/devportal-bundle-x64:latest
+            images: veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
             amend: true
             push: true
 
