@@ -86,8 +86,8 @@ jobs:
         uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
         with:
             inputs: veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
-            # images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-            images: veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+            images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+            # images: veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
             amend: true
             push: true
 
@@ -95,8 +95,8 @@ jobs:
         uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
         with:
             inputs: veecode/devportal-bundle:latest
-            # images: veecode/devportal-bundle-arm64:latest,veecode/devportal-bundle-x64:latest
-            images: veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+            images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+            # images: veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
             amend: true
             push: true
 
