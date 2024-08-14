@@ -26,7 +26,7 @@ jobs:
     needs: [requirements]
     strategy:
       matrix:
-        os: [ubuntu-latest, [self-hosted, linux, ARM64]]
+        os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
         # os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     env:
@@ -67,7 +67,7 @@ jobs:
  
   publishManifestDocker:
     needs: [requirements, buildDevportal]
-    runs-on: [self-hosted, linux, ARM64]
+    runs-on: [self-hosted, Linux, ARM64]
     # runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
