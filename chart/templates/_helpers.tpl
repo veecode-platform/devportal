@@ -69,9 +69,3 @@ Create the name of the service account to use
 {{- default (include "devportal-charts.fullname" .) .Values.serviceAccount.name }}
 {{- end }}
 
-{{/*
-Show the RBAC enabled or not
-*/}}
-{{- define "rbac-enabled" -}}
-{{ and (not .Values.platform.guest.enabled) .Values.permission.rbac.enabled }}
-{{- end -}}
