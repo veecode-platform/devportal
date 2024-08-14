@@ -61,7 +61,3 @@ app-config file name
 {{- $url := . -}}
 {{- printf "%s" (regexFind "^(https?://[^/]+)" $url) -}}
 {{- end -}}
-
-{{- define "rbac-enabled" -}}
-{{ and (not .Values.platform.guest.enabled) .Values.permission.rbac.enabled }}
-{{- end -}}

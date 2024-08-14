@@ -1,6 +1,8 @@
 {{- $app_path_without_last_slash := trimSuffix "/" .Values.appConfig.app.baseUrl }} 
 {{- $backend_path_without_last_slash := trimSuffix "/" .Values.appConfig.backend.baseUrl }}
 
+{{- $rbacEnabled := (and (not .Values.platform.guest.enabled) .Values.permission.rbac.enabled) }}
+
 {{- $grafana := .Values.grafana | default dict }}
 {{- $grafana_default_domain := $grafana.domain | default "" }}
 {{- $grafana_domain := trimSuffix "/" $grafana_default_domain }}
@@ -609,7 +611,7 @@ data:
         {{- end }}
       {{- end }}
     enabledPlugins:
-      rbac: {{ include "rbac-enabled" . }}
+      rbac: {{ $rbacEnabled }}
       vault: {{ .Values.vault.enabled | default false }}
       grafana: {{ .Values.grafana.enabled | default false }}
       kubernetes: {{ hasKey .Values "kubernetes" }}
