@@ -8,7 +8,7 @@ jobs:
   #Getting requided versions for next steps
   requirements:
     # runs-on: ubuntu-latest
-    runs-on: [self-hosted, linux, ARM64]
+    runs-on: self-hosted
     outputs:
       app_version: ${{ env.app_version }}
       chart_version: ${{ env.chart_version }}
