@@ -23,17 +23,6 @@ jobs:
           echo "app_version=$(jq -r '.version' package.json)" >> $GITHUB_ENV
           echo "chart_version=$(yq e '.version' chart/Chart.yaml)" >> $GITHUB_ENV
           echo "node_version=$(cat .nvmrc | grep -o '[0-9]*')" >> $GITHUB_ENV
-      - name: Check if tag exists
-        id: check_tag
-        run: |
-          #if [ $(git tag -l "${{ env.app_version }}") ]; then
-          if git rev-parse ${{ env.app_version }} >/dev/null 2>&1
-          then
-            echo "Tag ${{ env.app_version }} already exists"
-            exit 1
-          else
-            echo "Tag ${{ env.app_version }} does not exist"
-          fi
 
   start-runner:
     needs: requirements
@@ -60,7 +49,7 @@ jobs:
           mode: start
           github-token: ${{ secrets.API_TOKEN_GITHUB }}
           ec2-image-id: ${{ env.RUNNER_ARM_AMI_ID }}
-          ec2-instance-type: t4g.xlarge
+          ec2-instance-type: t4g.large
           subnet-id: ${{ env.RUNNER_ARM_SUBNET_ID }}
           security-group-id: ${{ env.RUNNER_ARM_SECURITY_GROUP_ID }}
           aws-resource-tags: >
