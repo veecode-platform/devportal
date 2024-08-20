@@ -26,6 +26,7 @@ jobs:
       - name: Check if tag exists
         id: check_tag
         run: |
+          #if [ $(git tag -l "${{ env.app_version }}") ]; then
           if git rev-parse ${{ env.app_version }} >/dev/null 2>&1
           then
             echo "Tag ${{ env.app_version }} already exists"
@@ -81,6 +82,11 @@ jobs:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
     steps:
       - uses: actions/checkout@v4
+      - name: Test yarn 
+        run: |
+          node --version
+          npm --version
+          yarn --version
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.node_version }}
