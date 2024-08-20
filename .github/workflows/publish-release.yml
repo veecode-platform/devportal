@@ -2,13 +2,16 @@ name: Publish Devportal Release
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  #Getting requided versions for next steps
+
   requirements:
-    # runs-on: ubuntu-latest
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       app_version: ${{ env.app_version }}
       chart_version: ${{ env.chart_version }}
@@ -20,14 +23,55 @@ jobs:
           echo "app_version=$(jq -r '.version' package.json)" >> $GITHUB_ENV
           echo "chart_version=$(yq e '.version' chart/Chart.yaml)" >> $GITHUB_ENV
           echo "node_version=$(cat .nvmrc | grep -o '[0-9]*')" >> $GITHUB_ENV
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if git rev-parse ${{ env.app_version }} >/dev/null 2>&1
+          then
+            echo "Tag ${{ env.app_version }} already exists"
+            exit 1
+          else
+            echo "Tag ${{ env.app_version }} does not exist"
+          fi
+
+  start-runner:
+    needs: requirements
+    name: Start self-hosted EC2 runner
+    runs-on: ubuntu-latest
+    outputs:
+      label: ${{ steps.start-ec2-runner.outputs.label }}
+      ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
+    steps:
+      - name: Configure AWS Credentials for China region audience
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.RUNNER_ARM_ASSUME_ROLE }}
+          aws-region: us-east-1
+
+      - name: Start EC2 runner
+        id: start-ec2-runner
+        uses: machulav/ec2-github-runner@v2
+        with:
+          mode: start
+          github-token: ${{ secrets.API_TOKEN_GITHUB }}
+          ec2-image-id: ${{ secrets.RUNNER_ARM_AMI_ID }}
+          ec2-instance-type: t4g.large
+          subnet-id: ${{ secrets.RUNNER_ARM_SUBNET_ID }}
+          security-group-id: ${{ secrets.RUNNER_ARM_SECURITY_GROUP_ID }}
+          aws-resource-tags: >
+            [
+              {"Key": "Name", "Value": "ec2-github-runner"},
+              {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
+            ]
 
   #parallel build for x64 and amr64
   buildDevportal:
-    needs: [requirements]
+    needs: [requirements, start-runner]
     strategy:
       matrix:
-        os: [ubuntu-latest, [self-hosted, Linux, ARM64]]
-        # os: [ubuntu-latest]
+        os: 
+         - ubuntu-latest, 
+         - ${{ needs.start-runner.outputs.label }}
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
@@ -37,17 +81,17 @@ jobs:
         with:
           node-version: ${{ env.node_version }}
           cache: yarn
-      
+
       - name: Getting arch
         run: echo "ARCH=$(echo ${{ runner.arch }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-      
+
       - name: Building Devportal${{ runner.arch }}
         run: |
           yarn install --frozen-lockfile
           yarn tsc
           yarn build
           jq --arg version "$(jq -r .version package.json)" '.version = $version' devportal.json > temp.json && mv temp.json devportal.json
-      
+
       - name: Setup keychain
         if: runner.os == 'macOS'
         run: security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }}
@@ -64,64 +108,54 @@ jobs:
           # docker tag veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }} veecode/devportal-bundle-${{env.ARCH}}:latest
           docker push veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
           # docker push veecode/devportal-bundle-${{env.ARCH}}:latest
- 
+
   publishManifestDocker:
-    needs: [requirements, buildDevportal]
-    runs-on: [self-hosted, Linux, ARM64]
-    # runs-on: ubuntu-latest
+    needs: [requirements, buildDevportal, start-runner]
+    runs-on: ${{ needs.start-runner.outputs.label }}
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup keychain
         if: runner.os == 'macOS'
-        run: security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }}      
-      
+        run: security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }}
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
+
       - name: Create/Publish version ${{ needs.requirements.outputs.app_version }} manifest
         uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
         with:
-            inputs: veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
-            images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-            # images: veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-            amend: true
-            push: true
+          inputs: veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
+          images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+          amend: true
+          push: true
 
       - name: Create/Publish version latest manifest
         uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
         with:
-            inputs: veecode/devportal-bundle:latest
-            images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-            # images: veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-            amend: true
-            push: true
-
-      - name: Clear Docker image for macOS runner
-        if: runner.os == 'macOS'
-        run: |
-          docker rmi veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
-          docker rmi veecode/devportal-bundle-${{env.ARCH}}:latest
+          inputs: veecode/devportal-bundle:latest
+          images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
+          amend: true
+          push: true
 
   publishing:
-    needs: [requirements, publishManifestDocker]
-    # needs: [requirements]
+    needs: [requirements, publishManifestDocker, start-runner]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup helm
         uses: azure/setup-helm@v4
 
       - name: Installing frigate
-        run:  pip install frigate
-      
+        run: pip install frigate
+
       - name: Generating Helm Documentation
         run: bash chart/generate-docs.sh
-      
+
       - name: Check if chart docs have been generated as expected.
         run: |
           bash chart/generate-docs.sh
@@ -139,7 +173,7 @@ jobs:
           mkdir -p charts
           helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
 
-      - name: List files    
+      - name: List files
         run: |
           pwd
           ls -l charts/
@@ -151,16 +185,16 @@ jobs:
         run: |
           TMP_DIR=$(mktemp -d)
           echo "Temporary directory $TMP_DIR"
-          
+
           git config --global user.email "github-admin@vee.codes"
           git config --global user.name "veecode-bot"
           git clone -b main https://${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.TARGET_OWNER }}/${{ env.TARGET_REPOSITORY }}.git $TMP_DIR
-          
+
           #Copy charts from the source repository
           # cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz $TMP_DIR/devportal
           # cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov $TMP_DIR/devportal
           cp charts/* $TMP_DIR/devportal
-          
+
           #Commit and push changes
           cd $TMP_DIR
           git add .
@@ -174,20 +208,6 @@ jobs:
           #Remove temporary directory
           rm -rf $TMP_DIR
 
-      # - name: Publish Helm Charts
-      #   uses: nkoppel/push-files-to-another-repository@v1.1.3
-      #   env:
-      #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-      #   with:
-      #     source-files: 'charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov'
-      #     destination-username: 'veecode-platform'
-      #     destination-repository: 'public-charts'
-      #     destination-branch: 'main'
-      #     destination-directory: 'devportal'
-      #     commit-email: 'veecode-bot@vee.codes'
-      #     commit-username: 'veecode-bot'
-      #     commit-message: "Publishing new version devportal-${{ needs.requirements.outputs.chart_version }}"
- 
       - name: Prepare doc references
         run: |
           mkdir -p tmpDocs/devportal
@@ -195,23 +215,42 @@ jobs:
           cp keycloak/realm-platform-devportal.json tmpDocs/devportal/
           cp docs/public/examples/k8s-service-account.yaml tmpDocs/devportal/
           cp docs/public/examples/rbac-user-default-role.sql tmpDocs/devportal/
-        
+
       - name: Publishing doc references
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source_file: "tmpDocs/devportal/"
-          destination_repo: "${{ github.repository_owner }}/support"
-          destination_branch: "gh-pages"
-          destination_folder: "references"
+          source_file: 'tmpDocs/devportal/'
+          destination_repo: '${{ github.repository_owner }}/support'
+          destination_branch: 'gh-pages'
+          destination_folder: 'references'
           user_email: 'veecode-bot@vee.codes'
           user_name: 'veecode-bot'
-          commit_message: "Update devportal docs reference"
-     
+          commit_message: 'Update devportal docs reference'
+
       - uses: rickstaa/action-create-tag@v1
-        id: "Tag_create"
+        id: 'Tag_create'
         with:
-          tag: "${{ needs.requirements.outputs.app_version }}"
+          tag: '${{ needs.requirements.outputs.app_version }}'
           tag_exists_error: false
-          message: "Version ${{ needs.requirements.outputs.app_version }}"
+          message: 'Version ${{ needs.requirements.outputs.app_version }}'
+
+  stop-runner:
+    name: Stop self-hosted EC2 runner
+    needs: [start-runner, requirements, buildDevportal, publishing, publishManifestDocker]
+    runs-on: ubuntu-latest
+    if: ${{ always() }} # required to stop the runner even if the error happened in the previous jobs
+    steps:
+      - name: Configure AWS Credentials for China region audience
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.RUNNER_ARM_ASSUME_ROLE }}
+          aws-region: us-east-1
+      - name: Stop EC2 runner
+        uses: machulav/ec2-github-runner@v2
+        with:
+          mode: stop
+          github-token: ${{ secrets.API_TOKEN_GITHUB }}
+          label: ${{ needs.start-runner.outputs.label }}
+          ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
