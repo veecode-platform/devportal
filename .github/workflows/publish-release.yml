@@ -51,13 +51,17 @@ jobs:
       - name: Start EC2 runner
         id: start-ec2-runner
         uses: machulav/ec2-github-runner@v2
+        env:
+          RUNNER_ARM_AMI_ID: ${{ secrets.RUNNER_ARM_AMI_ID }}
+          RUNNER_ARM_SUBNET_ID: ${{ secrets.RUNNER_ARM_SUBNET_ID }}
+          RUNNER_ARM_SECURITY_GROUP_ID: ${{ secrets.RUNNER_ARM_SECURITY_GROUP_ID }}
         with:
           mode: start
           github-token: ${{ secrets.API_TOKEN_GITHUB }}
-          ec2-image-id: ${{ secrets.RUNNER_ARM_AMI_ID }}
+          ec2-image-id: ${{ env.RUNNER_ARM_AMI_ID }}
           ec2-instance-type: t4g.large
-          subnet-id: ${{ secrets.RUNNER_ARM_SUBNET_ID }}
-          security-group-id: ${{ secrets.RUNNER_ARM_SECURITY_GROUP_ID }}
+          subnet-id: ${{ env.RUNNER_ARM_SUBNET_ID }}
+          security-group-id: ${{ env.RUNNER_ARM_SECURITY_GROUP_ID }}
           aws-resource-tags: >
             [
               {"Key": "Name", "Value": "ec2-github-runner"},
