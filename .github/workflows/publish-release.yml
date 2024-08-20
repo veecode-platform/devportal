@@ -91,6 +91,7 @@ jobs:
 
       - name: Building Devportal${{ runner.arch }}
         run: |
+          npm install -g yarn
           yarn install --frozen-lockfile
           yarn tsc
           yarn build
