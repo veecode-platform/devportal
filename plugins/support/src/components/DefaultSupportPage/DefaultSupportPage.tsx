@@ -76,7 +76,7 @@ export const DefaultSupportPage = () => {
 
                 {/** Discord */}
                 <a
-                  href="https://discord.gg/vsUPgbyV"
+                  href="https://discord.gg/pREwxeVzAD"
                   target="_blank"
                 >
                   <ListItem className={classes.listItem}>
