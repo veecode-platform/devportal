@@ -2,6 +2,7 @@ import { createBackend } from '@backstage/backend-defaults';
 import { catalogModuleCustomExtensions } from './modules/catalog/catalogExtension';
 import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
 import { kubernetesModuleCustomExtension } from './modules/kubernetes/kubernetesExtension';
+import customPluginsLoader from './modules/features/featureLoader'
 
 const backend = createBackend();
 
@@ -53,6 +54,9 @@ backend.add(import('@backstage/plugin-search-backend-module-pg/alpha'));
 // search collators
 backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
+
+//feature loader
+backend.add(customPluginsLoader)
 
 
 
