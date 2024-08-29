@@ -33,7 +33,9 @@ export const catalogModuleCustomExtensions = createBackendModule({
                     id: "infracost-entity-provider",
                     logger: log,
                     cache: cache,
-                    database: database
+                    database: database,
+                    scheduler: scheduler
+
                 }))
                 catalog.addProcessor(new InfracostEntityProcessor(config, log, cache));
 
