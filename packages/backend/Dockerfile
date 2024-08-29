@@ -24,14 +24,14 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     pip3 install mkdocs-techdocs-core==1.1.7
 
 # From here on we use the least-privileged `node` user to run the backend.
-WORKDIR /app
-RUN chown node:node /app
 USER node
+WORKDIR /app
+# RUN chown node:node /app
 
 
 # This switches many Node.js dependencies to production mode.
-ENV NODE_ENV production
-ENV NODE_OPTIONS "--no-node-snapshot"
+ENV NODE_ENV="production"
+ENV NODE_OPTIONS="--no-node-snapshot"
 
 # Copy over Yarn 3 configuration, release, and plugins
 COPY --chown=node:node .yarn ./.yarn
@@ -60,7 +60,7 @@ COPY --chown=node:node devportal.json backstage.json ./
 USER root
 COPY packages/backend/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
-# USER NODE
+USER node
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 
