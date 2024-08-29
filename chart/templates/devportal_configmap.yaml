@@ -521,7 +521,7 @@ data:
         {{- end }}
         {{- if .Values.infracost.enabled }}
         infracost:
-          providerId: 
+          default: 
             schedule:    
               frequency:
                 {{- if and .Values.infracost.schedule .Values.infracost.schedule.frequency }}
@@ -575,7 +575,7 @@ data:
         secret: ${AUTH_USER_SESSION_SECRET}
       {{- if .Values.auth.providers }}
       providers:
-        {{- if .Values.auth.providers.oidc }}
+        {{- if .Values.auth.providers.keycloak }}
         oidc:
           development:
             metadataUrl: ${KEYCLOAK_METADATA_URL}
