@@ -35,11 +35,7 @@ export const catalogModuleCustomExtensions = createBackendModule({
                     cache: cache,
                     database: database,
                     //revisar scheduler type 
-                    //scheduler: scheduler.createScheduledTaskRunner({
-                    //    frequency: {minutes: 30},
-                    //    timeout: {minutes: 1},
-                    //    initialDelay: {seconds: 15}
-                    //})
+                    scheduler: scheduler
 
                 }))
                 catalog.addProcessor(new InfracostEntityProcessor(config, log, cache));
