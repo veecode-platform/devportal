@@ -63,6 +63,9 @@ data:
       {{- if .Values.permission.rbac.enabled }}
       rbac:
         pluginsWithPermission:
+          - catalog
+          - scaffolder
+          - permission
           - kubernetes
           - veecode-platform-permissions-hub
         {{- if .Values.permission.rbac.admin.defaultAdminRoleEnabled }}

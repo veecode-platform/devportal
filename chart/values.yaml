@@ -229,6 +229,9 @@ permission:
   rbac:
     enabled: true
     pluginsWithPermission:
+      - catalog
+      - scaffolder
+      - permission
       - kubernetes
       - veecode-platform-permissions-hub
     admin:

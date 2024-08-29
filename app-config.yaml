@@ -21,6 +21,9 @@ permission:
   enabled: true
   rbac:
     pluginsWithPermission:
+      - catalog
+      - scaffolder
+      - permission
       - kubernetes
       - veecode-platform-permissions-hub
     admin:
@@ -170,7 +173,7 @@ integrations:
 
 catalog:
   rules:
-    - allow: [Component, API, Location, Cluster, Template, Environment, Database, Vault, Infracost]
+    - allow: [Component, API, Location, Cluster, Template, Environment, Database, Vault, Infracost, Group, User]
   providers: 
     github:
       providerId: # the provider ID can be any camelCase string
