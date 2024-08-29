@@ -33,10 +33,7 @@ export const catalogModuleCustomExtensions = createBackendModule({
                     id: "infracost-entity-provider",
                     logger: log,
                     cache: cache,
-                    database: database,
-                    //revisar scheduler type 
-                    scheduler: scheduler
-
+                    database: database
                 }))
                 catalog.addProcessor(new InfracostEntityProcessor(config, log, cache));
 
