@@ -20,12 +20,13 @@ app:
 permission:
   enabled: true
   rbac:
+    pluginsWithPermission:
+      - kubernetes
+      - veecode-platform-permissions-hub
     admin:
-    #  users:
-    #    - name: user:default/admin #acesso ao plugin rbac e ao catalogo
       superUsers:
-        - name: user:default/admin #allow em qlr permission configurada
-    #policies-csv-file: ../../rbac-policy.csv #import por csv
+        - name: user:default/admin
+    #policies-csv-file: ../../rbac-policy.csv
     #policyFileReload: true
 
 backend:
@@ -129,17 +130,9 @@ techdocs:
 
 kubernetes:
   serviceLocatorMethod:
-    type: "multiTenant"
+    type: multiTenant
   clusterLocatorMethods:
-    - type: "config"
-      clusters:
-        - url: ${KUBERNETES_URL}
-          name: devportal-kubernetes
-          authProvider: "serviceAccount"
-          skipTLSVerify: false
-          skipMetricsLookup: false
-          serviceAccountToken: ${KUBERNETES_SERVICE_ACCOUNT_TOKEN}
-          caData: ${KUBERNETES_CERTIFICATE_DATA}
+    - type: catalog
 
 argocd:
   username: ${ARGOCD_USER}
@@ -294,28 +287,25 @@ auth:
   session:
     secret: ${AUTH_USER_SESSION_SECRET}
   providers:
-    okta:
-      development:
-        clientId: ${OKTA_CLIENT_ID}
-        clientSecret: ${OKTA_CLIENT_SECRET}
-        audience: ${OKTA_AUDIENCE}
-        authServerId: ${OKTA_AUTH_SERVER_ID}
-        apiToken: ${OKTA_API_TOKEN}
-
-    keycloak:
+    oidc:
       development:
         metadataUrl: ${KEYCLOAK_METADATA_URL}
         clientId: ${KEYCLOAK_CLIENT_ID}
         clientSecret: ${KEYCLOAK_CLIENT_SECRET}
         prompt: auto
-        baseUrl: ${KEYCLOAK_BASE_URL}
-        username: ${KEYCLOAK_ADMIN_USERNAME}
-        password: ${KEYCLOAK_ADMIN_PASSWORD}
-
+        signIn:
+          resolvers:
+            - resolver: emailLocalPartMatchingUserEntityName
+  
     github:
       development:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+        signIn:
+          resolvers:
+            - resolver: usernameMatchingUserEntityName
+            - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName
 
     gitlab:
      development:
@@ -324,6 +314,9 @@ auth:
         audience: https://gitlab.com
         ## uncomment if using a custom redirect URI
         # callbackUrl: https://${BASE_URL}/api/auth/gitlab/handler/frame
+        signIn:
+          resolvers:
+            - resolver: usernameMatchingUserEntityName
 
 enabledPlugins:
   rbac: false

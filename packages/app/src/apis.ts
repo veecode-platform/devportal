@@ -27,10 +27,10 @@ import { VisitsWebStorageApi, visitsApiRef } from '@backstage/plugin-home';
 import { scaffolderApiRef } from '@backstage/plugin-scaffolder-react';
 import { ScaffolderClient } from '@backstage/plugin-scaffolder';
 
-export const keycloakOIDCAuthApiRef: ApiRef<
+export const oidcAuthApiRef: ApiRef<
   OpenIdConnectApi & ProfileInfoApi & BackstageIdentityApi & SessionApi
 > = createApiRef({
-  id: 'auth.keycloack-provider',
+  id: 'auth.oidc-provider',
 });
 
 export const apis: AnyApiFactory[] = [
@@ -41,29 +41,29 @@ export const apis: AnyApiFactory[] = [
   }),
   ScmAuth.createDefaultApiFactory(),
   createApiFactory({
-  api: keycloakOIDCAuthApiRef,
-    deps: {
-      discoveryApi: discoveryApiRef,
-      oauthRequestApi: oauthRequestApiRef,
-      configApi: configApiRef,
-    },
-    factory: ({ discoveryApi, oauthRequestApi, configApi }) =>
-      OAuth2.create({
-        discoveryApi,
-        oauthRequestApi,
-        provider: {
-          id: 'keycloak',
-          title: 'Default keycloak authentication provider',
-          icon: () => null,
-        },
-        environment: configApi.getOptionalString('auth.environment'),
-        defaultScopes: [
-          'openid',
-          'profile',
-          'email',
-        ],
-      }),
-  }),
+    api: oidcAuthApiRef,
+      deps: {
+        discoveryApi: discoveryApiRef,
+        oauthRequestApi: oauthRequestApiRef,
+        configApi: configApiRef,
+      },
+      factory: ({ discoveryApi, oauthRequestApi, configApi }) =>
+        OAuth2.create({
+          discoveryApi,
+          oauthRequestApi,
+          provider: {
+            id: 'oidc',
+            title: 'Default keycloak authentication provider',
+            icon: () => null,
+          },
+          environment: configApi.getOptionalString('auth.environment'),
+          defaultScopes: [
+            'openid',
+            'profile',
+            'email',
+          ],
+        }),
+    }),
   createApiFactory({
     api: analyticsApiRef,
     deps: { configApi: configApiRef, identityApi: identityApiRef },

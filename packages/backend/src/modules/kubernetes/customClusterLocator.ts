@@ -1,5 +1,5 @@
 import {
-    //AuthService,
+    AuthService,
     BackstageCredentials,
   } from '@backstage/backend-plugin-api';
   import { ClusterDetails, KubernetesClustersSupplier } from '@backstage/plugin-kubernetes-node'
@@ -27,24 +27,23 @@ import {
   
   export class VeecodeCatalogClusterLocator implements KubernetesClustersSupplier {
     private catalogClient: CatalogApi;
-    //private _auth?: AuthService;
+    private auth: AuthService;
   
-    constructor(catalogClient: CatalogApi/*, _auth?: AuthService*/) {
+    constructor(catalogClient: CatalogApi, auth: AuthService) {
       this.catalogClient = catalogClient;
-      //this.auth = auth;
+      this.auth = auth;
     }
   
     static fromConfig(
       catalogApi: CatalogApi,
-      //auth?: AuthService,
+      auth: AuthService,
     ): VeecodeCatalogClusterLocator {
-      return new VeecodeCatalogClusterLocator(catalogApi/*, auth*/);
+      return new VeecodeCatalogClusterLocator(catalogApi, auth);
     }
   
-    async getClusters(_options?: {
+    async getClusters(options?: {
       credentials: BackstageCredentials;
     }): Promise<ClusterDetails[]> {
-      console.log("ENTERED CUSTOM CLUSTER LOCATOR")
 
       const apiServerKey = `metadata.annotations.${ANNOTATION_KUBERNETES_API_SERVER}`;
       //const apiServerCaKey = `metadata.annotations.${ANNOTATION_KUBERNETES_API_SERVER_CA}`;
@@ -62,16 +61,16 @@ import {
         {
           filter: [filter],
         },
-        //options?.credentials
-        //  ? {
-        //      token: (
-        //        await this.auth.getPluginRequestToken({
-        //          onBehalfOf: options.credentials,
-        //          targetPluginId: 'catalog',
-        //        })
-        //      ).token,
-        //    }
-        //  : undefined,
+        options?.credentials
+          ? {
+              token: (
+                await this.auth.getPluginRequestToken({
+                  onBehalfOf: options.credentials,
+                  targetPluginId: 'catalog',
+                })
+              ).token,
+            }
+          : undefined,
       );
       return clusters.items.map(entity => {
         const annotations = entity.metadata.annotations!;
@@ -112,3 +111,5 @@ import {
       return undefined;
     }
   }
+
+  

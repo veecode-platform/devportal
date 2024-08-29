@@ -1,198 +1,59 @@
-import Router from 'express-promise-router';
-import {
-  createServiceBuilder,
-  loadBackendConfig,
-  getRootLogger,
-  useHotMemoize,
-  notFoundHandler,
-  CacheManager,
-  DatabaseManager,
-  HostDiscovery,
-  UrlReaders,
-  ServerTokenManager,
-} from '@backstage/backend-common';
-import { TaskScheduler } from '@backstage/backend-tasks';
-import { Config } from '@backstage/config';
-import { metricsInit, metricsHandler } from './metrics';
-import app from './plugins/app';
-import auth from './plugins/auth';
-import catalog from './plugins/catalog';
-import scaffolder from './plugins/scaffolder';
-import proxy from './plugins/proxy';
-import techdocs from './plugins/techdocs';
-import search from './plugins/search';
-import healthcheck from './plugins/healthcheck';
-import vault from './plugins/vault';
-import application from './plugins/application'
-import { PluginEnvironment } from './types';
-import { ServerPermissionClient } from '@backstage/plugin-permission-node';
-import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
-// argocd
-import argocd from './plugins/argocd';
-// kubernetes
-import kubernetes from './plugins/kubernetes';
-// gitlab
-import gitlab from './plugins/gitlab';
-// aws
-import aws from './plugins/aws';
-// explorer
-import explore from './plugins/explore';
-// about
-import about from './plugins/about';
-// azure
-import azureDevOps from './plugins/azure-devops';
-//import libraryCheck from './plugins/libraryCheck';
-// infracost
-import infracost from './plugins/infracost'
-// custom permission
-import permissionWithRbac from './plugins/permissionWithRbac';
-import permissionsHub from './plugins/permissionPluginsHub';
-import permission from './plugins/permission';
+import { createBackend } from '@backstage/backend-defaults';
+import { catalogModuleCustomExtensions } from './modules/catalog/catalogExtension';
+import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
+import { kubernetesModuleCustomExtension } from './modules/kubernetes/kubernetesExtension';
 
-function makeCreateEnv(config: Config) {
-  const root = getRootLogger();
-  const reader = UrlReaders.default({ logger: root, config });
-  const discovery = HostDiscovery.fromConfig(config);
-  const cacheManager = CacheManager.fromConfig(config);
-  const databaseManager = DatabaseManager.fromConfig(config);
-  const tokenManager = ServerTokenManager.fromConfig(config, { logger: root });
-  const taskScheduler = TaskScheduler.fromConfig(config, { databaseManager });
-  const permissions = ServerPermissionClient.fromConfig(config, {
-    discovery,
-    tokenManager,
-  });
-  const identity = DefaultIdentityClient.create({
-    discovery,
-  });
+const backend = createBackend();
 
-  root.info(`Created UrlReader ${reader}`);
+//app 
+backend.add(import('@backstage/plugin-app-backend/alpha'));
 
-  return (plugin: string): PluginEnvironment => {
-    const logger = root.child({ type: 'plugin', plugin });
-    const database = databaseManager.forPlugin(plugin);
-    const cache = cacheManager.forPlugin(plugin);
-    const scheduler = taskScheduler.forPlugin(plugin);
+//catalog
+backend.add(import('@backstage/plugin-catalog-backend/alpha'));
+backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'));
+backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud/alpha'));
+backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
+backend.add(import('@janus-idp/backstage-plugin-keycloak-backend/alpha'));
+backend.add(catalogModuleCustomExtensions);
+//backend.add(import('@backstage/plugin-catalog-backend-module-azure/alpha')); validate
+//backend.add(import('@backstage/plugin-catalog-backend-module-github-org')); validate
 
-    return {
-      logger,
-      database,
-      cache,
-      config,
-      reader,
-      discovery,
-      tokenManager,
-      scheduler,
-      permissions,
-      identity
-    };
-  };
-}
+//scaffolder
+backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
+backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
+backend.add(scaffolderModuleCustomExtensions);
+//backend.add(import('@roadiehq/scaffolder-backend-module-utils/new-backend')); added to custom scaffolder extension
 
-async function main() {
-  metricsInit();
-  const logger = getRootLogger();
+// auth plugin
+backend.add(import('@backstage/plugin-auth-backend'));
+backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'))
+//backend.add(import('@backstage/plugin-auth-backend-module-github-provider')); github option
+//backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider')); gitlab option
 
-  const config = await loadBackendConfig({
-    argv: process.argv,
-    logger
-  });
+// permission plugin
+//backend.add(import('@backstage/plugin-permission-backend/alpha'));
+backend.add(import('@janus-idp/backstage-plugin-rbac-backend'));
 
-  const createEnv = makeCreateEnv(config);
+//kubernetes
+backend.add(import('@backstage/plugin-kubernetes-backend/alpha'));
+backend.add(kubernetesModuleCustomExtension)
 
-  const healthcheckEnv = useHotMemoize(module, () => createEnv('healthcheck'));
-  const catalogEnv = useHotMemoize(module, () => createEnv('catalog'));
-  const scaffolderEnv = useHotMemoize(module, () => createEnv('scaffolder'));
-  const authEnv = useHotMemoize(module, () => createEnv('auth'));
-  const proxyEnv = useHotMemoize(module, () => createEnv('proxy'));
-  const techdocsEnv = useHotMemoize(module, () => createEnv('techdocs'));
-  const searchEnv = useHotMemoize(module, () => createEnv('search'));
-  const appEnv = useHotMemoize(module, () => createEnv('app'));
-  const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
-  const awsEnv = useHotMemoize(module, () => createEnv('aws'));
-  const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
-  const aboutEnv = useHotMemoize(module, () => createEnv('about'));
+//proxy
+backend.add(import('@backstage/plugin-proxy-backend/alpha'));
 
-  const apiRouter = Router();
-  apiRouter.use('/auth', await auth(authEnv))
-  apiRouter.use('/explore', await explore(exploreEnv));
-  apiRouter.use('/catalog', await catalog(catalogEnv));
-  apiRouter.use('/scaffolder', await scaffolder(scaffolderEnv));
-  apiRouter.use('/proxy', await proxy(proxyEnv));
-  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
-  apiRouter.use('/search', await search(searchEnv));
-  apiRouter.use('/techdocs', await techdocs(techdocsEnv));
-  apiRouter.use('/aws', await aws(awsEnv));
-  apiRouter.use('/about', await about(aboutEnv));
+//techdocs
+backend.add(import('@backstage/plugin-techdocs-backend/alpha'));
 
-  if(config.getOptionalBoolean("enabledPlugins.rbac")){
-    const permissionsHubEnv = useHotMemoize(module, () => createEnv('veecode-platform-permissions-hub'));
-    apiRouter.use('/veecode-platform-permissions-hub', await permissionsHub(permissionsHubEnv))
-    apiRouter.use( 
-      '/permission',
-      await permissionWithRbac(permissionEnv, {
-        getPluginIds: () => ['catalog', 'scaffolder', 'permission', 'kubernetes', 'veecode-platform-permissions-hub'],
-      }),
-    );
-  }
-  if(!config.getOptionalBoolean("enabledPlugins.rbac")){
-    apiRouter.use('/permission', await permission(permissionEnv));
-  }
+// search plugin
+backend.add(import('@backstage/plugin-search-backend/alpha'));
 
-  if (config.getOptionalBoolean("platform.apiManagement.enabled")) {
-    const applicationEnv = useHotMemoize(module, () => createEnv('application'));
-    apiRouter.use('/devportal', await application(applicationEnv));
-  }
+// search engine
+backend.add(import('@backstage/plugin-search-backend-module-pg/alpha'));
 
-  if (config.getOptionalBoolean("enabledPlugins.vault")) {
-    const vaultEnv = useHotMemoize(module, () => createEnv('vault'));
-    apiRouter.use('/vault', await vault(vaultEnv));
-  }
-  if (config.getOptionalBoolean("enabledPlugins.kubernetes")) {
-    const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
-    apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
-  }
-  if (config.getOptionalBoolean("enabledPlugins.argocd")) {
-    const argocdEnv = useHotMemoize(module, () => createEnv('argocd'));
-    apiRouter.use('/argocd', await argocd(argocdEnv));
-  }
+// search collators
+backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
+backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
 
-  if (config.getBoolean("enabledPlugins.gitlabPlugin")) {
-    const gitlabEnv = useHotMemoize(module, () => createEnv('gitlab'));
-    apiRouter.use('/gitlab', await gitlab(gitlabEnv));
-  }
 
-  if (config.getBoolean("enabledPlugins.azureDevops")) {
-    const azureDevOpsEnv = useHotMemoize(module, () => createEnv('azure-devops'));
-    apiRouter.use('/azure-devops', await azureDevOps(azureDevOpsEnv));
-  }
 
-  if (config.getOptionalBoolean("enabledPlugins.infracost")) {
-    const infraconstEnv = useHotMemoize(module, () => createEnv('infracost'));
-    apiRouter.use('/infracost', await infracost(infraconstEnv));
-  }
-
-  // Add backends ABOVE this line; this 404 handler is the catch-all fallback 
-  apiRouter.use(notFoundHandler());
-
-  const service = createServiceBuilder(module)
-    .loadConfig(config)
-    .addRouter('', await healthcheck(healthcheckEnv))
-    .addRouter('', metricsHandler())
-    .addRouter('/api', apiRouter)
-    .addRouter('', await app(appEnv));
-
-  await service.start().catch(err => {
-    console.log(err);
-    process.exit(1);
-  });
-
-  apiRouter.stack
-    .map(r => r.regexp)
-    .forEach(endpoint => logger.debug(`Endpoint: ${endpoint}`));
-}
-
-module.hot?.accept();
-main().catch(error => {
-  console.error(`Backend failed to start up, ${error}`);
-  process.exit(1);
-});
+backend.start();

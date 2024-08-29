@@ -2,8 +2,8 @@ import { KubernetesBuilder } from '@backstage/plugin-kubernetes-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { CatalogClient } from '@backstage/catalog-client';
-import { VeecodeCatalogClusterLocator } from '../customClusterLocator';
-import { VeecodeCustomAuthStrategy } from '../customClusterAuth';
+import { VeecodeCatalogClusterLocator } from '../modules/kubernetes/customClusterLocator';
+import { VeecodeCustomAuthStrategy } from '../modules/kubernetes/customClusterAuth';
 import { AuthenticationStrategy } from '@backstage/plugin-kubernetes-node';
 
 

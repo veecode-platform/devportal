@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { SidebarItem } from '@backstage/core-components';
 import SignOutIcon from '@material-ui/icons/MeetingRoom';
 import { configApiRef, identityApiRef, useApi, errorApiRef } from '@backstage/core-plugin-api';
-import { keycloakOIDCAuthApiRef } from '../../../apis';
+import { oidcAuthApiRef } from '../../../apis';
 
 const SignOutElement = () => {
 
   const identityApi = useApi(identityApiRef);
-  const keycloakApi = useApi(keycloakOIDCAuthApiRef)
+  const keycloakApi = useApi(oidcAuthApiRef)
   const config = useApi(configApiRef);
   const errorApi = useApi(errorApiRef)
   const [loading, setLoading] = useState(false)

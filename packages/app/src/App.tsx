@@ -58,7 +58,7 @@ const SignInComponent: any = (props: SignInPageProps) => {
   if (guest) props.onSignInSuccess(UserIdentity.createGuest());
   return (<SignInPage
     {...props}
-    provider={providers[1]}
+    provider={providers[0]}
     onSignInSuccess={async (identityApi: IdentityApi) => {
       props.onSignInSuccess(identityApi);
     }}

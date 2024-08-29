@@ -178,7 +178,7 @@ proxy:
 
 auth:
   providers: {}
-#    keycloak:
+#    oidc:
 #      metadataUrl:  #keycloak .well-known url
 #      clientId:  #keycloak client id
 #      clientSecret:  #keycloak client secret
@@ -228,6 +228,9 @@ permission:
   enabled: true
   rbac:
     enabled: true
+    pluginsWithPermission:
+      - kubernetes
+      - veecode-platform-permissions-hub
     admin:
       defaultAdminRoleEnabled: true
       superUsers:
