@@ -3,6 +3,7 @@ import { catalogModuleCustomExtensions } from './modules/catalog/catalogExtensio
 import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
 import { kubernetesModuleCustomExtension } from './modules/kubernetes/kubernetesExtension';
 import customPluginsLoader from './modules/features/featureLoader'
+import {infracostPlugin} from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
 
 const backend = createBackend();
 
@@ -15,7 +16,10 @@ backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-m
 backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud/alpha'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
 backend.add(import('@janus-idp/backstage-plugin-keycloak-backend/alpha'));
+backend.add(infracostPlugin);
 backend.add(catalogModuleCustomExtensions);
+
+//backend.add(catalogModuleInfracostProcessor);
 //backend.add(import('@backstage/plugin-catalog-backend-module-azure/alpha')); validate
 //backend.add(import('@backstage/plugin-catalog-backend-module-github-org')); validate
 
