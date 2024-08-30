@@ -10,7 +10,7 @@
     "dev-local": "NODE_OPTIONS='--no-node-snapshot' concurrently \"yarn start --config ../../app-config.local.yaml\" \"yarn start-backend --config ../../app-config.local.yaml\"",
     "start": "yarn workspace app start",
     "start-backend": "yarn workspace backend start",
-    "build": "yarn tsc && backstage-cli repo build --all",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' yarn tsc && backstage-cli repo build --all",
     "build:backend": "yarn tsc && yarn workspace backend build",
     "build-image": "yarn workspace backend build-image",
     "tsc": "tsc",
