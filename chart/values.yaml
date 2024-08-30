@@ -251,8 +251,7 @@ scaffolder:
 catalog:
   orphanStrategy: delete #Orphan strategy(delete|keep)
   rules: #Catalog rules
-    - allow:
-        [Component, API, Location, Cluster, Template, Environment, Database, Infracost]
+    - allow: [Component, API, Location, Cluster, Template, Environment, Database, Vault, Infracost, Group, User]
   providers: {}
 #    github:
 #      organization: #github Organization Name
