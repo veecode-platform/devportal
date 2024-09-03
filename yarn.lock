@@ -17056,6 +17056,7 @@ __metadata:
     "@backstage-community/plugin-explore-backend": ^0.0.28
     "@backstage-community/plugin-explore-common": ^0.0.3
     "@backstage-community/plugin-vault-backend": ^0.4.11
+    "@backstage/backend-app-api": ^0.9.3
     "@backstage/backend-common": ^0.23.3
     "@backstage/backend-defaults": ^0.4.3
     "@backstage/backend-plugin-api": ^0.8.1
