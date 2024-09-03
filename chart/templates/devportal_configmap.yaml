@@ -563,7 +563,7 @@ data:
           shortWord: {{ .Values.search.pg.highlightOptions.shortWord }}
           highlightAll: {{ .Values.search.pg.highlightOptions.highlightAll }}
           maxFragments: {{ .Values.search.pg.highlightOptions.maxFragments }}
-          fragmentDelimiter:  {{ .Values.search.pg.highlightOptions.fragmentDelimiter }}
+          fragmentDelimiter: {{ .Values.search.pg.highlightOptions.fragmentDelimiter }}
         schedule:        
           frequency: 
             minutes: {{ .Values.search.pg.schedule.frequency.minutes }}
