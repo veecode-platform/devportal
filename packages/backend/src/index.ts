@@ -2,8 +2,9 @@ import { createBackend } from '@backstage/backend-defaults';
 import { catalogModuleCustomExtensions } from './modules/catalog/catalogExtension';
 import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
 import { kubernetesModuleCustomExtension } from './modules/kubernetes/kubernetesExtension';
-import { customGithubAuthProvider} from './modules/auth/githubCustomResolver'
-import customPluginsLoader from './modules/features/featureLoader'
+import { customGithubAuthProvider } from './modules/auth/githubCustomResolver';
+import { customGitlabAuthProvider } from './modules/auth/gitlabCustomResolver';
+import customPluginsLoader from './modules/features/featureLoader';
 import { infracostPlugin } from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
 
 const backend = createBackend();
@@ -34,8 +35,9 @@ backend.add(scaffolderModuleCustomExtensions);
 backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'))
 //backend.add(import('@backstage/plugin-auth-backend-module-github-provider')); //github option
+//backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider')); //gitlab option
 backend.add(customGithubAuthProvider)
-backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider')); //gitlab option
+backend.add(customGitlabAuthProvider)
 
 // permission plugin
 //backend.add(import('@backstage/plugin-permission-backend/alpha'));
