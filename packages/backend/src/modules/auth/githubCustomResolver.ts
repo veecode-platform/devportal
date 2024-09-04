@@ -18,8 +18,6 @@ export const customGithubAuthProvider = createBackendModule({
           factory: createOAuthProviderFactory({
             authenticator: githubAuthenticator,
             async signInResolver(info, ctx) {
-                console.log("auth:", info)
-
                 const { 
                     result: {
                         fullProfile: {
