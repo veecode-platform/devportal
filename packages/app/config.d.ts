@@ -278,7 +278,7 @@ export interface Config {
        * 
        * @visibility frontend
        */
-      keycloak?: {
+      oidc?: {
         /**
          * 
          * @visibility frontend

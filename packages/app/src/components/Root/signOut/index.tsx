@@ -15,8 +15,8 @@ const SignOutElement = () => {
   const handleKeycloakSessionLogout = async () => {
     try {
       setLoading(true)
-      const keycloakMetadataUrl = config.getOptionalString("auth.providers.keycloak.development.metadataUrl") ?? ""
-      const keycloakClientId = config.getOptionalString("auth.providers.keycloak.development.clientId") ?? ""
+      const keycloakMetadataUrl = config.getOptionalString("auth.providers.oidc.development.metadataUrl") ?? ""
+      const keycloakClientId = config.getOptionalString("auth.providers.oidc.development.clientId") ?? ""
       const appBaseUrl = config.getString("app.baseUrl")
       const keycloakLogoutUrl = (await (await fetch(keycloakMetadataUrl)).json()).end_session_endpoint
       const keycloakIdToken = await keycloakApi.getIdToken()
