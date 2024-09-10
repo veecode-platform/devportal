@@ -66,6 +66,9 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
 //feature loader
 backend.add(customPluginsLoader)
 
+//about
+backend.add(import('@internal/plugin-about-backend'))
+
 
 
 backend.start();
