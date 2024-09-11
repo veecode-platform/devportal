@@ -59,6 +59,11 @@ export interface Config {
          * @visibility frontend
          */
         azureDevops: boolean
+        /**
+         * Kong Plugin launch control.
+         * @visibility frontend
+         */
+        kong: boolean
     };
     /**
      * 
@@ -98,6 +103,20 @@ export interface Config {
              */
             enabled: boolean
         }
-    }
+    },
+    kong?: {
+        instances?: Array<{
+          id: string;
+          apiBaseUrl: string;
+          workspace: string;
+          auth:{
+            kongAdmin?: string,
+            custom?:{
+              header: string,
+              value: string
+            }
+          }
+          }>;
+        }
 }
 
