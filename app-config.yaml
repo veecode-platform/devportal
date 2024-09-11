@@ -389,8 +389,14 @@ okta:
   token: ${OKTA_TESTE_TOKEN}
 
 kong:
-  api-manager: ${KONG_OKTETO_HOST}
-  admin-token: ${KONG_ADMIN_TOKEN}
+  instances:
+    - id: ${KONG_INSTANCE_NAME}
+      apiBaseUrl: ${KONG_API_URL}
+      workspace: ${KONG_WORKSPACE}
+      auth:
+        custom:
+          header: ${KONG_HEADER}
+          value: ${KONG_HEADER_VALUES}
   
 azureDevOps:
   host: ${AZURE_HOST}
