@@ -105,7 +105,7 @@ import {
 } from '@backstage-community/plugin-azure-devops';
 import { DatabaseOverview } from '@veecode-platform/plugin-database-explorer';
 import { VaultOverview } from '@veecode-platform/plugin-vault-explorer';
-import { KongServiceManagerPage, isKongServiceManagerAvailable } from '@veecode-platform/plugin-kong-service-manager';
+import { KongServiceManagerContent, isKongServiceManagerAvailable } from '@veecode-platform/plugin-kong-service-manager';
 import { KubernetesGptAnalyzerPage, KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
 import { InfracostOverviewPage, isInfracostAvailable } from '@veecode-platform/backstage-plugin-infracost';
 
@@ -393,7 +393,7 @@ const serviceEntityPage = (
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
       path="/kong-service-manager" title="Kong">
-      <KongServiceManagerPage />
+      <KongServiceManagerContent />
     </EntityLayout.Route>
 
     {
@@ -432,7 +432,7 @@ const defaultEntityPage = (
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
       path="/kong-service-manager" title="Kong">
-      <KongServiceManagerPage />
+      <KongServiceManagerContent />
     </EntityLayout.Route>
 
     {
@@ -471,7 +471,7 @@ const websiteEntityPage = (
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
       path="/kong-service-manager" title="Kong">
-      <KongServiceManagerPage />
+      <KongServiceManagerContent />
     </EntityLayout.Route>
 
     {
