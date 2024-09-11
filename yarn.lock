@@ -3082,9 +3082,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/backend-app-api@npm:^0.9.0":
-  version: 0.9.0
-  resolution: "@backstage/backend-app-api@npm:0.9.0"
+"@backstage/backend-app-api@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@backstage/backend-app-api@npm:0.8.0"
   dependencies:
     "@backstage/backend-common": ^0.23.3
     "@backstage/backend-plugin-api": ^0.7.0
@@ -3137,7 +3137,7 @@ __metadata:
     "@aws-sdk/client-s3": ^3.350.0
     "@aws-sdk/credential-providers": ^3.350.0
     "@aws-sdk/types": ^3.347.0
-    "@backstage/backend-app-api": ^0.9.0
+    "@backstage/backend-app-api": ^0.8.0
     "@backstage/backend-dev-utils": ^0.1.4
     "@backstage/backend-plugin-api": ^0.6.17
     "@backstage/cli-common": ^0.1.13
@@ -3207,7 +3207,7 @@ __metadata:
     "@aws-sdk/client-s3": ^3.350.0
     "@aws-sdk/credential-providers": ^3.350.0
     "@aws-sdk/types": ^3.347.0
-    "@backstage/backend-app-api": ^0.9.0
+    "@backstage/backend-app-api": ^0.8.0
     "@backstage/backend-dev-utils": ^0.1.4
     "@backstage/backend-plugin-api": ^0.6.18
     "@backstage/cli-common": ^0.1.13
@@ -3353,7 +3353,7 @@ __metadata:
     "@aws-sdk/client-s3": ^3.350.0
     "@aws-sdk/credential-providers": ^3.350.0
     "@aws-sdk/types": ^3.347.0
-    "@backstage/backend-app-api": ^0.9.0
+    "@backstage/backend-app-api": ^0.8.0
     "@backstage/backend-common": ^0.23.2
     "@backstage/backend-dev-utils": ^0.1.4
     "@backstage/backend-plugin-api": ^0.6.21
@@ -3429,7 +3429,7 @@ __metadata:
     "@aws-sdk/client-s3": ^3.350.0
     "@aws-sdk/credential-providers": ^3.350.0
     "@aws-sdk/types": ^3.347.0
-    "@backstage/backend-app-api": ^0.9.0
+    "@backstage/backend-app-api": ^0.8.0
     "@backstage/backend-common": ^0.23.3
     "@backstage/backend-dev-utils": ^0.1.4
     "@backstage/backend-plugin-api": ^0.7.0
@@ -3507,7 +3507,7 @@ __metadata:
   version: 0.2.15
   resolution: "@backstage/backend-dynamic-feature-service@npm:0.2.15"
   dependencies:
-    "@backstage/backend-app-api": ^0.9.0
+    "@backstage/backend-app-api": ^0.8.0
     "@backstage/backend-common": ^0.23.3
     "@backstage/backend-plugin-api": ^0.7.0
     "@backstage/backend-tasks": ^0.5.27
@@ -3620,7 +3620,7 @@ __metadata:
   version: 0.3.8
   resolution: "@backstage/backend-test-utils@npm:0.3.8"
   dependencies:
-    "@backstage/backend-app-api": ^0.9.0
+    "@backstage/backend-app-api": ^0.8.0
     "@backstage/backend-common": ^0.22.0
     "@backstage/backend-plugin-api": ^0.6.18
     "@backstage/config": ^1.2.0
@@ -5805,7 +5805,7 @@ __metadata:
   version: 0.5.32
   resolution: "@backstage/plugin-search-backend-module-pg@npm:0.5.32"
   dependencies:
-    "@backstage/backend-app-api": ^0.9.0
+    "@backstage/backend-app-api": ^0.8.0
     "@backstage/backend-common": ^0.23.3
     "@backstage/backend-plugin-api": ^0.7.0
     "@backstage/config": ^1.2.0
