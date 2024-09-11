@@ -335,6 +335,7 @@ enabledPlugins:
   keycloak: true
   azureDevops: false
   infracost: false
+  kong: true
 
 platform:
   behaviour: 
