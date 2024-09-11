@@ -142,7 +142,7 @@ vault:
 #  kvVersion: 2 #vault kv version (1 | 2)
 
 kong:
-  enabled: false #enable Kong integration
+  enabled: true #enable Kong integration
 #  instances:
 #    - name: #Kong instance name
 #      apiManager: #Kong API Manager
