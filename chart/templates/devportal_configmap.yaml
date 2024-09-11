@@ -586,6 +586,7 @@ data:
       keycloak: {{ hasKey .Values.catalog.providers "keycloak" }}
       azureDevops: {{ .Values.azureDevOps.enabled | default false }}
       infracost: {{ .Values.infracost.enabled | default false }}
+      kong: {{ .Values.kong.enabled | default false }}
     platform:
       guest:
         enabled: {{ .Values.platform.guest.enabled | default false }}
