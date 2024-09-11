@@ -6,6 +6,8 @@ import { customGithubAuthProvider } from './modules/auth/githubCustomResolver';
 import { customGitlabAuthProvider } from './modules/auth/gitlabCustomResolver';
 import customPluginsLoader from './modules/features/featureLoader';
 import { infracostPlugin } from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
+import { MyRootHealthService } from './modules/healthcheck/health';
+import { coreServices, createServiceFactory } from '@backstage/backend-plugin-api';
 
 const backend = createBackend();
 
@@ -68,6 +70,17 @@ backend.add(customPluginsLoader)
 
 //about
 backend.add(import('@internal/plugin-about-backend'))
+
+//healthcheck
+backend.add(
+    createServiceFactory({
+      service: coreServices.rootHealth,
+      deps: {},
+      async factory({}) {
+        return new MyRootHealthService();
+      },
+    }),
+  );
 
 
 
