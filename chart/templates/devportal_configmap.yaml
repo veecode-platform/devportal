@@ -637,7 +637,7 @@ data:
       - id: {{ .name }}
         apiBaseUrl: {{ .apiManager }}
         workspace: {{ .workspace | default "default" | quote }}
-        {{- if or .authorization.adminToken .authorization.custom }}
+        {{- if and .authorization (or .authorization.adminToken .authorization.custom) }}
         auth:
           {{- if .authorization.adminToken }}
           kongAdmin: ${KONG_ADMIN_TOKEN_{{$i}}}
