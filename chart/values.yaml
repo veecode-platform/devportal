@@ -144,17 +144,15 @@ vault:
 kong:
   enabled: false #enable Kong integration
 #  instances:
-#    - name: '' #Kong instance name
-#      apiManager: '' #Kong API Manager
+#    - name: #Kong instance name
+#      apiManager: #Kong API Manager
+#      workspace: 'default' #Kong workspace
 #      authorization: 
-#        adminToken: '' #Kong admin token (optional)
-#        custom:
-#          header: '' #custom header
-#          value: '' #custom header value
-#      allowedHeaders: ["Authorization", "Content-Type"]
-#      headers:
-#        Accept: application/json
-#        Content-Type: 'application/json'
+#        adminToken: #Kong admin token (optional)
+#        custom: #custom token (optional)
+#          header: #custom header
+#          value: #custom header value
+
 azureDevOps:
   enabled: false #enable Azure DevOps plugin
 #  host: dev.azure.com #azure host
@@ -224,6 +222,7 @@ integrations: {}
 #    apiBaseUrl: #api base URL: https://gitlab.domain.com/api/v4
 #    token:  #Gitlab Server Token
 #    callbackUrl: #The URL matching the Redirect URI registered when creating your GitLab OAuth App
+
 permission:
   enabled: true
   rbac:
