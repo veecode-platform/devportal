@@ -65,7 +65,7 @@
     "@roadiehq/backstage-plugin-aws-auth": "^0.4.24",
     "@roadiehq/scaffolder-backend-module-http-request": "^4.3.3",
     "@roadiehq/scaffolder-backend-module-utils": "^2.0.1",
-    "@veecode-platform/backstage-plugin-infracost-backend": "^0.3.5",
+    "@veecode-platform/backstage-plugin-infracost-backend": "^0.3.6",
     "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "^0.3.17",
     "@veecode-platform/plugin-application-backend": "^0.3.18",
     "@veecode-platform/plugin-application-common": "^0.3.17",
