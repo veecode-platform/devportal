@@ -32,11 +32,11 @@
     "@veecode-platform/backstage-plugin-gitlab-pipelines-common": "^0.2.17",
     "@veecode-platform/backstage-plugin-kong-service-manager-common": "^0.2.18",
     "@veecode-platform/plugin-veecode-platform-common": "^0.3.17",
-    "express": "^4.17.1",
-    "express-promise-router": "^4.1.0",
-    "node-fetch": "^2.6.7",
-    "winston": "^3.2.1",
-    "yn": "^4.0.0"
+    "express": "^4.21.0",
+    "express-promise-router": "^4.1.1",
+    "node-fetch": "^3.3.2",
+    "winston": "^3.14.2",
+    "yn": "^5.0.0"
   },
   "devDependencies": {
     "@backstage/cli": "^0.27.0",

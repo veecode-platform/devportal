@@ -7531,16 +7531,16 @@ __metadata:
     "@backstage/dev-utils": ^1.0.37
     "@backstage/test-utils": ^1.5.10
     "@backstage/theme": ^0.5.6
-    "@material-ui/core": ^4.9.13
-    "@material-ui/icons": ^4.9.1
+    "@material-ui/core": ^4.12.4
+    "@material-ui/icons": ^4.11.3
     "@material-ui/lab": ^4.0.0-alpha.61
     "@testing-library/jest-dom": ^6.0.0
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.0.0
     msw: ^1.0.0
-    react-use: ^17.5.0
+    react-use: ^17.5.1
   peerDependencies:
-    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react: ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -7562,13 +7562,13 @@ __metadata:
     "@veecode-platform/backstage-plugin-gitlab-pipelines-common": ^0.2.17
     "@veecode-platform/backstage-plugin-kong-service-manager-common": ^0.2.18
     "@veecode-platform/plugin-veecode-platform-common": ^0.3.17
-    express: ^4.17.1
-    express-promise-router: ^4.1.0
+    express: ^4.21.0
+    express-promise-router: ^4.1.1
     msw: ^1.0.0
-    node-fetch: ^2.6.7
+    node-fetch: ^3.3.2
     supertest: ^6.2.4
-    winston: ^3.2.1
-    yn: ^4.0.0
+    winston: ^3.14.2
+    yn: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -7612,9 +7612,9 @@ __metadata:
     "@testing-library/user-event": ^14.0.0
     "@types/node": "*"
     msw: ^1.0.0
-    react-use: ^17.2.4
+    react-use: ^17.5.1
   peerDependencies:
-    react: ^18.0.2
+    react: ^18.3.1
   languageName: unknown
   linkType: soft
 
@@ -7632,9 +7632,9 @@ __metadata:
     "@backstage/plugin-catalog-react": ^1.12.3
     "@backstage/test-utils": ^1.5.10
     "@backstage/theme": ^0.5.6
-    "@material-ui/core": ^4.9.13
-    "@material-ui/icons": ^4.9.1
-    "@material-ui/lab": ^4.0.0-alpha.57
+    "@material-ui/core": ^4.12.4
+    "@material-ui/icons": ^4.11.3
+    "@material-ui/lab": ^4.0.0-alpha.61
     "@testing-library/jest-dom": ^5.10.1
     "@testing-library/react": ^12.1.3
     "@testing-library/user-event": ^14.0.0
@@ -7642,11 +7642,11 @@ __metadata:
     cross-fetch: ^3.1.5
     lodash: ^4.17.21
     msw: ^0.49.0
-    react-use: ^17.2.4
+    react-use: ^17.5.1
   peerDependencies:
-    "@types/react": ^18.0.2
-    react: ^18.0.2
-    react-router-dom: ^6.3.0
+    "@types/react": ^18.3.5
+    react: ^18.3.1
+    react-router-dom: ^6.26.2
   languageName: unknown
   linkType: soft
 
@@ -8639,7 +8639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/lab@npm:4.0.0-alpha.61, @material-ui/lab@npm:^4.0.0-alpha.45, @material-ui/lab@npm:^4.0.0-alpha.57, @material-ui/lab@npm:^4.0.0-alpha.60, @material-ui/lab@npm:^4.0.0-alpha.61":
+"@material-ui/lab@npm:4.0.0-alpha.61, @material-ui/lab@npm:^4.0.0-alpha.45, @material-ui/lab@npm:^4.0.0-alpha.60, @material-ui/lab@npm:^4.0.0-alpha.61":
   version: 4.0.0-alpha.61
   resolution: "@material-ui/lab@npm:4.0.0-alpha.61"
   dependencies:
@@ -19935,6 +19935,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"data-uri-to-buffer@npm:^4.0.0":
+  version: 4.0.1
+  resolution: "data-uri-to-buffer@npm:4.0.1"
+  checksum: 0d0790b67ffec5302f204c2ccca4494f70b4e2d940fea3d36b09f0bb2b8539c2e86690429eb1f1dc4bcc9e4df0644193073e63d9ee48ac9fce79ec1506e4aa4c
+  languageName: node
+  linkType: hard
+
 "data-urls@npm:^2.0.0":
   version: 2.0.0
   resolution: "data-urls@npm:2.0.0"
@@ -22311,6 +22318,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fetch-blob@npm:^3.1.2, fetch-blob@npm:^3.1.4":
+  version: 3.2.0
+  resolution: "fetch-blob@npm:3.2.0"
+  dependencies:
+    node-domexception: ^1.0.0
+    web-streams-polyfill: ^3.0.3
+  checksum: f19bc28a2a0b9626e69fd7cf3a05798706db7f6c7548da657cbf5026a570945f5eeaedff52007ea35c8bcd3d237c58a20bf1543bc568ab2422411d762dd3d5bf
+  languageName: node
+  linkType: hard
+
 "figures@npm:3.2.0, figures@npm:^3.0.0, figures@npm:^3.2.0":
   version: 3.2.0
   resolution: "figures@npm:3.2.0"
@@ -22659,6 +22676,15 @@ __metadata:
   version: 0.2.2
   resolution: "format@npm:0.2.2"
   checksum: 646a60e1336250d802509cf24fb801e43bd4a70a07510c816fa133aa42cdbc9c21e66e9cc0801bb183c5b031c9d68be62e7fbb6877756e52357850f92aa28799
+  languageName: node
+  linkType: hard
+
+"formdata-polyfill@npm:^4.0.10":
+  version: 4.0.10
+  resolution: "formdata-polyfill@npm:4.0.10"
+  dependencies:
+    fetch-blob: ^3.1.2
+  checksum: 82a34df292afadd82b43d4a740ce387bc08541e0a534358425193017bf9fb3567875dc5f69564984b1da979979b70703aa73dee715a17b6c229752ae736dd9db
   languageName: node
   linkType: hard
 
@@ -29963,6 +29989,17 @@ __metadata:
     encoding:
       optional: true
   checksum: d76d2f5edb451a3f05b15115ec89fc6be39de37c6089f1b6368df03b91e1633fd379a7e01b7ab05089a25034b2023d959b47e59759cb38d88341b2459e89d6e5
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^3.3.2":
+  version: 3.3.2
+  resolution: "node-fetch@npm:3.3.2"
+  dependencies:
+    data-uri-to-buffer: ^4.0.0
+    fetch-blob: ^3.1.4
+    formdata-polyfill: ^4.0.10
+  checksum: 06a04095a2ddf05b0830a0d5302699704d59bda3102894ea64c7b9d4c865ecdff2d90fd042df7f5bc40337266961cb6183dcc808ea4f3000d024f422b462da92
   languageName: node
   linkType: hard
 
