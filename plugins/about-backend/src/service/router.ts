@@ -21,12 +21,8 @@ export interface RouterOptions {
 }
 
 export async function createRouter(
-  options: RouterOptions,
 ): Promise<express.Router> {
-  //const { logger, config, permissions } = options;
-  const aboutBackendApi = options.aboutBackendApi || new AboutBackendApi(
-    //logger, config, permissions
-    );
+  const aboutBackendApi = new AboutBackendApi();
 
   const router = Router();
   router.use(express.json());
