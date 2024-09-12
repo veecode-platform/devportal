@@ -57,10 +57,8 @@ backend.add(import('@backstage/plugin-techdocs-backend/alpha'));
 
 // search plugin
 backend.add(import('@backstage/plugin-search-backend/alpha'));
-
 // search engine
 backend.add(import('@backstage/plugin-search-backend-module-pg/alpha'));
-
 // search collators
 backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
