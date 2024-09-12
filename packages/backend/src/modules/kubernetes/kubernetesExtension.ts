@@ -13,9 +13,7 @@ export const kubernetesModuleCustomExtension = createBackendModule({
           locator: kubernetesClusterSupplierExtensionPoint,
           authStrategy: kubernetesAuthStrategyExtensionPoint,
           discovery: coreServices.discovery,
-          auth: coreServices.auth,
-          httpAuth: coreServices.httpAuth
-          
+          auth: coreServices.auth          
         },
         async init({ locator, discovery, auth, authStrategy }) {
           const catalogApi = new CatalogClient({ discoveryApi: discovery });
