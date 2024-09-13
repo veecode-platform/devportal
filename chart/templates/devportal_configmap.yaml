@@ -140,7 +140,7 @@ data:
           - host: example.com
           - host: "*.mozilla.org"
 
-    {{- if or (and .Values.kong.enabled .Values.kong.instances) .Values.grafana.enabled .Values.argocd.enabled $is_github_provider $is_gitlab_provider }}
+    {{- if or (and .Values.kong.enabled .Values.kong.instances) .Values.grafana.enabled $is_github_provider $is_gitlab_provider }}
     proxy:
       endpoints:
         {{- range $i, $e := .Values.kong.instances }}
@@ -181,15 +181,6 @@ data:
           target: {{ $grafana_domain | default "${GRAFANA_DOMAIN}" }}
           headers:
             Authorization: Bearer ${GRAFANA_TOKEN}
-        {{- end }}
-        {{- if .Values.argocd.enabled | default false }}
-        "/argocd/api":
-          target: ${ARGOCD_URL_API}
-          changeOrigin: true
-          secure: true
-          headers:
-            Cookie:
-              $env: ARGOCD_AUTH_TOKEN
         {{- end }}
         {{- if $is_gitlab_provider }}
         "/gitlab/api":
