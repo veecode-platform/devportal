@@ -8,6 +8,7 @@ import customPluginsLoader from './modules/features/featureLoader';
 import { infracostPlugin } from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
 import { MyRootHealthService } from './modules/healthcheck/health';
 import { coreServices, createServiceFactory } from '@backstage/backend-plugin-api';
+//import  kongServiceManagerPlugin  from '@veecode-platform/plugin-kong-service-manager-backend';
 
 const backend = createBackend();
 
@@ -68,6 +69,9 @@ backend.add(customPluginsLoader)
 
 //about
 backend.add(import('@internal/plugin-about-backend'))
+
+//kong service manager
+//backend.add(kongServiceManagerPlugin);
 
 //healthcheck
 backend.add(

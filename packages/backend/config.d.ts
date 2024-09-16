@@ -17,6 +17,24 @@
 /** Configuration for the devportal plugin behavior */
 export interface Config {
     /**
+    * 
+    * @visibility frontend
+    */
+    kong?: {
+        instances?: Array<{
+            id: string;
+            apiBaseUrl: string;
+            workspace: string;
+            auth: {
+                kongAdmin?: string,
+                custom?: {
+                    header: string,
+                    value: string
+                }
+            }
+        }>;
+    },
+    /**
      * 
      * @visibility frontend
      */
@@ -48,7 +66,7 @@ export interface Config {
          * @visibility frontend
          */
         gitlabPlugin: boolean
-        
+
         /**
          * keycloakPlugin launch control.
          * @visibility frontend
@@ -78,7 +96,7 @@ export interface Config {
              * @visibility frontend
              */
             enabled: boolean
-         };
+        };
         groups: {
             /**
              * 

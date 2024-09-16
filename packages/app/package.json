@@ -59,7 +59,6 @@
     "@veecode-platform/plugin-application-common": "^0.3.17",
     "@veecode-platform/plugin-database-explorer": "^0.3.17",
     "@veecode-platform/plugin-environment-explorer": "^0.3.17",
-    "@veecode-platform/plugin-github-actions": "^0.6.3",
     "@veecode-platform/plugin-kong-service-manager": "^1.0.2",
     "@veecode-platform/plugin-kubernetes": "^0.11.13-next.2",
     "@veecode-platform/plugin-vault-explorer": "^0.3.17",

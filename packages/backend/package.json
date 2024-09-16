@@ -16,10 +16,10 @@
     "build-image": "docker build ../.. -f Dockerfile --tag backstage"
   },
   "dependencies": {
-    "@backstage-community/plugin-azure-devops-backend": "0.6.5",
-    "@backstage-community/plugin-explore-backend": "^0.0.28",
-    "@backstage-community/plugin-explore-common": "^0.0.3",
-    "@backstage-community/plugin-vault-backend": "^0.4.11",
+    "@backstage-community/plugin-azure-devops-backend": "0.7.1",
+    "@backstage-community/plugin-explore-backend": "^0.1.5",
+    "@backstage-community/plugin-explore-common": "^0.0.5",
+    "@backstage-community/plugin-vault-backend": "^0.4.18",
     "@backstage/backend-app-api": "^0.9.3",
     "@backstage/backend-common": "^0.24.1",
     "@backstage/backend-defaults": "^0.4.4",
@@ -69,6 +69,7 @@
     "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "^0.3.17",
     "@veecode-platform/plugin-application-backend": "^0.3.18",
     "@veecode-platform/plugin-application-common": "^0.3.17",
+    "@veecode-platform/plugin-kong-service-manager-backend": "^0.2.1",
     "@veecode-platform/plugin-veecode-platform-common": "^0.3.17",
     "app": "link:../app",
     "better-sqlite3": "^11.3.0",
