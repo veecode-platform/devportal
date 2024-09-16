@@ -82,15 +82,6 @@ proxy:
       headers:
         Authorization: Bearer ${GRAFANA_TOKEN}
 
-    "/argocd/api":
-      target: ${ARGOCD_DOMAIN}
-      credentials: require
-      changeOrigin: true
-      # only if your argocd api has self-signed cert
-      secure: true
-      headers:
-        Cookie:$env: ARGOCD_AUTH_TOKEN
-
     '/gitlab/api':
       target: https://gitlab.com/api/v4
       credentials: require
