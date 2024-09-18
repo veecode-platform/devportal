@@ -140,42 +140,9 @@ data:
           - host: example.com
           - host: "*.mozilla.org"
 
-    {{- if or (and .Values.kong.enabled .Values.kong.instances) .Values.grafana.enabled $is_github_provider $is_gitlab_provider }}
+    {{- if or .Values.grafana.enabled $is_github_provider $is_gitlab_provider }}
     proxy:
       endpoints:
-        {{- range $i, $e := .Values.kong.instances }}
-        "/kong-manager/{{ .name }}":
-          target: {{.apiManager}}
-          workspace: {{ .workspace | default "default" | quote}}
-          {{- if hasKey . "changeOrigin" }}
-          changeOrigin: {{ .changeOrigin }}
-          {{- end }}
-          {{- $defaultAllowedHeaders := default (list "Content-Type") .allowedHeaders }}
-          {{- if and .authorization .authorization.adminToken }}
-          {{- $defaultAllowedHeaders = append $defaultAllowedHeaders "Kong-Admin-Token" }}
-          {{- end }}
-          {{- if and .authorization .authorization.custom .authorization.custom.header }}
-          {{- $defaultAllowedHeaders = append $defaultAllowedHeaders .authorization.custom.header }}
-          {{- end }}
-          allowedHeaders: {{ $defaultAllowedHeaders  | uniq | toJson }}
-          headers:
-            {{- if .authorization }}
-            {{- if .authorization.adminToken }}
-            Kong-Admin-Token: ${KONG_ADMIN_TOKEN_{{$i}}}
-            {{- end }}
-            {{- if and .authorization.custom .authorization.custom.header }}
-            {{ .authorization.custom.header }}: ${KONG_ADMIN_CUSTOM_TOKEN_{{$i}}}
-            {{- end }}
-            {{- end }}
-            {{- if .headers }}
-            {{- range $key, $value := .headers }}
-            {{ $key }}: {{ $value | quote }}
-            {{- end }}
-            {{- else }}
-            Accept: application/json
-            Content-Type: 'application/json'
-            {{- end }}
-        {{- end }}
         {{- if .Values.grafana.enabled | default false }}
         "/grafana/api":
           target: {{ $grafana_domain | default "${GRAFANA_DOMAIN}" }}
@@ -617,6 +584,7 @@ data:
       keycloak: {{ hasKey .Values.catalog.providers "keycloak" }}
       azureDevops: {{ .Values.azureDevOps.enabled | default false }}
       infracost: {{ .Values.infracost.enabled | default false }}
+      kong: {{ .Values.kong.enabled | default false }}
     platform:
       guest:
         enabled: {{ .Values.platform.guest.enabled | default false }}
@@ -662,8 +630,23 @@ data:
       unifiedAlerting: true
     {{- if .Values.kong.enabled }}
     kong:
-      api-manager: ${KONG_API_MANAGER_HOST}
-      admin-token: ${KONG_ADMIN_TOKEN}
+      instances:
+      {{- range $i, $e := .Values.kong.instances  }}
+      - id: {{ .name }}
+        apiBaseUrl: {{ .apiManager }}
+        workspace: {{ .workspace | default "default" | quote }}
+        {{- if and .authorization (or .authorization.adminToken .authorization.custom) }}
+        auth:
+          {{- if .authorization.adminToken }}
+          kongAdmin: ${KONG_ADMIN_TOKEN_{{$i}}}
+          {{- end }}
+          {{- if .authorization.custom }}
+          custom:
+            header: {{ .authorization.custom.header }}
+            value: ${KONG_ADMIN_CUSTOM_TOKEN_{{$i}}}
+          {{- end }}
+        {{- end }}
+      {{- end }}
     {{- end }}
     {{- if .Values.azureDevOps.enabled }}
     azureDevOps:
