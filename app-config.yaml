@@ -37,8 +37,12 @@ backend:
   # See https://backstage.io/docs/tutorials/backend-to-backend-auth for
   # information on the format
   auth:
-    keys:
-      - secret: ${BACKEND_AUTH_SECRET_KEY}
+    externalAccess:
+      - type: static
+        options:
+          token: ${BACKEND_AUTH_SECRET_KEY}
+          subject: secret
+          
   baseUrl: http://localhost:7007
   listen:
     port: 7007

@@ -94,8 +94,11 @@ data:
 
     backend:
       auth:
-        keys:
-          - secret: ${BACKEND_AUTH_SECRET_KEY}
+        externalAccess:
+          - type: static
+          options:
+            token: ${BACKEND_AUTH_SECRET_KEY}
+            subject: secret
       baseUrl: {{ $backend_path_without_last_slash }}
       listen:
         port: 7007

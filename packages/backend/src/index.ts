@@ -5,10 +5,11 @@ import { kubernetesModuleCustomExtension } from './modules/kubernetes/kubernetes
 import { customGithubAuthProvider } from './modules/auth/githubCustomResolver';
 import { customGitlabAuthProvider } from './modules/auth/gitlabCustomResolver';
 import customPluginsLoader from './modules/features/featureLoader';
-import { infracostPlugin } from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
 import { MyRootHealthService } from './modules/healthcheck/health';
 import { coreServices, createServiceFactory } from '@backstage/backend-plugin-api';
-//import  kongServiceManagerPlugin  from '@veecode-platform/plugin-kong-service-manager-backend';
+import { catalogModuleVeeCodeProcessor } from '@veecode-platform/plugin-veecode-platform-module/alpha';
+import { catalogModuleInfracostProcessor, infracostPlugin } from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
+//import  kongServiceManagerPlugin  from '@veecode-platform/plugin-kong-service-manager-backend'; 
 
 const backend = createBackend();
 
@@ -21,6 +22,8 @@ backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-m
 backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud/alpha'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
 backend.add(import('@janus-idp/backstage-plugin-keycloak-backend/alpha'));
+backend.add(catalogModuleVeeCodeProcessor);
+backend.add(catalogModuleInfracostProcessor);
 backend.add(infracostPlugin);
 backend.add(catalogModuleCustomExtensions);
 
