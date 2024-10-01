@@ -96,9 +96,9 @@ data:
       auth:
         externalAccess:
           - type: static
-          options:
-            token: ${BACKEND_AUTH_SECRET_KEY}
-            subject: secret
+            options:
+              token: ${BACKEND_AUTH_SECRET_KEY}
+              subject: secret
       baseUrl: {{ $backend_path_without_last_slash }}
       listen:
         port: 7007
@@ -624,7 +624,9 @@ data:
       {{- if .Values.vault.publicUrl }}
       publicUrl: {{ .Values.vault.publicUrl }}
       {{- end }}
-      token: ${VAULT_TOKEN_RENEWABLE}
+      auth:
+        type: static
+        secret: ${VAULT_TOKEN_RENEWABLE}
       secretEngine: {{ .Values.vault.secretEngine | default "secrets" }}
       kvVersion: {{ .Values.vault.kvVersion | default 2 }}
     {{- end }}      
