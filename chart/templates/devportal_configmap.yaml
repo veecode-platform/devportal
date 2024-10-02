@@ -557,11 +557,11 @@ data:
             {{- if .Values.auth.providers.github.enterpriseInstanceUrl }}
             enterpriseInstanceUrl: {{ .Values.auth.providers.github.enterpriseInstanceUrl | quote }}
             {{- end }}
-            signIn:
-              resolvers:
-                - resolver: usernameMatchingUserEntityName
-                - resolver: emailMatchingUserEntityProfileEmail
-                - resolver: emailLocalPartMatchingUserEntityName
+            # signIn:
+            #   resolvers:
+            #     - resolver: usernameMatchingUserEntityName
+            #     - resolver: emailMatchingUserEntityProfileEmail
+            #     - resolver: emailLocalPartMatchingUserEntityName
         {{- end }}
         {{- if .Values.auth.providers.gitlab }}
         gitlab:
@@ -574,9 +574,9 @@ data:
              {{- if or .Values.auth.providers.gitlab.callbackUrl .Values.auth.providers.gitlab.audience }}
              callbackUrl: {{ .Values.auth.providers.gitlab.callbackUrl | default "{{ $backend_path_without_last_slash }}/api/auth/gitlab/handler/frame" | quote }}
              {{- end }}
-             signIn:
-                resolvers:
-                  - resolver: usernameMatchingUserEntityName
+            #  signIn:
+            #     resolvers:
+            #       - resolver: usernameMatchingUserEntityName
         {{- end }}
       {{- end }}
     enabledPlugins:
