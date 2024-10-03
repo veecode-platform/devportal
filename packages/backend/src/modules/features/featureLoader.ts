@@ -12,34 +12,34 @@ export default createBackendFeatureLoader({
     //yield import('@roadiehq/backstage-plugin-aws-auth');
 
     //argocd
-    if (config.getOptionalConfig('enabledPlugins.argocd')) {
+    if (config.getBoolean('enabledPlugins.argocd')) {
       yield import('@roadiehq/backstage-plugin-argo-cd-backend/alpha');
     }
 
     //vault
-    if (config.getOptionalConfig('enabledPlugins.vault')) {
+    if (config.getBoolean('enabledPlugins.vault')) {
       yield import('@backstage-community/plugin-vault-backend');
     }
 
     //azure
-    if (config.getOptionalConfig('enabledPlugins.azureDevops')) {
+    if (config.getBoolean('enabledPlugins.azureDevops')) {
       yield import('@backstage-community/plugin-azure-devops-backend');
     }
 
     //kubernetes
-    if (config.getOptionalConfig('enabledPlugins.kubernetes')) {
+    if (config.getBoolean('enabledPlugins.kubernetes')) {
       yield import('@backstage/plugin-kubernetes-backend/alpha')
       yield kubernetesModuleCustomExtension
     }
 
     //rbac
-    if (config.getOptionalConfig('enabledPlugins.rbac')) {
+    if (config.getBoolean('enabledPlugins.rbac')) {
       yield import('@janus-idp/backstage-plugin-rbac-backend');
       yield import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend');
     }
 
     //infracost
-    if (config.getOptionalConfig('enabledPlugins.infracost')) {
+    if (config.getBoolean('enabledPlugins.infracost')) {
       yield catalogModuleInfracostProcessor
       yield infracostPlugin
     }
