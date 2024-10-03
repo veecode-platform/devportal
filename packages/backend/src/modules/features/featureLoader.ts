@@ -1,8 +1,7 @@
 import { createBackendFeatureLoader, coreServices } from '@backstage/backend-plugin-api';
 import { kubernetesModuleCustomExtension } from '../kubernetes/kubernetesExtension';
 import { catalogModuleInfracostProcessor, infracostPlugin } from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
-
-
+import { catalogModuleCustomExtensions } from '../catalog/catalogExtension';
 
 export default createBackendFeatureLoader({
   deps: {
@@ -42,6 +41,11 @@ export default createBackendFeatureLoader({
     if (config.getBoolean('enabledPlugins.infracost')) {
       yield catalogModuleInfracostProcessor
       yield infracostPlugin
+    }
+
+    //gitlab
+    if (config.getBoolean('enabledPlugins.gitlab')) {
+      yield catalogModuleCustomExtensions;
     }
   }
 });

@@ -1,5 +1,4 @@
 import { createBackend } from '@backstage/backend-defaults';
-import { catalogModuleCustomExtensions } from './modules/catalog/catalogExtension';
 import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
 import { customGithubAuthProvider } from './modules/auth/githubCustomResolver';
 import { customGitlabAuthProvider } from './modules/auth/gitlabCustomResolver';
@@ -20,7 +19,6 @@ backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud/alp
 backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
 backend.add(import('@janus-idp/backstage-plugin-keycloak-backend/alpha'));
 backend.add(catalogModuleVeeCodeProcessor);
-backend.add(catalogModuleCustomExtensions);
 
 //backend.add(catalogModuleInfracostProcessor);
 //backend.add(import('@backstage/plugin-catalog-backend-module-azure/alpha')); validate
