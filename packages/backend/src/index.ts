@@ -1,15 +1,12 @@
 import { createBackend } from '@backstage/backend-defaults';
 import { catalogModuleCustomExtensions } from './modules/catalog/catalogExtension';
 import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
-import { kubernetesModuleCustomExtension } from './modules/kubernetes/kubernetesExtension';
 import { customGithubAuthProvider } from './modules/auth/githubCustomResolver';
 import { customGitlabAuthProvider } from './modules/auth/gitlabCustomResolver';
 import customPluginsLoader from './modules/features/featureLoader';
 import { MyRootHealthService } from './modules/healthcheck/health';
 import { coreServices, createServiceFactory } from '@backstage/backend-plugin-api';
 import { catalogModuleVeeCodeProcessor } from '@veecode-platform/plugin-veecode-platform-module/alpha';
-import { catalogModuleInfracostProcessor, infracostPlugin } from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
-//import  kongServiceManagerPlugin  from '@veecode-platform/plugin-kong-service-manager-backend'; 
 
 const backend = createBackend();
 
@@ -23,8 +20,6 @@ backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud/alp
 backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
 backend.add(import('@janus-idp/backstage-plugin-keycloak-backend/alpha'));
 backend.add(catalogModuleVeeCodeProcessor);
-backend.add(catalogModuleInfracostProcessor);
-backend.add(infracostPlugin);
 backend.add(catalogModuleCustomExtensions);
 
 //backend.add(catalogModuleInfracostProcessor);
@@ -44,14 +39,6 @@ backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'))
 //backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider')); //gitlab option
 backend.add(customGithubAuthProvider)
 backend.add(customGitlabAuthProvider)
-
-// permission plugin
-//backend.add(import('@backstage/plugin-permission-backend/alpha'));
-backend.add(import('@janus-idp/backstage-plugin-rbac-backend'));
-
-//kubernetes
-backend.add(import('@backstage/plugin-kubernetes-backend/alpha'));
-backend.add(kubernetesModuleCustomExtension)
 
 //proxy
 backend.add(import('@backstage/plugin-proxy-backend/alpha'));
@@ -74,7 +61,12 @@ backend.add(customPluginsLoader)
 backend.add(import('@internal/plugin-about-backend'))
 
 //kong service manager
-//backend.add(kongServiceManagerPlugin);
+backend.add(import('@veecode-platform/plugin-kong-service-manager-backend'))
+
+//explore
+backend.add(import('@backstage-community/plugin-explore-backend'))
+
+
 
 //healthcheck
 backend.add(

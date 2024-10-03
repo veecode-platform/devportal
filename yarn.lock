@@ -11603,9 +11603,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@roadiehq/backstage-plugin-argo-cd-backend@npm:^3.1.0":
-  version: 3.2.2
-  resolution: "@roadiehq/backstage-plugin-argo-cd-backend@npm:3.2.2"
+"@roadiehq/backstage-plugin-argo-cd-backend@npm:^3.2.3":
+  version: 3.2.3
+  resolution: "@roadiehq/backstage-plugin-argo-cd-backend@npm:3.2.3"
   dependencies:
     "@backstage/backend-common": ^0.24.0
     "@backstage/backend-plugin-api": ^0.8.0
@@ -11617,7 +11617,7 @@ __metadata:
     express-promise-router: ^4.1.0
     winston: ^3.2.1
     yn: ^4.0.0
-  checksum: 726c1e4e9337e5994c51f43956d162d36b89d744ef1f6ebf71894f5e6665ff57ca87e8435d34f7774223271d87b3660be9e9ae098b708d1f8269e070eb273b6e
+  checksum: 1892c39b81089a42e86e9885efd909af96ba65211456234b19e89e6e1d38120009de5dad642f46624481583ca45cc7e664bb7520c4e105e15d0786ecca607574
   languageName: node
   linkType: hard
 
@@ -17642,7 +17642,7 @@ __metadata:
     "@janus-idp/backstage-plugin-keycloak-backend": ^1.13.2
     "@janus-idp/backstage-plugin-rbac-backend": ^4.10.4
     "@keycloak/keycloak-admin-client": 18.0.2
-    "@roadiehq/backstage-plugin-argo-cd-backend": ^3.1.0
+    "@roadiehq/backstage-plugin-argo-cd-backend": ^3.2.3
     "@roadiehq/backstage-plugin-aws-auth": ^0.4.24
     "@roadiehq/scaffolder-backend-module-http-request": ^4.3.3
     "@roadiehq/scaffolder-backend-module-utils": ^2.0.1
