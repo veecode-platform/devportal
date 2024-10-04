@@ -91,10 +91,11 @@ jobs:
         run: echo "ARCH=$(echo ${{ runner.arch }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Building Devportal${{ runner.arch }}
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"      
         run: |
           npm install -g yarn
           yarn install --frozen-lockfile
-          yarn tsc
           yarn build
           jq --arg version "$(jq -r .version package.json)" '.version = $version' devportal.json > temp.json && mv temp.json devportal.json
 
