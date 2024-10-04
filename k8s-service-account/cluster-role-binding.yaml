@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: platform-devportal-read-only
-  namespace: vkpr
+  namespace: default
 roleRef:
   kind: ClusterRole
   name: platform-devportal-read-only
@@ -10,4 +10,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: platform-devportal
-    namespace: vkpr
+    namespace: default

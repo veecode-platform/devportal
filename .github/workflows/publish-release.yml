@@ -217,6 +217,9 @@ jobs:
       - name: Prepare doc references
         run: |
           mkdir -p tmpDocs/devportal
+          yq eval-all ./k8s-service-account/cluster-role.yaml \
+            ./k8s-service-account/service-account.yaml \
+            ./k8s-service-account/cluster-role-binding.yaml > tmpDocs/devportal/k8s-service-account.yaml
           cp packages/app/public/theme.json tmpDocs/devportal/
           cp keycloak/realm-platform-devportal.json tmpDocs/devportal/
           cp docs/public/examples/k8s-service-account.yaml tmpDocs/devportal/
