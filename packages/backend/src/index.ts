@@ -6,6 +6,7 @@ import customPluginsLoader from './modules/features/featureLoader';
 import { MyRootHealthService } from './modules/healthcheck/health';
 import { coreServices, createServiceFactory } from '@backstage/backend-plugin-api';
 import { catalogModuleVeeCodeProcessor } from '@veecode-platform/plugin-veecode-platform-module/alpha';
+import { keycloakBackendModuleTransformer } from './modules/keycloak/keycloakEntityTransformer';
 
 const backend = createBackend();
 
@@ -18,6 +19,7 @@ backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-m
 backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud/alpha'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
 backend.add(import('@janus-idp/backstage-plugin-keycloak-backend'));
+backend.add(keycloakBackendModuleTransformer)
 backend.add(catalogModuleVeeCodeProcessor);
 
 //backend.add(catalogModuleInfracostProcessor);
