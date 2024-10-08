@@ -294,6 +294,7 @@ auth:
         signIn:
           resolvers:
             - resolver: emailLocalPartMatchingUserEntityName
+            - resolver: emailMatchingUserEntityProfileEmail
   
     github:
       development:

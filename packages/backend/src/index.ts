@@ -17,7 +17,7 @@ backend.add(import('@backstage/plugin-catalog-backend/alpha'));
 backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'));
 backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud/alpha'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
-backend.add(import('@janus-idp/backstage-plugin-keycloak-backend/alpha'));
+backend.add(import('@janus-idp/backstage-plugin-keycloak-backend'));
 backend.add(catalogModuleVeeCodeProcessor);
 
 //backend.add(catalogModuleInfracostProcessor);

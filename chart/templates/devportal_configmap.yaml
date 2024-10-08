@@ -548,6 +548,7 @@ data:
             signIn:
               resolvers:
                 - resolver: emailLocalPartMatchingUserEntityName
+                - resolver: emailMatchingUserEntityProfileEmail
         {{- end }}
         {{- if .Values.auth.providers.github }}
         github:
