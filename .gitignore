@@ -15,8 +15,7 @@ coverage
 # Dependencies
 node_modules/
 
-# Yarn 3 files
-## Check if backstage team are recomending upgrade to yarn 3
+# Yarn files
 .pnp.*
 .yarn/*
 !.yarn/patches
