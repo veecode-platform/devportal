@@ -57,7 +57,7 @@ COPY --chown=node:node devportal.json backstage.json ./
 
 # Create the entrypoint script
 USER root
-COPY packages/backend/entrypoint.sh /app/entrypoint.sh
+COPY --chown=node:node packages/backend/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 USER node
 
