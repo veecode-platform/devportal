@@ -262,6 +262,11 @@ export interface Config {
      * @visibility frontend
      */
     azureDevops: boolean
+    /**
+     * Kong Plugin launch control.
+     * @visibility frontend
+     */
+    kong: boolean
 
   };
   /**
