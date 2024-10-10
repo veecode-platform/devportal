@@ -30,6 +30,7 @@ backend.add(catalogModuleVeeCodeProcessor);
 backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(scaffolderModuleCustomExtensions);
+backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
 //backend.add(import('@roadiehq/scaffolder-backend-module-utils/new-backend')); added to custom scaffolder extension
 
 // auth plugin
