@@ -328,6 +328,8 @@ enabledPlugins:
   azureDevops: false
   infracost: false
   kong: true
+  gitlab: false
+  github: true
 
 platform:
   behaviour: 
