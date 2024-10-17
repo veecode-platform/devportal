@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.21.0",
+  "version": "0.21.1",
   "private": true,
   "engines": {
     "node": "18 || 20"
@@ -25,8 +25,8 @@
     "new": "backstage-cli new --scope internal",
     "remove-plugin": "backstage-cli remove-plugin",
     "clear-deps": "find .  -path ./.docker-data -prune -o -name node_modules -type d -exec rm -rf '{}' +",
-    "docker-up": "docker-compose --profile=complete up -d",
-    "docker-down": "docker-compose --profile=complete down",
+    "docker-up": "docker compose --profile=complete up -d",
+    "docker-down": "docker compose --profile=complete down",
     "check": "yarn upgrade-interactive"
   },
   "workspaces": {
@@ -60,5 +60,5 @@
       "prettier --write"
     ]
   },
-  "packageManager": "yarn@3.8.5"
+  "packageManager": "yarn@4.5.0"
 }
