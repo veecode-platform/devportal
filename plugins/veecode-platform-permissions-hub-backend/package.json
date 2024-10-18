@@ -30,7 +30,7 @@
     "@veecode-platform/backstage-plugin-cluster-explorer-common": "^0.2.18",
     "@veecode-platform/backstage-plugin-github-workflows-common": "^0.2.18",
     "@veecode-platform/backstage-plugin-gitlab-pipelines-common": "^0.2.18",
-    "@veecode-platform/backstage-plugin-kong-service-manager-common": "^0.3.0",
+    "@veecode-platform/backstage-plugin-kong-service-manager-common": "^0.4.1",
     "@veecode-platform/plugin-veecode-platform-common": "^0.3.19",
     "express": "^4.21.0",
     "express-promise-router": "^4.1.1",
