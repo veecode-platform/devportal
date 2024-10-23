@@ -285,6 +285,7 @@ auth:
   session:
     secret: ${AUTH_USER_SESSION_SECRET}
   providers:
+    guest: {}
     oidc:
       development:
         metadataUrl: ${KEYCLOAK_METADATA_URL}
