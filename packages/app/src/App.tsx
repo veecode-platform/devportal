@@ -55,15 +55,25 @@ import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
-  if (guest) props.onSignInSuccess(UserIdentity.createGuest());
-  return (<SignInPage
+  if (guest){
+    props.onSignInSuccess(UserIdentity.createGuest())
+    return <SignInPage
     {...props}
-    providers={guest ? ["guest"] : [providers[0]]}
+    providers={ ["guest"]}
     onSignInSuccess={async (identityApi: IdentityApi) => {
       props.onSignInSuccess(identityApi);
     }}
 
-  />)
+  />
+  } 
+  return <SignInPage
+    {...props}
+    provider={providers[0]}
+    onSignInSuccess={async (identityApi: IdentityApi) => {
+      props.onSignInSuccess(identityApi);
+    }}
+
+  />
 };
 
 const ThemeComponent = ({ children, light }: { children: ReactNode, light?: boolean }) => {
