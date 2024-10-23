@@ -37,7 +37,7 @@
     "@backstage/plugin-techdocs-react": "^1.2.7",
     "@backstage/plugin-user-settings": "^0.8.11",
     "@backstage/theme": "^0.5.6",
-    "@immobiliarelabs/backstage-plugin-gitlab": "^6.6.0",
+    "@immobiliarelabs/backstage-plugin-gitlab": "^6.6.1",
     "@internal/backstage-plugin-support": "^0.1.0",
     "@internal/plugin-about": "^0.1.0",
     "@janus-idp/backstage-plugin-rbac": "^1.29.4",
