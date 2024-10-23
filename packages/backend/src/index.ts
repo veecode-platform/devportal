@@ -7,6 +7,10 @@ import { MyRootHealthService } from './modules/healthcheck/health';
 import { coreServices, createServiceFactory } from '@backstage/backend-plugin-api';
 import { catalogModuleVeeCodeProcessor } from '@veecode-platform/plugin-veecode-platform-module/alpha';
 import { keycloakBackendModuleTransformer } from './modules/keycloak/keycloakEntityTransformer';
+import exploreToolProviderModule from './modules/explore/exploreToolProviderModule';
+import {
+  gitlabPlugin,
+} from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 
 const backend = createBackend();
 
@@ -30,6 +34,7 @@ backend.add(catalogModuleVeeCodeProcessor);
 backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(scaffolderModuleCustomExtensions);
+backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
 //backend.add(import('@roadiehq/scaffolder-backend-module-utils/new-backend')); added to custom scaffolder extension
 
 // auth plugin
@@ -64,8 +69,10 @@ backend.add(import('@internal/plugin-about-backend'))
 backend.add(import('@veecode-platform/plugin-kong-service-manager-backend'))
 
 //explore
-backend.add(import('@backstage-community/plugin-explore-backend'))
+backend.add(exploreToolProviderModule);
 
+// gitlab immobiliareLabs
+backend.add(gitlabPlugin);
 
 
 //healthcheck

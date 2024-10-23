@@ -2853,9 +2853,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage-community/plugin-explore-backend@npm:^0.1.5":
-  version: 0.1.6
-  resolution: "@backstage-community/plugin-explore-backend@npm:0.1.6"
+"@backstage-community/plugin-explore-backend@npm:^0.1.7":
+  version: 0.1.7
+  resolution: "@backstage-community/plugin-explore-backend@npm:0.1.7"
   dependencies:
     "@backstage-community/plugin-explore-common": "npm:^0.0.6"
     "@backstage-community/plugin-explore-node": "npm:^0.1.4"
@@ -2887,9 +2887,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage-community/plugin-explore-node@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "@backstage-community/plugin-explore-node@npm:0.1.4"
+"@backstage-community/plugin-explore-common@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "@backstage-community/plugin-explore-common@npm:0.0.7"
+  checksum: 5248dc09ceab7d532be508a9672bb5c05c3df1f21504d0e3d75e3d6ed812bbc0af3b738b20b9024c240777c8d5c18241bc21ac607b6892ad2b699dc022644bb9
+  languageName: node
+  linkType: hard
+
+"@backstage-community/plugin-explore-node@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "@backstage-community/plugin-explore-node@npm:0.1.5"
   dependencies:
     "@backstage-community/plugin-explore-common": "npm:^0.0.6"
     "@backstage/backend-plugin-api": "npm:^1.0.0"
@@ -3779,6 +3786,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/backend-plugin-api@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@backstage/backend-plugin-api@npm:1.0.1"
+  dependencies:
+    "@backstage/cli-common": ^0.1.14
+    "@backstage/config": ^1.2.0
+    "@backstage/errors": ^1.2.4
+    "@backstage/plugin-auth-node": ^0.5.3
+    "@backstage/plugin-permission-common": ^0.8.1
+    "@backstage/types": ^1.1.1
+    "@types/express": ^4.17.6
+    "@types/luxon": ^3.0.0
+    express: ^4.17.1
+    knex: ^3.0.0
+    luxon: ^3.0.0
+  checksum: a0d1dce15c1c90eec64e4f8d7d2eddd4ab43ebf4573db041b1ee835f27939e97eb162c20661fbafb3e8bc223c422512eea1a0327700164e51e328d620ca925c8
+  languageName: node
+  linkType: hard
+
 "@backstage/backend-tasks@npm:^0.6.1":
   version: 0.6.1
   resolution: "@backstage/backend-tasks@npm:0.6.1"
@@ -3821,6 +3847,18 @@ __metadata:
     cross-fetch: "npm:^4.0.0"
     uri-template: "npm:^2.0.0"
   checksum: 10/2d3e0f1c5ff1640655bf943bdd6955e5e71eb1b7dde71071dfc759dc891f8de9a530e777008a9ca84ca3fce01d728b68e481fd194c6061ccef7f4c070ac4d180
+  languageName: node
+  linkType: hard
+
+"@backstage/catalog-client@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "@backstage/catalog-client@npm:1.7.1"
+  dependencies:
+    "@backstage/catalog-model": ^1.7.0
+    "@backstage/errors": ^1.2.4
+    cross-fetch: ^4.0.0
+    uri-template: ^2.0.0
+  checksum: 0a70a929e95b4e424b021010202e19b68ab5ad3a6b6613e5c01850f31f6067e33ebb8863119c197bc213e9d86793d5368d0ad100288802e72eb6e818f54e765f
   languageName: node
   linkType: hard
 
@@ -5141,6 +5179,32 @@ __metadata:
     zod-to-json-schema: "npm:^3.21.4"
     zod-validation-error: "npm:^3.4.0"
   checksum: 10/5299f4f941dae7e5abf98176229fca7a546e2bc4c2fa51423533886e5f6be476c88312ddfacbf90c3de9fd0d9f860f7563e223a8c1cdaf8adc10707687a20b21
+  languageName: node
+  linkType: hard
+
+"@backstage/plugin-auth-node@npm:^0.5.3":
+  version: 0.5.3
+  resolution: "@backstage/plugin-auth-node@npm:0.5.3"
+  dependencies:
+    "@backstage/backend-common": ^0.25.0
+    "@backstage/backend-plugin-api": ^1.0.1
+    "@backstage/catalog-client": ^1.7.1
+    "@backstage/catalog-model": ^1.7.0
+    "@backstage/config": ^1.2.0
+    "@backstage/errors": ^1.2.4
+    "@backstage/types": ^1.1.1
+    "@types/express": "*"
+    "@types/passport": ^1.0.3
+    express: ^4.17.1
+    jose: ^5.0.0
+    lodash: ^4.17.21
+    node-fetch: ^2.7.0
+    passport: ^0.7.0
+    winston: ^3.2.1
+    zod: ^3.22.4
+    zod-to-json-schema: ^3.21.4
+    zod-validation-error: ^3.4.0
+  checksum: 6a8fcac434b3653011aa634fab973b9bdc9daf141335948669bcbd8e2c5f97e0797feaaaae34e17e20334835cdb83fea6c7b50939f1a18f9c88e245406230c50
   languageName: node
   linkType: hard
 
@@ -8203,9 +8267,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@immobiliarelabs/backstage-plugin-gitlab-backend@npm:^6.6.0":
-  version: 6.6.0
-  resolution: "@immobiliarelabs/backstage-plugin-gitlab-backend@npm:6.6.0"
+"@immobiliarelabs/backstage-plugin-gitlab-backend@npm:^6.7.0":
+  version: 6.7.0
+  resolution: "@immobiliarelabs/backstage-plugin-gitlab-backend@npm:6.7.0"
   dependencies:
     "@backstage/backend-common": "npm:^0.23.3"
     "@backstage/backend-plugin-api": "npm:^0.7.0"
@@ -8221,9 +8285,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@immobiliarelabs/backstage-plugin-gitlab@npm:^6.6.0":
-  version: 6.6.0
-  resolution: "@immobiliarelabs/backstage-plugin-gitlab@npm:6.6.0"
+"@immobiliarelabs/backstage-plugin-gitlab@npm:^6.6.1":
+  version: 6.6.1
+  resolution: "@immobiliarelabs/backstage-plugin-gitlab@npm:6.6.1"
   dependencies:
     "@backstage/core-components": "npm:^0.14.9"
     "@backstage/core-plugin-api": "npm:^1.9.3"
@@ -40377,6 +40441,15 @@ __metadata:
   peerDependencies:
     zod: ^3.18.0
   checksum: 10/b98b1bbba14a3bb31649a1566c8c5a5213ec70dcaa2cbb1e89db00d56648a446225b35a8f6768471730d7013f4f141cd70c2b9740d69e6433ebfa148aecdac2f
+  languageName: node
+  linkType: hard
+
+"zod-validation-error@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "zod-validation-error@npm:3.4.0"
+  peerDependencies:
+    zod: ^3.18.0
+  checksum: b07fbfc39582dbdf6972f5f5f0c3bac9e6b5e6d2e55ef3dd891fd08f1966ebf1023a4bc270e9b569eaa48ed1684ac2252c9f260b0bd07b167671596e6e4d0fa8
   languageName: node
   linkType: hard
 
