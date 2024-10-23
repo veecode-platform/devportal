@@ -538,6 +538,9 @@ data:
         secret: ${AUTH_USER_SESSION_SECRET}
       {{- if .Values.auth.providers }}
       providers:
+        {{- if .Values.platform.guest.enabled }}
+        guest: {}
+        {{- end }}
         {{- if .Values.auth.providers.keycloak }}
         oidc:
           development:
