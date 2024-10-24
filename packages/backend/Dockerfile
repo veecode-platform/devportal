@@ -56,10 +56,8 @@ COPY --chown=node:node devportal.json backstage.json ./
 # RUN npm prune --production
 
 # Create the entrypoint script
-USER root
 COPY --chown=node:node packages/backend/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
-USER node
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 
