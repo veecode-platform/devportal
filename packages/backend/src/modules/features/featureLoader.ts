@@ -36,11 +36,12 @@ export default createBackendFeatureLoader({
       yield import('@janus-idp/backstage-plugin-rbac-backend');
       yield import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend');
     }
-    else{
+    else {
+      yield import('@backstage/plugin-permission-backend')
       yield import('@backstage/plugin-permission-backend-module-allow-all-policy');
     }
 
-    if(config.getBoolean('platform.guest.enabled')){
+    if (config.getBoolean('platform.guest.enabled')) {
       yield import('@backstage/plugin-auth-backend-module-guest-provider');
     }
 

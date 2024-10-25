@@ -36,8 +36,6 @@ backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'))
-//backend.add(import('@backstage/plugin-auth-backend-module-github-provider')); //github option
-//backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider')); //gitlab option
 backend.add(customGithubAuthProvider)
 backend.add(customGitlabAuthProvider)
 
