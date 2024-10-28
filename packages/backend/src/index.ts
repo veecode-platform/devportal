@@ -7,6 +7,7 @@ import { MyRootHealthService } from './modules/healthcheck/health';
 import { coreServices, createServiceFactory } from '@backstage/backend-plugin-api';
 import { catalogModuleVeeCodeProcessor } from '@veecode-platform/plugin-veecode-platform-module/alpha';
 import { keycloakBackendModuleTransformer } from './modules/keycloak/keycloakEntityTransformer';
+import exploreToolProviderModule from './modules/explore/exploreToolProviderModule';
 
 const backend = createBackend();
 
@@ -63,9 +64,7 @@ backend.add(import('@internal/plugin-about-backend'))
 backend.add(import('@veecode-platform/plugin-kong-service-manager-backend'))
 
 //explore
-backend.add(import('@backstage-community/plugin-explore-backend'))
-
-
+backend.add(exploreToolProviderModule);
 
 //healthcheck
 backend.add(
