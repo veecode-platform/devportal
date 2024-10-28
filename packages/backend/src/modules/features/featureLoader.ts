@@ -2,6 +2,7 @@ import { createBackendFeatureLoader, coreServices } from '@backstage/backend-plu
 import { kubernetesModuleCustomExtension } from '../kubernetes/kubernetesExtension';
 import { catalogModuleInfracostProcessor, infracostPlugin } from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
 import { catalogModuleCustomExtensions } from '../catalog/catalogExtension';
+import { gitlabPlugin } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 
 export default createBackendFeatureLoader({
   deps: {
@@ -46,6 +47,7 @@ export default createBackendFeatureLoader({
     //gitlab
     if (config.getBoolean('enabledPlugins.gitlab')) {
       yield catalogModuleCustomExtensions;
+      yield gitlabPlugin;
     }
   }
 });
