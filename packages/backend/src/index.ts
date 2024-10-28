@@ -8,9 +8,6 @@ import { coreServices, createServiceFactory } from '@backstage/backend-plugin-ap
 import { catalogModuleVeeCodeProcessor } from '@veecode-platform/plugin-veecode-platform-module/alpha';
 import { keycloakBackendModuleTransformer } from './modules/keycloak/keycloakEntityTransformer';
 import exploreToolProviderModule from './modules/explore/exploreToolProviderModule';
-import {
-  gitlabPlugin,
-} from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 
 const backend = createBackend();
 
@@ -70,10 +67,6 @@ backend.add(import('@veecode-platform/plugin-kong-service-manager-backend'))
 
 //explore
 backend.add(exploreToolProviderModule);
-
-// gitlab immobiliareLabs
-backend.add(gitlabPlugin);
-
 
 //healthcheck
 backend.add(
