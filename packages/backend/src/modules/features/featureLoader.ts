@@ -36,6 +36,7 @@ export default createBackendFeatureLoader({
     if (config.getBoolean('enabledPlugins.rbac')) {
       yield import('@janus-idp/backstage-plugin-rbac-backend');
       yield import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend');
+      yield import('@veecode-platform/backstage-plugin-kong-service-manager-common')
     }
 
     //infracost
