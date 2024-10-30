@@ -25,6 +25,7 @@ permission:
       - scaffolder
       - permission
       - kubernetes
+      - kong-service-manager
       - veecode-platform-permissions-hub
     admin:
       superUsers:
