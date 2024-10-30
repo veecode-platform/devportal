@@ -145,7 +145,7 @@ data:
           - host: example.com
           - host: "*.mozilla.org"
 
-    {{- if or .Values.grafana.enabled $is_github_provider $is_gitlab_provider }}
+    {{- if or .Values.grafana.enabled $is_gitlab_provider }}
     proxy:
       endpoints:
         {{- if .Values.grafana.enabled | default false }}
@@ -158,6 +158,7 @@ data:
         "/gitlab/api":
           target: {{ default "https://gitlab.com/api/v4" (default .Values.integrations.gitlab.apiBaseUrl .Values.proxy.gitlab.target) }}
           allowedHeaders: {{ .Values.proxy.gitlab.allowedHeaders | toJson }}
+          credentials: dangerously-allow-unauthenticated
           headers:
           {{- range $key, $value := .Values.proxy.gitlab.headers }}
             {{ $key }}: {{ $value | quote }}

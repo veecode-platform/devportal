@@ -889,7 +889,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://localhost:7007/api/auth/keycloak/handler/frame",
+        "http://localhost:7007/api/auth/oidc/handler/frame",
         "http://localhost:3000/*"
       ],
       "webOrigins": [],
