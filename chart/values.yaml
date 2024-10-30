@@ -232,6 +232,7 @@ permission:
       - scaffolder
       - permission
       - kubernetes
+      - kong
       - veecode-platform-permissions-hub
     admin:
       defaultAdminRoleEnabled: true
