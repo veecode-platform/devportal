@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@backstage-community/plugin-azure-devops-backend": "0.7.1",
-    "@backstage-community/plugin-explore-backend": "^0.1.5",
+    "@backstage-community/plugin-explore-backend": "^0.1.7",
     "@backstage-community/plugin-explore-common": "^0.0.5",
     "@backstage-community/plugin-vault-backend": "^0.4.18",
     "@backstage/backend-app-api": "^1.0.1",
