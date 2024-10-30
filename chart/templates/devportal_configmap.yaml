@@ -69,6 +69,7 @@ data:
           - scaffolder
           - permission
           - kubernetes
+          - kong-service-manager
           - veecode-platform-permissions-hub
         {{- if .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
         policies-csv-file: /app/rbac-policy.csv
