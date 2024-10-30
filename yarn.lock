@@ -18021,6 +18021,7 @@ __metadata:
     "@types/express-serve-static-core": "npm:^4.17.5"
     "@types/luxon": "npm:^2.0.4"
     "@veecode-platform/backstage-plugin-infracost-backend": "npm:^0.4.0"
+    "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.4.2"
     "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "npm:^0.3.18"
     "@veecode-platform/plugin-application-backend": "npm:^0.3.19"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"

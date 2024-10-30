@@ -66,6 +66,7 @@
     "@roadiehq/scaffolder-backend-module-http-request": "^4.3.3",
     "@roadiehq/scaffolder-backend-module-utils": "^2.0.1",
     "@veecode-platform/backstage-plugin-infracost-backend": "^0.4.0",
+    "@veecode-platform/backstage-plugin-kong-service-manager-common": "^0.4.2",
     "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "^0.3.18",
     "@veecode-platform/plugin-application-backend": "^0.3.19",
     "@veecode-platform/plugin-application-common": "^0.3.18",
