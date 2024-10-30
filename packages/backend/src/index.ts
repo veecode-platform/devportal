@@ -62,9 +62,6 @@ backend.add(customPluginsLoader)
 //about
 backend.add(import('@internal/plugin-about-backend'))
 
-//kong service manager
-backend.add(import('@veecode-platform/plugin-kong-service-manager-backend'))
-
 //explore
 backend.add(exploreToolProviderModule);
 

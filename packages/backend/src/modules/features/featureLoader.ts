@@ -36,13 +36,17 @@ export default createBackendFeatureLoader({
     if (config.getBoolean('enabledPlugins.rbac')) {
       yield import('@janus-idp/backstage-plugin-rbac-backend');
       yield import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend');
-      yield import('@veecode-platform/backstage-plugin-kong-service-manager-common')
     }
 
     //infracost
     if (config.getBoolean('enabledPlugins.infracost')) {
       yield catalogModuleInfracostProcessor
       yield infracostPlugin
+    }
+
+    //kong
+    if (config.getBoolean('enabledPlugins.kong')) {
+      yield import('@veecode-platform/plugin-kong-service-manager-backend')
     }
 
     //gitlab
