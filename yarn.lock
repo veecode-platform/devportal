@@ -3796,9 +3796,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/cli@npm:^0.28.1":
-  version: 0.28.1
-  resolution: "@backstage/cli@npm:0.28.1"
+"@backstage/cli@npm:^0.28.2":
+  version: 0.28.2
+  resolution: "@backstage/cli@npm:0.28.2"
   dependencies:
     "@backstage/catalog-model": "npm:^1.7.0"
     "@backstage/cli-common": "npm:^0.1.14"
@@ -3908,7 +3908,7 @@ __metadata:
     terser-webpack-plugin: "npm:^5.1.3"
     ts-morph: "npm:^23.0.0"
     util: "npm:^0.12.3"
-    webpack: "npm:^5.70.0"
+    webpack: "npm:^5.94.0"
     webpack-dev-server: "npm:^5.0.0"
     webpack-node-externals: "npm:^3.0.0"
     yaml: "npm:^2.0.0"
@@ -3944,7 +3944,7 @@ __metadata:
       optional: true
   bin:
     backstage-cli: bin/backstage-cli
-  checksum: 10/19d2043e218667a9fdd50fe4d53da14e475af48f95b3cba53bb34635f2e67bd5dd4fc30cefc16fc3992a04b083475be5dffb76c328179c3452ddd2acb1bd3961
+  checksum: 10/a27c7ea6c597c21a1df4fa1bdcf25bd6693e44348ce1af2bd24d19e4aef6f977616e2aead0bcc303c40edd4df078b731bb5b7a8be15d7b232380944b8aec94c5
   languageName: node
   linkType: hard
 
@@ -4455,7 +4455,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-api-docs@npm:0.11.11":
+"@backstage/plugin-api-docs@npm:^0.11.11":
   version: 0.11.11
   resolution: "@backstage/plugin-api-docs@npm:0.11.11"
   dependencies:
@@ -8088,7 +8088,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@internal/backstage-plugin-support@workspace:plugins/support"
   dependencies:
-    "@backstage/cli": "npm:^0.28.1"
+    "@backstage/cli": "npm:^0.28.2"
     "@backstage/core-app-api": "npm:^1.15.1"
     "@backstage/core-components": "npm:^0.15.1"
     "@backstage/core-plugin-api": "npm:^1.10.0"
@@ -8115,7 +8115,7 @@ __metadata:
     "@backstage/backend-common": "npm:^0.25.0"
     "@backstage/backend-defaults": "npm:^0.5.2"
     "@backstage/backend-plugin-api": "npm:^1.0.1"
-    "@backstage/cli": "npm:^0.28.1"
+    "@backstage/cli": "npm:^0.28.2"
     "@backstage/config": "npm:^1.2.0"
     "@backstage/plugin-auth-backend": "npm:^0.23.1"
     "@backstage/plugin-auth-backend-module-guest-provider": "npm:^0.2.1"
@@ -8141,7 +8141,7 @@ __metadata:
   resolution: "@internal/plugin-about-backend@workspace:plugins/about-backend"
   dependencies:
     "@backstage/backend-common": "npm:^0.25.0"
-    "@backstage/cli": "npm:^0.28.1"
+    "@backstage/cli": "npm:^0.28.2"
     "@backstage/config": "npm:^1.2.0"
     "@types/express": "npm:*"
     "@types/fs-extra": "npm:^11.0.4"
@@ -8161,7 +8161,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@internal/plugin-about@workspace:plugins/about"
   dependencies:
-    "@backstage/cli": "npm:^0.28.1"
+    "@backstage/cli": "npm:^0.28.2"
     "@backstage/core-app-api": "npm:^1.15.1"
     "@backstage/core-components": "npm:^0.15.1"
     "@backstage/core-plugin-api": "npm:^1.10.0"
@@ -8187,7 +8187,7 @@ __metadata:
   resolution: "@internal/plugin-home-platform@workspace:plugins/home-platform"
   dependencies:
     "@backstage/catalog-model": "npm:^1.7.0"
-    "@backstage/cli": "npm:^0.28.1"
+    "@backstage/cli": "npm:^0.28.2"
     "@backstage/config": "npm:^1.2.0"
     "@backstage/core-app-api": "npm:^1.15.1"
     "@backstage/core-components": "npm:^0.15.1"
@@ -8255,7 +8255,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-audit-log-node@npm:*":
+"@janus-idp/backstage-plugin-audit-log-node@npm:^1.6.0":
   version: 1.6.0
   resolution: "@janus-idp/backstage-plugin-audit-log-node@npm:1.6.0"
   dependencies:
@@ -8264,9 +8264,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-keycloak-backend@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@janus-idp/backstage-plugin-keycloak-backend@npm:3.0.0"
+"@janus-idp/backstage-plugin-keycloak-backend@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@janus-idp/backstage-plugin-keycloak-backend@npm:3.0.1"
   dependencies:
     "@backstage/backend-plugin-api": "npm:^1.0.0"
     "@backstage/catalog-model": "npm:^1.7.0"
@@ -8277,13 +8277,13 @@ __metadata:
     lodash: "npm:^4.17.21"
     pg-format: "npm:^1.0.4"
     uuid: "npm:^9.0.1"
-  checksum: 10/240473f461041593c4e87bc25494f475e3aefbf9d488079646bf519897ab423974611beb2d654949f8fd234904311dc4778ca161754973f24468e19984e600ee
+  checksum: 10/ba10822fe88985842a51d39a7c6937d062f7fb0bc568c5d2400f4e078a558415a1905420b4be484d554ee670e8d11bb97410ee17a14de55f320e2478e3369201
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-rbac-backend@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "@janus-idp/backstage-plugin-rbac-backend@npm:5.1.0"
+"@janus-idp/backstage-plugin-rbac-backend@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "@janus-idp/backstage-plugin-rbac-backend@npm:5.1.2"
   dependencies:
     "@backstage/backend-defaults": "npm:^0.5.0"
     "@backstage/backend-plugin-api": "npm:^1.0.0"
@@ -8295,9 +8295,9 @@ __metadata:
     "@backstage/plugin-permission-common": "npm:^0.8.1"
     "@backstage/plugin-permission-node": "npm:^0.8.3"
     "@dagrejs/graphlib": "npm:^2.1.13"
-    "@janus-idp/backstage-plugin-audit-log-node": "npm:*"
-    "@janus-idp/backstage-plugin-rbac-common": "npm:*"
-    "@janus-idp/backstage-plugin-rbac-node": "npm:*"
+    "@janus-idp/backstage-plugin-audit-log-node": "npm:^1.6.0"
+    "@janus-idp/backstage-plugin-rbac-common": "npm:^1.11.0"
+    "@janus-idp/backstage-plugin-rbac-node": "npm:^1.7.0"
     casbin: "npm:^5.27.1"
     chokidar: "npm:^3.6.0"
     csv-parse: "npm:^5.5.5"
@@ -8306,11 +8306,11 @@ __metadata:
     knex: "npm:^3.0.0"
     lodash: "npm:^4.17.21"
     typeorm-adapter: "npm:^1.6.1"
-  checksum: 10/f540062d1d3ae4eb220b10349fa331816274ff1b80f5072133b92dcce5041f1a1312c46170975de8510c7a192ae2ffb00b9cee3416578b99d899eea73c6d0f93
+  checksum: 10/ea258398531765babfe990a217bf43244290f3d276e5262db334550994648d956f3788987b81c1fe88f213a321182e6df1b209ea5083cc2b9bf5fca40c4d53b4
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-rbac-common@npm:*":
+"@janus-idp/backstage-plugin-rbac-common@npm:*, @janus-idp/backstage-plugin-rbac-common@npm:^1.11.0":
   version: 1.11.0
   resolution: "@janus-idp/backstage-plugin-rbac-common@npm:1.11.0"
   peerDependencies:
@@ -8320,7 +8320,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-rbac-node@npm:*":
+"@janus-idp/backstage-plugin-rbac-node@npm:^1.7.0":
   version: 1.7.0
   resolution: "@janus-idp/backstage-plugin-rbac-node@npm:1.7.0"
   dependencies:
@@ -17026,13 +17026,13 @@ __metadata:
     "@backstage-community/plugin-vault": "npm:^0.1.36"
     "@backstage/app-defaults": "npm:^1.5.12"
     "@backstage/catalog-model": "npm:^1.7.0"
-    "@backstage/cli": "npm:^0.28.1"
+    "@backstage/cli": "npm:^0.28.2"
     "@backstage/core-app-api": "npm:^1.15.1"
     "@backstage/core-components": "npm:^0.15.1"
     "@backstage/core-plugin-api": "npm:^1.10.0"
     "@backstage/errors": "npm:^1.2.4"
     "@backstage/integration-react": "npm:^1.2.0"
-    "@backstage/plugin-api-docs": "npm:0.11.11"
+    "@backstage/plugin-api-docs": "npm:^0.11.11"
     "@backstage/plugin-catalog-common": "npm:^1.1.0"
     "@backstage/plugin-catalog-graph": "npm:^0.4.11"
     "@backstage/plugin-catalog-import": "npm:^0.12.5"
@@ -17875,7 +17875,7 @@ __metadata:
     "@backstage/backend-tasks": "npm:^0.6.1"
     "@backstage/catalog-client": "npm:^1.7.1"
     "@backstage/catalog-model": "npm:^1.7.0"
-    "@backstage/cli": "npm:^0.28.1"
+    "@backstage/cli": "npm:^0.28.2"
     "@backstage/config": "npm:^1.2.0"
     "@backstage/integration": "npm:^1.15.1"
     "@backstage/plugin-app-backend": "npm:^0.3.76"
@@ -17910,8 +17910,8 @@ __metadata:
     "@immobiliarelabs/backstage-plugin-gitlab-backend": "npm:^6.7.0"
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": "npm:^0.1.0"
     "@internal/plugin-about-backend": "npm:^0.1.0"
-    "@janus-idp/backstage-plugin-keycloak-backend": "npm:^3.0.0"
-    "@janus-idp/backstage-plugin-rbac-backend": "npm:^5.1.0"
+    "@janus-idp/backstage-plugin-keycloak-backend": "npm:^3.0.1"
+    "@janus-idp/backstage-plugin-rbac-backend": "npm:^5.1.2"
     "@roadiehq/backstage-plugin-argo-cd-backend": "npm:^3.2.3"
     "@roadiehq/backstage-plugin-aws-auth": "npm:^0.4.26"
     "@roadiehq/scaffolder-backend-module-http-request": "npm:^4.3.5"
@@ -35443,7 +35443,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root@workspace:."
   dependencies:
-    "@backstage/cli": "npm:^0.28.1"
+    "@backstage/cli": "npm:^0.28.2"
     "@spotify/prettier-config": "npm:^12.0.0"
     "@types/cookie-parser": "npm:^1.4.5"
     concurrently: "npm:^6.0.0"
@@ -39415,7 +39415,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.70.0":
+"webpack@npm:^5.94.0":
   version: 5.95.0
   resolution: "webpack@npm:5.95.0"
   dependencies:

@@ -61,8 +61,8 @@
     "@immobiliarelabs/backstage-plugin-gitlab-backend": "^6.7.0",
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": "^0.1.0",
     "@internal/plugin-about-backend": "^0.1.0",
-    "@janus-idp/backstage-plugin-keycloak-backend": "^3.0.0",
-    "@janus-idp/backstage-plugin-rbac-backend": "^5.1.0",
+    "@janus-idp/backstage-plugin-keycloak-backend": "^3.0.1",
+    "@janus-idp/backstage-plugin-rbac-backend": "^5.1.2",
     "@roadiehq/backstage-plugin-argo-cd-backend": "^3.2.3",
     "@roadiehq/backstage-plugin-aws-auth": "^0.4.26",
     "@roadiehq/scaffolder-backend-module-http-request": "^4.3.5",
@@ -88,7 +88,7 @@
     "winston": "^3.14.2"
   },
   "devDependencies": {
-    "@backstage/cli": "^0.28.1",
+    "@backstage/cli": "^0.28.2",
     "@types/dockerode": "^3.3.0",
     "@types/express": "^4.17.6",
     "@types/express-serve-static-core": "^4.17.5",
