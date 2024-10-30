@@ -23,13 +23,9 @@ import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import '../src/components/theme/theme.css';
 import { searchPage } from './components/search/SearchPage';
-import { ServicesPage, PartnersPage, ApplicationPage } from '@veecode-platform/plugin-application';
 import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-import { UserIdentity } from '@backstage/core-components';
-import { RequirePermission } from '@backstage/plugin-permission-react';
-import { apiManagementEnabledPermission } from '@veecode-platform/plugin-application-common';
 import { ExplorePage } from './components/explorer/ExplorerPage';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { UnifiedThemeProvider } from '@backstage/theme';
@@ -42,7 +38,8 @@ import { AboutPage } from '@internal/plugin-about';
 import type { IdentityApi } from '@backstage/core-plugin-api';
 import { VisitListener } from '@backstage/plugin-home';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
-import { SignInPage } from './components/SignInPage';
+import  {SignInPage as VeecodeSignInPage}   from './components/SignInPage';
+import { SignInPage } from '@backstage/core-components';
 import { ScaffolderFieldExtensions,ScaffolderLayouts } from '@backstage/plugin-scaffolder-react';
 import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
@@ -55,15 +52,16 @@ import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
-  if (guest) props.onSignInSuccess(UserIdentity.createGuest());
-  return (<SignInPage
-    {...props}
+  if (guest){ 
+    return <SignInPage {...props} auto providers={['guest']} />
+  } 
+  return <VeecodeSignInPage
     provider={providers[0]}
     onSignInSuccess={async (identityApi: IdentityApi) => {
       props.onSignInSuccess(identityApi);
     }}
 
-  />)
+  />
 };
 
 const ThemeComponent = ({ children, light }: { children: ReactNode, light?: boolean }) => {
@@ -157,6 +155,10 @@ const routes = (
     <Route path="/catalog" element={
           <CatalogIndexPage 
                 columns={customColumns}
+                pagination={{
+                  mode: 'offset',
+                  limit: 15
+                }}
                 filters={
                   <>
                     <DefaultFilters
@@ -223,27 +225,6 @@ const routes = (
     </Route>
     <Route path="/rbac" element={<RbacPage />} />;
     <Route path="/settings" element={<UserSettingsPage />} />
-    <Route path="/services"
-      element={
-        <RequirePermission permission={apiManagementEnabledPermission}>
-          <ServicesPage />
-        </RequirePermission>
-      }
-    />
-    <Route path="/partners"
-      element={
-        <RequirePermission permission={apiManagementEnabledPermission}>
-          <PartnersPage />
-        </RequirePermission>
-      }
-    />
-    <Route path="/applications"
-      element={
-        <RequirePermission permission={apiManagementEnabledPermission}>
-          <ApplicationPage />
-        </RequirePermission>
-      }
-    />
     <Route path="/about" element={<AboutPage />} />
     <Route path="/support" element={<SupportPage />} />
   </FlatRoutes>
