@@ -70,11 +70,6 @@ data:
           - permission
           - kubernetes
           - veecode-platform-permissions-hub
-        {{- if .Values.platform.guest.enabled }}
-        admin:
-          superUsers:
-            - name: user:development/guest
-        {{- end }}
         {{- if .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
         policies-csv-file: /app/rbac-policy.csv
         policyFileReload: true
