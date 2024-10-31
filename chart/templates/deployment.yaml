@@ -1,4 +1,4 @@
-{{- $rbacEnabled := (and (not .Values.platform.guest.enabled) .Values.permission.rbac.enabled) -}}
+{{- $rbacEnabled := .Values.permission.rbac.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
