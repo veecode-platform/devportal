@@ -21,7 +21,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -y --no-install-recommends libsqlite3-dev python3 python3-pip build-essential curl vim sudo && \
     yarn config set python /usr/bin/python3 && \
     pip3 install --upgrade pymdown-extensions wheel setuptools && \
-    pip3 install mkdocs-techdocs-core==1.1.7
+    pip3 install mkdocs-techdocs-core==1.1.7 && \
+    mkdir -p /home/node/.yarn/berry/cache && chown -R node:node /home/node/.yarn
 
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
