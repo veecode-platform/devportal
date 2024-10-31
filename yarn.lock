@@ -4579,6 +4579,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/plugin-auth-backend-module-guest-provider@npm:0.2.1":
+  version: 0.2.1
+  resolution: "@backstage/plugin-auth-backend-module-guest-provider@npm:0.2.1"
+  dependencies:
+    "@backstage/backend-common": "npm:^0.25.0"
+    "@backstage/backend-plugin-api": "npm:^1.0.1"
+    "@backstage/catalog-model": "npm:^1.7.0"
+    "@backstage/errors": "npm:^1.2.4"
+    "@backstage/plugin-auth-node": "npm:^0.5.3"
+    passport-oauth2: "npm:^1.7.0"
+  checksum: 10/a7eb6b5d6182a801da743f7904ecfd3c9bd584f00ce45a40ac2b962708cd854edc248fa3c69a8ef7759aa64950e17b10a3c5c6dc6768c3c1f5e9abbeac81a7a6
+  languageName: node
+  linkType: hard
+
 "@backstage/plugin-auth-backend-module-guest-provider@npm:^0.1.10":
   version: 0.1.10
   resolution: "@backstage/plugin-auth-backend-module-guest-provider@npm:0.1.10"
@@ -5369,6 +5383,18 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10/ec2189985f9e8a352558387897148d520bcf2e488028edc8638f698da71efc21296895b512dc21aacd012c121147873cc8b000916c9eec24ab0ed828a175bdfc
+  languageName: node
+  linkType: hard
+
+"@backstage/plugin-permission-backend-module-allow-all-policy@npm:0.2.1":
+  version: 0.2.1
+  resolution: "@backstage/plugin-permission-backend-module-allow-all-policy@npm:0.2.1"
+  dependencies:
+    "@backstage/backend-plugin-api": "npm:^1.0.1"
+    "@backstage/plugin-auth-node": "npm:^0.5.3"
+    "@backstage/plugin-permission-common": "npm:^0.8.1"
+    "@backstage/plugin-permission-node": "npm:^0.8.4"
+  checksum: 10/b17eb44f5640bc4b7a4bbb2eb047a722567e0e9326492780b55f552164c336a599cc6ba1d6c58b44fc69ead99500453638231b30dc8289cdb0d616050562bc0b
   languageName: node
   linkType: hard
 
@@ -17967,6 +17993,7 @@ __metadata:
     "@backstage/plugin-auth-backend": "npm:^0.22.12"
     "@backstage/plugin-auth-backend-module-github-provider": "npm:^0.1.21"
     "@backstage/plugin-auth-backend-module-gitlab-provider": "npm:^0.1.21"
+    "@backstage/plugin-auth-backend-module-guest-provider": "npm:0.2.1"
     "@backstage/plugin-auth-backend-module-oidc-provider": "npm:^0.2.6"
     "@backstage/plugin-auth-node": "npm:^0.5.1"
     "@backstage/plugin-catalog-backend": "npm:^1.25.2"
@@ -17978,6 +18005,7 @@ __metadata:
     "@backstage/plugin-kubernetes-backend": "npm:^0.18.5"
     "@backstage/plugin-kubernetes-node": "npm:^0.1.18"
     "@backstage/plugin-permission-backend": "npm:^0.5.48"
+    "@backstage/plugin-permission-backend-module-allow-all-policy": "npm:0.2.1"
     "@backstage/plugin-permission-common": "npm:^0.8.1"
     "@backstage/plugin-permission-node": "npm:^0.8.2"
     "@backstage/plugin-proxy-backend": "npm:^0.5.5"
