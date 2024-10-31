@@ -34,11 +34,13 @@ export const providers = [
     title: 'GitHub',
     message: 'Sign in using GitHub',
     apiRef: githubAuthApiRef,
+    configApiRef: configApiRef
   },
   {
     id: 'gitlab-auth-provider',
     title: 'Gitlab',
     message: 'Sign in using Gitlab',
-    apiRef: gitlabAuthApiRef
+    apiRef: gitlabAuthApiRef,
+    configApiRef: configApiRef
   }
 ];
