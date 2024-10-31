@@ -22,7 +22,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     yarn config set python /usr/bin/python3 && \
     pip3 install --upgrade pymdown-extensions wheel setuptools && \
     pip3 install mkdocs-techdocs-core==1.1.7 && \
-    mkdir /home/node/.yarn && chown -R node:node /home/node/.yarn
+    mkdir -p /home/node/.yarn/berry/cache && chown -R node:node /home/node/.yarn
 
 WORKDIR /app
 # RUN chown node:node /app

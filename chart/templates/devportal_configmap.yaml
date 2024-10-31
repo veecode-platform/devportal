@@ -1,7 +1,7 @@
 {{- $app_path_without_last_slash := trimSuffix "/" .Values.appConfig.app.baseUrl }} 
 {{- $backend_path_without_last_slash := trimSuffix "/" .Values.appConfig.backend.baseUrl }}
 
-{{- $rbacEnabled := (and (not .Values.platform.guest.enabled) .Values.permission.rbac.enabled) }}
+#{{- $rbacEnabled := (and (not .Values.platform.guest.enabled) .Values.permission.rbac.enabled) }}
 
 {{- $grafana := .Values.grafana | default dict }}
 {{- $grafana_default_domain := $grafana.domain | default "" }}
@@ -78,12 +78,17 @@ data:
         {{- if .Values.permission.rbac.maxDepth }}
         maxDepth: {{ .Values.permission.rbac.maxDepth }}
         {{- end }}
-        {{- if or (and .Values.permission.rbac.admin .Values.permission.rbac.admin.superUsers) (and .Values.permission.rbac.admin .Values.permission.rbac.admin.users) }}
+        {{- if or .Values.platform.guest.enabled (and .Values.permission.rbac.admin .Values.permission.rbac.admin.superUsers) (and .Values.permission.rbac.admin .Values.permission.rbac.admin.users) }}
         admin:
+          {{- if .Values.platform.guest.enabled }}
+          superUsers:
+            - name: user:development/guest
+          {{- else }}
           {{- if .Values.permission.rbac.admin.superUsers }}
           superUsers:
           {{- range .Values.permission.rbac.admin.superUsers }}
             - name: {{ .name }}
+          {{- end }}
           {{- end }}
           {{- end }}
           {{- if .Values.permission.rbac.admin.users }}
@@ -540,6 +545,9 @@ data:
         secret: ${AUTH_USER_SESSION_SECRET}
       {{- if .Values.auth.providers }}
       providers:
+        {{- if .Values.platform.guest.enabled }}
+        guest: {}
+        {{- end }}
         {{- if .Values.auth.providers.keycloak }}
         oidc:
           development:
@@ -583,7 +591,7 @@ data:
         {{- end }}
       {{- end }}
     enabledPlugins:
-      rbac: {{ $rbacEnabled }}
+      rbac: {{ .Values.permission.rbac.enabled }}
       vault: {{ .Values.vault.enabled | default false }}
       grafana: {{ .Values.grafana.enabled | default false }}
       kubernetes: {{ hasKey .Values "kubernetes" }}
