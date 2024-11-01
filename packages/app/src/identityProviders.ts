@@ -15,6 +15,7 @@
  */
 
 import {
+  configApiRef,
   githubAuthApiRef,
   gitlabAuthApiRef,
 } from '@backstage/core-plugin-api';
@@ -26,17 +27,20 @@ export const providers = [
     title: "Keycloak",
     message: "Sign in using Keycloak",
     apiRef: oidcAuthApiRef,
+    configApiRef: configApiRef
   },
   {
     id: 'github-auth-provider',
     title: 'GitHub',
     message: 'Sign in using GitHub',
     apiRef: githubAuthApiRef,
+    configApiRef: configApiRef
   },
   {
     id: 'gitlab-auth-provider',
     title: 'Gitlab',
     message: 'Sign in using Gitlab',
-    apiRef: gitlabAuthApiRef
+    apiRef: gitlabAuthApiRef,
+    configApiRef: configApiRef
   }
 ];

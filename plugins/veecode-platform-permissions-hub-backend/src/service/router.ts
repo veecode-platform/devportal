@@ -8,7 +8,6 @@ import { clusterExplorerPermissions } from '@veecode-platform/backstage-plugin-c
 import { githubWorkflowsPermissions } from '@veecode-platform/backstage-plugin-github-workflows-common';
 import { gitlabPipelinesPermissions } from '@veecode-platform/backstage-plugin-gitlab-pipelines-common';
 import { adminAccessPermissions } from '@veecode-platform/plugin-veecode-platform-common'
-import { kongServiceManagerPermissions } from '@veecode-platform/backstage-plugin-kong-service-manager-common';
 
 
 export interface RouterOptions {
@@ -22,7 +21,7 @@ export async function createRouter(
   const { logger/*, permissions */} = options;
 
   const permissionIntegrationRouter = createPermissionIntegrationRouter({
-    permissions: [...clusterExplorerPermissions, ...gitlabPipelinesPermissions, ...githubWorkflowsPermissions, ...adminAccessPermissions, ...kongServiceManagerPermissions],
+    permissions: [...clusterExplorerPermissions, ...gitlabPipelinesPermissions, ...githubWorkflowsPermissions, ...adminAccessPermissions],
   });
 
   const router = Router();

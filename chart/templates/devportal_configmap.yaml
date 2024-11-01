@@ -69,6 +69,7 @@ data:
           - scaffolder
           - permission
           - kubernetes
+          - kong
           - veecode-platform-permissions-hub
         {{- if .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
         policies-csv-file: /app/rbac-policy.csv
@@ -653,7 +654,9 @@ data:
       {{- range $i, $e := .Values.kong.instances  }}
       - id: {{ .name }}
         apiBaseUrl: {{ .apiManager }}
-        workspace: {{ .workspace | default "default" | quote }}
+        {{- if .workspace }}
+        workspace: {{ .workspace }}
+        {{- end }}
         {{- if and .authorization (or .authorization.adminToken .authorization.custom) }}
         auth:
           {{- if .authorization.adminToken }}

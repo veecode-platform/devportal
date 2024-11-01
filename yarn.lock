@@ -7961,7 +7961,7 @@ __metadata:
     "@veecode-platform/backstage-plugin-cluster-explorer-common": "npm:^0.2.18"
     "@veecode-platform/backstage-plugin-github-workflows-common": "npm:^0.2.18"
     "@veecode-platform/backstage-plugin-gitlab-pipelines-common": "npm:^0.2.18"
-    "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.3.0"
+    "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.4.2"
     "@veecode-platform/plugin-veecode-platform-common": "npm:^0.3.19"
     express: "npm:^4.21.0"
     express-promise-router: "npm:^4.1.1"
@@ -15993,16 +15993,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-kong-service-manager-common@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@veecode-platform/backstage-plugin-kong-service-manager-common@npm:0.3.0"
-  dependencies:
-    "@backstage/plugin-permission-common": "npm:^0.8.1"
-  checksum: 10/45ed7952f1f51329cbe6556c58589bbd40a23d22daf23e0ef0bac79a017696ca1e46dd430d0cb34e59c81c3b46e14a62d6d86fdf4ecf668e317adfb3dfb0d885
-  languageName: node
-  linkType: hard
-
-"@veecode-platform/backstage-plugin-kong-service-manager-common@npm:^0.4.1, @veecode-platform/backstage-plugin-kong-service-manager-common@npm:^0.4.2":
+"@veecode-platform/backstage-plugin-kong-service-manager-common@npm:^0.4.2":
   version: 0.4.2
   resolution: "@veecode-platform/backstage-plugin-kong-service-manager-common@npm:0.4.2"
   dependencies:
@@ -16094,7 +16085,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-kong-service-manager-backend@npm:^0.2.6":
+"@veecode-platform/plugin-kong-service-manager-backend@npm:^0.2.7":
   version: 0.2.7
   resolution: "@veecode-platform/plugin-kong-service-manager-backend@npm:0.2.7"
   dependencies:
@@ -16121,9 +16112,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-kong-service-manager@npm:1.2.5":
-  version: 1.2.5
-  resolution: "@veecode-platform/plugin-kong-service-manager@npm:1.2.5"
+"@veecode-platform/plugin-kong-service-manager@npm:1.2.8":
+  version: 1.2.8
+  resolution: "@veecode-platform/plugin-kong-service-manager@npm:1.2.8"
   dependencies:
     "@backstage/catalog-model": "npm:^1.7.0"
     "@backstage/core-components": "npm:^0.15.1"
@@ -16131,13 +16122,14 @@ __metadata:
     "@backstage/integration": "npm:^1.15.1"
     "@backstage/integration-react": "npm:^1.2.0"
     "@backstage/plugin-catalog-react": "npm:^1.14.0"
+    "@backstage/plugin-permission-react": "npm:^0.4.27"
     "@backstage/theme": "npm:^0.6.0"
     "@material-ui/core": "npm:^4.12.4"
     "@material-ui/icons": "npm:^4.11.3"
     "@material-ui/lab": "npm:^4.0.0-alpha.61"
     "@mui/material": "npm:^6.1.2"
     "@octokit/rest": "npm:^21.0.2"
-    "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.4.1"
+    "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.4.2"
     dayjs: "npm:^1.11.10"
     js-base64: "npm:^3.7.7"
     js-yaml: "npm:^4.1.0"
@@ -16148,7 +16140,7 @@ __metadata:
   peerDependencies:
     react: ^18.0.2
     react-router-dom: ^6.3.0
-  checksum: 10/81513a92b33108bec3f17713a33829ab28519c472c819627960be84ea2099f6abd5b0bbcf3eb4a9ec3a543dfc181626bcbbafe19ced0d0dfeacd0d39d842bc76
+  checksum: 10/9509eddc67bc4eb98e1630822217f0db1b1a6e0cc6dca3aea2da1c93a5d5b390498efa054a465762dc4c2d54d39ddc35d22db817aa24416e7fc102d66c2f123b
   languageName: node
   linkType: hard
 
@@ -16990,11 +16982,12 @@ __metadata:
     "@veecode-platform/backstage-plugin-github-workflows": "npm:^1.1.0"
     "@veecode-platform/backstage-plugin-gitlab-pipelines": "npm:^0.6.1"
     "@veecode-platform/backstage-plugin-infracost": "npm:^0.3.2"
+    "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.4.2"
     "@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer": "npm:^0.1.15"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
     "@veecode-platform/plugin-database-explorer": "npm:^0.3.18"
     "@veecode-platform/plugin-environment-explorer": "npm:^0.3.18"
-    "@veecode-platform/plugin-kong-service-manager": "npm:1.2.5"
+    "@veecode-platform/plugin-kong-service-manager": "npm:1.2.8"
     "@veecode-platform/plugin-kubernetes": "npm:^0.11.13-next.2"
     "@veecode-platform/plugin-vault-explorer": "npm:^0.3.18"
     "@veecode-platform/veecode-scaffolder-extensions": "npm:^0.4.4"
@@ -17839,7 +17832,7 @@ __metadata:
     "@veecode-platform/backstage-plugin-infracost-backend": "npm:^0.4.0"
     "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "npm:^0.3.18"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
-    "@veecode-platform/plugin-kong-service-manager-backend": "npm:^0.2.6"
+    "@veecode-platform/plugin-kong-service-manager-backend": "npm:^0.2.7"
     "@veecode-platform/plugin-veecode-platform-common": "npm:^0.3.19"
     "@veecode-platform/plugin-veecode-platform-module": "npm:^0.1.2"
     app: "link:../app"
