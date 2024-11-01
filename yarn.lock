@@ -5410,7 +5410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-permission-backend@npm:^0.5.49, @backstage/plugin-permission-backend@npm:^0.5.50":
+"@backstage/plugin-permission-backend@npm:^0.5.50":
   version: 0.5.50
   resolution: "@backstage/plugin-permission-backend@npm:0.5.50"
   dependencies:
@@ -8092,12 +8092,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-audit-log-node@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "@janus-idp/backstage-plugin-audit-log-node@npm:1.6.0"
+"@janus-idp/backstage-plugin-audit-log-node@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@janus-idp/backstage-plugin-audit-log-node@npm:1.7.0"
   dependencies:
     lodash: "npm:^4.17.21"
-  checksum: 10/2ad055c3af596a8f88ffef7cb438223cafd159bd0cf7308e9a4d0d2df7f219b9ec619c5b5f5b7454228f2dc62ef8ae49935c5534bca2a4c39aa6c361cb1f6532
+  checksum: 10/b7022299c7e2c92e7290f714b248e2cb70cf1501d6c09156c8a710681bf3f00d5243ff784e30063a277e852fbed802792ecd2da9ce17c2b847301fab3e4c08fd
   languageName: node
   linkType: hard
 
@@ -8118,23 +8118,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-rbac-backend@npm:^5.1.2":
-  version: 5.1.2
-  resolution: "@janus-idp/backstage-plugin-rbac-backend@npm:5.1.2"
+"@janus-idp/backstage-plugin-rbac-backend@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "@janus-idp/backstage-plugin-rbac-backend@npm:5.2.1"
   dependencies:
-    "@backstage/backend-defaults": "npm:^0.5.0"
-    "@backstage/backend-plugin-api": "npm:^1.0.0"
-    "@backstage/catalog-client": "npm:^1.7.0"
+    "@backstage/backend-defaults": "npm:^0.5.2"
+    "@backstage/backend-plugin-api": "npm:^1.0.1"
+    "@backstage/catalog-client": "npm:^1.7.1"
     "@backstage/catalog-model": "npm:^1.7.0"
     "@backstage/errors": "npm:^1.2.4"
-    "@backstage/plugin-auth-node": "npm:^0.5.2"
-    "@backstage/plugin-permission-backend": "npm:^0.5.49"
+    "@backstage/plugin-auth-node": "npm:^0.5.3"
+    "@backstage/plugin-permission-backend": "npm:^0.5.50"
     "@backstage/plugin-permission-common": "npm:^0.8.1"
-    "@backstage/plugin-permission-node": "npm:^0.8.3"
+    "@backstage/plugin-permission-node": "npm:^0.8.4"
     "@dagrejs/graphlib": "npm:^2.1.13"
-    "@janus-idp/backstage-plugin-audit-log-node": "npm:^1.6.0"
-    "@janus-idp/backstage-plugin-rbac-common": "npm:^1.11.0"
-    "@janus-idp/backstage-plugin-rbac-node": "npm:^1.7.0"
+    "@janus-idp/backstage-plugin-audit-log-node": "npm:^1.7.0"
+    "@janus-idp/backstage-plugin-rbac-common": "npm:^1.12.0"
+    "@janus-idp/backstage-plugin-rbac-node": "npm:^1.8.0"
     casbin: "npm:^5.27.1"
     chokidar: "npm:^3.6.0"
     csv-parse: "npm:^5.5.5"
@@ -8143,11 +8143,11 @@ __metadata:
     knex: "npm:^3.0.0"
     lodash: "npm:^4.17.21"
     typeorm-adapter: "npm:^1.6.1"
-  checksum: 10/ea258398531765babfe990a217bf43244290f3d276e5262db334550994648d956f3788987b81c1fe88f213a321182e6df1b209ea5083cc2b9bf5fca40c4d53b4
+  checksum: 10/1820c6cb4271ef23dc8b91285aea22e66756abdb1ae534b1fd2a79874139cba935a1747faf3365452b7a81317405a00e6ee48905c6e3dc50d476977596fc9484
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-rbac-common@npm:*, @janus-idp/backstage-plugin-rbac-common@npm:^1.11.0":
+"@janus-idp/backstage-plugin-rbac-common@npm:*":
   version: 1.11.0
   resolution: "@janus-idp/backstage-plugin-rbac-common@npm:1.11.0"
   peerDependencies:
@@ -8157,12 +8157,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@janus-idp/backstage-plugin-rbac-node@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "@janus-idp/backstage-plugin-rbac-node@npm:1.7.0"
+"@janus-idp/backstage-plugin-rbac-common@npm:^1.12.0":
+  version: 1.12.0
+  resolution: "@janus-idp/backstage-plugin-rbac-common@npm:1.12.0"
+  peerDependencies:
+    "@backstage/errors": ^1.2.4
+    "@backstage/plugin-permission-common": ^0.8.1
+  checksum: 10/ec935041781b6a29ac34c28d4f049b243c504ad84e91d09d29810f6986ca01c32e08331e307202311726748e92c9231324b46f5b300a57d47108ba6adc9df8fe
+  languageName: node
+  linkType: hard
+
+"@janus-idp/backstage-plugin-rbac-node@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "@janus-idp/backstage-plugin-rbac-node@npm:1.8.0"
   dependencies:
-    "@backstage/backend-plugin-api": "npm:^1.0.0"
-  checksum: 10/2b2ba0c47bf5ca278a26e8ad4b15b707ab80a610cad846bf0236f89f0664212bf903f2c3803135042ad40c4186d81d0c6d5b616b37be981262df99876b9413b5
+    "@backstage/backend-plugin-api": "npm:^1.0.1"
+  checksum: 10/8eef735f482813c41dacdd6737695c2c7b9a129460bff82d4b74c1b01ce47dba23f8bb35c8f696451d251724fadd23a1bc170dbc3624426f7a955b6287109c9c
   languageName: node
   linkType: hard
 
@@ -17791,7 +17801,7 @@ __metadata:
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": "npm:^0.1.0"
     "@internal/plugin-about-backend": "npm:^0.1.0"
     "@janus-idp/backstage-plugin-keycloak-backend": "npm:^3.0.1"
-    "@janus-idp/backstage-plugin-rbac-backend": "npm:^5.1.2"
+    "@janus-idp/backstage-plugin-rbac-backend": "npm:^5.2.1"
     "@roadiehq/backstage-plugin-argo-cd-backend": "npm:^3.2.3"
     "@roadiehq/backstage-plugin-aws-auth": "npm:^0.4.26"
     "@roadiehq/scaffolder-backend-module-http-request": "npm:^4.3.5"
