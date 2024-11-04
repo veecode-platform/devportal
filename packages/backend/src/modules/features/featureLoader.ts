@@ -45,12 +45,12 @@ export default createBackendFeatureLoader({
       yield import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend');
       logger.info('@internal/backstage-plugin-veecode-platform-permissions-hub-backend');
     }
-    //else {
-    //  yield import('@backstage/plugin-permission-backend')
-    //  logger.info('@backstage/plugin-permission-backend')
-    //  yield import('@backstage/plugin-permission-backend-module-allow-all-policy');
-    //  logger.info('@backstage/plugin-permission-backend-module-allow-all-policy');
-    //}
+    else {
+      yield import('@backstage/plugin-permission-backend')
+      logger.info('@backstage/plugin-permission-backend')
+      yield import('@backstage/plugin-permission-backend-module-allow-all-policy');
+      logger.info('@backstage/plugin-permission-backend-module-allow-all-policy');
+    }
 
     //guest
     if (config.getBoolean('platform.guest.enabled')) {
