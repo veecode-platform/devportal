@@ -538,7 +538,7 @@ data:
       environment: {{ .Values.auth.environment | default "development" | quote }}
       session:
         secret: ${AUTH_USER_SESSION_SECRET}
-      {{- if .Values.auth.providers }}
+      {{- if or .Values.auth.providers .Values.platform.guest.enabled }}
       providers:
         {{- if .Values.platform.guest.enabled }}
         guest: {}
