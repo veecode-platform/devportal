@@ -97,6 +97,9 @@ data:
 
     backend:
       auth:
+        {{- if .Values.platform.guest.enabled }}
+        dangerouslyDisableDefaultAuthPolicy: true
+        {{- end }}
         externalAccess:
           - type: static
             options:
