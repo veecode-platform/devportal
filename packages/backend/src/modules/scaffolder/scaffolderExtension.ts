@@ -16,7 +16,7 @@ import {
   createReplaceInFileAction,
 } from '@roadiehq/scaffolder-backend-module-utils';
 
-import { parseJsonAction, createFileAction } from '@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions';
+import { parseJsonAction, createFileAction, toBase64Action } from '@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions';
 
 export const scaffolderModuleCustomExtensions = createBackendModule({
   pluginId: 'scaffolder', 
@@ -31,6 +31,7 @@ export const scaffolderModuleCustomExtensions = createBackendModule({
         const actions = [
           parseJsonAction(),
           createFileAction(),
+          toBase64Action(),
           createZipAction(),
           createSleepAction(),
           createWriteFileAction(),
