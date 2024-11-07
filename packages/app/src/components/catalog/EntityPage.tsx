@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react';
 import { Button, Grid } from '@material-ui/core';
 import {
@@ -25,10 +24,9 @@ import {
 import { isGithubActionsAvailable } from '@backstage-community/plugin-github-actions';
 // github-workflows
 import {
-  GithubWorkflowsList,
   isGithubWorkflowsAvailable,
-  GithubWorkflowsCard,
-  isGithubAvailable
+  isGithubAvailable,
+  GithubWorkflowsContent
 } from '@veecode-platform/backstage-plugin-github-workflows';
 // gitlab-pipelines
 import {
@@ -120,7 +118,7 @@ const cicdContent = (
       if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
       return false
     }}>
-      <GithubWorkflowsList />
+      <GithubWorkflowsContent />
     </EntitySwitch.Case>
     {/* Gitlab */}
     ( <EntitySwitch.Case if={(entity) => {
@@ -306,7 +304,7 @@ const gitlabContent = (
 const githubContent = (
   <>
     <Grid item lg={8} xs={12}>
-      <GithubWorkflowsCard />
+      <GithubWorkflowsContent cards />
     </Grid>
     {linkContent}
     <Grid item lg={6} md={12} xs={12}>
@@ -421,11 +419,11 @@ const defaultEntityPage = (
       {overviewContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/ci-cd" title="CI/CD">
+    <EntityLayout.Route if={isGithubAvailable || isGitlabAvailable} path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+    <EntityLayout.Route  if={isGithubAvailable || isGitlabAvailable} path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
     </EntityLayout.Route>
 
@@ -693,7 +691,7 @@ const clusterPage = (
         <EntitySwitch>
           <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
             <Grid item lg={8} xs={12}>
-              <GithubWorkflowsCard />
+              <GithubWorkflowsContent card />
             </Grid>
             <Grid item lg={4} md={12} xs={12}>
               <EntityGithubInsightsLanguagesCard />
@@ -858,7 +856,7 @@ const databasePage = (
           <EntitySwitch>
             <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
               <Grid item lg={12} xs={12}>
-                <GithubWorkflowsCard />
+                <GithubWorkflowsContent card />
               </Grid>
             </EntitySwitch.Case>
           </EntitySwitch>
