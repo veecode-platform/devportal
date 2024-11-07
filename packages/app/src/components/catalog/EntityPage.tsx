@@ -691,7 +691,7 @@ const clusterPage = (
         <EntitySwitch>
           <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
             <Grid item lg={8} xs={12}>
-              <GithubWorkflowsContent card />
+              <GithubWorkflowsContent cards />
             </Grid>
             <Grid item lg={4} md={12} xs={12}>
               <EntityGithubInsightsLanguagesCard />
