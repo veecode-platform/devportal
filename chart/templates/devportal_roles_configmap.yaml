@@ -34,20 +34,18 @@ data:
     p, role:default/devportal-admin, policy.entity.create, create, allow
     p, role:default/devportal-admin, policy.entity.delete, delete, allow
     p, role:default/devportal-admin, policy.entity.update, update, allow
-    p, role:default/devportal-admin, kong.read.service, read, allow
-    p, role:default/devportal-admin, kong.read.plugins.available.service, read, allow
-    p, role:default/devportal-admin, kong.read.routes, read, allow
+    p, role:default/devportal-admin, kong.service.read, read, allow
+    p, role:default/devportal-admin, kong.read.available.plugins, read, allow
+    p, role:default/devportal-admin, kong.routes.read, read, allow
     p, role:default/devportal-admin, kong.apply.plugins.service, create, allow
-    p, role:default/devportal-admin, kong.update.plugin.service, update, allow
-    p, role:default/devportal-admin, kong.disable.plugin.service, delete, allow
-    p, role:default/devportal-admin, kong.create.route, create, allow
-    p, role:default/devportal-admin, kong.update.route, update, allow
-    p, role:default/devportal-admin, kong.delete.route, delete, allow
-    p, role:default/devportal-admin, kong.read.plugins.available.route, read, allow
-    p, role:default/devportal-admin, kong.apply.plugins.available.route, create, allow
-    p, role:default/devportal-admin, kong.read.plugins.associated.route, read, allow
-    p, role:default/devportal-admin, kong.update.plugin.route, update, allow
-    p, role:default/devportal-admin, kong.disable.plugin.route, delete, allow
+    p, role:default/devportal-admin, kong.update.service.plugin, update, allow
+    p, role:default/devportal-admin, kong.disable.service.plugin, delete, allow
+    p, role:default/devportal-admin, kong.route.create, create, allow
+    p, role:default/devportal-admin, kong.route.update, update, allow
+    p, role:default/devportal-admin, kong.route.delete, delete, allow
+    p, role:default/devportal-admin, kong.apply.plugins.route, create, allow
+    p, role:default/devportal-admin, kong.update.route.plugin, update, allow
+    p, role:default/devportal-admin, kong.disable.route.plugin, delete, allow
     p, role:default/devportal-admin, kong.read.specs, read, allow
     p, role:default/devportal-admin, kong.update.spec, update, allow
     p, role:default/devportal-admin, cluster.explorer.read, read, allow
