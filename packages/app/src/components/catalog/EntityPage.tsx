@@ -6,7 +6,7 @@ import {
   EntityHasApisCard,
   EntityProvidingComponentsCard,
   EntityConsumingComponentsCard
-} from '@backstage/plugin-api-docs';
+} from '@veecode-platform/plugin-api-docs';
 import {
   EntityHasComponentsCard,
   EntityHasResourcesCard,

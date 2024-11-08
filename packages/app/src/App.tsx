@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { ReactNode } from 'react';
 import { Route } from 'react-router';
-import { apiDocsPlugin/*, ApiExplorerPage*/ } from '@backstage/plugin-api-docs';
-import { ApiExplorerPage } from '@veecode-platform/backstage-plugin-api-explorer';
-import { CatalogEntityPage, CatalogIndexPage, catalogPlugin, CatalogTable, CatalogTableColumnsFunc } from '@backstage/plugin-catalog';
+import { apiDocsPlugin, ApiExplorerPage } from '@veecode-platform/plugin-api-docs';
+import { CatalogEntityPage, CatalogIndexPage, catalogPlugin, CatalogTable, CatalogTableColumnsFunc, CatalogTableRow } from '@backstage/plugin-catalog';
 import { CatalogImportPage, catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
@@ -13,7 +12,7 @@ import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';
-import { AlertDisplay, OAuthRequestDialog } from '@backstage/core-components';
+import { AlertDisplay, OAuthRequestDialog, TableColumn } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api';
 // custom
@@ -37,24 +36,24 @@ import { AboutPage } from '@internal/plugin-about';
 import type { IdentityApi } from '@backstage/core-plugin-api';
 import { VisitListener } from '@backstage/plugin-home';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
-import  {SignInPage as VeecodeSignInPage}   from './components/SignInPage';
+import { SignInPage as VeecodeSignInPage } from './components/SignInPage';
 import { SignInPage } from '@backstage/core-components';
-import { ScaffolderFieldExtensions,ScaffolderLayouts } from '@backstage/plugin-scaffolder-react';
-import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
+import { ScaffolderFieldExtensions, ScaffolderLayouts } from '@backstage/plugin-scaffolder-react';
+import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension } from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
 import { DefaultFilters } from '@backstage/plugin-catalog-react';
 import { RbacPage } from '@janus-idp/backstage-plugin-rbac';
 import { LayoutCustom } from './components/scaffolder/LayoutCustom';
-import { configApiRef, useApi} from "@backstage/core-plugin-api";
+import { configApiRef, useApi } from "@backstage/core-plugin-api";
 
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
-  if (guest){ 
+  if (guest) {
     return <SignInPage {...props} auto providers={['guest']} />
-  } 
+  }
   return <VeecodeSignInPage
     provider={providers[0]}
     onSignInSuccess={async (identityApi: IdentityApi) => {
@@ -97,11 +96,38 @@ const customColumns: CatalogTableColumnsFunc = entityListContext => {
   tagsColumn.width = 'auto';
 
   if (entityListContext.filters.kind?.value !== 'Api') {
-    return [nameColumn,ownerColumn,typeColumn,lifecycleColumn,descriptionColumn];
+    return [nameColumn, ownerColumn, typeColumn, lifecycleColumn, descriptionColumn];
   }
 
   return CatalogTable.defaultColumnsFunc(entityListContext);
 };
+
+
+
+const createApiDocsCustomColumns = (): TableColumn<CatalogTableRow>[] => {
+  const nameColumn = CatalogTable.columns.createNameColumn({ defaultKind: 'API' })
+  const ownerColumn = CatalogTable.columns.createOwnerColumn()
+  const specTypeColumn = CatalogTable.columns.createSpecTypeColumn()
+  const specLifecyclecColumn = CatalogTable.columns.createSpecLifecycleColumn()
+  const publishedAtColumn = {
+    title: "Published At",
+    field: "entity.metadata.publishedAt",
+    width: "auto",
+  }
+  const tagsColumn = CatalogTable.columns.createTagsColumn()
+
+  nameColumn.width = "auto"
+  ownerColumn.width = "auto"
+  specTypeColumn.width = "auto"
+  specLifecyclecColumn.width = "auto"
+  tagsColumn.width = "auto"
+  tagsColumn.cellStyle = {
+    padding: '.8em .5em',
+  }
+
+  return [nameColumn, ownerColumn, specTypeColumn, specLifecyclecColumn, publishedAtColumn, tagsColumn];
+};
+
 
 const app = createApp({
   apis,
@@ -119,7 +145,7 @@ const app = createApp({
     });
     bind(scaffolderPlugin.externalRoutes, {
       registerComponent: catalogImportPlugin.routes.importPage,
-     // viewTechDoc: techdocsPlugin.routes.docRoot,
+      // viewTechDoc: techdocsPlugin.routes.docRoot,
     });
     bind(orgPlugin.externalRoutes, {
       catalogIndex: catalogPlugin.routes.catalogIndex,
@@ -153,23 +179,23 @@ const routes = (
     </Route>
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/catalog" element={
-          <CatalogIndexPage 
-                columns={customColumns}
-                pagination={{
-                  mode: 'offset',
-                  limit: 15
-                }}
-                filters={
-                  <>
-                    <DefaultFilters
-                      initialKind="Component"
-                      initiallySelectedFilter="all"
-                      ownerPickerMode="all"
-                    />
-                  </>
-                }
-              />
-      } />
+      <CatalogIndexPage
+        columns={customColumns}
+        pagination={{
+          mode: 'offset',
+          limit: 15
+        }}
+        filters={
+          <>
+            <DefaultFilters
+              initialKind="Component"
+              initiallySelectedFilter="all"
+              ownerPickerMode="all"
+            />
+          </>
+        }
+      />
+    } />
     <Route path="/catalog-import" element={<CatalogImportPage />} />
     <Route path="/catalog/:namespace/:kind/:name" element={<CatalogEntityPage />}>
       {entityPage}
@@ -179,7 +205,7 @@ const routes = (
       element={
         <CatalogGraphPage
           initialState={{
-            selectedKinds: ['component', 'domain', 'system', 'api', 'group','cluster','environment','database','vault'],
+            selectedKinds: ['component', 'domain', 'system', 'api', 'group', 'cluster', 'environment', 'database', 'vault'],
             selectedRelations: [
               RELATION_OWNER_OF,
               RELATION_OWNED_BY,
@@ -200,23 +226,27 @@ const routes = (
       <DefaultTechDocsHome />
     </Route>
     <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />} />
-    <Route path="/api-docs" element={<ApiExplorerPage />} />
-    <Route path="/cluster-explorer" element={<ClusterExplorerPage/>}/> 
-    <Route path="/environments-explorer" element={<EnvironmentExplorerPage />}/>
-    <Route path="/database-explorer" element={<DatabaseExplorerPage/>}/>
-    <Route path="/vault-explorer" element={<VaultExplorerPage/>}/>
+    <Route path="/api-docs" element={<ApiExplorerPage columns={createApiDocsCustomColumns()}
+      pagination={{
+        mode: 'offset',
+        limit: 15
+      }} />} />
+    <Route path="/cluster-explorer" element={<ClusterExplorerPage />} />
+    <Route path="/environments-explorer" element={<EnvironmentExplorerPage />} />
+    <Route path="/database-explorer" element={<DatabaseExplorerPage />} />
+    <Route path="/vault-explorer" element={<VaultExplorerPage />} />
     <Route
       path="/create"
       element={
-        <ScaffolderPage/>
+        <ScaffolderPage />
       }
     >
-       <ScaffolderLayouts>
+      <ScaffolderLayouts>
         <ScaffolderFieldExtensions>
-          <LayoutCustom/>
-          <RepoUrlSelectorExtension/>
-          <ResourcePickerExtension/>
-          <UploadFilePickerExtension/>
+          <LayoutCustom />
+          <RepoUrlSelectorExtension />
+          <ResourcePickerExtension />
+          <UploadFilePickerExtension />
         </ScaffolderFieldExtensions>
       </ScaffolderLayouts>
     </Route>
