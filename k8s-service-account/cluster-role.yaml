@@ -1,11 +1,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: platform-devportal-read-only
-  namespace: default
+  name: platform-devportal-kubernetes-default-read-only
 rules:
   - apiGroups:
-      - '*'
+      - "*"
     resources:
       - configmaps
       - cronjobs
@@ -44,9 +43,9 @@ rules:
       - get
       - list
   - apiGroups:
-    - core.k8sgpt.ai
+      - core.k8sgpt.ai
     resources:
-    - results
+      - results
     verbs:
-    - get
-    - list
+      - get
+      - list
