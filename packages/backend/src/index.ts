@@ -20,6 +20,7 @@ backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-m
 backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud/alpha'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
 backend.add(import('@janus-idp/backstage-plugin-keycloak-backend'));
+backend.add(import('@backstage/plugin-catalog-backend-module-unprocessed'));
 backend.add(keycloakBackendModuleTransformer)
 backend.add(catalogModuleVeeCodeProcessor);
 

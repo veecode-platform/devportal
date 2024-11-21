@@ -22,6 +22,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import CatalogIcon from '@material-ui/icons/MenuBook';
+import CatalogUnprocessed from "@material-ui/icons/Warning"
 //import AppsIcon from '@material-ui/icons/Apps';
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import ExtensionIcon from '@material-ui/icons/Extension';
@@ -129,6 +130,7 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
       {behaviour.create ? <SidebarItem icon={CreateComponentIcon} to="create" text="Create" /> : null}
       {behaviour.docs ? <SidebarItem icon={LibraryBooks} to="docs" text="Docs" /> : null}
       {behaviour.groups ? <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" /> : null}
+      <SidebarItem icon={CatalogUnprocessed} to="catalog-unprocessed-entities" text='Unprocessed'/>
       <SidebarDivider />
     </SidebarGroup>
   )
