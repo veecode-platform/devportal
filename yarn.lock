@@ -4327,7 +4327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/integration-react@npm:^1.1.31, @backstage/integration-react@npm:^1.2.0":
+"@backstage/integration-react@npm:^1.2.0":
   version: 1.2.0
   resolution: "@backstage/integration-react@npm:1.2.0"
   dependencies:
@@ -15867,17 +15867,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-github-workflows@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:1.1.0"
+"@veecode-platform/backstage-plugin-github-workflows@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@veecode-platform/backstage-plugin-github-workflows@npm:1.1.1"
   dependencies:
     "@backstage/catalog-model": "npm:^1.7.0"
-    "@backstage/core-components": "npm:^0.15.0"
-    "@backstage/core-plugin-api": "npm:^1.9.4"
-    "@backstage/integration": "npm:^1.15.0"
-    "@backstage/integration-react": "npm:^1.1.31"
-    "@backstage/plugin-catalog-react": "npm:^1.13.0"
-    "@backstage/theme": "npm:^0.5.7"
+    "@backstage/core-components": "npm:^0.15.1"
+    "@backstage/core-plugin-api": "npm:^1.10.0"
+    "@backstage/integration": "npm:^1.15.1"
+    "@backstage/integration-react": "npm:^1.2.0"
+    "@backstage/plugin-catalog-react": "npm:^1.14.0"
+    "@backstage/theme": "npm:^0.6.0"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
     "@material-ui/lab": "npm:4.0.0-alpha.61"
@@ -15890,7 +15890,7 @@ __metadata:
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
     react-router-dom: ^6.24.1
-  checksum: 10/fbdcd5c62218512cf41c3e7b36f002b196b6e7896a23b4737c523edde7ae47b03a4bf6de05330a09dd441daf6306f4af6863c19a3774e00da178349f023e7e7b
+  checksum: 10/dc51df5270ec79831877cf66b45d2cf810271ee80fffc7bba7f4e0bd1ad110c6bee1d30521561bb6b51099cc2049a95d4a649ae42d3f8c0e2a1beb23a124ede7
   languageName: node
   linkType: hard
 
@@ -16980,7 +16980,7 @@ __metadata:
     "@types/react-dom": "npm:*"
     "@veecode-platform/backstage-plugin-api-explorer": "npm:^0.3.18"
     "@veecode-platform/backstage-plugin-cluster-explorer": "npm:^0.3.22"
-    "@veecode-platform/backstage-plugin-github-workflows": "npm:^1.1.0"
+    "@veecode-platform/backstage-plugin-github-workflows": "npm:^1.1.1"
     "@veecode-platform/backstage-plugin-gitlab-pipelines": "npm:^0.6.1"
     "@veecode-platform/backstage-plugin-infracost": "npm:^0.3.2"
     "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.5.0"
