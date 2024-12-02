@@ -54,6 +54,7 @@ export class VeecodeCustomAuthStrategy implements AuthenticationStrategy {
             }
 
             const token = Buffer.from(response.body.data.token, 'base64').toString('utf-8');
+            console.log("token: ", token)
             console.log("DONE CUSTOM AUTH")
 
             return { type: 'bearer token', token };
