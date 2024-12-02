@@ -4,7 +4,9 @@ on:
   push:
     branches: ['main']
 
-permissions: write-all
+permissions:
+  id-token: write
+  contents: write
 
 jobs:
 
@@ -21,7 +23,6 @@ jobs:
           echo "app_version=$(jq -r '.version' package.json)" >> $GITHUB_ENV
           echo "chart_version=$(yq e '.version' chart/Chart.yaml)" >> $GITHUB_ENV
           echo "node_version=$(cat .nvmrc | grep -o '[0-9]*')" >> $GITHUB_ENV
-
   start-runner:
     needs: requirements
     name: Start self-hosted EC2 runner
@@ -45,7 +46,7 @@ jobs:
           RUNNER_ARM_SECURITY_GROUP_ID: ${{ secrets.RUNNER_ARM_SECURITY_GROUP_ID }}
         with:
           mode: start
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.API_TOKEN_GITHUB }}
           ec2-image-id: ${{ env.RUNNER_ARM_AMI_ID }}
           ec2-instance-type: t4g.large
           subnet-id: ${{ env.RUNNER_ARM_SUBNET_ID }}
@@ -55,7 +56,6 @@ jobs:
               {"Key": "Name", "Value": "ec2-github-runner"},
               {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
             ]
-
   #parallel build for x64 and amr64
   buildDevportal:
     needs: [requirements, start-runner]
@@ -85,7 +85,6 @@ jobs:
           yarn install --frozen-lockfile
           yarn build
           jq --arg version "$(jq -r .version package.json)" '.version = $version' devportal.json > temp.json && mv temp.json devportal.json
-
       - name: Setup keychain
         if: runner.os == 'macOS'
         run: security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }}
@@ -102,7 +101,6 @@ jobs:
           # docker tag veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }} veecode/devportal-bundle-${{env.ARCH}}:latest
           docker push veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
           # docker push veecode/devportal-bundle-${{env.ARCH}}:latest
-
   publishManifestDocker:
     needs: [requirements, buildDevportal, start-runner]
     runs-on: ${{ needs.start-runner.outputs.label }}
@@ -158,7 +156,6 @@ jobs:
             exit 1
           fi
           echo "chart/README.md created."
-
       - name: Build Helm Package
         run: |
           yq e '.image.repository = "veecode/devportal-bundle"' -i chart/values.yaml
@@ -166,12 +163,10 @@ jobs:
           yq e '.appVersion= "${{needs.requirements.outputs.app_version}}"' -i chart/Chart.yaml
           mkdir -p charts
           helm package --sign --key 'Veecode Platform' --passphrase-file ./chart/passphrase --keyring ./chart/certificate.gpg chart --destination charts/
-
       - name: List files
         run: |
           pwd
           ls -l charts/
-
       - name: Publish Helm Charts
         env:
           TARGET_OWNER: 'veecode-platform'
@@ -179,16 +174,13 @@ jobs:
         run: |
           TMP_DIR=$(mktemp -d)
           echo "Temporary directory $TMP_DIR"
-
           git config --global user.email "github-admin@vee.codes"
           git config --global user.name "veecode-bot"
           git clone -b main https://${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.TARGET_OWNER }}/${{ env.TARGET_REPOSITORY }}.git $TMP_DIR
-
           #Copy charts from the source repository
           # cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz $TMP_DIR/devportal
           # cp charts/devportal-${{ needs.requirements.outputs.chart_version }}.tgz.prov $TMP_DIR/devportal
           cp charts/* $TMP_DIR/devportal
-
           #Commit and push changes
           cd $TMP_DIR
           git add .
@@ -198,10 +190,8 @@ jobs:
           else
             echo "No changes to commit, skipping commit and push."
           fi
-
           #Remove temporary directory
           rm -rf $TMP_DIR
-
       - name: Prepare doc references
         run: |
           mkdir -p tmpDocs/devportal
@@ -212,7 +202,6 @@ jobs:
           cp keycloak/realm-platform-devportal.json tmpDocs/devportal/
           cp docs/public/examples/k8s-service-account.yaml tmpDocs/devportal/
           cp docs/public/examples/rbac-user-default-role.sql tmpDocs/devportal/
-
       - name: Publishing doc references
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
