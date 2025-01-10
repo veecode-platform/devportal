@@ -631,11 +631,11 @@ data:
       logo:
         icon: {{ .Values.theme.images.sidebarIcon }}
         full: {{ .Values.theme.images.sidebarFull }}
-    {{-if .Values.zoraOss}}
+    {{- if .Values.zoraOss}}
     zoraOss:
       openAiApiKey: {{ .Values.zoraOss.openAiApiKey | quote }}
       openAiModel: {{ .Values.zoraOss.openAiModel | quote }}
-    {{-end }}
+    {{- end }}
     {{- if .Values.vault.enabled }}
     vault:
       baseUrl: {{ .Values.vault.domain }}
