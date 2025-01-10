@@ -370,3 +370,7 @@ serviceMonitor:
 #  scrapeTimeout: 10s
 #  selectors:
 #    release: prometheus
+
+#zoraOss: 
+#  openAiApiKey: xxxxxxxx #OpenAI API Key
+#  openAiModel: xxxxxxxx #OpenAI Model

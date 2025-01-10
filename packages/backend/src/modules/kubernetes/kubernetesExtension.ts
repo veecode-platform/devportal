@@ -19,9 +19,9 @@ export const kubernetesModuleCustomExtension = createBackendModule({
           const catalogApi = new CatalogClient({ discoveryApi: discovery });
           const customAuth: AuthenticationStrategy = new VeecodeCustomAuthStrategy();
   
-          locator.addClusterSupplier(VeecodeCatalogClusterLocator.fromConfig(catalogApi, auth));
+          //locator.addClusterSupplier(VeecodeCatalogClusterLocator.fromConfig(catalogApi, auth));
   
-          authStrategy.addAuthStrategy("custom", customAuth)
+          //authStrategy.addAuthStrategy("custom", customAuth)
         },
       });
     },

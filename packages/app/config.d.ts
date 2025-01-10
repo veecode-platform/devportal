@@ -24,29 +24,29 @@ export interface Config {
     endpoints?: {
       /** @visibility frontend */
       [key: string]:
-        | string
-        | {
-             /** @visibility frontend */
-              target: string;
-             /** @visibility frontend */
-              allowedHeaders?: string[];
-             /** @visibility frontend */
-              workspace?: string;
-             /** @visibility frontend */
-              headers?: {
-                  /** @visibility secret */
-                  Authorization?: string;
-                  /** @visibility secret */
-                  authorization?: string;
-                  /** @visibility secret */
-                  'X-Api-Key'?: string;
-                  /** @visibility secret */
-                  'x-api-key'?: string;
-                  [key: string]: string | undefined;
-                  };
-          };
+      | string
+      | {
+        /** @visibility frontend */
+        target: string;
+        /** @visibility frontend */
+        allowedHeaders?: string[];
+        /** @visibility frontend */
+        workspace?: string;
+        /** @visibility frontend */
+        headers?: {
+          /** @visibility secret */
+          Authorization?: string;
+          /** @visibility secret */
+          authorization?: string;
+          /** @visibility secret */
+          'X-Api-Key'?: string;
+          /** @visibility secret */
+          'x-api-key'?: string;
+          [key: string]: string | undefined;
+        };
+      };
     };
-  } 
+  }
   /**
   * Configuration for integrations towards various external repository provider systems
   * @visibility frontend
@@ -297,7 +297,7 @@ export interface Config {
           /**
            * 
            * @visibility frontend
-           */          
+           */
           clientId?: string
         }
       }
@@ -415,12 +415,12 @@ export interface Config {
        */
       readOnlyMode: boolean
     }
-    support?:{
+    support?: {
       /**
        * 
        * @visibility frontend
        */
-      licenseKey?: string   
+      licenseKey?: string
     }
   }
   /**
@@ -460,5 +460,12 @@ export interface Config {
         token?: string;
       }>;
     }
-  };
+  },
+  /** @visibility frontend */
+  zoraOss?: {
+    /** @visibility frontend */
+    openAiApiKey?: string;
+    /** @visibility frontend */
+    openAiModel?: string;
+  },
 }

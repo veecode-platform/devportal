@@ -106,6 +106,8 @@ import { VaultOverview } from '@veecode-platform/plugin-vault-explorer';
 import { KongServiceManagerContent, isKongServiceManagerAvailable } from '@veecode-platform/plugin-kong-service-manager';
 import { KubernetesGptAnalyzerPage, KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
 import { InfracostOverviewPage, isInfracostAvailable } from '@veecode-platform/backstage-plugin-infracost';
+import { ZoraOssPage } from '@veecode-platform/backstage-plugin-zora-oss';
+
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -802,6 +804,10 @@ const clusterPage = (
 
     <EntityLayout.Route if={isInfracostAvailable} path="/infracost" title="Infracost">
       <InfracostOverviewPage />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/zora-oss" title="Zora OSS">
+      <ZoraOssPage/>
     </EntityLayout.Route>
 
     <EntityLayout.Route
