@@ -16597,9 +16597,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-zora-oss@npm:0.0.2":
-  version: 0.0.2
-  resolution: "@veecode-platform/backstage-plugin-zora-oss@npm:0.0.2"
+"@veecode-platform/backstage-plugin-zora-oss@npm:0.0.3":
+  version: 0.0.3
+  resolution: "@veecode-platform/backstage-plugin-zora-oss@npm:0.0.3"
   dependencies:
     "@backstage/core-components": "npm:^0.15.1"
     "@backstage/core-plugin-api": "npm:^1.9.4"
@@ -16613,9 +16613,10 @@ __metadata:
     react-icons: "npm:^5.4.0"
     react-syntax-highlighter: "npm:^15.6.1"
     react-use: "npm:^17.2.4"
+    spinners-react: "npm:^1.0.10"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10/e79e6b5233d68b3f3a753bbcdea8ad893afd0bd50b16baced9f58883d3005882efa2bff33e29094cab27823f30b08e5a8e15278bc33d4cf486065b17ea773ab9
+  checksum: 10/3ecabbb732d192c1ae5547f516d52ead28d736885a4048d0779f7aca02c4eb7f83219545e235ea37249393d9e6759b6e788932ff9250d130b7a3b8c134c5dde4
   languageName: node
   linkType: hard
 
@@ -17563,7 +17564,7 @@ __metadata:
     "@veecode-platform/backstage-plugin-infracost": "npm:^0.3.2"
     "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.5.0"
     "@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer": "npm:^0.1.15"
-    "@veecode-platform/backstage-plugin-zora-oss": "npm:0.0.2"
+    "@veecode-platform/backstage-plugin-zora-oss": "npm:0.0.3"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
     "@veecode-platform/plugin-database-explorer": "npm:^0.3.18"
     "@veecode-platform/plugin-environment-explorer": "npm:^0.3.18"
@@ -36916,6 +36917,18 @@ __metadata:
     select-hose: "npm:^2.0.0"
     spdy-transport: "npm:^3.0.0"
   checksum: 10/d29b89e48e7d762e505a2f83b1bc2c92268bd518f1b411864ab42a9e032e387d10467bbce0d8dbf8647bf4914a063aa1d303dff85e248f7a57f81a7b18ac34ef
+  languageName: node
+  linkType: hard
+
+"spinners-react@npm:^1.0.10":
+  version: 1.0.10
+  resolution: "spinners-react@npm:1.0.10"
+  peerDependencies:
+    "@types/react": ^16.x || ^17.x || ^18.x
+    "@types/react-dom": ^16.x || ^17.x || ^18.x
+    react: ^16.x || ^17.x || ^18.x
+    react-dom: ^16.x || ^17.x || ^18.x
+  checksum: 10/8b81b7fa7892fc394299408fca1d9531d810168aed7075f19121a6bea4b7deeb40dae69ca23bc5ce87c34ce32f6edef8881a150bffb2ef9647dfc171f5c608c4
   languageName: node
   linkType: hard
 
