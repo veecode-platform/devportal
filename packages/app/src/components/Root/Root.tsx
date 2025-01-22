@@ -43,7 +43,7 @@ import { ImDatabase } from "react-icons/im";
 import { PiVaultFill } from "react-icons/pi";
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import { useAppContext } from '../../context/AppProvider';
-import { Administration } from '@janus-idp/backstage-plugin-rbac';
+import { Administration } from '@backstage-community/plugin-rbac';
 
 const useStyles = makeStyles({
   root: {

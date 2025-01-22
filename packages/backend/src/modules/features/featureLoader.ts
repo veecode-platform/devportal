@@ -40,8 +40,8 @@ export default createBackendFeatureLoader({
 
     //rbac
     if (config.getBoolean('enabledPlugins.rbac')) {
-      yield import('@janus-idp/backstage-plugin-rbac-backend');
-      logger.info('@janus-idp/backstage-plugin-rbac-backend');
+      yield import('@backstage-community/plugin-rbac-backend');
+      logger.info('@backstage-community/plugin-rbac-backend');
       yield import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend');
       logger.info('@internal/backstage-plugin-veecode-platform-permissions-hub-backend');
     }

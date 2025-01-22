@@ -44,7 +44,7 @@ import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExte
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
 import { DefaultFilters } from '@backstage/plugin-catalog-react';
-import { RbacPage } from '@janus-idp/backstage-plugin-rbac';
+import { RbacPage } from '@backstage-community/plugin-rbac';
 import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 import { configApiRef, useApi} from "@backstage/core-plugin-api";
 
