@@ -33,7 +33,7 @@ WORKDIR /app
 
 # This switches many Node.js dependencies to production mode.
 ENV NODE_ENV production
-ENV NODE_OPTIONS "--no-node-snapshot"
+ENV NODE_OPTIONS "--no-node-snapshot --max-old-space-size=4096"
 
 # Copy over Yarn 3 configuration, release, and plugins
 COPY --chown=default:default .yarn ./.yarn
