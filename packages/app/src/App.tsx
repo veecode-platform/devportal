@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { ReactNode } from 'react';
-import { Route } from 'react-router';
-import { apiDocsPlugin/*, ApiExplorerPage*/ } from '@backstage/plugin-api-docs';
-import { ApiExplorerPage } from '@veecode-platform/backstage-plugin-api-explorer';
-import { CatalogEntityPage, CatalogIndexPage, catalogPlugin, CatalogTable, CatalogTableColumnsFunc } from '@backstage/plugin-catalog';
+import { Route } from 'react-router'
+import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
+import { CatalogEntityPage, CatalogIndexPage, catalogPlugin, CatalogTable, CatalogTableColumnsFunc, CatalogTableRow } from '@backstage/plugin-catalog';
 import { CatalogImportPage, catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
@@ -13,7 +12,7 @@ import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { Root } from './components/Root';
-import { AlertDisplay, OAuthRequestDialog } from '@backstage/core-components';
+import { AlertDisplay, OAuthRequestDialog, TableColumn } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes, SignInPageProps } from '@backstage/core-app-api';
 // custom
@@ -101,6 +100,30 @@ const customColumns: CatalogTableColumnsFunc = entityListContext => {
   }
 
   return CatalogTable.defaultColumnsFunc(entityListContext);
+};
+
+const createApiDocsCustomColumns = (): TableColumn<CatalogTableRow>[] => {
+  const nameColumn = CatalogTable.columns.createNameColumn({ defaultKind: 'API' })
+  const ownerColumn = CatalogTable.columns.createOwnerColumn()
+  const specTypeColumn = CatalogTable.columns.createSpecTypeColumn()
+  const specLifecyclecColumn = CatalogTable.columns.createSpecLifecycleColumn()
+  const publishedAtColumn = {
+    title: "Published At",
+    field: "entity.metadata.publishedAt",
+    width: "auto",
+  }
+  const tagsColumn = CatalogTable.columns.createTagsColumn()
+
+  nameColumn.width = "auto"
+  ownerColumn.width = "auto"
+  specTypeColumn.width = "auto"
+  specLifecyclecColumn.width = "auto"
+  tagsColumn.width = "auto"
+  tagsColumn.cellStyle = {
+    padding: '.8em .5em',
+  }
+
+  return [nameColumn, ownerColumn, specTypeColumn, specLifecyclecColumn, publishedAtColumn, tagsColumn];
 };
 
 const app = createApp({
@@ -200,7 +223,11 @@ const routes = (
       <DefaultTechDocsHome />
     </Route>
     <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />} />
-    <Route path="/api-docs" element={<ApiExplorerPage />} />
+    <Route path="/api-docs" element={<ApiExplorerPage columns={createApiDocsCustomColumns()}
+      pagination={{
+        mode: 'offset',
+        limit: 15
+      }} />} />
     <Route path="/cluster-explorer" element={<ClusterExplorerPage/>}/> 
     <Route path="/environments-explorer" element={<EnvironmentExplorerPage />}/>
     <Route path="/database-explorer" element={<DatabaseExplorerPage/>}/>

@@ -1,3 +1,4 @@
+/* deprecated - importar direto na index*/
 import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
 import { createBackendModule } from '@backstage/backend-plugin-api';
 import {
@@ -16,7 +17,7 @@ import {
   createReplaceInFileAction,
 } from '@roadiehq/scaffolder-backend-module-utils';
 
-import { parseJsonAction, createFileAction, toBase64Action } from '@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions';
+//import { parseJsonAction, createFileAction, toBase64Action } from '@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions';
 
 export const scaffolderModuleCustomExtensions = createBackendModule({
   pluginId: 'scaffolder', 
@@ -29,9 +30,9 @@ export const scaffolderModuleCustomExtensions = createBackendModule({
       async init({ scaffolder }) {
 
         const actions = [
-          parseJsonAction(),
-          createFileAction(),
-          toBase64Action(),
+          //parseJsonAction(),
+          //createFileAction(),
+          //toBase64Action(),
           createZipAction(),
           createSleepAction(),
           createWriteFileAction(),

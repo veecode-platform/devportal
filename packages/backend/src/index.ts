@@ -1,5 +1,5 @@
 import { createBackend } from '@backstage/backend-defaults';
-import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
+//import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
 import { customGithubAuthProvider } from './modules/auth/githubCustomResolver';
 import { customGitlabAuthProvider } from './modules/auth/gitlabCustomResolver';
 import customPluginsLoader from './modules/features/featureLoader';
@@ -30,9 +30,11 @@ backend.add(catalogModuleVeeCodeProcessor);
 //scaffolder
 backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
-backend.add(scaffolderModuleCustomExtensions);
+//backend.add(scaffolderModuleCustomExtensions); imported directly
+backend.add(import('@roadiehq/scaffolder-backend-module-utils/new-backend'));
+backend.add(import('@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions'))
 backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
-//backend.add(import('@roadiehq/scaffolder-backend-module-utils/new-backend')); added to custom scaffolder extension
+
 
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));

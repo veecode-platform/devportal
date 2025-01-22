@@ -7014,31 +7014,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-scaffolder-node@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "@backstage/plugin-scaffolder-node@npm:0.5.0"
-  dependencies:
-    "@backstage/backend-common": "npm:^0.25.0"
-    "@backstage/backend-plugin-api": "npm:^1.0.1"
-    "@backstage/catalog-model": "npm:^1.7.0"
-    "@backstage/errors": "npm:^1.2.4"
-    "@backstage/integration": "npm:^1.15.1"
-    "@backstage/plugin-scaffolder-common": "npm:^1.5.6"
-    "@backstage/types": "npm:^1.1.1"
-    concat-stream: "npm:^2.0.0"
-    fs-extra: "npm:^11.2.0"
-    globby: "npm:^11.0.0"
-    isomorphic-git: "npm:^1.23.0"
-    jsonschema: "npm:^1.2.6"
-    p-limit: "npm:^3.1.0"
-    tar: "npm:^6.1.12"
-    winston: "npm:^3.2.1"
-    zod: "npm:^3.22.4"
-    zod-to-json-schema: "npm:^3.20.4"
-  checksum: 10/cdc53618a0e1c8f3c5b7b3f234f104db282a05830080bf89c94508a67d87f4fac9de772be7fa0b9c427f583062902f4b9895c40fcbbe49d859e19846d8bce64a
-  languageName: node
-  linkType: hard
-
 "@backstage/plugin-scaffolder-node@npm:^0.6.2, @backstage/plugin-scaffolder-node@npm:^0.6.3":
   version: 0.6.3
   resolution: "@backstage/plugin-scaffolder-node@npm:0.6.3"
@@ -17691,23 +17666,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-api-explorer@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "@veecode-platform/backstage-plugin-api-explorer@npm:0.3.18"
-  dependencies:
-    "@backstage/core-components": "npm:^0.15.0"
-    "@backstage/core-plugin-api": "npm:^1.9.4"
-    "@backstage/theme": "npm:^0.5.7"
-    "@material-ui/core": "npm:^4.9.13"
-    "@material-ui/icons": "npm:^4.9.1"
-    "@material-ui/lab": "npm:^4.0.0-alpha.61"
-    react-use: "npm:^17.2.4"
-  peerDependencies:
-    react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10/9ffe6eba2e94f652b0e6330630363be00c978cd2c318564864b9a841d51a4eaebfcb614b415fedd6a1145c71e3619b7694d164f91986ab27c2455c24d806d834
-  languageName: node
-  linkType: hard
-
 "@veecode-platform/backstage-plugin-cluster-explorer-common@npm:^0.2.18":
   version: 0.2.18
   resolution: "@veecode-platform/backstage-plugin-cluster-explorer-common@npm:0.2.18"
@@ -17909,18 +17867,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:0.4.1"
+"@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:^0.4.2":
+  version: 0.4.2
+  resolution: "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:0.4.2"
   dependencies:
     "@backstage/backend-common": "npm:^0.25.0"
-    "@backstage/backend-plugin-api": "npm:^1.0.1"
-    "@backstage/errors": "npm:^1.2.4"
-    "@backstage/integration": "npm:^1.15.1"
-    "@backstage/plugin-scaffolder-node": "npm:^0.5.0"
+    "@backstage/backend-plugin-api": "npm:^1.1.1"
+    "@backstage/errors": "npm:^1.2.7"
+    "@backstage/integration": "npm:^1.16.1"
+    "@backstage/plugin-scaffolder-node": "npm:^0.6.3"
     fs-extra: "npm:^10.0.0"
     jsonata: "npm:^1.8.6"
-  checksum: 10/057ae3cbfcbb29879a66a9f3175ad84bf53a651eb8106cbec18c64713588a880b00e1b2b9a01097ea9fd9cd5b2735b90c51747befda2f2923901cf103d2a3b02
+  checksum: 10/de2c0da7e194818bac1bc7aa44d0f244120e16b8b70423358f540ca17028f7ca6b7329a1aed8413c2e9f11557a50724bf4de25c004973fce91870b76eae2aa4b
   languageName: node
   linkType: hard
 
@@ -18865,7 +18823,6 @@ __metadata:
     "@types/lodash": "npm:^4.17.0"
     "@types/node": "npm:*"
     "@types/react-dom": "npm:*"
-    "@veecode-platform/backstage-plugin-api-explorer": "npm:^0.3.18"
     "@veecode-platform/backstage-plugin-cluster-explorer": "npm:^0.3.22"
     "@veecode-platform/backstage-plugin-github-workflows": "npm:^1.1.1"
     "@veecode-platform/backstage-plugin-gitlab-pipelines": "npm:^0.6.1"
@@ -19756,7 +19713,7 @@ __metadata:
     "@types/express-serve-static-core": "npm:^4.17.5"
     "@types/luxon": "npm:^2.0.4"
     "@veecode-platform/backstage-plugin-infracost-backend": "npm:^0.4.0"
-    "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "npm:^0.4.1"
+    "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "npm:^0.4.2"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
     "@veecode-platform/plugin-kong-service-manager-backend": "npm:^0.4.0"
     "@veecode-platform/plugin-veecode-platform-common": "npm:^0.3.19"
