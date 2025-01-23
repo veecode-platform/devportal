@@ -17867,9 +17867,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:^0.4.2":
-  version: 0.4.2
-  resolution: "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:0.4.2"
+"@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:0.4.4":
+  version: 0.4.4
+  resolution: "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions@npm:0.4.4"
   dependencies:
     "@backstage/backend-common": "npm:^0.25.0"
     "@backstage/backend-plugin-api": "npm:^1.1.1"
@@ -17878,7 +17878,7 @@ __metadata:
     "@backstage/plugin-scaffolder-node": "npm:^0.6.3"
     fs-extra: "npm:^10.0.0"
     jsonata: "npm:^1.8.6"
-  checksum: 10/de2c0da7e194818bac1bc7aa44d0f244120e16b8b70423358f540ca17028f7ca6b7329a1aed8413c2e9f11557a50724bf4de25c004973fce91870b76eae2aa4b
+  checksum: 10/31cb3a2a56de55a5aad54b893c6b09110cc14d01cc89f4c753008602d3d3f228059955bfd3acf498e8f8064fc4887c1a902b7f9af8448e839cd849e459a51915
   languageName: node
   linkType: hard
 
@@ -19713,7 +19713,7 @@ __metadata:
     "@types/express-serve-static-core": "npm:^4.17.5"
     "@types/luxon": "npm:^2.0.4"
     "@veecode-platform/backstage-plugin-infracost-backend": "npm:^0.4.0"
-    "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "npm:^0.4.2"
+    "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "npm:0.4.4"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
     "@veecode-platform/plugin-kong-service-manager-backend": "npm:^0.4.0"
     "@veecode-platform/plugin-veecode-platform-common": "npm:^0.3.19"
