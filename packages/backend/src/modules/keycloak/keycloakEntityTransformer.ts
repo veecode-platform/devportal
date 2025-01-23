@@ -3,7 +3,7 @@ import {
     //GroupTransformer,
     keycloakTransformerExtensionPoint,
     UserTransformer,
-  } from '@janus-idp/backstage-plugin-keycloak-backend';
+  } from '@backstage-community/plugin-catalog-backend-module-keycloak';
   
   /*const customGroupTransformer: GroupTransformer = async (
     entity,

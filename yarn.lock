@@ -2854,6 +2854,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage-community/plugin-catalog-backend-module-keycloak@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "@backstage-community/plugin-catalog-backend-module-keycloak@npm:3.3.0"
+  dependencies:
+    "@backstage/backend-plugin-api": "npm:^1.1.0"
+    "@backstage/catalog-model": "npm:^1.7.2"
+    "@backstage/errors": "npm:^1.2.6"
+    "@backstage/plugin-catalog-node": "npm:^1.15.0"
+    "@keycloak/keycloak-admin-client": "npm:24.0.5"
+    inclusion: "npm:^1.0.1"
+    lodash: "npm:^4.17.21"
+    pg-format: "npm:^1.0.4"
+    uuid: "npm:^9.0.1"
+  checksum: 10/5436d6b2090b2cbc0078410e2fc4994976f4f5b69ab1d7805117932f7156b663b8157ba7cb3586c1628cc451f920d195d420b585a88457ac38dac901d6835d02
+  languageName: node
+  linkType: hard
+
 "@backstage-community/plugin-explore-backend@npm:^0.1.7":
   version: 0.1.7
   resolution: "@backstage-community/plugin-explore-backend@npm:0.1.7"
@@ -3851,7 +3868,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/backend-plugin-api@npm:^1.0.2, @backstage/backend-plugin-api@npm:^1.1.1":
+"@backstage/backend-plugin-api@npm:^1.0.2, @backstage/backend-plugin-api@npm:^1.1.0, @backstage/backend-plugin-api@npm:^1.1.1":
   version: 1.1.1
   resolution: "@backstage/backend-plugin-api@npm:1.1.1"
   dependencies:
@@ -3950,7 +3967,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/catalog-model@npm:^1.7.3":
+"@backstage/catalog-model@npm:^1.7.2, @backstage/catalog-model@npm:^1.7.3":
   version: 1.7.3
   resolution: "@backstage/catalog-model@npm:1.7.3"
   dependencies:
@@ -4748,7 +4765,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/errors@npm:^1.2.7":
+"@backstage/errors@npm:^1.2.6, @backstage/errors@npm:^1.2.7":
   version: 1.2.7
   resolution: "@backstage/errors@npm:1.2.7"
   dependencies:
@@ -6073,7 +6090,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-node@npm:^1.12.5, @backstage/plugin-catalog-node@npm:^1.13.0, @backstage/plugin-catalog-node@npm:^1.13.1":
+"@backstage/plugin-catalog-node@npm:^1.12.5, @backstage/plugin-catalog-node@npm:^1.13.0":
   version: 1.13.1
   resolution: "@backstage/plugin-catalog-node@npm:1.13.1"
   dependencies:
@@ -6089,7 +6106,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-node@npm:^1.15.1":
+"@backstage/plugin-catalog-node@npm:^1.15.0, @backstage/plugin-catalog-node@npm:^1.15.1":
   version: 1.15.1
   resolution: "@backstage/plugin-catalog-node@npm:1.15.1"
   dependencies:
@@ -9568,23 +9585,6 @@ __metadata:
   dependencies:
     lodash: "npm:^4.17.21"
   checksum: 10/7ac4510f104a8dea94bd135ee97824cb98531a4721dbfbd400883c1feb78878fca3c1042898d6a724540a689a19cc592e1023d26ae6fbb585045aac212ac70fe
-  languageName: node
-  linkType: hard
-
-"@janus-idp/backstage-plugin-keycloak-backend@npm:^3.0.1":
-  version: 3.1.0
-  resolution: "@janus-idp/backstage-plugin-keycloak-backend@npm:3.1.0"
-  dependencies:
-    "@backstage/backend-plugin-api": "npm:^1.0.1"
-    "@backstage/catalog-model": "npm:^1.7.0"
-    "@backstage/errors": "npm:^1.2.4"
-    "@backstage/plugin-catalog-node": "npm:^1.13.1"
-    "@keycloak/keycloak-admin-client": "npm:24.0.5"
-    inclusion: "npm:^1.0.1"
-    lodash: "npm:^4.17.21"
-    pg-format: "npm:^1.0.4"
-    uuid: "npm:^9.0.1"
-  checksum: 10/40357c53371d7ceeeb50caa3d814d94ada7b86c44cbaa6ed225dd3d626e19f4af75a0f3a94732c9a0de36519c0d47cce6f4637b4be51e597b573ceede52e2fb3
   languageName: node
   linkType: hard
 
@@ -19657,6 +19657,7 @@ __metadata:
   resolution: "backend@workspace:packages/backend"
   dependencies:
     "@backstage-community/plugin-azure-devops-backend": "npm:0.7.1"
+    "@backstage-community/plugin-catalog-backend-module-keycloak": "npm:^3.3.0"
     "@backstage-community/plugin-explore-backend": "npm:^0.1.7"
     "@backstage-community/plugin-explore-common": "npm:^0.0.5"
     "@backstage-community/plugin-rbac-backend": "npm:^5.2.10"
@@ -19703,7 +19704,6 @@ __metadata:
     "@immobiliarelabs/backstage-plugin-gitlab-backend": "npm:^6.7.0"
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": "npm:^0.1.0"
     "@internal/plugin-about-backend": "npm:^0.1.0"
-    "@janus-idp/backstage-plugin-keycloak-backend": "npm:^3.0.1"
     "@roadiehq/backstage-plugin-argo-cd-backend": "npm:^3.3.1"
     "@roadiehq/backstage-plugin-aws-auth": "npm:^0.5.0"
     "@roadiehq/scaffolder-backend-module-http-request": "npm:^5.3.0"

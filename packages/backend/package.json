@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@backstage-community/plugin-azure-devops-backend": "0.7.1",
+    "@backstage-community/plugin-catalog-backend-module-keycloak": "^3.3.0",
     "@backstage-community/plugin-explore-backend": "^0.1.7",
     "@backstage-community/plugin-explore-common": "^0.0.5",
     "@backstage-community/plugin-rbac-backend": "^5.2.10",
@@ -62,7 +63,6 @@
     "@immobiliarelabs/backstage-plugin-gitlab-backend": "^6.7.0",
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": "^0.1.0",
     "@internal/plugin-about-backend": "^0.1.0",
-    "@janus-idp/backstage-plugin-keycloak-backend": "^3.0.1",
     "@roadiehq/backstage-plugin-argo-cd-backend": "^3.3.1",
     "@roadiehq/backstage-plugin-aws-auth": "^0.5.0",
     "@roadiehq/scaffolder-backend-module-http-request": "^5.3.0",
