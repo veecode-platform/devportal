@@ -185,10 +185,10 @@ const routes = (
                 /*desabilitado apos versao 1.35, erro - corrigir
                 filters={
                   <>
-                    <DefaultFilters
-                      initialKind="Component"
-                      initiallySelectedFilter="all"
-                      ownerPickerMode="all"
+                    <defaultfilters
+                      initialkind="component"
+                      initiallyselectedfilter="all"
+                      ownerpickermode="all"
                     />
                   </>
                 }*/
