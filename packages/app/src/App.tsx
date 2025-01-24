@@ -42,7 +42,7 @@ import { ScaffolderFieldExtensions,ScaffolderLayouts } from '@backstage/plugin-s
 import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
-import { DefaultFilters } from '@backstage/plugin-catalog-react';
+//import { DefaultFilters } from '@backstage/plugin-catalog-react';
 import { RbacPage } from '@backstage-community/plugin-rbac';
 import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 import { configApiRef, useApi} from "@backstage/core-plugin-api";
@@ -182,6 +182,7 @@ const routes = (
                   mode: 'offset',
                   limit: 15
                 }}
+                /*desabilitado apos versao 1.35, erro - corrigir
                 filters={
                   <>
                     <DefaultFilters
@@ -190,7 +191,7 @@ const routes = (
                       ownerPickerMode="all"
                     />
                   </>
-                }
+                }*/
               />
       } />
     <Route path="/catalog-import" element={<CatalogImportPage />} />
