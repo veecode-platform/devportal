@@ -42,7 +42,6 @@ import { ScaffolderFieldExtensions,ScaffolderLayouts } from '@backstage/plugin-s
 import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
-//import { DefaultFilters } from '@backstage/plugin-catalog-react';
 import { RbacPage } from '@backstage-community/plugin-rbac';
 import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 import { configApiRef, useApi} from "@backstage/core-plugin-api";
@@ -52,7 +51,7 @@ const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
   if (guest){ 
-    return <SignInPage {...props} auto providers={['guest']} />
+    return <SignInPage {...props} auto providers={['guest', providers[1]]} />
   } 
   return <VeecodeSignInPage
     provider={providers[0]}

@@ -1,5 +1,5 @@
 import { createBackendModule } from '@backstage/backend-plugin-api';
-import { stringifyEntityRef, DEFAULT_NAMESPACE } from '@backstage/catalog-model';
+import { stringifyEntityRef/*, DEFAULT_NAMESPACE*/ } from '@backstage/catalog-model';
 import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-github-provider';
 import {
   authProvidersExtensionPoint,
@@ -17,26 +17,25 @@ export const customGithubAuthProvider = createBackendModule({
           providerId: 'github',
           factory: createOAuthProviderFactory({
             authenticator: githubAuthenticator,
-            async signInResolver(info, ctx) {
-                const { 
+            async signInResolver(_info, ctx) {
+                /*const { 
                     result: {
                         fullProfile: {
                             username,
                             displayName
                         }
                     }
-                 } = info;
+                 } = info;*/
 
                 const userEntity = stringifyEntityRef({
-                    kind: 'User',
-                    name: username || displayName,
-                    namespace: DEFAULT_NAMESPACE,
+                    kind: 'user',
+                    name: "github-guest", //username || displayName,
                   });
               
                 return ctx.issueToken({
                     claims: {
                       sub: userEntity,
-                      ent: [userEntity, `group:default/admin`],
+                      ent: [userEntity],
                     },
                   });
             },
