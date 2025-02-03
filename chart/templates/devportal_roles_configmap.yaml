@@ -8,13 +8,17 @@ metadata:
   name: "{{- include "devportal-charts.fullname" . }}-roles-env"
 data:
   rbac-policies: | 
-    p, role:default/devportal-admin, catalog-entity, read, allow
-    p, role:default/devportal-admin, catalog.entity.create, create, allow
-    p, role:default/devportal-admin, policy-entity, read, allow
-    p, role:default/devportal-admin, policy-entity, create, allow
-    p, role:default/devportal-admin, policy-entity, update, allow
-    p, role:default/devportal-admin, policy-entity, delete, allow
-    
+
+    p, role:default/github-guest, policy.entity.read, read, allow
+    p, role:default/github-guest, catalog.entity.read, read, allow
+    p, role:default/github-guest, catalog.location.read, read, allow
+    p, role:default/github-guest, scaffolder.task.read, read, allow
+    p, role:default/github-guest, scaffolder.template.parameter.read, read, allow
+    p, role:default/github-guest, scaffolder.template.step.read, read, allow
+
+    g, user:default/github-guest, role:default/github-guest
+
+ 
     p, role:default/devportal-admin, catalog.entity.read, read, allow
     p, role:default/devportal-admin, catalog.entity.create, create, allow
     p, role:default/devportal-admin, catalog.entity.delete, delete, allow
