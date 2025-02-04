@@ -1,7 +1,7 @@
 {{- $app_path_without_last_slash := trimSuffix "/" .Values.appConfig.app.baseUrl }} 
 {{- $backend_path_without_last_slash := trimSuffix "/" .Values.appConfig.backend.baseUrl }}
 
-{{- $rbacEnabled := (and (not .Values.platform.guest.enabled) .Values.permission.rbac.enabled) }}
+{{- $rbacEnabled := .Values.permission.rbac.enabled }}
 
 {{- $grafana := .Values.grafana | default dict }}
 {{- $grafana_default_domain := $grafana.domain | default "" }}
