@@ -21,26 +21,27 @@ import {
 } from '@backstage/core-plugin-api';
 import { oidcAuthApiRef } from './apis';
 
-export const providers = [
-  {
-    id: "keycloak",
-    title: "Keycloak",
-    message: "Sign in using Keycloak",
-    apiRef: oidcAuthApiRef,
-    configApiRef: configApiRef
-  },
-  {
-    id: 'github-auth-provider',
-    title: 'GitHub',
-    message: 'Sign in using GitHub',
-    apiRef: githubAuthApiRef,
-    configApiRef: configApiRef
-  },
-  {
-    id: 'gitlab-auth-provider',
-    title: 'Gitlab',
-    message: 'Sign in using Gitlab',
-    apiRef: gitlabAuthApiRef,
-    configApiRef: configApiRef
-  }
-];
+export const keycloakProvider = {
+  id: 'keycloak',
+  title: 'Keycloak',
+  message: 'Sign in using Keycloak',
+  apiRef: oidcAuthApiRef,
+  configApiRef: configApiRef,
+}
+
+export const githubProvider = { 
+  id: 'github-auth-provider',
+  title: 'GitHub',
+  message: 'Sign in using GitHub',
+  apiRef: githubAuthApiRef,
+  configApiRef: configApiRef,
+}
+
+export const gitlabProvider = {
+  id: 'gitlab-auth-provider',
+  title: 'Gitlab',
+  message: 'Sign in using Gitlab',
+  apiRef: gitlabAuthApiRef,
+  configApiRef: configApiRef,
+}
+

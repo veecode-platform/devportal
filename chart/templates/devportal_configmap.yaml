@@ -604,6 +604,7 @@ data:
     platform:
       guest:
         enabled: {{ .Values.platform.guest.enabled | default false }}
+        demo: {{ .Values.platform.guest.demo | default false }}
       apiManagement:
         enabled: {{ .Values.platform.apiManagement.enabled | default false }}
         readOnlyMode: {{ .Values.platform.apiManagement.readOnlyMode | default false }}

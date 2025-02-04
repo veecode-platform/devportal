@@ -309,6 +309,7 @@ catalog:
 platform:
   guest:
     enabled: true #enable guest mode
+    demo: false #enable demo guest mode
   apiManagement:
     enabled: false #enable platform Api management module
     readOnlyMode: false #Enable platform Api management readonly mode

@@ -383,6 +383,11 @@ export interface Config {
        * @visibility frontend
        */
       enabled: boolean
+      /**
+       * 
+       * @visibility frontend
+       */
+      demo: boolean
     };
     defaultGroup: {
       /**

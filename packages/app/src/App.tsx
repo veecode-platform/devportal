@@ -22,7 +22,6 @@ import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import '../src/components/theme/theme.css';
 import { searchPage } from './components/search/SearchPage';
-import { providers } from './identityProviders';
 import { RELATION_OWNER_OF, RELATION_OWNED_BY, RELATION_CONSUMES_API, RELATION_API_CONSUMED_BY, RELATION_PROVIDES_API, RELATION_API_PROVIDED_BY, RELATION_HAS_PART, RELATION_PART_OF, RELATION_DEPENDS_ON, RELATION_DEPENDENCY_OF } from '@backstage/catalog-model';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { ExplorePage } from './components/explorer/ExplorerPage';
@@ -45,16 +44,21 @@ import { AppProvider } from './context';
 import { RbacPage } from '@backstage-community/plugin-rbac';
 import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 import { configApiRef, useApi} from "@backstage/core-plugin-api";
+import { keycloakProvider, githubProvider } from './identityProviders';
+
 
 
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
-  if (guest){ 
-    return <SignInPage {...props} auto providers={['guest', providers[1]]} />
-  } 
+  const demoGuest = config.getBoolean("platform.guest.demo");
+
+  if(guest){
+    return <SignInPage {...props} auto providers={ demoGuest ? ['guest', githubProvider] : ['guest']} />
+  }
+
   return <VeecodeSignInPage
-    provider={providers[0]}
+    provider={keycloakProvider}
     onSignInSuccess={async (identityApi: IdentityApi) => {
       props.onSignInSuccess(identityApi);
     }}
