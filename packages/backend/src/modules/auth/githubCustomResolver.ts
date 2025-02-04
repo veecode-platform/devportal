@@ -1,4 +1,4 @@
-import { createBackendModule } from '@backstage/backend-plugin-api';
+import { createBackendModule, coreServices } from '@backstage/backend-plugin-api';
 import { stringifyEntityRef/*, DEFAULT_NAMESPACE*/ } from '@backstage/catalog-model';
 import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-github-provider';
 import {
@@ -11,26 +11,29 @@ export const customGithubAuthProvider = createBackendModule({
   moduleId: 'custom-github-auth-provider',
   register(reg) {
     reg.registerInit({
-      deps: { providers: authProvidersExtensionPoint },
-      async init({ providers }) {
+      deps: { providers: authProvidersExtensionPoint, config: coreServices.rootConfig },
+      async init({ providers, config }) {
         providers.registerProvider({
           providerId: 'github',
           factory: createOAuthProviderFactory({
             authenticator: githubAuthenticator,
-            async signInResolver(_info, ctx) {
-                /*const { 
+
+            async signInResolver(info, ctx) {
+              const demoGuestMode = config.getBoolean('platform.guest.demo');
+
+                const { 
                     result: {
                         fullProfile: {
                             username,
                             displayName
                         }
                     }
-                 } = info;*/
+                 } = info;
 
                 const userEntity = stringifyEntityRef({
                     kind: 'user',
-                    name: "github-guest", //username || displayName,
-                  });
+                    name: demoGuestMode ? "github-guest" : username || displayName,
+                });
               
                 return ctx.issueToken({
                     claims: {
