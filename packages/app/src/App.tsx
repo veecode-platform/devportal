@@ -51,7 +51,7 @@ import { keycloakProvider, githubProvider } from './identityProviders';
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean("platform.guest.enabled");
-  const demoGuest = config.getBoolean("platform.guest.demo");
+  const demoGuest = config.getOptionalBoolean("platform.guest.demo");
 
   if(guest){
     return <SignInPage {...props} auto providers={ demoGuest ? ['guest', githubProvider] : ['guest']} />
