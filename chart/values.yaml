@@ -237,7 +237,7 @@ permission:
     admin:
       defaultAdminRoleEnabled: true
 #      superUsers:
-#        - name: user:default/default
+#        - name: user:default/admin
 #      users:
 #        - name: user:default/<user-name>
 #    maxDepth: 1
