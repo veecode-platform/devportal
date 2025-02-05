@@ -63,6 +63,8 @@
     "@immobiliarelabs/backstage-plugin-gitlab-backend": "^6.7.0",
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": "^0.1.0",
     "@internal/plugin-about-backend": "^0.1.0",
+    "@jfvilas/plugin-kubelog-backend": "^0.10.2",
+    "@jfvilas/plugin-kubelog-common": "^0.10.2",
     "@roadiehq/backstage-plugin-argo-cd-backend": "^3.3.1",
     "@roadiehq/backstage-plugin-aws-auth": "^0.5.0",
     "@roadiehq/scaffolder-backend-module-http-request": "^5.3.0",

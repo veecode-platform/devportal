@@ -65,6 +65,9 @@ backend.add(import('@internal/plugin-about-backend'))
 //explore
 backend.add(exploreToolProviderModule);
 
+//kubelog
+backend.add(import('@jfvilas/plugin-kubelog-backend'));
+
 //healthcheck
 backend.add(
     createServiceFactory({

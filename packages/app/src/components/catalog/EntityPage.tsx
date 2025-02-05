@@ -107,6 +107,7 @@ import { KongServiceManagerContent, isKongServiceManagerAvailable } from '@veeco
 import { KubernetesGptAnalyzerPage, KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
 import { InfracostOverviewPage, isInfracostAvailable } from '@veecode-platform/backstage-plugin-infracost';
 import { ZoraOssPage } from '@veecode-platform/backstage-plugin-zora-oss';
+import { EntityKubelogContent, isKubelogAvailable } from '@jfvilas/plugin-kubelog';
 
 
 // Entity validate
@@ -808,6 +809,10 @@ const clusterPage = (
 
     <EntityLayout.Route path="/zora-oss" title="Zora OSS">
       <ZoraOssPage/>
+    </EntityLayout.Route>
+
+    <EntityLayout.Route if={isKubelogAvailable} path="/kubelog" title="Kubelog">
+      <EntityKubelogContent />
     </EntityLayout.Route>
 
     <EntityLayout.Route

@@ -42,6 +42,8 @@
     "@immobiliarelabs/backstage-plugin-gitlab": "^6.6.1",
     "@internal/backstage-plugin-support": "^0.1.0",
     "@internal/plugin-about": "^0.1.0",
+    "@jfvilas/plugin-kubelog": "^0.10.2",
+    "@jfvilas/plugin-kubelog-common": "^0.10.2",
     "@k-phoen/backstage-plugin-grafana": "^0.1.22",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
