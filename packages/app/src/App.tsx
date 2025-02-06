@@ -35,17 +35,17 @@ import { AboutPage } from '@internal/plugin-about';
 import type { IdentityApi } from '@backstage/core-plugin-api';
 import { VisitListener } from '@backstage/plugin-home';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
-import  {SignInPage as VeecodeSignInPage}   from './components/SignInPage';
+import { SignInPage as VeecodeSignInPage } from './components/SignInPage';
 import { SignInPage } from '@backstage/core-components';
-import { ScaffolderFieldExtensions,ScaffolderLayouts } from '@backstage/plugin-scaffolder-react';
-import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension} from '@veecode-platform/veecode-scaffolder-extensions';
+import { ScaffolderFieldExtensions, ScaffolderLayouts } from '@backstage/plugin-scaffolder-react';
+import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension } from '@veecode-platform/veecode-scaffolder-extensions';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AppProvider } from './context';
 import { RbacPage } from '@backstage-community/plugin-rbac';
 import { LayoutCustom } from './components/scaffolder/LayoutCustom';
-import { configApiRef, useApi} from "@backstage/core-plugin-api";
+import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { keycloakProvider, githubProvider } from './identityProviders';
-
+import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
 
 
 const SignInComponent: any = (props: SignInPageProps) => {
@@ -53,8 +53,8 @@ const SignInComponent: any = (props: SignInPageProps) => {
   const guest = config.getBoolean("platform.guest.enabled");
   const demoGuest = config.getOptionalBoolean("platform.guest.demo");
 
-  if(guest){
-    return <SignInPage {...props} auto providers={ demoGuest ? ['guest', githubProvider] : ['guest']} />
+  if (guest) {
+    return <SignInPage {...props} auto providers={demoGuest ? ['guest', githubProvider] : ['guest']} />
   }
 
   return <VeecodeSignInPage
@@ -99,7 +99,7 @@ const customColumns: CatalogTableColumnsFunc = entityListContext => {
   tagsColumn.width = 'auto';
 
   if (entityListContext.filters.kind?.value !== 'Api') {
-    return [nameColumn,ownerColumn,typeColumn,lifecycleColumn,descriptionColumn];
+    return [nameColumn, ownerColumn, typeColumn, lifecycleColumn, descriptionColumn];
   }
 
   return CatalogTable.defaultColumnsFunc(entityListContext);
@@ -145,7 +145,7 @@ const app = createApp({
     });
     bind(scaffolderPlugin.externalRoutes, {
       registerComponent: catalogImportPlugin.routes.importPage,
-     // viewTechDoc: techdocsPlugin.routes.docRoot,
+      // viewTechDoc: techdocsPlugin.routes.docRoot,
     });
     bind(orgPlugin.externalRoutes, {
       catalogIndex: catalogPlugin.routes.catalogIndex,
@@ -179,24 +179,24 @@ const routes = (
     </Route>
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/catalog" element={
-          <CatalogIndexPage 
-                columns={customColumns}
-                pagination={{
-                  mode: 'offset',
-                  limit: 15
-                }}
-                /*desabilitado apos versao 1.35, erro - corrigir
-                filters={
-                  <>
-                    <defaultfilters
-                      initialkind="component"
-                      initiallyselectedfilter="all"
-                      ownerpickermode="all"
-                    />
-                  </>
-                }*/
-              />
-      } />
+      <CatalogIndexPage
+        columns={customColumns}
+        pagination={{
+          mode: 'offset',
+          limit: 15
+        }}
+      /*desabilitado apos versao 1.35, erro - corrigir
+      filters={
+        <>
+          <defaultfilters
+            initialkind="component"
+            initiallyselectedfilter="all"
+            ownerpickermode="all"
+          />
+        </>
+      }*/
+      />
+    } />
     <Route path="/catalog-import" element={<CatalogImportPage />} />
     <Route path="/catalog/:namespace/:kind/:name" element={<CatalogEntityPage />}>
       {entityPage}
@@ -206,7 +206,7 @@ const routes = (
       element={
         <CatalogGraphPage
           initialState={{
-            selectedKinds: ['component', 'domain', 'system', 'api', 'group','cluster','environment','database','vault'],
+            selectedKinds: ['component', 'domain', 'system', 'api', 'group', 'cluster', 'environment', 'database', 'vault'],
             selectedRelations: [
               RELATION_OWNER_OF,
               RELATION_OWNED_BY,
@@ -232,22 +232,22 @@ const routes = (
         mode: 'offset',
         limit: 15
       }} />} />
-    <Route path="/cluster-explorer" element={<ClusterExplorerPage/>}/> 
-    <Route path="/environments-explorer" element={<EnvironmentExplorerPage />}/>
-    <Route path="/database-explorer" element={<DatabaseExplorerPage/>}/>
-    <Route path="/vault-explorer" element={<VaultExplorerPage/>}/>
+    <Route path="/cluster-explorer" element={<ClusterExplorerPage />} />
+    <Route path="/environments-explorer" element={<EnvironmentExplorerPage />} />
+    <Route path="/database-explorer" element={<DatabaseExplorerPage />} />
+    <Route path="/vault-explorer" element={<VaultExplorerPage />} />
     <Route
       path="/create"
       element={
-        <ScaffolderPage/>
+        <ScaffolderPage />
       }
     >
-       <ScaffolderLayouts>
+      <ScaffolderLayouts>
         <ScaffolderFieldExtensions>
-          <LayoutCustom/>
-          <RepoUrlSelectorExtension/>
-          <ResourcePickerExtension/>
-          <UploadFilePickerExtension/>
+          <LayoutCustom />
+          <RepoUrlSelectorExtension />
+          <ResourcePickerExtension />
+          <UploadFilePickerExtension />
         </ScaffolderFieldExtensions>
       </ScaffolderLayouts>
     </Route>
@@ -258,6 +258,10 @@ const routes = (
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/about" element={<AboutPage />} />
     <Route path="/support" element={<SupportPage />} />
+    <Route
+      path="/catalog-unprocessed-entities"
+      element={<CatalogUnprocessedEntitiesPage />}
+    />;
   </FlatRoutes>
 );
 
