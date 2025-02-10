@@ -19,7 +19,7 @@ export const customGithubAuthProvider = createBackendModule({
             authenticator: githubAuthenticator,
 
             async signInResolver(info, ctx) {
-              const demoGuestMode = config.getBoolean('platform.guest.demo');
+              const demoGuestMode = config.getOptionalBoolean('platform.guest.demo');
 
                 const { 
                     result: {
