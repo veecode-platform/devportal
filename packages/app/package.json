@@ -61,7 +61,7 @@
     "@veecode-platform/plugin-application-common": "^0.3.18",
     "@veecode-platform/plugin-database-explorer": "^0.3.18",
     "@veecode-platform/plugin-environment-explorer": "^0.3.18",
-    "@veecode-platform/plugin-kong-service-manager": "2.0.4",
+    "@veecode-platform/plugin-kong-service-manager": "2.0.5",
     "@veecode-platform/plugin-kubernetes": "^0.11.13-next.2",
     "@veecode-platform/plugin-vault-explorer": "^0.3.18",
     "@veecode-platform/veecode-scaffolder-extensions": "^0.5.0",
