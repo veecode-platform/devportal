@@ -107,6 +107,11 @@ import { KongServiceManagerContent, isKongServiceManagerAvailable } from '@veeco
 import { KubernetesGptAnalyzerPage, KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
 import { InfracostOverviewPage, isInfracostAvailable } from '@veecode-platform/backstage-plugin-infracost';
 import { ZoraOssPage } from '@veecode-platform/backstage-plugin-zora-oss';
+import {
+  EntityGithubDependabotContent,
+  EntitySecurityInsightsContent,
+  isSecurityInsightsAvailable,
+} from '@roadiehq/backstage-plugin-security-insights';
 
 
 // Entity validate
@@ -388,6 +393,23 @@ const serviceEntityPage = (
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route
+      path="/security-insights"
+      title="Security Insights"
+      // Uncomment the line below if you'd like to only show the tab on entities with the correct annotations already set
+       if={isSecurityInsightsAvailable}
+    >
+      <EntitySecurityInsightsContent />
+    </EntityLayout.Route>
+    <EntityLayout.Route
+      path="/dependabot"
+      title="Dependabot"
+      // Uncomment the line below if you'd like to only show the tab on entities with the correct annotations already set
+      if={isSecurityInsightsAvailable}
+    >
+      <EntityGithubDependabotContent />
     </EntityLayout.Route>
 
     <EntityLayout.Route
