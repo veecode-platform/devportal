@@ -17989,14 +17989,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-zora-oss@npm:0.0.3":
-  version: 0.0.3
-  resolution: "@veecode-platform/backstage-plugin-zora-oss@npm:0.0.3"
+"@veecode-platform/backstage-plugin-zora-oss@npm:0.0.4":
+  version: 0.0.4
+  resolution: "@veecode-platform/backstage-plugin-zora-oss@npm:0.0.4"
   dependencies:
-    "@backstage/core-components": "npm:^0.15.1"
-    "@backstage/core-plugin-api": "npm:^1.9.4"
-    "@backstage/plugin-catalog-react": "npm:^1.14.0"
-    "@backstage/theme": "npm:^0.6.0"
+    "@backstage/core-components": "npm:^0.16.3"
+    "@backstage/core-plugin-api": "npm:^1.10.3"
+    "@backstage/plugin-catalog-react": "npm:^1.15.1"
+    "@backstage/theme": "npm:^0.6.3"
     "@material-ui/core": "npm:^4.9.13"
     "@material-ui/icons": "npm:^4.9.1"
     "@material-ui/lab": "npm:^4.0.0-alpha.61"
@@ -18008,7 +18008,7 @@ __metadata:
     spinners-react: "npm:^1.0.10"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10/3ecabbb732d192c1ae5547f516d52ead28d736885a4048d0779f7aca02c4eb7f83219545e235ea37249393d9e6759b6e788932ff9250d130b7a3b8c134c5dde4
+  checksum: 10/853260e010811bf70681d9d68a5fd3637dc9fe9a1e1f642aa966ebe55b1eb54fb141e0f2570ce407cce2bc4e8823497cafd5444c3f8dfeccf9c7bcba1ded5c0b
   languageName: node
   linkType: hard
 
@@ -18937,7 +18937,7 @@ __metadata:
     "@veecode-platform/backstage-plugin-infracost": "npm:^0.3.2"
     "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.5.2"
     "@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer": "npm:^0.1.15"
-    "@veecode-platform/backstage-plugin-zora-oss": "npm:0.0.3"
+    "@veecode-platform/backstage-plugin-zora-oss": "npm:0.0.4"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
     "@veecode-platform/plugin-database-explorer": "npm:^0.3.18"
     "@veecode-platform/plugin-environment-explorer": "npm:^0.3.18"

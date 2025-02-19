@@ -106,7 +106,7 @@ import { VaultOverview } from '@veecode-platform/plugin-vault-explorer';
 import { KongServiceManagerContent, isKongServiceManagerAvailable } from '@veecode-platform/plugin-kong-service-manager';
 import { KubernetesGptAnalyzerPage, KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
 import { InfracostOverviewPage, isInfracostAvailable } from '@veecode-platform/backstage-plugin-infracost';
-import { ZoraOssPage } from '@veecode-platform/backstage-plugin-zora-oss';
+import { ZoraOssPage, ZoraOssProjectCard, ZoraOssProjectTable } from '@veecode-platform/backstage-plugin-zora-oss';
 import {
   EntityGithubDependabotContent,
   EntitySecurityInsightsContent,
@@ -334,6 +334,10 @@ const overviewContent = (
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
 
+    <Grid item lg={6}>
+      <ZoraOssProjectCard />
+    </Grid>
+
     <EntitySwitch>
       <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
         {githubContent}
@@ -393,6 +397,10 @@ const serviceEntityPage = (
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/zora" title="Vulnerabilities">
+      <ZoraOssProjectTable />
     </EntityLayout.Route>
 
     <EntityLayout.Route
