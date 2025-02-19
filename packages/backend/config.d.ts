@@ -34,6 +34,13 @@ export interface Config {
             }
         }>;
     },
+    vee?:{
+        openai?: {
+          apiBaseUrl: string;
+          apiKey: string;
+          model: string;
+        }
+      }
     /**
      * 
      * @visibility frontend

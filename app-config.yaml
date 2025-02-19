@@ -332,6 +332,7 @@ enabledPlugins:
   kong: true
   gitlab: false
   github: true
+  vee: true
 
 platform:
   behaviour: 
@@ -394,6 +395,11 @@ kong:
         custom:
           header: ${KONG_HEADER}
           value: ${KONG_HEADER_VALUES}
+vee:
+  openai:
+    apiBaseUrl: ${VEE_OPENAI_API_URL}
+    apiKey: ${VEE_OPEN_AI_KEY}
+    model: ${VEE_OPEN_AI_MODEL}
   
 azureDevOps:
   host: ${AZURE_HOST}

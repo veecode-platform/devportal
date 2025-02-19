@@ -72,6 +72,12 @@ export default createBackendFeatureLoader({
       logger.info('@veecode-platform/plugin-kong-service-manager-backend')
     }
 
+    // vee
+    if (config.getBoolean('enabledPlugins.vee')) {
+      yield import('@veecode-platform/backstage-plugin-vee-backend')
+      logger.info('@veecode-platform/plugin-vee-backend')
+    }
+
     //gitlab
     if (config.getBoolean('enabledPlugins.gitlab')) {
       yield catalogModuleCustomExtensions;

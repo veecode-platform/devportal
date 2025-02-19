@@ -107,6 +107,7 @@ import { KongServiceManagerContent, isKongServiceManagerAvailable } from '@veeco
 import { KubernetesGptAnalyzerPage, KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
 import { InfracostOverviewPage, isInfracostAvailable } from '@veecode-platform/backstage-plugin-infracost';
 import { ZoraOssPage } from '@veecode-platform/backstage-plugin-zora-oss';
+import { AssistantAIContent } from '@veecode-platform/backstage-plugin-vee';
 
 
 // Entity validate
@@ -357,6 +358,8 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
+    
+    <AssistantAIContent/>
 
     {/* <EntitySwitch>
       <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'vault.io/secrets-path')}>

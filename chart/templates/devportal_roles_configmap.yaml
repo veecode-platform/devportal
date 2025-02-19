@@ -65,6 +65,9 @@ data:
     p, role:default/kong-service-manager, kong.read.analytics.plugins, read, allow
     g, group:default/{{ $adminGroup }}, role:default/kong-service-manager
 
+    p, role:default/vee, vee.ai.analyzer.read, read, allow
+    g, group:default/{{ $adminGroup }}, role:default/vee
+
 
     p, role:default/cluster-explorer, cluster.explorer.read, read, allow
     p, role:default/cluster-explorer, cluster.explorer.public.environment.read, read, allow

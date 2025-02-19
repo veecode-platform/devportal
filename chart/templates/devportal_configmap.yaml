@@ -69,6 +69,7 @@ data:
           - scaffolder
           - permission
           - kubernetes
+          - vee
           - kong
           - veecode-platform-permissions-hub
         {{- if .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
@@ -595,6 +596,7 @@ data:
       azureDevops: {{ .Values.azureDevOps.enabled | default false }}
       infracost: {{ .Values.infracost.enabled | default false }}
       kong: {{ .Values.kong.enabled | default false }}
+      vee: {{ .Values.vee.enabled | default false }}
       gitlab: {{ $is_gitlab_provider }}
       github: {{ $is_github_provider }}
     platform:
@@ -669,6 +671,13 @@ data:
           {{- end }}
         {{- end }}
       {{- end }}
+    {{- end }}
+    {{- if .Values.vee.enabled }}
+    vee:
+      openai:
+        apiBaseUrl: {{ .Values.vee.openai.apiBaseUrl }}
+        apiKey: ${VEE_OPENAI_API_KEY}
+        model: {{ .Values.vee.openai.model }}
     {{- end }}
     {{- if .Values.azureDevOps.enabled }}
     azureDevOps:

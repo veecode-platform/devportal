@@ -166,6 +166,13 @@ infracost:
 #    timeout: 3 #time in minutes to timeout after the refresh request
 #    initialDelay: 15 #time in minutes to wait before the first refresh request
 
+vee:
+  enabled: true
+    # openai:
+    #   apiBaseUrl: #api_base_url
+    #   apiKey: #api_key
+    #   model: #model
+
 proxy:
   gitlab:
     # target: https://gitlab.com #(Optional)Auto generated, only override if needed
@@ -233,6 +240,7 @@ permission:
       - permission
       - kubernetes
       - kong
+      - vee
       - veecode-platform-permissions-hub
     admin:
       defaultAdminRoleEnabled: true
