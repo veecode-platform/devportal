@@ -38,7 +38,7 @@ export const customGithubAuthProvider = createBackendModule({
                 return ctx.issueToken({
                     claims: {
                       sub: userEntity,
-                      ent: [userEntity],
+                      ent: demoGuestMode ? [userEntity] : [userEntity, 'group:default/admin'],
                     },
                   });
             },
