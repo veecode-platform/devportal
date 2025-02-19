@@ -10731,7 +10731,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/lab@npm:4.0.0-alpha.61, @material-ui/lab@npm:^4.0.0-alpha.60, @material-ui/lab@npm:^4.0.0-alpha.61":
+"@material-ui/lab@npm:4.0.0-alpha.61, @material-ui/lab@npm:^4.0.0-alpha.45, @material-ui/lab@npm:^4.0.0-alpha.60, @material-ui/lab@npm:^4.0.0-alpha.61":
   version: 4.0.0-alpha.61
   resolution: "@material-ui/lab@npm:4.0.0-alpha.61"
   dependencies:
@@ -14296,6 +14296,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@roadiehq/backstage-plugin-security-insights@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "@roadiehq/backstage-plugin-security-insights@npm:3.1.2"
+  dependencies:
+    "@backstage/catalog-model": "npm:^1.7.1"
+    "@backstage/core-components": "npm:^0.16.1"
+    "@backstage/core-plugin-api": "npm:^1.10.1"
+    "@backstage/integration-react": "npm:^1.2.1"
+    "@backstage/plugin-catalog-react": "npm:^1.14.2"
+    "@backstage/theme": "npm:^0.6.2"
+    "@material-ui/core": "npm:^4.12.2"
+    "@material-ui/icons": "npm:^4.9.1"
+    "@material-ui/lab": "npm:^4.0.0-alpha.45"
+    "@octokit/graphql": "npm:^5.0.0"
+    "@octokit/rest": "npm:^19.0.3"
+    "@roadiehq/github-auth-utils-react": "npm:^1.0.1"
+    cross-fetch: "npm:^3.1.4"
+    git-url-parse: "npm:^16.0.0"
+    history: "npm:^5.0.0"
+    luxon: "npm:^3.0.0"
+    react-minimal-pie-chart: "npm:^8.2.0"
+    react-use: "npm:^17.2.4"
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-router: 6.0.0-beta.0 || ^6.3.0
+  checksum: 10/b0aa6d3c54748d37a9e528e33ef0c13abdad484ef38eec92d6bd36e8f918511c206f1d1957054633d74472f59078d05ab06e0421d2ea24a7d6fd014f664b13a9
+  languageName: node
+  linkType: hard
+
 "@roadiehq/github-auth-utils-react@npm:^1.0.1":
   version: 1.0.1
   resolution: "@roadiehq/github-auth-utils-react@npm:1.0.1"
@@ -17427,6 +17457,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/parse-path@npm:^7.0.0":
+  version: 7.0.3
+  resolution: "@types/parse-path@npm:7.0.3"
+  checksum: 10/21a12c228d38f5a75659dfd7cb127dc2001ed3f6acbd1b2e0575d1348c735594c0bab06a97fe849c151438384829f20ea5971cb045f7ecd37d53c76a9fcb9de3
+  languageName: node
+  linkType: hard
+
 "@types/passport-oauth2@npm:^1.4.11":
   version: 1.4.17
   resolution: "@types/passport-oauth2@npm:1.4.17"
@@ -18428,104 +18465,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-vee-backend@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@veecode-platform/backstage-plugin-vee-backend@npm:0.1.2"
+"@veecode-platform/backstage-plugin-zora-oss@npm:0.0.4":
+  version: 0.0.4
+  resolution: "@veecode-platform/backstage-plugin-zora-oss@npm:0.0.4"
   dependencies:
-    "@backstage/backend-common": "npm:^0.25.0"
-    "@backstage/backend-defaults": "npm:^0.5.1"
-    "@backstage/backend-plugin-api": "npm:^1.0.1"
-    "@backstage/catalog-client": "npm:^1.7.1"
-    "@backstage/core-plugin-api": "npm:^1.10.1"
-    "@backstage/errors": "npm:^1.2.4"
-    "@backstage/integration": "npm:^1.15.2"
-    "@backstage/plugin-catalog-node": "npm:^1.13.1"
-    "@backstage/plugin-permission-common": "npm:^0.8.1"
-    "@backstage/plugin-permission-node": "npm:^0.8.7"
-    "@backstage/types": "npm:^1.2.0"
-    "@gitbeaker/rest": "npm:^41.2.0"
-    "@veecode-platform/backstage-plugin-vee-common": "npm:^0.1.0"
-    compression: "npm:^1.8.0"
-    express: "npm:^4.17.6"
-    express-promise-router: "npm:^4.1.0"
-    js-base64: "npm:^3.7.7"
-    js-yaml: "npm:^4.1.0"
-    mime-types: "npm:^2.1.35"
-    octokit: "npm:^4.0.2"
-    openai: "npm:^4.84.0"
-    p-limit: "npm:^6.2.0"
-    simple-git: "npm:^3.27.0"
-    winston: "npm:^3.17.0"
-    yauzl: "npm:^3.2.0"
-    zod: "npm:^3.22.4"
-  checksum: 10/fd500b5508eb1578d1adf7667b873e041b4e07cfcb5ddfd952b5a784246d619c4560b04a71d33443befa22a0863c88a4a6dde47068018ee19b203a573d63f9f7
-  languageName: node
-  linkType: hard
-
-"@veecode-platform/backstage-plugin-vee-common@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@veecode-platform/backstage-plugin-vee-common@npm:0.1.0"
-  dependencies:
-    "@backstage/plugin-permission-common": "npm:^0.8.1"
-    openai: "npm:^4.72.0"
-  checksum: 10/3a83b874950595aee7ff74a19153e5a8f32f913eb6e56adc323532488f1c3218ff80f2811436feb4ef2dcc12b597ebf81b71ffeb61fedef37fc4a30347bbe161
-  languageName: node
-  linkType: hard
-
-"@veecode-platform/backstage-plugin-vee@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "@veecode-platform/backstage-plugin-vee@npm:0.2.2"
-  dependencies:
-    "@backstage/catalog-model": "npm:^1.7.1"
-    "@backstage/core-components": "npm:^0.15.1"
-    "@backstage/core-plugin-api": "npm:^1.9.4"
-    "@backstage/errors": "npm:^1.2.5"
-    "@backstage/integration": "npm:^1.16.0"
-    "@backstage/integration-react": "npm:^1.2.2"
-    "@backstage/plugin-catalog-react": "npm:^1.14.2"
-    "@backstage/theme": "npm:^0.6.0"
-    "@gitbeaker/rest": "npm:^42.0.2"
-    "@material-ui/core": "npm:^4.9.13"
-    "@material-ui/icons": "npm:^4.9.1"
-    "@material-ui/lab": "npm:^4.0.0-alpha.61"
-    "@octokit/rest": "npm:^21.1.0"
-    "@types/react-icons": "npm:^3.0.0"
-    "@veecode-platform/backstage-plugin-vee-common": "npm:^0.1.0"
-    file-saver: "npm:^2.0.5"
-    highlight.js: "npm:^11.11.1"
-    js-base64: "npm:^3.7.7"
-    jszip: "npm:^3.10.1"
-    prism-react-renderer: "npm:^2.4.1"
-    react-code-blocks: "npm:^0.1.6"
-    react-icons: "npm:^5.4.0"
-    react-lottie: "npm:^1.2.10"
-    react-markdown: "npm:^9.0.3"
-    react-remark: "npm:^2.1.0"
-    react-syntax-highlighter: "npm:^15.6.1"
-    react-typical: "npm:^0.1.3"
-    react-use: "npm:^17.2.4"
-    rehype-highlight: "npm:^7.0.1"
-    rehype-slug: "npm:^6.0.0"
-    remark-code-frontmatter: "npm:^1.0.0"
-    remark-gemoji: "npm:^8.0.0"
-    remark-gfm: "npm:^4.0.0"
-    stream: "npm:^0.0.3"
-    yauzl: "npm:^3.2.0"
-  peerDependencies:
-    react: ^16.13.1 || ^17.0.0 || ^18.0.0
-    react-router-dom: ^6.3.0
-  checksum: 10/53b4fee4a28f1ef1576a4ea0092075ab564b07d0cb756fef0b8f8bd7ea684c20b6ca84dd896816c194a7242ab15ceb88feea202d8923c7cb9a06c5c65aef2309
-  languageName: node
-  linkType: hard
-
-"@veecode-platform/backstage-plugin-zora-oss@npm:0.0.3":
-  version: 0.0.3
-  resolution: "@veecode-platform/backstage-plugin-zora-oss@npm:0.0.3"
-  dependencies:
-    "@backstage/core-components": "npm:^0.15.1"
-    "@backstage/core-plugin-api": "npm:^1.9.4"
-    "@backstage/plugin-catalog-react": "npm:^1.14.0"
-    "@backstage/theme": "npm:^0.6.0"
+    "@backstage/core-components": "npm:^0.16.3"
+    "@backstage/core-plugin-api": "npm:^1.10.3"
+    "@backstage/plugin-catalog-react": "npm:^1.15.1"
+    "@backstage/theme": "npm:^0.6.3"
     "@material-ui/core": "npm:^4.9.13"
     "@material-ui/icons": "npm:^4.9.1"
     "@material-ui/lab": "npm:^4.0.0-alpha.61"
@@ -18537,7 +18484,7 @@ __metadata:
     spinners-react: "npm:^1.0.10"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10/3ecabbb732d192c1ae5547f516d52ead28d736885a4048d0779f7aca02c4eb7f83219545e235ea37249393d9e6759b6e788932ff9250d130b7a3b8c134c5dde4
+  checksum: 10/853260e010811bf70681d9d68a5fd3637dc9fe9a1e1f642aa966ebe55b1eb54fb141e0f2570ce407cce2bc4e8823497cafd5444c3f8dfeccf9c7bcba1ded5c0b
   languageName: node
   linkType: hard
 
@@ -19459,6 +19406,7 @@ __metadata:
     "@roadiehq/backstage-plugin-aws-lambda": "npm:^2.2.13"
     "@roadiehq/backstage-plugin-github-insights": "npm:^3.1.3"
     "@roadiehq/backstage-plugin-github-pull-requests": "npm:^3.2.1"
+    "@roadiehq/backstage-plugin-security-insights": "npm:^3.1.2"
     "@testing-library/jest-dom": "npm:^5.10.1"
     "@testing-library/react": "npm:^12.1.3"
     "@testing-library/user-event": "npm:^12.0.7"
@@ -19472,8 +19420,7 @@ __metadata:
     "@veecode-platform/backstage-plugin-infracost": "npm:^0.3.2"
     "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.5.2"
     "@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer": "npm:^0.1.15"
-    "@veecode-platform/backstage-plugin-vee": "npm:^0.2.2"
-    "@veecode-platform/backstage-plugin-zora-oss": "npm:0.0.3"
+    "@veecode-platform/backstage-plugin-zora-oss": "npm:0.0.4"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
     "@veecode-platform/plugin-database-explorer": "npm:^0.3.18"
     "@veecode-platform/plugin-environment-explorer": "npm:^0.3.18"
@@ -26734,6 +26681,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"git-up@npm:^8.0.0":
+  version: 8.0.1
+  resolution: "git-up@npm:8.0.1"
+  dependencies:
+    is-ssh: "npm:^1.4.0"
+    parse-url: "npm:^9.2.0"
+  checksum: 10/7a461acca4ae26054d7b60a66f61f6f7bb15a1d1c27488e69f2ca3c403bdc237b3b8114123f85d1901391bac5c50a47b452acaa19ceb5ba55c7b5b210ff6a977
+  languageName: node
+  linkType: hard
+
 "git-url-parse@npm:13.1.0":
   version: 13.1.0
   resolution: "git-url-parse@npm:13.1.0"
@@ -26758,6 +26715,15 @@ __metadata:
   dependencies:
     git-up: "npm:^7.0.0"
   checksum: 10/b6e54fc58bb4f4c9bfb1060ec93c3d1462880c6bec76926978e32b2bbfac3535001c87efd1ef0dca9cd9ee0ffdaacba2f50dc4f7032ba09ad92d93e9acc9936b
+  languageName: node
+  linkType: hard
+
+"git-url-parse@npm:^16.0.0":
+  version: 16.0.1
+  resolution: "git-url-parse@npm:16.0.1"
+  dependencies:
+    git-up: "npm:^8.0.0"
+  checksum: 10/c94dd016ad268865a196cd689600e0a2bd6668c07ee84293bb013bfe5e542248482f0826c10e32ba79c9d5991370ca562fd34e34d72f2b6f63c29bff28bd382b
   languageName: node
   linkType: hard
 
@@ -35307,6 +35273,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"parse-url@npm:^9.2.0":
+  version: 9.2.0
+  resolution: "parse-url@npm:9.2.0"
+  dependencies:
+    "@types/parse-path": "npm:^7.0.0"
+    parse-path: "npm:^7.0.0"
+  checksum: 10/d2746f0dbcd34d39df966a0726c00ede272aa34d825513baca721ad95480786c664f91ab22cf4e79cdb130468056e41834f6c9cc912b9180539f73aa5bafa982
+  languageName: node
+  linkType: hard
+
 "parse5-htmlparser2-tree-adapter@npm:^6.0.0":
   version: 6.0.1
   resolution: "parse5-htmlparser2-tree-adapter@npm:6.0.1"
@@ -37461,24 +37437,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-markdown@npm:^9.0.3":
-  version: 9.0.3
-  resolution: "react-markdown@npm:9.0.3"
-  dependencies:
-    "@types/hast": "npm:^3.0.0"
-    devlop: "npm:^1.0.0"
-    hast-util-to-jsx-runtime: "npm:^2.0.0"
-    html-url-attributes: "npm:^3.0.0"
-    mdast-util-to-hast: "npm:^13.0.0"
-    remark-parse: "npm:^11.0.0"
-    remark-rehype: "npm:^11.0.0"
-    unified: "npm:^11.0.0"
-    unist-util-visit: "npm:^5.0.0"
-    vfile: "npm:^6.0.0"
+"react-minimal-pie-chart@npm:^8.2.0":
+  version: 8.4.1
+  resolution: "react-minimal-pie-chart@npm:8.4.1"
   peerDependencies:
-    "@types/react": ">=18"
-    react: ">=18"
-  checksum: 10/b97eb9a61762762043263286ece030bd878acabe24bbf433767a9518cb18e434e26a75b1b810a7cb966e304ddb4e16bd4a15edcc808113b11b4fb85a68d99e8d
+    react: ^16.8.0 || ^17.0.0 || ^18
+    react-dom: ^16.8.0 || ^17.0.0 || ^18
+  checksum: 10/2fd8c454714dc8f5ae403b98aca2bbbef5d3ddd7c77f6c0c26146dd4de5813564e9223d6dce90812ae5831f5b546cbc7cde34f2129d2faa8a2450555a659643b
   languageName: node
   linkType: hard
 
