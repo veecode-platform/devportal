@@ -112,6 +112,7 @@ import {
   EntitySecurityInsightsContent,
   isSecurityInsightsAvailable,
 } from '@roadiehq/backstage-plugin-security-insights';
+import { AssistantAIContent } from "@veecode-platform/backstage-plugin-vee"
 
 
 // Entity validate
