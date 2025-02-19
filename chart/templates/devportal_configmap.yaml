@@ -676,7 +676,7 @@ data:
     vee:
       openai:
         apiBaseUrl: {{ .Values.vee.openai.apiBaseUrl }}
-        apiKey: ${VEE_OPENAI_API_KEY}
+        apiKey: ${.Values.vee.openai.apiKey}
         model: {{ .Values.vee.openai.model }}
     {{- end }}
     {{- if .Values.azureDevOps.enabled }}
