@@ -18,7 +18,7 @@ FROM node:20-bullseye-slim
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && \
-    apt-get install -y --no-install-recommends libsqlite3-dev python3 python3-pip build-essential curl vim sudo && \
+    apt-get install -y --no-install-recommends libsqlite3-dev python3 python3-pip build-essential curl vim sudo git && \
     yarn config set python /usr/bin/python3 && \
     pip3 install --upgrade pymdown-extensions wheel setuptools && \
     pip3 install mkdocs-techdocs-core==1.1.7 && \
