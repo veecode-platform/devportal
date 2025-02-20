@@ -672,11 +672,11 @@ data:
         {{- end }}
       {{- end }}
     {{- end }}
-    {{- if .Values.vee.enabled }}
+    {{- if or (and .Values.vee.openai .Values.vee.enabled .Values.vee.openai.apiBaseUrl .Values.vee.openai.model .Values.vee.openai.apiKey) }}
     vee:
       openai:
         apiBaseUrl: {{ .Values.vee.openai.apiBaseUrl }}
-        apiKey: ${.Values.vee.openai.apiKey}
+        apiKey: {{ .Values.vee.openai.apiKey }}
         model: {{ .Values.vee.openai.model }}
     {{- end }}
     {{- if .Values.azureDevOps.enabled }}
