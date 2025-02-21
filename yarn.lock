@@ -18522,9 +18522,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-vee-backend@npm:^0.1.3":
-  version: 0.1.3
-  resolution: "@veecode-platform/backstage-plugin-vee-backend@npm:0.1.3"
+"@veecode-platform/backstage-plugin-vee-backend@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@veecode-platform/backstage-plugin-vee-backend@npm:0.1.4"
   dependencies:
     "@backstage/backend-common": "npm:^0.25.0"
     "@backstage/backend-defaults": "npm:^0.5.1"
@@ -18552,7 +18552,7 @@ __metadata:
     winston: "npm:^3.17.0"
     yauzl: "npm:^3.2.0"
     zod: "npm:^3.22.4"
-  checksum: 10/7b04d88d1b8af339bfd7760af7a50f1ce36148c442d784c65971d8c0d048fb9827e3780bdd1f87ebe204553834c5370541c08cff9ca6a5a3d1e4d0dd22138b3f
+  checksum: 10/c3910c7684e465f9c6f368c90c803d7a2c05d094048f457253b165c6e6646ed45892ac19d515a59a7d986b08e3d5e9985fb0e95119c9543740d72493dd53e922
   languageName: node
   linkType: hard
 
@@ -20455,7 +20455,7 @@ __metadata:
     "@types/luxon": "npm:^2.0.4"
     "@veecode-platform/backstage-plugin-infracost-backend": "npm:^0.4.1"
     "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "npm:0.4.4"
-    "@veecode-platform/backstage-plugin-vee-backend": "npm:^0.1.3"
+    "@veecode-platform/backstage-plugin-vee-backend": "npm:^0.1.4"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
     "@veecode-platform/plugin-kong-service-manager-backend": "npm:^0.4.1"
     "@veecode-platform/plugin-veecode-platform-common": "npm:^0.3.19"
