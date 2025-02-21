@@ -335,9 +335,13 @@ const overviewContent = (
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
 
-    <Grid item lg={6}>
-      <ZoraOssProjectCard />
-    </Grid>
+    <EntitySwitch>
+      <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'veecode/cluster-name')}>
+        <Grid item lg={6}>
+          <ZoraOssProjectCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
 
     <EntitySwitch>
       <EntitySwitch.Case if={isGithubWorkflowsAvailable}>
