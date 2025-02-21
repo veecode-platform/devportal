@@ -463,23 +463,6 @@ const defaultEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route
-      path="/security-insights"
-      title="Security Insights"
-      // Uncomment the line below if you'd like to only show the tab on entities with the correct annotations already set
-       if={isSecurityInsightsAvailable}
-    >
-      <EntitySecurityInsightsContent />
-    </EntityLayout.Route>
-    <EntityLayout.Route
-      path="/dependabot"
-      title="Dependabot"
-      // Uncomment the line below if you'd like to only show the tab on entities with the correct annotations already set
-      if={isSecurityInsightsAvailable}
-    >
-      <EntityGithubDependabotContent />
-    </EntityLayout.Route>
-
-    <EntityLayout.Route
       if={isKongServiceManagerAvailable}
       path="/kong-service-manager" title="Kong">
       <KongServiceManagerContent />
@@ -516,6 +499,27 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/pull-requests" title="Pull Requests">
       {pullRequestsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/zora" title="Vulnerabilities">
+      <ZoraOssProjectTable />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route
+      path="/security-insights"
+      title="Security Insights"
+      // Uncomment the line below if you'd like to only show the tab on entities with the correct annotations already set
+       if={isSecurityInsightsAvailable}
+    >
+      <EntitySecurityInsightsContent />
+    </EntityLayout.Route>
+    <EntityLayout.Route
+      path="/dependabot"
+      title="Dependabot"
+      // Uncomment the line below if you'd like to only show the tab on entities with the correct annotations already set
+      if={isSecurityInsightsAvailable}
+    >
+      <EntityGithubDependabotContent />
     </EntityLayout.Route>
 
     <EntityLayout.Route
