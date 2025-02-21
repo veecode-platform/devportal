@@ -18522,9 +18522,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-vee-backend@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@veecode-platform/backstage-plugin-vee-backend@npm:0.1.2"
+"@veecode-platform/backstage-plugin-vee-backend@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "@veecode-platform/backstage-plugin-vee-backend@npm:0.1.3"
   dependencies:
     "@backstage/backend-common": "npm:^0.25.0"
     "@backstage/backend-defaults": "npm:^0.5.1"
@@ -18552,7 +18552,7 @@ __metadata:
     winston: "npm:^3.17.0"
     yauzl: "npm:^3.2.0"
     zod: "npm:^3.22.4"
-  checksum: 10/fd500b5508eb1578d1adf7667b873e041b4e07cfcb5ddfd952b5a784246d619c4560b04a71d33443befa22a0863c88a4a6dde47068018ee19b203a573d63f9f7
+  checksum: 10/7b04d88d1b8af339bfd7760af7a50f1ce36148c442d784c65971d8c0d048fb9827e3780bdd1f87ebe204553834c5370541c08cff9ca6a5a3d1e4d0dd22138b3f
   languageName: node
   linkType: hard
 
@@ -18566,9 +18566,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-vee@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "@veecode-platform/backstage-plugin-vee@npm:0.2.2"
+"@veecode-platform/backstage-plugin-vee@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "@veecode-platform/backstage-plugin-vee@npm:0.2.3"
   dependencies:
     "@backstage/catalog-model": "npm:^1.7.1"
     "@backstage/core-components": "npm:^0.15.1"
@@ -18608,7 +18608,7 @@ __metadata:
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-router-dom: ^6.3.0
-  checksum: 10/53b4fee4a28f1ef1576a4ea0092075ab564b07d0cb756fef0b8f8bd7ea684c20b6ca84dd896816c194a7242ab15ceb88feea202d8923c7cb9a06c5c65aef2309
+  checksum: 10/61cf6ce3ff5ea625b86697cd068f8ba1f1b5099be6e5c4ddd9c55be35e0efc38143bae857149b98dff8e6a9f65aa3bfa1f91ba1c9045caac5b066aecebbe2a65
   languageName: node
   linkType: hard
 
@@ -19567,7 +19567,7 @@ __metadata:
     "@veecode-platform/backstage-plugin-infracost": "npm:^0.3.2"
     "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.5.2"
     "@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer": "npm:^0.1.15"
-    "@veecode-platform/backstage-plugin-vee": "npm:^0.2.2"
+    "@veecode-platform/backstage-plugin-vee": "npm:^0.2.3"
     "@veecode-platform/backstage-plugin-zora-oss": "npm:0.0.4"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
     "@veecode-platform/plugin-database-explorer": "npm:^0.3.18"
@@ -20455,7 +20455,7 @@ __metadata:
     "@types/luxon": "npm:^2.0.4"
     "@veecode-platform/backstage-plugin-infracost-backend": "npm:^0.4.1"
     "@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions": "npm:0.4.4"
-    "@veecode-platform/backstage-plugin-vee-backend": "npm:^0.1.2"
+    "@veecode-platform/backstage-plugin-vee-backend": "npm:^0.1.3"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
     "@veecode-platform/plugin-kong-service-manager-backend": "npm:^0.4.1"
     "@veecode-platform/plugin-veecode-platform-common": "npm:^0.3.19"
