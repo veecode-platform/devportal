@@ -16,10 +16,12 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v3
 
-      - name: Configurar Node.js v18
+      - name: Configurar Node.js v20
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
       - name: Instalar dependências
         run: yarn install
@@ -30,9 +32,8 @@ jobs:
         env:
           CI: true
 
-      - name: Instalar Trivy
-        run: |
-          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+      - name: Setup Trivy
+        uses: aquasecurity/trivy-action@master
 
       - name: Scan do repositório com Trivy
         run: |

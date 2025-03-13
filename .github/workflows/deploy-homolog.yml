@@ -37,6 +37,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: yarn
+          cache-dependency-path: yarn.lock
       - name: Install Dependencies & Build
         run: |
           yarn install --immutable
@@ -58,10 +59,10 @@ jobs:
           context: .
           file: packages/backend/Dockerfile
           push: true
-          tags: |
-            ${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
-            ${{ env.IMAGE_NAME }}:latest
+          tags: "${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}"
           platforms: linux/amd64,linux/arm64
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:cache
+          cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:cache,mode=max
 
   # Job para deploy usando Helm e DigitalOcean doctl
   deploy:
@@ -75,18 +76,18 @@ jobs:
           token: ${{ secrets.DO_TOKEN }}
       - name: Install Helm
         run: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      - name: Check Helm Deployment
+        id: check_helm
+        run: |
+          if helm status platform-devportal-homolog -n devportal &> /dev/null; then
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "exists=false" >> $GITHUB_ENV
+          fi
       - name: Update and Deploy Helm Chart
+        if: env.exists == 'true'
         run: |
           doctl kubernetes cluster kubeconfig save ${{ secrets.CLUSTER_NAME }}
           yq e ".image.tag = \"$(jq -r .version package.json)\"" -i chart/values.yaml
           yq e ".appVersion = \"$(jq -r .version package.json)\"" -i chart/Chart.yaml
-          if helm ls -A | grep -q "platform-devportal-homolog"; then
-            NAMESPACE=$(helm ls -A | grep platform-devportal-homolog | awk '{print $2}')
-            helm get values platform-devportal-homolog -n $NAMESPACE | tail -n +2 > devportal.yaml
-            yq e ".image.tag = \"${{ needs.buildAndPublish.outputs.app_version }}\"" -i devportal.yaml
-            yq e ".image.pullPolicy = \"Always\"" -i devportal.yaml
-            helm upgrade platform-devportal-homolog --install --recreate-pods --values devportal.yaml ./chart -n $NAMESPACE --wait --timeout 3m 
-          else 
-            echo "Platform devportal (Homolog) não encontrada no cluster ${{ secrets.CLUSTER_NAME }}"
-            exit 1
-          fi
+          helm upgrade platform-devportal-homolog --install --recreate-pods --values devportal.yaml ./chart -n devportal --wait --timeout 3m
