@@ -4,10 +4,10 @@ name: CI - Node.js basic quality and security
 on:
   push:
     branches:
-      - refactor-ci-cd
-#   pull_request:
-#     branches:
-#       - main
+      - develop
+  pull_request:
+    branches:
+      - main
 
 jobs:
   ci:
