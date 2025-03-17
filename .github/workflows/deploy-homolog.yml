@@ -4,133 +4,90 @@ on:
   workflow_dispatch:
 
 jobs:
-  #Getting requided versions for next steps
+  # Job para capturar as versões necessárias e disponibilizá-las para os demais jobs
   requirements:
-    # runs-on: [self-hosted, macOS, ARM64]
     runs-on: ubuntu-latest
     outputs:
-      app_version: ${{ env.app_version }}
-      chart_version: ${{ env.chart_version }}
-      node_version: ${{ env.node_version }}
+      app_version: ${{ steps.get_versions.outputs.app_version }}
+      chart_version: ${{ steps.get_versions.outputs.chart_version }}
+      node_version: ${{ steps.get_versions.outputs.node_version }}
     steps:
       - uses: actions/checkout@v4
-      - name: Getting versions
+      - name: Get Versions
+        id: get_versions
         run: |
-          echo "app_version=homolog" >> $GITHUB_ENV
-          echo "chart_version=$(yq e '.version' chart/Chart.yaml)" >> $GITHUB_ENV
-          echo "node_version=$(cat .nvmrc | grep -o '[0-9]*')" >> $GITHUB_ENV
+          echo "app_version=homolog" >> $GITHUB_OUTPUT
+          chart_ver=$(yq e '.version' chart/Chart.yaml)
+          echo "chart_version=${chart_ver}" >> $GITHUB_OUTPUT
+          node_ver=$(cat .nvmrc | grep -o '[0-9]*')
+          echo "node_version=${node_ver}" >> $GITHUB_OUTPUT
 
-  #parallel build for x64 and amr64
-  buildDevportal:
-    needs: [requirements]
-    strategy:
-      matrix:
-        # os: [ubuntu-latest, [self-hosted, macOS, ARM64]]
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+  # Job para compilar, construir e publicar a imagem Docker utilizando Buildx e QEMU
+  buildAndPublish:
+    needs: requirements
+    runs-on: ubuntu-latest
     env:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
+      APP_VERSION: ${{ needs.requirements.outputs.app_version }}
+      IMAGE_NAME: veecode/devportal-bundle
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.node_version }}
+          node-version: ${{ env.NODE_VERSION }}
           cache: yarn
-      
-      - name: Getting arch
-        run: echo "ARCH=$(echo ${{ runner.arch }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-      
-      - name: Building Devportal${{ runner.arch }}
+          cache-dependency-path: yarn.lock
+      - name: Install Dependencies & Build
         run: |
-          yarn install --frozen-lockfile
+          yarn install --immutable
           yarn tsc
           yarn build
           jq --arg version "$(jq -r .version package.json)" '.version = $version' devportal.json > temp.json && mv temp.json devportal.json
-      
-      - name: Setup keychain
-        if: runner.os == 'macOS'
-        run: security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }}
-
-      - name: Login to Docker Hub
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Docker Login
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and Push Multi-Arch Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: packages/backend/Dockerfile
+          push: true
+          tags: "${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}"
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:cache
+          cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:cache,mode=max
 
-      - name: Publish to Docker Hub
-        run: |
-          docker build . -t veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }} -f packages/backend/Dockerfile
-          # docker tag veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }} veecode/devportal-bundle-${{env.ARCH}}:latest
-          docker push veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
-          # docker push veecode/devportal-bundle-${{env.ARCH}}:latest
- 
-  publishManifestDocker:
-    needs: [requirements, buildDevportal]
-    # runs-on: [self-hosted, macOS, ARM64]
+  # Job para deploy usando Helm e DigitalOcean doctl
+  deploy:
+    needs: buildAndPublish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Setup keychain
-        if: runner.os == 'macOS'
-        run: security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }}      
-      
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - name: Setup DigitalOcean doctl
+        uses: digitalocean/action-doctl@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      - name: Create/Publish version ${{ needs.requirements.outputs.app_version }} manifest
-        uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
-        with:
-            inputs: veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
-            # images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-            images: veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-            amend: true
-            push: true
-
-      # - name: Create/Publish version latest manifest
-      #   uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
-      #   with:
-      #       inputs: veecode/devportal-bundle:latest
-      #       # images: veecode/devportal-bundle-arm64:latest,veecode/devportal-bundle-x64:latest
-      #       images: veecode/devportal-bundle-x64:latest
-      #       amend: true
-      #       push: true
-
-      - name: Clear Docker image for macOS runner
-        if: runner.os == 'macOS'
+          token: ${{ secrets.DO_TOKEN }}
+      - name: Install Helm
+        run: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      - name: Check Helm Deployment
+        id: check_helm
         run: |
-          docker rmi veecode/devportal-bundle-${{env.ARCH}}:${{ needs.requirements.outputs.app_version }}
-          # docker rmi veecode/devportal-bundle-${{env.ARCH}}:latest
-
-  installDevportalHomolog:
-   runs-on: ubuntu-latest
-   needs: [requirements, publishManifestDocker]
-   steps:
-     - uses: actions/checkout@v4
-     - name: GitHub Action for DigitalOcean - doctl
-       uses: digitalocean/action-doctl@v2
-       with:
-         token: ${{ secrets.DO_TOKEN }}
-     - name: Install Helm 
-       shell: bash
-       run: |
-         curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-     - name: Helm update chart
-       shell: bash
-       run: |
-         doctl kubernetes cluster kubeconfig save ${{ secrets.CLUSTER_NAME }}
-         yq e ".image.tag = \"$(jq -r .version package.json)\"" -i ./chart/values.yaml
-         yq e ".appVersion = \"$(jq -r .version package.json)\"" -i ./chart/Chart.yaml
-         if helm ls -A | grep -q "platform-devportal-homolog"; then
-           NAMESPACE=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $2}')
-           helm get values platform-devportal-homolog -n $NAMESPACE | tail -n +2 > devportal.yaml
-           yq e ".image.tag = \"${{ needs.requirements.outputs.app_version }}\"" -i ./devportal.yaml
-           yq e ".image.pullPolicy = \"Always\"" -i ./devportal.yaml
-           helm upgrade platform-devportal-homolog --install --recreate-pods --values ./devportal.yaml ./chart -n $NAMESPACE --wait --timeout 3m 
-         else 
-           echo "Installation of Platform devportal (Homolog) not found on ${{ secrets.CLUSTER_NAME }}"
-           exit 1
-         fi
+          if helm status platform-devportal-homolog -n devportal &> /dev/null; then
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "exists=false" >> $GITHUB_ENV
+          fi
+      - name: Update and Deploy Helm Chart
+        if: env.exists == 'true'
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.CLUSTER_NAME }}
+          yq e ".image.tag = \"$(jq -r .version package.json)\"" -i chart/values.yaml
+          yq e ".appVersion = \"$(jq -r .version package.json)\"" -i chart/Chart.yaml
+          helm upgrade platform-devportal-homolog --install --recreate-pods --values devportal.yaml ./chart -n devportal --wait --timeout 3m
