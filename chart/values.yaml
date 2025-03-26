@@ -176,7 +176,7 @@ proxy:
 
 auth:
   providers: {}
-#    oidc:
+#    keycloak:
 #      metadataUrl:  #keycloak .well-known url
 #      clientId:  #keycloak client id
 #      clientSecret:  #keycloak client secret
