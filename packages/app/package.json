@@ -53,7 +53,7 @@
     "@roadiehq/backstage-plugin-github-pull-requests": "^3.2.1",
     "@roadiehq/backstage-plugin-security-insights": "^3.1.2",
     "@veecode-platform/backstage-plugin-cluster-explorer": "^0.3.22",
-    "@veecode-platform/backstage-plugin-github-workflows": "^1.1.1",
+    "@veecode-platform/backstage-plugin-github-workflows": "^1.1.4",
     "@veecode-platform/backstage-plugin-gitlab-pipelines": "^0.6.1",
     "@veecode-platform/backstage-plugin-infracost": "^0.3.2",
     "@veecode-platform/backstage-plugin-kong-service-manager-common": "^0.5.2",
