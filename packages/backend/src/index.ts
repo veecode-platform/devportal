@@ -12,7 +12,7 @@ import exploreToolProviderModule from './modules/explore/exploreToolProviderModu
 const backend = createBackend();
 
 //app 
-backend.add(import('@backstage/plugin-app-backend/alpha'));
+backend.add(import('@backstage/plugin-app-backend'));
 
 //catalog
 backend.add(import('@backstage/plugin-catalog-backend/alpha'));
@@ -31,8 +31,7 @@ backend.add(catalogModuleVeeCodeProcessor);
 //scaffolder
 backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
-//backend.add(scaffolderModuleCustomExtensions); imported directly
-backend.add(import('@roadiehq/scaffolder-backend-module-utils/new-backend'));
+backend.add(import('@roadiehq/scaffolder-backend-module-utils'));
 backend.add(import('@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions'))
 backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
 
@@ -44,7 +43,7 @@ backend.add(customGithubAuthProvider)
 backend.add(customGitlabAuthProvider)
 
 //proxy
-backend.add(import('@backstage/plugin-proxy-backend/alpha'));
+backend.add(import('@backstage/plugin-proxy-backend'));
 
 //techdocs
 backend.add(import('@backstage/plugin-techdocs-backend/alpha'));
