@@ -97,7 +97,7 @@ services:
     - vault
     - basic
     container_name: vault_devportal
-    image: hashicorp/vault:1.16
+    image: hashicorp/vault:latest
     ports:
       - "8200:8200"
     environment:
