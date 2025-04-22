@@ -113,6 +113,9 @@ import {
   isSecurityInsightsAvailable,
 } from '@roadiehq/backstage-plugin-security-insights';
 import { AssistantAIContent } from "@veecode-platform/backstage-plugin-vee"
+import { EntitySonarQubeCard } from '@backstage-community/plugin-sonarqube';
+
+const MISSING_ANNOTATION_READ_MORE_URL = 'https://backstage.io/docs/features/software-catalog/descriptor';
 
 
 // Entity validate
@@ -371,6 +374,14 @@ const overviewContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
+    
+   <EntitySwitch>
+    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'sonarqube.org/project-key')}>
+      <Grid item md={6}>
+        <EntitySonarQubeCard missingAnnotationReadMoreUrl={MISSING_ANNOTATION_READ_MORE_URL} variant="gridItem" />
+      </Grid>
+    </EntitySwitch.Case>
+   </EntitySwitch>
     
     <AssistantAIContent/>
 

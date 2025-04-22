@@ -332,6 +332,7 @@ enabledPlugins:
   kong: true
   gitlab: false
   github: true
+  sonarqube: false
   vee: true
 
 platform:
