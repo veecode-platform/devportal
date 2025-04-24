@@ -46,6 +46,7 @@ import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { keycloakProvider, githubProvider } from './identityProviders';
 import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
+import { VulnerabilitiesPage } from '@internal/backstage-plugin-vulnerabilities';
 
 
 const SignInComponent: any = (props: SignInPageProps) => {
@@ -262,6 +263,7 @@ const routes = (
       path="/catalog-unprocessed-entities"
       element={<CatalogUnprocessedEntitiesPage />}
     />;
+    <Route path="/vulnerabilities" element={<VulnerabilitiesPage />} />
   </FlatRoutes>
 );
 

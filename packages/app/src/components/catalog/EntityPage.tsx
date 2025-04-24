@@ -458,36 +458,57 @@ const defaultEntityPage = (
       {overviewContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route if={isGithubAvailable || isGitlabAvailable} path="/ci-cd" title="CI/CD">
+    <EntityLayout.Route
+      if={isGithubAvailable || isGitlabAvailable}
+      path="/ci-cd"
+      title="CI/CD"
+    >
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route  if={isGithubAvailable || isGitlabAvailable} path="/pull-requests" title="Pull Requests">
+    <EntityLayout.Route
+      if={isGithubAvailable || isGitlabAvailable}
+      path="/pull-requests"
+      title="Pull Requests"
+    >
       {pullRequestsContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
-      path="/kong-service-manager" title="Kong">
+      path="/kong-service-manager"
+      title="Kong"
+    >
       <KongServiceManagerContent />
     </EntityLayout.Route>
 
-    {
-      plugins.map((item: PluginItem) => {
-        return (
-          <EntityLayout.Route
-            if={(entity) => {
-              const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
-              if (show !== undefined) return show
-              return false
-            }}
-            path={item.path} title={item.title} key={item.title}>
-            {item.content}
-          </EntityLayout.Route>
-        )
-      })
-    }
+    <EntityLayout.Route
+      path="/security-insights"
+      title="Security Insights"
+      // Uncomment the line below if you'd like to only show the tab on entities with the correct annotations already set
+      if={isSecurityInsightsAvailable}
+    >
+      <EntitySecurityInsightsContent />
+    </EntityLayout.Route>
 
+    {plugins.map((item: PluginItem) => {
+      return (
+        <EntityLayout.Route
+          if={entity => {
+            const show = entity.metadata.annotations?.hasOwnProperty(
+              item.annotation,
+            );
+            if (show !== undefined) return show;
+            return false;
+          }}
+          path={item.path}
+          title={item.title}
+          key={item.title}
+        >
+          {item.content}
+        </EntityLayout.Route>
+      );
+    })}
   </EntityLayout>
 );
 

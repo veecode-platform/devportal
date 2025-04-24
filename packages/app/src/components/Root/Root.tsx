@@ -96,8 +96,10 @@ type sideBarDefaultGroupProps = {
 const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
   return (
     <SidebarGroup label="Menu" icon={<MenuIcon />}>
-      {behaviour.home ? <SidebarItem icon={HomeIcon} to="/" text="Home" /> : null}
-      {behaviour.resources ?
+      {behaviour.home ? (
+        <SidebarItem icon={HomeIcon} to="/" text="Home" />
+      ) : null}
+      {behaviour.resources ? (
         <SidebarItem icon={VeecodeLogoIcon} text="Resources">
           <SidebarSubmenu title="">
             <SidebarDivider />
@@ -123,15 +125,31 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
             />
             <SidebarDivider />
           </SidebarSubmenu>
-        </SidebarItem> : null}
-      {behaviour.catalog ? <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" /> : null}
-      {behaviour.apis ? <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" /> : null}
-      {behaviour.create ? <SidebarItem icon={CreateComponentIcon} to="create" text="Create" /> : null}
-      {behaviour.docs ? <SidebarItem icon={LibraryBooks} to="docs" text="Docs" /> : null}
-      {behaviour.groups ? <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" /> : null}
+        </SidebarItem>
+      ) : null}
+      {behaviour.catalog ? (
+        <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
+      ) : null}
+      {behaviour.apis ? (
+        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
+      ) : null}
+      {behaviour.create ? (
+        <SidebarItem icon={CreateComponentIcon} to="create" text="Create" />
+      ) : null}
+      {behaviour.docs ? (
+        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+      ) : null}
+      {behaviour.groups ? (
+        <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />
+      ) : null}
+      <SidebarItem
+        icon={HomeIcon}
+        to={'/vulnerabilities'}
+        text={'Vulnerabilities'}
+      />
       <SidebarDivider />
     </SidebarGroup>
-  )
+  );
 }
 
 /*const SideBarApimanagementGroup = ({ behaviour, apiManagementEnabled }: sideBarDefaultGroupProps) => {
