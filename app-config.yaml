@@ -406,3 +406,8 @@ azureDevOps:
   host: ${AZURE_HOST}
   token: ${AZURE_TOKEN}
   organization: ${AZURE_ORG}
+
+sonarqube:
+  baseUrl: ${SONARQUBE_BASE_URL}
+  instanceKey: ${SONARQUBE_INSTANCE_KEY}
+  apiKey: ${SONARQUBE_API_KEY}

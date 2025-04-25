@@ -380,8 +380,8 @@ const overviewContent = (
       <Grid item md={6}>
         <EntitySonarQubeCard missingAnnotationReadMoreUrl={MISSING_ANNOTATION_READ_MORE_URL} variant="gridItem" />
       </Grid>
-    </EntitySwitch.Case>
-   </EntitySwitch>
+      </EntitySwitch.Case>
+    </EntitySwitch>
     
     <AssistantAIContent/>
 

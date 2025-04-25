@@ -597,6 +597,7 @@ data:
       infracost: {{ .Values.infracost.enabled | default false }}
       kong: {{ .Values.kong.enabled | default false }}
       vee: {{ .Values.vee.enabled | default false }}
+      sonarqube: {{ .Values.sonarqube.enabled | default false }}
       gitlab: {{ $is_gitlab_provider }}
       github: {{ $is_github_provider }}
     platform:
@@ -634,6 +635,12 @@ data:
     zoraOss:
       openAiApiKey: {{ .Values.zoraOss.openAiApiKey | quote }}
       openAiModel: {{ .Values.zoraOss.openAiModel | quote }}
+    {{- end }}
+    {{- if .Values.sonarqube.enabled }}
+    sonarqube:
+      baseUrl: {{ .Values.sonarqube.baseUrl | default "https://sonarcloud.io" | quote }}
+      instanceKey: {{ .Values.sonarqube.istanceKey | quote }}
+      apiKey: {{ .Values.sonarqube.apiKey | quote }}
     {{- end }}
     {{- if .Values.vault.enabled }}
     vault:
