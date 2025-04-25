@@ -14,9 +14,8 @@ import { RepoVulnerability } from '../../utils/types';
 import { SecurityInsightSummary } from '../SummaryComponent';
 import { useApi } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
-import { scmAuthApiRef } from '@backstage/integration-react';
+import { useConfig} from "../../hooks/useConfig";
 
-const GITHUB_TOKEN = '';
 
 type ReposProps = {
   owner: string;
@@ -87,7 +86,7 @@ async function fetchVulnerabilities(
 
 export const ExampleComponent = () => {
   const catalogApi = useApi(catalogApiRef);
-  const scmApi = useApi(scmAuthApiRef);
+  const { token } = useConfig()
 
   const fetchEntities = async (): Promise<ReposProps[]> => {
     const res = await catalogApi.getEntities({
@@ -105,16 +104,7 @@ export const ExampleComponent = () => {
     console.log({r})
     if (!r.length) return [];
 
-    const { token } = await scmApi.getCredentials({
-      url: 'https://github.com',
-      additionalScope: {
-        customScopes: {
-          github: ['repo:read', 'workflow'],
-        },
-      },
-    });
-
-    return fetchVulnerabilities(r, token);
+    return fetchVulnerabilities(r, token!);
   }, []);
 
   return (
