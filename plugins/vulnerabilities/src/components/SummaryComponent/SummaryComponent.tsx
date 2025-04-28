@@ -1,17 +1,12 @@
 import React from 'react';
 import { Grid, Typography, Card, CardContent } from '@material-ui/core';
-import { RepoVulnerability } from '../../utils/types';
 import { Progress } from '@backstage/core-components';
+import { SummaryProps } from './types';
 
-type SummaryProps = {
-  value: RepoVulnerability[] | undefined;
-  loading: boolean;
-};
-
-export const SecurityInsightSummary = ({
+export const SecurityInsightSummary : React.FC<SummaryProps> = ({
   value = [],
   loading,
-}: SummaryProps) => {
+}) => {
   if (loading) return <Progress />;
 
   const summary = value.reduce(
