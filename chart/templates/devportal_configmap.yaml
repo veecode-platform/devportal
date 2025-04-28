@@ -638,9 +638,19 @@ data:
     {{- end }}
     {{- if .Values.sonarqube.enabled }}
     sonarqube:
+      {{- if .Values.sonarqube.instances }}
+      instances:
+        {{- range .Values.sonarqube.instances }}
+        - name: {{ .name | quote }}
+          instanceKey: {{ .instanceKey | quote }}
+          baseUrl: {{ .baseUrl | default "https://sonarcloud.io" | quote }}
+          apiKey: {{ .apiKey | quote }}
+        {{- end }}
+      {{- else }}
+      instanceKey: {{ .Values.sonarqube.instanceKey | quote }}
       baseUrl: {{ .Values.sonarqube.baseUrl | default "https://sonarcloud.io" | quote }}
-      instanceKey: {{ .Values.sonarqube.istanceKey | quote }}
       apiKey: {{ .Values.sonarqube.apiKey | quote }}
+      {{- end }}
     {{- end }}
     {{- if .Values.vault.enabled }}
     vault:

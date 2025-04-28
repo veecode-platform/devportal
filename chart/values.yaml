@@ -178,6 +178,22 @@ sonarqube:
   # baseUrl: ${SONARQUBE_BASE_URL}
   # instanceKey: ${SONARQUBE_INSTANCE_KEY}
   # apiKey: ${SONARQUBE_API_KEY}
+  #
+  #  or if there is more than one instance
+  #
+  # instances:
+  # - name: default
+  #   instanceKey: ${SONARQUBE_BASE_URL}
+  #   baseUrl: ${SONARQUBE_INSTANCE_KEY}
+  #   apiKey: ${SONARQUBE_API_KEY}
+  # - name: specialProject
+  #   instanceKey: ${SONARQUBE_BASE_URL2}
+  #   baseUrl: ${SONARQUBE_INSTANCE_KEY2}
+  #   apiKey: ${SONARQUBE_API_KEY2}
+  # - name: cloud
+  #   instanceKey: ${SONARQUBE_BASE_URL3}
+  #   baseUrl: ${SONARQUBE_INSTANCE_KEY3}
+  #   apiKey: ${SONARQUBE_API_KEY3}
 
 proxy:
   gitlab:
