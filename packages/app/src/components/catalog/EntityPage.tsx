@@ -113,6 +113,7 @@ import {
   isSecurityInsightsAvailable,
 } from '@roadiehq/backstage-plugin-security-insights';
 import { AssistantAIContent } from "@veecode-platform/backstage-plugin-vee"
+import { VulnerabilitiesOverviewCard } from '@internal/backstage-plugin-vulnerabilities';
 
 
 // Entity validate
@@ -333,6 +334,10 @@ const overviewContent = (
     </Grid>
     <Grid item lg={4} md={12} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
+    </Grid>
+
+    <Grid item lg={6}>
+     <VulnerabilitiesOverviewCard/>
     </Grid>
 
     <EntitySwitch>
