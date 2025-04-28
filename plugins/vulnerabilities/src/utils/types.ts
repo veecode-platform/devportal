@@ -6,3 +6,8 @@ export type RepoVulnerability = {
   medium: number;
   low: number;
 };
+
+export type RepoProps = {
+    owner: string;
+    name: string;
+}
