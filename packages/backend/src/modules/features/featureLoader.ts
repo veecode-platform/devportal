@@ -78,6 +78,12 @@ export default createBackendFeatureLoader({
       logger.info('@veecode-platform/plugin-vee-backend')
     }
 
+    // sonarqube
+    if (config.getBoolean('enabledPlugins.sonarqube')) {
+      yield import('@backstage-community/plugin-sonarqube-backend')
+      logger.info('@backstage-community/plugin-sonarqube-backend')
+    }
+
     //gitlab
     if (config.getBoolean('enabledPlugins.gitlab')) {
       yield catalogModuleCustomExtensions;

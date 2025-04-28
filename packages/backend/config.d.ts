@@ -89,6 +89,16 @@ export interface Config {
          * @visibility frontend
          */
         kong: boolean
+        /**
+         * Vee Plugin launch control.
+         * @visibility frontend
+         */
+         vee: boolean
+        /**
+         * Sonarqube Plugin launch control.
+         * @visibility frontend
+         */
+        sonarqube: boolean
     };
     /**
      * 

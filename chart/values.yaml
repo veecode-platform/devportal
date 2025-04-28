@@ -173,6 +173,12 @@ vee:
     #   apiKey: #api_key
     #   model: #model
 
+sonarqube:
+  enabled: false #enable SonarQube plugin
+  # baseUrl: ${SONARQUBE_BASE_URL}
+  # instanceKey: ${SONARQUBE_INSTANCE_KEY}
+  # apiKey: ${SONARQUBE_API_KEY}
+
 proxy:
   gitlab:
     # target: https://gitlab.com #(Optional)Auto generated, only override if needed
@@ -183,7 +189,7 @@ proxy:
 
 auth:
   providers: {}
-#    oidc:
+#    keycloak:
 #      metadataUrl:  #keycloak .well-known url
 #      clientId:  #keycloak client id
 #      clientSecret:  #keycloak client secret
