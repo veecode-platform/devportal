@@ -44,7 +44,7 @@ import { PiVaultFill } from "react-icons/pi";
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import { useAppContext } from '../../context/AppProvider';
 import { Administration } from '@backstage-community/plugin-rbac';
-import BeenhereIcon from '@mui/icons-material/Beenhere';
+import BugReportIcon from '@material-ui/icons/BugReport';
 
 const useStyles = makeStyles({
   root: {
@@ -144,7 +144,7 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
         <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />
       ) : null}
       <SidebarItem
-        icon={BeenhereIcon}
+        icon={BugReportIcon}
         to={'/vulnerabilities'}
         text={'Vulnerabilities'}
       />
