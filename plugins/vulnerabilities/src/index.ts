@@ -1,1 +1,1 @@
-export { vulnerabilitiesPlugin, VulnerabilitiesPage } from './plugin';
+export { vulnerabilitiesPlugin, VulnerabilitiesPage, VulnerabilitiesOverviewCard } from './plugin';
