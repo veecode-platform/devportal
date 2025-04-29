@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
-export const useVulnerabilitiesStyles = makeStyles(theme=> ({
+export const useVulnerabilitiesStyles = makeStyles({
     root:{
       padding: '1rem',
       display: 'flex',
@@ -19,12 +19,5 @@ export const useVulnerabilitiesStyles = makeStyles(theme=> ({
     },
     footer:{
         alignSelf:"flex-end"
-    },
-    buttonStyle:{
-        background: "transparent",
-        outline: "none",
-        border: "none",
-        cursor: 'pointer',
-        color: theme.palette.text.primary
     }
-}))
+})

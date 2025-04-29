@@ -2,7 +2,7 @@ import React from "react";
 import { useApi } from "@backstage/core-plugin-api";
 import { useEntity } from "@backstage/plugin-catalog-react";
 import type { Entity } from "@backstage/catalog-model";
-import { Box, Paper, Typography } from "@material-ui/core";
+import { Box, IconButton, Paper, Tooltip, Typography } from "@material-ui/core";
 import useAsync from "react-use/esm/useAsync";
 import { vulnerabilitiesApiRef } from "../../api/vulnerabilitiesApi";
 import { useEntityAnnotation } from "../../hooks/useAnnotation";
@@ -14,14 +14,18 @@ import { VulnerabilitiesOverviewCardWrapperProps } from "./types";
 
 
 const VulnerabilitiesOverviewCardWrapper : React.FC<VulnerabilitiesOverviewCardWrapperProps> = ({children}) => {
-    const { root, footer, buttonStyle } = useVulnerabilitiesStyles()
+    const { root, footer } = useVulnerabilitiesStyles()
     return (
         <Paper className={root}>
           <Typography variant="h4">Vulnerabilities - Continous Integration</Typography>
           <Typography color="secondary" variant="subtitle2">Found in the last scan: 2025-04-02T17;49Z</Typography>
            {children}
           <Box component="footer" className={footer}>
-            <button className={buttonStyle}><ExitToApp/></button>
+            <Tooltip title="View more details">
+                <IconButton>
+                  <ExitToApp />
+                </IconButton>
+            </Tooltip>
           </Box>
         </Paper>
     )
