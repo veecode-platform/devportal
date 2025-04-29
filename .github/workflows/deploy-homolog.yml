@@ -59,7 +59,7 @@ jobs:
           context: .
           file: packages/backend/Dockerfile
           push: true
-          tags: "${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}"
+          tags: "${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }},${{ env.IMAGE_NAME}}:homolog"
           platforms: linux/amd64,linux/arm64
           cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:cache
           cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:cache,mode=max
@@ -76,18 +76,16 @@ jobs:
           token: ${{ secrets.DO_TOKEN }}
       - name: Install Helm
         run: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-      - name: Check Helm Deployment
-        id: check_helm
-        run: |
-          if helm status platform-devportal-homolog -n devportal &> /dev/null; then
-            echo "exists=true" >> $GITHUB_ENV
-          else
-            echo "exists=false" >> $GITHUB_ENV
-          fi
       - name: Update and Deploy Helm Chart
-        if: env.exists == 'true'
         run: |
           doctl kubernetes cluster kubeconfig save ${{ secrets.CLUSTER_NAME }}
           yq e ".image.tag = \"$(jq -r .version package.json)\"" -i chart/values.yaml
           yq e ".appVersion = \"$(jq -r .version package.json)\"" -i chart/Chart.yaml
-          helm upgrade platform-devportal-homolog --install --recreate-pods --values devportal.yaml ./chart -n devportal --wait --timeout 3m
+          if helm ls -A | grep -q "platform-devportal-homolog"; then
+           NAMESPACE=$(helm ls -A | grep platform-devportal-homolog | awk -F' ' '{print $2}')
+           helm get values platform-devportal-homolog -n $NAMESPACE | tail -n +2 > devportal.yaml
+           helm upgrade platform-devportal-homolog --install --recreate-pods --values ./devportal.yaml ./chart -n $NAMESPACE --wait --timeout 3m 
+          else 
+            echo "Installation of Platform devportal (Homolog) not found on ${{ secrets.CLUSTER_NAME }}"
+            exit 1
+          fi
