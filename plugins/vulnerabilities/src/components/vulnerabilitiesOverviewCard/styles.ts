@@ -2,22 +2,20 @@ import { makeStyles } from "@material-ui/core";
 
 export const useVulnerabilitiesStyles = makeStyles(theme=> ({
     root:{
-        backgroundColor: theme.palette.background.paper,
-       padding: '1rem',
-        borderRadius: '10px',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-        gap: '.8rem',
-        flexDirection: 'column'
+      padding: '1rem',
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'center',
+      flexDirection: 'column'
     },
     vulnerabilitiesChips:{
-        width: '85%',
-        margin: 'left',
+        width: 'auto',
         display: 'flex',
-        alignItems: 'cemter',
-        justifyContent: 'center',
-        gap: '.5rem',
+        flexWrap: "wrap",
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: '1rem',
+        padding: '1rem 0'
     },
     footer:{
         alignSelf:"flex-end"

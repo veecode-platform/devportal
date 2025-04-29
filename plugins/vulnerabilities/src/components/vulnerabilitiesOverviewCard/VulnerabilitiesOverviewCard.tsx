@@ -2,28 +2,28 @@ import React from "react";
 import { useApi } from "@backstage/core-plugin-api";
 import { useEntity } from "@backstage/plugin-catalog-react";
 import type { Entity } from "@backstage/catalog-model";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Paper, Typography } from "@material-ui/core";
 import useAsync from "react-use/esm/useAsync";
 import { vulnerabilitiesApiRef } from "../../api/vulnerabilitiesApi";
 import { useEntityAnnotation } from "../../hooks/useAnnotation";
-import LogoutIcon from '@mui/icons-material/Logout';
+import { ExitToApp } from "@material-ui/icons";
 import { useVulnerabilitiesStyles } from "./styles";
 import { VulnerabilityChip } from "./vulnerabilityChip";
-import { Progress } from "@backstage/core-components";
+import { Progress, ResponseErrorPanel } from "@backstage/core-components";
 import { VulnerabilitiesOverviewCardWrapperProps } from "./types";
 
 
 const VulnerabilitiesOverviewCardWrapper : React.FC<VulnerabilitiesOverviewCardWrapperProps> = ({children}) => {
-    const { root , footer, buttonStyle } = useVulnerabilitiesStyles()
+    const { root, footer, buttonStyle } = useVulnerabilitiesStyles()
     return (
-        <Box component="article" className={root}>
-          <Typography variant="h5">Vulnerabilities - Continous Integration</Typography>
-          <Typography variant="caption">Found in the last scan: 2025-04-02T17;49Z</Typography>
+        <Paper className={root}>
+          <Typography variant="h4">Vulnerabilities - Continous Integration</Typography>
+          <Typography color="secondary" variant="subtitle2">Found in the last scan: 2025-04-02T17;49Z</Typography>
            {children}
           <Box component="footer" className={footer}>
-            <button className={buttonStyle}><LogoutIcon/></button>
+            <button className={buttonStyle}><ExitToApp/></button>
           </Box>
-        </Box>
+        </Paper>
     )
 }
 
@@ -34,8 +34,7 @@ export const VulnerabilitiesOverviewCard = () => {
     const vulnerabilitiesApi = useApi(vulnerabilitiesApiRef);
     const { vulnerabilitiesChips } = useVulnerabilitiesStyles()
 
-    //TODO fazer tratamento de ui para o erro
-    const { value,/* error,*/ loading } = useAsync(async ()=>{
+    const { value, error, loading } = useAsync(async ()=>{
       return vulnerabilitiesApi.fetchVulnerabititiesFromRepository(location!)
     },[entity])
 
@@ -43,6 +42,12 @@ export const VulnerabilitiesOverviewCard = () => {
         <VulnerabilitiesOverviewCardWrapper>
             <Progress/>
         </VulnerabilitiesOverviewCardWrapper>
+    )
+
+    if(error) (
+      <VulnerabilitiesOverviewCardWrapper>
+        <ResponseErrorPanel error={error} />;
+      </VulnerabilitiesOverviewCardWrapper>
     )
     
     return (
