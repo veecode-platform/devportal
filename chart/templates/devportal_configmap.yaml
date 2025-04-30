@@ -639,7 +639,7 @@ data:
     {{- if .Values.sonarqube.enabled }}
     sonarqube:
       baseUrl: {{ .Values.sonarqube.baseUrl | default "https://sonarcloud.io" | quote }}
-      instanceKey: {{ .Values.sonarqube.istanceKey | quote }}
+      instanceKey: {{ .Values.sonarqube.instanceKey | quote }}
       apiKey: {{ .Values.sonarqube.apiKey | quote }}
     {{- end }}
     {{- if .Values.vault.enabled }}
