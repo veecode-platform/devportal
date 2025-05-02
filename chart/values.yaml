@@ -129,9 +129,10 @@ grafana:
 
 argocd:
   enabled: false #enable ArgoCD plugin
-#  domain:  #argoCD domain
 #  username:  #argoCD username
-#  token:  #argoCD token
+#  password:  #argoCD password
+#  domain:  #argoCD domain
+#  token:  #argoCD auth token
 
 vault:
   enabled: false #enable Vault plugin

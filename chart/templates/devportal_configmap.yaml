@@ -242,13 +242,13 @@ data:
     {{- if .Values.argocd.enabled }}
     argocd:
       username: ${ARGOCD_USER}
-      password: ${ARGOCD_TOKEN}
+      password: ${ARGOCD_PASSWORD}
       appLocatorMethods:
         - type: "config"
           instances:
             - name: argoInstance1
               url: ${ARGOCD_DOMAIN}
-              token: ${ARGOCD_AUTH_TOKEN}
+              token: ${ARGOCD_TOKEN}
     {{- end }}
     {{- if .Values.integrations }}
     integrations:
