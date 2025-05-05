@@ -4,7 +4,7 @@ import {
   EntityApiDefinitionCard,
   EntityHasApisCard,
   EntityProvidingComponentsCard,
-  EntityConsumingComponentsCard
+  EntityConsumingComponentsCard,
 } from '@backstage/plugin-api-docs';
 import {
   EntityHasComponentsCard,
@@ -19,20 +19,20 @@ import {
   isOrphan,
   EntityAboutCard,
   EntityLayout,
-  EntitySwitch
+  EntitySwitch,
 } from '@backstage/plugin-catalog';
 import { isGithubActionsAvailable } from '@backstage-community/plugin-github-actions';
 // github-workflows
 import {
   isGithubWorkflowsAvailable,
   isGithubAvailable,
-  GithubWorkflowsContent
+  GithubWorkflowsContent,
 } from '@veecode-platform/backstage-plugin-github-workflows';
 // gitlab-pipelines
 import {
   GitlabPipelineList,
   isGitlabJobsAvailable,
-  GitlabJobs
+  GitlabJobs,
 } from '@veecode-platform/backstage-plugin-gitlab-pipelines';
 import {
   EntityUserProfileCard,
@@ -62,7 +62,7 @@ import {
 // argocd plugin
 import {
   EntityArgoCDOverviewCard,
-  isArgocdAvailable
+  isArgocdAvailable,
 } from '@roadiehq/backstage-plugin-argo-cd';
 // github actions
 import {
@@ -71,14 +71,21 @@ import {
   isGithubInsightsAvailable,
 } from '@roadiehq/backstage-plugin-github-insights';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
-import { ReportIssue, TextSize } from '@backstage/plugin-techdocs-module-addons-contrib';
-// gitpull request
 import {
-  EntityGithubPullRequestsTable
-} from '@roadiehq/backstage-plugin-github-pull-requests';
+  ReportIssue,
+  TextSize,
+} from '@backstage/plugin-techdocs-module-addons-contrib';
+// gitpull request
+import { EntityGithubPullRequestsTable } from '@roadiehq/backstage-plugin-github-pull-requests';
 import { EntityVaultCard } from '@backstage-community/plugin-vault';
-import { EntityGrafanaDashboardsCard, EntityGrafanaAlertsCard } from '@k-phoen/backstage-plugin-grafana';
-import { EntityKubernetesContent, isKubernetesAvailable } from '@veecode-platform/plugin-kubernetes';
+import {
+  EntityGrafanaDashboardsCard,
+  EntityGrafanaAlertsCard,
+} from '@k-phoen/backstage-plugin-grafana';
+import {
+  EntityKubernetesContent,
+  isKubernetesAvailable,
+} from '@veecode-platform/plugin-kubernetes';
 import { PluginItem } from './utils/types';
 // gitlab
 import {
@@ -95,7 +102,10 @@ import {
   // isAWSLambdaAvailable
 } from '@roadiehq/backstage-plugin-aws-lambda';
 import { EnvironmentOverview } from '@veecode-platform/plugin-environment-explorer';
-import { ClusterInstructionsCard, ClusterOverviewPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
+import {
+  ClusterInstructionsCard,
+  ClusterOverviewPage,
+} from '@veecode-platform/backstage-plugin-cluster-explorer';
 // AzureDevops
 import {
   EntityAzurePipelinesContent,
@@ -103,20 +113,33 @@ import {
 } from '@backstage-community/plugin-azure-devops';
 import { DatabaseOverview } from '@veecode-platform/plugin-database-explorer';
 import { VaultOverview } from '@veecode-platform/plugin-vault-explorer';
-import { KongServiceManagerContent, isKongServiceManagerAvailable } from '@veecode-platform/plugin-kong-service-manager';
-import { KubernetesGptAnalyzerPage, KubernetesGptAnalyzerCard } from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
-import { InfracostOverviewPage, isInfracostAvailable } from '@veecode-platform/backstage-plugin-infracost';
-import { ZoraOssPage, ZoraOssProjectCard, ZoraOssProjectTable } from '@veecode-platform/backstage-plugin-zora-oss';
+import {
+  KongServiceManagerContent,
+  isKongServiceManagerAvailable,
+} from '@veecode-platform/plugin-kong-service-manager';
+import {
+  KubernetesGptAnalyzerPage,
+  KubernetesGptAnalyzerCard,
+} from '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer';
+import {
+  InfracostOverviewPage,
+  isInfracostAvailable,
+} from '@veecode-platform/backstage-plugin-infracost';
+import {
+  ZoraOssPage,
+  ZoraOssProjectCard,
+  ZoraOssProjectTable,
+} from '@veecode-platform/backstage-plugin-zora-oss';
 import {
   EntityGithubDependabotContent,
   EntitySecurityInsightsContent,
   isSecurityInsightsAvailable,
 } from '@roadiehq/backstage-plugin-security-insights';
-import { AssistantAIContent } from "@veecode-platform/backstage-plugin-vee"
+import { AssistantAIContent } from '@veecode-platform/backstage-plugin-vee';
 import { EntitySonarQubeCard } from '@backstage-community/plugin-sonarqube';
 
-const MISSING_ANNOTATION_READ_MORE_URL = 'https://backstage.io/docs/features/software-catalog/descriptor';
-
+const MISSING_ANNOTATION_READ_MORE_URL =
+  'https://backstage.io/docs/features/software-catalog/descriptor';
 
 // Entity validate
 const isAnnotationAvailable = (entity: Entity, annotation: string) =>
@@ -125,25 +148,29 @@ const isAnnotationAvailable = (entity: Entity, annotation: string) =>
 const cicdContent = (
   <EntitySwitch>
     {/* Github */}
-    <EntitySwitch.Case if={(entity) => {
-      if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-      return false
-    }}>
+    <EntitySwitch.Case
+      if={entity => {
+        if (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity))
+          return true;
+        return false;
+      }}
+    >
       <GithubWorkflowsContent />
     </EntitySwitch.Case>
-    {/* Gitlab */}
-    ( <EntitySwitch.Case if={(entity) => {
-      if (isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity)) return true;
-      return false
-    }}>
+    {/* Gitlab */}({' '}
+    <EntitySwitch.Case
+      if={entity => {
+        if (isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity))
+          return true;
+        return false;
+      }}
+    >
       <GitlabPipelineList />
     </EntitySwitch.Case>
-    )
-    {/* Azure */}
+    ){/* Azure */}
     <EntitySwitch.Case if={isAzurePipelinesAvailable}>
       <EntityAzurePipelinesContent defaultLimit={25} />
     </EntitySwitch.Case>
-
     <EntitySwitch.Case>
       <EmptyState
         title="No CI/CD available for this entity"
@@ -180,7 +207,6 @@ const entityWarningContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-
   </>
 );
 
@@ -225,41 +251,39 @@ const vaultContent = (
 );
 
 const grafanaContent = (
-  <Grid item >
+  <Grid item>
     <EntityGrafanaDashboardsCard />
   </Grid>
 );
 
 const grafanaAlertsContent = (
-  <Grid item  >
+  <Grid item>
     <EntityGrafanaAlertsCard />
   </Grid>
-)
+);
 
-const kubernetesContent = (
-  <EntityKubernetesContent refreshIntervalMs={30000} />
-)
+const kubernetesContent = <EntityKubernetesContent refreshIntervalMs={30000} />;
 
 // plugins
 
 const plugins = [
   {
-    path: "/vault",
-    annotation: "vault.io/secrets-path",
-    title: "Vault",
-    content: vaultContent
+    path: '/vault',
+    annotation: 'vault.io/secrets-path',
+    title: 'Vault',
+    content: vaultContent,
   },
   {
-    path: "/grafana",
-    annotation: "grafana/dashboard-selector",
-    title: "Grafana",
-    content: grafanaContent
+    path: '/grafana',
+    annotation: 'grafana/dashboard-selector',
+    title: 'Grafana',
+    content: grafanaContent,
   },
   {
-    path: "/grafana-alerts",
-    annotation: "grafana/alert-label-selector",
-    title: "Grafana Alerts",
-    content: grafanaAlertsContent
+    path: '/grafana-alerts',
+    annotation: 'grafana/alert-label-selector',
+    title: 'Grafana Alerts',
+    content: grafanaAlertsContent,
   },
   /* {
     path:"/argo-cd",
@@ -268,18 +292,18 @@ const plugins = [
     content: argoCdContent
   },*/
   {
-    path: "/kubernetes",
-    annotation: "backstage.io/kubernetes-id",
-    title: "Kubernetes",
-    content: kubernetesContent
+    path: '/kubernetes',
+    annotation: 'backstage.io/kubernetes-id',
+    title: 'Kubernetes',
+    content: kubernetesContent,
   },
   {
-    path: "/docs",
-    annotation: "backstage.io/techdocs-ref",
-    title: "Docs",
-    content: techdocsContent
-  }
-]
+    path: '/docs',
+    annotation: 'backstage.io/techdocs-ref',
+    title: 'Docs',
+    content: techdocsContent,
+  },
+];
 
 const linkContent = (
   <EntitySwitch>
@@ -289,7 +313,7 @@ const linkContent = (
       </Grid>
     </EntitySwitch.Case>
   </EntitySwitch>
-)
+);
 
 const gitlabContent = (
   <>
@@ -327,7 +351,6 @@ const githubContent = (
   </>
 );
 
-
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
@@ -339,7 +362,9 @@ const overviewContent = (
     </Grid>
 
     <EntitySwitch>
-      <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'veecode/cluster-name')}>
+      <EntitySwitch.Case
+        if={entity => isAnnotationAvailable(entity, 'veecode/cluster-name')}
+      >
         <Grid item lg={6}>
           <ZoraOssProjectCard />
         </Grid>
@@ -361,29 +386,40 @@ const overviewContent = (
     {/* {ArgoCD card} */}
     <EntitySwitch>
       <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
-        <Grid item lg={6} md={12} xs={12} >
+        <Grid item lg={6} md={12} xs={12}>
           <EntityArgoCDOverviewCard />
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
 
     <EntitySwitch>
-      <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'aws.com/lambda-function-name')}>
+      <EntitySwitch.Case
+        if={entity =>
+          isAnnotationAvailable(entity, 'aws.com/lambda-function-name')
+        }
+      >
         <Grid item lg={12}>
           <EntityAWSLambdaOverviewCard />
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-    
-   <EntitySwitch>
-    <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'sonarqube.org/project-key')}>
-      <Grid item md={6}>
-        <EntitySonarQubeCard missingAnnotationReadMoreUrl={MISSING_ANNOTATION_READ_MORE_URL} variant="gridItem" />
-      </Grid>
+
+    <EntitySwitch>
+      <EntitySwitch.Case
+        if={entity =>
+          isAnnotationAvailable(entity, 'sonarqube.org/project-key')
+        }
+      >
+        <Grid item md={6}>
+          <EntitySonarQubeCard
+            missingAnnotationReadMoreUrl={MISSING_ANNOTATION_READ_MORE_URL}
+            variant="gridItem"
+          />
+        </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
-    
-    <AssistantAIContent/>
+
+    <AssistantAIContent />
 
     {/* <EntitySwitch>
       <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'vault.io/secrets-path')}>
@@ -394,7 +430,11 @@ const overviewContent = (
     </EntitySwitch> */}
 
     <EntitySwitch>
-      <EntitySwitch.Case if={(entity) => isAnnotationAvailable(entity, 'grafana/alert-label-selector')}>
+      <EntitySwitch.Case
+        if={entity =>
+          isAnnotationAvailable(entity, 'grafana/alert-label-selector')
+        }
+      >
         <Grid item lg={6} md={12} xs={12}>
           <EntityGrafanaAlertsCard />
         </Grid>
@@ -425,7 +465,7 @@ const serviceEntityPage = (
       path="/security-insights"
       title="Security Insights"
       // Uncomment the line below if you'd like to only show the tab on entities with the correct annotations already set
-       if={isSecurityInsightsAvailable}
+      if={isSecurityInsightsAvailable}
     >
       <EntitySecurityInsightsContent />
     </EntityLayout.Route>
@@ -440,26 +480,30 @@ const serviceEntityPage = (
 
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
-      path="/kong-service-manager" title="Kong">
+      path="/kong-service-manager"
+      title="Kong"
+    >
       <KongServiceManagerContent />
     </EntityLayout.Route>
 
-    {
-      plugins.map((item: PluginItem) => {
-        return (
-          <EntityLayout.Route
-            if={(entity) => {
-              const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
-              if (show !== undefined) return show
-              return false
-            }}
-            path={item.path} title={item.title} key={item.title}>
-            {item.content}
-          </EntityLayout.Route>
-        )
-      })
-    }
-
+    {plugins.map((item: PluginItem) => {
+      return (
+        <EntityLayout.Route
+          if={entity => {
+            const show = entity.metadata.annotations?.hasOwnProperty(
+              item.annotation,
+            );
+            if (show !== undefined) return show;
+            return false;
+          }}
+          path={item.path}
+          title={item.title}
+          key={item.title}
+        >
+          {item.content}
+        </EntityLayout.Route>
+      );
+    })}
   </EntityLayout>
 );
 
@@ -469,36 +513,48 @@ const defaultEntityPage = (
       {overviewContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route if={isGithubAvailable || isGitlabAvailable} path="/ci-cd" title="CI/CD">
+    <EntityLayout.Route
+      if={isGithubAvailable || isGitlabAvailable}
+      path="/ci-cd"
+      title="CI/CD"
+    >
       {cicdContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route  if={isGithubAvailable || isGitlabAvailable} path="/pull-requests" title="Pull Requests">
+    <EntityLayout.Route
+      if={isGithubAvailable || isGitlabAvailable}
+      path="/pull-requests"
+      title="Pull Requests"
+    >
       {pullRequestsContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
-      path="/kong-service-manager" title="Kong">
+      path="/kong-service-manager"
+      title="Kong"
+    >
       <KongServiceManagerContent />
     </EntityLayout.Route>
 
-    {
-      plugins.map((item: PluginItem) => {
-        return (
-          <EntityLayout.Route
-            if={(entity) => {
-              const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
-              if (show !== undefined) return show
-              return false
-            }}
-            path={item.path} title={item.title} key={item.title}>
-            {item.content}
-          </EntityLayout.Route>
-        )
-      })
-    }
-
+    {plugins.map((item: PluginItem) => {
+      return (
+        <EntityLayout.Route
+          if={entity => {
+            const show = entity.metadata.annotations?.hasOwnProperty(
+              item.annotation,
+            );
+            if (show !== undefined) return show;
+            return false;
+          }}
+          path={item.path}
+          title={item.title}
+          key={item.title}
+        >
+          {item.content}
+        </EntityLayout.Route>
+      );
+    })}
   </EntityLayout>
 );
 
@@ -524,7 +580,7 @@ const websiteEntityPage = (
       path="/security-insights"
       title="Security Insights"
       // Uncomment the line below if you'd like to only show the tab on entities with the correct annotations already set
-       if={isSecurityInsightsAvailable}
+      if={isSecurityInsightsAvailable}
     >
       <EntitySecurityInsightsContent />
     </EntityLayout.Route>
@@ -539,29 +595,32 @@ const websiteEntityPage = (
 
     <EntityLayout.Route
       if={isKongServiceManagerAvailable}
-      path="/kong-service-manager" title="Kong">
+      path="/kong-service-manager"
+      title="Kong"
+    >
       <KongServiceManagerContent />
     </EntityLayout.Route>
 
-    {
-      plugins.map((item: PluginItem) => {
-        return (
-          <EntityLayout.Route
-            if={(entity) => {
-              const show = entity.metadata.annotations?.hasOwnProperty(item.annotation)
-              if (show !== undefined) return show
-              return false
-            }}
-            path={item.path} title={item.title} key={item.title} >
-            {item.content}
-          </EntityLayout.Route>
-        )
-      })
-    }
+    {plugins.map((item: PluginItem) => {
+      return (
+        <EntityLayout.Route
+          if={entity => {
+            const show = entity.metadata.annotations?.hasOwnProperty(
+              item.annotation,
+            );
+            if (show !== undefined) return show;
+            return false;
+          }}
+          path={item.path}
+          title={item.title}
+          key={item.title}
+        >
+          {item.content}
+        </EntityLayout.Route>
+      );
+    })}
   </EntityLayout>
 );
-
-
 
 const componentPage = (
   <EntitySwitch>
@@ -770,7 +829,6 @@ const clusterPage = (
             <Grid item lg={6} md={12} xs={12}>
               <EntityGithubInsightsReadmeCard maxHeight={350} />
             </Grid>
-
           </EntitySwitch.Case>
         </EntitySwitch>
 
@@ -823,25 +881,28 @@ const clusterPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route
-      if={(entity) => {
+      if={entity => {
         if (
-          isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity) ||
-          isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity)
-        ) return true;
-        return false
+          (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) ||
+          (isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity))
+        )
+          return true;
+        return false;
       }}
-      path="/ci-cd" title="CI/CD"
+      path="/ci-cd"
+      title="CI/CD"
     >
       {cicdContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route
-      if={(entity) => {
+      if={entity => {
         if (
-          isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity) ||
-          isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity)
-        ) return true;
-        return false
+          (isGithubAvailable(entity) && !isAzurePipelinesAvailable(entity)) ||
+          (isGitlabAvailable(entity) && !isAzurePipelinesAvailable(entity))
+        )
+          return true;
+        return false;
       }}
       path="/pull-requests"
       title="Pull Requests"
@@ -867,16 +928,24 @@ const clusterPage = (
       {grafanaAlertsContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route if={isKubernetesAvailable} path="/kubernetes-gpt-analyzer" title="Kubernetes GPT">
+    <EntityLayout.Route
+      if={isKubernetesAvailable}
+      path="/kubernetes-gpt-analyzer"
+      title="Kubernetes GPT"
+    >
       <KubernetesGptAnalyzerPage />
     </EntityLayout.Route>
 
-    <EntityLayout.Route if={isInfracostAvailable} path="/infracost" title="Infracost">
+    <EntityLayout.Route
+      if={isInfracostAvailable}
+      path="/infracost"
+      title="Infracost"
+    >
       <InfracostOverviewPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/zora-oss" title="Zora OSS">
-      <ZoraOssPage/>
+      <ZoraOssPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route
@@ -897,12 +966,12 @@ const environmentPage = (
           <EnvironmentOverview />
         </Grid>
         <Grid item lg={6} md={12} xs={12}>
-          <EntityCatalogGraphCard variant='flex' height={300} />
+          <EntityCatalogGraphCard variant="flex" height={300} />
         </Grid>
       </Grid>
     </EntityLayout.Route>
   </EntityLayout>
-)
+);
 
 const databasePage = (
   <EntityLayout>
@@ -911,8 +980,8 @@ const databasePage = (
         <Grid item lg={6} md={12} xs={12}>
           <DatabaseOverview />
         </Grid>
-        <Grid item lg={6} md={12} xs={12} >
-          <EntityCatalogGraphCard variant='flex' height={300} />
+        <Grid item lg={6} md={12} xs={12}>
+          <EntityCatalogGraphCard variant="flex" height={300} />
           <Grid item style={{ marginTop: '1.2rem' }}>
             <EntitySwitch>
               {/* github */}
@@ -945,17 +1014,19 @@ const databasePage = (
           </EntitySwitch>
         </Grid>
       </Grid>
-
     </EntityLayout.Route>
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
-    <EntityLayout.Route if={isInfracostAvailable} path="/infracost" title="Infracost">
+    <EntityLayout.Route
+      if={isInfracostAvailable}
+      path="/infracost"
+      title="Infracost"
+    >
       <InfracostOverviewPage />
     </EntityLayout.Route>
-
   </EntityLayout>
-)
+);
 
 const vaultPage = (
   <EntityLayout>
@@ -965,12 +1036,12 @@ const vaultPage = (
           <VaultOverview />
         </Grid>
         <Grid item lg={6} md={12} xs={12}>
-          <EntityCatalogGraphCard variant='flex' height={300} />
+          <EntityCatalogGraphCard variant="flex" height={300} />
         </Grid>
       </Grid>
     </EntityLayout.Route>
   </EntityLayout>
-)
+);
 
 export const entityPage = (
   <EntitySwitch>
