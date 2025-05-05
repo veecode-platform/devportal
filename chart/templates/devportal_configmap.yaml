@@ -252,7 +252,7 @@ data:
               url: ${ARGOCD_DOMAIN}
               {{- if .Values.argocd.token }}
               token: ${ARGOCD_TOKEN}
-              {{- else }}
+              {{- end }}
     {{- end }}
     {{- if .Values.integrations }}
     integrations:
