@@ -1,6 +1,12 @@
-import { createBackendFeatureLoader, coreServices } from '@backstage/backend-plugin-api';
+import {
+  createBackendFeatureLoader,
+  coreServices,
+} from '@backstage/backend-plugin-api';
 import { kubernetesModuleCustomExtension } from '../kubernetes/kubernetesExtension';
-import { catalogModuleInfracostProcessor, infracostPlugin } from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
+import {
+  catalogModuleInfracostProcessor,
+  infracostPlugin,
+} from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
 import { catalogModuleCustomExtensions } from '../catalog/catalogExtension';
 import { gitlabPlugin } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 
@@ -20,8 +26,8 @@ export default createBackendFeatureLoader({
 
     //vault
     if (config.getBoolean('enabledPlugins.vault')) {
-      yield import('@backstage-community/plugin-vault-backend');
-      logger.info('@backstage-community/plugin-vault-backend');
+      yield import('@internal/plugin-vault-backend');
+      logger.info('@internal/plugin-vault-backend');
     }
 
     //azure
@@ -32,24 +38,31 @@ export default createBackendFeatureLoader({
 
     //kubernetes
     if (config.getBoolean('enabledPlugins.kubernetes')) {
-      yield import('@backstage/plugin-kubernetes-backend/alpha')
-      logger.info('@backstage/plugin-kubernetes-backend/alpha')
-      yield kubernetesModuleCustomExtension
-      logger.info('kubernetesModuleCustomExtension')
+      yield import('@backstage/plugin-kubernetes-backend/alpha');
+      logger.info('@backstage/plugin-kubernetes-backend/alpha');
+      yield kubernetesModuleCustomExtension;
+      logger.info('kubernetesModuleCustomExtension');
     }
 
     //rbac
     if (config.getBoolean('enabledPlugins.rbac')) {
       yield import('@backstage-community/plugin-rbac-backend');
       logger.info('@backstage-community/plugin-rbac-backend');
-      yield import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend');
-      logger.info('@internal/backstage-plugin-veecode-platform-permissions-hub-backend');
-    }
-    else {
-      yield import('@backstage/plugin-permission-backend')
-      logger.info('@backstage/plugin-permission-backend')
-      yield import('@backstage/plugin-permission-backend-module-allow-all-policy');
-      logger.info('@backstage/plugin-permission-backend-module-allow-all-policy');
+      yield import(
+        '@internal/backstage-plugin-veecode-platform-permissions-hub-backend'
+      );
+      logger.info(
+        '@internal/backstage-plugin-veecode-platform-permissions-hub-backend',
+      );
+    } else {
+      yield import('@backstage/plugin-permission-backend');
+      logger.info('@backstage/plugin-permission-backend');
+      yield import(
+        '@backstage/plugin-permission-backend-module-allow-all-policy'
+      );
+      logger.info(
+        '@backstage/plugin-permission-backend-module-allow-all-policy',
+      );
     }
 
     //guest
@@ -60,28 +73,28 @@ export default createBackendFeatureLoader({
 
     //infracost
     if (config.getBoolean('enabledPlugins.infracost')) {
-      yield catalogModuleInfracostProcessor
-      logger.info('catalogModuleInfracostProcessor')
-      yield infracostPlugin
-      logger.info('infracostPlugin')
+      yield catalogModuleInfracostProcessor;
+      logger.info('catalogModuleInfracostProcessor');
+      yield infracostPlugin;
+      logger.info('infracostPlugin');
     }
 
     //kong
     if (config.getBoolean('enabledPlugins.kong')) {
-      yield import('@veecode-platform/plugin-kong-service-manager-backend')
-      logger.info('@veecode-platform/plugin-kong-service-manager-backend')
+      yield import('@veecode-platform/plugin-kong-service-manager-backend');
+      logger.info('@veecode-platform/plugin-kong-service-manager-backend');
     }
 
     // vee
     if (config.getBoolean('enabledPlugins.vee')) {
-      yield import('@veecode-platform/backstage-plugin-vee-backend')
-      logger.info('@veecode-platform/plugin-vee-backend')
+      yield import('@veecode-platform/backstage-plugin-vee-backend');
+      logger.info('@veecode-platform/plugin-vee-backend');
     }
 
     // sonarqube
     if (config.getBoolean('enabledPlugins.sonarqube')) {
-      yield import('@backstage-community/plugin-sonarqube-backend')
-      logger.info('@backstage-community/plugin-sonarqube-backend')
+      yield import('@backstage-community/plugin-sonarqube-backend');
+      logger.info('@backstage-community/plugin-sonarqube-backend');
     }
 
     //gitlab
@@ -89,8 +102,10 @@ export default createBackendFeatureLoader({
       yield catalogModuleCustomExtensions;
       logger.info('catalogModuleCustomExtensions');
       yield gitlabPlugin;
-      logger.info('gitlabPlugin from "@immobiliarelabs/backstage-plugin-gitlab-backend"');
+      logger.info(
+        'gitlabPlugin from "@immobiliarelabs/backstage-plugin-gitlab-backend"',
+      );
     }
     logger.info('----------------------------------------');
-  }
+  },
 });
