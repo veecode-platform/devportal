@@ -38,6 +38,8 @@ data:
 
 
     p, role:default/kubernetes, kubernetes.proxy, use, allow
+    p, role:default/kubernetes, kubernetes.resources.read, read, allow
+    p, role:default/kubernetes, kubernetes.clusters.read, read, allow
     g, group:default/{{ $adminGroup }}, role:default/kubernetes
 
 
