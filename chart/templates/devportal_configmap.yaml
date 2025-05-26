@@ -586,11 +586,11 @@ data:
             {{- if .Values.auth.providers.github.enterpriseInstanceUrl }}
             enterpriseInstanceUrl: {{ .Values.auth.providers.github.enterpriseInstanceUrl | quote }}
             {{- end }}
-            # signIn:
-            #   resolvers:
-            #     - resolver: usernameMatchingUserEntityName
-            #     - resolver: emailMatchingUserEntityProfileEmail
-            #     - resolver: emailLocalPartMatchingUserEntityName
+             signIn:
+               resolvers:
+                 - resolver: usernameMatchingUserEntityName
+                 - resolver: emailMatchingUserEntityProfileEmail
+                 - resolver: emailLocalPartMatchingUserEntityName
         {{- end }}
         {{- if .Values.auth.providers.gitlab }}
         gitlab:
