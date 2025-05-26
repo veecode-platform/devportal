@@ -7374,6 +7374,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/plugin-events-backend-module-github@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@backstage/plugin-events-backend-module-github@npm:0.4.0"
+  dependencies:
+    "@backstage/backend-plugin-api": "npm:^1.3.1"
+    "@backstage/config": "npm:^1.3.2"
+    "@backstage/integration": "npm:^1.17.0"
+    "@backstage/plugin-events-node": "npm:^0.4.11"
+    "@backstage/types": "npm:^1.2.1"
+    "@octokit/auth-callback": "npm:^5.0.0"
+    "@octokit/webhooks-methods": "npm:^3.0.0"
+    lodash: "npm:^4.17.21"
+    octokit: "npm:^3.0.0"
+  checksum: 10/7e18a270026d6f46b5aec35cc6b0505169816ca419c1a49a391a8cfec10b31ec5fb7156fe452095e95c0388834a71ea3254745869fe4da36f5761e500b9f6a33
+  languageName: node
+  linkType: hard
+
 "@backstage/plugin-events-node@npm:^0.4.10, @backstage/plugin-events-node@npm:^0.4.11":
   version: 0.4.11
   resolution: "@backstage/plugin-events-node@npm:0.4.11"
@@ -13501,6 +13518,13 @@ __metadata:
     universal-github-app-jwt: "npm:^2.2.0"
     universal-user-agent: "npm:^7.0.0"
   checksum: 10/d4cc9ddd760510fb6c95371d549441f61f8cdbac47896a063b1e101f8e0f107b166823bff8cc7aea64a17ca13b3b132b00073699db94ac79f2ef3f795b32e33c
+  languageName: node
+  linkType: hard
+
+"@octokit/auth-callback@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "@octokit/auth-callback@npm:5.0.1"
+  checksum: 10/afa2fd71e1cc238c4fc09a1a8cc3b5c8d2f231aecdb8f8be2384857cde893aa4ac697f7c6aa0b61e4d5fa1f00d41fb349ceffb938977c02ee317d5432247f6ef
   languageName: node
   linkType: hard
 
@@ -21728,6 +21752,7 @@ __metadata:
     "@backstage/plugin-catalog-backend-module-gitlab": "npm:^0.6.6"
     "@backstage/plugin-catalog-backend-module-scaffolder-entity-model": "npm:^0.2.8"
     "@backstage/plugin-catalog-backend-module-unprocessed": "npm:^0.6.0"
+    "@backstage/plugin-events-backend-module-github": "npm:^0.4.0"
     "@backstage/plugin-kubernetes-backend": "npm:^0.19.6"
     "@backstage/plugin-kubernetes-node": "npm:^0.3.0"
     "@backstage/plugin-permission-backend": "npm:^0.7.0"

@@ -46,6 +46,7 @@
     "@backstage/plugin-catalog-backend-module-gitlab": "^0.6.6",
     "@backstage/plugin-catalog-backend-module-scaffolder-entity-model": "^0.2.8",
     "@backstage/plugin-catalog-backend-module-unprocessed": "^0.6.0",
+    "@backstage/plugin-events-backend-module-github": "^0.4.0",
     "@backstage/plugin-kubernetes-backend": "^0.19.6",
     "@backstage/plugin-kubernetes-node": "^0.3.0",
     "@backstage/plugin-permission-backend": "^0.7.0",

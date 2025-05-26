@@ -287,7 +287,8 @@ catalog:
     - allow: [Component, API, Location, Cluster, Template, Environment, Database, Vault, Infracost, Group, User]
   providers: {}
 #    github:
-#      organization: #github Organization Name
+#      url: https://github.com #github url
+#      organization: veecode-homolog #github Organization Name
 #      catalogPath: /catalog-info.yaml #path catalog info
 #      validateLocationsExist: true #check if exists
 #      filters:

@@ -347,6 +347,23 @@ data:
       {{- if .Values.catalog.providers }}
       providers:
         {{- if .Values.catalog.providers.github }}
+        githubOrg:
+          id: providerId
+          githubUrl: {{ .Values.catalog.providers.github.url | quote | default "https://github.com" }}
+          orgs: [{{ .Values.catalog.providers.github.organization | quote }}]
+          schedule:    
+            frequency:
+              {{- if and .Values.catalog.providers.github.schedule .Values.catalog.providers.github.schedule.frequency }}
+              minutes: {{ .Values.catalog.providers.github.schedule.frequency }}
+              {{- else }}
+              minutes: 5
+              {{- end }}
+            timeout: 
+              {{- if and .Values.catalog.providers.github.schedule .Values.catalog.providers.github.schedule.timeout }}
+              minutes: {{ .Values.catalog.providers.github.schedule.timeout }}
+              {{- else }}
+              minutes: 3
+              {{- end }}
         github:
           providerId: 
             organization: {{ .Values.catalog.providers.github.organization | quote }}

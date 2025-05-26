@@ -32,10 +32,10 @@ import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-cluster-
 import { EnvironmentExplorerPage } from '@veecode-platform/plugin-environment-explorer';
 import { DatabaseExplorerPage } from '@veecode-platform/plugin-database-explorer';
 import { AboutPage } from '@internal/plugin-about';
-import type { IdentityApi } from '@backstage/core-plugin-api';
+//import type { IdentityApi } from '@backstage/core-plugin-api';
 import { VisitListener } from '@backstage/plugin-home';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
-import { SignInPage as VeecodeSignInPage } from './components/SignInPage';
+//import { SignInPage as VeecodeSignInPage } from './components/SignInPage';
 import { SignInPage } from '@backstage/core-components';
 import { ScaffolderFieldExtensions, ScaffolderLayouts } from '@backstage/plugin-scaffolder-react';
 import { RepoUrlSelectorExtension, ResourcePickerExtension, UploadFilePickerExtension } from '@veecode-platform/veecode-scaffolder-extensions';
@@ -53,17 +53,21 @@ const SignInComponent: any = (props: SignInPageProps) => {
   const guest = config.getBoolean("platform.guest.enabled");
   const demoGuest = config.getOptionalBoolean("platform.guest.demo");
 
-  if (guest) {
+    if (guest) {
     return <SignInPage {...props} auto providers={demoGuest ? ['guest', githubProvider] : ['guest']} />
   }
 
+  return <SignInPage {...props} auto providers={[keycloakProvider, githubProvider]}></SignInPage>
+
+  /*need to refactor, sign in not working with multiple providers
   return <VeecodeSignInPage
-    provider={keycloakProvider}
+    //provider={keycloakProvider}
+    providers={[keycloakProvider, githubProvider]}
     onSignInSuccess={async (identityApi: IdentityApi) => {
       props.onSignInSuccess(identityApi);
     }}
 
-  />
+  />*/
 };
 
 const ThemeComponent = ({ children, light }: { children: ReactNode, light?: boolean }) => {
