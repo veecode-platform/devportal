@@ -15,7 +15,7 @@ const backend = createBackend();
 backend.add(import('@backstage/plugin-app-backend'));
 
 //catalog
-backend.add(import('@backstage/plugin-catalog-backend/alpha'));
+backend.add(import('@backstage/plugin-catalog-backend'));
 backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'));
 backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud/alpha'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));

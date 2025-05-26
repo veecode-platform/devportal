@@ -27,7 +27,8 @@
     "clear-deps": "find .  -path ./.docker-data -prune -o -name node_modules -type d -exec rm -rf '{}' +",
     "docker-up": "docker compose --profile=complete up -d",
     "docker-down": "docker compose --profile=complete down",
-    "check": "yarn upgrade-interactive"
+    "check": "yarn upgrade-interactive",
+    "update-backstage": "backstage-cli versions:bump --pattern '@{backstage,roadiehq,backstage-community,veecode-platform}/*'"
   },
   "workspaces": {
     "packages": [
@@ -36,7 +37,7 @@
     ]
   },
   "devDependencies": {
-    "@backstage/cli": "^0.31.1",
+    "@backstage/cli": "^0.32.1",
     "@spotify/prettier-config": "^12.0.0",
     "@types/cookie-parser": "^1.4.5",
     "concurrently": "^6.0.0",
