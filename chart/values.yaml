@@ -128,11 +128,13 @@ grafana:
 #  token:  #grafana token
 
 argocd:
-  enabled: false #enable ArgoCD plugin
-#  username:  #argoCD username OPTION 1
-#  password:  #argoCD password OPTION 1
-  domain: #argoCD domain
-  token: #argoCD auth token OPTION 2
+  enabled: true #enable ArgoCD plugin
+  #username: #argoCD username OPTION 1
+  #password: #argoCD password OPTION 1
+  instances:
+    - name: #ArgoCD instance name
+      url: #argoCD url
+      token: #argoCD auth token OPTION 2 - this will override username and password
 
 vault:
   enabled: false #enable Vault plugin

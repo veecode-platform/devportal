@@ -242,17 +242,19 @@ data:
     {{- if .Values.argocd.enabled }}
     argocd:
       {{- if and .Values.argocd.username .Values.argocd.password }}
-      username: ${ARGOCD_USERNAME}
-      password: ${ARGOCD_PASSWORD}
+        username: ${ARGOCD_USERNAME}
+        password: ${ARGOCD_PASSWORD}
       {{- end }}
       appLocatorMethods:
         - type: "config"
           instances:
-            - name: argoInstance1
-              url: ${ARGOCD_DOMAIN}
-              {{- if .Values.argocd.token }}
-              token: ${ARGOCD_TOKEN}
+            {{- range $i, $e := .Values.argocd.instances }}
+            - name: {{ .name | quote }}
+              url: {{ .url | quote }}
+              {{- if .token }}
+              token: ${ARGOCD_TOKEN_{{$i}}}
               {{- end }}
+            {{- end }}
     {{- end }}
     {{- if .Values.integrations }}
     integrations:
