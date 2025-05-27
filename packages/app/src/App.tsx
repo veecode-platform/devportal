@@ -44,7 +44,7 @@ import { AppProvider } from './context';
 import { RbacPage } from '@backstage-community/plugin-rbac';
 import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
-import { keycloakProvider, githubProvider } from './identityProviders';
+import { keycloakProvider, githubProvider, gitlabProvider } from './identityProviders';
 import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
 
 
@@ -57,7 +57,7 @@ const SignInComponent: any = (props: SignInPageProps) => {
     return <SignInPage {...props} auto providers={demoGuest ? ['guest', githubProvider] : ['guest']} />
   }
 
-  return <SignInPage {...props} auto providers={[keycloakProvider, githubProvider]}></SignInPage>
+  return <SignInPage {...props} auto providers={[keycloakProvider, githubProvider, gitlabProvider]}></SignInPage>
 
   /*need to refactor, sign in not working with multiple providers
   return <VeecodeSignInPage

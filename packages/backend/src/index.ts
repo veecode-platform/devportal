@@ -19,7 +19,9 @@ backend.add(import('@backstage/plugin-catalog-backend'));
 backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'));
 backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github'));
+backend.add(import('@backstage/plugin-catalog-backend-module-gitlab'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github-org'));
+backend.add(import('@backstage/plugin-catalog-backend-module-gitlab-org'));
 backend.add(import('@backstage-community/plugin-catalog-backend-module-keycloak'));
 backend.add(import('@backstage/plugin-catalog-backend-module-unprocessed'));
 backend.add(keycloakBackendModuleTransformer)
@@ -41,8 +43,7 @@ backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
 backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'))
 backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
-//backend.add(customGithubAuthProvider)
-//backend.add(customGitlabAuthProvider)
+backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
 
 //proxy
 backend.add(import('@backstage/plugin-proxy-backend'));
