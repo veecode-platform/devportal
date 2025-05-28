@@ -128,17 +128,17 @@ grafana:
 #  token:  #grafana token
 
 argocd:
-  enabled: true #enable ArgoCD plugin
+  enabled: false #enable ArgoCD plugin
   #username: #argoCD username OPTION 1
   #password: #argoCD password OPTION 1
-  instances:
-    - name: #ArgoCD instance name
-      url: #argoCD url
-      token: #argoCD auth token OPTION 2 - this will override username and password
+  #instances:
+  #  - name: #ArgoCD instance name
+  #    url: #argoCD url
+  #    token: #argoCD auth token OPTION 2 - this will override username and password
 
 vault:
   enabled: false #enable Vault plugin
-  domain:  #vault domain
+  #domain:  #vault domain
 #  publicUrl: #vault public url
 #  token:  #vault token
 #  secretEngine: secrets #vault secret engine
@@ -170,7 +170,7 @@ infracost:
 #    initialDelay: 15 #time in minutes to wait before the first refresh request
 
 vee:
-  enabled: true
+  enabled: false
     # openai:
     #   apiBaseUrl: #api_base_url
     #   apiKey: #api_key
