@@ -28,6 +28,13 @@ service:
   type: ClusterIP #service type, could be ‘ClusterIP’, ‘LoadBalancer’ or ‘NodePort’
   containerPort: 7007 #port to serve on the internal service
 
+serviceMonitor:
+  enabled: false #true to enable
+#  interval: 30s
+#  scrapeTimeout: 10s
+#  selectors:
+#    release: prometheus
+
 ingress:
   enabled: false #If `true`, an ingress is created
 #  host: # your host to devportal ingress
@@ -398,13 +405,6 @@ theme:
     #use configmapName or downloadUrl
     configmapName: #Configmap with theme file created
     downloadUrl: #Theme file url
-
-serviceMonitor:
-  enabled: false #true to enable
-#  interval: 30s
-#  scrapeTimeout: 10s
-#  selectors:
-#    release: prometheus
 
 #zoraOss: 
 #  openAiApiKey: xxxxxxxx #OpenAI API Key
