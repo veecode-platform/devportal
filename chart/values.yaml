@@ -100,13 +100,17 @@ appConfig:
 
   database:
     client: better-sqlite3 #database client (better-sqlite3 or pg)
-#    connection:
+  #  connection:
 #      directory: #sqlite directory instead of memory storage
-#      host: postgres-postgresql.vkpr #database host
-#      port: 5432 #database port number
-#      database: platform_devportal #database name
-#      user: postgres #database username
-#      password: postgres #database password
+    #  host: postgres #database host
+    #  port: 5432 #database port number
+    #  database: database_name #database name
+    #  user: user #database username
+    #  password: password #database password
+    #  ssl: #optional ssl configuration
+    #    rejectUnauthorized: true #reject unauthorized SSL connections default FALSE
+    #    caSecretName: secretName #secret name with a certificate content
+    #    caFilePath: ca/secret.crt #path to mount the CA file
 
 #locations:
 #  - type: #location type to import(url)

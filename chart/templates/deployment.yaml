@@ -72,6 +72,11 @@ spec:
             mountPath: /app/github-app-credentials.yaml
             subPath: github-app-credentials
           {{- end }}
+          {{- if and .Values.appConfig.database.connection.ssl .Values.appConfig.database.connection.ssl.caFilePath .Values.appConfig.database.connection.ssl.caSecretName }}
+          - name: ca-certificate
+            mountPath: {{ .Values.appConfig.database.connection.ssl.caFilePath }}
+            subPath: ca-certificate
+          {{- end }}
           {{- if .Values.readinessProbe }}
           readinessProbe:
           {{- toYaml .Values.readinessProbe | nindent 12 }}
@@ -102,4 +107,9 @@ spec:
             {{- else }}
             secretName: "{{ include "devportal-charts.fullname" . }}-github-app"
             {{- end }}
+        {{- end }}
+        {{- if and .Values.appConfig.database.connection.ssl .Values.appConfig.database.connection.ssl.caFilePath .Values.appConfig.database.connection.ssl.caSecretName }}
+        - name: ca-certificate
+          secret:
+            secretName: {{ .Values.appConfig.database.connection.ssl.caSecretName }}
         {{- end }}
