@@ -113,7 +113,7 @@ import {
   isSecurityInsightsAvailable,
 } from '@roadiehq/backstage-plugin-security-insights';
 import { AssistantAIContent } from "@veecode-platform/backstage-plugin-vee"
-import { VulnerabilitiesOverviewCard } from '@internal/backstage-plugin-vulnerabilities';
+import { VulnerabilitiesOverviewCard } from '@veecode-platform/backstage-plugin-vulnerabilities';
 import { EntitySonarQubeCard } from '@backstage-community/plugin-sonarqube';
 
 const MISSING_ANNOTATION_READ_MORE_URL = 'https://backstage.io/docs/features/software-catalog/descriptor';

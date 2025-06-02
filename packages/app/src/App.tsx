@@ -46,7 +46,7 @@ import { LayoutCustom } from './components/scaffolder/LayoutCustom';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { keycloakProvider, githubProvider } from './identityProviders';
 import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
-import { VulnerabilitiesPage } from '@internal/backstage-plugin-vulnerabilities';
+import { VulnerabilitiesPage } from '@veecode-platform/backstage-plugin-vulnerabilities';
 
 
 const SignInComponent: any = (props: SignInPageProps) => {
