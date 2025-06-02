@@ -121,7 +121,7 @@ data:
           database: ${DATABASE_NAME}
           user: ${DATABASE_USER}
           password: ${DATABASE_PASSWORD}
-          {{- if and .Values.appConfig.database.connection.ssl .Values.appConfig.database.connection.ssl.rejectUnauthorized .Values.appConfig.database.connection.ssl.caFilePath }}
+          {{- if and .Values.appConfig.database.connection .Values.appConfig.database.connection.ssl .Values.appConfig.database.connection.ssl.rejectUnauthorized .Values.appConfig.database.connection.ssl.caFilePath }}
           ssl:
             rejectUnauthorized: {{ .Values.appConfig.database.connection.ssl.rejectUnauthorized | default false }}
             ca:

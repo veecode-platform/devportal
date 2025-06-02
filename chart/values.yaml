@@ -231,6 +231,7 @@ auth:
 #      clientId: #Gitlab Client ID
 #      clientSecret: #Gitlab Client Secret
 #      audience: "https://gitlab.com" #Gitlab Audience
+#      callbackUrl: #The URL matching the Redirect URI registered when creating your GitLab OAuth App
 
 integrations: {}
 #  azure:
