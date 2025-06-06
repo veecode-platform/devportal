@@ -16,13 +16,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import BgSVG from "./assets/bg.svg";
+import BgSVG from './assets/bg.svg';
 
 export type SignInPageClassKey = 'container' | 'item';
 
-export const useStyles = makeStyles( theme => 
-  ({
-    wrapper:{
+export const useStyles = makeStyles(
+  theme => ({
+    wrapper: {
       width: '100vw',
       height: '100vh',
       display: 'flex',
@@ -30,24 +30,30 @@ export const useStyles = makeStyles( theme =>
       alignItems: 'center',
       flexDirection: 'column',
       background: `url('${BgSVG}')`,
-      backgroundSize: 'cover'
+      backgroundSize: 'cover',
     },
     container: {
       padding: 0,
       listStyle: 'none',
       width: '65vw',
-      minWidth:'320px',
+      minWidth: '320px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
     },
-    logo:{
+    logo: {
       width: '80vw',
       padding: '2em',
       display: 'flex',
-      justifyContent:'center',
-      alignItems: 'center'
+      justifyContent: 'center',
+      alignItems: 'center',
+      [theme.breakpoints.down('md')]: {
+        width: '95vw',
+      },
+      [theme.breakpoints.down('xs')]: {
+        width: '100vw',
+      },
     },
     item: {
       display: 'flex',
@@ -57,7 +63,7 @@ export const useStyles = makeStyles( theme =>
       margin: '-.7rem 0',
       padding: 0,
     },
-    button:{
+    button: {
       width: '120px',
       height: '56px',
       padding: '1em 0',
@@ -70,13 +76,13 @@ export const useStyles = makeStyles( theme =>
       fontSize: '16px',
       color: '#FAFAFA',
       transition: 'all 0.5s linear',
-      '&:hover':{
+      '&:hover': {
         background: '#33FFCE',
         color: '#151515',
         transition: 'all 0.5s linear',
-      }
+      },
     },
-    loginBox:{
+    loginBox: {
       width: '100%',
       padding: '.5rem',
       borderRadius: '18px',
@@ -87,74 +93,80 @@ export const useStyles = makeStyles( theme =>
       justifyContent: 'center',
       fontSize: '1.2rem',
       flexDirection: 'column',
-      boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
+      boxShadow:
+        'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
       background: `linear-gradient(270deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
       border: `2px solid ${theme.palette.background.paper}`,
       transition: 'all .5s ease-in-out',
 
-      "&:hover":{
+      '&:hover': {
         border: `2px solid #33FFCE`,
-        transition: 'all .5s ease-in'
-      }
+        transition: 'all .5s ease-in',
+      },
     },
-    providerTitleBar:{
+    providerTitleBar: {
+      width: '68%',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'flex-start',
-      gap: '1rem',
+      justifyContent: 'space-between',
       margin: '.5rem auto',
-      fontSize: '1.1rem',
+      fontSize: '.9rem',
+      [theme.breakpoints.down('sm')]: {
+        width: '82%',
+      },
     },
-    providerLogo:{
-      width: '50px'
+    providerLogo: {
+      width: '35px',
+      height: '35px',
+      objectFit: 'cover',
     },
     providerItem: {
-        width: '100%',
-        padding: '1rem .5rem',
-        borderRadius: '18px',
-        margin: ' 1rem auto',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '1.2rem',
-        gap: '2rem',
-        boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
-        background: `linear-gradient(270deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
-        border: `2px solid ${theme.palette.background.paper}`,
-        transition: 'all .5s ease-in-out',
-  
-        "&:hover":{
-          border: `2px solid #33FFCE`,
-          transition: 'all .5s ease-in'
-        }
-    },
-    footerWrapper:{
-      // width: '100%',
-      marginTop: '12rem',    
+      width: '100%',
+      padding: '1rem .5rem',
+      borderRadius: '18px',
+      margin: ' 1rem auto',
+      cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      fontSize: '1.2rem',
+      gap: '2rem',
+      boxShadow:
+        'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
+      background: `linear-gradient(270deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
+      border: `2px solid ${theme.palette.background.paper}`,
+      transition: 'all .5s ease-in-out',
+
+      '&:hover': {
+        border: `2px solid #33FFCE`,
+        transition: 'all .5s ease-in',
+      },
     },
-    footerText:{
+    footerWrapper: {
+      // width: '100%',
+      marginTop: '12rem',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    footerText: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       fontSize: '1.2em',
-      fontWeight: 'bold'
-    }
-    ,
+      fontWeight: 'bold',
+    },
     logoBackstage: {
       width: '7.5em',
-      height: '1.5em'
+      height: '1.5em',
     },
-    footer:{
-      display:'flex',
-      alignItems:'center',
+    footer: {
+      display: 'flex',
+      alignItems: 'center',
       justifyContent: 'center',
       fontSize: '1.3em',
-      gap: '10px'
-    }
+      gap: '10px',
+    },
   }),
   { name: 'BackstageSignInPage' },
 );
