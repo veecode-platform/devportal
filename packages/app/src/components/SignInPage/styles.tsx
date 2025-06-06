@@ -105,10 +105,11 @@ export const useStyles = makeStyles(
       },
     },
     providerTitleBar: {
-      width: '68%',
+      width: '100%',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
+      gap: '1rem',
       margin: '.5rem auto',
       fontSize: '.9rem',
       [theme.breakpoints.down('sm')]: {
