@@ -96,11 +96,11 @@ export const useStyles = makeStyles(
       boxShadow:
         'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
       background: `linear-gradient(270deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
-      border: `2px solid ${theme.palette.background.paper}`,
+      border: `1px solid ${theme.palette.background.paper}`,
       transition: 'all .5s ease-in-out',
 
       '&:hover': {
-        border: `2px solid #33FFCE`,
+        border: `1px solid ${theme.palette.border}69`,
         transition: 'all .5s ease-in',
       },
     },
