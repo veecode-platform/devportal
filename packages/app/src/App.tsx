@@ -96,9 +96,21 @@ import { VeeCodeSignInPage } from './components/SignInPage/VeeCodeSigninPage';
 const SignInComponent: any = (props: SignInPageProps) => {
   const config = useApi(configApiRef);
   const guest = config.getBoolean('platform.guest.enabled');
+  const signInProviders = config.getStringArray('platform.signInProviders');
   const demoGuest = config.getOptionalBoolean('platform.guest.demo');
-  const providers = [keycloakProvider, githubProvider, gitlabProvider];
-
+  const providers: Array<typeof githubProvider | typeof keycloakProvider | typeof gitlabProvider> = []
+  if(signInProviders && signInProviders.length > 0) {
+    signInProviders.forEach(provider => {
+      if (provider === 'keycloak') {
+        providers.push(keycloakProvider);
+      } else if (provider === 'github') {
+        providers.push(githubProvider);
+      } else if (provider === 'gitlab') {
+        providers.push(gitlabProvider);
+      }
+    });
+  }
+  
   return (
     <VeeCodeSignInPage
       providers={

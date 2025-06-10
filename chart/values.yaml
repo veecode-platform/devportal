@@ -353,6 +353,10 @@ catalog:
 #      groupQuerySize: 250 #Group query size to sync
 
 platform:
+  signInProviders: 
+   - github #Sign in providers to be enabled in the sign in page 
+   - gitlab #Sign in providers to be enabled in the sign in page
+   - keycloak #Sign in providers to be enabled in the sign in page
   guest:
     enabled: true #enable guest mode
     demo: false #enable demo guest mode

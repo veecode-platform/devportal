@@ -322,6 +322,11 @@ export interface Config {
     * 
     * @visibility frontend
     */
+    signInProviders: Array<string>,  
+    /**
+    * 
+    * @visibility frontend
+    */
     behaviour: {
       /**
       * 

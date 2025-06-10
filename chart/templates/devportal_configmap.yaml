@@ -630,6 +630,10 @@ data:
       gitlab: {{ $is_gitlab_provider }}
       github: {{ $is_github_provider }}
     platform:
+      signInProviders: 
+      {{- range .Values.platform.signInProviders }}
+        - {{. | quote }}
+      {{- end}}
       guest:
         enabled: {{ .Values.platform.guest.enabled | default false }}
         demo: {{ .Values.platform.guest.demo | default false }}
