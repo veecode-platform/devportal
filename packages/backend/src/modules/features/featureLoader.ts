@@ -9,6 +9,7 @@ import {
 } from '@veecode-platform/backstage-plugin-infracost-backend/alpha';
 import { catalogModuleCustomExtensions } from '../catalog/catalogExtension';
 import { gitlabPlugin } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
+import { customGithubAuthProvider } from '../auth/githubCustomResolver';
 
 export default createBackendFeatureLoader({
   deps: {
@@ -105,6 +106,13 @@ export default createBackendFeatureLoader({
       logger.info(
         'gitlabPlugin from "@immobiliarelabs/backstage-plugin-gitlab-backend"',
       );
+    }
+
+    //github guest
+    if(config.getOptionalBoolean('platform.guest.demo')){
+      yield customGithubAuthProvider
+      logger.info('customGithubAuthProvider from githubCustomResolver.ts');
+
     }
     logger.info('----------------------------------------');
   },

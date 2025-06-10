@@ -12,14 +12,13 @@ export const customGithubAuthProvider = createBackendModule({
   register(reg) {
     reg.registerInit({
       deps: { providers: authProvidersExtensionPoint, config: coreServices.rootConfig },
-      async init({ providers, config }) {
+      async init({ providers}) {
         providers.registerProvider({
           providerId: 'github',
           factory: createOAuthProviderFactory({
             authenticator: githubAuthenticator,
 
             async signInResolver(info, ctx) {
-              const demoGuestMode = config.getOptionalBoolean('platform.guest.demo');
 
                 const { 
                     result: {
@@ -32,13 +31,13 @@ export const customGithubAuthProvider = createBackendModule({
 
                 const userEntity = stringifyEntityRef({
                     kind: 'user',
-                    name: demoGuestMode ? "github-guest" : username || displayName,
+                    name: username || displayName,
                 });
               
                 return ctx.issueToken({
                     claims: {
                       sub: userEntity,
-                      ent: demoGuestMode ? [userEntity] : [userEntity, 'group:default/admin'],
+                      ent: [userEntity, 'group:default/guest'],
                     },
                   });
             },

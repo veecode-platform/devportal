@@ -27,10 +27,6 @@ backend.add(import('@backstage/plugin-catalog-backend-module-unprocessed'));
 backend.add(keycloakBackendModuleTransformer)
 backend.add(catalogModuleVeeCodeProcessor);
 
-//backend.add(catalogModuleInfracostProcessor);
-//backend.add(import('@backstage/plugin-catalog-backend-module-azure/alpha')); validate
-//backend.add(import('@backstage/plugin-catalog-backend-module-github-org')); validate
-
 //scaffolder
 backend.add(import('@backstage/plugin-scaffolder-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
