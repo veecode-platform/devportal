@@ -15,24 +15,22 @@
  */
 
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { InfoCard } from '@backstage/core-components';
-import { GridItem } from './styles';
+import { GridItem, useStyles } from './styles';
 import { ProviderComponent, ProviderLoader, SignInProvider } from './types';
 import { ProxiedSignInIdentity } from './ProxiedSignInPage/ProxiedSignInIdentity';
 import { discoveryApiRef, useApi } from '@backstage/core-plugin-api';
 import { GuestUserIdentity } from './GuestUserIdentity';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
 import { ResponseError } from '@backstage/errors';
-import { coreComponentsTranslationRef } from '../translation/translation';
-import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+// import { coreComponentsTranslationRef } from '../translation/translation';
+//import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { Grid } from '@material-ui/core';
 
 const getIdentity = async (identity: ProxiedSignInIdentity) => {
   try {
     const identityResponse = await identity.getBackstageIdentity();
     return identityResponse;
-  } catch (error:any) {
+  } catch (error: any) {
     if (
       error.name === 'ResponseError' &&
       (error as ResponseError).cause.name === 'NotFoundError'
@@ -50,7 +48,8 @@ const Component: ProviderComponent = ({
 }) => {
   const discoveryApi = useApi(discoveryApiRef);
   const [_, setUseLegacyGuestToken] = useLocalStorage('enableLegacyGuestToken');
-  const { t } = useTranslationRef(coreComponentsTranslationRef);
+  // const { t } = useTranslationRef(coreComponentsTranslationRef);
+  const classes = useStyles();
 
   const handle = async () => {
     onSignInStarted();
@@ -83,19 +82,16 @@ const Component: ProviderComponent = ({
 
   return (
     <GridItem>
-      <InfoCard
-        title="Guest"
-        variant="fullHeight"
-        actions={
-          <Button color="primary" variant="outlined" onClick={handle}>
-            {t('signIn.guestProvider.enter')}
-          </Button>
-        }
-      >
-        <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
-          {t('signIn.guestProvider.subtitle')}
-        </Typography>
-      </InfoCard>
+      <Grid className={classes.loginBox} onClick={handle}>
+        <div className={classes.providerTitleBar}>
+          <img
+            src={require(`./assets/guest.png`)}
+            alt="Guest"
+            className={classes.providerLogo}
+          />
+          <h3> Enter as a Guest User</h3>
+        </div>
+      </Grid>
     </GridItem>
   );
 };

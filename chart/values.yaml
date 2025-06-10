@@ -28,6 +28,13 @@ service:
   type: ClusterIP #service type, could be ‘ClusterIP’, ‘LoadBalancer’ or ‘NodePort’
   containerPort: 7007 #port to serve on the internal service
 
+serviceMonitor:
+  enabled: false #true to enable
+#  interval: 30s
+#  scrapeTimeout: 10s
+#  selectors:
+#    release: prometheus
+
 ingress:
   enabled: false #If `true`, an ingress is created
 #  host: # your host to devportal ingress
@@ -93,13 +100,17 @@ appConfig:
 
   database:
     client: better-sqlite3 #database client (better-sqlite3 or pg)
-#    connection:
+  #  connection:
 #      directory: #sqlite directory instead of memory storage
-#      host: postgres-postgresql.vkpr #database host
-#      port: 5432 #database port number
-#      database: platform_devportal #database name
-#      user: postgres #database username
-#      password: postgres #database password
+    #  host: postgres #database host
+    #  port: 5432 #database port number
+    #  database: database_name #database name
+    #  user: user #database username
+    #  password: password #database password
+    #  ssl: #optional ssl configuration
+    #    rejectUnauthorized: true #reject unauthorized SSL connections default FALSE
+    #    caSecretName: secretName #secret name with a certificate content
+    #    caFilePath: ca/secret.crt #path to mount the CA file
 
 #locations:
 #  - type: #location type to import(url)
@@ -129,20 +140,23 @@ grafana:
 
 argocd:
   enabled: false #enable ArgoCD plugin
-#  domain:  #argoCD domain
-#  username:  #argoCD username
-#  token:  #argoCD token
+  #username: #argoCD username OPTION 1
+  #password: #argoCD password OPTION 1
+  #instances:
+  #  - name: #ArgoCD instance name
+  #    url: #argoCD url
+  #    token: #argoCD auth token OPTION 2 - this will override username and password
 
 vault:
   enabled: false #enable Vault plugin
-  domain:  #vault domain
+  #domain:  #vault domain
 #  publicUrl: #vault public url
 #  token:  #vault token
 #  secretEngine: secrets #vault secret engine
 #  kvVersion: 2 #vault kv version (1 | 2)
 
 kong:
-  enabled: true #enable Kong integration
+  enabled: false #enable Kong integration
 #  instances:
 #    - name: #Kong instance name
 #      apiManager: #Kong API Manager
@@ -167,7 +181,7 @@ infracost:
 #    initialDelay: 15 #time in minutes to wait before the first refresh request
 
 vee:
-  enabled: true
+  enabled: false
     # openai:
     #   apiBaseUrl: #api_base_url
     #   apiKey: #api_key
@@ -178,6 +192,22 @@ sonarqube:
   # baseUrl: ${SONARQUBE_BASE_URL}
   # instanceKey: ${SONARQUBE_INSTANCE_KEY}
   # apiKey: ${SONARQUBE_API_KEY}
+  #
+  #  or if there is more than one instance
+  #
+  # instances:
+  # - name: default
+  #   instanceKey: ${SONARQUBE_BASE_URL}
+  #   baseUrl: ${SONARQUBE_INSTANCE_KEY}
+  #   apiKey: ${SONARQUBE_API_KEY}
+  # - name: specialProject
+  #   instanceKey: ${SONARQUBE_BASE_URL2}
+  #   baseUrl: ${SONARQUBE_INSTANCE_KEY2}
+  #   apiKey: ${SONARQUBE_API_KEY2}
+  # - name: cloud
+  #   instanceKey: ${SONARQUBE_BASE_URL3}
+  #   baseUrl: ${SONARQUBE_INSTANCE_KEY3}
+  #   apiKey: ${SONARQUBE_API_KEY3}
 
 proxy:
   gitlab:
@@ -201,6 +231,7 @@ auth:
 #      clientId: #Gitlab Client ID
 #      clientSecret: #Gitlab Client Secret
 #      audience: "https://gitlab.com" #Gitlab Audience
+#      callbackUrl: #The URL matching the Redirect URI registered when creating your GitLab OAuth App
 
 integrations: {}
 #  azure:
@@ -268,7 +299,8 @@ catalog:
     - allow: [Component, API, Location, Cluster, Template, Environment, Database, Vault, Infracost, Group, User]
   providers: {}
 #    github:
-#      organization: #github Organization Name
+#      url: https://github.com #github url
+#      organization: veecode-homolog #github Organization Name
 #      catalogPath: /catalog-info.yaml #path catalog info
 #      validateLocationsExist: true #check if exists
 #      filters:
@@ -321,6 +353,10 @@ catalog:
 #      groupQuerySize: 250 #Group query size to sync
 
 platform:
+  signInProviders: 
+   - github #Sign in providers to be enabled in the sign in page 
+   - gitlab #Sign in providers to be enabled in the sign in page
+   - keycloak #Sign in providers to be enabled in the sign in page
   guest:
     enabled: true #enable guest mode
     demo: false #enable demo guest mode
@@ -378,13 +414,6 @@ theme:
     #use configmapName or downloadUrl
     configmapName: #Configmap with theme file created
     downloadUrl: #Theme file url
-
-serviceMonitor:
-  enabled: false #true to enable
-#  interval: 30s
-#  scrapeTimeout: 10s
-#  selectors:
-#    release: prometheus
 
 #zoraOss: 
 #  openAiApiKey: xxxxxxxx #OpenAI API Key

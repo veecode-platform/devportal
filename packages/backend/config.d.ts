@@ -105,6 +105,11 @@ export interface Config {
      * @visibility frontend
      */
     platform: {
+        /**
+        * 
+        * @visibility frontend
+        */
+        signInProviders: Array<string>,  
         guest: {
             /**
              * 

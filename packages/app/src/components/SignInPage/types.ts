@@ -49,6 +49,7 @@ export type ProviderComponent = ComponentType<
     config: SignInProviderConfig;
     onSignInStarted(): void;
     onSignInFailure(): void;
+    className?: string;
   }
 >;
 

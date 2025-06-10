@@ -38,6 +38,8 @@ data:
 
 
     p, role:default/kubernetes, kubernetes.proxy, use, allow
+    p, role:default/kubernetes, kubernetes.resources.read, read, allow
+    p, role:default/kubernetes, kubernetes.clusters.read, read, allow
     g, group:default/{{ $adminGroup }}, role:default/kubernetes
 
 
@@ -53,8 +55,8 @@ data:
     p, role:default/kong-service-manager, kong.apply.plugins.route, create, allow
     p, role:default/kong-service-manager, kong.update.route.plugin, update, allow
     p, role:default/kong-service-manager, kong.disable.route.plugin, delete, allow
-    p, role:default/kong-service-manager, kong.read.specs, read, allow
     p, role:default/kong-service-manager, kong.update.spec, update, allow
+    p, role:default/kong-service-manager, kong.read.specs, read, allow
     p, role:default/kong-service-manager, kong.read.ai.plugins, read, allow
     p, role:default/kong-service-manager, kong.read.auth.plugins, read, allow
     p, role:default/kong-service-manager, kong.read.security.plugins, read, allow
@@ -89,14 +91,33 @@ data:
     g, group:default/{{ $adminGroup }}, role:default/admin-api-management
 
 
-
-    p, role:default/github-guest, policy.entity.read, read, allow
-    p, role:default/github-guest, catalog.entity.read, read, allow
-    p, role:default/github-guest, catalog.location.read, read, allow
-    p, role:default/github-guest, scaffolder.task.read, read, allow
-    p, role:default/github-guest, scaffolder.template.parameter.read, read, allow
-    p, role:default/github-guest, scaffolder.template.step.read, read, allow
-    g, user:default/github-guest, role:default/github-guest
+    p, role:default/guest, policy.entity.read, read, allow
+    p, role:default/guest, catalog.entity.read, read, allow
+    p, role:default/guest, catalog.location.read, read, allow
+    p, role:default/guest, scaffolder.task.read, read, allow
+    p, role:default/guest, scaffolder.template.parameter.read, read, allow
+    p, role:default/guest, scaffolder.template.step.read, read, allow
+    p, role:default/guest, kubernetes.proxy, use, allow
+    p, role:default/guest, kubernetes.resources.read, read, allow
+    p, role:default/guest, kubernetes.clusters.read, read, allow
+    p, role:default/guest, cluster.explorer.read, read, allow
+    p, role:default/guest, cluster.explorer.public.environment.read, read, allow    
+    p, role:default/guest, kong.service.read, read, allow
+    p, role:default/guest, kong.read.available.plugins, read, allow
+    p, role:default/guest, kong.routes.read, read, allow
+    p, role:default/guest, kong.read.specs, read, allow
+    p, role:default/guest, kong.read.ai.plugins, read, allow
+    p, role:default/guest, kong.read.auth.plugins, read, allow
+    p, role:default/guest, kong.read.security.plugins, read, allow
+    p, role:default/guest, kong.read.traffic.plugins, read, allow
+    p, role:default/guest, kong.read.serverless.plugins, read, allow
+    p, role:default/guest, kong.read.transform.plugins, read, allow
+    p, role:default/guest, kong.read.logging.plugins, read, allow
+    p, role:default/guest, kong.read.analytics.plugins, read, allow
+    p, role:default/gitlab-pipelines, gitlab.pipelines.read, read, allow
+    p, role:default/github-workflows, github.workflows.read, read, allow
+    p, role:default/vee, vee.ai.analyzer.read, read, allow
+    g, group:default/guest, role:default/guest
 
    
 {{- end }}

@@ -25,15 +25,9 @@ import { useApi, errorApiRef } from '@backstage/core-plugin-api';
 import { GridItem, useStyles } from './styles';
 import { ForwardedError } from '@backstage/errors';
 import { UserIdentity } from '@backstage/core-components';
-import  Grid from '@material-ui/core/Grid';
+import Grid from '@material-ui/core/Grid';
 import { coreComponentsTranslationRef } from '../translation/translation';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { InfoCard } from '@backstage/core-components';
-import { Button, Typography } from '@material-ui/core';
-
-const KeycloakLogo = "./assets/keycloak.png";
-const OktaLogo = "./assets/okta.png";
-const GithubLogo = "./assets/github.png";
 
 const Component: ProviderComponent = ({
   config,
@@ -77,29 +71,16 @@ const Component: ProviderComponent = ({
 
   return (
     <GridItem>
-      <>
-      <Grid
-        className={classes.loginBox}
-        onClick={handleLogin}>
+      <Grid className={classes.loginBox} onClick={handleLogin}>
         <div className={classes.providerTitleBar}>
-          {title === "Keycloak" && <img src={KeycloakLogo} alt={title} className={classes.providerLogo} />}
-          {title === "Okta" && <img src={OktaLogo} alt={title} className={classes.providerLogo} />}
-          {title === "GitHub" && <img src={GithubLogo} alt={title} className={classes.providerLogo} />}
+          <img
+            src={require(`./assets/${title.toLowerCase()}.png`)}
+            alt={title}
+            className={classes.providerLogo}
+          />
           <h3>{message}</h3>
         </div>
       </Grid>
-      <InfoCard
-        variant="fullHeight"
-        title={title}
-        actions={
-          <Button color="primary" variant="outlined" onClick={handleLogin}>
-            {t('signIn.title')}
-          </Button>
-        }
-      >
-        <Typography variant="body1">{message}</Typography>
-      </InfoCard>
-      </>
     </GridItem>
   );
 };

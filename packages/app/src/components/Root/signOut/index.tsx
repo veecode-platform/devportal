@@ -1,40 +1,40 @@
 import React, { useState } from 'react';
 import { SidebarItem } from '@backstage/core-components';
 import SignOutIcon from '@material-ui/icons/MeetingRoom';
-import { configApiRef, identityApiRef, useApi, errorApiRef } from '@backstage/core-plugin-api';
-import { oidcAuthApiRef } from '../../../apis';
+import {
+  configApiRef,
+  identityApiRef,
+  useApi,
+  errorApiRef,
+} from '@backstage/core-plugin-api';
 
 const SignOutElement = () => {
-
   const identityApi = useApi(identityApiRef);
-  const keycloakApi = useApi(oidcAuthApiRef)
   const config = useApi(configApiRef);
-  const errorApi = useApi(errorApiRef)
-  const [loading, setLoading] = useState(false)
+  const errorApi = useApi(errorApiRef);
+  const [loading, setLoading] = useState(false);
 
-  const handleKeycloakSessionLogout = async () => {
+  const handleSessionLogout = async () => {
     try {
-      setLoading(true)
-      const keycloakMetadataUrl = config.getOptionalString("auth.providers.oidc.development.metadataUrl") ?? ""
-      const keycloakClientId = config.getOptionalString("auth.providers.oidc.development.clientId") ?? ""
-      const appBaseUrl = config.getString("app.baseUrl")
-      const keycloakLogoutUrl = (await (await fetch(keycloakMetadataUrl)).json()).end_session_endpoint
-      const keycloakIdToken = await keycloakApi.getIdToken()
-      window.open(`${keycloakLogoutUrl}?post_logout_redirect_uri=${appBaseUrl}&id_token_hint=${keycloakIdToken}&client_id=${keycloakClientId}`, "_self")
+      setLoading(true);
+      await identityApi.signOut();
+    } catch (e: any) {
+      errorApi.post(e);
     }
-    catch (e: any) { errorApi.post(e) }
-  }
+  };
 
   return (
     <SidebarItem
       icon={SignOutIcon}
       text="Sign Out"
       onClick={async () => {
-        if (loading) return
-        if (config.getBoolean('platform.guest.enabled')) await identityApi.signOut()
-        await handleKeycloakSessionLogout()
-      }} />
-  )
-}
+        if (loading) return;
+        if (config.getBoolean('platform.guest.enabled'))
+          await identityApi.signOut();
+        await handleSessionLogout();
+      }}
+    />
+  );
+};
 
-export default SignOutElement
+export default SignOutElement;
