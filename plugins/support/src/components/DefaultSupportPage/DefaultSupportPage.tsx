@@ -1,11 +1,11 @@
 import { Content, Header, InfoCard, Page, Progress } from '@backstage/core-components'
 import { Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText, makeStyles } from '@material-ui/core';
+import MailIcon from '@material-ui/icons/Mail';
+import DescriptionIcon from '@material-ui/icons/Description';
+import NearMeIcon from '@material-ui/icons/NearMe';
+import ForumIcon from '@material-ui/icons/Forum';
+import BusinessIcon from '@material-ui/icons/Business';
 import React from 'react';
-import { IoMdMail } from "react-icons/io";
-import { FaDiscord } from "react-icons/fa6";
-import { HiMiniDocumentText } from "react-icons/hi2";
-import { BsCursorFill } from "react-icons/bs";
-import { FaAws } from "react-icons/fa6";
 import { useApi, alertApiRef } from '@backstage/core-plugin-api';
 import { licenseKeyApiRef } from '../../api';
 import useAsync from 'react-use/lib/useAsync';
@@ -64,7 +64,7 @@ export const DefaultSupportPage = () => {
                   <ListItem className={classes.listItem}>
                     <ListItemAvatar>
                       <Avatar>
-                        <IoMdMail size={32} />
+                        <MailIcon/> 
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText
@@ -82,7 +82,7 @@ export const DefaultSupportPage = () => {
                   <ListItem className={classes.listItem}>
                     <ListItemAvatar>
                       <Avatar>
-                        <FaDiscord size={32} />
+                        <ForumIcon />
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText
@@ -100,7 +100,7 @@ export const DefaultSupportPage = () => {
                   <ListItem className={classes.listItem}>
                     <ListItemAvatar>
                       <Avatar>
-                        <HiMiniDocumentText size={32} />
+                        <DescriptionIcon/>
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText 
@@ -119,7 +119,7 @@ export const DefaultSupportPage = () => {
                   <ListItem className={classes.listItem}>
                     <ListItemAvatar>
                       <Avatar>
-                        <BsCursorFill size={32} />
+                        <NearMeIcon/>
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText 
@@ -138,7 +138,7 @@ export const DefaultSupportPage = () => {
                   <ListItem className={classes.listItem}>
                     <ListItemAvatar>
                       <Avatar>
-                        <FaAws size={36} />
+                        <BusinessIcon/>
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText 

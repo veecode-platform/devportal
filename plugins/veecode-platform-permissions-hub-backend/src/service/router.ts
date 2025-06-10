@@ -1,4 +1,3 @@
-import { errorHandler } from '@backstage/backend-common';
 import { LoggerService } from '@backstage/backend-plugin-api';
 import express from 'express';
 import Router from 'express-promise-router';
@@ -8,6 +7,7 @@ import { clusterExplorerPermissions } from '@veecode-platform/backstage-plugin-c
 import { githubWorkflowsPermissions } from '@veecode-platform/backstage-plugin-github-workflows-common';
 import { gitlabPipelinesPermissions } from '@veecode-platform/backstage-plugin-gitlab-pipelines-common';
 import { adminAccessPermissions } from '@veecode-platform/plugin-veecode-platform-common'
+import { errorHandler } from '@backstage/backend-common';
 
 
 export interface RouterOptions {

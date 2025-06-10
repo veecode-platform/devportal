@@ -22,14 +22,9 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import CatalogIcon from '@material-ui/icons/MenuBook';
-//import AppsIcon from '@material-ui/icons/Apps';
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import ExtensionIcon from '@material-ui/icons/Extension';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
-//import { usePermission } from '@backstage/plugin-permission-react';
-//import { adminAccessPermission/* , apiManagementEnabledPermission*/ } from '@veecode-platform/plugin-application-common';
-//import CategoryIcon from '@material-ui/icons/Category';
-//import LayersIcon from '@material-ui/icons/Layers';
 import PeopleIcon from '@material-ui/icons/People';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SignUpElement from './signOut';
@@ -38,13 +33,13 @@ import InfoIcon from '@material-ui/icons/Info';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { sideBarBehaviour, sidebarDefaultType } from './sideBarSchema';
 import { VeecodeLogoIcon } from './DevportalIcon';
-import { GrCluster } from "react-icons/gr";
-import { ImDatabase } from "react-icons/im";
-import { PiVaultFill } from "react-icons/pi";
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import { useAppContext } from '../../context/AppProvider';
 import { Administration } from '@backstage-community/plugin-rbac';
 import BugReportIcon from '@material-ui/icons/BugReport';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import StorageIcon from '@material-ui/icons/Storage';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 
 const useStyles = makeStyles({
   root: {
@@ -112,17 +107,17 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
             <SidebarSubmenuItem
               title="Clusters"
               to="cluster-explorer"
-              icon={GrCluster}
+              icon={AccountTreeIcon}
             />
             <SidebarSubmenuItem
               title="Databases"
               to="database-explorer"
-              icon={ImDatabase}
+              icon={StorageIcon}
             />
             <SidebarSubmenuItem
               title="Vault"
               to="vault-explorer"
-              icon={PiVaultFill}
+              icon={VpnKeyIcon}
             />
             <SidebarDivider />
           </SidebarSubmenu>
@@ -153,30 +148,10 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
   );
 }
 
-/*const SideBarApimanagementGroup = ({ behaviour, apiManagementEnabled }: sideBarDefaultGroupProps) => {
-  const { loading: loadingPermission, allowed: adminView } = usePermission({ permission: adminAccessPermission });
-  return (
-    (behaviour.apiManagement && apiManagementEnabled) ?
-      <SidebarGroup label="Api managment" icon={<AppsIcon />}>
-        {(!loadingPermission && adminView) ?
-          <>
-            <SidebarItem icon={AppsIcon} to="/services" text="Services" />
-            <SidebarItem icon={CategoryIcon} to="/partners" text="Partners" />
-          </>
-          : null
-        }
-        <SidebarItem icon={LayersIcon} to="/applications" text="Applications" />
-        <SidebarDivider />
-      </SidebarGroup>
-      : null
-  )
-}*/
-
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const config = useApi(configApiRef);
   const devportalBehaviour = sideBarBehaviour(config.getConfig("platform.behaviour"))
   const { hasSupport } = useAppContext();
-  //const apiManagementEnabled = config.getOptionalBoolean("platform.apiManagement.enabled");
   const classes = useStyles();
 
   return (
@@ -185,7 +160,6 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarLogo />
         <SidebarDivider />
         <SideBarDefaultGroup behaviour={devportalBehaviour} />
-        {/*<SideBarApimanagementGroup behaviour={devportalBehaviour} apiManagementEnabled={apiManagementEnabled} />*/}
         <SidebarGroup label="Settings" icon={<UserSettingsSignInAvatar />} to="/settings">
           <Administration />
           <SidebarSettings />
