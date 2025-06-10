@@ -248,9 +248,10 @@ data:
     {{- if .Values.argocd.enabled }}
     argocd:
       {{- if and .Values.argocd.username .Values.argocd.password }}
-        username: ${ARGOCD_USERNAME}
-        password: ${ARGOCD_PASSWORD}
+      username: ${ARGOCD_USERNAME}
+      password: ${ARGOCD_PASSWORD}
       {{- end }}
+      {{- if .Values.argocd.instances }}       
       appLocatorMethods:
         - type: "config"
           instances:
@@ -261,7 +262,9 @@ data:
               token: ${ARGOCD_TOKEN_{{$i}}}
               {{- end }}
             {{- end }}
+      {{- end}}
     {{- end }}
+
     {{- if .Values.integrations }}
     integrations:
       {{- if .Values.integrations.github }}
@@ -680,7 +683,6 @@ data:
           apiKey: {{ .apiKey | quote }}
         {{- end }}
       {{- else }}
-      instanceKey: {{ .Values.sonarqube.instanceKey | quote }}
       baseUrl: {{ .Values.sonarqube.baseUrl | default "https://sonarcloud.io" | quote }}
       instanceKey: {{ .Values.sonarqube.instanceKey | quote }}
       apiKey: {{ .Values.sonarqube.apiKey | quote }}
