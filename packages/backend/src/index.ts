@@ -38,7 +38,7 @@ backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'))
-backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
+//backend.add(import('@backstage/plugin-auth-backend-module-github-provider')); moved to custom feature loader
 backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
 
 //proxy
