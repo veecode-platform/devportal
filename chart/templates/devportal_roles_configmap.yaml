@@ -114,10 +114,10 @@ data:
     p, role:default/guest, kong.read.transform.plugins, read, allow
     p, role:default/guest, kong.read.logging.plugins, read, allow
     p, role:default/guest, kong.read.analytics.plugins, read, allow
-    p, role:default/gitlab-pipelines, gitlab.pipelines.read, read, allow
-    p, role:default/github-workflows, github.workflows.read, read, allow
-    p, role:default/vee, vee.ai.analyzer.read, read, allow
+    p, role:default/guest, gitlab.pipelines.read, read, allow
+    p, role:default/guest, github.workflows.read, read, allow
+    p, role:default/guest, vee.ai.analyzer.read, read, allow
     g, group:default/guest, role:default/guest
-
+    g, user:development/guest, role:default/guest
    
 {{- end }}
