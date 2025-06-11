@@ -672,6 +672,8 @@ data:
       openAiApiKey: {{ .Values.zoraOss.openAiApiKey | quote }}
       openAiModel: {{ .Values.zoraOss.openAiModel | quote }}
     {{- end }}
+    vulnerabilities:
+      enabled: {{ .Values.vulnerabilities.enabled | default false }}
     {{- if .Values.sonarqube.enabled }}
     sonarqube:
       {{- if .Values.sonarqube.instances }}

@@ -86,10 +86,11 @@ const SidebarLogo = () => {
 };
 type sideBarDefaultGroupProps = {
   behaviour: sidebarDefaultType
-  apiManagementEnabled?: boolean
+  apiManagementEnabled?: boolean,
+  vulnerabilities?: boolean
 }
 
-const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
+const SideBarDefaultGroup = ({ behaviour, vulnerabilities }: sideBarDefaultGroupProps) => {
   return (
     <SidebarGroup label="Menu" icon={<MenuIcon />}>
       {behaviour.home ? (
@@ -138,11 +139,15 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
       {behaviour.groups ? (
         <SidebarItem icon={PeopleIcon} to="explore/groups" text="Groups" />
       ) : null}
+      {vulnerabilities ? (
       <SidebarItem
         icon={BugReportIcon}
         to={'/vulnerabilities'}
         text={'Vulnerabilities'}
       />
+      ) : null
+      }
+
       <SidebarDivider />
     </SidebarGroup>
   );
@@ -151,6 +156,7 @@ const SideBarDefaultGroup = ({ behaviour }: sideBarDefaultGroupProps) => {
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const config = useApi(configApiRef);
   const devportalBehaviour = sideBarBehaviour(config.getConfig("platform.behaviour"))
+  const vulnerabilities = config.getOptionalBoolean("vulnerabilities.enabled") ?? false;
   const { hasSupport } = useAppContext();
   const classes = useStyles();
 
@@ -159,7 +165,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
       <Sidebar>
         <SidebarLogo />
         <SidebarDivider />
-        <SideBarDefaultGroup behaviour={devportalBehaviour} />
+        <SideBarDefaultGroup behaviour={devportalBehaviour} vulnerabilities={vulnerabilities} />
         <SidebarGroup label="Settings" icon={<UserSettingsSignInAvatar />} to="/settings">
           <Administration />
           <SidebarSettings />

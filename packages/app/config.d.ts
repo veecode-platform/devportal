@@ -488,4 +488,15 @@ export interface Config {
     /** @visibility frontend */
     openAiModel?: string;
   },
+  /**
+  * vulnerabilities.
+  * @visibility frontend
+  */
+  vulnerabilities?:{
+    /**
+    * enable vulnerabilities.
+    * @visibility frontend
+    */
+    enabled: boolean;
+  }
 }
