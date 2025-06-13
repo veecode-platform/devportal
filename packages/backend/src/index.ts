@@ -120,5 +120,6 @@ backend.add(exploreToolProviderModule);
 //   }),
 // );
 backend.add(healthCheckPlugin);
+backend.add(import('@internal/plugin-scalprum-backend'));
 
 backend.start();
