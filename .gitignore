@@ -1,6 +1,12 @@
 # macOS
 .DS_Store
 
+# Dynamic plugins root content
+dynamic-plugins-root/*
+!dynamic-plugins-root/.gitkeep
+tmp
+dynamic_plugins/.yarn/
+
 # Logs
 logs
 *.log

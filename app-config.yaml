@@ -43,7 +43,7 @@ backend:
         options:
           token: ${BACKEND_AUTH_SECRET_KEY}
           subject: secret
-          
+
   baseUrl: http://localhost:7007
   listen:
     port: 7007
@@ -67,20 +67,33 @@ backend:
     credentials: true
   csp:
     connect-src: ["'self'", 'http:', 'https:']
-    script-src: ["'self'", "'unsafe-eval'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com']
-    img-src: ["'self'", 'data:', 'https://www.google-analytics.com', 'https://platform.vee.codes','https://avatars.githubusercontent.com/']
+    script-src:
+      [
+        "'self'",
+        "'unsafe-eval'",
+        'https://www.google-analytics.com',
+        'https://www.googletagmanager.com',
+      ]
+    img-src:
+      [
+        "'self'",
+        'data:',
+        'https://www.google-analytics.com',
+        'https://platform.vee.codes',
+        'https://avatars.githubusercontent.com/',
+      ]
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   reading:
     allow:
       - host: example.com
-      - host: "*.mozilla.org"
+      - host: '*.mozilla.org'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
 # See README.md in the proxy-backend plugin for information on the configuration format
 proxy:
   endpoints:
-    "/grafana/api":
+    '/grafana/api':
       # May be a public or an internal DNS
       target: ${GRAFANA_DOMAIN}
       credentials: require
@@ -95,21 +108,21 @@ proxy:
         Accept: application/json
         Content-Type: 'application/json'
 
-    "/kong-manager/api":
+    '/kong-manager/api':
       target: https://api.manager.apr.vee.codes/default
       credentials: require
       allowedHeaders: ['Authorization', 'Content-Type']
-      headers: 
-        Accept: application/json
-        Content-Type: 'application/json'
-    
-    "/kong-manager/cluster-veecode":
-      target: https://api.manager.vkpr.platform.vee.codes/default
-      credentials: require
-      allowedHeaders: ["Authorization","Content-Type"]
       headers:
         Accept: application/json
-        Content-Type: 'application/json'    
+        Content-Type: 'application/json'
+
+    '/kong-manager/cluster-veecode':
+      target: https://api.manager.vkpr.platform.vee.codes/default
+      credentials: require
+      allowedHeaders: ['Authorization', 'Content-Type']
+      headers:
+        Accept: application/json
+        Content-Type: 'application/json'
 
 organization:
   name: Devportal
@@ -119,13 +132,13 @@ organization:
 # and an external cloud storage when deploying TechDocs for production use-case.
 # https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
 techdocs:
-  builder: "local" # Alternatives - 'external'
+  builder: 'local' # Alternatives - 'external'
   generator:
-    runIn: "local"
+    runIn: 'local'
     # dockerImage: my-org/techdocs # use a custom docker image
     # pullImage: true # or false to disable automatic pulling of image (e.g. if custom docker login is required)
   publisher:
-    type: "local" # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
+    type: 'local' # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
 
 kubernetes:
   serviceLocatorMethod:
@@ -137,7 +150,7 @@ argocd:
   username: ${ARGOCD_USER}
   password: ${ARGOCD_TOKEN}
   appLocatorMethods:
-    - type: "config"
+    - type: 'config'
       instances:
         - name: argoInstance1
           url: ${ARGOCD_URL}
@@ -160,17 +173,30 @@ integrations:
       apiBaseUrl: ${BITBUCKET_SERVER_BASE_URL}
       token: ${BITBUCKET_SERVER_TOKEN}
   gitlab:
-   - host: gitlab.com
-     token: ${GITLAB_TOKEN_SECRET}
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN_SECRET}
   azure:
-   - host: ${AZURE_HOST}
-     credentials:
-       - personalAccessToken: ${AZURE_TOKEN}
+    - host: ${AZURE_HOST}
+      credentials:
+        - personalAccessToken: ${AZURE_TOKEN}
 
 catalog:
   rules:
-    - allow: [Component, API, Location, Cluster, Template, Environment, Database, Vault, Infracost, Group, User]
-  providers: 
+    - allow:
+        [
+          Component,
+          API,
+          Location,
+          Cluster,
+          Template,
+          Environment,
+          Database,
+          Vault,
+          Infracost,
+          Group,
+          User,
+        ]
+  providers:
     github:
       providerId: # the provider ID can be any camelCase string
         organization: veecode-platform # string
@@ -179,10 +205,10 @@ catalog:
           branch: master # string
           repository: devportal-catalog # Regex
           validateLocationsExist: true
-        schedule:        
-          frequency: 
+        schedule:
+          frequency:
             minutes: ${GITHUB_CATALOG_PROVIDER_REFRESH_FREQUENCY}
-          timeout: 
+          timeout:
             minutes: ${GITHUB_CATALOG_PROVIDER_TIMEOUT}
 
     keycloakOrg:
@@ -192,10 +218,10 @@ catalog:
         realm: ${KEYCLOAK_REALM}
         username: admin
         password: admin
-        schedule:        
-          frequency: 
+        schedule:
+          frequency:
             minutes: ${KEYCLOAK_CATALOG_PROVIDER_REFRESH_FREQUENCY}
-          timeout: 
+          timeout:
             minutes: ${KEYCLOAK_CATALOG_PROVIDER_TIMEOUT}
         userQuerySize: 500
         groupQuerySize: 250
@@ -207,10 +233,10 @@ catalog:
     #     # projectKey: 'DEV' # optional; RegExp
     #       repoSlug: ${BITBUCKET_CLOUD_REPOSLUG} # optional; RegExp
     #     workspace: ${BITBUCKET_CLOUD_WORKSPACE}
-    #      schedule:        
-    #      frequency: 
+    #      schedule:
+    #      frequency:
     #        minutes: ${BITBUCKET_CLOUD_CATALOG_PROVIDER_REFRESH_FREQUENCY}
-    #      timeout: 
+    #      timeout:
     #        minutes: ${BITBUCKET_CLOUD_CATALOG_PROVIDER_TIMEOUT}
 
     bitbucketServer:
@@ -220,10 +246,10 @@ catalog:
         filters: # optional
           projectKey: ${BITBUCKET_SERVER_PROJECT_KEY} # optional; RegExp
           repoSlug: ${BITBUCKET_SERVER_REPOSLUG} # optional; RegExp
-        schedule:        
-          frequency: 
+        schedule:
+          frequency:
             minutes: ${BITBUCKET_SERVER_CATALOG_PROVIDER_REFRESH_FREQUENCY}
-          timeout: 
+          timeout:
             minutes: ${BITBUCKET_SERVER_CATALOG_PROVIDER_TIMEOUT}
 
     gitlab:
@@ -233,18 +259,18 @@ catalog:
         group: ${GITLAB_GROUP_NAME} # Optional. Group and subgroup (if needed) to look for repositories. If not present the whole project will be scanned
         entityFilename: catalog-info.yaml # Optional. Defaults to `catalog-info.yaml`
         #projectPattern: /[\s\S]*/ # Optional. Filters found projects based on provided patter. Defaults to `/[\s\S]*/`, what means to not filter anything
-        schedule:        
-          frequency: 
+        schedule:
+          frequency:
             minutes: ${GITLAB_CATALOG_PROVIDER_REFRESH_FREQUENCY}
-          timeout: 
+          timeout:
             minutes: ${GITLAB_CATALOG_PROVIDER_TIMEOUT}
 
     infracost:
       default:
-        schedule:        
-          frequency: 
+        schedule:
+          frequency:
             minutes: ${INFRACOST_PROVIDER_REFRESH_FREQUENCY}
-          timeout: 
+          timeout:
             minutes: ${INFRACOST_PROVIDER_TIMEOUT}
           initialDelay:
             seconds: ${INFRACOST_PROVIDER_INITIAL_DELAY}
@@ -272,11 +298,11 @@ search:
       shortWord: 3 # Words of this length or less will be dropped at the start and end of a headline, unless they are query terms. The default value of three (3) eliminates common English articles.
       highlightAll: false # If true the whole document will be used as the headline, ignoring the preceding three parameters. The default is false.
       maxFragments: 0 # Maximum number of text fragments to display. The default value of zero selects a non-fragment-based headline generation method. A value greater than zero selects fragment-based headline generation (see the linked documentation above for more details).
-      fragmentDelimiter: ' ... ' 
-    schedule:        
-      frequency: 
+      fragmentDelimiter: ' ... '
+    schedule:
+      frequency:
         minutes: 3
-      timeout: 
+      timeout:
         minutes: 5
 
 auth:
@@ -297,7 +323,7 @@ auth:
           resolvers:
             - resolver: emailLocalPartMatchingUserEntityName
             - resolver: emailMatchingUserEntityProfileEmail
-  
+
     github:
       development:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
@@ -309,7 +335,7 @@ auth:
             - resolver: emailLocalPartMatchingUserEntityName
 
     gitlab:
-     development:
+      development:
         clientId: ${AUTH_GITLAB_CLIENT_ID}
         clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
         audience: https://gitlab.com
@@ -336,7 +362,7 @@ enabledPlugins:
   vee: true
 
 platform:
-  behaviour: 
+  behaviour:
     mode: product #product, demo, workshop, anything else  - get config directly from here
     home: true
     catalog: true
@@ -346,12 +372,16 @@ platform:
     docs: true
     groups: false
     apiManagement: false
+  signInProviders:
+    - github #Sign in providers to be enabled in the sign in page
+    - gitlab #Sign in providers to be enabled in the sign in page
+    - keycloak #Sign in providers to be enabled in the sign in page
   guest:
     enabled: false
-  
+
   defaultGroup:
     enabled: false
-  
+
   support:
     licenseKey: ${PLATFORM_LICENSE_KEY}
 
@@ -401,7 +431,7 @@ vee:
     apiBaseUrl: ${VEE_OPENAI_API_URL}
     apiKey: ${VEE_OPEN_AI_KEY}
     model: ${VEE_OPEN_AI_MODEL}
-  
+
 azureDevOps:
   host: ${AZURE_HOST}
   token: ${AZURE_TOKEN}
@@ -411,3 +441,6 @@ sonarqube:
   baseUrl: ${SONARQUBE_BASE_URL}
   instanceKey: ${SONARQUBE_INSTANCE_KEY}
   apiKey: ${SONARQUBE_API_KEY}
+
+dynamicPlugins:
+  rootDirectory: dynamic-plugins-root

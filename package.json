@@ -28,7 +28,8 @@
     "docker-up": "docker compose --profile=complete up -d",
     "docker-down": "docker compose --profile=complete down",
     "check": "yarn upgrade-interactive",
-    "update-backstage": "backstage-cli versions:bump --pattern '@{backstage,roadiehq,backstage-community,veecode-platform}/*'"
+    "update-backstage": "backstage-cli versions:bump --pattern '@{backstage,roadiehq,backstage-community,veecode-platform}/*'",
+    "check-dynamic-plugins": "./scripts/check_dynamic_plugins.sh"
   },
   "workspaces": {
     "packages": [

@@ -1,0 +1,7 @@
+plugins:
+  - package: oci://docker.io/valberjunior/backstage-veecode-extensions:v4.0.0!veecode-platform-backstage-plugin-scaffolder-backend-module-veecode-extensions-wrapper
+    disabled: false
+  - package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-kubernetes-dynamic
+    disabled: true
+  - package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-regex-dynamic
+    disabled: true

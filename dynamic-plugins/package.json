@@ -1,0 +1,20 @@
+{
+  "name": "dynamic-plugins-root",
+  "version": "1.7.0",
+  "private": true,
+  "scripts": {
+    "tsc": "yarn workspaces foreach --all run tsc",
+    "export-dynamic": "yarn workspaces foreach --all run export-dynamic",
+    "copy-dynamic-plugins": "yarn workspace dynamic-plugins-utils copy-dynamic-plugins",
+    "build": "yarn tsc && yarn export-dynamic && node _utils/copy-plugins.js ../dynamic-plugins-root"
+  },
+  "workspaces": {
+    "packages": [
+      "_utils",
+      "wrappers/*"
+    ]
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
