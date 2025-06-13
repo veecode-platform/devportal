@@ -136,7 +136,7 @@ def main():
             plugin_path = os.path.basename(package)
             local_path = plugin_dist_map.get(plugin_path)
             if not local_path:
-                raise FileNotFoundError(f"⚠️ Plugin embutido não encontrado: {plugin_path}")
+                raise FileNotFoundError(f"⚠️ Embedded plugin not found: {plugin_path}")
             copy_embedded_plugin(local_path, plugin_output)
 
     with open(CONFIG_OUTPUT, "w") as f:
