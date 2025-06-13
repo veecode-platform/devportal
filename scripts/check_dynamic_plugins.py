@@ -7,6 +7,7 @@ import tarfile
 import shutil
 
 DYNAMIC_PLUGINS_FILE = "dynamic-plugins.default.yaml"
+WRAPPERS_DIR = "dynamic-plugins/wrappers"
 PLUGINS_ROOT = "dynamic-plugins-root"
 CONFIG_OUTPUT = os.path.join(PLUGINS_ROOT, "app-config.dynamic-plugins.yaml")
 MAX_ENTRY_SIZE = 20_000_000  # 20MB
@@ -43,6 +44,8 @@ def get_digest(image):
 
 
 def copy_embedded_plugin(local_path, plugin_output):
+    if not os.path.exists(local_path):
+        raise FileNotFoundError(f"❌ Embedded plugin folder not found: {local_path}")
     if os.path.exists(plugin_output):
         shutil.rmtree(plugin_output)
     shutil.copytree(local_path, plugin_output)
@@ -53,9 +56,29 @@ def build_embedded_plugins():
     subprocess.run(["yarn", "--cwd", "dynamic-plugins", "build"], check=True)
 
 
+def get_plugin_dist_map():
+    """
+    Retorna um dict { plugin-name: path_para_dist_dynamic }
+    """
+    dist_map = {}
+    for wrapper_dir in os.listdir(WRAPPERS_DIR):
+        full_path = os.path.join(WRAPPERS_DIR, wrapper_dir)
+        if not os.path.isdir(full_path):
+            continue
+        pkg_path = os.path.join(full_path, "dist-dynamic", "package.json")
+        if not os.path.exists(pkg_path):
+            continue
+        with open(pkg_path) as f:
+            pkg = json.load(f)
+            name = pkg.get("name")
+            if name:
+                plugin_folder_name = name.replace("@", "").replace("/", "-")
+                dist_map[plugin_folder_name] = os.path.join(full_path, "dist-dynamic")
+    return dist_map
+
+
 def main():
     os.makedirs(PLUGINS_ROOT, exist_ok=True)
-
     build_embedded_plugins()
 
     with open(DYNAMIC_PLUGINS_FILE) as f:
@@ -63,6 +86,8 @@ def main():
 
     plugins = content.get("plugins", [])
     output_config = {"dynamicPlugins": {"rootDirectory": PLUGINS_ROOT}}
+
+    plugin_dist_map = get_plugin_dist_map()
 
     for plugin in plugins:
         package = plugin["package"]
@@ -84,7 +109,6 @@ def main():
                 shutil.rmtree(plugin_output)
             continue
 
-        # plugin habilitado
         if package.startswith("oci://"):
             print(f"📦 Plugin OCI: {package}")
             image, plugin_path = package.split("!")
@@ -109,7 +133,10 @@ def main():
 
         elif package.startswith("./dynamic-plugins/dist/"):
             print(f"📦 Local embedded plugin: {package}")
-            local_path = package.replace("./", "")
+            plugin_path = os.path.basename(package)
+            local_path = plugin_dist_map.get(plugin_path)
+            if not local_path:
+                raise FileNotFoundError(f"⚠️ Plugin embutido não encontrado: {plugin_path}")
             copy_embedded_plugin(local_path, plugin_output)
 
     with open(CONFIG_OUTPUT, "w") as f:
