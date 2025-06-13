@@ -109,10 +109,13 @@ export default createBackendFeatureLoader({
     }
 
     //github guest
-    if(config.getOptionalBoolean('platform.guest.demo')){
+    if(config.getOptionalBoolean('platform.guest.demo') && config.getOptionalBoolean('platform.guest.enabled')){
       yield customGithubAuthProvider
       logger.info('customGithubAuthProvider from githubCustomResolver.ts');
-
+    }
+    else{
+      yield import('@backstage/plugin-auth-backend-module-github-provider');
+      logger.info('@backstage/plugin-auth-backend-module-github-provider');
     }
     logger.info('----------------------------------------');
   },

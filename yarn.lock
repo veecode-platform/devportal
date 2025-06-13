@@ -17648,9 +17648,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-vulnerabilities@npm:0.1.5":
-  version: 0.1.5
-  resolution: "@veecode-platform/backstage-plugin-vulnerabilities@npm:0.1.5"
+"@veecode-platform/backstage-plugin-vulnerabilities@npm:0.1.6":
+  version: 0.1.6
+  resolution: "@veecode-platform/backstage-plugin-vulnerabilities@npm:0.1.6"
   dependencies:
     "@backstage/catalog-model": "npm:^1.7.3"
     "@backstage/core-components": "npm:^0.17.0"
@@ -17665,7 +17665,7 @@ __metadata:
     react-use: "npm:^17.2.4"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10/0bceffadc2ff65814891cc3f35d47d119292755269f9f94e8439eb1c73c47f136358c311a0c336acf09e889b302e144b12d5285aafa26ce13454ccb6e52b0ea9
+  checksum: 10/022a498ac14d1ebfcfb7cef6911137dd9d31af14d9b979d779ef18743bc6bb270542c68e6b9e47c25f806eba99c9ec1f0b5e2d1720342755536d14f377fc1512
   languageName: node
   linkType: hard
 
@@ -18657,7 +18657,7 @@ __metadata:
     "@veecode-platform/backstage-plugin-kong-service-manager-common": "npm:^0.5.2"
     "@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer": "npm:^0.1.15"
     "@veecode-platform/backstage-plugin-vee": "npm:^0.2.3"
-    "@veecode-platform/backstage-plugin-vulnerabilities": "npm:0.1.5"
+    "@veecode-platform/backstage-plugin-vulnerabilities": "npm:0.1.6"
     "@veecode-platform/backstage-plugin-zora-oss": "npm:0.0.4"
     "@veecode-platform/plugin-application-common": "npm:^0.3.18"
     "@veecode-platform/plugin-database-explorer": "npm:^0.3.18"

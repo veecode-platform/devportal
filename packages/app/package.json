@@ -60,7 +60,7 @@
     "@veecode-platform/backstage-plugin-kong-service-manager-common": "^0.5.2",
     "@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer": "^0.1.15",
     "@veecode-platform/backstage-plugin-vee": "^0.2.3",
-    "@veecode-platform/backstage-plugin-vulnerabilities": "0.1.5",
+    "@veecode-platform/backstage-plugin-vulnerabilities": "0.1.6",
     "@veecode-platform/backstage-plugin-zora-oss": "0.0.4",
     "@veecode-platform/plugin-application-common": "^0.3.18",
     "@veecode-platform/plugin-database-explorer": "^0.3.18",
