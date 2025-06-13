@@ -9088,7 +9088,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@internal/plugin-scalprum-backend@npm:*, @internal/plugin-scalprum-backend@workspace:plugins/scalprum-backend":
+"@internal/plugin-scalprum-backend@workspace:^, @internal/plugin-scalprum-backend@workspace:plugins/scalprum-backend":
   version: 0.0.0-use.local
   resolution: "@internal/plugin-scalprum-backend@workspace:plugins/scalprum-backend"
   dependencies:
@@ -10929,6 +10929,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/icons-material@npm:^5.17.1":
+  version: 5.17.1
+  resolution: "@mui/icons-material@npm:5.17.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.23.9"
+  peerDependencies:
+    "@mui/material": ^5.0.0
+    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10/5a076981e244d0a698799c8c298402e008b36583ab2211bebad57e9b7b26e112be81272ce5a833f7d9b48f95880d2c2195eccb28e7964d1698d0e891cf1acd99
+  languageName: node
+  linkType: hard
+
 "@mui/material@npm:^5.12.2, @mui/material@npm:^5.14.18, @mui/material@npm:^5.15.17":
   version: 5.17.1
   resolution: "@mui/material@npm:5.17.1"
@@ -12689,6 +12705,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openshift/dynamic-plugin-sdk@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@openshift/dynamic-plugin-sdk@npm:5.0.1"
+  dependencies:
+    lodash: "npm:^4.17.21"
+    semver: "npm:^7.3.7"
+    uuid: "npm:^8.3.2"
+    yup: "npm:^0.32.11"
+  peerDependencies:
+    react: ^17 || ^18
+  checksum: 10/f241ee7ff4afec0c15965c047553d424766c36609e14bc7fe7ed55466ed85efe1dae3df3a93e469672702fc625634ca900a87c211c13410c7f32ea1ec5710d6e
+  languageName: node
+  linkType: hard
+
 "@opentelemetry/api@npm:^1.3.0, @opentelemetry/api@npm:^1.4.0, @opentelemetry/api@npm:^1.9.0":
   version: 1.9.0
   resolution: "@opentelemetry/api@npm:1.9.0"
@@ -13484,6 +13514,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@red-hat-developer-hub/backstage-plugin-theme@npm:0.6.0":
+  version: 0.6.0
+  resolution: "@red-hat-developer-hub/backstage-plugin-theme@npm:0.6.0"
+  dependencies:
+    "@mui/icons-material": "npm:^5.17.1"
+  peerDependencies:
+    "@backstage/core-plugin-api": ^1.10.4
+    "@backstage/theme": ^0.6.4
+    "@material-ui/icons": ^4.11.3
+    "@mui/icons-material": ^5.17.1
+    "@mui/material": ^5.0.0
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+  checksum: 10/8b35107c42218e1aeb8dd15c74ef701ba267377056f7d07b2f4b28cfc54ed3be7751a222803f873e54f0f67dc1494aa117515d76cf38766e1f94152782f2a709
+  languageName: node
+  linkType: hard
+
 "@redis/client@npm:^1.6.0":
   version: 1.6.1
   resolution: "@redis/client@npm:1.6.1"
@@ -14101,6 +14147,43 @@ __metadata:
     "@sagold/json-pointer": "npm:^5.1.2"
     ebnf: "npm:^1.9.1"
   checksum: 10/8b0b6b24140fc00c5798710181c48ce858fdc864bf4440f8091f64a45e62bb550fb0153c93793b2ff3f8c1239a3882262b784b429f349ebe12243c4658d117a7
+  languageName: node
+  linkType: hard
+
+"@scalprum/core@npm:0.8.3, @scalprum/core@npm:^0.8.3":
+  version: 0.8.3
+  resolution: "@scalprum/core@npm:0.8.3"
+  dependencies:
+    "@openshift/dynamic-plugin-sdk": "npm:^5.0.1"
+    tslib: "npm:^2.6.2"
+  checksum: 10/862bd493df8c3265f1fccd6f0a7c5ffeec69ab249c3bbf417d5e2079135358012847ea6172024be5df1d9e3e4fbc06d696bea5c2a5ec30ba85eddc1e70fbda18
+  languageName: node
+  linkType: hard
+
+"@scalprum/react-core@npm:0.9.5, @scalprum/react-core@npm:^0.9.5":
+  version: 0.9.5
+  resolution: "@scalprum/react-core@npm:0.9.5"
+  dependencies:
+    "@openshift/dynamic-plugin-sdk": "npm:^5.0.1"
+    "@scalprum/core": "npm:^0.8.3"
+    lodash: "npm:^4.17.0"
+  peerDependencies:
+    react: ">=16.8.0 || >=17.0.0 || ^18.0.0"
+    react-dom: ">=16.8.0 || >=17.0.0 || ^18.0.0"
+  checksum: 10/1e1815704dd474a32cf7eaf8f90671fa76013e8ab754e1581ffd543e93c615e0292393182cc8399ef0cf121e93d8275b08b1b62ee1e35069f94909b372f98b58
+  languageName: node
+  linkType: hard
+
+"@scalprum/react-test-utils@npm:0.2.6":
+  version: 0.2.6
+  resolution: "@scalprum/react-test-utils@npm:0.2.6"
+  dependencies:
+    "@openshift/dynamic-plugin-sdk": "npm:^5.0.1"
+    "@scalprum/core": "npm:^0.8.3"
+    "@scalprum/react-core": "npm:^0.9.5"
+    tslib: "npm:^2.6.2"
+    whatwg-fetch: "npm:^3.6.0"
+  checksum: 10/0ec826d64bf4ded0fb1fd57454b028c9c1bf42ca1fe4b8d05d00a72f196db30ecba631f3ccd029ba64f5a4d1303343d2f100613eb8a96af37f1ac99d42326a59
   languageName: node
   linkType: hard
 
@@ -16908,7 +16991,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.17.0":
+"@types/lodash@npm:^4.14.175, @types/lodash@npm:^4.17.0":
   version: 4.17.17
   resolution: "@types/lodash@npm:4.17.17"
   checksum: 10/496459a3cb1a0733bb60532de3899ad6297717af0b9b26ad6821154b2005fec86f29ccd47a2e6f4da4a8c7c818bb8ae73901144e8057ea86b7b02a3d7bb9d13f
@@ -19132,11 +19215,15 @@ __metadata:
     "@material-ui/icons": "npm:^4.11.3"
     "@playwright/test": "npm:^1.32.3"
     "@react-hookz/web": "npm:^24.0.4"
+    "@red-hat-developer-hub/backstage-plugin-theme": "npm:0.6.0"
     "@roadiehq/backstage-plugin-argo-cd": "npm:^2.9.0"
     "@roadiehq/backstage-plugin-aws-lambda": "npm:^2.2.14"
     "@roadiehq/backstage-plugin-github-insights": "npm:^3.1.4"
     "@roadiehq/backstage-plugin-github-pull-requests": "npm:^3.4.2"
     "@roadiehq/backstage-plugin-security-insights": "npm:^3.1.3"
+    "@scalprum/core": "npm:0.8.3"
+    "@scalprum/react-core": "npm:0.9.5"
+    "@scalprum/react-test-utils": "npm:0.2.6"
     "@testing-library/jest-dom": "npm:^5.10.1"
     "@testing-library/react": "npm:^12.1.3"
     "@testing-library/user-event": "npm:^12.0.7"
@@ -19997,7 +20084,7 @@ __metadata:
     "@immobiliarelabs/backstage-plugin-gitlab-backend": "npm:^6.11.0"
     "@internal/backstage-plugin-veecode-platform-permissions-hub-backend": "npm:^0.1.0"
     "@internal/plugin-about-backend": "npm:^0.1.0"
-    "@internal/plugin-scalprum-backend": "npm:*"
+    "@internal/plugin-scalprum-backend": "workspace:^"
     "@internal/plugin-vault-backend": "npm:^0.9.0"
     "@roadiehq/backstage-plugin-argo-cd-backend": "npm:^4.3.0"
     "@roadiehq/backstage-plugin-aws-auth": "npm:^0.5.1"
@@ -30766,7 +30853,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.15.0, lodash@npm:^4.16.4, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:~4.17.21":
+"lodash@npm:^4.15.0, lodash@npm:^4.16.4, lodash@npm:^4.17.0, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:~4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10/c08619c038846ea6ac754abd6dd29d2568aa705feb69339e836dfa8d8b09abbb2f859371e86863eda41848221f9af43714491467b5b0299122431e202bb0c532
@@ -33100,6 +33187,13 @@ __metadata:
     react: "*"
     react-dom: "*"
   checksum: 10/6ed9f36957b19fc2dcf1644a853030cce70775bec3fed596cab9156063d522d5cb52cb1479117e4390acbe45b69321c9eb33915d96414aabaf09bff40497bb4a
+  languageName: node
+  linkType: hard
+
+"nanoclone@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "nanoclone@npm:0.2.1"
+  checksum: 10/ecb2907394c9c82bc878640b6887b69ef766fe87d1eac9831baa2f48a28b7adba082ab5d578030d460ec50800303491839bebabc51623c9c357590c5a1d26a4c
   languageName: node
   linkType: hard
 
@@ -35889,7 +35983,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"property-expr@npm:^2.0.5":
+"property-expr@npm:^2.0.4, property-expr@npm:^2.0.5":
   version: 2.0.6
   resolution: "property-expr@npm:2.0.6"
   checksum: 10/89977f4bb230736c1876f460dd7ca9328034502fd92e738deb40516d16564b850c0bbc4e052c3df88b5b8cd58e51c93b46a94bea049a3f23f4a022c038864cab
@@ -42488,6 +42582,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"whatwg-fetch@npm:^3.6.0":
+  version: 3.6.20
+  resolution: "whatwg-fetch@npm:3.6.20"
+  checksum: 10/2b4ed92acd6a7ad4f626a6cb18b14ec982bbcaf1093e6fe903b131a9c6decd14d7f9c9ca3532663c2759d1bdf01d004c77a0adfb2716a5105465c20755a8c57c
+  languageName: node
+  linkType: hard
+
 "whatwg-mimetype@npm:^3.0.0":
   version: 3.0.0
   resolution: "whatwg-mimetype@npm:3.0.0"
@@ -43103,6 +43204,21 @@ __metadata:
   version: 1.2.1
   resolution: "yocto-queue@npm:1.2.1"
   checksum: 10/0843d6c2c0558e5c06e98edf9c17942f25c769e21b519303a5c2adefd5b738c9b2054204dc856ac0cd9d134b1bc27d928ce84fd23c9e2423b7e013d5a6f50577
+  languageName: node
+  linkType: hard
+
+"yup@npm:^0.32.11":
+  version: 0.32.11
+  resolution: "yup@npm:0.32.11"
+  dependencies:
+    "@babel/runtime": "npm:^7.15.4"
+    "@types/lodash": "npm:^4.14.175"
+    lodash: "npm:^4.17.21"
+    lodash-es: "npm:^4.17.21"
+    nanoclone: "npm:^0.2.1"
+    property-expr: "npm:^2.0.4"
+    toposort: "npm:^2.0.2"
+  checksum: 10/a1f529c51d54b2f2f9a326bf65eb6cb6ceaa16f1a5d5d1f631d15f5db3b48c0f3e4852028384a628f2305d9a8f64080d10029fe4c6b19116efd528fe00afed6e
   languageName: node
   linkType: hard
 

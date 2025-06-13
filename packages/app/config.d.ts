@@ -16,41 +16,240 @@
 
 /** Configuration for the devportal plugin behavior */
 export interface Config {
+  /** Configurations for the backstage(janus) instance */
+  developerHub?: {
+    /**
+     * The url of json data for customization.
+     * @visibility frontend
+     */
+    proxyPath?: string;
+    /**
+     * Name of the Backstage flavor (e.g. backstage, rhdh, rhtap)
+     * @visibility frontend
+     */
+    flavor?: string;
+  };
+  app: {
+    branding?: {
+      /**
+       * Base64 URI for the full logo
+       * @visibility frontend
+       */
+      fullLogo?: string;
+      /**
+       * size Configuration for the full logo
+       * The following units are supported: <number>, px, em, rem, <percentage>
+       * @visibility frontend
+       */
+      fullLogoWidth?: string | number;
+      /**
+       * Base64 URI for the icon logo
+       * @visibility frontend
+       */
+      iconLogo?: string;
+      /**
+       * @deepVisibility frontend
+       */
+      theme?: {
+        [key: string]: unknown;
+      };
+    };
+    sidebar?: {
+      /**
+       * Show the logo in the sidebar
+       * @visibility frontend
+       */
+      logo?: boolean;
+      /**
+       * Show the search in the sidebar
+       * @visibility frontend
+       */
+      search?: boolean;
+      /**
+       * Show the settings in the sidebar
+       * @visibility frontend
+       */
+      settings?: boolean;
+      /**
+       * Show the administration in the sidebar
+       * @visibility frontend
+       */
+      administration?: boolean;
+    };
+  };
+  /** @deepVisibility frontend */
+  dynamicPlugins: {
+    /** @deepVisibility frontend */
+    frontend?: {
+      [key: string]: {
+        dynamicRoutes?: {
+          path: string;
+          module?: string;
+          importName?: string;
+          menuItem?: {
+            icon: string;
+            text: string;
+            enabled?: boolean;
+          };
+          config: {
+            props?: {
+              [key: string]: string;
+            };
+          };
+        }[];
+        routeBindings?: {
+          targets?: {
+            module?: string;
+            importName: string;
+            name?: string;
+          }[];
+          bindings?: {
+            bindTarget: string;
+            bindMap: {
+              [key: string]: string;
+            };
+          }[];
+        };
+        entityTabs?: {
+          path: string;
+          title: string;
+          mountPoint: string;
+          priority?: number;
+        }[];
+        mountPoints?: {
+          mountPoint: string;
+          module?: string;
+          importName?: string;
+          config: {
+            layout?: {
+              [key: string]:
+                | string
+                | {
+                    [key: string]: string;
+                  };
+            };
+            props?: {
+              [key: string]: string;
+            };
+            if?: {
+              allOf?: (
+                | {
+                    [key: string]: string | string[];
+                  }
+                | string
+              )[];
+              anyOf?: (
+                | {
+                    [key: string]: string | string[];
+                  }
+                | string
+              )[];
+              oneOf?: (
+                | {
+                    [key: string]: string | string[];
+                  }
+                | string
+              )[];
+            };
+          };
+        }[];
+        appIcons?: {
+          module?: string;
+          importName?: string;
+          name: string;
+        }[];
+        apiFactories?: {
+          module?: string;
+          importName?: string;
+        }[];
+        providerSettings?: {
+          title: string;
+          description: string;
+          provider: string;
+        }[];
+        scaffolderFieldExtensions?: {
+          module?: string;
+          importName?: string;
+        }[];
+        signInPage?: {
+          module?: string;
+          importName: string;
+        };
+        techdocsAddons?: {
+          module?: string;
+          importName?: string;
+          config?: {
+            props?: {
+              [key: string]: string;
+            };
+          };
+        }[];
+        themes?: {
+          module?: string;
+          id: string;
+          title: string;
+          variant: 'light' | 'dark';
+          icon: string;
+          importName?: string;
+        }[];
+      };
+    };
+  };
   /**
-  * @visibility frontend
-  */
+   * The signInPage provider
+   * @visibility frontend
+   */
+  signInPage?: string;
+  /**
+   * The option to includes transient parent groups when determining user group membership
+   * @visibility frontend
+   */
+  includeTransitiveGroupOwnership?: boolean;
+
+  /**
+   * Allows you to customize RHDH Metadata card
+   * @deepVisibility frontend
+   */
+  buildInfo?: {
+    title: string;
+    card: { [key: string]: string };
+    full?: boolean;
+  };
+  /**
+   * @visibility frontend
+   */
   proxy?: {
     /** @visibility frontend */
     endpoints?: {
       /** @visibility frontend */
       [key: string]:
-      | string
-      | {
-        /** @visibility frontend */
-        target: string;
-        /** @visibility frontend */
-        allowedHeaders?: string[];
-        /** @visibility frontend */
-        workspace?: string;
-        /** @visibility frontend */
-        headers?: {
-          /** @visibility secret */
-          Authorization?: string;
-          /** @visibility secret */
-          authorization?: string;
-          /** @visibility secret */
-          'X-Api-Key'?: string;
-          /** @visibility secret */
-          'x-api-key'?: string;
-          [key: string]: string | undefined;
-        };
-      };
+        | string
+        | {
+            /** @visibility frontend */
+            target: string;
+            /** @visibility frontend */
+            allowedHeaders?: string[];
+            /** @visibility frontend */
+            workspace?: string;
+            /** @visibility frontend */
+            headers?: {
+              /** @visibility secret */
+              Authorization?: string;
+              /** @visibility secret */
+              authorization?: string;
+              /** @visibility secret */
+              'X-Api-Key'?: string;
+              /** @visibility secret */
+              'x-api-key'?: string;
+              [key: string]: string | undefined;
+            };
+          };
     };
-  }
+  };
   /**
-  * Configuration for integrations towards various external repository provider systems
-  * @visibility frontend
-  */
+   * Configuration for integrations towards various external repository provider systems
+   * @visibility frontend
+   */
   integrations?: {
     /**
      * Integration configuration for Bitbucket
@@ -224,233 +423,232 @@ export interface Config {
     }>;
   };
   /**
-  * 
-  * @visibility frontend
-  */
+   *
+   * @visibility frontend
+   */
   enabledPlugins: {
     /**
      * vault launch control.
      * @visibility frontend
      */
-    vault: boolean
+    vault: boolean;
 
     /**
      * kubernetes launch control.
      * @visibility frontend
      */
-    kubernetes: boolean
+    kubernetes: boolean;
 
     /**
      * grafana launch control.
      * @visibility frontend
      */
-    grafana: boolean
+    grafana: boolean;
 
     /**
      * gitlabPlugin launch control.
      * @visibility frontend
      */
-    gitlabPlugin: boolean
+    gitlabPlugin: boolean;
 
     /**
      * KeycloakPlugin launch control.
      * @visibility frontend
      */
-    keycloak: boolean
+    keycloak: boolean;
     /**
      * AzureDevops Plugin launch control.
      * @visibility frontend
      */
-    azureDevops: boolean
+    azureDevops: boolean;
     /**
      * Kong Plugin launch control.
      * @visibility frontend
      */
-    kong: boolean
+    kong: boolean;
     /**
      * Vee Plugin launch control.
      * @visibility frontend
      */
-    vee: boolean
+    vee: boolean;
     /**
      * Sonarqube Plugin launch control.
      * @visibility frontend
      */
-    sonarqube: boolean
-
+    sonarqube: boolean;
   };
   /**
-   * 
+   *
    * @visibility frontend
    */
   auth?: {
     /**
-     * 
+     *
      * @visibility frontend
      */
     providers?: {
       /**
-       * 
+       *
        * @visibility frontend
        */
       oidc?: {
         /**
-         * 
+         *
          * @visibility frontend
          */
         development?: {
           /**
-           * 
+           *
            * @visibility frontend
            */
-          metadataUrl?: string
+          metadataUrl?: string;
           /**
-           * 
+           *
            * @visibility frontend
            */
-          clientId?: string
-        }
-      }
-    }
-  }
+          clientId?: string;
+        };
+      };
+    };
+  };
   /**
-   * 
+   *
    * @visibility frontend
    */
   platform: {
     /**
-    * 
-    * @visibility frontend
-    */
-    signInProviders: Array<string>,  
+     *
+     * @visibility frontend
+     */
+    signInProviders: Array<string>;
     /**
-    * 
-    * @visibility frontend
-    */
+     *
+     * @visibility frontend
+     */
     behaviour: {
       /**
-      * 
-      * @visibility frontend
-      */
-      mode: string
+       *
+       * @visibility frontend
+       */
+      mode: string;
       /**
-      * 
-      * @visibility frontend
-      */
-      home?: boolean
+       *
+       * @visibility frontend
+       */
+      home?: boolean;
       /**
-      * 
-      * @visibility frontend
-      */
-      catalog?: boolean
+       *
+       * @visibility frontend
+       */
+      catalog?: boolean;
       /**
-      * 
-      * @visibility frontend
-      */
-      apis?: boolean
+       *
+       * @visibility frontend
+       */
+      apis?: boolean;
       /**
-      * 
-      * @visibility frontend
-      */
-      clusters?: boolean
+       *
+       * @visibility frontend
+       */
+      clusters?: boolean;
       /**
-      * 
-      * @visibility frontend
-      */
-      enviroments?: boolean
+       *
+       * @visibility frontend
+       */
+      enviroments?: boolean;
       /**
-      * 
-      * @visibility frontend
-      */
-      create?: boolean
+       *
+       * @visibility frontend
+       */
+      create?: boolean;
       /**
-      * 
-      * @visibility frontend
-      */
-      docs?: boolean
+       *
+       * @visibility frontend
+       */
+      docs?: boolean;
       /**
-      * 
-      * @visibility frontend
-      */
-      groups?: boolean
+       *
+       * @visibility frontend
+       */
+      groups?: boolean;
       /**
-      * 
-      * @visibility frontend
-      */
-      apiManagement?: boolean
+       *
+       * @visibility frontend
+       */
+      apiManagement?: boolean;
     };
     /**
-    * @visibility frontend
-    */
+     * @visibility frontend
+     */
     logo?: {
       /**
-      * @visibility frontend
-      */
-      icon?: string
+       * @visibility frontend
+       */
+      icon?: string;
       /**
-      * @visibility frontend
-      */
-      full?: string
+       * @visibility frontend
+       */
+      full?: string;
     };
     guest: {
       /**
-       * 
+       *
        * @visibility frontend
        */
-      enabled: boolean
+      enabled: boolean;
       /**
-       * 
+       *
        * @visibility frontend
        */
-      demo: boolean
+      demo: boolean;
     };
     defaultGroup: {
       /**
-       * 
+       *
        * @visibility frontend
        */
-      enabled: boolean
+      enabled: boolean;
     };
     group: {
       /**
-       * 
+       *
        *  @visibility frontend
        */
-      admin: string
+      admin: string;
       /**
-       * 
+       *
        * @visibility frontend
        */
-      user: string
+      user: string;
     };
     apiManagement: {
       /**
-       * 
+       *
        * @visibility frontend
        */
-      enabled: boolean
+      enabled: boolean;
       /**
-       * 
+       *
        * @visibility frontend
        */
-      readOnlyMode: boolean
-    }
+      readOnlyMode: boolean;
+    };
     support?: {
       /**
-       * 
+       *
        * @visibility frontend
        */
-      licenseKey?: string
-    }
-  }
+      licenseKey?: string;
+    };
+  };
   /**
-  * Configuration for scaffolder towards various external repository provider systems
-  * @visibility frontend
-  */
+   * Configuration for scaffolder towards various external repository provider systems
+   * @visibility frontend
+   */
   scaffolder?: {
     /**
-      * @visibility frontend
-      */
+     * @visibility frontend
+     */
     providers?: {
       /** Integration configuration for GitHub */
       github?: Array<{
@@ -479,24 +677,24 @@ export interface Config {
          */
         token?: string;
       }>;
-    }
-  },
+    };
+  };
   /** @visibility frontend */
   zoraOss?: {
     /** @visibility frontend */
     openAiApiKey?: string;
     /** @visibility frontend */
     openAiModel?: string;
-  },
+  };
   /**
-  * vulnerabilities.
-  * @visibility frontend
-  */
-  vulnerabilities?:{
+   * vulnerabilities.
+   * @visibility frontend
+   */
+  vulnerabilities?: {
     /**
-    * enable vulnerabilities.
-    * @visibility frontend
-    */
+     * enable vulnerabilities.
+     * @visibility frontend
+     */
     enabled: boolean;
-  }
+  };
 }
