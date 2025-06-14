@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkbackstage_plugin_techdocs=self.webpackChunkbackstage_plugin_techdocs||[]).push([[8942],{88942:(e,c,a)=>{a.r(c),a.d(c,{TechDocsReaderLayout:()=>s.b,TechDocsReaderPage:()=>s.W});var s=a(46340)}}]);

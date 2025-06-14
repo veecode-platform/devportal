@@ -1,2 +1,0 @@
-(self.webpackChunkbackstage_plugin_techdocs=self.webpackChunkbackstage_plugin_techdocs||[]).push([[9118],{88450:e=>{e.exports=function(e){return{name:"Julia REPL",contains:[{className:"meta",begin:/^julia>/,relevance:10,starts:{end:/^(?![ ]{6})/,subLanguage:"julia"},aliases:["jldoctest"]}]}}}}]);
-//# sourceMappingURL=react-syntax-highlighter_languages_highlight_juliaRepl.39fd0d54.chunk.js.map
