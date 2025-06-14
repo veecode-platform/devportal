@@ -1,2 +1,0 @@
-(self.webpackChunkbackstage_community_plugin_rbac=self.webpackChunkbackstage_community_plugin_rbac||[]).push([[2979],{68416:t=>{t.exports=function(t){return{name:"Plain text",aliases:["text","txt"],disableAutodetect:!0}}}}]);
-//# sourceMappingURL=react-syntax-highlighter_languages_highlight_plaintext.182fc628.chunk.js.map

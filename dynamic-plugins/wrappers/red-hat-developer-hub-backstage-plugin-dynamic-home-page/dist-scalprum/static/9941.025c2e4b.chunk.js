@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkred_hat_developer_hub_backstage_plugin_dynamic_home_page=self.webpackChunkred_hat_developer_hub_backstage_plugin_dynamic_home_page||[]).push([[9941],{9941:(e,a,_)=>{_.r(a),_.d(a,{Headline:()=>n});var t=_(95478),l=_.n(t);const n=e=>l().createElement("h1",{style:{textAlign:e.align}},e.title)}}]);
-//# sourceMappingURL=9941.025c2e4b.chunk.js.map

@@ -1,2 +1,0 @@
-(self.webpackChunkred_hat_developer_hub_backstage_plugin_global_header=self.webpackChunkred_hat_developer_hub_backstage_plugin_global_header||[]).push([[6343],{46343:(e,_,a)=>{var l=a(94687);e.exports=function(e,_){return l(e,_)}}}]);
-//# sourceMappingURL=6343.6876b5ab.chunk.js.map

@@ -1,2 +1,0 @@
-(self.webpackChunkbackstage_community_plugin_rbac=self.webpackChunkbackstage_community_plugin_rbac||[]).push([[9118],{88450:a=>{a.exports=function(a){return{name:"Julia REPL",contains:[{className:"meta",begin:/^julia>/,relevance:10,starts:{end:/^(?![ ]{6})/,subLanguage:"julia"},aliases:["jldoctest"]}]}}}}]);
-//# sourceMappingURL=react-syntax-highlighter_languages_highlight_juliaRepl.03c177cb.chunk.js.map

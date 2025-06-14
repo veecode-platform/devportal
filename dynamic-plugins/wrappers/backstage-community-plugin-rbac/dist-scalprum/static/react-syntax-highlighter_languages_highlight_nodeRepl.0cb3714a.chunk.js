@@ -1,2 +1,0 @@
-(self.webpackChunkbackstage_community_plugin_rbac=self.webpackChunkbackstage_community_plugin_rbac||[]).push([[8705],{69697:a=>{a.exports=function(a){return{name:"Node REPL",contains:[{className:"meta",starts:{end:/ |$/,starts:{end:"$",subLanguage:"javascript"}},variants:[{begin:/^>(?=[ ]|$)/},{begin:/^\.\.\.(?=[ ]|$)/}]}]}}}}]);
-//# sourceMappingURL=react-syntax-highlighter_languages_highlight_nodeRepl.0cb3714a.chunk.js.map
