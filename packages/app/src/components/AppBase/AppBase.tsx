@@ -1,8 +1,24 @@
 import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
 
+import {
+  RELATION_API_CONSUMED_BY,
+  RELATION_API_PROVIDED_BY,
+  RELATION_CONSUMES_API,
+  RELATION_DEPENDENCY_OF,
+  RELATION_DEPENDS_ON,
+  RELATION_HAS_PART,
+  RELATION_OWNED_BY,
+  RELATION_OWNER_OF,
+  RELATION_PART_OF,
+  RELATION_PROVIDES_API,
+} from '@backstage/catalog-model';
 import { FlatRoutes } from '@backstage/core-app-api';
-import { AlertDisplay, OAuthRequestDialog } from '@backstage/core-components';
+import {
+  AlertDisplay,
+  OAuthRequestDialog,
+  TableColumn,
+} from '@backstage/core-components';
 import { ApiExplorerPage } from '@backstage/plugin-api-docs';
 import {
   CatalogEntityPage,
@@ -14,22 +30,79 @@ import {
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { CatalogImportPage } from '@backstage/plugin-catalog-import';
+import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { ScaffolderPage } from '@backstage/plugin-scaffolder';
-import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
+import {
+  ScaffolderFieldExtensions,
+  ScaffolderLayouts,
+} from '@backstage/plugin-scaffolder-react';
 import { SearchPage as BackstageSearchPage } from '@backstage/plugin-search';
+import {
+  DefaultTechDocsHome,
+  TechDocsIndexPage,
+  // techdocsPlugin,
+  TechDocsReaderPage,
+} from '@backstage/plugin-techdocs';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
+
+import { RbacPage } from '@backstage-community/plugin-rbac';
+import { SupportPage } from '@internal/backstage-plugin-support';
+import { AboutPage } from '@internal/plugin-about';
+import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
+import { VulnerabilitiesPage } from '@veecode-platform/backstage-plugin-vulnerabilities';
+import { DatabaseExplorerPage } from '@veecode-platform/plugin-database-explorer';
+import { EnvironmentExplorerPage } from '@veecode-platform/plugin-environment-explorer';
+import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
+import {
+  RepoUrlSelectorExtension,
+  ResourcePickerExtension,
+  UploadFilePickerExtension,
+} from '@veecode-platform/veecode-scaffolder-extensions';
 
 import getDynamicRootConfig from '../../utils/dynamicUI/getDynamicRootConfig';
 import { entityPage } from '../catalog/EntityPage';
 import DynamicRootContext from '../DynamicRoot/DynamicRootContext';
-import { LearningPaths } from '../learningPaths/LearningPathsPage';
 import { Root } from '../Root';
 import { ApplicationListener } from '../Root/ApplicationListener';
 import { ApplicationProvider } from '../Root/ApplicationProvider';
 import ConfigUpdater from '../Root/ConfigUpdater';
+import { LayoutCustom } from '../scaffolder/LayoutCustom';
 import { SearchPage } from '../search/SearchPage';
 import { settingsPage } from '../UserSettings/SettingsPages';
+
+const createApiDocsCustomColumns = (): TableColumn<CatalogTableRow>[] => {
+  const nameColumn = CatalogTable.columns.createNameColumn({
+    defaultKind: 'API',
+  });
+  const ownerColumn = CatalogTable.columns.createOwnerColumn();
+  const specTypeColumn = CatalogTable.columns.createSpecTypeColumn();
+  const specLifecyclecColumn = CatalogTable.columns.createSpecLifecycleColumn();
+  const publishedAtColumn = {
+    title: 'Published At',
+    field: 'entity.metadata.publishedAt',
+    width: 'auto',
+  };
+  const tagsColumn = CatalogTable.columns.createTagsColumn();
+
+  nameColumn.width = 'auto';
+  ownerColumn.width = 'auto';
+  specTypeColumn.width = 'auto';
+  specLifecyclecColumn.width = 'auto';
+  tagsColumn.width = 'auto';
+  tagsColumn.cellStyle = {
+    padding: '.8em .5em',
+  };
+
+  return [
+    nameColumn,
+    ownerColumn,
+    specTypeColumn,
+    specLifecyclecColumn,
+    publishedAtColumn,
+    tagsColumn,
+  ];
+};
 
 const AppBase = () => {
   const {
@@ -100,16 +173,39 @@ const AppBase = () => {
                   <ScaffolderPage headerOptions={{ title: 'Self-service' }} />
                 }
               >
-                <ScaffolderFieldExtensions>
-                  {scaffolderFieldExtensions.map(
-                    ({ scope, module, importName, Component }) => (
-                      <Component key={`${scope}-${module}-${importName}`} />
-                    ),
-                  )}
-                </ScaffolderFieldExtensions>
-                scaffolderFieldExtensions
+                <ScaffolderLayouts>
+                  <ScaffolderFieldExtensions>
+                    <LayoutCustom />
+                    {scaffolderFieldExtensions.map(
+                      ({ scope, module, importName, Component }) => (
+                        <Component key={`${scope}-${module}-${importName}`} />
+                      ),
+                    )}
+                    <RepoUrlSelectorExtension />
+                    <ResourcePickerExtension />
+                    <UploadFilePickerExtension />
+                  </ScaffolderFieldExtensions>
+                </ScaffolderLayouts>
               </Route>
-              <Route path="/api-docs" element={<ApiExplorerPage />} />
+              <Route
+                path="/api-docs"
+                element={
+                  <ApiExplorerPage
+                    columns={createApiDocsCustomColumns()}
+                    pagination={{
+                      mode: 'offset',
+                      limit: 15,
+                    }}
+                  />
+                }
+              />
+              <Route path="/docs" element={<TechDocsIndexPage />}>
+                <DefaultTechDocsHome />
+              </Route>
+              <Route
+                path="/docs/:namespace/:kind/:name/*"
+                element={<TechDocsReaderPage />}
+              />
               <Route
                 path="/catalog-import"
                 element={
@@ -121,11 +217,66 @@ const AppBase = () => {
               <Route path="/search" element={<BackstageSearchPage />}>
                 <SearchPage />
               </Route>
+              <Route
+                path="/cluster-explorer"
+                element={<ClusterExplorerPage />}
+              />
+              <Route
+                path="/environments-explorer"
+                element={<EnvironmentExplorerPage />}
+              />
+              <Route
+                path="/database-explorer"
+                element={<DatabaseExplorerPage />}
+              />
+              <Route path="/vault-explorer" element={<VaultExplorerPage />} />
               <Route path="/settings" element={<UserSettingsPage />}>
                 {settingsPage(providerSettings)}
               </Route>
-              <Route path="/catalog-graph" element={<CatalogGraphPage />} />
-              <Route path="/learning-paths" element={<LearningPaths />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/support" element={<SupportPage />} />
+              <Route
+                path="/catalog-unprocessed-entities"
+                element={<CatalogUnprocessedEntitiesPage />}
+              />
+              ;
+              <Route
+                path="/vulnerabilities"
+                element={<VulnerabilitiesPage />}
+              />
+              <Route path="/rbac" element={<RbacPage />} />;
+              <Route
+                path="/catalog-graph"
+                element={
+                  <CatalogGraphPage
+                    initialState={{
+                      selectedKinds: [
+                        'component',
+                        'domain',
+                        'system',
+                        'api',
+                        'group',
+                        'cluster',
+                        'environment',
+                        'database',
+                        'vault',
+                      ],
+                      selectedRelations: [
+                        RELATION_OWNER_OF,
+                        RELATION_OWNED_BY,
+                        RELATION_CONSUMES_API,
+                        RELATION_API_CONSUMED_BY,
+                        RELATION_PROVIDES_API,
+                        RELATION_API_PROVIDED_BY,
+                        RELATION_HAS_PART,
+                        RELATION_PART_OF,
+                        RELATION_DEPENDS_ON,
+                        RELATION_DEPENDENCY_OF,
+                      ],
+                    }}
+                  />
+                }
+              />
               {dynamicRoutes.map(
                 ({ Component, staticJSXContent, path, config: { props } }) => {
                   return (

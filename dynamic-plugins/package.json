@@ -3,10 +3,10 @@
   "version": "1.7.0",
   "private": true,
   "scripts": {
-    "build": "yarn tsc && yarn export-dynamic",
-    "tsc": "yarn workspaces foreach --all run tsc",
-    "export-dynamic": "yarn workspaces foreach --all run export-dynamic",
-    "clean": "yarn workspaces foreach --all run clean"
+    "build": "turbo run build",
+    "tsc": "turbo run tsc",
+    "export-dynamic": "turbo run export-dynamic",
+    "clean": "turbo run clean"
   },
   "workspaces": {
     "packages": [
@@ -15,9 +15,8 @@
     ]
   },
   "devDependencies": {
-    "@backstage/cli": "0.30.0",
-    "@janus-idp/cli": "3.6.1",
     "fs-extra": "^11.2.0",
+    "turbo": "^2.0.9",
     "typescript": "^5.4.0",
     "yaml": "^2.4.5"
   },
