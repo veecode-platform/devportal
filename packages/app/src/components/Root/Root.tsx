@@ -420,9 +420,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
   return (
     <div className={pageWithoutFixHeight}>
       <div id="above-sidebar-header-container" ref={aboveSidebarHeaderRef}>
-        <>
-          {ApplicationHeaders({ position: "above-sidebar" })}
-        </>
+        <ApplicationHeaders position="above-sidebar" />
       </div>
       <Box className={sidebarLayout}>
         <SidebarPage>
@@ -430,7 +428,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             id="above-main-content-header-container"
             ref={aboveMainContentHeaderRef}
           >
-            {ApplicationHeaders({ position: "above-main-content" })}
+            <ApplicationHeaders position="above-main-content" />
           </div>
           <Sidebar>
             {showLogo && <SidebarLogo />}

@@ -79,7 +79,7 @@ export type ScalprumMountPointConfigRaw = ScalprumMountPointConfigBase & {
 };
 
 export type ScalprumMountPoint = {
-  Component: React.ComponentType<React.PropsWithChildren<{}>>;
+  Component: React.ComponentType<React.PropsWithChildren>;
   config?: ScalprumMountPointConfig;
   staticJSXContent?:
     | React.ReactNode
@@ -90,11 +90,11 @@ export type RemotePlugins = {
   [scope: string]: {
     [module: string]: {
       [importName: string]:
-        | React.ComponentType<React.PropsWithChildren<{}>>
+        | React.ComponentType<React.PropsWithChildren>
         | ((...args: any[]) => any)
         | BackstagePlugin<{}>
         | {
-            element: React.ComponentType<React.PropsWithChildren<{}>>;
+            element: React.ComponentType<React.PropsWithChildren>;
             staticJSXContent:
               | React.ReactNode
               | ((config: DynamicRootConfig) => React.ReactNode);
@@ -147,8 +147,8 @@ export type DynamicRootConfig = {
 };
 
 export type ComponentRegistry = {
-  AppProvider: React.ComponentType<React.PropsWithChildren<{}>>;
-  AppRouter: React.ComponentType<React.PropsWithChildren<{}>>;
+  AppProvider: React.ComponentType<React.PropsWithChildren>;
+  AppRouter: React.ComponentType<React.PropsWithChildren>;
 } & DynamicRootConfig;
 
 const DynamicRootContext = createContext<ComponentRegistry>({

@@ -23,12 +23,13 @@ import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import getDynamicRootConfig from '../../utils/dynamicUI/getDynamicRootConfig';
 import { entityPage } from '../catalog/EntityPage';
 import DynamicRootContext from '../DynamicRoot/DynamicRootContext';
+import { LearningPaths } from '../learningPaths/LearningPathsPage';
 import { Root } from '../Root';
+import { ApplicationListener } from '../Root/ApplicationListener';
+import { ApplicationProvider } from '../Root/ApplicationProvider';
 import ConfigUpdater from '../Root/ConfigUpdater';
 import { SearchPage } from '../search/SearchPage';
 import { settingsPage } from '../UserSettings/SettingsPages';
-import { ApplicationListener } from '../Root/ApplicationListener';
-import { ApplicationProvider } from '../Root/ApplicationProvider';
 
 const AppBase = () => {
   const {
@@ -124,6 +125,7 @@ const AppBase = () => {
                 {settingsPage(providerSettings)}
               </Route>
               <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+              <Route path="/learning-paths" element={<LearningPaths />} />
               {dynamicRoutes.map(
                 ({ Component, staticJSXContent, path, config: { props } }) => {
                   return (

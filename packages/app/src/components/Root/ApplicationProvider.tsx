@@ -1,5 +1,7 @@
 import React, { ErrorInfo } from 'react';
+
 import { ErrorPanel } from '@backstage/core-components';
+
 import DynamicRootContext from '../DynamicRoot/DynamicRootContext';
 
 class ErrorBoundary extends React.Component<
@@ -48,14 +50,16 @@ class ErrorBoundary extends React.Component<
 
 export const ApplicationProvider = ({
   children,
-}: React.PropsWithChildren<{}>): JSX.Element => {
+}: React.PropsWithChildren<{}>) => {
   const { mountPoints } = React.useContext(DynamicRootContext);
   const providers = React.useMemo(
     () => mountPoints['application/provider'] ?? [],
     [mountPoints],
   );
-
-  const content = providers.reduceRight((acc, { Component }, index) => {
+  if (providers.length === 0) {
+    return children;
+  }
+  return providers.reduceRight((acc, { Component }, index) => {
     return (
       <ErrorBoundary
         // eslint-disable-next-line react/no-array-index-key
@@ -65,7 +69,5 @@ export const ApplicationProvider = ({
         {acc}
       </ErrorBoundary>
     );
-  }, children ?? <></>); // garante que não retorna undefined
-
-  return <>{content}</>;
+  }, children);
 };

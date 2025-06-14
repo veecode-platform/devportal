@@ -1,37 +1,27 @@
-import {
-  ScmIntegrationsApi,
-  scmIntegrationsApiRef,
-  ScmAuth,
-} from '@backstage/integration-react';
+import { OAuth2 } from '@backstage/core-app-api';
 import {
   AnyApiFactory,
-  analyticsApiRef,
-  ApiRef,
-  BackstageIdentityApi,
   configApiRef,
   createApiFactory,
-  createApiRef,
   discoveryApiRef,
-  oauthRequestApiRef,
-  OpenIdConnectApi,
-  ProfileInfoApi,
-  SessionApi,
   identityApiRef,
-  errorApiRef,
-  fetchApiRef
+  oauthRequestApiRef,
 } from '@backstage/core-plugin-api';
-import { OAuth2 } from '@backstage/core-app-api';
-// google analytics
-import { GoogleAnalytics4 } from '@backstage-community/plugin-analytics-module-ga4';
-import { VisitsWebStorageApi, visitsApiRef } from '@backstage/plugin-home';
-import { scaffolderApiRef } from '@backstage/plugin-scaffolder-react';
-import { ScaffolderClient } from '@backstage/plugin-scaffolder';
+import {
+  ScmAuth,
+  ScmIntegrationsApi,
+  scmIntegrationsApiRef,
+} from '@backstage/integration-react';
 
-export const oidcAuthApiRef: ApiRef<
-  OpenIdConnectApi & ProfileInfoApi & BackstageIdentityApi & SessionApi
-> = createApiRef({
-  id: 'auth.oidc-provider',
-});
+import {
+  auth0AuthApiRef,
+  oidcAuthApiRef,
+  samlAuthApiRef,
+} from './api/AuthApiRefs';
+import {
+  LearningPathApiClient,
+  learningPathApiRef,
+} from './api/LearningPathApiClient';
 
 export const apis: AnyApiFactory[] = [
   createApiFactory({
@@ -41,62 +31,78 @@ export const apis: AnyApiFactory[] = [
   }),
   ScmAuth.createDefaultApiFactory(),
   createApiFactory({
-    api: oidcAuthApiRef,
-      deps: {
-        discoveryApi: discoveryApiRef,
-        oauthRequestApi: oauthRequestApiRef,
-        configApi: configApiRef,
-      },
-      factory: ({ discoveryApi, oauthRequestApi, configApi }) =>
-        OAuth2.create({
-          discoveryApi,
-          oauthRequestApi,
-          configApi,
-          provider: {
-            id: 'oidc',
-            title: 'Default keycloak authentication provider',
-            icon: () => null,
-          },
-          environment: configApi.getOptionalString('auth.environment'),
-          defaultScopes: [
-            'openid',
-            'profile',
-            'email',
-          ],
-        }),
-    }),
-  createApiFactory({
-    api: analyticsApiRef,
-    deps: { configApi: configApiRef, identityApi: identityApiRef },
-    factory: ({ configApi, identityApi }) =>
-      GoogleAnalytics4.fromConfig(configApi, {
-        identityApi,
-      }),
-  }),
-  createApiFactory({
-    api: visitsApiRef,
-    deps: {
-      identityApi: identityApiRef,
-      errorApi: errorApiRef
-    },
-    factory: ({ identityApi, errorApi }) => VisitsWebStorageApi.create({ identityApi, errorApi }),
-  }),
-  createApiFactory({
-    api: scaffolderApiRef,
+    api: learningPathApiRef,
     deps: {
       discoveryApi: discoveryApiRef,
+      configApi: configApiRef,
       identityApi: identityApiRef,
-      scmIntegrationsApi: scmIntegrationsApiRef,
-      fetchApi: fetchApiRef,
     },
-    factory: ({ scmIntegrationsApi, discoveryApi, identityApi, fetchApi }) =>
-      new ScaffolderClient({
+    factory: ({ discoveryApi, configApi, identityApi }) =>
+      new LearningPathApiClient({ discoveryApi, configApi, identityApi }),
+  }),
+  // OIDC
+  createApiFactory({
+    api: oidcAuthApiRef,
+    deps: {
+      discoveryApi: discoveryApiRef,
+      oauthRequestApi: oauthRequestApiRef,
+      configApi: configApiRef,
+    },
+    factory: ({ discoveryApi, oauthRequestApi, configApi }) =>
+      OAuth2.create({
+        configApi,
         discoveryApi,
-        identityApi,
-        scmIntegrationsApi,
-        fetchApi,
-        useLongPollingLogs: true,
+        // TODO: Check if 1.32 fixes this type error
+        oauthRequestApi: oauthRequestApi as any,
+        provider: {
+          id: 'oidc',
+          title: 'OIDC',
+          icon: () => null,
+        },
+        environment: configApi.getOptionalString('auth.environment'),
       }),
-  })
+  }),
+  // Auth0
+  createApiFactory({
+    api: auth0AuthApiRef,
+    deps: {
+      discoveryApi: discoveryApiRef,
+      oauthRequestApi: oauthRequestApiRef,
+      configApi: configApiRef,
+    },
+    factory: ({ discoveryApi, oauthRequestApi, configApi }) =>
+      OAuth2.create({
+        discoveryApi,
+        // TODO: Check if 1.32 fixes this type error
+        oauthRequestApi: oauthRequestApi as any,
+        provider: {
+          id: 'auth0',
+          title: 'Auth0',
+          icon: () => null,
+        },
+        defaultScopes: ['openid', 'email', 'profile'],
+        environment: configApi.getOptionalString('auth.environment'),
+      }),
+  }),
+  // SAML
+  createApiFactory({
+    api: samlAuthApiRef,
+    deps: {
+      discoveryApi: discoveryApiRef,
+      oauthRequestApi: oauthRequestApiRef,
+      configApi: configApiRef,
+    },
+    factory: ({ discoveryApi, oauthRequestApi, configApi }) =>
+      OAuth2.create({
+        discoveryApi,
+        // TODO: Check if 1.32 fixes this type error
+        oauthRequestApi: oauthRequestApi as any,
+        provider: {
+          id: 'saml',
+          title: 'SAML',
+          icon: () => null,
+        },
+        environment: configApi.getOptionalString('auth.environment'),
+      }),
+  }),
 ];
-

@@ -1,6 +1,8 @@
 import { styled } from '@mui/material/styles';
 
-const Svg = styled('svg')`
+const Svg: (props: React.ComponentProps<'svg'>) => React.ReactNode = styled(
+  'svg',
+)`
   width: auto;
   height: 28px;
 `;

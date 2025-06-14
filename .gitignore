@@ -15,6 +15,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+
 # Coverage directory generated when running tests with coverage
 coverage
 
@@ -22,13 +23,19 @@ coverage
 node_modules/
 
 # Yarn files
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+**/.pnp.*
+**/.yarn/*
+!**/.yarn/patches
+!**/.yarn/plugins
+!**/.yarn/releases
+!**/.yarn/sdks
+!**/.yarn/versions
+
+# Build output
+dist
+dist-types
+dist-scalprum
+dist-dynamic
 
 # dotenv environment variables file
 .env
@@ -54,6 +61,9 @@ app-config.local.yaml.okteto
 # vscode database functionality support files
 *.session.sql
 
+.vscode
+.turbo
+
 .docker/
 pgdata/
 sqlite/
@@ -66,3 +76,12 @@ chart/README.md
 
 #policy csv
 *.csv
+
+#dev caches
+.webpack-cache
+.idea/
+.idea/
+
+
+# Private Keys
+*.pem

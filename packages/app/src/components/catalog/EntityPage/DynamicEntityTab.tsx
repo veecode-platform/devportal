@@ -1,4 +1,3 @@
-import React from 'react';
 import { Entity } from '@backstage/catalog-model';
 import { ApiHolder } from '@backstage/core-plugin-api';
 import { EntityLayout, EntitySwitch } from '@backstage/plugin-catalog';
@@ -56,7 +55,7 @@ export const dynamicEntityTab = ({
         )
     }
   >
-    {getMountPointData<React.ComponentType<React.PropsWithChildren<{}>>>(
+    {getMountPointData<React.ComponentType<React.PropsWithChildren>>(
       `${mountPoint}/context`,
     ).reduce(
       (acc, { Component }) => (
@@ -65,7 +64,7 @@ export const dynamicEntityTab = ({
       <Grid container>
         {children}
         {getMountPointData<
-          React.ComponentType<React.PropsWithChildren<{}>>,
+          React.ComponentType<React.PropsWithChildren>,
           React.ReactNode | ((config: DynamicRootConfig) => React.ReactNode)
         >(`${mountPoint}/cards`).map(
           ({ Component, config, staticJSXContent }, index) => {

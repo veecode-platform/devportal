@@ -23,6 +23,12 @@ export const DefaultMainMenuItems = {
       to: 'api-docs',
       priority: 70,
     },
+    'default.learning-path': {
+      title: 'Learning Paths',
+      icon: 'school',
+      to: 'learning-paths',
+      priority: 60,
+    },
     'default.create': {
       title: 'Self-service',
       icon: 'add',
