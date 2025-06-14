@@ -13,6 +13,7 @@
     "@backstage-community/plugin-github-actions": "^0.10.0",
     "@backstage-community/plugin-github-pull-requests-board": "^0.5.1",
     "@backstage-community/plugin-rbac": "^1.41.5",
+    "@backstage-community/plugin-rbac-common": "^1.17.0",
     "@backstage-community/plugin-sonarqube": "^0.12.0",
     "@backstage-community/plugin-tech-radar": "^1.6.1",
     "@backstage-community/plugin-vault": "^0.6.0",
@@ -44,6 +45,7 @@
     "@immobiliarelabs/backstage-plugin-gitlab": "^6.6.1",
     "@internal/backstage-plugin-support": "^0.1.0",
     "@internal/plugin-about": "^0.1.0",
+    "@internal/plugin-dynamic-plugins-info": "workspace:^",
     "@k-phoen/backstage-plugin-grafana": "^0.1.22",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
@@ -80,7 +82,8 @@
     "react-icons": "^5.5.0",
     "react-router": "^6.26.2",
     "react-router-dom": "^6.26.2",
-    "react-use": "^17.5.1"
+    "react-use": "^17.5.1",
+    "tss-react": "^4.9.18"
   },
   "devDependencies": {
     "@backstage/test-utils": "^1.7.8",

@@ -1,0 +1,11 @@
+{
+  "name": "backstage-community.plugin-rbac",
+  "version": "1.39.2",
+  "extensions": [],
+  "registrationMethod": "callback",
+  "baseURL": "auto",
+  "loadScripts": [
+    "backstage-community.plugin-rbac.ee0826471ff4b540d797.js"
+  ],
+  "buildHash": "ee0826471ff4b540d797c574907873f3"
+}

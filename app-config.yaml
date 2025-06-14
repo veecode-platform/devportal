@@ -1,6 +1,24 @@
+developerHub:
+  flavor: rhdh
+
 app:
   title: Devportal
   baseUrl: http://localhost:3000
+  branding:
+    fullLogo: ${BASE64_EMBEDDED_FULL_LOGO}
+    iconLogo: ${BASE64_EMBEDDED_ICON_LOGO}
+    fullLogoWidth: ${FULL_LOGO_WIDTH}
+    theme:
+      light:
+        primaryColor: ${PRIMARY_LIGHT_COLOR}
+        headerColor1: ${HEADER_LIGHT_COLOR_1}
+        headerColor2: ${HEADER_LIGHT_COLOR_2}
+        navigationIndicatorColor: ${NAV_INDICATOR_LIGHT_COLOR}
+      dark:
+        primaryColor: ${PRIMARY_DARK_COLOR}
+        headerColor1: ${HEADER_DARK_COLOR_1}
+        headerColor2: ${HEADER_DARK_COLOR_2}
+        navigationIndicatorColor: ${NAV_INDICATOR_DARK_COLOR}
   analytics:
     ga4:
       measurementId: ${GA_ANALYTICS_ID}

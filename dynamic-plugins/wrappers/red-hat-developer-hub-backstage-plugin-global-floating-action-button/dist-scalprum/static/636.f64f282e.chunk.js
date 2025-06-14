@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkred_hat_developer_hub_backstage_plugin_global_floating_action_button=self.webpackChunkred_hat_developer_hub_backstage_plugin_global_floating_action_button||[]).push([[636],{4636:(e,t,_)=>{_.d(t,{A:()=>n});const a=e=>e,n=(()=>{let e=a;return{configure(t){e=t},generate:t=>e(t),reset(){e=a}}})()}}]);
+//# sourceMappingURL=636.f64f282e.chunk.js.map

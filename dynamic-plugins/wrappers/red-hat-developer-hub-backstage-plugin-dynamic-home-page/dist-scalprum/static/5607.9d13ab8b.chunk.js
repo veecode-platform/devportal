@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkred_hat_developer_hub_backstage_plugin_dynamic_home_page=self.webpackChunkred_hat_developer_hub_backstage_plugin_dynamic_home_page||[]).push([[5607],{5607:(e,t,a)=>{a.r(t),a.d(t,{WorldClock:()=>o});var c=a(95478),l=a.n(c),n=a(31824);const o=({worldClocks:e,timeFormat:t,justifyContent:a="space-between"})=>l().createElement("div",{style:{display:"flex",justifyContent:a}},l().createElement(n.E0,{clockConfigs:e,customTimeFormat:t}))}}]);
+//# sourceMappingURL=5607.9d13ab8b.chunk.js.map

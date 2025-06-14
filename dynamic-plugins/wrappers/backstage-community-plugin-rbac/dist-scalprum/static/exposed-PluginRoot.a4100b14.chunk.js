@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkbackstage_community_plugin_rbac=self.webpackChunkbackstage_community_plugin_rbac||[]).push([[879],{30911:(a,c,n)=>{n.r(c),n.d(c,{AdminPanelSettingsOutlinedIcon:()=>t.Et,Administration:()=>t.XQ,RbacIcon:()=>t.Kw,RbacPage:()=>t.Mg,rbacApiRef:()=>t.yK,rbacPlugin:()=>t.Cp});var i=n(64636),t=n(90423);i.A.configure((a=>a.startsWith("v5-")?a:`v5-${a}`))}}]);
+//# sourceMappingURL=exposed-PluginRoot.a4100b14.chunk.js.map

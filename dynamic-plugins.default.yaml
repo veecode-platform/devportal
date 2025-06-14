@@ -5,3 +5,211 @@ plugins:
     disabled: true
   - package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-regex-dynamic
     disabled: true
+  # Global Header
+  - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-global-header
+    disabled: false
+    pluginConfig:
+      app:
+        sidebar:
+          search: false
+          settings: false
+      dynamicPlugins:
+        frontend:
+          default.main-menu-items:
+            menuItems:
+              default.create:
+                title: ''
+          red-hat-developer-hub.backstage-plugin-global-header:
+            mountPoints:
+              - mountPoint: application/header
+                importName: GlobalHeader
+                config:
+                  position: above-main-content # above-main-content | above-sidebar
+              - mountPoint: global.header/component
+                importName: SearchComponent
+                config:
+                  priority: 100
+              - mountPoint: global.header/component
+                importName: Spacer
+                config:
+                  priority: 99
+                  props:
+                    growFactor: 0
+              - mountPoint: global.header/component
+                importName: HeaderIconButton
+                config:
+                  priority: 90
+                  props:
+                    title: Self-service
+                    icon: add
+                    to: create
+              - mountPoint: global.header/component
+                importName: SupportButton
+                config:
+                  priority: 80
+              - mountPoint: global.header/component
+                importName: NotificationButton
+                config:
+                  priority: 70
+              - mountPoint: global.header/component
+                importName: Divider
+                config:
+                  priority: 50
+              - mountPoint: global.header/component
+                importName: ProfileDropdown
+                config:
+                  priority: 10
+              - mountPoint: global.header/profile
+                importName: MenuItemLink
+                config:
+                  priority: 100
+                  props:
+                    title: Settings
+                    link: /settings
+                    icon: manageAccounts
+              - mountPoint: global.header/profile
+                importName: LogoutButton
+                config:
+                  priority: 10
+
+  # Group: Global floating action button
+  - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-global-floating-action-button
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-global-floating-action-button:
+            mountPoints:
+              - mountPoint: application/listener
+                importName: DynamicGlobalFloatingActionButton
+
+  # Homepage
+  - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-dynamic-home-page
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-dynamic-home-page:
+            dynamicRoutes:
+              - path: /
+                importName: DynamicHomePage
+            mountPoints:
+              - mountPoint: application/listener
+                importName: VisitListener
+              - mountPoint: home.page/cards
+                importName: SearchBar
+                config:
+                  layouts:
+                    xl: { w: 10, h: 1, x: 1 }
+                    lg: { w: 10, h: 1, x: 1 }
+                    md: { w: 10, h: 1, x: 1 }
+                    sm: { w: 10, h: 1, x: 1 }
+                    xs: { w: 12, h: 1 }
+                    xxs: { w: 12, h: 1 }
+              - mountPoint: home.page/cards
+                importName: QuickAccessCard
+                config:
+                  layouts:
+                    xl: { w: 7, h: 8 }
+                    lg: { w: 7, h: 8 }
+                    md: { w: 7, h: 8 }
+                    sm: { w: 12, h: 8 }
+                    xs: { w: 12, h: 8 }
+                    xxs: { w: 12, h: 8 }
+              - mountPoint: home.page/cards
+                importName: CatalogStarredEntitiesCard
+                config:
+                  layouts:
+                    xl: { w: 5, h: 4, x: 7 }
+                    lg: { w: 5, h: 4, x: 7 }
+                    md: { w: 5, h: 4, x: 7 }
+                    sm: { w: 12, h: 4 }
+                    xs: { w: 12, h: 4 }
+                    xxs: { w: 12, h: 4 }
+
+  # Techdocs
+  # - package: ./dynamic-plugins/dist/backstage-plugin-techdocs-backend-dynamic
+  #   disabled: true
+  #   pluginConfig:
+  #     # Reference documentation http://backstage.io/docs/features/techdocs/configuration
+  #     # Note: After experimenting with basic setup, use CI/CD to generate docs
+  #     # and an external cloud storage when deploying TechDocs for production use-case.
+  #     # https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
+  #     techdocs:
+  #       builder: local
+  #       generator:
+  #         runIn: local
+  #       publisher:
+  #         type: local
+  # - package: ./dynamic-plugins/dist/backstage-plugin-techdocs
+  #   disabled: true
+  #   pluginConfig:
+  #     dynamicPlugins:
+  #       frontend:
+  #         backstage.plugin-techdocs:
+  #           routeBindings:
+  #             targets:
+  #               - importName: techdocsPlugin
+  #             bindings:
+  #               - bindTarget: catalogPlugin.externalRoutes
+  #                 bindMap:
+  #                   viewTechDoc: techdocsPlugin.routes.docRoot
+  #               - bindTarget: scaffolderPlugin.externalRoutes
+  #                 bindMap:
+  #                   viewTechDoc: techdocsPlugin.routes.docRoot
+  #           dynamicRoutes:
+  #             - path: /docs
+  #               importName: TechDocsIndexPage
+  #               menuItem:
+  #                 icon: docs
+  #                 text: Docs
+  #             - path: /docs/:namespace/:kind/:name/*
+  #               importName: TechDocsReaderPage
+  #           mountPoints:
+  #             - mountPoint: entity.page.docs/cards
+  #               importName: EntityTechdocsContent
+  #               config:
+  #                 layout:
+  #                   gridColumn: '1 / -1'
+  #                 if:
+  #                   allOf:
+  #                     - isTechDocsAvailable
+  #             - mountPoint: search.page.results
+  #               importName: TechDocsSearchResultListItem
+  #             - mountPoint: search.page.filters
+  #               importName: TechdocsSearchFilter
+  #             - mountPoint: search.page.types
+  #               importName: techdocsSearchType
+  #               config:
+  #                 props:
+  #                   name: Documentation
+  #                   icon: docs
+  # - package: ./dynamic-plugins/dist/backstage-plugin-techdocs-module-addons-contrib
+  #   disabled: true
+  #   pluginConfig:
+  #     dynamicPlugins:
+  #       frontend:
+  #         backstage.plugin-techdocs-module-addons-contrib:
+  #           techdocsAddons:
+  #             - importName: ReportIssue
+
+  # RBAC
+  - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
+    disabled: true
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage-community.plugin-rbac:
+            appIcons:
+              - name: rbacIcon
+                importName: RbacIcon
+            dynamicRoutes:
+              - path: /rbac
+                importName: RbacPage
+                menuItem:
+                  icon: rbacIcon
+                  text: RBAC
+            menuItems:
+              rbac:
+                parent: admin
+                icon: rbacIcon

@@ -1,0 +1,60 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "catalog": {
+      "type": "object",
+      "properties": {
+        "experimentalPagination": {
+          "deepVisibility": "frontend",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    "kubernetes": {
+      "type": "object",
+      "properties": {
+        "podExecTerminal": {
+          "description": "Pod Exec Terminal config",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "description": "Enable `PodExecTerminal` UI feature",
+              "visibility": "frontend",
+              "type": "boolean"
+            }
+          }
+        },
+        "frontend": {
+          "description": "Frontend config",
+          "type": "object",
+          "properties": {
+            "podDelete": {
+              "description": "Pod Delete config",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "description": "Enable `podDelete` UI feature",
+                  "visibility": "frontend",
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

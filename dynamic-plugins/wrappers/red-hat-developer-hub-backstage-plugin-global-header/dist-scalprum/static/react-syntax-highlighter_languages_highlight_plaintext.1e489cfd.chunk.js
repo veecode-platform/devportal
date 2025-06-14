@@ -1,0 +1,2 @@
+(self.webpackChunkred_hat_developer_hub_backstage_plugin_global_header=self.webpackChunkred_hat_developer_hub_backstage_plugin_global_header||[]).push([[2979],{68416:e=>{e.exports=function(e){return{name:"Plain text",aliases:["text","txt"],disableAutodetect:!0}}}}]);
+//# sourceMappingURL=react-syntax-highlighter_languages_highlight_plaintext.1e489cfd.chunk.js.map

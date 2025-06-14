@@ -1,0 +1,11 @@
+{
+  "name": "red-hat-developer-hub.backstage-plugin-global-floating-action-button",
+  "version": "1.1.4",
+  "extensions": [],
+  "registrationMethod": "callback",
+  "baseURL": "auto",
+  "loadScripts": [
+    "red-hat-developer-hub.backstage-plugin-global-floating-action-button.c7383ce1328b4125a48a.js"
+  ],
+  "buildHash": "c7383ce1328b4125a48a0a2df754d8f1"
+}

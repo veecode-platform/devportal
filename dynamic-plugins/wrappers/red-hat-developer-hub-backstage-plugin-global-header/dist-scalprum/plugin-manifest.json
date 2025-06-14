@@ -1,0 +1,11 @@
+{
+  "name": "red-hat-developer-hub.backstage-plugin-global-header",
+  "version": "1.6.0",
+  "extensions": [],
+  "registrationMethod": "callback",
+  "baseURL": "auto",
+  "loadScripts": [
+    "red-hat-developer-hub.backstage-plugin-global-header.ecd23038c9399e5ab690.js"
+  ],
+  "buildHash": "ecd23038c9399e5ab69066530ce4b747"
+}

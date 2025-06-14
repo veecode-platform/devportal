@@ -1,0 +1,73 @@
+{
+  "type": "object",
+  "required": [
+    "techdocs"
+  ],
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "techdocs": {
+      "description": "Configuration options for the techdocs plugin",
+      "type": "object",
+      "properties": {
+        "builder": {
+          "description": "Documentation building process depends on the builder attr",
+          "visibility": "frontend",
+          "enum": [
+            "external",
+            "local"
+          ],
+          "type": "string"
+        },
+        "legacyUseCaseSensitiveTripletPaths": {
+          "description": "Allows fallback to case-sensitive triplets in case of migration issues.",
+          "visibility": "frontend",
+          "type": "boolean"
+        },
+        "sanitizer": {
+          "type": "object",
+          "properties": {
+            "allowedIframeHosts": {
+              "description": "Allows iframe tag only for listed hosts\nExample:\n allowedIframeHosts: [\"example.com\"]\n this will allow all iframes with the host `example.com` in the src attribute",
+              "visibility": "frontend",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "allowedCustomElementTagNameRegExp": {
+              "description": "Allows listed custom element tag name regex\nExample:\n allowedCustomElementTagNameRegExp: '^backstage-'\n this will allow all custom elements with tag name matching `^backstage-` like <backstage-custom-element /> etc.",
+              "visibility": "frontend",
+              "type": "string"
+            },
+            "allowedCustomElementAttributeNameRegExp": {
+              "description": "Allows listed custom element attribute name regex\nExample:\n allowedCustomElementAttributeNameRegExp: 'attribute1|attribute2'\n this will allow all custom element attributes matching `attribute1` or `attribute2` like <backstage-custom-element attribute1=\"yes\" attribute2/>",
+              "visibility": "frontend",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "catalog": {
+      "type": "object",
+      "properties": {
+        "experimentalPagination": {
+          "deepVisibility": "frontend",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

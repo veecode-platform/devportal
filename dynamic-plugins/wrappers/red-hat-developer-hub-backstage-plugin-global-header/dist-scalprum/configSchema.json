@@ -1,0 +1,64 @@
+{
+  "$schema": "https://backstage.io/schema/config-v1",
+  "title": "@backstage/user-settings",
+  "type": "object",
+  "properties": {
+    "auth": {
+      "type": "object",
+      "properties": {
+        "providers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "visibility": "frontend",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "search": {
+      "description": "Configuration options for the search plugin",
+      "type": "object",
+      "properties": {
+        "query": {
+          "description": "An object representing the default search query configuration.\nBy configuring and modifying the values of this object,\nyou can customize the default values of the search queries\nand define how it behaves by default.",
+          "type": "object",
+          "properties": {
+            "pageLimit": {
+              "description": "A number indicating the maximum number of results to be returned\nper page during pagination.",
+              "visibility": "frontend",
+              "enum": [
+                10,
+                100,
+                25,
+                50
+              ],
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "catalog": {
+      "type": "object",
+      "properties": {
+        "experimentalPagination": {
+          "deepVisibility": "frontend",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
