@@ -18,6 +18,7 @@
     "prettier:fix": "prettier --ignore-unknown --write ."
   },
   "dependencies": {
+    "@backstage-community/plugin-analytics-module-ga4": "^0.7.0",
     "@backstage-community/plugin-rbac": "^1.41.6",
     "@backstage-community/plugin-rbac-common": "1.15.0",
     "@backstage/app-defaults": "1.5.17",
@@ -25,7 +26,8 @@
     "@backstage/config": "1.3.2",
     "@backstage/core-app-api": "1.15.5",
     "@backstage/core-components": "0.16.4",
-    "@backstage/core-plugin-api": "1.10.4",
+    "@backstage/core-plugin-api": "1.10.7",
+    "@backstage/errors": "^1.2.7",
     "@backstage/integration-react": "1.2.4",
     "@backstage/plugin-api-docs": "0.12.4",
     "@backstage/plugin-catalog": "1.27.0",
@@ -35,8 +37,8 @@
     "@backstage/plugin-catalog-unprocessed-entities": "^0.2.17",
     "@backstage/plugin-org": "0.6.36",
     "@backstage/plugin-permission-react": "0.4.31",
-    "@backstage/plugin-scaffolder": "1.28.0",
-    "@backstage/plugin-scaffolder-react": "1.14.5",
+    "@backstage/plugin-scaffolder": "1.31.0",
+    "@backstage/plugin-scaffolder-react": "^1.16.0",
     "@backstage/plugin-search": "1.4.23",
     "@backstage/plugin-search-react": "1.8.6",
     "@backstage/plugin-techdocs": "^1.12.6",
@@ -51,6 +53,7 @@
     "@mui/icons-material": "5.17.1",
     "@mui/material": "5.17.1",
     "@mui/styled-engine": "5.16.14",
+    "@react-hookz/web": "^25.1.1",
     "@red-hat-developer-hub/backstage-plugin-theme": "0.6.0",
     "@scalprum/core": "0.8.3",
     "@scalprum/react-core": "0.9.5",
@@ -63,9 +66,12 @@
     "lodash": "4.17.21",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-hook-form": "^7.57.0",
     "react-router-dom": "6.30.1",
     "react-use": "17.6.0",
-    "tss-react": "4.9.18"
+    "tss-react": "4.9.18",
+    "zod": "^3.25.64",
+    "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
     "@backstage/cli": "0.30.0",

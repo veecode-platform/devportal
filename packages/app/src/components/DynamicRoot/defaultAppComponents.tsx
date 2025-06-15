@@ -1,10 +1,10 @@
 import { AppComponents } from '@backstage/core-plugin-api';
 
 import { NotFoundErrorPage } from '../ErrorPages/NotFoundErrorPage';
-import { SignInPage } from '../SignInPage/SignInPage';
+import { VeeCodeSignInPage } from '../VeeCodeSignInPage';
 
 const defaultAppComponents: Partial<AppComponents> = {
-  SignInPage: props => <SignInPage {...props} />,
+  SignInPage: props => <VeeCodeSignInPage {...props} />,
   NotFoundErrorPage: props => <NotFoundErrorPage {...props} />,
 };
 

@@ -17,7 +17,7 @@ import {
 
 import Star from '@mui/icons-material/Star';
 
-import { oidcAuthApiRef } from '../../api/AuthApiRefs';
+import { oidcAuthApiRef } from '../../apis';
 import { ProviderSetting } from '../DynamicRoot/DynamicRootContext';
 import { GeneralPage } from './GeneralPage';
 
