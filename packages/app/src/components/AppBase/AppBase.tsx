@@ -63,6 +63,7 @@ import {
 import getDynamicRootConfig from '../../utils/dynamicUI/getDynamicRootConfig';
 import { entityPage } from '../catalog/EntityPage';
 import DynamicRootContext from '../DynamicRoot/DynamicRootContext';
+import { ExplorePage } from '../Explorer/ExplorerPage';
 import { Root } from '../Root';
 import { ApplicationListener } from '../Root/ApplicationListener';
 import { ApplicationProvider } from '../Root/ApplicationProvider';
@@ -161,6 +162,7 @@ const AppBase = () => {
                   <CatalogIndexPage pagination columns={myCustomColumnsFunc} />
                 }
               />
+              <Route path="/explore" element={<ExplorePage />} />
               <Route
                 path="/catalog/:namespace/:kind/:name"
                 element={<CatalogEntityPage />}

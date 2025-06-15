@@ -6,11 +6,12 @@ export const DefaultMainMenuItems = {
       to: '/',
       priority: 100,
     },
-    'default.my-group': {
-      title: 'My Group',
-      icon: 'group',
-      priority: 90,
-    },
+    // 'default.resources': {
+    //   title: 'Resources',
+    //   icon: 'veecodeIcon',
+    //   to: 'learning-paths',
+    //   priority: 60,
+    // },
     'default.catalog': {
       title: 'Catalog',
       icon: 'category',
@@ -23,17 +24,47 @@ export const DefaultMainMenuItems = {
       to: 'api-docs',
       priority: 70,
     },
-    'default.learning-path': {
-      title: 'Learning Paths',
-      icon: 'school',
-      to: 'learning-paths',
-      priority: 60,
-    },
     'default.create': {
       title: 'Self-service',
       icon: 'add',
       to: 'create',
       priority: 50,
+    },
+    'default.docs': {
+      title: 'Docs',
+      icon: 'library',
+      to: 'docs',
+      priority: 60,
+    },
+    'default.groups': {
+      title: 'Groups',
+      icon: 'groups',
+      to: 'explore/groups',
+      priority: 60,
+    },
+    'default.vulnerabilities': {
+      title: 'Vulnerabilities',
+      icon: 'vulnerabilities',
+      to: 'vulnerabilities',
+      priority: 60,
+    },
+    'default.rbac': {
+      title: 'Rbac',
+      icon: 'rbac',
+      to: 'rbac',
+      priority: 60,
+    },
+    // 'default.support': {
+    //   title: 'Support',
+    //   icon: 'school',
+    //   to: 'learning-paths',
+    //   priority: 60,
+    // },
+    'default.signout': {
+      title: 'Sign Out',
+      icon: 'signOut',
+      to: 'learning-paths',
+      priority: 60,
     },
   },
 };

@@ -1,3 +1,14 @@
+import { Administration } from '@backstage-community/plugin-rbac';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import BugReportIcon from '@material-ui/icons/BugReport';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import InfoIcon from '@material-ui/icons/Info';
+import LanguageIcon from '@material-ui/icons/Language';
+import LibraryBooks from '@material-ui/icons/LibraryBooks';
+import PeopleIcon from '@material-ui/icons/People';
+import StorageIcon from '@material-ui/icons/Storage';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AddCircle from '@mui/icons-material/AddCircleOutline';
 import Bookmarks from '@mui/icons-material/BookmarksOutlined';
 import Business from '@mui/icons-material/BusinessOutlined';
@@ -23,6 +34,8 @@ import School from '@mui/icons-material/SchoolOutlined';
 import Star from '@mui/icons-material/Star';
 import Storefront from '@mui/icons-material/StorefrontOutlined';
 import Textsms from '@mui/icons-material/TextsmsOutlined';
+
+import { VeecodeLogoIcon } from './DevportalIcon';
 
 const CommonIcons: {
   [k: string]: React.ComponentType<{}>;
@@ -51,6 +64,18 @@ const CommonIcons: {
   support: Help,
   notifications: Notifications,
   manageAccounts: ManageAccounts,
+  veecodeIcon: VeecodeLogoIcon,
+  library: LibraryBooks,
+  groups: PeopleIcon,
+  signOut: ExitToAppIcon,
+  envinroment: LanguageIcon,
+  about: InfoIcon,
+  contact: ContactMailIcon,
+  admin: Administration,
+  vulnerabilities: BugReportIcon,
+  rbac: VpnKeyIcon,
+  database: StorageIcon,
+  cluster: AccountTreeIcon,
   logout: Logout,
 };
 

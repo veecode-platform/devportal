@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@backstage-community/plugin-analytics-module-ga4": "^0.7.0",
+    "@backstage-community/plugin-explore": "^0.9.1",
     "@backstage-community/plugin-rbac": "^1.41.6",
     "@backstage-community/plugin-rbac-common": "1.15.0",
     "@backstage/app-defaults": "1.5.17",
@@ -50,6 +51,7 @@
     "@internal/plugin-about": "workspace:^",
     "@internal/plugin-dynamic-plugins-info": "*",
     "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "5.17.1",
     "@mui/material": "5.17.1",
     "@mui/styled-engine": "5.16.14",
@@ -64,6 +66,7 @@
     "@veecode-platform/plugin-vault-explorer": "^0.3.18",
     "@veecode-platform/veecode-scaffolder-extensions": "^0.5.0",
     "lodash": "4.17.21",
+    "material-ui": "^0.20.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-hook-form": "^7.57.0",
