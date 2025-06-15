@@ -5,7 +5,7 @@ const en = createTranslationMessages({
   ref: catalogTranslationRef,
   full: false, // False means that this is a partial translation
   messages: {
-    'indexPage.createButtonTitle': 'Self-service',
+    'indexPage.createButtonTitle': 'Create',
   },
 });
 

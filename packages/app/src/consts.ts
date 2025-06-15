@@ -25,7 +25,7 @@ export const DefaultMainMenuItems = {
       priority: 70,
     },
     'default.create': {
-      title: 'Self-service',
+      title: 'Create',
       icon: 'add',
       to: 'create',
       priority: 50,
