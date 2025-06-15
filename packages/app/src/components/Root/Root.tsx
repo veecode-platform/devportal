@@ -14,6 +14,8 @@ import {
   SidebarPage,
   SidebarScrollWrapper,
   SidebarSpace,
+  SidebarSubmenu,
+  SidebarSubmenuItem,
 } from '@backstage/core-components';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
@@ -23,7 +25,11 @@ import { Settings as SidebarSettings } from '@backstage/plugin-user-settings';
 
 import { policyEntityCreatePermission } from '@backstage-community/plugin-rbac-common';
 import { AdminIcon } from '@internal/plugin-dynamic-plugins-info';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import LanguageIcon from '@material-ui/icons/Language';
+import StorageIcon from '@material-ui/icons/Storage';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -39,6 +45,7 @@ import DynamicRootContext, {
 } from '@red-hat-developer-hub/plugin-utils';
 import { makeStyles } from 'tss-react/mui';
 
+import { VeecodeLogoIcon } from '../DynamicRoot/DevportalIcon';
 import { ApplicationHeaders } from './ApplicationHeaders';
 import { MenuIcon } from './MenuIcon';
 import { SidebarLogo } from './SidebarLogo';
@@ -445,6 +452,32 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             ) : (
               <Box sx={{ height: '1.2rem' }} />
             )}
+            <SidebarItem icon={VeecodeLogoIcon} text="Resources">
+              <SidebarSubmenu title="">
+                <SidebarDivider />
+                <SidebarSubmenuItem
+                  title="Environments"
+                  to="environments-explorer"
+                  icon={LanguageIcon}
+                />
+                <SidebarSubmenuItem
+                  title="Clusters"
+                  to="cluster-explorer"
+                  icon={AccountTreeIcon}
+                />
+                <SidebarSubmenuItem
+                  title="Databases"
+                  to="database-explorer"
+                  icon={StorageIcon}
+                />
+                <SidebarSubmenuItem
+                  title="Vault"
+                  to="vault-explorer"
+                  icon={VpnKeyIcon}
+                />
+                <SidebarDivider />
+              </SidebarSubmenu>
+            </SidebarItem>
             <SidebarGroup label="Menu" icon={<MuiMenuIcon />}>
               {/* Global nav, not org-specific */}
               {renderMenuItems(true, false)}

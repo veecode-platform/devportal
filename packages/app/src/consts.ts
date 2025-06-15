@@ -6,44 +6,6 @@ export const DefaultMainMenuItems = {
       to: '/',
       priority: 100,
     },
-    // 'default.resources': {
-    //   title: 'Resources',
-    //   icon: 'veecodeIcon',
-    //   to: 'learning-paths',
-    //   priority: 60,
-    // },
-    'default.resources': {
-      title: 'Resources',
-      icon: 'veecodeIcon',
-      to: 'learning-paths',
-      priority: 60,
-      items: [
-        {
-          title: 'Environments',
-          to: 'environment-explorer',
-          icon: 'environment',
-          priority: 60,
-        },
-        {
-          title: 'Clusters',
-          to: 'cluster-explorer',
-          icon: 'cluster',
-          priority: 60,
-        },
-        {
-          title: 'Databases',
-          to: 'database-explorer',
-          icon: 'database',
-          priority: 60,
-        },
-        {
-          title: 'Vault',
-          to: 'vault-explorer',
-          icon: 'vault',
-          priority: 60,
-        },
-      ],
-    },
     'default.catalog': {
       title: 'Catalog',
       icon: 'category',
