@@ -23,6 +23,7 @@ import { Settings as SidebarSettings } from '@backstage/plugin-user-settings';
 
 import { policyEntityCreatePermission } from '@backstage-community/plugin-rbac-common';
 import { AdminIcon } from '@internal/plugin-dynamic-plugins-info';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -41,6 +42,7 @@ import DynamicRootContext, {
 import { ApplicationHeaders } from './ApplicationHeaders';
 import { MenuIcon } from './MenuIcon';
 import { SidebarLogo } from './SidebarLogo';
+import SignOutElement from './signOut';
 
 type StylesProps = {
   aboveSidebarHeaderHeight?: number;
@@ -260,7 +262,8 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
   const configApi = useApi(configApiRef);
 
   const showLogo = configApi.getOptionalBoolean('app.sidebar.logo') ?? true;
-  const showSearch = configApi.getOptionalBoolean('app.sidebar.search') ?? true;
+  const showSearch =
+    configApi.getOptionalBoolean('app.sidebar.search') ?? false;
   const showSettings =
     configApi.getOptionalBoolean('app.sidebar.settings') ?? true;
   const showAdministration =
@@ -446,6 +449,24 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
               {/* Global nav, not org-specific */}
               {renderMenuItems(true, false)}
               {/* End global nav */}
+              {showSettings && (
+                <>
+                  <SidebarGroup
+                    label="Settings"
+                    to="/settings"
+                    icon={<AccountCircleOutlinedIcon />}
+                  >
+                    <SidebarSettings icon={AccountCircleOutlinedIcon} />
+                  </SidebarGroup>
+                </>
+              )}
+              {showAdministration && (
+                <>
+                  <SidebarGroup label="Administration" icon={<AdminIcon />}>
+                    {renderMenuItems(false, true)}
+                  </SidebarGroup>
+                </>
+              )}
               <SidebarDivider />
               <SidebarScrollWrapper>
                 {renderMenuItems(false, false)}
@@ -464,26 +485,10 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
               </SidebarScrollWrapper>
             </SidebarGroup>
             <SidebarSpace />
-            {showAdministration && (
-              <>
-                <SidebarDivider />
-                <SidebarGroup label="Administration" icon={<AdminIcon />}>
-                  {renderMenuItems(false, true)}
-                </SidebarGroup>
-              </>
-            )}
-            {showSettings && (
-              <>
-                <SidebarDivider />
-                <SidebarGroup
-                  label="Settings"
-                  to="/settings"
-                  icon={<AccountCircleOutlinedIcon />}
-                >
-                  <SidebarSettings icon={AccountCircleOutlinedIcon} />
-                </SidebarGroup>
-              </>
-            )}
+            <SidebarDivider />
+            <SidebarGroup label="Sign Out" icon={<ExitToAppIcon />}>
+              <SignOutElement />
+            </SidebarGroup>
           </Sidebar>
           {children}
         </SidebarPage>

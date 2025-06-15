@@ -54,16 +54,10 @@ export const DefaultMainMenuItems = {
       to: 'rbac',
       priority: 60,
     },
-    // 'default.support': {
-    //   title: 'Support',
-    //   icon: 'school',
-    //   to: 'learning-paths',
-    //   priority: 60,
-    // },
-    'default.signout': {
-      title: 'Sign Out',
-      icon: 'signOut',
-      to: 'learning-paths',
+    'default.support': {
+      title: 'Support',
+      icon: 'school',
+      to: 'suport',
       priority: 60,
     },
   },
