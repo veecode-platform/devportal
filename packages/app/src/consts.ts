@@ -12,6 +12,38 @@ export const DefaultMainMenuItems = {
     //   to: 'learning-paths',
     //   priority: 60,
     // },
+    'default.resources': {
+      title: 'Resources',
+      icon: 'veecodeIcon',
+      to: 'learning-paths',
+      priority: 60,
+      items: [
+        {
+          title: 'Environments',
+          to: 'environment-explorer',
+          icon: 'environment',
+          priority: 60,
+        },
+        {
+          title: 'Clusters',
+          to: 'cluster-explorer',
+          icon: 'cluster',
+          priority: 60,
+        },
+        {
+          title: 'Databases',
+          to: 'database-explorer',
+          icon: 'database',
+          priority: 60,
+        },
+        {
+          title: 'Vault',
+          to: 'vault-explorer',
+          icon: 'vault',
+          priority: 60,
+        },
+      ],
+    },
     'default.catalog': {
       title: 'Catalog',
       icon: 'category',
@@ -54,11 +86,11 @@ export const DefaultMainMenuItems = {
       to: 'rbac',
       priority: 60,
     },
-    'default.support': {
-      title: 'Support',
-      icon: 'school',
-      to: 'suport',
-      priority: 60,
-    },
+    // 'default.support': {
+    //   title: 'Support',
+    //   icon: 'school',
+    //   to: 'suport',
+    //   priority: 60,
+    // },
   },
 };
