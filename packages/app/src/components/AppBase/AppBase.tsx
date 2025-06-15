@@ -49,6 +49,7 @@ import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { RbacPage } from '@backstage-community/plugin-rbac';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AboutPage } from '@internal/plugin-about';
+import DynamicRootContext from '@red-hat-developer-hub/plugin-utils';
 import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
 import { VulnerabilitiesPage } from '@veecode-platform/backstage-plugin-vulnerabilities';
 import { DatabaseExplorerPage } from '@veecode-platform/plugin-database-explorer';
@@ -62,7 +63,6 @@ import {
 
 import getDynamicRootConfig from '../../utils/dynamicUI/getDynamicRootConfig';
 import { entityPage } from '../catalog/EntityPage';
-import DynamicRootContext from '../DynamicRoot/DynamicRootContext';
 import { ExplorePage } from '../Explorer/ExplorerPage';
 import { Root } from '../Root';
 import { ApplicationListener } from '../Root/ApplicationListener';
