@@ -1,0 +1,15 @@
+includes:
+  - dynamic-plugins.default.yaml
+plugins:
+  # VeeCode Custom Actions
+  - disabled: false
+    package: oci://docker.io/valberjunior/backstage-veecode-extensions:v4.0.0!veecode-platform-backstage-plugin-scaffolder-backend-module-veecode-extensions-wrapper
+  # HomePage
+  - disabled: false
+    package: oci://docker.io/valberjunior/backstage-dynamic-homepage:v1.5.0!red-hat-developer-hub-backstage-plugin-dynamic-home-page
+  # Event Explorer
+  - disabled: false
+    package: oci://docker.io/valberjunior/plugin-event-explorer:v1.0.0!veecode-platform-plugin-event-explorer
+  # kind Event
+  - disabled: false
+    package: oci://docker.io/valberjunior/plugin-event-module-dynamic:v1.0.0!veecode-platform-plugin-veecode-event-module-dynamic
