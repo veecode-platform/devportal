@@ -31,8 +31,81 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.imagePullSecrets }}
       {{- end}}
+
+      initContainers:
+        - name: install-dynamic-plugins
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 2.5Gi
+              ephemeral-storage: 5Gi
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            seccompProfile:
+              type: "RuntimeDefault"
+          # -- Image used by the initContainer to install dynamic plugins into the `dynamic-plugins-root` volume mount.
+          # It could be replaced by a custom image based on this one.
+          # @default -- `quay.io/janus-idp/backstage-showcase:latest`
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}
+          command:
+            - ./install-dynamic-plugins.sh
+            - /dynamic-plugins-root
+          env:
+            - name: NPM_CONFIG_USERCONFIG
+              value: /opt/app-root/src/.npmrc.dynamic-plugins
+              # This following variable is required for orchestrator to startup properly.
+            - name: MAX_ENTRY_SIZE
+              value: "30000000"
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /app/dynamic-plugins-root
+              name: dynamic-plugins-root
+            - mountPath: /opt/app-root/src/dynamic-plugins.yaml
+              name: dynamic-plugins
+              readOnly: true
+              subPath: dynamic-plugins.yaml
+            - mountPath: /opt/app-root/src/.npmrc.dynamic-plugins
+              name: dynamic-plugins-npmrc
+              readOnly: true
+              subPath: .npmrc
+            - mountPath: /opt/app-root/src/.config/containers
+              name: dynamic-plugins-registry-auth
+              readOnly: true
+            - mountPath: /opt/app-root/src/.npm/_cacache
+              name: npmcacache
+            - name: temp
+              mountPath: /tmp
+          workingDir: /opt/app-root/src
+      installDir: /opt/app-root/src
+      podAnnotations:
+        checksum/dynamic-plugins: >-
+          {{- include "common.tplvalues.render" ( dict "value"
+          .Values.global.dynamic "context" $) | sha256sum }}
+
+
       containers:
         - name: {{ .Chart.Name }}
+
+          containerSecurityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            seccompProfile:
+            type: "RuntimeDefault"
+          args:
+            - "--config"
+            - dynamic-plugins-root/app-config.dynamic-plugins.yaml
+
+
           image: {{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
           ports:
@@ -55,21 +128,27 @@ spec:
             {{- end }}
           volumeMounts:
           - name: app-config
-            mountPath: /app/app-config.yaml
+            mountPath: /opt/app-root/src/app-config.yaml #/app/app-config.yaml
             subPath: app-config
+
+          - name: dynamic-plugins-root
+            mountPath: /opt/app-root/src/dynamic-plugins-root
+          - name: temp
+            mountPath: /tmp
+
           {{- if and $rbacEnabled .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
           - name: platform-devportal-policies
-            mountPath: /app/rbac-policy.csv
+            mountPath: /opt/app-root/src/rbac-policy.csv #/app/rbac-policy.csv
             subPath: rbac-policies
           {{- end }}
           {{- if and .Values.theme.custom .Values.theme.custom.configmapName }}
           - name: platform-devportal-theme
-            mountPath: /app/packages/app/dist/theme.json
+            mountPath: /opt/app-root/src/packages/app/dist/theme.json #/app/packages/app/dist/theme.json
             subPath: theme.json
           {{- end }}
           {{- if and .Values.integrations.github .Values.integrations.github.apps }}
           - name: platform-devportal-github-app
-            mountPath: /app/github-app-credentials.yaml
+            mountPath: /opt/app-root/src/github-app-credentials.yaml #/app/github-app-credentials.yaml
             subPath: github-app-credentials
           {{- end }}
           {{- if and .Values.appConfig.database.connection .Values.appConfig.database.connection.ssl .Values.appConfig.database.connection.ssl.caFilePath .Values.appConfig.database.connection.ssl.caSecretName }}
@@ -85,10 +164,43 @@ spec:
           livenessProbe:
           {{- toYaml .Values.livenessProbe | nindent 12 }}
           {{- end }}
+      
       volumes:
         - name: app-config
           configMap:
             name: "{{ include "devportal-charts.fullname" . }}-app-env"
+
+        - name: dynamic-plugins-root
+          ephemeral:
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 5Gi
+        - name: dynamic-plugins
+          configMap:
+            defaultMode: 420
+            name: '{{ printf "%s-dynamic-plugins" .Release.Name }}'
+            optional: true
+        - name: dynamic-plugins-npmrc
+          secret:
+            defaultMode: 420
+            optional: true
+            secretName: '{{ printf "%s-dynamic-plugins-npmrc" .Release.Name }}'
+        # Optional volume that allows adding a container registry `auth.json` file (through a `dynamic-plugins-registry-auth` secret)
+        # to be used when installing plugins from secure container registries during the dynamic plugins installation by the initContainer.
+        - name: dynamic-plugins-registry-auth
+          secret:
+            defaultMode: 416
+            optional: true
+            secretName: '{{ printf "%s-dynamic-plugins-registry-auth" .Release.Name }}'
+        - name: npmcacache
+          emptyDir: {}
+        - name: temp
+          emptyDir: {}
+
         {{- if and $rbacEnabled .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
         - name: platform-devportal-policies
           configMap:

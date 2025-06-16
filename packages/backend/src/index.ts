@@ -1,7 +1,7 @@
 import { createBackend } from '@backstage/backend-defaults';
-//import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
-//import { customGithubAuthProvider } from './modules/auth/githubCustomResolver';
-//import { customGitlabAuthProvider } from './modules/auth/gitlabCustomResolver';
+// import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
+// import { customGithubAuthProvider } from './modules/auth/githubCustomResolver';
+// import { customGitlabAuthProvider } from './modules/auth/gitlabCustomResolver';
 import customPluginsLoader from './modules/features/featureLoader';
 // import { MyRootHealthService } from './modules/healthcheck/health';
 // import {
@@ -49,10 +49,10 @@ backend.add(
   }),
 );
 
-//app
+// app
 backend.add(import('@backstage/plugin-app-backend'));
 
-//catalog
+// catalog
 backend.add(import('@backstage/plugin-catalog-backend'));
 backend.add(
   import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'),
@@ -69,7 +69,7 @@ backend.add(import('@backstage/plugin-catalog-backend-module-unprocessed'));
 backend.add(keycloakBackendModuleTransformer);
 backend.add(catalogModuleVeeCodeProcessor);
 
-//scaffolder
+// scaffolder
 backend.add(import('@backstage/plugin-scaffolder-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(import('@roadiehq/scaffolder-backend-module-utils'));
@@ -83,13 +83,13 @@ backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'));
-// backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));  // <-- check
+backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
 
-//proxy
+// proxy
 backend.add(import('@backstage/plugin-proxy-backend'));
 
-//techdocs
+// techdocs
 backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // search plugin
@@ -100,16 +100,16 @@ backend.add(import('@backstage/plugin-search-backend-module-pg'));
 backend.add(import('@backstage/plugin-search-backend-module-catalog'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 
-//feature loader
+// feature loader
 backend.add(customPluginsLoader);
 
-//about
+// about
 backend.add(import('@internal/plugin-about-backend'));
 
-//explore
+// explore
 backend.add(exploreToolProviderModule);
 
-//healthcheck
+// healthcheck
 // backend.add(
 //   createServiceFactory({
 //     service: coreServices.rootHealth,
