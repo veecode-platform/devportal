@@ -452,6 +452,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             ) : (
               <Box sx={{ height: '1.2rem' }} />
             )}
+            <SidebarItem icon={renderIcon('home')} text="Home" to="/" />
             <SidebarItem icon={VeecodeLogoIcon} text="Resources">
               <SidebarSubmenu title="">
                 <SidebarDivider />
