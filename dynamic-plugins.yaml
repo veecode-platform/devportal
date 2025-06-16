@@ -5,7 +5,7 @@ plugins:
   - disabled: false
     package: oci://docker.io/valberjunior/backstage-veecode-extensions:v4.0.0!veecode-platform-backstage-plugin-scaffolder-backend-module-veecode-extensions-wrapper
   # HomePage
-  - disabled: false
+  - disabled: true
     package: oci://docker.io/valberjunior/backstage-dynamic-homepage:v1.5.0!red-hat-developer-hub-backstage-plugin-dynamic-home-page
   # Event Explorer
   - disabled: false
