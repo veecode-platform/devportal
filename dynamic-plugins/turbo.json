@@ -2,32 +2,45 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "export-dynamic": {
-      "dependsOn": ["tsc"]
+      "dependsOn": [
+        "tsc"
+      ]
     },
     "export-dynamic:clean": {
       "cache": false,
-      "dependsOn": ["tsc"]
+      "dependsOn": [
+        "tsc"
+      ]
     },
     "start": {
       "cache": false,
       "persistent": true
     },
     "build": {
-      "outputs": ["dist/**"],
-      "dependsOn": ["tsc", "^build"]
+      "outputs": [
+        "dist/**"
+      ],
+      "dependsOn": [
+        "tsc",
+        "^build"
+      ]
     },
     "clean": {
       "cache": false
     },
     "test": {
-      "outputs": ["coverage/**"]
+      "outputs": [
+        "coverage/**"
+      ]
     },
     "lint:check": {},
     "lint:fix": {
       "cache": false
     },
     "tsc": {
-      "dependsOn": ["^tsc"]
+      "dependsOn": [
+        "^tsc"
+      ]
     },
     "copy-dynamic-plugins": {}
   }
