@@ -213,6 +213,7 @@ catalog:
           Infracost,
           Group,
           User,
+          Event,
         ]
   providers:
     github:
