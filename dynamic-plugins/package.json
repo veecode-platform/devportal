@@ -2,11 +2,19 @@
   "name": "dynamic-plugins-root",
   "version": "1.7.0",
   "private": true,
+  "engines": {
+    "node": "22"
+  },
   "scripts": {
     "build": "turbo run build",
     "tsc": "turbo run tsc",
     "export-dynamic": "turbo run export-dynamic",
-    "clean": "turbo run clean"
+    "export-dynamic:clean": "turbo run export-dynamic:clean",
+    "copy-dynamic-plugins": "turbo copy-dynamic-plugins --",
+    "clean": "turbo run clean",
+    "test": "turbo run test",
+    "lint:check": "turbo run lint:check",
+    "lint:fix": "turbo run lint:fix"
   },
   "workspaces": {
     "packages": [
@@ -15,15 +23,7 @@
     ]
   },
   "devDependencies": {
-    "fs-extra": "^11.2.0",
-    "turbo": "^2.0.9",
-    "typescript": "^5.4.0",
-    "yaml": "^2.4.5"
-  },
-  "dependencies": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-router-dom": "^6.25.1"
+    "turbo": "2.5.4"
   },
   "resolutions": {
     "@types/react": "18.3.23",
