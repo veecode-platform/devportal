@@ -46,7 +46,6 @@ import {
 } from '@backstage/plugin-techdocs';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
 
-import { RbacPage } from '@backstage-community/plugin-rbac';
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AboutPage } from '@internal/plugin-about';
 import DynamicRootContext from '@red-hat-developer-hub/plugin-utils';
@@ -246,7 +245,6 @@ const AppBase = () => {
                 path="/vulnerabilities"
                 element={<VulnerabilitiesPage />}
               />
-              <Route path="/rbac" element={<RbacPage />} />;
               <Route
                 path="/catalog-graph"
                 element={

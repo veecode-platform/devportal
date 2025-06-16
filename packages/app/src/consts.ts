@@ -36,17 +36,5 @@ export const DefaultMainMenuItems = {
       to: 'vulnerabilities',
       priority: 60,
     },
-    'default.rbac': {
-      title: 'Rbac',
-      icon: 'rbac',
-      to: 'rbac',
-      priority: 60,
-    },
-    // 'default.support': {
-    //   title: 'Support',
-    //   icon: 'school',
-    //   to: 'suport',
-    //   priority: 60,
-    // },
   },
 };
