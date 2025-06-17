@@ -1,4 +1,24 @@
-import React, { useContext } from 'react';
+/*
+ * Portions of this file are based on code from the Red Hat Developer project:
+ * https://github.com/redhat-developer/rhdh/blob/main/packages/app
+ *
+ * Original Copyright (c) 2022 Red Hat Developer (or the exact copyright holder from the original source, please verify in their repository)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* eslint-disable @typescript-eslint/no-shadow */
+
+import { Fragment, lazy, Suspense, useContext } from 'react';
 import * as useAsync from 'react-use/lib/useAsync';
 
 import * as appDefaults from '@backstage/app-defaults';
@@ -14,13 +34,13 @@ import {
 } from '@backstage/core-plugin-api';
 import { renderWithEffects } from '@backstage/test-utils';
 
+import DynamicRootContext from '@red-hat-developer-hub/plugin-utils';
 import { removeScalprum } from '@scalprum/core';
 import { waitFor, within } from '@testing-library/dom';
 
 import initializeRemotePlugins from '../../utils/dynamicUI/initializeRemotePlugins';
-import DynamicRootContext from './DynamicRootContext';
 
-const DynamicRoot = React.lazy(() => import('./DynamicRoot'));
+const DynamicRoot = lazy(() => import('./DynamicRoot'));
 
 const InnerPage = () => {
   const app = useApp();
@@ -75,7 +95,7 @@ const MockApp = ({
 }: {
   dynamicPlugins: any; // allow tests to supply specific values for specific use cases
 }) => (
-  <React.Suspense fallback={null}>
+  <Suspense fallback={null}>
     <DynamicRoot
       apis={[]}
       afterInit={async () =>
@@ -88,7 +108,7 @@ const MockApp = ({
       dynamicPlugins={dynamicPlugins}
       scalprumConfig={{}}
     />
-  </React.Suspense>
+  </Suspense>
 );
 
 jest.mock('@scalprum/core', () => ({
@@ -159,7 +179,7 @@ describe.skip('DynamicRoot', () => {
             ...(requiredModules.some(m => m.module === 'PluginRoot')
               ? {
                   PluginRoot: {
-                    default: React.Fragment,
+                    default: Fragment,
                     fooPlugin: createPlugin({
                       id: 'fooPlugin',
                       routes: { bar: createRouteRef({ id: 'bar' }) },
@@ -177,7 +197,7 @@ describe.skip('DynamicRoot', () => {
                       deps: {},
                       factory: () => ({}),
                     }),
-                    FooComponent: React.Fragment,
+                    FooComponent: Fragment,
                     isFooConditionTrue: () => true,
                     isFooConditionFalse: () => false,
                     FooComponentWithStaticJSX: {
@@ -964,6 +984,34 @@ describe.skip('DynamicRoot', () => {
 
         const resolvedApis = [...(createAppSpy.mock.calls[0][0]?.apis ?? [])];
         expect(resolvedApis.length).toEqual(0);
+      });
+    } finally {
+      createAppSpy.mockRestore();
+    }
+  });
+
+  it('should add custom AnalyticsApi extension', async () => {
+    const createAppSpy = jest.spyOn(appDefaults, 'createApp');
+    const dynamicPlugins = {
+      frontend: {
+        'foo.bar': {
+          analyticsApiExtensions: [{ importName: 'fooPluginAnalyticsApi' }],
+        },
+      },
+    };
+    await loadTestConfig(dynamicPlugins);
+    const rendered = await renderWithEffects(
+      <MockApp dynamicPlugins={dynamicPlugins} />,
+    );
+    try {
+      await waitFor(async () => {
+        expect(rendered.baseElement).toBeInTheDocument();
+        expect(rendered.getByTestId('isLoadingFinished')).toBeInTheDocument();
+        expect(createAppSpy).toHaveBeenCalled();
+
+        const resolvedApis = [...(createAppSpy.mock.calls[0][0]?.apis ?? [])];
+        expect(resolvedApis.length).toEqual(1);
+        expect(resolvedApis[0].api.id).toEqual('plugin.foo.service');
       });
     } finally {
       createAppSpy.mockRestore();

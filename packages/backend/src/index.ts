@@ -1,13 +1,5 @@
 import { createBackend } from '@backstage/backend-defaults';
-// import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
-// import { customGithubAuthProvider } from './modules/auth/githubCustomResolver';
-// import { customGitlabAuthProvider } from './modules/auth/gitlabCustomResolver';
 import customPluginsLoader from './modules/features/featureLoader';
-// import { MyRootHealthService } from './modules/healthcheck/health';
-// import {
-//   coreServices,
-//   createServiceFactory,
-// } from '@backstage/backend-plugin-api';
 import { catalogModuleVeeCodeProcessor } from '@veecode-platform/plugin-veecode-platform-module/alpha';
 import { keycloakBackendModuleTransformer } from './modules/keycloak/keycloakEntityTransformer';
 import exploreToolProviderModule from './modules/explore/exploreToolProviderModule';
@@ -18,6 +10,10 @@ import { PackageRoles } from '@backstage/cli-node';
 import * as path from 'path';
 import { CommonJSModuleLoader } from './modules/loader';
 import { healthCheckPlugin } from './modules/healthcheck/healthcheck';
+import {
+  pluginIDProviderService,
+  rbacDynamicPluginsProvider,
+} from './modules/rbac/rbacDynamicPluginsModule';
 
 // Create a logger to cover logging static initialization tasks
 const staticLogger = WinstonLogger.create({
@@ -49,6 +45,9 @@ backend.add(
   }),
 );
 
+// healthcheck
+backend.add(healthCheckPlugin);
+
 // app
 backend.add(import('@backstage/plugin-app-backend'));
 
@@ -68,22 +67,28 @@ backend.add(
 backend.add(import('@backstage/plugin-catalog-backend-module-unprocessed'));
 backend.add(keycloakBackendModuleTransformer);
 backend.add(catalogModuleVeeCodeProcessor);
+backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
+backend.add(import('@backstage/plugin-catalog-backend-module-openapi'));
+
+// rbac
+backend.add(import('@backstage-community/plugin-rbac-backend'));
+
+backend.add(pluginIDProviderService);
+backend.add(rbacDynamicPluginsProvider);
 
 // scaffolder
 backend.add(import('@backstage/plugin-scaffolder-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(import('@roadiehq/scaffolder-backend-module-utils'));
-// backend.add(
-//   import(
-//     '@veecode-platform/backstage-plugin-scaffolder-backend-module-veecode-extensions'
-//   ),
-// );
 backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
+backend.add(
+  import('@backstage-community/plugin-scaffolder-backend-module-annotator'),
+);
 
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'));
-backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
+// backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
 
 // proxy
@@ -109,17 +114,6 @@ backend.add(import('@internal/plugin-about-backend'));
 // explore
 backend.add(exploreToolProviderModule);
 
-// healthcheck
-// backend.add(
-//   createServiceFactory({
-//     service: coreServices.rootHealth,
-//     deps: {},
-//     async factory({}) {
-//       return new MyRootHealthService();
-//     },
-//   }),
-// );
-backend.add(healthCheckPlugin);
 backend.add(import('@internal/plugin-dynamic-plugins-info-backend'));
 backend.add(import('@internal/plugin-scalprum-backend'));
 backend.add(import('@internal/plugin-licensed-users-info-backend'));

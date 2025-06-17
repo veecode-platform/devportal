@@ -1,4 +1,3 @@
-/* eslint-disable @backstage/no-undeclared-imports */
 import React from 'react';
 
 import { scaffolderPlugin } from '@backstage/plugin-scaffolder';

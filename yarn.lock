@@ -2974,6 +2974,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage-community/plugin-scaffolder-backend-module-annotator@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "@backstage-community/plugin-scaffolder-backend-module-annotator@npm:2.7.0"
+  dependencies:
+    "@backstage/backend-plugin-api": ^1.3.1
+    "@backstage/plugin-scaffolder-node": ^0.8.2
+    fs-extra: ^11.2.0
+    lodash: ^4.17.21
+    yaml: ^2.0.0
+  checksum: 1ab40d12d37cadba7cf1499fb028a784a5ec2e1d830b8257a60346e8fd2637f7cab019180d26857961f79b4cdb71ea8dc77f9b1c4bc9caa17b05642865ea43ae
+  languageName: node
+  linkType: hard
+
 "@backstage-community/plugin-sonarqube-backend@npm:^0.8.0":
   version: 0.8.0
   resolution: "@backstage-community/plugin-sonarqube-backend@npm:0.8.0"
@@ -3943,7 +3956,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/catalog-model@npm:^1.5.0, @backstage/catalog-model@npm:^1.7.0, @backstage/catalog-model@npm:^1.7.3, @backstage/catalog-model@npm:^1.7.4":
+"@backstage/catalog-model@npm:1.7.4, @backstage/catalog-model@npm:^1.5.0, @backstage/catalog-model@npm:^1.7.0, @backstage/catalog-model@npm:^1.7.3, @backstage/catalog-model@npm:^1.7.4":
   version: 1.7.4
   resolution: "@backstage/catalog-model@npm:1.7.4"
   dependencies:
@@ -4113,142 +4126,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/cli@npm:^0.31.1":
-  version: 0.31.1
-  resolution: "@backstage/cli@npm:0.31.1"
-  dependencies:
-    "@backstage/catalog-model": ^1.7.3
-    "@backstage/cli-common": ^0.1.15
-    "@backstage/cli-node": ^0.2.13
-    "@backstage/config": ^1.3.2
-    "@backstage/config-loader": ^1.10.0
-    "@backstage/errors": ^1.2.7
-    "@backstage/eslint-plugin": ^0.1.10
-    "@backstage/integration": ^1.16.2
-    "@backstage/release-manifests": ^0.0.12
-    "@backstage/types": ^1.2.1
-    "@manypkg/get-packages": ^1.1.3
-    "@module-federation/enhanced": ^0.8.0
-    "@octokit/graphql": ^5.0.0
-    "@octokit/graphql-schema": ^13.7.0
-    "@octokit/oauth-app": ^4.2.0
-    "@octokit/request": ^6.0.0
-    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.7
-    "@rollup/plugin-commonjs": ^26.0.0
-    "@rollup/plugin-json": ^6.0.0
-    "@rollup/plugin-node-resolve": ^15.0.0
-    "@rollup/plugin-yaml": ^4.0.0
-    "@spotify/eslint-config-base": ^15.0.0
-    "@spotify/eslint-config-react": ^15.0.0
-    "@spotify/eslint-config-typescript": ^15.0.0
-    "@sucrase/webpack-loader": ^2.0.0
-    "@svgr/core": 6.5.x
-    "@svgr/plugin-jsx": 6.5.x
-    "@svgr/plugin-svgo": 6.5.x
-    "@svgr/rollup": 6.5.x
-    "@svgr/webpack": 6.5.x
-    "@swc/core": ^1.3.46
-    "@swc/helpers": ^0.5.0
-    "@swc/jest": ^0.2.22
-    "@types/jest": ^29.5.11
-    "@types/webpack-env": ^1.15.2
-    "@typescript-eslint/eslint-plugin": ^8.17.0
-    "@typescript-eslint/parser": ^8.16.0
-    "@yarnpkg/lockfile": ^1.1.0
-    "@yarnpkg/parsers": ^3.0.0
-    bfj: ^8.0.0
-    buffer: ^6.0.3
-    chalk: ^4.0.0
-    chokidar: ^3.3.1
-    commander: ^12.0.0
-    cross-fetch: ^4.0.0
-    cross-spawn: ^7.0.3
-    css-loader: ^6.5.1
-    ctrlc-windows: ^2.1.0
-    esbuild: ^0.25.0
-    esbuild-loader: ^4.0.0
-    eslint: ^8.6.0
-    eslint-config-prettier: ^9.0.0
-    eslint-formatter-friendly: ^7.0.0
-    eslint-plugin-deprecation: ^3.0.0
-    eslint-plugin-import: ^2.31.0
-    eslint-plugin-jest: ^28.9.0
-    eslint-plugin-jsx-a11y: ^6.10.2
-    eslint-plugin-react: ^7.37.2
-    eslint-plugin-react-hooks: ^5.0.0
-    eslint-plugin-unused-imports: ^4.1.4
-    eslint-webpack-plugin: ^4.2.0
-    express: ^4.17.1
-    fork-ts-checker-webpack-plugin: ^9.0.0
-    fs-extra: ^11.2.0
-    git-url-parse: ^15.0.0
-    glob: ^7.1.7
-    global-agent: ^3.0.0
-    globby: ^11.1.0
-    handlebars: ^4.7.3
-    html-webpack-plugin: ^5.6.3
-    inquirer: ^8.2.0
-    jest: ^29.7.0
-    jest-cli: ^29.7.0
-    jest-css-modules: ^2.1.0
-    jest-environment-jsdom: ^29.0.2
-    jest-runtime: ^29.0.2
-    json-schema: ^0.4.0
-    lodash: ^4.17.21
-    mini-css-extract-plugin: ^2.4.2
-    minimatch: ^9.0.0
-    node-stdlib-browser: ^1.3.1
-    npm-packlist: ^5.0.0
-    ora: ^5.3.0
-    p-queue: ^6.6.2
-    pirates: ^4.0.6
-    postcss: ^8.1.0
-    process: ^0.11.10
-    raw-loader: ^4.0.2
-    react-dev-utils: ^12.0.0-next.60
-    react-refresh: ^0.14.0
-    recursive-readdir: ^2.2.2
-    replace-in-file: ^7.1.0
-    rollup: ^4.27.3
-    rollup-plugin-dts: ^6.1.0
-    rollup-plugin-esbuild: ^6.1.1
-    rollup-plugin-postcss: ^4.0.0
-    rollup-pluginutils: ^2.8.2
-    semver: ^7.5.3
-    style-loader: ^3.3.1
-    sucrase: ^3.20.2
-    swc-loader: ^0.2.3
-    tar: ^6.1.12
-    terser-webpack-plugin: ^5.1.3
-    ts-morph: ^24.0.0
-    undici: ^7.2.3
-    util: ^0.12.3
-    webpack: ^5.94.0
-    webpack-dev-server: ^5.0.0
-    yaml: ^2.0.0
-    yargs: ^16.2.0
-    yml-loader: ^2.1.0
-    yn: ^4.0.0
-    zod: ^3.22.4
-    zod-validation-error: ^3.4.0
-  peerDependencies:
-    "@rspack/core": ^1.0.10
-    "@rspack/dev-server": ^1.0.9
-    "@rspack/plugin-react-refresh": ^1.0.0
-  peerDependenciesMeta:
-    "@rspack/core":
-      optional: true
-    "@rspack/dev-server":
-      optional: true
-    "@rspack/plugin-react-refresh":
-      optional: true
-  bin:
-    backstage-cli: bin/backstage-cli
-  checksum: c79bd27786401cd46731fcc37a643d2615eebea200b9359fe93a715926be8358437cad72bc2cb82ad113f91240453991ceafb2a781635a6edb2d46be4cf3b3d4
-  languageName: node
-  linkType: hard
-
-"@backstage/cli@npm:^0.32.1":
+"@backstage/cli@npm:0.32.1, @backstage/cli@npm:^0.32.1":
   version: 0.32.1
   resolution: "@backstage/cli@npm:0.32.1"
   dependencies:
@@ -4381,6 +4259,141 @@ __metadata:
     backstage-cli: bin/backstage-cli
     backstage-cli-alpha: bin/backstage-cli-alpha
   checksum: a7cee0d011bf31657be473ce28bddd67c0a7279a4e9dbf5a664e24c0c797b04eabd6eb73042eb833bde1ee50926063196b42995bb060b23bb0be7e8b036e0666
+  languageName: node
+  linkType: hard
+
+"@backstage/cli@npm:^0.31.1":
+  version: 0.31.1
+  resolution: "@backstage/cli@npm:0.31.1"
+  dependencies:
+    "@backstage/catalog-model": ^1.7.3
+    "@backstage/cli-common": ^0.1.15
+    "@backstage/cli-node": ^0.2.13
+    "@backstage/config": ^1.3.2
+    "@backstage/config-loader": ^1.10.0
+    "@backstage/errors": ^1.2.7
+    "@backstage/eslint-plugin": ^0.1.10
+    "@backstage/integration": ^1.16.2
+    "@backstage/release-manifests": ^0.0.12
+    "@backstage/types": ^1.2.1
+    "@manypkg/get-packages": ^1.1.3
+    "@module-federation/enhanced": ^0.8.0
+    "@octokit/graphql": ^5.0.0
+    "@octokit/graphql-schema": ^13.7.0
+    "@octokit/oauth-app": ^4.2.0
+    "@octokit/request": ^6.0.0
+    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.7
+    "@rollup/plugin-commonjs": ^26.0.0
+    "@rollup/plugin-json": ^6.0.0
+    "@rollup/plugin-node-resolve": ^15.0.0
+    "@rollup/plugin-yaml": ^4.0.0
+    "@spotify/eslint-config-base": ^15.0.0
+    "@spotify/eslint-config-react": ^15.0.0
+    "@spotify/eslint-config-typescript": ^15.0.0
+    "@sucrase/webpack-loader": ^2.0.0
+    "@svgr/core": 6.5.x
+    "@svgr/plugin-jsx": 6.5.x
+    "@svgr/plugin-svgo": 6.5.x
+    "@svgr/rollup": 6.5.x
+    "@svgr/webpack": 6.5.x
+    "@swc/core": ^1.3.46
+    "@swc/helpers": ^0.5.0
+    "@swc/jest": ^0.2.22
+    "@types/jest": ^29.5.11
+    "@types/webpack-env": ^1.15.2
+    "@typescript-eslint/eslint-plugin": ^8.17.0
+    "@typescript-eslint/parser": ^8.16.0
+    "@yarnpkg/lockfile": ^1.1.0
+    "@yarnpkg/parsers": ^3.0.0
+    bfj: ^8.0.0
+    buffer: ^6.0.3
+    chalk: ^4.0.0
+    chokidar: ^3.3.1
+    commander: ^12.0.0
+    cross-fetch: ^4.0.0
+    cross-spawn: ^7.0.3
+    css-loader: ^6.5.1
+    ctrlc-windows: ^2.1.0
+    esbuild: ^0.25.0
+    esbuild-loader: ^4.0.0
+    eslint: ^8.6.0
+    eslint-config-prettier: ^9.0.0
+    eslint-formatter-friendly: ^7.0.0
+    eslint-plugin-deprecation: ^3.0.0
+    eslint-plugin-import: ^2.31.0
+    eslint-plugin-jest: ^28.9.0
+    eslint-plugin-jsx-a11y: ^6.10.2
+    eslint-plugin-react: ^7.37.2
+    eslint-plugin-react-hooks: ^5.0.0
+    eslint-plugin-unused-imports: ^4.1.4
+    eslint-webpack-plugin: ^4.2.0
+    express: ^4.17.1
+    fork-ts-checker-webpack-plugin: ^9.0.0
+    fs-extra: ^11.2.0
+    git-url-parse: ^15.0.0
+    glob: ^7.1.7
+    global-agent: ^3.0.0
+    globby: ^11.1.0
+    handlebars: ^4.7.3
+    html-webpack-plugin: ^5.6.3
+    inquirer: ^8.2.0
+    jest: ^29.7.0
+    jest-cli: ^29.7.0
+    jest-css-modules: ^2.1.0
+    jest-environment-jsdom: ^29.0.2
+    jest-runtime: ^29.0.2
+    json-schema: ^0.4.0
+    lodash: ^4.17.21
+    mini-css-extract-plugin: ^2.4.2
+    minimatch: ^9.0.0
+    node-stdlib-browser: ^1.3.1
+    npm-packlist: ^5.0.0
+    ora: ^5.3.0
+    p-queue: ^6.6.2
+    pirates: ^4.0.6
+    postcss: ^8.1.0
+    process: ^0.11.10
+    raw-loader: ^4.0.2
+    react-dev-utils: ^12.0.0-next.60
+    react-refresh: ^0.14.0
+    recursive-readdir: ^2.2.2
+    replace-in-file: ^7.1.0
+    rollup: ^4.27.3
+    rollup-plugin-dts: ^6.1.0
+    rollup-plugin-esbuild: ^6.1.1
+    rollup-plugin-postcss: ^4.0.0
+    rollup-pluginutils: ^2.8.2
+    semver: ^7.5.3
+    style-loader: ^3.3.1
+    sucrase: ^3.20.2
+    swc-loader: ^0.2.3
+    tar: ^6.1.12
+    terser-webpack-plugin: ^5.1.3
+    ts-morph: ^24.0.0
+    undici: ^7.2.3
+    util: ^0.12.3
+    webpack: ^5.94.0
+    webpack-dev-server: ^5.0.0
+    yaml: ^2.0.0
+    yargs: ^16.2.0
+    yml-loader: ^2.1.0
+    yn: ^4.0.0
+    zod: ^3.22.4
+    zod-validation-error: ^3.4.0
+  peerDependencies:
+    "@rspack/core": ^1.0.10
+    "@rspack/dev-server": ^1.0.9
+    "@rspack/plugin-react-refresh": ^1.0.0
+  peerDependenciesMeta:
+    "@rspack/core":
+      optional: true
+    "@rspack/dev-server":
+      optional: true
+    "@rspack/plugin-react-refresh":
+      optional: true
+  bin:
+    backstage-cli: bin/backstage-cli
+  checksum: c79bd27786401cd46731fcc37a643d2615eebea200b9359fe93a715926be8358437cad72bc2cb82ad113f91240453991ceafb2a781635a6edb2d46be4cf3b3d4
   languageName: node
   linkType: hard
 
@@ -6055,6 +6068,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/plugin-catalog-backend-module-logs@npm:^0.1.10":
+  version: 0.1.10
+  resolution: "@backstage/plugin-catalog-backend-module-logs@npm:0.1.10"
+  dependencies:
+    "@backstage/backend-plugin-api": ^1.3.1
+    "@backstage/plugin-catalog-backend": ^2.0.0
+    "@backstage/plugin-events-node": ^0.4.11
+  checksum: c57f322236b368e2aad979c71e07d4f53d3c903cdd0b1c3835bacb88b257e8fd4abb7c9dd2b1c5f03b4cebf67f1e9f903028a4de6f95c71a848633ffdefabfe5
+  languageName: node
+  linkType: hard
+
+"@backstage/plugin-catalog-backend-module-openapi@npm:^0.2.10":
+  version: 0.2.10
+  resolution: "@backstage/plugin-catalog-backend-module-openapi@npm:0.2.10"
+  dependencies:
+    "@apidevtools/json-schema-ref-parser": ^11.0.0
+    "@backstage/backend-plugin-api": ^1.3.1
+    "@backstage/catalog-model": ^1.7.4
+    "@backstage/integration": ^1.17.0
+    "@backstage/plugin-catalog-common": ^1.1.4
+    "@backstage/plugin-catalog-node": ^1.17.0
+    "@backstage/types": ^1.2.1
+    yaml: ^2.1.1
+  checksum: 23cb2ae925deb8a1b59b5e157f19162a1dbc40064f38cfe9c480f3b3fd5b48022cee150e857084e19a9682d730e2eb8a7593189a4767829c781bd533480b3a10
+  languageName: node
+  linkType: hard
+
 "@backstage/plugin-catalog-backend-module-scaffolder-entity-model@npm:^0.2.8":
   version: 0.2.8
   resolution: "@backstage/plugin-catalog-backend-module-scaffolder-entity-model@npm:0.2.8"
@@ -7726,7 +7766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/test-utils@npm:^1.7.6, @backstage/test-utils@npm:^1.7.8":
+"@backstage/test-utils@npm:1.7.8, @backstage/test-utils@npm:^1.7.6, @backstage/test-utils@npm:^1.7.8":
   version: 1.7.8
   resolution: "@backstage/test-utils@npm:1.7.8"
   dependencies:
@@ -14286,9 +14326,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@red-hat-developer-hub/plugin-utils@workspace:packages/plugin-utils"
   dependencies:
-    "@backstage/catalog-model": 1.7.3
-    "@backstage/cli": 0.30.0
-    "@backstage/test-utils": 1.7.5
+    "@backstage/catalog-model": 1.7.4
+    "@backstage/cli": 0.32.1
+    "@backstage/test-utils": 1.7.8
     "@testing-library/dom": 9.3.4
     "@testing-library/jest-dom": 6.6.3
     "@testing-library/react": 14.3.1
@@ -20307,6 +20347,8 @@ __metadata:
     "@backstage-community/plugin-explore-backend": ^0.6.0
     "@backstage-community/plugin-explore-common": ^0.4.0
     "@backstage-community/plugin-rbac-backend": ^6.2.6
+    "@backstage-community/plugin-rbac-node": ^1.11.1
+    "@backstage-community/plugin-scaffolder-backend-module-annotator": ^2.7.0
     "@backstage-community/plugin-sonarqube-backend": ^0.8.0
     "@backstage/backend-app-api": ^1.2.3
     "@backstage/backend-common": ^0.25.0
@@ -20334,6 +20376,8 @@ __metadata:
     "@backstage/plugin-catalog-backend-module-github-org": ^0.3.10
     "@backstage/plugin-catalog-backend-module-gitlab": ^0.6.6
     "@backstage/plugin-catalog-backend-module-gitlab-org": ^0.2.9
+    "@backstage/plugin-catalog-backend-module-logs": ^0.1.10
+    "@backstage/plugin-catalog-backend-module-openapi": ^0.2.10
     "@backstage/plugin-catalog-backend-module-scaffolder-entity-model": ^0.2.8
     "@backstage/plugin-catalog-backend-module-unprocessed": ^0.6.0
     "@backstage/plugin-events-backend-module-github": ^0.4.0
@@ -42782,7 +42826,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.0.0, yaml@npm:^2.2.1, yaml@npm:^2.2.2, yaml@npm:^2.5.1, yaml@npm:^2.6.0, yaml@npm:^2.6.1, yaml@npm:^2.7.0":
+"yaml@npm:^2.0.0, yaml@npm:^2.1.1, yaml@npm:^2.2.1, yaml@npm:^2.2.2, yaml@npm:^2.5.1, yaml@npm:^2.6.0, yaml@npm:^2.6.1, yaml@npm:^2.7.0":
   version: 2.8.0
   resolution: "yaml@npm:2.8.0"
   bin:
