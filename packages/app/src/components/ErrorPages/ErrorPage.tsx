@@ -50,7 +50,7 @@ export const ErrorPage = ({
   Illustration = CollaborationIllustration,
   children,
 }: ErrorPageProps) => (
-  <Grid container sx={{ flexGrow: 1 }} spacing={0}>
+  <Grid container sx={{ flexGrow: 1, height: '100vh' }} spacing={0}>
     <Grid
       item
       xs={12}
