@@ -1,8 +1,8 @@
 plugins:
   - package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-kubernetes-dynamic
-    disabled: false
+    disabled: true
   - package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-regex-dynamic
-    disabled: false
+    disabled: true
   # Global Header
   # - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-global-header
   #   disabled: false
