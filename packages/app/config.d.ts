@@ -37,6 +37,11 @@ export interface Config {
        */
       fullLogo?: string;
       /**
+       * Base64 URI for the full logo
+       * @visibility frontend
+       */
+      fullLogoDark?: string;
+      /**
        * size Configuration for the full logo
        * The following units are supported: <number>, px, em, rem, <percentage>
        * @visibility frontend

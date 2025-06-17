@@ -35,6 +35,7 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { useTheme } from '@mui/material/styles';
 import { useMountEffect } from '@react-hookz/web';
 
 import { coreComponentsTranslationRef } from '../translation/translation';
@@ -67,11 +68,58 @@ type SingleSignInPageProps = CommonSignInPageProps & {
 
 export type Props = MultiSignInPageProps | SingleSignInPageProps;
 
+const LogoRender = ({
+  base64Logo,
+  defaultLogo,
+  width,
+}: {
+  base64Logo: string | undefined;
+  defaultLogo: React.JSX.Element;
+  width: string | number;
+}) => {
+  return base64Logo ? (
+    <img
+      data-testid="home-logo"
+      src={base64Logo}
+      alt="Home logo"
+      width={width}
+    />
+  ) : (
+    defaultLogo
+  );
+};
+
+const SignInPageLogo = () => {
+  const theme = useTheme();
+  const isDarkMode = theme.palette.mode === 'dark';
+  const configApi = useApi(configApiRef);
+  const logoFullBase64URI = configApi.getOptionalString(
+    'app.branding.fullLogo',
+  );
+  const logoFullDarkBase64URI = configApi.getOptionalString(
+    'app.branding.fullLogoDark',
+  );
+  // eslint-disable-next-line no-console
+  console.log(theme.palette.mode);
+
+  const fullLogoWidth = configApi
+    .getOptional('app.branding.fullLogoWidth')
+    ?.toString();
+
+  return (
+    <LogoRender
+      base64Logo={!isDarkMode ? logoFullDarkBase64URI : logoFullBase64URI}
+      defaultLogo={<Logo />}
+      width={fullLogoWidth ?? 380}
+    />
+  );
+};
+
 const HeaderComponent = () => {
   const classes = useStyles();
   return (
     <Grid className={classes.logo}>
-      <Logo />
+      <SignInPageLogo />
     </Grid>
   );
 };

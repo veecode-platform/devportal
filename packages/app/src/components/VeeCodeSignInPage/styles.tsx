@@ -48,6 +48,7 @@ export const useStyles = makeStyles(
       width: '80vw',
       padding: '2em',
       display: 'flex',
+      margin: '2rem auto',
       justifyContent: 'center',
       alignItems: 'center',
       [theme.breakpoints.down('md')]: {
