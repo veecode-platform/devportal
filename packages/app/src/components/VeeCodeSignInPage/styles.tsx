@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
 import BgSVG from './assets/bg.svg';
 
 export type SignInPageClassKey = 'container' | 'item';
@@ -84,7 +86,7 @@ export const useStyles = makeStyles(
     },
     loginBox: {
       width: '100%',
-      padding: '.5rem',
+      padding: '0 .5rem',
       borderRadius: '18px',
       margin: ' .4rem auto',
       cursor: 'pointer',
