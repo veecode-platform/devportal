@@ -172,3 +172,24 @@ plugins:
               #       sm: { w: 12, h: 8 }
               #       xs: { w: 12, h: 8 }
               #       xxs: { w: 12, h: 8 }
+
+  # RBAC
+  - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage-community.plugin-rbac:
+            appIcons:
+              - name: rbacIcon
+                importName: RbacIcon
+            dynamicRoutes:
+              - path: /rbac
+                importName: RbacPage
+                menuItem:
+                  icon: rbacIcon
+                  text: RBAC
+            menuItems:
+              rbac:
+                parent: admin
+                icon: rbacIcon
