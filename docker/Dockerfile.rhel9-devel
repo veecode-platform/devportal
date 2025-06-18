@@ -1,0 +1,9 @@
+# This dockerfile builds an image for devportal build.
+FROM registry.redhat.io/rhel9/nodejs-20:latest
+
+USER root
+
+RUN yum update -y && yum upgrade -y
+RUN yum install zlib-devel brotli-devel -y
+RUN npm i -g yarn
+USER default
