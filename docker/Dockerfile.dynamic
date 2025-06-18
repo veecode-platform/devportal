@@ -218,12 +218,12 @@ COPY --from=build --chown=1001:1001 $CONTAINER_SOURCE/dynamic-plugins/dist/ ./dy
 COPY $EXTERNAL_SOURCE_NESTED/LICENSE /licenses/
 
 # RHIDP-5216/RHIDP-5215 - interim marketplace catalog entities until these data will be loaded from container images
-COPY $EXTERNAL_SOURCE_NESTED/catalog-entities/marketplace /marketplace/catalog-entities/
+#copy $EXTERNAL_SOURCE_NESTED/catalog-entities/marketplace /marketplace/catalog-entities/
 
 # Copy script to gather dynamic plugins; copy embedded dynamic plugins to root folder; fix permissions
-COPY packages/backend/install-dynamic-plugins.py packages/backend/install-dynamic-plugins.sh ./
-RUN chmod -R a+r ./install-dynamic-plugins.py; \
-  chmod -R a+rx ./install-dynamic-plugins.sh
+COPY docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
+RUN chmod -R a+r ./check_dynamic_plugins.py; \
+  chmod -R a+rx ./check_dynamic_plugins.sh
 
 # The existence of the index.html.tmpl tells Backstage to take that file and load it into memory, inject the needed appConfig (instead of writing
 # it into a random *.chunk.js file, and then serve that file from memory so that we can set the readOnlyRootFilesystem: true option for
