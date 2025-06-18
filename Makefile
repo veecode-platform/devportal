@@ -1,33 +1,41 @@
-# Caminho base
+# Base paths
 DYNAMIC_PLUGINS_DIR=dynamic-plugins
 DIST_DIR=$(DYNAMIC_PLUGINS_DIR)/dist
 
-# Alias dos comandos
+# Command aliases
 YARN=yarn
 TURBO=turbo
 
-.PHONY: all clean tsc build export-dynamic copy-dynamic-plugins full
+.PHONY: all clean tsc build export-dynamic copy-dynamic-plugins check-dynamic-plugins full install
 
-## Limpa os artefatos
+## Cleans build artifacts
 clean:
 	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) clean
 
-## Compila os arquivos TypeScript
+## Installs dependencies
+install:
+	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) install
+
+## Compiles TypeScript files
 tsc:
 	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) tsc
 
-## Build dos plugins (opcional, pois export-dynamic depende de tsc)
+## Builds dynamic plugins (optional, as export-dynamic depends on tsc)
 build:
 	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) build
 
-## Exporta os plugins dinâmicos com janus-cli
+## Exports dynamic plugins using janus-cli
 export-dynamic:
 	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) export-dynamic
 
-## Copia os plugins para a pasta dist
+## Copies dynamic plugins to the dist folder
 copy-dynamic-plugins:
 	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) copy-dynamic-plugins dist
 
-## Executa tudo na ordem correta
-full: clean tsc export-dynamic copy-dynamic-plugins
-	@echo "✅ Dynamic plugins exportados e copiados para $(DIST_DIR)"
+## Runs the 'check-dynamic-plugins' script from the root
+check-dynamic-plugins:
+	$(YARN) check-dynamic-plugins
+
+## Executes all steps in the correct order
+full: install clean tsc export-dynamic copy-dynamic-plugins check-dynamic-plugins
+	@echo "✅ Dynamic plugins exported, copied to $(DIST_DIR), and checked."
