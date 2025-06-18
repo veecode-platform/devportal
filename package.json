@@ -6,6 +6,7 @@
     "node": "22"
   },
   "scripts": {
+    "init-local": "make full && yarn check-dynamic-plugins",
     "check-dynamic-plugins": "./scripts/check_dynamic_plugins.sh",
     "dev": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend --filter=app --config ../../app-config.yaml --config ../../dynamic-plugins-root/app-config.dynamic-plugins.yaml",
     "dev-local": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend --filter=app -- --config ../../app-config.local.yaml --config ../../dynamic-plugins-root/app-config.dynamic-plugins.yaml",
