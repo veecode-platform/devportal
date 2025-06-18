@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend --filter=app",
     "dev-local": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend --filter=app -- --config ../../app-config.local.yaml",
+    "dev-dynamic-local": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend --filter=app -- --config ../../app-config.local.yaml --config ../../dynamic-plugins-root/app-config.dynamic-plugins.yaml",
     "start": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend",
     "start-backend": "yarn workspace backend start",
     "build": "turbo run build",
