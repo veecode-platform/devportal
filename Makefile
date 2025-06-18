@@ -12,16 +12,18 @@ TURBO=turbo
 root-install:
 	$(YARN) install
 
-## Cleans build artifacts within dynamic-plugins
-clean:
-	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) clean
-
-## Installs dependencies within dynamic-plugins
+## Installs dependencies within dynamic-plugins (depends on root-install)
 install: root-install
 	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) install
 
+## Cleans build artifacts within dynamic-plugins
+# This 'clean' target now depends on 'install' to ensure node_modules exist
+clean: install
+	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) clean
+
 ## Compiles TypeScript files within dynamic-plugins
-tsc:
+# This 'tsc' target now depends on 'install' to ensure node_modules exist
+tsc: install
 	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) tsc
 
 ## Builds dynamic plugins (optional, as export-dynamic depends on tsc)
@@ -41,5 +43,6 @@ check-dynamic-plugins:
 	$(YARN) check-dynamic-plugins
 
 ## Executes all steps in the correct order
-full: root-install clean tsc export-dynamic copy-dynamic-plugins check-dynamic-plugins
+# The 'full' target now implicitly runs 'install' via 'clean' and 'tsc'
+full: clean tsc export-dynamic copy-dynamic-plugins check-dynamic-plugins
 	@echo "✅ Dynamic plugins exported, copied to $(DIST_DIR), and checked."
