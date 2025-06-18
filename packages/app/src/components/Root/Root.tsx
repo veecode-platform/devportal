@@ -520,7 +520,6 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
                   </SidebarGroup>
                 </>
               )}
-              <SidebarDivider />
               <SidebarScrollWrapper>
                 {renderMenuItems(false, false)}
                 {dynamicRoutes.map(({ scope, menuItem, path }) => {
@@ -536,6 +535,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
                   return null;
                 })}
               </SidebarScrollWrapper>
+              <SidebarDivider />
             </SidebarGroup>
             <SidebarSpace />
             <SidebarDivider />
