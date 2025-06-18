@@ -133,43 +133,42 @@ plugins:
                     xs: { w: 12, h: 4 }
                     xxs: { w: 12, h: 4 }
               - mountPoint: home.page/cards
-                importName: FeaturedDocsCard
-                config:
-                  layouts:
-                    xl: { w: 5, h: 4, x: 7 }
-                    lg: { w: 5, h: 4, x: 7 }
-                    md: { w: 5, h: 4, x: 7 }
-                    sm: { w: 12, h: 4 }
-                    xs: { w: 12, h: 4 }
-                    xxs: { w: 12, h: 4 }
-              - mountPoint: home.page/cards
-                importName: OnboardingSection
-                config:
-                  layouts:
-                    xl: { w: 7, h: 8 }
-                    lg: { w: 7, h: 8 }
-                    md: { w: 7, h: 8 }
-                    sm: { w: 12, h: 8 }
-                    xs: { w: 12, h: 8 }
-                    xxs: { w: 12, h: 8 }
-              - mountPoint: home.page/cards
-                importName: EntitySection
-                config:
-                  layouts:
-                    xl: { w: 7, h: 8 }
-                    lg: { w: 7, h: 8 }
-                    md: { w: 7, h: 8 }
-                    sm: { w: 12, h: 8 }
-                    xs: { w: 12, h: 8 }
-                    xxs: { w: 12, h: 8 }
-
-              - mountPoint: home.page/cards
                 importName: RecentlyVisitedCard
                 config:
                   layouts:
-                    xl: { w: 5, h: 4, x: 7 }
-                    lg: { w: 5, h: 4, x: 7 }
-                    md: { w: 5, h: 4, x: 7 }
+                    xl: { w: 6, h: 4 }
+                    lg: { w: 6, h: 4 }
+                    md: { w: 6, h: 4 }
                     sm: { w: 12, h: 4 }
                     xs: { w: 12, h: 4 }
                     xxs: { w: 12, h: 4 }
+              - mountPoint: home.page/cards
+                importName: FeaturedDocsCard
+                config:
+                  layouts:
+                    xl: { w: 6, h: 4 }
+                    lg: { w: 6, h: 4 }
+                    md: { w: 6, h: 4 }
+                    sm: { w: 12, h: 4 }
+                    xs: { w: 12, h: 4 }
+                    xxs: { w: 12, h: 4 }
+              # - mountPoint: home.page/cards
+              #   importName: OnboardingSection
+              #   config:
+              #     layouts:
+              #       xl: { w: 7, h: 8 }
+              #       lg: { w: 7, h: 8 }
+              #       md: { w: 7, h: 8 }
+              #       sm: { w: 12, h: 8 }
+              #       xs: { w: 12, h: 8 }
+              #       xxs: { w: 12, h: 8 }
+              # - mountPoint: home.page/cards
+              #   importName: EntitySection
+              #   config:
+              #     layouts:
+              #       xl: { w: 7, h: 8 }
+              #       lg: { w: 7, h: 8 }
+              #       md: { w: 7, h: 8 }
+              #       sm: { w: 12, h: 8 }
+              #       xs: { w: 12, h: 8 }
+              #       xxs: { w: 12, h: 8 }
