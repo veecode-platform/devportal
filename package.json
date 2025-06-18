@@ -6,9 +6,9 @@
     "node": "22"
   },
   "scripts": {
-    "dev": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend --filter=app",
-    "dev-local": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend --filter=app -- --config ../../app-config.local.yaml",
-    "dev-dynamic-local": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend --filter=app -- --config ../../app-config.local.yaml --config ../../dynamic-plugins-root/app-config.dynamic-plugins.yaml",
+    "check-dynamic-plugins": "./scripts/check_dynamic_plugins.sh",
+    "dev": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend --filter=app --config ../../app-config.yaml --config ../../dynamic-plugins-root/app-config.dynamic-plugins.yaml",
+    "dev-local": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend --filter=app -- --config ../../app-config.local.yaml --config ../../dynamic-plugins-root/app-config.dynamic-plugins.yaml",
     "start": "NODE_OPTIONS=--no-node-snapshot turbo run start --filter=backend",
     "start-backend": "yarn workspace backend start",
     "build": "turbo run build",
@@ -34,8 +34,7 @@
     "docker-up": "docker compose --profile=complete up -d",
     "docker-down": "docker compose --profile=complete down",
     "check": "yarn upgrade-interactive",
-    "update-backstage": "backstage-cli versions:bump --pattern '@{backstage,roadiehq,backstage-community,veecode-platform}/*'",
-    "check-dynamic-plugins": "./scripts/check_dynamic_plugins.sh"
+    "update-backstage": "backstage-cli versions:bump --pattern '@{backstage,roadiehq,backstage-community,veecode-platform}/*'"
   },
   "workspaces": {
     "packages": [
