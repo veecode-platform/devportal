@@ -33,6 +33,7 @@ import Bookmarks from '@mui/icons-material/BookmarksOutlined';
 import Business from '@mui/icons-material/BusinessOutlined';
 import Category from '@mui/icons-material/CategoryOutlined';
 import Cloud from '@mui/icons-material/CloudOutlined';
+import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import Extension from '@mui/icons-material/ExtensionOutlined';
 import Favorite from '@mui/icons-material/Favorite';
 import FolderOpen from '@mui/icons-material/FolderOpenOutlined';
@@ -95,6 +96,7 @@ const CommonIcons: {
   rbac: VpnKeyIcon,
   database: StorageIcon,
   cluster: AccountTreeIcon,
+  event: CloudSyncIcon,
   logout: Logout,
 };
 
