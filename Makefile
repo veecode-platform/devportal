@@ -6,17 +6,21 @@ DIST_DIR=$(DYNAMIC_PLUGINS_DIR)/dist
 YARN=yarn
 TURBO=turbo
 
-.PHONY: all clean tsc build export-dynamic copy-dynamic-plugins check-dynamic-plugins full install
+.PHONY: all clean tsc build export-dynamic copy-dynamic-plugins check-dynamic-plugins full install root-install
 
-## Cleans build artifacts
+## Installs root dependencies
+root-install:
+	$(YARN) install
+
+## Cleans build artifacts within dynamic-plugins
 clean:
 	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) clean
 
-## Installs dependencies
-install:
+## Installs dependencies within dynamic-plugins
+install: root-install
 	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) install
 
-## Compiles TypeScript files
+## Compiles TypeScript files within dynamic-plugins
 tsc:
 	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) tsc
 
@@ -37,5 +41,5 @@ check-dynamic-plugins:
 	$(YARN) check-dynamic-plugins
 
 ## Executes all steps in the correct order
-full: install clean tsc export-dynamic copy-dynamic-plugins check-dynamic-plugins
+full: root-install clean tsc export-dynamic copy-dynamic-plugins check-dynamic-plugins
 	@echo "✅ Dynamic plugins exported, copied to $(DIST_DIR), and checked."
