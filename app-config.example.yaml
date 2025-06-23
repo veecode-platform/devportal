@@ -1,0 +1,36 @@
+app:
+  title: veecode platform
+  baseUrl: http://localhost:7007
+organization:
+  name: Veecode Platform
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+  csp:
+    connect-src:
+      - "'self'"
+      - 'http:'
+      - 'https:'
+  cors:
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+proxy:
+  skipInvalidProxies: true
+  endpoints: {}
+lighthouse:
+  baseUrl: temp
+dynatrace:
+  baseUrl: temp
+techdocs:
+  builder: external
+auth:
+  environment: development
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+  rules:
+    - allow: [Component, System, Group, Resource, Location, Template, API]
