@@ -1,1 +1,0 @@
-export { SecurityInsightSummary } from './SummaryComponent';

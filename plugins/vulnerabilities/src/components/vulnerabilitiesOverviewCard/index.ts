@@ -1,1 +1,0 @@
-export { VulnerabilitiesOverviewCard } from "./VulnerabilitiesOverviewCard"

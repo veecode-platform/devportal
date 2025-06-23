@@ -1,1 +1,0 @@
-export { VulnerabilitiesTable } from "./VulnerabilitiesTable"
