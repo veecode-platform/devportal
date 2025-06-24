@@ -87,10 +87,10 @@ export default createBackendFeatureLoader({
     }
 
     // vee
-    if (config.getBoolean('enabledPlugins.vee')) {
-      yield import('@veecode-platform/backstage-plugin-vee-backend');
-      logger.info('@veecode-platform/plugin-vee-backend');
-    }
+    //if (config.getBoolean('enabledPlugins.vee')) {
+    //  yield import('@veecode-platform/backstage-plugin-vee-backend');
+    //  logger.info('@veecode-platform/plugin-vee-backend');
+    //}
 
     // sonarqube
     if (config.getBoolean('enabledPlugins.sonarqube')) {

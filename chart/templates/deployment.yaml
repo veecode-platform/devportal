@@ -65,7 +65,7 @@ spec:
               value: "30000000"
           imagePullPolicy: Always
           volumeMounts:
-            - mountPath: /app/dynamic-plugins-root
+            - mountPath: /opt/app-root/src/dynamic-plugins-root
               name: dynamic-plugins-root
             - mountPath: /opt/app-root/src/dynamic-plugins.yaml
               name: dynamic-plugins
@@ -93,17 +93,17 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
 
-          containerSecurityContext:
-            readOnlyRootFilesystem: true
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop: ["ALL"]
-            runAsNonRoot: true
-            seccompProfile:
-            type: "RuntimeDefault"
-          args:
-            - "--config"
-            - dynamic-plugins-root/app-config.dynamic-plugins.yaml
+          #containerSecurityContext:
+          #  readOnlyRootFilesystem: true
+          #  allowPrivilegeEscalation: false
+          #  capabilities:
+          #    drop: ["ALL"]
+          #  runAsNonRoot: true
+          #  seccompProfile:
+          #  type: "RuntimeDefault"
+          #args:
+          #  - "--config"
+          #  - dynamic-plugins-root/app-config.dynamic-plugins.yaml
 
 
           image: {{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}

@@ -13,3 +13,9 @@ keywords:
 - backstage
 - api management
 - idp
+dependencies:
+  - name: common
+    repository: https://charts.bitnami.com/bitnami
+    tags:
+      - bitnami-common
+    version: "2.31.3"
