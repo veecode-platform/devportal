@@ -50,6 +50,7 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { CatalogImportPage } from '@backstage/plugin-catalog-import';
 import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
+import { NotificationsPage } from '@backstage/plugin-notifications';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { ScaffolderPage } from '@backstage/plugin-scaffolder';
 import {
@@ -57,6 +58,7 @@ import {
   ScaffolderLayouts,
 } from '@backstage/plugin-scaffolder-react';
 import { SearchPage as BackstageSearchPage } from '@backstage/plugin-search';
+import { SignalsDisplay } from '@backstage/plugin-signals';
 import {
   DefaultTechDocsHome,
   TechDocsIndexPage,
@@ -168,6 +170,7 @@ const AppBase = () => {
     <AppProvider>
       <AlertDisplay />
       <OAuthRequestDialog />
+      <SignalsDisplay />
       <ConfigUpdater />
       <AppRouter>
         <ApplicationListener />
@@ -237,6 +240,7 @@ const AppBase = () => {
               <Route path="/search" element={<BackstageSearchPage />}>
                 <SearchPage />
               </Route>
+              <Route path="/notifications" element={<NotificationsPage />} />
               <Route
                 path="/cluster-explorer"
                 element={<ClusterExplorerPage />}
