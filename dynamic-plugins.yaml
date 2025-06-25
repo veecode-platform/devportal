@@ -5,7 +5,7 @@ plugins:
   - disabled: false
     package: oci://docker.io/valberjunior/backstage-veecode-extensions:v4.0.0!veecode-platform-backstage-plugin-scaffolder-backend-module-veecode-extensions-wrapper
   # Event Explorer
-  - disabled: false
+  - disabled: true
     package: oci://docker.io/valberjunior/plugin-event-explorer:v1.0.0!veecode-platform-plugin-event-explorer
     pluginConfig:
       dynamicPlugins:
@@ -18,7 +18,7 @@ plugins:
                   icon: event
                   text: Events Catalog
   # kind Event
-  - disabled: false
+  - disabled: true
     package: oci://docker.io/valberjunior/plugin-event-module-dynamic:v1.0.0!veecode-platform-plugin-veecode-event-module-dynamic
 
   # Homepage
