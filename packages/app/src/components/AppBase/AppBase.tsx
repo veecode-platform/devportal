@@ -71,7 +71,7 @@ import { UserSettingsPage } from '@backstage/plugin-user-settings';
 
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AboutPage } from '@internal/plugin-about';
-import { VeecodeHomepagePage } from '@internal/plugin-veecode-homepage';
+// import { VeecodeHomepagePage } from '@internal/plugin-veecode-homepage';
 import DynamicRootContext from '@red-hat-developer-hub/plugin-utils';
 import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
 import { VulnerabilitiesPage } from '@veecode-platform/backstage-plugin-vulnerabilities';
@@ -181,7 +181,7 @@ const AppBase = () => {
         <Root>
           <ApplicationProvider>
             <FlatRoutes>
-              <Route path="/" element={<VeecodeHomepagePage />} />
+              {/* <Route path="/" element={<VeecodeHomepagePage />} /> */}
               <Route
                 path="/catalog"
                 element={

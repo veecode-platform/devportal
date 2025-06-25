@@ -59,6 +59,13 @@ export interface Config {
         [key: string]: unknown;
       };
     };
+    support?: {
+      /**
+       * Support url
+       * @visibility frontend
+       */
+      url?: string;
+    };
     sidebar?: {
       /**
        * Show the logo in the sidebar
