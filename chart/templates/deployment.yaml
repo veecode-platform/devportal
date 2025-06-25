@@ -31,7 +31,71 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.imagePullSecrets }}
       {{- end}}
+      #installDir: /opt/app-root/src
+      #podAnnotations:
+      #  checksum/dynamic-plugins: "{{ include "common.tplvalues.render" ( dict "value" .Values.global.dynamic "context" $ ) | sha256sum }}"
+#volumes
+      volumes:
+        - name: app-config
+          configMap:
+            name: "{{ include "devportal-charts.fullname" . }}-app-env"
+        - name: dynamic-plugins-root
+          ephemeral:
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 5Gi
+        - name: dynamic-plugins
+          configMap:
+            defaultMode: 420
+            name: '{{ printf "%s-dynamic-plugins" .Release.Name }}'
+            optional: true
+        - name: npmcacache
+          emptyDir: {}
+        - name: temp
+          emptyDir: {}
+        #- name: dynamic-plugins-npmrc
+        #  secret:
+        #    defaultMode: 420
+        #    optional: true
+        #    secretName: '{{ printf "%s-dynamic-plugins-npmrc" .Release.Name }}'
+        # Optional volume that allows adding a container registry `auth.json` file (through a `dynamic-plugins-registry-auth` secret)
+        # to be used when installing plugins from secure container registries during the dynamic plugins installation by the initContainer.
+        #- name: dynamic-plugins-registry-auth
+        #  secret:
+        #    defaultMode: 416
+        #    optional: true
+        #    secretName: '{{ printf "%s-dynamic-plugins-registry-auth" .Release.Name }}'
+      {{- if and $rbacEnabled .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
+        - name: platform-devportal-policies
+          configMap:
+            name: "{{- include "devportal-charts.fullname" . }}-roles-env"
+      {{- end }}
+      {{- if and .Values.theme.custom .Values.theme.custom.configmapName }}
+        - name: platform-devportal-theme
+          configMap:
+            name: {{ .Values.theme.custom.configmapName }}
+      {{- end }}
+      {{- if and .Values.integrations.github .Values.integrations.github.apps }}
+        - name: platform-devportal-github-app
+          secret:
+            {{- if .Values.integrations.github.apps.secretName }}
+            secretName: {{ .Values.integrations.github.apps.secretName }}
+            {{- else }}
+            secretName: "{{ include "devportal-charts.fullname" . }}-github-app"
+            {{- end }}
+      {{- end }}
+      {{- if and .Values.appConfig.database.connection .Values.appConfig.database.connection.ssl .Values.appConfig.database.connection.ssl.caFilePath .Values.appConfig.database.connection.ssl.caSecretName }}
+        - name: ca-certificate
+          secret:
+            secretName: {{ .Values.appConfig.database.connection.ssl.caSecretName }}
+      {{- end }}
+#end volumes
 
+#initContainers
       initContainers:
         - name: install-dynamic-plugins
           resources:
@@ -71,41 +135,22 @@ spec:
               name: dynamic-plugins
               readOnly: true
               subPath: dynamic-plugins.yaml
-            - mountPath: /opt/app-root/src/.npmrc.dynamic-plugins
-              name: dynamic-plugins-npmrc
-              readOnly: true
-              subPath: .npmrc
-            - mountPath: /opt/app-root/src/.config/containers
-              name: dynamic-plugins-registry-auth
-              readOnly: true
+            #- mountPath: /opt/app-root/src/.npmrc.dynamic-plugins
+            #  name: dynamic-plugins-npmrc
+            #  readOnly: true
+            #  subPath: .npmrc
+            #- mountPath: /opt/app-root/src/.config/containers
+            #  name: dynamic-plugins-registry-auth
+            #  readOnly: true
             - mountPath: /opt/app-root/src/.npm/_cacache
               name: npmcacache
             - name: temp
               mountPath: /tmp
           workingDir: /opt/app-root/src
-      installDir: /opt/app-root/src
-      podAnnotations:
-        checksum/dynamic-plugins: >-
-          {{- include "common.tplvalues.render" ( dict "value"
-          .Values.global.dynamic "context" $) | sha256sum }}
-
-
+#end initContainers
+#containers
       containers:
         - name: {{ .Chart.Name }}
-
-          #containerSecurityContext:
-          #  readOnlyRootFilesystem: true
-          #  allowPrivilegeEscalation: false
-          #  capabilities:
-          #    drop: ["ALL"]
-          #  runAsNonRoot: true
-          #  seccompProfile:
-          #  type: "RuntimeDefault"
-          #args:
-          #  - "--config"
-          #  - dynamic-plugins-root/app-config.dynamic-plugins.yaml
-
-
           image: {{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
           ports:
@@ -122,20 +167,18 @@ spec:
           env:
             - name: NODE_ENV
               value: {{ .Values.environment | default "development" }}
-            {{- range .Values.extraEnv }}
+          {{- range .Values.extraEnv }}
             - name: {{ .name }}
               value: {{ .value | quote }}
-            {{- end }}
+          {{- end }}
           volumeMounts:
           - name: app-config
             mountPath: /opt/app-root/src/app-config.yaml #/app/app-config.yaml
             subPath: app-config
-
           - name: dynamic-plugins-root
             mountPath: /opt/app-root/src/dynamic-plugins-root
           - name: temp
             mountPath: /tmp
-
           {{- if and $rbacEnabled .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
           - name: platform-devportal-policies
             mountPath: /opt/app-root/src/rbac-policy.csv #/app/rbac-policy.csv
@@ -164,64 +207,4 @@ spec:
           livenessProbe:
           {{- toYaml .Values.livenessProbe | nindent 12 }}
           {{- end }}
-      
-      volumes:
-        - name: app-config
-          configMap:
-            name: "{{ include "devportal-charts.fullname" . }}-app-env"
-
-        - name: dynamic-plugins-root
-          ephemeral:
-            volumeClaimTemplate:
-              spec:
-                accessModes:
-                  - ReadWriteOnce
-                resources:
-                  requests:
-                    storage: 5Gi
-        - name: dynamic-plugins
-          configMap:
-            defaultMode: 420
-            name: '{{ printf "%s-dynamic-plugins" .Release.Name }}'
-            optional: true
-        - name: dynamic-plugins-npmrc
-          secret:
-            defaultMode: 420
-            optional: true
-            secretName: '{{ printf "%s-dynamic-plugins-npmrc" .Release.Name }}'
-        # Optional volume that allows adding a container registry `auth.json` file (through a `dynamic-plugins-registry-auth` secret)
-        # to be used when installing plugins from secure container registries during the dynamic plugins installation by the initContainer.
-        - name: dynamic-plugins-registry-auth
-          secret:
-            defaultMode: 416
-            optional: true
-            secretName: '{{ printf "%s-dynamic-plugins-registry-auth" .Release.Name }}'
-        - name: npmcacache
-          emptyDir: {}
-        - name: temp
-          emptyDir: {}
-
-        {{- if and $rbacEnabled .Values.permission.rbac.admin.defaultAdminRoleEnabled }}
-        - name: platform-devportal-policies
-          configMap:
-            name: "{{- include "devportal-charts.fullname" . }}-roles-env"
-        {{- end }}
-        {{- if and .Values.theme.custom .Values.theme.custom.configmapName }}
-        - name: platform-devportal-theme
-          configMap:
-            name: {{ .Values.theme.custom.configmapName }}
-        {{- end }}
-        {{- if and .Values.integrations.github .Values.integrations.github.apps }}
-        - name: platform-devportal-github-app
-          secret:
-            {{- if .Values.integrations.github.apps.secretName }}
-            secretName: {{ .Values.integrations.github.apps.secretName }}
-            {{- else }}
-            secretName: "{{ include "devportal-charts.fullname" . }}-github-app"
-            {{- end }}
-        {{- end }}
-        {{- if and .Values.appConfig.database.connection .Values.appConfig.database.connection.ssl .Values.appConfig.database.connection.ssl.caFilePath .Values.appConfig.database.connection.ssl.caSecretName }}
-        - name: ca-certificate
-          secret:
-            secretName: {{ .Values.appConfig.database.connection.ssl.caSecretName }}
-        {{- end }}
+#end containers 

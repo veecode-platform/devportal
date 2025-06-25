@@ -269,9 +269,9 @@ ENV NO_PROXY='localhost,127.0.0.1'
 # https://github.com/backstage/backstage/issues/20661
 
 # Copy instrumentation needed for surfacing metrics
-#COPY --chown=1001:1001 $EXTERNAL_SOURCE_NESTED/packages/backend/src/instrumentation.js ./
+COPY --chown=1001:1001 $EXTERNAL_SOURCE_NESTED/packages/backend/src/instrumentation.js ./
 # Remove write and execute permissions
-#RUN chmod a=r ./instrumentation.js
+RUN chmod a=r ./instrumentation.js
 
 ENV NODE_OPTIONS="--no-node-snapshot"
 ENTRYPOINT ["node", "--require", "./instrumentation.js", "packages/backend", "--config", "app-config.yaml"]
