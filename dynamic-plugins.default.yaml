@@ -5,7 +5,7 @@ plugins:
     disabled: true
   # Global Header
   - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-global-header
-    disabled: false
+    disabled: true
     pluginConfig:
       app:
         sidebar:
@@ -72,7 +72,7 @@ plugins:
 
   # Group: Global floating action button
   - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-global-floating-action-button
-    disabled: false
+    disabled: true
     pluginConfig:
       dynamicPlugins:
         frontend:
@@ -83,7 +83,7 @@ plugins:
 
   # Homepage
   - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-dynamic-home-page
-    disabled: false
+    disabled: true
     pluginConfig:
       dynamicPlugins:
         frontend:

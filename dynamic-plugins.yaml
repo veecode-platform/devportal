@@ -20,3 +20,14 @@ plugins:
   # kind Event
   - disabled: false
     package: oci://docker.io/valberjunior/plugin-event-module-dynamic:v1.0.0!veecode-platform-plugin-veecode-event-module-dynamic
+
+  # Homepage
+  - disabled: true
+    package: oci://docker.io/valberjunior/plugin-veecode-homepage:v2.0.0!veecode-platform-plugin-veecode-homepage
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.plugin-veecode-homepage:
+            dynamicRoutes:
+              - path: /
+                importName: VeecodeHomepagePage
