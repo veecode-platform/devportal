@@ -234,7 +234,7 @@ def wait_for_lock_release(lock_file_path):
 
 def main():
 
-    dynamicPluginsRoot = sys.argv[1] if len(sys.argv) > 1 else "dynamic-plugins-root"
+    dynamicPluginsRoot = sys.argv[1] #if len(sys.argv) > 1 else "dynamic-plugins-root"
 
     lock_file_path = os.path.join(dynamicPluginsRoot, 'install-dynamic-plugins.lock')
     atexit.register(remove_lock, lock_file_path)
