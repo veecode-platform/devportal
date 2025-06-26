@@ -120,6 +120,15 @@ if (
 // app
 backend.add(import('@backstage/plugin-app-backend'));
 
+//rbac
+staticLogger.info('Adding RBAC backend module')
+backend.add(import('@backstage/plugin-permission-backend'));
+backend.add(import('@backstage-community/plugin-rbac-backend'));
+backend.add(import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend'))
+staticLogger.info('RBAC backend module added');
+// backend.add(pluginIDProviderService);
+// backend.add(rbacDynamicPluginsProvider);
+
 // catalog
 backend.add(import('@backstage/plugin-catalog-backend'));
 backend.add(
@@ -202,15 +211,6 @@ backend.add(exploreToolProviderModule);
 //     },
 //   }),
 // );
-
-//rbac
-staticLogger.info('Adding RBAC backend module')
-backend.add(import('@backstage-community/plugin-rbac-backend'));
-backend.add(import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend'))
-staticLogger.info('RBAC backend module added');
-// backend.add(pluginIDProviderService);
-// backend.add(rbacDynamicPluginsProvider);
-
 
 backend.add(healthCheckPlugin);
 backend.add(import('@internal/plugin-dynamic-plugins-info-backend'));
