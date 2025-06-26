@@ -31,7 +31,7 @@ import { createServiceFactory } from '@backstage/backend-plugin-api';
 const staticLogger = WinstonLogger.create({
   meta: { service: 'developer-hub-init' },
 });
-staticLogger.info('Starting Developer Hub backend');
+staticLogger.info('Starting backend');
 
 const backend = createBackend();
 
@@ -204,8 +204,10 @@ backend.add(exploreToolProviderModule);
 // );
 
 //rbac
+staticLogger.info('Adding RBAC backend module')
 backend.add(import('@backstage-community/plugin-rbac-backend'));
 backend.add(import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend'))
+staticLogger.info('RBAC backend module added');
 // backend.add(pluginIDProviderService);
 // backend.add(rbacDynamicPluginsProvider);
 
