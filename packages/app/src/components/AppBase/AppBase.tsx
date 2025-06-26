@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /*
  * Portions of this file are based on code from the Red Hat Developer project:
  * https://github.com/redhat-developer/rhdh/blob/main/packages/app
@@ -50,6 +51,7 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { CatalogImportPage } from '@backstage/plugin-catalog-import';
 import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
+import { VisitListener } from '@backstage/plugin-home';
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { ScaffolderPage } from '@backstage/plugin-scaffolder';
@@ -69,6 +71,7 @@ import { UserSettingsPage } from '@backstage/plugin-user-settings';
 
 import { SupportPage } from '@internal/backstage-plugin-support';
 import { AboutPage } from '@internal/plugin-about';
+// import { VeecodeHomepagePage } from '@internal/plugin-veecode-homepage';
 import DynamicRootContext from '@red-hat-developer-hub/plugin-utils';
 import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
 import { VulnerabilitiesPage } from '@veecode-platform/backstage-plugin-vulnerabilities';
@@ -173,10 +176,12 @@ const AppBase = () => {
       <SignalsDisplay />
       <ConfigUpdater />
       <AppRouter>
+        <VisitListener />
         <ApplicationListener />
         <Root>
           <ApplicationProvider>
             <FlatRoutes>
+              {/* <Route path="/" element={<VeecodeHomepagePage />} /> */}
               <Route
                 path="/catalog"
                 element={

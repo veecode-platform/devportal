@@ -3867,6 +3867,142 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/cli@npm:^0.32.1":
+  version: 0.32.1
+  resolution: "@backstage/cli@npm:0.32.1"
+  dependencies:
+    "@backstage/catalog-model": ^1.7.4
+    "@backstage/cli-common": ^0.1.15
+    "@backstage/cli-node": ^0.2.13
+    "@backstage/config": ^1.3.2
+    "@backstage/config-loader": ^1.10.1
+    "@backstage/errors": ^1.2.7
+    "@backstage/eslint-plugin": ^0.1.10
+    "@backstage/integration": ^1.17.0
+    "@backstage/release-manifests": ^0.0.13
+    "@backstage/types": ^1.2.1
+    "@manypkg/get-packages": ^1.1.3
+    "@module-federation/enhanced": ^0.9.0
+    "@octokit/graphql": ^5.0.0
+    "@octokit/graphql-schema": ^13.7.0
+    "@octokit/oauth-app": ^4.2.0
+    "@octokit/request": ^8.0.0
+    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.7
+    "@rollup/plugin-commonjs": ^26.0.0
+    "@rollup/plugin-json": ^6.0.0
+    "@rollup/plugin-node-resolve": ^15.0.0
+    "@rollup/plugin-yaml": ^4.0.0
+    "@spotify/eslint-config-base": ^15.0.0
+    "@spotify/eslint-config-react": ^15.0.0
+    "@spotify/eslint-config-typescript": ^15.0.0
+    "@sucrase/webpack-loader": ^2.0.0
+    "@svgr/core": 6.5.x
+    "@svgr/plugin-jsx": 6.5.x
+    "@svgr/plugin-svgo": 6.5.x
+    "@svgr/rollup": 6.5.x
+    "@svgr/webpack": 6.5.x
+    "@swc/core": ^1.3.46
+    "@swc/helpers": ^0.5.0
+    "@swc/jest": ^0.2.22
+    "@types/jest": ^29.5.11
+    "@types/webpack-env": ^1.15.2
+    "@typescript-eslint/eslint-plugin": ^8.17.0
+    "@typescript-eslint/parser": ^8.16.0
+    "@yarnpkg/lockfile": ^1.1.0
+    "@yarnpkg/parsers": ^3.0.0
+    bfj: ^8.0.0
+    buffer: ^6.0.3
+    chalk: ^4.0.0
+    chokidar: ^3.3.1
+    commander: ^12.0.0
+    cross-fetch: ^4.0.0
+    cross-spawn: ^7.0.3
+    css-loader: ^6.5.1
+    ctrlc-windows: ^2.1.0
+    esbuild: ^0.25.0
+    esbuild-loader: ^4.0.0
+    eslint: ^8.6.0
+    eslint-config-prettier: ^9.0.0
+    eslint-formatter-friendly: ^7.0.0
+    eslint-plugin-deprecation: ^3.0.0
+    eslint-plugin-import: ^2.31.0
+    eslint-plugin-jest: ^28.9.0
+    eslint-plugin-jsx-a11y: ^6.10.2
+    eslint-plugin-react: ^7.37.2
+    eslint-plugin-react-hooks: ^5.0.0
+    eslint-plugin-unused-imports: ^4.1.4
+    eslint-webpack-plugin: ^4.2.0
+    express: ^4.17.1
+    fork-ts-checker-webpack-plugin: ^9.0.0
+    fs-extra: ^11.2.0
+    git-url-parse: ^15.0.0
+    glob: ^7.1.7
+    global-agent: ^3.0.0
+    globby: ^11.1.0
+    handlebars: ^4.7.3
+    html-webpack-plugin: ^5.6.3
+    inquirer: ^8.2.0
+    jest: ^29.7.0
+    jest-cli: ^29.7.0
+    jest-css-modules: ^2.1.0
+    jest-environment-jsdom: ^29.0.2
+    jest-runtime: ^29.0.2
+    json-schema: ^0.4.0
+    lodash: ^4.17.21
+    mini-css-extract-plugin: ^2.4.2
+    minimatch: ^9.0.0
+    node-stdlib-browser: ^1.3.1
+    npm-packlist: ^5.0.0
+    ora: ^5.3.0
+    p-queue: ^6.6.2
+    pirates: ^4.0.6
+    postcss: ^8.1.0
+    process: ^0.11.10
+    raw-loader: ^4.0.2
+    react-dev-utils: ^12.0.0-next.60
+    react-refresh: ^0.17.0
+    recursive-readdir: ^2.2.2
+    replace-in-file: ^7.1.0
+    rollup: ^4.27.3
+    rollup-plugin-dts: ^6.1.0
+    rollup-plugin-esbuild: ^6.1.1
+    rollup-plugin-postcss: ^4.0.0
+    rollup-pluginutils: ^2.8.2
+    semver: ^7.5.3
+    style-loader: ^3.3.1
+    sucrase: ^3.20.2
+    swc-loader: ^0.2.3
+    tar: ^6.1.12
+    terser-webpack-plugin: ^5.1.3
+    ts-morph: ^24.0.0
+    undici: ^7.2.3
+    util: ^0.12.3
+    webpack: ^5.94.0
+    webpack-dev-server: ^5.0.0
+    yaml: ^2.0.0
+    yargs: ^16.2.0
+    yml-loader: ^2.1.0
+    yn: ^4.0.0
+    zod: ^3.22.4
+    zod-validation-error: ^3.4.0
+  peerDependencies:
+    "@rspack/core": ^1.2.8
+    "@rspack/dev-server": ^1.0.9
+    "@rspack/plugin-react-refresh": ^1.0.0
+  peerDependenciesMeta:
+    "@rspack/core":
+      optional: true
+    "@rspack/dev-server":
+      optional: true
+    "@rspack/plugin-react-refresh":
+      optional: true
+  bin:
+    backstage-cli: bin/backstage-cli
+    backstage-cli-alpha: bin/backstage-cli-alpha
+  checksum: a7cee0d011bf31657be473ce28bddd67c0a7279a4e9dbf5a664e24c0c797b04eabd6eb73042eb833bde1ee50926063196b42995bb060b23bb0be7e8b036e0666
+  languageName: node
+  linkType: hard
+
 "@backstage/cli@npm:^0.33.0":
   version: 0.33.0
   resolution: "@backstage/cli@npm:0.33.0"
@@ -4036,7 +4172,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/core-app-api@npm:^1.17.1":
+"@backstage/core-app-api@npm:^1.17.0, @backstage/core-app-api@npm:^1.17.1":
   version: 1.17.1
   resolution: "@backstage/core-app-api@npm:1.17.1"
   dependencies:
@@ -4401,7 +4537,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/dev-utils@npm:^1.1.11":
+"@backstage/dev-utils@npm:^1.1.10, @backstage/dev-utils@npm:^1.1.11":
   version: 1.1.11
   resolution: "@backstage/dev-utils@npm:1.1.11"
   dependencies:
@@ -4438,7 +4574,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/eslint-plugin@npm:^0.1.11":
+"@backstage/eslint-plugin@npm:^0.1.10, @backstage/eslint-plugin@npm:^0.1.11":
   version: 0.1.11
   resolution: "@backstage/eslint-plugin@npm:0.1.11"
   dependencies:
@@ -6735,7 +6871,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/test-utils@npm:^1.7.9":
+"@backstage/test-utils@npm:^1.7.8, @backstage/test-utils@npm:^1.7.9":
   version: 1.7.9
   resolution: "@backstage/test-utils@npm:1.7.9"
   dependencies:
@@ -8733,38 +8869,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@internal/plugin-home-platform@workspace:plugins/home-platform":
-  version: 0.0.0-use.local
-  resolution: "@internal/plugin-home-platform@workspace:plugins/home-platform"
-  dependencies:
-    "@backstage/catalog-model": ^1.7.4
-    "@backstage/cli": ^0.33.0
-    "@backstage/config": ^1.3.2
-    "@backstage/core-app-api": ^1.17.1
-    "@backstage/core-components": ^0.17.3
-    "@backstage/core-plugin-api": ^1.10.8
-    "@backstage/dev-utils": ^1.1.11
-    "@backstage/plugin-catalog-react": ^1.19.0
-    "@backstage/test-utils": ^1.7.9
-    "@backstage/theme": ^0.6.6
-    "@material-ui/core": ^4.12.4
-    "@material-ui/icons": ^4.11.3
-    "@material-ui/lab": ^4.0.0-alpha.61
-    "@testing-library/jest-dom": ^5.10.1
-    "@testing-library/react": ^12.1.3
-    "@testing-library/user-event": ^14.0.0
-    "@types/node": "*"
-    cross-fetch: ^3.1.5
-    lodash: ^4.17.21
-    msw: ^0.49.0
-    react-use: ^17.5.1
-  peerDependencies:
-    "@types/react": ^18.3.5
-    react: ^18.3.1
-    react-router-dom: ^6.26.2
-  languageName: unknown
-  linkType: soft
-
 "@internal/plugin-licensed-users-info-backend@workspace:^, @internal/plugin-licensed-users-info-backend@workspace:plugins/licensed-users-info-backend":
   version: 0.0.0-use.local
   resolution: "@internal/plugin-licensed-users-info-backend@workspace:plugins/licensed-users-info-backend"
@@ -8850,6 +8954,47 @@ __metadata:
     supertest: ^7.0.0
     winston: ^3.2.1
     yn: ^5.0.0
+  languageName: unknown
+  linkType: soft
+
+"@internal/plugin-veecode-homepage@workspace:plugins/veecode-homepage":
+  version: 0.0.0-use.local
+  resolution: "@internal/plugin-veecode-homepage@workspace:plugins/veecode-homepage"
+  dependencies:
+    "@backstage/catalog-model": ^1.7.4
+    "@backstage/cli": ^0.32.1
+    "@backstage/config": ^1.3.2
+    "@backstage/core-app-api": ^1.17.0
+    "@backstage/core-components": ^0.17.2
+    "@backstage/core-plugin-api": ^1.10.7
+    "@backstage/dev-utils": ^1.1.10
+    "@backstage/plugin-catalog-react": ^1.19.0
+    "@backstage/plugin-home": ^0.8.9
+    "@backstage/plugin-notifications": ^0.5.6
+    "@backstage/plugin-notifications-common": ^0.0.9
+    "@backstage/plugin-search-common": ^1.2.18
+    "@backstage/plugin-search-react": ^1.9.1
+    "@backstage/plugin-signals-react": ^0.0.14
+    "@backstage/plugin-user-settings": ^0.8.23
+    "@backstage/test-utils": ^1.7.8
+    "@backstage/theme": ^0.6.6
+    "@material-ui/core": ^4.12.4
+    "@material-ui/icons": ^4.9.1
+    "@mui/icons-material": 5.17.1
+    "@mui/material": 5.17.1
+    "@scalprum/react-core": 0.9.5
+    "@testing-library/jest-dom": ^6.0.0
+    "@testing-library/react": ^14.0.0
+    "@testing-library/user-event": ^14.0.0
+    "@types/lodash": ^4
+    lodash: ^4.17.21
+    msw: ^1.0.0
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-use: ^17.2.4
+    typescript: ^5.8.3
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-router-dom: ^6.0.0
   languageName: unknown
   linkType: soft
 
@@ -10491,7 +10636,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mswjs/interceptors@npm:^0.17.10, @mswjs/interceptors@npm:^0.17.5":
+"@mswjs/interceptors@npm:^0.17.10":
   version: 0.17.10
   resolution: "@mswjs/interceptors@npm:0.17.10"
   dependencies:
@@ -16479,7 +16624,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.175":
+"@types/lodash@npm:^4, @types/lodash@npm:^4.14.175":
   version: 4.17.18
   resolution: "@types/lodash@npm:4.17.18"
   checksum: 539b2a01a83062888c36e53450b03ff2fbb4631a8226df38e1d77888c954c931b0b1abcbb26bb4f19ffc37da5b0be4db8b3002560d2acc036e8d28ebad132c47
@@ -20393,16 +20538,6 @@ __metadata:
     ansi-styles: ^4.1.0
     supports-color: ^7.1.0
   checksum: 5561c7b4c063badee3e16d04bce50bd033e1be1bf4c6948639275683ffa7a1993c44639b43c22b1c505f0f813a24b1889037eb182546b48946f9fe7cdd0e7d13
-  languageName: node
-  linkType: hard
-
-"chalk@npm:4.1.1":
-  version: 4.1.1
-  resolution: "chalk@npm:4.1.1"
-  dependencies:
-    ansi-styles: ^4.1.0
-    supports-color: ^7.1.0
-  checksum: 036e973e665ba1a32c975e291d5f3d549bceeb7b1b983320d4598fb75d70fe20c5db5d62971ec0fe76cdbce83985a00ee42372416abfc3a5584465005a7855ed
   languageName: node
   linkType: hard
 
@@ -26312,7 +26447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:^15.0.0 || ^16.0.0, graphql@npm:^16.0.0, graphql@npm:^16.8.1":
+"graphql@npm:^16.0.0, graphql@npm:^16.8.1":
   version: 16.11.0
   resolution: "graphql@npm:16.11.0"
   checksum: 65bc206edbe980f2759a8e4cf324873f75a66ab48263961472716e50127ae446739be20f926bb7f036a8d199bd4de072f684fd147c285bd6ba965d98cebb6200
@@ -26577,13 +26712,6 @@ __metadata:
   version: 3.2.5
   resolution: "headers-polyfill@npm:3.2.5"
   checksum: a3c4bdd661584fd39e40c0f91412abc514616edfbd20d29a75567e591f90ef5c445c8e209b7f3c2b2375d27e95e4690f33417368a168d4832484a93861ab6a3c
-  languageName: node
-  linkType: hard
-
-"headers-polyfill@npm:^3.1.0":
-  version: 3.3.0
-  resolution: "headers-polyfill@npm:3.3.0"
-  checksum: 6dd010544b7c1a878aa612b49d9e27d273aa9e8a462e1ae05ca212fafa68e6b7cbdec4765f4e443b2fe70d2818f5d9814eab53fa2ba793bf1e5a6b6eff760474
   languageName: node
   linkType: hard
 
@@ -27877,7 +28005,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-node-process@npm:^1.0.1, is-node-process@npm:^1.2.0":
+"is-node-process@npm:^1.2.0":
   version: 1.2.0
   resolution: "is-node-process@npm:1.2.0"
   checksum: 930765cdc6d81ab8f1bbecbea4a8d35c7c6d88a3ff61f3630e0fc7f22d624d7661c1df05c58547d0eb6a639dfa9304682c8e342c4113a6ed51472b704cee2928
@@ -32654,40 +32782,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^0.49.0":
-  version: 0.49.3
-  resolution: "msw@npm:0.49.3"
-  dependencies:
-    "@mswjs/cookies": ^0.2.2
-    "@mswjs/interceptors": ^0.17.5
-    "@open-draft/until": ^1.0.3
-    "@types/cookie": ^0.4.1
-    "@types/js-levenshtein": ^1.1.1
-    chalk: 4.1.1
-    chokidar: ^3.4.2
-    cookie: ^0.4.2
-    graphql: ^15.0.0 || ^16.0.0
-    headers-polyfill: ^3.1.0
-    inquirer: ^8.2.0
-    is-node-process: ^1.0.1
-    js-levenshtein: ^1.1.6
-    node-fetch: ^2.6.7
-    outvariant: ^1.3.0
-    path-to-regexp: ^6.2.0
-    strict-event-emitter: ^0.4.3
-    type-fest: ^2.19.0
-    yargs: ^17.3.1
-  peerDependencies:
-    typescript: ">= 4.4.x <= 4.9.x"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  bin:
-    msw: cli/index.js
-  checksum: 8322cd42cd69f289c05517d02bde22fc2f10e86fc2d0d209d9df54bd03d10b8123723c5587a2654dcd2cd0f314a016f9eccac88cffa30fafd1f9fead16db639e
-  languageName: node
-  linkType: hard
-
 "multer@npm:^2.0.1":
   version: 2.0.1
   resolution: "multer@npm:2.0.1"
@@ -33995,7 +34089,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"outvariant@npm:^1.2.1, outvariant@npm:^1.3.0, outvariant@npm:^1.4.0":
+"outvariant@npm:^1.2.1, outvariant@npm:^1.4.0":
   version: 1.4.3
   resolution: "outvariant@npm:1.4.3"
   checksum: 4a3551fb2b45309e585eebf88bad094dbe56ac6d3a28d59dd2e4050b431aa2beb6097a0763fce3cd82ca0f077026f380a9b60fffc306aaf430141421e7a7b6ed
@@ -34589,7 +34683,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-to-regexp@npm:^6.2.0, path-to-regexp@npm:^6.2.1, path-to-regexp@npm:^6.3.0":
+"path-to-regexp@npm:^6.2.1, path-to-regexp@npm:^6.3.0":
   version: 6.3.0
   resolution: "path-to-regexp@npm:6.3.0"
   checksum: eca78602e6434a1b6799d511d375ec044e8d7e28f5a48aa5c28d57d8152fb52f3fc62fb1cfc5dfa2198e1f041c2a82ed14043d75740a2fe60e91b5089a153250
@@ -36762,7 +36856,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:18.3.1":
+"react@npm:18.3.1, react@npm:^16.13.1 || ^17.0.0 || ^18.0.0":
   version: 18.3.1
   resolution: "react@npm:18.3.1"
   dependencies:
@@ -41075,7 +41169,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.8.3, typescript@npm:>=3 < 6":
+"typescript@npm:5.8.3, typescript@npm:>=3 < 6, typescript@npm:^5.8.3":
   version: 5.8.3
   resolution: "typescript@npm:5.8.3"
   bin:
@@ -41115,7 +41209,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@5.8.3#~builtin<compat/typescript>, typescript@patch:typescript@>=3 < 6#~builtin<compat/typescript>":
+"typescript@patch:typescript@5.8.3#~builtin<compat/typescript>, typescript@patch:typescript@>=3 < 6#~builtin<compat/typescript>, typescript@patch:typescript@^5.8.3#~builtin<compat/typescript>":
   version: 5.8.3
   resolution: "typescript@patch:typescript@npm%3A5.8.3#~builtin<compat/typescript>::version=5.8.3&hash=5786d5"
   bin:
