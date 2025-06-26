@@ -153,11 +153,6 @@ backend.add(
 );
 backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 
-// rbac
-// backend.add(import('@backstage-community/plugin-rbac-backend'));
-
-// backend.add(pluginIDProviderService);
-// backend.add(rbacDynamicPluginsProvider);
 
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
@@ -207,6 +202,14 @@ backend.add(exploreToolProviderModule);
 //     },
 //   }),
 // );
+
+//rbac
+backend.add(import('@backstage-community/plugin-rbac-backend'));
+backend.add(import('@internal/backstage-plugin-veecode-platform-permissions-hub-backend'))
+// backend.add(pluginIDProviderService);
+// backend.add(rbacDynamicPluginsProvider);
+
+
 backend.add(healthCheckPlugin);
 backend.add(import('@internal/plugin-dynamic-plugins-info-backend'));
 backend.add(import('@internal/plugin-scalprum-backend'));

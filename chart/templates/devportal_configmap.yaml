@@ -81,8 +81,12 @@ data:
         {{- end }}
         {{- if or .Values.platform.guest.enabled (and .Values.permission.rbac.admin .Values.permission.rbac.admin.superUsers) (and .Values.permission.rbac.admin .Values.permission.rbac.admin.users) }}
         admin:
+          {{- if .Values.permission.rbac.admin.superUsers }}
           superUsers:
-            - name: user:default/admin
+          {{- range .Values.permission.rbac.admin.superUsers }}
+            - name: {{ .name }}
+          {{- end }}
+          {{- end }}
           {{- if .Values.permission.rbac.admin.users }}
           users:
           {{- range .Values.permission.rbac.admin.users }}

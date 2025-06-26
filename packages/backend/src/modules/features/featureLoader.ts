@@ -44,28 +44,6 @@ export default createBackendFeatureLoader({
       yield kubernetesModuleCustomExtension;
       logger.info('kubernetesModuleCustomExtension');
     }
-
-    //rbac
-    if (config.getBoolean('enabledPlugins.rbac')) {
-      yield import('@backstage-community/plugin-rbac-backend');
-      logger.info('@backstage-community/plugin-rbac-backend');
-      yield import(
-        '@internal/backstage-plugin-veecode-platform-permissions-hub-backend'
-      );
-      logger.info(
-        '@internal/backstage-plugin-veecode-platform-permissions-hub-backend',
-      );
-    } else {
-      yield import('@backstage/plugin-permission-backend');
-      logger.info('@backstage/plugin-permission-backend');
-      yield import(
-        '@backstage/plugin-permission-backend-module-allow-all-policy'
-      );
-      logger.info(
-        '@backstage/plugin-permission-backend-module-allow-all-policy',
-      );
-    }
-
     //guest
     if (config.getBoolean('platform.guest.enabled')) {
       yield import('@backstage/plugin-auth-backend-module-guest-provider');
