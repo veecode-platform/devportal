@@ -1,29 +1,167 @@
 includes:
   - dynamic-plugins.default.yaml
 plugins:
+  # Cluster Explorer
+  # - package: '@veecode-platform/backstage-plugin-cluster-explorer-dynamic@1.0.1'
+  #   disabled: true
+  #   integrity: sha512-yJjnx6xppfpaPjWpy3RhQPGhzB3y9hJ5TiGnqIGCqmXDT7QaF9t0hbsH2OOYRAf9seb44w5g5SSMX2qDAntbcQ==
+
+  # Database Explorer
+  # - package: '@veecode-platform/plugin-database-explorer-dynamic@1.0.1'
+  #   disabled: true
+  #   integrity: sha512-ijwAFEuB5GMLeRk3FyMJDct0TladkvMXy1KlKAi2OZDPBqrT96njfgUis6vDiAudB1PQ9ae3ci5w/0F+GdNh/Q==
+
+  # Environment Explorer
+  # - package: '@veecode-platform/plugin-environment-explorer@1.0.0'
+  #   disabled: true
+  #   integrity: sha512-354T414TqZVUMbSRo4o8whvOtfOEB4WwE+FKLue/1uODYt9jyTYXGccn2RSpKvytDFc//Nsw97mtWQsmvaItDA==
+
+  # # Theme
+  # - package: '@veecode-platform/backstage-plugin-theme@1.1.1'
+  #   disabled: false
+  #   integrity: sha512-PKvOgAUtzEFGl8D/5GD1fyE66rnLJMbty5vfoY8ajEWHuggYVxpxOW+WFS3DgQS00N06nqckcjigNeBCIUd8GQ==
+
+  # Vault Explorer
+  # - package: '@veecode-platform/plugin-vault-explorer-dynamic@1.0.1'
+  #   disabled: true
+  #   integrity: sha512-FHWUOS3l8ALqBc0LpiDt+wDs9i1ynZyj1sKUKaMg4zLfYImIsSCbm7uBxFBS0AxskLK2aL9Z0FrXcWhDHVNXOQ==
+
+  # Vee
+  # - package: '@veecode-platform/backstage-plugin-vee-dynamic@1.0.1'
+  #   disabled: true
+  #   integrity: sha512-vtH6GVoOYO/WobLMjZUj2nLyJGpK2yUnW7xLkLdlgYIOxPZZSc8MMCGdUJbANW9QFHsz6oBmRMUkLEXOu4dSMg==
+
   # VeeCode Custom Actions
   - disabled: false
     package: oci://docker.io/valberjunior/backstage-veecode-extensions:v4.0.0!veecode-platform-backstage-plugin-scaffolder-backend-module-veecode-extensions-wrapper
-  # Event Explorer
-  - disabled: true
-    package: oci://docker.io/valberjunior/plugin-event-explorer:v1.0.0!veecode-platform-plugin-event-explorer
+
+  # Github Workflows
+  - package: '@veecode-platform/backstage-plugin-github-workflows-dynamic@0.1.0'
+    disabled: false
+    integrity: sha512-gdCO5aSVNs2gwAU6bx17Bdt34G5xtb8EXCoCDIeKTlG7/vIB8xzCIxPIiNVLWkAp6v8lw+kdnF25/3GceOhskQ==
     pluginConfig:
       dynamicPlugins:
         frontend:
-          veecode-platform.plugin-event-explorer:
-            dynamicRoutes:
-              - path: /event-explorer
-                importName: DynamicEventExplorerPage
-                menuItem:
-                  icon: event
-                  text: Events Catalog
-  # kind Event
-  - disabled: true
-    package: oci://docker.io/valberjunior/plugin-event-module-dynamic:v1.0.0!veecode-platform-plugin-veecode-event-module-dynamic
+          veecode-platform.plugin-github-workflows-dynamic:
+            mountPoints:
+              - mountPoint: entity.page.overview/cards
+                importName: GithubWorkflowsOverviewContent
+                config:
+                  layout:
+                    gridColumnEnd:
+                      lg: 'span 4'
+                      md: 'span 6'
+                      xs: 'span 12'
+                  if:
+                    allOf:
+                      - isGithubWorkflowsAvailable
+              - mountPoint: entity.page.ci/cards
+                importName: GithubWorkflowsTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf:
+                      - isGithubAvailable
 
-  # Homepage
-  - disabled: false
-    package: oci://docker.io/valberjunior/plugin-veecode-homepage:v4.2.0!veecode-platform-plugin-veecode-homepage
+  # Gitlab Pipelines
+  - package: '@veecode-platform/backstage-plugin-gitlab-pipelines-dynamic@0.1.0'
+    disabled: false
+    integrity: sha512-IPIfKbdShbUng8S9QygPWx9wmn7hbw1W6iAXZ4xZC9REN05IZWedWjawp1iipXfMG3oA9c3L4qAC7ztMftbEfQ==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.backstage-plugin-gitlab-pipelines-dynamic:
+            mountPoints:
+              - mountPoint: entity.page.overview/cards
+                importName: GitlabPipelinesOverviewContent
+                config:
+                  layout:
+                    gridColumnEnd:
+                      lg: 'span 4'
+                      md: 'span 6'
+                      xs: 'span 12'
+                  if:
+                    allOf:
+                      - isGitlabJobsAvailable
+              - mountPoint: entity.page.ci/cards
+                importName: GitlabPipelinesTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf:
+                      - isGitlabAvailable
+
+  # Infracost
+  - package: '@veecode-platform/backstage-plugin-infracost-dynamic@0.1.0'
+    disabled: false
+    integrity: sha512-zGOe18uSIYBApBigXu1T4LjEvfGOvr/W1fBAzdvMJE1q3QNOrpMi/bPXalSIQuS6KiWyX6ps/JF9IAcpZSbCNA==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.backstage-plugin-infracost-dynamic:
+            mountPoints:
+              - mountPoint: entity.page.infracost/cards
+                importName: InfracostTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf:
+                      - isInfracostAvailable
+
+  # Kong Service Manager
+  # - package: '@veecode-platform/plugin-kong-service-manager-dynamic@1.0.1'
+  #   disabled: false
+  #   integrity: sha512-5nbHBO+hzUmYSaNRE37e6CvLSjz62cAUmYq1pe6qFKkybY0lCBzElfFQDrAU0q64ckmYph+CC14JubsjDERd0g==
+  #   pluginConfig:
+  #     dynamicPlugins:
+  #       frontend:
+  #         veecode-platform.plugin-kong-service-manager-dynamic:
+  #           mountPoints:
+  #             - mountPoint: entity.page.kong/cards
+  #               importName: KongServiceManagerTabContent
+  #               config:
+  #                 layout:
+  #                   gridColumn: '1 / -1'
+  #                 if:
+  #                   allOf:
+  #                     - isKongServiceManagerAvailable
+
+  # Kubernetes GPT Analyzer
+  - package: '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer-dynamic@0.1.0'
+    disabled: false
+    integrity: sha512-ZajRQmYkYcP7MJYva0PISqTqJ8+UDXJL2hxIAgYhprOPMzEqXMtze+/wvPAjcgl/nOuNt+Q+ZQNFRDqZ2BCQUg==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.backstage-plugin-kubernetes-gpt-analyzer-dynamic:
+            mountPoints:
+              - mountPoint: entity.page.kubernetes-gpt-analyzer/cards
+                importName: KubernetesGPTAnalyzerTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf:
+                      - isKubernetesAvailable
+              - mountPoint: entity.page.overview/cards
+                importName: KubernetesGPTAnalyzerOverviewContent
+                config:
+                  layout:
+                    gridColumnEnd:
+                      lg: 'span 4'
+                      md: 'span 6'
+                      xs: 'span 12'
+                  if:
+                    allOf:
+                      - isKubernetesAvailable
+
+  # VeeCode Homepage
+  - package: '@veecode-platform/plugin-veecode-homepage-dynamic@0.1.0'
+    disabled: false
+    integrity: sha512-uy3LjioNZLWTuAAhOrOYH9c/SS2GyMAF9MoDQmn++CzO5caChwBUpx5FaQ+FIg32+0KwklTA98y1uwjfk+Rewg==
     pluginConfig:
       dynamicPlugins:
         frontend:
@@ -31,16 +169,44 @@ plugins:
             dynamicRoutes:
               - path: /
                 importName: VeecodeHomepagePage
+                config:
+                  props:
+                    width: 1500
+                    height: 800
 
-  # GlobalHeader
-  - disabled: true
-    package: oci://docker.io/valberjunior/plugin-veecode-global-header:v3.1.0!veecode-platform-plugin-veecode-global-header
+  # Zora OSS
+  - package: '@veecode-platform/backstage-plugin-zora-oss-dynamic@0.1.0'
+    disabled: false
+    integrity: sha512-wayuoYWaOqp9neoRePEzo/qbBMKR3vBta/meOGdJ8+p6Ze4KjYWgXKjkKzsxSdmg2uYpDwgrAv/+gedmweJ9Xw==
     pluginConfig:
       dynamicPlugins:
         frontend:
-          veecode-platform.plugin-veecode-global-header:
+          veecode-platform.backstage-plugin-zora-oss-dynamic:
             mountPoints:
-              - mountPoint: application/header
-                importName: VeeCodeGlobalHeader
+              - mountPoint: entity.page.zora/cards
+                importName: ZoraOSSProjectTabContent
                 config:
-                  position: above-main-content # above-main-content | above-sidebar
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf:
+                      - isZoraProject
+              - mountPoint: entity.page.zora/cards
+                importName: ZoraOSSProjectTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf:
+                      - isZoraCluster
+              - mountPoint: entity.page.overview/cards
+                importName: ZoraOverviewProjectContent
+                config:
+                  layout:
+                    gridColumnEnd:
+                      lg: 'span 4'
+                      md: 'span 6'
+                      xs: 'span 12'
+                  if:
+                    allOf:
+                      - isZoraProject
