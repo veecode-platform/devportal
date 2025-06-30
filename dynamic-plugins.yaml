@@ -2,30 +2,90 @@ includes:
   - dynamic-plugins.default.yaml
 plugins:
   # Cluster Explorer
-  # - package: '@veecode-platform/backstage-plugin-cluster-explorer-dynamic@1.0.1'
-  #   disabled: true
-  #   integrity: sha512-yJjnx6xppfpaPjWpy3RhQPGhzB3y9hJ5TiGnqIGCqmXDT7QaF9t0hbsH2OOYRAf9seb44w5g5SSMX2qDAntbcQ==
-
+  - package: '@veecode-platform/backstage-plugin-cluster-explorer-dynamic@0.1.0'
+    disabled: true
+    integrity: sha512-8Gi/7T9v33Gv+/JwEcC2zQsJfpE7dt5m6RX/izb03vw9q2suPS8IeQ7jyhtc5xT9ePykP3nKBLRSWhxFh5lmug==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.backstage-plugin-cluster-explorer-dynamic:
+            entityTabs:
+              - path: /
+                title: overview
+                mountPoint: entity.page.overview
+                importName: ClusterOverviewTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf|anyOf|oneOf:
+                      - isClusterKind
+                      - isKind: Cluster
   # Database Explorer
-  # - package: '@veecode-platform/plugin-database-explorer-dynamic@1.0.1'
-  #   disabled: true
-  #   integrity: sha512-ijwAFEuB5GMLeRk3FyMJDct0TladkvMXy1KlKAi2OZDPBqrT96njfgUis6vDiAudB1PQ9ae3ci5w/0F+GdNh/Q==
-
+  - package: '@veecode-platform/plugin-database-explorer-dynamic@0.1.0'
+    disabled: true
+    integrity: sha512-UMptKBvVv+zgNH9KfaRqteFaGQdVmYjvaMmCJeiJV5lJD14bnSOPTn9AxE3cyhZ4SfZu6G60RQ9hYDhqBcucDA==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.plugin-database-explorer-dynamic:
+            entityTabs:
+              - path: /
+                title: overview
+                mountPoint: entity.page.overview
+                importName: DatabaseOverviewTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf|anyOf|oneOf:
+                      - isDatabaseKind
+                      - isKind: Database
   # Environment Explorer
-  # - package: '@veecode-platform/plugin-environment-explorer@1.0.0'
-  #   disabled: true
-  #   integrity: sha512-354T414TqZVUMbSRo4o8whvOtfOEB4WwE+FKLue/1uODYt9jyTYXGccn2RSpKvytDFc//Nsw97mtWQsmvaItDA==
-
+  - package: '@veecode-platform/plugin-environment-dynamic@0.1.0'
+    disabled: true
+    integrity: sha512-vqgGXqt4yKUm3sdrfduRymJdarO4xTFaRNr+DfTBC0aXTgUV3VjA45vogpq2BjPgDJhgqS1guJPNHsN5eOb3ow==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.plugin-environment-explorer-dynamic:
+            entityTabs:
+              - path: /
+                title: overview
+                mountPoint: entity.page.overview
+                importName: EnvironmentOverviewTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf|anyOf|oneOf:
+                      - isEnvironmentKind
+                      - isKind: Environment
   # # Theme
   # - package: '@veecode-platform/backstage-plugin-theme@1.1.1'
   #   disabled: false
   #   integrity: sha512-PKvOgAUtzEFGl8D/5GD1fyE66rnLJMbty5vfoY8ajEWHuggYVxpxOW+WFS3DgQS00N06nqckcjigNeBCIUd8GQ==
 
   # Vault Explorer
-  # - package: '@veecode-platform/plugin-vault-explorer-dynamic@1.0.1'
-  #   disabled: true
-  #   integrity: sha512-FHWUOS3l8ALqBc0LpiDt+wDs9i1ynZyj1sKUKaMg4zLfYImIsSCbm7uBxFBS0AxskLK2aL9Z0FrXcWhDHVNXOQ==
-
+  - package: '@veecode-platform/plugin-vault-explorer-dynamic@0.1.0'
+    disabled: true
+    integrity: sha512-7JuK9KltuZZvg4znD11BeafN9iYnTf+Hny88BIsTkwLyam2LRW6TfDrkmuqrwSHnvDvDb2HUDfffdEvO5Am4Rg==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.plugin-vault-explorer-dynamic:
+            entityTabs:
+              - path: /
+                title: overview
+                mountPoint: entity.page.overview
+                importName: VaultOverviewTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf|anyOf|oneOf:
+                      - isVaultKind
+                      - isKind: Vault
   # Vee
   # - package: '@veecode-platform/backstage-plugin-vee-dynamic@1.0.1'
   #   disabled: true
@@ -49,7 +109,7 @@ plugins:
                 config:
                   layout:
                     gridColumnEnd:
-                      lg: 'span 4'
+                      lg: 'span 8'
                       md: 'span 6'
                       xs: 'span 12'
                   if:
@@ -78,7 +138,7 @@ plugins:
                 config:
                   layout:
                     gridColumnEnd:
-                      lg: 'span 4'
+                      lg: 'span 8'
                       md: 'span 6'
                       xs: 'span 12'
                   if:
@@ -104,7 +164,6 @@ plugins:
             entityTabs:
               - path: /infracost
                 title: infracost
-                #mountPoint: entity.page.infracost/cards
                 mountPoint: entity.page.infracost
                 importName: InfracostTabContent
                 config:
@@ -154,7 +213,7 @@ plugins:
               entityTabs:
                 - path: /kubernetes-gpt-analyzer
                   title: Kubernetes GPT
-                  mountPoints: entity.page.kubernetes-gpt-analyzer/cards
+                  mountPoints: entity.page.kubernetes-gpt-analyzer
                   importName: KubernetesGPTAnalyzerTabContent
                   config:
                     layout:
@@ -193,7 +252,7 @@ plugins:
                 config:
                   layout:
                     gridColumnEnd:
-                      lg: 'span 4'
+                      lg: 'span 6'
                       md: 'span 6'
                       xs: 'span 12'
                   if:
@@ -219,4 +278,5 @@ plugins:
                   if:
                     allOf|anyOf|oneOf:
                       - isZoraAvailable
+                      - isZoraCluster
                       - isKind: Cluster
