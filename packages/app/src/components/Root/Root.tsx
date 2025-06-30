@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /*
  * Portions of this file are based on code from the Red Hat Developer project:
  * https://github.com/redhat-developer/rhdh/blob/main/packages/app
@@ -33,8 +34,6 @@ import {
   SidebarPage,
   SidebarScrollWrapper,
   SidebarSpace,
-  SidebarSubmenu,
-  SidebarSubmenuItem,
 } from '@backstage/core-components';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
@@ -44,11 +43,7 @@ import { Settings as SidebarSettings } from '@backstage/plugin-user-settings';
 
 import { policyEntityCreatePermission } from '@backstage-community/plugin-rbac-common';
 import { AdminIcon } from '@internal/plugin-dynamic-plugins-info';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import LanguageIcon from '@material-ui/icons/Language';
-import StorageIcon from '@material-ui/icons/Storage';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -446,6 +441,80 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
     );
   };
 
+  const ResourcesItems = (
+    <SidebarGroup label="Resources" icon={<VeecodeLogoIcon />}>
+      <SideBarItemWrapper
+        icon={VeecodeLogoIcon}
+        text="Resources"
+        onClick={() => handleClick('resources')}
+      >
+        {renderExpandIcon(openItems.resources)}
+      </SideBarItemWrapper>
+
+      <ExpandableMenuList
+        isOpen={openItems.resources ?? false}
+        menuItems={[
+          {
+            name: 'resources.environments',
+            title: 'Environments',
+            to: '/environments-explorer',
+            icon: 'environment',
+          },
+          {
+            name: 'resources.clusters',
+            title: 'Clusters',
+            to: '/cluster-explorer',
+            icon: 'cluster',
+          },
+          {
+            name: 'resources.databases',
+            title: 'Databases',
+            to: '/database-explorer',
+            icon: 'database',
+          },
+          {
+            name: 'resources.vault',
+            title: 'Vault',
+            to: '/vault-explorer',
+            icon: 'vault',
+          },
+        ]}
+        renderItem={item => (
+          <ListItem
+            key={item.name}
+            disableGutters
+            disablePadding
+            sx={{
+              display: 'block',
+              '& .MuiButton-label': { paddingLeft: '2rem' },
+              "& span[class*='-subtitle2']": {
+                width: 78,
+                fontSize: 12,
+                whiteSpace: 'normal',
+                wordBreak: 'break-word',
+                overflowWrap: 'break-word',
+              },
+              "& div[class*='BackstageSidebarItem-secondaryAction']": {
+                width: 48,
+              },
+              a: {
+                width: 'auto',
+                '@media (min-width: 600px)': { width: 224 },
+              },
+            }}
+          >
+            <SideBarItemWrapper
+              icon={renderIcon(item.icon ?? '')}
+              text={item.title}
+              to={item.to ?? ''}
+              style={{ paddingLeft: '2rem' }}
+            />
+          </ListItem>
+        )}
+      />
+    </SidebarGroup>
+  );
+
   return (
     <div className={pageWithoutFixHeight}>
       <div id="above-sidebar-header-container" ref={aboveSidebarHeaderRef}>
@@ -472,32 +541,8 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
               <Box sx={{ height: '1.2rem' }} />
             )}
             <SidebarItem icon={renderIcon('home')} text="Home" to="/" />
-            <SidebarItem icon={VeecodeLogoIcon} text="Resources">
-              <SidebarSubmenu title="">
-                <SidebarDivider />
-                <SidebarSubmenuItem
-                  title="Environments"
-                  to="environments-explorer"
-                  icon={LanguageIcon}
-                />
-                <SidebarSubmenuItem
-                  title="Clusters"
-                  to="cluster-explorer"
-                  icon={AccountTreeIcon}
-                />
-                <SidebarSubmenuItem
-                  title="Databases"
-                  to="database-explorer"
-                  icon={StorageIcon}
-                />
-                <SidebarSubmenuItem
-                  title="Vault"
-                  to="vault-explorer"
-                  icon={VpnKeyIcon}
-                />
-                <SidebarDivider />
-              </SidebarSubmenu>
-            </SidebarItem>
+            {ResourcesItems}
+
             <SidebarGroup label="Menu" icon={<MuiMenuIcon />}>
               {/* Global nav, not org-specific */}
               {renderMenuItems(true, false)}
