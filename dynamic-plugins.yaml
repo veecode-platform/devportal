@@ -101,8 +101,11 @@ plugins:
       dynamicPlugins:
         frontend:
           veecode-platform.backstage-plugin-infracost-dynamic:
-            mountPoints:
-              - mountPoint: entity.page.infracost/cards
+            entityTabs:
+              - path: /infracost
+                title: infracost
+                #mountPoint: entity.page.infracost/cards
+                mountPoint: entity.page.infracost
                 importName: InfracostTabContent
                 config:
                   layout:
@@ -137,26 +140,28 @@ plugins:
       dynamicPlugins:
         frontend:
           veecode-platform.backstage-plugin-kubernetes-gpt-analyzer-dynamic:
-            mountPoints:
-              - mountPoint: entity.page.kubernetes-gpt-analyzer/cards
-                importName: KubernetesGPTAnalyzerTabContent
-                config:
-                  layout:
-                    gridColumn: '1 / -1'
-                  if:
-                    allOf:
-                      - isKubernetesAvailable
-              - mountPoint: entity.page.overview/cards
-                importName: KubernetesGPTAnalyzerOverviewContent
-                config:
-                  layout:
-                    gridColumnEnd:
-                      lg: 'span 4'
-                      md: 'span 6'
-                      xs: 'span 12'
-                  if:
-                    allOf:
-                      - isKubernetesAvailable
+            - mountPoint: entity.page.overview/cards
+              importName: KubernetesGPTAnalyzerOverviewContent
+              config:
+                layout:
+                  gridColumnEnd:
+                    lg: 'span 4'
+                    md: 'span 6'
+                    xs: 'span 12'
+                if:
+                  allOf:
+                    - isKubernetesAvailable
+              entityTabs:
+                - path: /kubernetes-gpt-analyzer
+                  title: Kubernetes GPT
+                  mountPoints: entity.page.kubernetes-gpt-analyzer/cards
+                  importName: KubernetesGPTAnalyzerTabContent
+                  config:
+                    layout:
+                      gridColumn: '1 / -1'
+                    if:
+                      allOf:
+                        - isKubernetesAvailable
 
   # VeeCode Homepage
   - package: '@veecode-platform/plugin-veecode-homepage-dynamic@0.1.0'
@@ -183,22 +188,6 @@ plugins:
         frontend:
           veecode-platform.backstage-plugin-zora-oss-dynamic:
             mountPoints:
-              - mountPoint: entity.page.zora/cards
-                importName: ZoraOSSProjectTabContent
-                config:
-                  layout:
-                    gridColumn: '1 / -1'
-                  if:
-                    allOf:
-                      - isZoraProject
-              - mountPoint: entity.page.zora/cards
-                importName: ZoraOSSProjectTabContent
-                config:
-                  layout:
-                    gridColumn: '1 / -1'
-                  if:
-                    allOf:
-                      - isZoraCluster
               - mountPoint: entity.page.overview/cards
                 importName: ZoraOverviewProjectContent
                 config:
@@ -208,5 +197,26 @@ plugins:
                       md: 'span 6'
                       xs: 'span 12'
                   if:
-                    allOf:
+                    allOf|anyOf|oneOf:
                       - isZoraProject
+            entityTabs:
+              - path: /zora-project
+                title: Zora
+                mountPoint: entity.page.zora
+                importName: ZoraOSSProjectTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf|anyOf|oneOf:
+                      - isZoraProject
+              - path: /zora-cluster
+                mountPoint: entity.page.zora
+                importName: ZoraOSSClusterTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf|anyOf|oneOf:
+                      - isZoraAvailable
+                      - isKind: Cluster
