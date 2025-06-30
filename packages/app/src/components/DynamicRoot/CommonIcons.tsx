@@ -88,7 +88,7 @@ const CommonIcons: {
   library: LibraryBooks,
   groups: PeopleIcon,
   signOut: ExitToAppIcon,
-  envinroment: LanguageIcon,
+  environment: LanguageIcon,
   about: InfoIcon,
   contact: ContactMailIcon,
   admin: Administration,
@@ -98,6 +98,7 @@ const CommonIcons: {
   cluster: AccountTreeIcon,
   event: CloudSyncIcon,
   logout: Logout,
+  vault: VpnKeyIcon,
 };
 
 export default CommonIcons;
