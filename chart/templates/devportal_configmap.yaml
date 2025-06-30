@@ -40,6 +40,21 @@ data:
     app:
       title: {{ .Values.appConfig.title | default "Platform Devportal" }}
       baseUrl: {{ $app_path_without_last_slash |quote }}
+      branding:
+        fullLogo: https://veecode-platform.github.io/support/logos/logo.svg
+        fullLogoDark: https://veecode-platform.github.io/support/logos/logo-black.svg
+        iconLogo: https://veecode-platform.github.io/support/logos/logo-mobile.png
+        theme:
+          light:
+            primaryColor: '#202020'
+            headerColor1: '#45556D'
+            headerColor2: '#86F4CE'
+            navigationIndicatorColor: '#86F4CE'
+          dark:
+            primaryColor: '#cdcdcd'
+            headerColor1: '#45556D'
+            headerColor2: '#86F4CE'
+            navigationIndicatorColor: '#86F4CE'      
       support:
         url: https://github.com/veecode-platform/support/discussions 
         items: 
