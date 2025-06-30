@@ -74,3 +74,120 @@ plugins:
               rbac:
                 parent: admin
                 icon: rbacIcon
+
+  #Sonarqube
+  - package: ./dynamic-plugins/dist/backstage-community-plugin-sonarqube
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage-community.plugin-sonarqube:
+            mountPoints:
+              - mountPoint: entity.page.overview/cards
+                importName: EntitySonarQubeCard
+                config:
+                  layout:
+                    gridColumnEnd:
+                      lg: 'span 4'
+                      md: 'span 6'
+                      xs: 'span 12'
+                  if:
+                    allOf:
+                      - isSonarQubeAvailable
+
+  #Kubernetes
+  - package: ./dynamic-plugins/dist/backstage-plugin-kubernetes
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage.plugin-kubernetes:
+            mountPoints:
+              - mountPoint: entity.page.kubernetes/cards
+                importName: EntityKubernetesContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    anyOf:
+                      - hasAnnotation: backstage.io/kubernetes-id
+                      - hasAnnotation: backstage.io/kubernetes-namespace
+
+  #Tecdocs
+  - package: ./dynamic-plugins/dist/backstage-plugin-techdocs
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage.plugin-techdocs:
+            routeBindings:
+              targets:
+                - importName: techdocsPlugin
+              bindings:
+                - bindTarget: catalogPlugin.externalRoutes
+                  bindMap:
+                    viewTechDoc: techdocsPlugin.routes.docRoot
+                - bindTarget: scaffolderPlugin.externalRoutes
+                  bindMap:
+                    viewTechDoc: techdocsPlugin.routes.docRoot
+            dynamicRoutes:
+              - path: /docs
+                importName: TechDocsIndexPage
+              - path: /docs/:namespace/:kind/:name/*
+                importName: TechDocsReaderPage
+            mountPoints:
+              - mountPoint: entity.page.docs/cards
+                importName: EntityTechdocsContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf:
+                      - isTechDocsAvailable
+              - mountPoint: search.page.results
+                importName: TechDocsSearchResultListItem
+              - mountPoint: search.page.filters
+                importName: TechdocsSearchFilter
+              - mountPoint: search.page.types
+                importName: techdocsSearchType
+                config:
+                  props:
+                    name: Documentation
+                    icon: docs
+
+  - package: ./dynamic-plugins/dist/backstage-plugin-techdocs-module-addons-contrib
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage.plugin-techdocs-module-addons-contrib:
+            techdocsAddons:
+              - importName: ReportIssue
+
+  #Github pullrequest
+  - package: ./dynamic-plugins/dist/roadiehq-backstage-plugin-github-pull-requests
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          roadiehq.backstage-plugin-github-pull-requests:
+            mountPoints:
+              - mountPoint: entity.page.overview/cards
+                importName: EntityGithubPullRequestsOverviewCard
+                config:
+                  layout:
+                    gridColumnEnd:
+                      lg: 'span 4'
+                      md: 'span 6'
+                      xs: 'span 12'
+                  if:
+                    allOf:
+                      - isGithubPullRequestsAvailable
+              - mountPoint: entity.page.pull-requests/cards
+                importName: EntityGithubPullRequestsContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf:
+                      - isGithubPullRequestsAvailable

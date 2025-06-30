@@ -223,9 +223,9 @@ plugins:
                         - isKubernetesAvailable
 
   # VeeCode Homepage
-  - package: '@veecode-platform/plugin-veecode-homepage-dynamic@0.1.0'
+  - package: '@veecode-platform/plugin-veecode-homepage-dynamic@0.1.2'
     disabled: false
-    integrity: sha512-uy3LjioNZLWTuAAhOrOYH9c/SS2GyMAF9MoDQmn++CzO5caChwBUpx5FaQ+FIg32+0KwklTA98y1uwjfk+Rewg==
+    integrity: sha512-AraNs7hNW21k1LRUQgWRTcCsWGIq3fgaaDX00GC91ZkALfKyWdH6YNsRyVCsH2+X1sfAXgX68S6WIk9Gc689Gw==
     pluginConfig:
       dynamicPlugins:
         frontend:
