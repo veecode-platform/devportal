@@ -61,12 +61,6 @@ import {
 } from '@backstage/plugin-scaffolder-react';
 import { SearchPage as BackstageSearchPage } from '@backstage/plugin-search';
 import { SignalsDisplay } from '@backstage/plugin-signals';
-import {
-  DefaultTechDocsHome,
-  TechDocsIndexPage,
-  // techdocsPlugin,
-  TechDocsReaderPage,
-} from '@backstage/plugin-techdocs';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
 
 import { SupportPage } from '@internal/backstage-plugin-support';
@@ -227,13 +221,13 @@ const AppBase = () => {
                   />
                 }
               />
-              <Route path="/docs" element={<TechDocsIndexPage />}>
+              {/* <Route path="/docs" element={<TechDocsIndexPage />}>
                 <DefaultTechDocsHome />
               </Route>
               <Route
                 path="/docs/:namespace/:kind/:name/*"
                 element={<TechDocsReaderPage />}
-              />
+              /> */}
               <Route
                 path="/catalog-import"
                 element={
