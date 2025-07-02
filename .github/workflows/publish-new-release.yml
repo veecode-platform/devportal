@@ -87,17 +87,14 @@ jobs:
           NODE_OPTIONS: "--max_old_space_size=4096"      
         run: |
           yarn install --immutable
-          yarn build
-          jq --arg version "$(jq -r .version package.json)" '.version = $version' devportal.json > temp.json && mv temp.json devportal.json        
-      - name: Building dynamic plugins wrappers${{ runner.arch }}
-        env: 
-          NODE_OPTIONS: "--max_old_space_size=4096"
-        run: |
           cd dynamic-plugins
-          yarn install
+          yarn install --immutable
           yarn build
           yarn export-dynamic
-
+          cd ..
+          yarn tsc
+          yarn build
+          jq --arg version "$(jq -r .version package.json)" '.version = $version' devportal.json > temp.json && mv temp.json devportal.json
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
 
