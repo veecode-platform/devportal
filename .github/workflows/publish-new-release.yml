@@ -67,7 +67,8 @@ jobs:
       matrix:
         os: 
          - ubuntu-latest
-         - ${{ needs.start-runner.outputs.label }}
+#        ## - ${{ needs.start-runner.outputs.label }}
+
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: ${{ needs.requirements.outputs.node_version }}
