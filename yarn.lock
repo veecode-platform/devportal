@@ -4328,7 +4328,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/core-components@npm:^0.17.0, @backstage/core-components@npm:^0.17.1, @backstage/core-components@npm:^0.17.2, @backstage/core-components@npm:^0.17.3":
+"@backstage/core-components@npm:^0.17.1, @backstage/core-components@npm:^0.17.2, @backstage/core-components@npm:^0.17.3":
   version: 0.17.3
   resolution: "@backstage/core-components@npm:0.17.3"
   dependencies:
@@ -4382,7 +4382,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/core-plugin-api@npm:^1.10.0, @backstage/core-plugin-api@npm:^1.10.1, @backstage/core-plugin-api@npm:^1.10.3, @backstage/core-plugin-api@npm:^1.10.4, @backstage/core-plugin-api@npm:^1.10.5, @backstage/core-plugin-api@npm:^1.10.6, @backstage/core-plugin-api@npm:^1.10.7, @backstage/core-plugin-api@npm:^1.10.8, @backstage/core-plugin-api@npm:^1.5.0, @backstage/core-plugin-api@npm:^1.9.3, @backstage/core-plugin-api@npm:^1.9.4":
+"@backstage/core-plugin-api@npm:^1.10.0, @backstage/core-plugin-api@npm:^1.10.1, @backstage/core-plugin-api@npm:^1.10.3, @backstage/core-plugin-api@npm:^1.10.4, @backstage/core-plugin-api@npm:^1.10.6, @backstage/core-plugin-api@npm:^1.10.7, @backstage/core-plugin-api@npm:^1.10.8, @backstage/core-plugin-api@npm:^1.5.0, @backstage/core-plugin-api@npm:^1.9.3, @backstage/core-plugin-api@npm:^1.9.4":
   version: 1.10.8
   resolution: "@backstage/core-plugin-api@npm:1.10.8"
   dependencies:
@@ -4626,7 +4626,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/integration-react@npm:^1.2.1, @backstage/integration-react@npm:^1.2.3, @backstage/integration-react@npm:^1.2.6, @backstage/integration-react@npm:^1.2.7, @backstage/integration-react@npm:^1.2.8":
+"@backstage/integration-react@npm:^1.2.1, @backstage/integration-react@npm:^1.2.3, @backstage/integration-react@npm:^1.2.7, @backstage/integration-react@npm:^1.2.8":
   version: 1.2.8
   resolution: "@backstage/integration-react@npm:1.2.8"
   dependencies:
@@ -11921,7 +11921,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/rest@npm:^21.0.2, @octokit/rest@npm:^21.1.1":
+"@octokit/rest@npm:^21.0.2":
   version: 21.1.1
   resolution: "@octokit/rest@npm:21.1.1"
   dependencies:
@@ -17502,27 +17502,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/backstage-plugin-vulnerabilities@npm:^0.1.6":
-  version: 0.1.6
-  resolution: "@veecode-platform/backstage-plugin-vulnerabilities@npm:0.1.6"
-  dependencies:
-    "@backstage/catalog-model": ^1.7.3
-    "@backstage/core-components": ^0.17.0
-    "@backstage/core-plugin-api": ^1.10.5
-    "@backstage/integration-react": ^1.2.6
-    "@backstage/plugin-catalog-react": ^1.17.0
-    "@backstage/theme": ^0.6.4
-    "@material-ui/core": ^4.9.13
-    "@material-ui/icons": ^4.9.1
-    "@material-ui/lab": ^4.0.0-alpha.61
-    "@octokit/rest": ^21.1.1
-    react-use: ^17.2.4
-  peerDependencies:
-    react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 54464195cf6676d7f6c44f6a831d3a2633faa1ac7ab603aa53b20b0a73d4b02de1f0f9804490d31e630117d8eee5ecb961a4a336921d53f1744c2eb04b119ffa
-  languageName: node
-  linkType: hard
-
 "@veecode-platform/backstage-plugin-zora-oss@npm:^0.0.4":
   version: 0.0.4
   resolution: "@veecode-platform/backstage-plugin-zora-oss@npm:0.0.4"
@@ -18570,7 +18549,6 @@ __metadata:
     "@veecode-platform/backstage-plugin-infracost": ^0.3.2
     "@veecode-platform/backstage-plugin-kong-service-manager-common": ^0.5.2
     "@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer": ^0.1.15
-    "@veecode-platform/backstage-plugin-vulnerabilities": ^0.1.6
     "@veecode-platform/backstage-plugin-zora-oss": ^0.0.4
     "@veecode-platform/plugin-application-common": ^0.3.18
     "@veecode-platform/plugin-database-explorer": ^0.3.18
