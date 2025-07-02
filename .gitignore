@@ -85,3 +85,7 @@ chart/README.md
 
 # Private Keys
 *.pem
+
+#python env
+bin/
+lib/
