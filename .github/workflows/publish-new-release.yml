@@ -86,11 +86,22 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"      
         run: |
+          echo 'running yarn install root'
           yarn install --immutable
+          echo 'done yarn install root'
           cd dynamic-plugins
+          echo 'running yarn install dynamic plugins'
           yarn install --immutable
+          echo 'done yarn install dynamic plugins'
+          echo 'running yarn build dynamic plugins'
           yarn build
+          echo 'done yarn build dynamic plugins'
+          echo 'running yarn export dynamic'
           yarn export-dynamic
+          echo 'done yarn export dynamic'
+          echo 'running yarn copy-dynamic-plugins'
+          yarn copy-dynamic-plugins dist
+          echo 'done yarn copy'
           cd ..
           yarn tsc
           yarn build
