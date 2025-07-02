@@ -48,12 +48,12 @@ export const DefaultMainMenuItems = {
       icon: 'groups',
       to: 'explore/groups',
       priority: 60,
-    },
+    },/*
     'default.vulnerabilities': {
       title: 'Vulnerabilities',
       icon: 'vulnerabilities',
       to: 'vulnerabilities',
       priority: 60,
-    },
+    },*/
   },
 };
