@@ -103,7 +103,6 @@ jobs:
           yarn copy-dynamic-plugins dist
           echo 'done yarn copy'
           cd ..
-          yarn tsc
           yarn build
           jq --arg version "$(jq -r .version package.json)" '.version = $version' devportal.json > temp.json && mv temp.json devportal.json
       - name: Setup Docker Buildx
