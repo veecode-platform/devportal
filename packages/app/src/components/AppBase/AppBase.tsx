@@ -68,7 +68,7 @@ import { AboutPage } from '@internal/plugin-about';
 // import { VeecodeHomepagePage } from '@internal/plugin-veecode-homepage';
 import DynamicRootContext from '@red-hat-developer-hub/plugin-utils';
 import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
-import { VulnerabilitiesPage } from '@veecode-platform/backstage-plugin-vulnerabilities';
+//import { VulnerabilitiesPage } from '@veecode-platform/backstage-plugin-vulnerabilities'; waiting for fix
 import { DatabaseExplorerPage } from '@veecode-platform/plugin-database-explorer';
 import { EnvironmentExplorerPage } from '@veecode-platform/plugin-environment-explorer';
 import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
@@ -263,10 +263,10 @@ const AppBase = () => {
                 element={<CatalogUnprocessedEntitiesPage />}
               />
               ;
-              <Route
+              {/*<Route
                 path="/vulnerabilities"
                 element={<VulnerabilitiesPage />}
-              />
+              />*/}
               <Route
                 path="/catalog-graph"
                 element={

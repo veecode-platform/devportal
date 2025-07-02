@@ -61,6 +61,9 @@ app-config.local.yaml.okteto
 # vscode database functionality support files
 *.session.sql
 
+#kubernetes values
+kubernetes-values*.yaml
+
 .vscode
 .turbo
 
