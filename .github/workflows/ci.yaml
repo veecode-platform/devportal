@@ -2,12 +2,13 @@
 name: CI - Node.js basic quality and security
 
 on:
-  push:
-    branches:
-      - develop
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
+  #push:
+  #  branches:
+  #    - develop
+  #pull_request:
+  #  branches:
+  #    - main
 
 jobs:
   ci:
