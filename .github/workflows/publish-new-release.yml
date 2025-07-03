@@ -2,8 +2,8 @@ name: Publish New Devportal Release
 
 on:
   workflow_dispatch:
-  push:
-    branches: ['refactor-pipeline']
+  #push:
+  #  branches: ['main']
 
 permissions:
   id-token: write
