@@ -114,9 +114,9 @@ jobs:
           context: .
           file: docker/Dockerfile.dynamic
           push: true
-          tags: "veecode/devportal-dynamic-bundle-${{ env.ARCH }}:${{ needs.requirements.outputs.app_version }},veecode/devportal-dynamic-bundle-${{ env.ARCH }}:latest"
-          #cache-from: type=registry,ref=veecode/devportal-dynamic-bundle:cache
-          cache-to: type=registry,ref=veecode/devportal-dynamic-bundle:cache,mode=max
+          tags: "veecode/devportal-${{ env.ARCH }}:${{ needs.requirements.outputs.app_version }},veecode/devportal-${{ env.ARCH }}:latest"
+          #cache-from: type=registry,ref=veecode/devportal:cache
+          cache-to: type=registry,ref=veecode/devportal:cache,mode=max
 
   publishManifestDocker:
     needs: [requirements, buildDevportal, start-runner]
@@ -135,10 +135,10 @@ jobs:
 
       - name: Create and Push Multi-Arch Manifest
         run: |
-          docker buildx imagetools create -t veecode/devportal-dynamic-bundle:${{ needs.requirements.outputs.app_version }} \
-          -t veecode/devportal-dynamic-bundle:latest \
-          veecode/devportal-dynamic-bundle-arm64:${{ needs.requirements.outputs.app_version }} \
-          veecode/devportal-dynamic-bundle-x64:${{ needs.requirements.outputs.app_version }}
+          docker buildx imagetools create -t veecode/devportal:${{ needs.requirements.outputs.app_version }} \
+          -t veecode/devportal:latest \
+          veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
+          veecode/devportal-x64:${{ needs.requirements.outputs.app_version }}
 
       # - name: Create/Publish version ${{ needs.requirements.outputs.app_version }} manifest
       #   uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
