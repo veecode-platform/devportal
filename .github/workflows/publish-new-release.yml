@@ -137,8 +137,10 @@ jobs:
         run: |
           docker buildx imagetools create -t veecode/devportal:${{ needs.requirements.outputs.app_version }} \
           -t veecode/devportal:latest \
-          veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
           veecode/devportal-x64:${{ needs.requirements.outputs.app_version }}
+
+        #            veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
+
 
       # - name: Create/Publish version ${{ needs.requirements.outputs.app_version }} manifest
       #   uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
