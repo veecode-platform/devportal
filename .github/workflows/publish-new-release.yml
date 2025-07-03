@@ -2,8 +2,8 @@ name: Publish New Devportal Release
 
 on:
   workflow_dispatch:
- #push:
- #  branches: ['main']
+  push:
+    branches: ['main'] 
 
 permissions:
   id-token: write
@@ -67,7 +67,7 @@ jobs:
       matrix:
         os: 
          - ubuntu-latest
-#        ## - ${{ needs.start-runner.outputs.label }}
+         - ${{ needs.start-runner.outputs.label }}
 
     runs-on: ${{ matrix.os }}
     env:
@@ -76,7 +76,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.16 #${{ env.node_version }}
+          node-version: ${{ env.node_version }}
           cache: yarn
           cache-dependency-path: yarn.lock
 
@@ -115,7 +115,7 @@ jobs:
           file: docker/Dockerfile.dynamic
           push: true
           tags: "veecode/devportal-${{ env.ARCH }}:${{ needs.requirements.outputs.app_version }},veecode/devportal-${{ env.ARCH }}:latest"
-          #cache-from: type=registry,ref=veecode/devportal:cache
+          cache-from: type=registry,ref=veecode/devportal:cache
           cache-to: type=registry,ref=veecode/devportal:cache,mode=max
 
   publishManifestDocker:
@@ -137,26 +137,8 @@ jobs:
         run: |
           docker buildx imagetools create -t veecode/devportal:${{ needs.requirements.outputs.app_version }} \
           -t veecode/devportal:latest \
+          veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
           veecode/devportal-x64:${{ needs.requirements.outputs.app_version }}
-
-        #            veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
-
-
-      # - name: Create/Publish version ${{ needs.requirements.outputs.app_version }} manifest
-      #   uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
-      #   with:
-      #     inputs: veecode/devportal-bundle:${{ needs.requirements.outputs.app_version }}
-      #     images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-      #     amend: true
-      #     push: true
-
-      # - name: Create/Publish version latest manifest
-      #   uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
-      #   with:
-      #     inputs: veecode/devportal-bundle:latest
-      #     images: veecode/devportal-bundle-arm64:${{ needs.requirements.outputs.app_version }},veecode/devportal-bundle-x64:${{ needs.requirements.outputs.app_version }}
-      #     amend: true
-      #     push: true
 
   publishing:
     needs: [requirements, publishManifestDocker, start-runner]
