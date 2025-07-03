@@ -2,8 +2,8 @@ name: Publish New Devportal Release
 
 on:
   workflow_dispatch:
-  push:
-    branches: ['main'] 
+  #push:
+  #  branches: ['main'] 
 
 permissions:
   id-token: write
@@ -137,8 +137,11 @@ jobs:
         run: |
           docker buildx imagetools create -t veecode/devportal:${{ needs.requirements.outputs.app_version }} \
           -t veecode/devportal:latest \
-          veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
           veecode/devportal-x64:${{ needs.requirements.outputs.app_version }}
+
+      
+        #veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
+
 
   publishing:
     needs: [requirements, publishManifestDocker, start-runner]
