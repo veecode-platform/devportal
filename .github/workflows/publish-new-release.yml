@@ -86,8 +86,8 @@ jobs:
           cache-to: type=registry,ref=veecode/devportal:cache,mode=max
 
   publishManifestDocker:
-    needs: [buildDevportal]
-    runs-on: ubuntu-22.04-arm
+    needs: [buildDevportal, requirements]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -104,14 +104,11 @@ jobs:
         run: |
           docker buildx imagetools create -t veecode/devportal:${{ needs.requirements.outputs.app_version }} \
           -t veecode/devportal:latest \
+          veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
           veecode/devportal-x64:${{ needs.requirements.outputs.app_version }}
-
-      
-        #veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
-
-
+          
   publishing:
-    needs: [publishManifestDocker]
+    needs: [publishManifestDocker, requirements]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
