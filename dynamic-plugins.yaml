@@ -181,18 +181,17 @@ plugins:
       dynamicPlugins:
         frontend:
           veecode-platform.plugin-kong-service-manager-dynamic:
-            mountPoints:
-              entityTabs:
-                - path: /kong
-                  title: kong
-                  mountPoint: entity.page.kong
-                  importName: KongServiceManagerTabContent
-                  config:
-                    layout:
-                      gridColumn: '1 / -1'
-                    if:
-                      allOf:
-                        - isKongServiceManagerAvailable
+            entityTabs:
+              - path: /kong
+                title: kong
+                mountPoint: entity.page.kong
+                importName: KongServiceManagerTabContent
+                config:
+                  layout:
+                    gridColumn: '1 / -1'
+                  if:
+                    allOf:
+                      - isKongServiceManagerAvailable
 
   # Kubernetes GPT Analyzer
   - package: '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer-dynamic@0.1.0'
