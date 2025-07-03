@@ -123,7 +123,7 @@ jobs:
           file: docker/Dockerfile.dynamic
           push: true
           tags: "veecode/devportal-dynamic-bundle-${{ env.ARCH }}:${{ needs.requirements.outputs.app_version }},veecode/devportal-dynamic-bundle-${{ env.ARCH }}:latest"
-          cache-from: type=registry,ref=veecode/devportal-dynamic-bundle:cache
+          #cache-from: type=registry,ref=veecode/devportal-dynamic-bundle:cache
           cache-to: type=registry,ref=veecode/devportal-dynamic-bundle:cache,mode=max
 
   publishManifestDocker:
