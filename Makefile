@@ -24,7 +24,7 @@ clean: install
 ## Compiles TypeScript files within dynamic-plugins
 # This 'tsc' target now depends on 'install' to ensure node_modules exist
 tsc: install
-	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) tsc
+	cd $(DYNAMIC_PLUGINS_DIR) && $(YARN) tsc 
 
 ## Builds dynamic plugins (optional, as export-dynamic depends on tsc)
 build:
