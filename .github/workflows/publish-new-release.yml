@@ -3,7 +3,7 @@ name: Publish New Devportal Release
 on:
   workflow_dispatch:
   push:
-    branches: ['main'] 
+    branches: ['main']
 
 permissions:
   id-token: write
@@ -27,47 +27,14 @@ jobs:
           echo "node_version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
 
 
-  start-runner:
-    needs: requirements
-    name: Start self-hosted EC2 runner
-    runs-on: ubuntu-latest
-    outputs:
-      label: ${{ steps.start-ec2-runner.outputs.label }}
-      ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
-    steps:
-      - name: Configure AWS Credentials for China region audience
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.RUNNER_ARM_ASSUME_ROLE }}
-          aws-region: us-east-1
-
-      - name: Start EC2 runner
-        id: start-ec2-runner
-        uses: machulav/ec2-github-runner@v2
-        env:
-          RUNNER_ARM_AMI_ID: ${{ secrets.RUNNER_ARM_AMI_ID }}
-          RUNNER_ARM_SUBNET_ID: ${{ secrets.RUNNER_ARM_SUBNET_ID }}
-          RUNNER_ARM_SECURITY_GROUP_ID: ${{ secrets.RUNNER_ARM_SECURITY_GROUP_ID }}
-        with:
-          mode: start
-          github-token: ${{ secrets.API_TOKEN_GITHUB }}
-          ec2-image-id: ${{ env.RUNNER_ARM_AMI_ID }}
-          ec2-instance-type: t4g.large
-          subnet-id: ${{ env.RUNNER_ARM_SUBNET_ID }}
-          security-group-id: ${{ env.RUNNER_ARM_SECURITY_GROUP_ID }}
-          aws-resource-tags: >
-            [
-              {"Key": "Name", "Value": "ec2-github-runner"},
-              {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
-            ]
   #parallel build for x64 and amr64
   buildDevportal:
-    needs: [requirements, start-runner]
+    needs: [requirements]
     strategy:
       matrix:
         os: 
          - ubuntu-latest
-         - ${{ needs.start-runner.outputs.label }}
+         - ubuntu-22.04-arm
 
     runs-on: ${{ matrix.os }}
     env:
@@ -119,8 +86,8 @@ jobs:
           cache-to: type=registry,ref=veecode/devportal:cache,mode=max
 
   publishManifestDocker:
-    needs: [requirements, buildDevportal, start-runner]
-    runs-on: ${{ needs.start-runner.outputs.label }}
+    needs: [buildDevportal, requirements]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -139,9 +106,9 @@ jobs:
           -t veecode/devportal:latest \
           veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
           veecode/devportal-x64:${{ needs.requirements.outputs.app_version }}
-
+          
   publishing:
-    needs: [requirements, publishManifestDocker, start-runner]
+    needs: [publishManifestDocker, requirements]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -228,21 +195,3 @@ jobs:
           tag_exists_error: false
           message: 'Version ${{ needs.requirements.outputs.app_version }}'
 
-  stop-runner:
-    name: Stop self-hosted EC2 runner
-    needs: [start-runner, requirements, buildDevportal, publishing, publishManifestDocker]
-    runs-on: ubuntu-latest
-    if: ${{ always() }} # required to stop the runner even if the error happened in the previous jobs
-    steps:
-      - name: Configure AWS Credentials for China region audience
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.RUNNER_ARM_ASSUME_ROLE }}
-          aws-region: us-east-1
-      - name: Stop EC2 runner
-        uses: machulav/ec2-github-runner@v2
-        with:
-          mode: stop
-          github-token: ${{ secrets.API_TOKEN_GITHUB }}
-          label: ${{ needs.start-runner.outputs.label }}
-          ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
