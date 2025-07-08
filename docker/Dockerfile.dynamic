@@ -222,7 +222,7 @@ COPY $EXTERNAL_SOURCE_NESTED/LICENSE /licenses/
 #copy $EXTERNAL_SOURCE_NESTED/catalog-entities/marketplace /marketplace/catalog-entities/
 
 # Copy script to gather dynamic plugins; copy embedded dynamic plugins to root folder; fix permissions
-COPY --chown=1001:1001 docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
+COPY docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
 RUN chmod -R a+rx check_dynamic_plugins.py && \
     chmod -R a+rx check_dynamic_plugins.sh
 
