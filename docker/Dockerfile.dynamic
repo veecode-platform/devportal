@@ -222,9 +222,12 @@ COPY $EXTERNAL_SOURCE_NESTED/LICENSE /licenses/
 #copy $EXTERNAL_SOURCE_NESTED/catalog-entities/marketplace /marketplace/catalog-entities/
 
 # Copy script to gather dynamic plugins; copy embedded dynamic plugins to root folder; fix permissions
-COPY docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
-RUN chmod -R a+r ./check_dynamic_plugins.py; \
-  chmod -R a+rx ./check_dynamic_plugins.sh
+#COPY docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
+#RUN chmod -R a+r ./check_dynamic_plugins.py; \
+#  chmod -R a+rx ./check_dynamic_plugins.sh
+COPY --chown=1001:1001 docker/install-dynamic-plugins.py docker/install-dynamic-plugins.sh ./
+RUN chmod 644 install-dynamic-plugins.py && \
+    chmod 755 install-dynamic-plugins.sh
 
 # The existence of the index.html.tmpl tells Backstage to take that file and load it into memory, inject the needed appConfig (instead of writing
 # it into a random *.chunk.js file, and then serve that file from memory so that we can set the readOnlyRootFilesystem: true option for
