@@ -222,12 +222,9 @@ COPY $EXTERNAL_SOURCE_NESTED/LICENSE /licenses/
 #copy $EXTERNAL_SOURCE_NESTED/catalog-entities/marketplace /marketplace/catalog-entities/
 
 # Copy script to gather dynamic plugins; copy embedded dynamic plugins to root folder; fix permissions
-#COPY docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
-#RUN chmod -R a+r ./check_dynamic_plugins.py; \
-#  chmod -R a+rx ./check_dynamic_plugins.sh
-COPY --chown=1001:1001 docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
-RUN chmod 644 check_dynamic_plugins.py && \
-    chmod 755 check_dynamic_plugins.sh
+COPY docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
+RUN chmod R a+rx check_dynamic_plugins.py && \
+    chmod -R a+rx check_dynamic_plugins.sh
 
 # The existence of the index.html.tmpl tells Backstage to take that file and load it into memory, inject the needed appConfig (instead of writing
 # it into a random *.chunk.js file, and then serve that file from memory so that we can set the readOnlyRootFilesystem: true option for
@@ -253,11 +250,6 @@ ENV CHOKIDAR_USEPOLLING='1' CHOKIDAR_INTERVAL='10000'
 
 # To avoid running scripts when using `npm pack` to install dynamic plugins
 ENV NPM_CONFIG_ignore-scripts='true'
-
-# gGVM6sYRK0D0ndVX22BOtS7NRcxPej8t is key for dev environment
-# Upstream - Use dev key in all branches
-ENV SEGMENT_WRITE_KEY=gGVM6sYRK0D0ndVX22BOtS7NRcxPej8t
-ENV SEGMENT_TEST_MODE=false
 
 # RHIDP-2217: corporate proxy support (configured using 'global-agent' for 'node-fetch' calls and 'undici' for 'fetch' calls)
 # This is to avoid having to define several environment variables for the same purpose,
