@@ -223,7 +223,7 @@ COPY $EXTERNAL_SOURCE_NESTED/LICENSE /licenses/
 
 # Copy script to gather dynamic plugins; copy embedded dynamic plugins to root folder; fix permissions
 COPY docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
-RUN chmod R a+rx check_dynamic_plugins.py && \
+RUN chmod -R a+rx check_dynamic_plugins.py && \
     chmod -R a+rx check_dynamic_plugins.sh
 
 # The existence of the index.html.tmpl tells Backstage to take that file and load it into memory, inject the needed appConfig (instead of writing
