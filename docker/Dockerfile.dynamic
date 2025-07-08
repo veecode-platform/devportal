@@ -56,17 +56,17 @@ COPY $EXTERNAL_SOURCE_NESTED/package.json ./package.json
 # END COPY package.json files
 
 # unpack headers from tarball (includes openssl headers not present in /usr/include/node) - see RHIDP-6755 for why we need this upstream
-COPY $EXTERNAL_SOURCE_NESTED/.nvm/ .
-RUN NODE_HEADERS_VERSION=$(node --version); echo "=== Install node headers $NODE_HEADERS_VERSION from tar.gz ==="; \
-  if [[ ! -f releases/node-${NODE_HEADERS_VERSION}-headers.tar.gz ]]; then \
-  echo "[ERROR] Base image includes nodejs $NODE_HEADERS_VERSION but could not find releases/node-${NODE_HEADERS_VERSION}-headers.tar.gz to install!"; \
-  echo "[ERROR] To fix, upload the node-${NODE_HEADERS_VERSION}-headers.tar.gz file into https://github.com/redhat-developer/rhdh/tree/main/.nvm/releases (or related branch)!"; \
-  exit 1; \
-  fi; \
-  mkdir -p ~/.cache/node-gyp/${NODE_HEADERS_VERSION/v/}; \
-  tar -xf releases/node-${NODE_HEADERS_VERSION}-headers.tar.gz --directory ~/.cache/node-gyp/${NODE_HEADERS_VERSION/v/}/ --strip-components 1; \
-  echo "11" > ~/.cache/node-gyp/${NODE_HEADERS_VERSION/v/}/installVersion; \
-  rm -fr releases/node-${NODE_HEADERS_VERSION}-headers.tar.gz
+#COPY $EXTERNAL_SOURCE_NESTED/.nvm/ .
+#RUN NODE_HEADERS_VERSION=$(node --version); echo "=== Install node headers $NODE_HEADERS_VERSION from tar.gz ==="; \
+#  if [[ ! -f releases/node-${NODE_HEADERS_VERSION}-headers.tar.gz ]]; then \
+#  echo "[ERROR] Base image includes nodejs $NODE_HEADERS_VERSION but could not find releases/node-${NODE_HEADERS_VERSION}-headers.tar.gz to install!"; \
+#  echo "[ERROR] To fix, upload the node-${NODE_HEADERS_VERSION}-headers.tar.gz file into https://github.com/redhat-developer/rhdh/tree/main/.nvm/releases (or related branch)!"; \
+#  exit 1; \
+#  fi; \
+#  mkdir -p ~/.cache/node-gyp/${NODE_HEADERS_VERSION/v/}; \
+#  tar -xf releases/node-${NODE_HEADERS_VERSION}-headers.tar.gz --directory ~/.cache/node-gyp/${NODE_HEADERS_VERSION/v/}/ --strip-components 1; \
+#  echo "11" > ~/.cache/node-gyp/${NODE_HEADERS_VERSION/v/}/installVersion; \
+#  rm -fr releases/node-${NODE_HEADERS_VERSION}-headers.tar.gz
 
 # Increase timeout for yarn install
 RUN "$YARN" config set httpTimeout 600000
@@ -222,7 +222,7 @@ COPY $EXTERNAL_SOURCE_NESTED/LICENSE /licenses/
 #copy $EXTERNAL_SOURCE_NESTED/catalog-entities/marketplace /marketplace/catalog-entities/
 
 # Copy script to gather dynamic plugins; copy embedded dynamic plugins to root folder; fix permissions
-COPY docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
+COPY --chown=1001:1001 docker/check_dynamic_plugins.py docker/check_dynamic_plugins.sh ./
 RUN chmod -R a+rx check_dynamic_plugins.py && \
     chmod -R a+rx check_dynamic_plugins.sh
 
