@@ -239,7 +239,7 @@ RUN mkdir -p /opt/app-root/src/.npm; chown -R 1001:1001 /opt/app-root/src/.npm
 # The fix-permissions script is important when operating in environments that dynamically use a random UID at runtime, such as OpenShift.
 # The upstream backstage image does not account for this and it causes the container to fail at runtime.
 # suppress warnings about dereferencing symlinks
-RUN fix-permissions ./ 2>&1 | grep -v "chgrp: cannot dereference" || true
+#RUN fix-permissions ./ 2>&1 | grep -v "chgrp: cannot dereference" || true
 
 # Switch to nodejs user
 USER 1001
