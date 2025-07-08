@@ -82,8 +82,8 @@ jobs:
           file: docker/Dockerfile.dynamic
           push: true
           tags: "veecode/devportal-${{ env.ARCH }}:${{ needs.requirements.outputs.app_version }},veecode/devportal-${{ env.ARCH }}:latest"
-          cache-from: type=registry,ref=veecode/devportal:cache
-          cache-to: type=registry,ref=veecode/devportal:cache,mode=max
+          #cache-from: type=registry,ref=veecode/devportal:cache
+          #cache-to: type=registry,ref=veecode/devportal:cache,mode=max
 
   publishManifestDocker:
     needs: [buildDevportal, requirements]
