@@ -521,4 +521,3 @@ def main():
         shutil.rmtree(plugin_directory, ignore_errors=True, onerror=None)
 
 main()
-
