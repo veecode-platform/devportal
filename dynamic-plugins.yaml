@@ -2,9 +2,9 @@ includes:
   - dynamic-plugins.default.yaml
 plugins:
   # Cluster Explorer
-  - package: '@veecode-platform/backstage-plugin-cluster-explorer-dynamic@0.1.0'
+  - package: '@veecode-platform/backstage-plugin-cluster-explorer-dynamic@0.1.1'
     disabled: true
-    integrity: sha512-8Gi/7T9v33Gv+/JwEcC2zQsJfpE7dt5m6RX/izb03vw9q2suPS8IeQ7jyhtc5xT9ePykP3nKBLRSWhxFh5lmug==
+    integrity: sha512-AzQbtKUlbi3hpjynqFvyFn8gfbb6iaELUis5rgMjG7CyMCd6CxYYd1vgXMONJPXjdbfguP54A8rYSvvNCNvhdw==
     pluginConfig:
       dynamicPlugins:
         frontend:
@@ -90,6 +90,33 @@ plugins:
   # - package: '@veecode-platform/backstage-plugin-vee-dynamic@1.0.1'
   #   disabled: true
   #   integrity: sha512-vtH6GVoOYO/WobLMjZUj2nLyJGpK2yUnW7xLkLdlgYIOxPZZSc8MMCGdUJbANW9QFHsz6oBmRMUkLEXOu4dSMg==
+
+  # VeeCode Tenant Explorer
+  - disable: true
+    package: '@veecode-platform/backstage-plugin-tenant-explorer-dynamic@0.1.0'
+    integrity: sha512-feotRa1r0zsZZPDCgrsRiVpx34t+8nwDubZ+4gkrRV3QiHUtddWPGFnlpls7zSPNGyq06cwY25KZ/Mczx4b7Ew==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.backstage-plugin-tenant-explorer-dynamic:
+            appIcons:
+              - name: tenantIcon
+                importName: TenantNavItem
+            dynamicRoutes:
+              - path: /tenant-explorer
+                importName: TenantExplorerPage
+                menuItem:
+                  icon: tenantIcon
+                  text: Tenants
+            menuItems:
+              rbac:
+                parent: admin
+                icon: tenantIcon
+    
+  # VeeCode Modules Extension (VeeCode Processors)
+  - disabled: true
+    package: '@veecode-platform/plugin-veecode-platform-module-dynamic@0.1.0'
+    integrity: sha512-OnZn53Qg5r2qlkISs/dFfeZvD2/NL6ARXj3KRFKRwrO3JvSATfxABIuft5e5VlnNABUkFA/Dcvcj4eHcFnrUlA==
 
   # VeeCode Custom Actions
   - disabled: false
@@ -181,17 +208,15 @@ plugins:
       dynamicPlugins:
         frontend:
           veecode-platform.plugin-kong-service-manager-dynamic:
-            entityTabs:
-              - path: /kong
-                title: kong
-                mountPoint: entity.page.kong
+            mountPoints:
+              - mountPoint: entity.page.kong/cards
                 importName: KongServiceManagerTabContent
                 config:
                   layout:
                     gridColumn: '1 / -1'
-                  if:
-                    allOf:
-                      - isKongServiceManagerAvailable
+                  # if:
+                  #   allOf:
+                  #     - isKongServiceManagerAvailable
 
   # Kubernetes GPT Analyzer
   - package: '@veecode-platform/backstage-plugin-kubernetes-gpt-analyzer-dynamic@0.1.0'
@@ -224,10 +249,24 @@ plugins:
                       allOf:
                         - isKubernetesAvailable
 
-  # VeeCode Homepage
-  - package: '@veecode-platform/plugin-veecode-homepage-dynamic@0.1.6'
+  # VeeCode GlobalHeader
+  - package: '@veecode-platform/plugin-veecode-global-header-dynamic@0.1.4'
     disabled: false
-    integrity: sha512-WUOtMX8gPMoekoTcwvfRWjII5uWXBGQajx/JSST5KbITg89lkqZ2vaDEYUIfhgiHGkRitAJ0LkDvm4aoruqkzQ==
+    integrity: sha512-ldP0qC8Jd8AIC8DRnEuT1oQq6ELUxlm90gRAaUl3TEVoenrs8Wwxyb8TqgTiZNO5akhcA8tBMHDAugUYS9+yMg==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.plugin-veecode-global-header:
+            mountPoints:
+              - mountPoint: application/header
+                inportName: VeecodeGlobalHeader
+                config:
+                  position: above-sidebar
+
+  # VeeCode Homepage
+  - package: '@veecode-platform/plugin-veecode-homepage-dynamic@0.1.9'
+    disabled: false
+    integrity: sha512-MFv33GyxK+0/BqnAKPvZjC8Iw9V6fgFdUwcTGlFiSZElRM/4ncf9LVc2wo+aC5h0kO2svIuQeXVjP5q2jPlUhg==
     pluginConfig:
       dynamicPlugins:
         frontend:
