@@ -77,7 +77,6 @@ import {
   ResourcePickerExtension,
   UploadFilePickerExtension,
 } from '@veecode-platform/veecode-scaffolder-extensions';
-
 import getDynamicRootConfig from '../../utils/dynamicUI/getDynamicRootConfig';
 import { entityPage } from '../catalog/EntityPage';
 import { ExplorePage } from '../Explorer/ExplorerPage';
@@ -88,6 +87,7 @@ import ConfigUpdater from '../Root/ConfigUpdater';
 import { LayoutCustom } from '../scaffolder/LayoutCustom';
 import { SearchPage } from '../search/SearchPage';
 import { settingsPage } from '../UserSettings/SettingsPages';
+import { RbacPage } from '@backstage-community/plugin-rbac';
 
 const createApiDocsCustomColumns = (): TableColumn<CatalogTableRow>[] => {
   const nameColumn = CatalogTable.columns.createNameColumn({
@@ -299,6 +299,7 @@ const AppBase = () => {
                   />
                 }
               />
+              <Route path="/rbac" element={<RbacPage />} />;
               {dynamicRoutes.map(
                 ({ Component, staticJSXContent, path, config: { props } }) => {
                   return (

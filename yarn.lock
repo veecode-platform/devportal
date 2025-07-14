@@ -5231,7 +5231,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-node@npm:^1.13.0, @backstage/plugin-catalog-node@npm:^1.15.1, @backstage/plugin-catalog-node@npm:^1.17.0, @backstage/plugin-catalog-node@npm:^1.17.1":
+"@backstage/plugin-catalog-node@npm:^1.15.1, @backstage/plugin-catalog-node@npm:^1.17.0, @backstage/plugin-catalog-node@npm:^1.17.1":
   version: 1.17.1
   resolution: "@backstage/plugin-catalog-node@npm:1.17.1"
   dependencies:
@@ -17738,13 +17738,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veecode-platform/plugin-veecode-platform-module@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@veecode-platform/plugin-veecode-platform-module@npm:0.1.2"
+"@veecode-platform/plugin-veecode-platform-module@npm:0.1.3":
+  version: 0.1.3
+  resolution: "@veecode-platform/plugin-veecode-platform-module@npm:0.1.3"
   dependencies:
-    "@backstage/backend-plugin-api": ^1.0.0
-    "@backstage/plugin-catalog-node": ^1.13.0
-  checksum: 56c0d65edce8212b6c55829e9bea63057249f05af80d2f5e6c24798385c54b5e86a1a5a4ae0e43430663b8db26e2b45417ce54169b598fa8b1b20db6f1759e6d
+    "@backstage/backend-dynamic-feature-service": ^0.7.1
+    "@backstage/catalog-model": ^1.7.4
+  checksum: 36ec385a04d603b0f1c0f1fd40c4e77d4d83cb3139ae5e17df658b55d554a90658f0da1002d0210ec7f1394a14bbe2fb08814644445e56889cbe58bf3409f78e
   languageName: node
   linkType: hard
 
@@ -19421,7 +19421,7 @@ __metadata:
     "@veecode-platform/plugin-application-common": ^0.3.18
     "@veecode-platform/plugin-kong-service-manager-backend": ^0.4.1
     "@veecode-platform/plugin-veecode-platform-common": ^0.3.19
-    "@veecode-platform/plugin-veecode-platform-module": ^0.1.2
+    "@veecode-platform/plugin-veecode-platform-module": 0.1.3
     add: ^2.0.6
     app: "link:../app"
     better-sqlite3: ^11.3.0

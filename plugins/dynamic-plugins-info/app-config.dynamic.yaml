@@ -7,12 +7,19 @@ dynamicPlugins:
           importName: PluginsInfoIcon
         - name: adminIcon
           importName: AdminIcon
+        - name: rbacIcon
+          importName: RbacIcon
       dynamicRoutes:
         - path: /extensions
           importName: DynamicPluginsInfoPage
           menuItem:
             text: Extensions
             icon: pluginsInfoIcon
+        - path: /rbac
+          importName: RbacPage
+          menuItem:
+            text: RBAC
+            icon: rbacIcon
       mountPoints:
         - mountPoint: internal.plugins/tab
           importName: DynamicPluginsInfoContent
@@ -27,3 +34,7 @@ dynamicPlugins:
           parent: admin
           title: Extensions
           icon: pluginsInfoIcon
+        rbac:
+          parent: admin
+          title: RBAC
+          icon: rbacIcon

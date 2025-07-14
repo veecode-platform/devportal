@@ -8,7 +8,7 @@ import customPluginsLoader from './modules/features/featureLoader';
 //   coreServices,
 //   createServiceFactory,
 // } from '@backstage/backend-plugin-api';
-import { catalogModuleVeeCodeProcessor } from '@veecode-platform/plugin-veecode-platform-module/alpha';
+import { catalogModuleVeeCodeProcessor } from '@veecode-platform/plugin-veecode-platform-module';
 import { keycloakBackendModuleTransformer } from './modules/keycloak/keycloakEntityTransformer';
 import exploreToolProviderModule from './modules/explore/exploreToolProviderModule';
 import { WinstonLogger } from '@backstage/backend-defaults/rootLogger';
