@@ -44,16 +44,16 @@ export class VeecodeCustomAuthStrategy implements AuthenticationStrategy {
         const namespace = clusterDetails.namespace
 
         try {
-            const response = await k8sApi.readNamespacedSecret(secretName, namespace)
-            console.log("GET SECRET RESPONSE MSG: ", response.response.statusMessage, response.response.statusCode)
+            const response = await k8sApi.readNamespacedSecret({name: secretName, namespace: namespace})
+            console.log("GET SECRET RESPONSE MSG: ", response)
+            
 
-
-            if (!response.body.data?.token) {
-                console.log("CLUSTER AUTH ERROR: ", response.body)
+            if (!response.data) {
+                console.log("CLUSTER AUTH ERROR: ", response)
                 throw new Error("Impossible to fetch token secret from config")
             }
 
-            const token = Buffer.from(response.body.data.token, 'base64').toString('utf-8');
+            const token = Buffer.from(response.data[secretName], 'base64').toString('utf-8');
             console.log("DONE CUSTOM AUTH")
 
             return { type: 'bearer token', token };
