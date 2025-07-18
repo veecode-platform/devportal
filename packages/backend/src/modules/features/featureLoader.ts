@@ -2,7 +2,7 @@ import {
   createBackendFeatureLoader,
   coreServices,
 } from '@backstage/backend-plugin-api';
-import { kubernetesModuleCustomExtension } from '../kubernetes/kubernetesExtension';
+//import { kubernetesModuleCustomExtension } from '../kubernetes/kubernetesExtension'; need refactor to
 import {
   catalogModuleInfracostProcessor,
   infracostPlugin,
@@ -38,12 +38,12 @@ export default createBackendFeatureLoader({
     }
 
     //kubernetes
-    if (config.getBoolean('enabledPlugins.kubernetes')) {
-      yield import('@backstage/plugin-kubernetes-backend/alpha');
-      logger.info('@backstage/plugin-kubernetes-backend/alpha');
-      yield kubernetesModuleCustomExtension;
-      logger.info('kubernetesModuleCustomExtension');
-    }
+    //if (config.getBoolean('enabledPlugins.kubernetes')) {
+    //  yield import('@backstage/plugin-kubernetes-backend/alpha');
+    //  logger.info('@backstage/plugin-kubernetes-backend/alpha');
+    //  yield kubernetesModuleCustomExtension;
+    //  logger.info('kubernetesModuleCustomExtension');
+    //}
     //guest
     if (config.getBoolean('platform.guest.enabled')) {
       yield import('@backstage/plugin-auth-backend-module-guest-provider');

@@ -131,17 +131,13 @@ staticLogger.info('RBAC backend module added');
 
 // catalog
 backend.add(import('@backstage/plugin-catalog-backend'));
-backend.add(
-  import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'),
-);
+backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'));
 backend.add(import('@backstage/plugin-catalog-backend-module-bitbucket-cloud'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github'));
 backend.add(import('@backstage/plugin-catalog-backend-module-gitlab'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github-org'));
 backend.add(import('@backstage/plugin-catalog-backend-module-gitlab-org'));
-backend.add(
-  import('@backstage-community/plugin-catalog-backend-module-keycloak'),
-);
+backend.add(import('@backstage-community/plugin-catalog-backend-module-keycloak'));
 backend.add(import('@backstage/plugin-catalog-backend-module-unprocessed'));
 backend.add(keycloakBackendModuleTransformer);
 backend.add(catalogModuleVeeCodeProcessor);
@@ -162,12 +158,15 @@ backend.add(
 );
 backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 
-
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'));
 // backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
+
+//kubernetes
+backend.add(import('@backstage/plugin-kubernetes-backend'));
+      //yield kubernetesModuleCustomExtension;
 
 // proxy
 backend.add(import('@backstage/plugin-proxy-backend'));

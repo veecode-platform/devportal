@@ -1,26 +1,67 @@
 includes:
   - dynamic-plugins.default.yaml
 plugins:
+  # VeeCode GlobalHeader
+  - package: '@veecode-platform/plugin-veecode-global-header-dynamic@0.1.4'
+    disabled: false
+    integrity: sha512-ldP0qC8Jd8AIC8DRnEuT1oQq6ELUxlm90gRAaUl3TEVoenrs8Wwxyb8TqgTiZNO5akhcA8tBMHDAugUYS9+yMg==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.plugin-veecode-global-header:
+            mountPoints:
+              - mountPoint: application/header
+                inportName: VeecodeGlobalHeader
+                config:
+                  position: above-sidebar
+
+  # VeeCode Homepage
+  - package: '@veecode-platform/plugin-veecode-homepage-dynamic@0.1.9'
+    disabled: false
+    integrity: sha512-MFv33GyxK+0/BqnAKPvZjC8Iw9V6fgFdUwcTGlFiSZElRM/4ncf9LVc2wo+aC5h0kO2svIuQeXVjP5q2jPlUhg==
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          veecode-platform.plugin-veecode-homepage:
+            dynamicRoutes:
+              - path: /
+                importName: VeecodeHomepagePage
+                config:
+                  props:
+                    width: 1500
+                    height: 800
   # Cluster Explorer
   - package: '@veecode-platform/backstage-plugin-cluster-explorer-dynamic@0.1.1'
-    disabled: true
+    disabled: false
     integrity: sha512-AzQbtKUlbi3hpjynqFvyFn8gfbb6iaELUis5rgMjG7CyMCd6CxYYd1vgXMONJPXjdbfguP54A8rYSvvNCNvhdw==
     pluginConfig:
       dynamicPlugins:
         frontend:
           veecode-platform.backstage-plugin-cluster-explorer-dynamic:
-            entityTabs:
-              - path: /
-                title: overview
-                mountPoint: entity.page.overview
-                importName: ClusterOverviewTabContent
+            dynamicRoutes:
+              - path: /cluster-explorer
+                importName: ClusterExplorerPage
+                menuItem:
+                  icon: cluster
+                  text: Clusters
+            mountPoints:
+              - mountPoint: entity.page.cluster-overview/cards
+                importName: ClusterOverview
                 config:
                   layout:
                     gridColumn: '1 / -1'
                   if:
-                    allOf|anyOf|oneOf:
-                      - isClusterKind
+                    anyOf:
                       - isKind: Cluster
+            entityTabs:
+              - path: /
+                title: About #rewrite old overview to about
+                #priority: -1 # remove original overview tab
+                mountPoint: entity.page.overview
+              - path: /overview
+                title: Cluster Overview
+                #priority: 10 #higher means goes first
+                mountPoint: entity.page.cluster-overview
   # Database Explorer
   - package: '@veecode-platform/plugin-database-explorer-dynamic@0.1.0'
     disabled: true
@@ -90,28 +131,28 @@ plugins:
   # - package: '@veecode-platform/backstage-plugin-vee-dynamic@1.0.1'
   #   disabled: true
   #   integrity: sha512-vtH6GVoOYO/WobLMjZUj2nLyJGpK2yUnW7xLkLdlgYIOxPZZSc8MMCGdUJbANW9QFHsz6oBmRMUkLEXOu4dSMg==
-
   # VeeCode Tenant Explorer
-  - disable: true
-    package: '@veecode-platform/backstage-plugin-tenant-explorer-dynamic@0.1.0'
-    integrity: sha512-feotRa1r0zsZZPDCgrsRiVpx34t+8nwDubZ+4gkrRV3QiHUtddWPGFnlpls7zSPNGyq06cwY25KZ/Mczx4b7Ew==
-    pluginConfig:
-      dynamicPlugins:
-        frontend:
-          veecode-platform.backstage-plugin-tenant-explorer-dynamic:
-            appIcons:
-              - name: tenantIcon
-                importName: TenantNavItem
-            dynamicRoutes:
-              - path: /tenant-explorer
-                importName: TenantExplorerPage
-                menuItem:
-                  icon: tenantIcon
-                  text: Tenants
-            menuItems:
-              rbac:
-                parent: admin
-                icon: tenantIcon
+  #- package: '@veecode-platform/backstage-plugin-tenant-explorer-dynamic@0.1.0'
+  #  disable: true
+  #  
+  #  integrity: sha512-feotRa1r0zsZZPDCgrsRiVpx34t+8nwDubZ+4gkrRV3QiHUtddWPGFnlpls7zSPNGyq06cwY25KZ/Mczx4b7Ew==
+  #  pluginConfig:
+  #    dynamicPlugins:
+  #      frontend:
+  #        veecode-platform.backstage-plugin-tenant-explorer-dynamic:
+  #          appIcons:
+  #            - name: tenantIcon
+  #              importName: TenantNavItem
+  #          dynamicRoutes:
+  #            - path: /tenant-explorer
+  #              importName: TenantExplorerPage
+  #              menuItem:
+  #                icon: tenantIcon
+  #                text: Tenants
+  #          menuItems:
+  #            rbac:
+  #              parent: admin
+  #              icon: tenantIcon
     
   # VeeCode Modules Extension (VeeCode Processors)
   - disabled: true
@@ -119,12 +160,12 @@ plugins:
     integrity: sha512-OnZn53Qg5r2qlkISs/dFfeZvD2/NL6ARXj3KRFKRwrO3JvSATfxABIuft5e5VlnNABUkFA/Dcvcj4eHcFnrUlA==
 
   # VeeCode Custom Actions
-  - disabled: false
+  - disabled: true
     package: oci://docker.io/valberjunior/backstage-veecode-extensions:v4.0.0!veecode-platform-backstage-plugin-scaffolder-backend-module-veecode-extensions-wrapper
 
   # Github Workflows
   - package: '@veecode-platform/backstage-plugin-github-workflows-dynamic@0.1.0'
-    disabled: false
+    disabled: true
     integrity: sha512-gdCO5aSVNs2gwAU6bx17Bdt34G5xtb8EXCoCDIeKTlG7/vIB8xzCIxPIiNVLWkAp6v8lw+kdnF25/3GceOhskQ==
     pluginConfig:
       dynamicPlugins:
@@ -153,7 +194,7 @@ plugins:
 
   # Gitlab Pipelines
   - package: '@veecode-platform/backstage-plugin-gitlab-pipelines-dynamic@0.1.0'
-    disabled: false
+    disabled: true
     integrity: sha512-IPIfKbdShbUng8S9QygPWx9wmn7hbw1W6iAXZ4xZC9REN05IZWedWjawp1iipXfMG3oA9c3L4qAC7ztMftbEfQ==
     pluginConfig:
       dynamicPlugins:
@@ -182,7 +223,7 @@ plugins:
 
   # Infracost
   - package: '@veecode-platform/backstage-plugin-infracost-dynamic@0.1.0'
-    disabled: false
+    disabled: true
     integrity: sha512-zGOe18uSIYBApBigXu1T4LjEvfGOvr/W1fBAzdvMJE1q3QNOrpMi/bPXalSIQuS6KiWyX6ps/JF9IAcpZSbCNA==
     pluginConfig:
       dynamicPlugins:
@@ -202,7 +243,7 @@ plugins:
 
   # Kong Service Manager
   - package: '@veecode-platform/plugin-kong-service-manager-dynamic@0.1.0'
-    disabled: false
+    disabled: true
     integrity: sha512-oaUSb51PBvuqtZkt9bfYEH8xLS/jOLmnJURa2+ypIboXkoWlDid9cnUbbBjx4+qL2WY7JmZ7eu9hjefgti3w0w==
     pluginConfig:
       dynamicPlugins:
@@ -249,39 +290,9 @@ plugins:
                       allOf:
                         - isKubernetesAvailable
 
-  # VeeCode GlobalHeader
-  - package: '@veecode-platform/plugin-veecode-global-header-dynamic@0.1.4'
-    disabled: false
-    integrity: sha512-ldP0qC8Jd8AIC8DRnEuT1oQq6ELUxlm90gRAaUl3TEVoenrs8Wwxyb8TqgTiZNO5akhcA8tBMHDAugUYS9+yMg==
-    pluginConfig:
-      dynamicPlugins:
-        frontend:
-          veecode-platform.plugin-veecode-global-header:
-            mountPoints:
-              - mountPoint: application/header
-                inportName: VeecodeGlobalHeader
-                config:
-                  position: above-sidebar
-
-  # VeeCode Homepage
-  - package: '@veecode-platform/plugin-veecode-homepage-dynamic@0.1.9'
-    disabled: false
-    integrity: sha512-MFv33GyxK+0/BqnAKPvZjC8Iw9V6fgFdUwcTGlFiSZElRM/4ncf9LVc2wo+aC5h0kO2svIuQeXVjP5q2jPlUhg==
-    pluginConfig:
-      dynamicPlugins:
-        frontend:
-          veecode-platform.plugin-veecode-homepage:
-            dynamicRoutes:
-              - path: /
-                importName: VeecodeHomepagePage
-                config:
-                  props:
-                    width: 1500
-                    height: 800
-
   # Zora OSS
   - package: '@veecode-platform/backstage-plugin-zora-oss-dynamic@0.1.0'
-    disabled: false
+    disabled: true
     integrity: sha512-wayuoYWaOqp9neoRePEzo/qbBMKR3vBta/meOGdJ8+p6Ze4KjYWgXKjkKzsxSdmg2uYpDwgrAv/+gedmweJ9Xw==
     pluginConfig:
       dynamicPlugins:

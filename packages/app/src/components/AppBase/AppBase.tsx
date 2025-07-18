@@ -67,11 +67,6 @@ import { SupportPage } from '@internal/backstage-plugin-support';
 import { AboutPage } from '@internal/plugin-about';
 // import { VeecodeHomepagePage } from '@internal/plugin-veecode-homepage';
 import DynamicRootContext from '@red-hat-developer-hub/plugin-utils';
-import { ClusterExplorerPage } from '@veecode-platform/backstage-plugin-cluster-explorer';
-// import { VulnerabilitiesPage } from '@veecode-platform/backstage-plugin-vulnerabilities'; waiting for fix
-import { DatabaseExplorerPage } from '@veecode-platform/plugin-database-explorer';
-import { EnvironmentExplorerPage } from '@veecode-platform/plugin-environment-explorer';
-import { VaultExplorerPage } from '@veecode-platform/plugin-vault-explorer';
 import {
   RepoUrlSelectorExtension,
   ResourcePickerExtension,
@@ -88,6 +83,11 @@ import { LayoutCustom } from '../scaffolder/LayoutCustom';
 import { SearchPage } from '../search/SearchPage';
 import { settingsPage } from '../UserSettings/SettingsPages';
 import { RbacPage } from '@backstage-community/plugin-rbac';
+import {
+  DefaultTechDocsHome,
+  TechDocsIndexPage,
+  TechDocsReaderPage,
+} from '@backstage/plugin-techdocs';
 
 const createApiDocsCustomColumns = (): TableColumn<CatalogTableRow>[] => {
   const nameColumn = CatalogTable.columns.createNameColumn({
@@ -221,13 +221,13 @@ const AppBase = () => {
                   />
                 }
               />
-              {/* <Route path="/docs" element={<TechDocsIndexPage />}>
+               <Route path="/docs" element={<TechDocsIndexPage />}>
                 <DefaultTechDocsHome />
               </Route>
               <Route
                 path="/docs/:namespace/:kind/:name/*"
                 element={<TechDocsReaderPage />}
-              /> */}
+              /> 
               <Route
                 path="/catalog-import"
                 element={
@@ -240,19 +240,6 @@ const AppBase = () => {
                 <SearchPage />
               </Route>
               <Route path="/notifications" element={<NotificationsPage />} />
-              <Route
-                path="/cluster-explorer"
-                element={<ClusterExplorerPage />}
-              />
-              <Route
-                path="/environments-explorer"
-                element={<EnvironmentExplorerPage />}
-              />
-              <Route
-                path="/database-explorer"
-                element={<DatabaseExplorerPage />}
-              />
-              <Route path="/vault-explorer" element={<VaultExplorerPage />} />
               <Route path="/settings" element={<UserSettingsPage />}>
                 {settingsPage(providerSettings)}
               </Route>

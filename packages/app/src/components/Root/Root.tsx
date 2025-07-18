@@ -59,7 +59,7 @@ import DynamicRootContext, {
 } from '@red-hat-developer-hub/plugin-utils';
 import { makeStyles } from 'tss-react/mui';
 
-import { VeecodeLogoIcon } from '../DynamicRoot/DevportalIcon';
+//import { VeecodeLogoIcon } from '../DynamicRoot/DevportalIcon';
 import { ApplicationHeaders } from './ApplicationHeaders';
 import { MenuIcon } from './MenuIcon';
 import { SidebarLogo } from './SidebarLogo';
@@ -441,7 +441,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
     );
   };
 
-  const ResourcesItems = (
+  /*const ResourcesItems = (
     <SidebarGroup label="Resources" icon={<VeecodeLogoIcon />}>
       <SideBarItemWrapper
         icon={VeecodeLogoIcon}
@@ -513,7 +513,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         )}
       />
     </SidebarGroup>
-  );
+  );*/
 
   return (
     <div className={pageWithoutFixHeight}>
@@ -541,7 +541,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
               <Box sx={{ height: '1.2rem' }} />
             )}
             <SidebarItem icon={renderIcon('home')} text="Home" to="/" />
-            {ResourcesItems}
+            {/*ResourcesItems*/}
 
             <SidebarGroup label="Menu" icon={<MuiMenuIcon />}>
               {/* Global nav, not org-specific */}
