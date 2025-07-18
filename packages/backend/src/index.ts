@@ -22,6 +22,7 @@ import {
 } from '@backstage/backend-dynamic-feature-service';
 import { healthCheckPlugin } from './modules/healthcheck/healthcheck';
 import { createServiceFactory } from '@backstage/backend-plugin-api';
+import { kubernetesModuleCustomExtension } from './modules/kubernetes/kubernetesExtension';
 // import {
 //   pluginIDProviderService,
 //   rbacDynamicPluginsProvider,
@@ -166,7 +167,7 @@ backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
 
 //kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
-      //yield kubernetesModuleCustomExtension;
+backend.add(kubernetesModuleCustomExtension);
 
 // proxy
 backend.add(import('@backstage/plugin-proxy-backend'));

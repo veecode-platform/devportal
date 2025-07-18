@@ -21,7 +21,7 @@ export const kubernetesModuleCustomExtension = createBackendModule({
   
           locator.addClusterSupplier(VeecodeCatalogClusterLocator.fromConfig(catalogApi, auth));
   
-          authStrategy.addAuthStrategy("custom", customAuth)
+          authStrategy.addAuthStrategy("config", customAuth)
         },
       });
     },
