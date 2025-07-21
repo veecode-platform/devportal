@@ -86,3 +86,24 @@ jobs:
           #cache-to: type=registry,ref=veecode/devportal:cache,mode=max
 
 
+  publishManifestDocker:
+    needs: [buildDevportal, requirements]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create and Push Multi-Arch Manifest
+        run: |
+          docker buildx imagetools create -t veecode/devportal:${{ needs.requirements.outputs.app_version }} \
+          -t veecode/devportal:latest \
+          veecode/devportal-arm64:${{ needs.requirements.outputs.app_version }} \
+          veecode/devportal-x64:${{ needs.requirements.outputs.app_version }}
