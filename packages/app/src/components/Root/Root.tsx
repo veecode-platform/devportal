@@ -64,6 +64,7 @@ import { ApplicationHeaders } from './ApplicationHeaders';
 import { MenuIcon } from './MenuIcon';
 import { SidebarLogo } from './SidebarLogo';
 import SignOutElement from './signOut';
+import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
 
 type StylesProps = {
   aboveSidebarHeaderHeight?: number;
@@ -546,6 +547,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             <SidebarGroup label="Menu" icon={<MuiMenuIcon />}>
               {/* Global nav, not org-specific */}
               {renderMenuItems(true, false)}
+              <NotificationsSidebarItem />
               {/* End global nav */}
               {showSettings && (
                 <>

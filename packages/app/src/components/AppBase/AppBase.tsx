@@ -249,7 +249,6 @@ const AppBase = () => {
                 path="/catalog-unprocessed-entities"
                 element={<CatalogUnprocessedEntitiesPage />}
               />
-              ;
               {/* <Route
                 path="/vulnerabilities"
                 element={<VulnerabilitiesPage />}
