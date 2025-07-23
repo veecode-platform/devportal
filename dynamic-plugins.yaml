@@ -133,7 +133,7 @@ plugins:
   #   integrity: sha512-vtH6GVoOYO/WobLMjZUj2nLyJGpK2yUnW7xLkLdlgYIOxPZZSc8MMCGdUJbANW9QFHsz6oBmRMUkLEXOu4dSMg==
   # VeeCode Tenant Explorer
   - package: '@veecode-platform/backstage-plugin-tenant-explorer-dynamic@0.1.0'
-    disable: true   
+    disabled: true   
     integrity: sha512-feotRa1r0zsZZPDCgrsRiVpx34t+8nwDubZ+4gkrRV3QiHUtddWPGFnlpls7zSPNGyq06cwY25KZ/Mczx4b7Ew==
     pluginConfig:
       dynamicPlugins:

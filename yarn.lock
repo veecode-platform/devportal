@@ -2837,6 +2837,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage-community/plugin-catalog-backend-module-azure-devops-annotator-processor@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "@backstage-community/plugin-catalog-backend-module-azure-devops-annotator-processor@npm:0.9.0"
+  dependencies:
+    "@backstage-community/plugin-azure-devops-common": ^0.12.0
+    "@backstage/backend-plugin-api": ^1.4.0
+    "@backstage/catalog-model": ^1.7.4
+    "@backstage/config": ^1.3.2
+    "@backstage/integration": ^1.17.0
+    "@backstage/plugin-catalog-common": ^1.1.4
+    "@backstage/plugin-catalog-node": ^1.17.1
+    lodash: ^4.17.21
+  checksum: 78ffe82679c79721a86eed911af8a86d14eb1d242bf3048f60506aa033c8ea6cdd58d2e344bf4f61787681c08b157c6a8191f6dffe0846f8f583bc64ae61c315
+  languageName: node
+  linkType: hard
+
 "@backstage-community/plugin-catalog-backend-module-keycloak@npm:^3.12.1":
   version: 3.12.1
   resolution: "@backstage-community/plugin-catalog-backend-module-keycloak@npm:3.12.1"
@@ -3082,6 +3098,34 @@ __metadata:
     lodash: ^4.17.21
     yaml: ^2.0.0
   checksum: 3163e39ca304aeb187b942b2056a74c4430b886b2a702ca8d8d21815da4effe4ddda783d898f71de95220b521704a4f29e58d9608247e1bf7417386cda833e18
+  languageName: node
+  linkType: hard
+
+"@backstage-community/plugin-scaffolder-backend-module-azure-devops@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "@backstage-community/plugin-scaffolder-backend-module-azure-devops@npm:0.11.0"
+  dependencies:
+    "@backstage/backend-plugin-api": ^1.4.0
+    "@backstage/config": ^1.3.2
+    "@backstage/errors": ^1.2.7
+    "@backstage/integration": ^1.17.0
+    "@backstage/plugin-scaffolder-node": ^0.9.0
+    azure-devops-node-api: ^14.1.0
+    yaml: ^2.6.0
+  checksum: 85abfdecded9b0460a6a3c2858a681014172230bc1bc40f2bea6c8fe961242d0c49ab723daf4c8f7cffcc7b37e1efe0775f76c54cda28869ed91be8e7ad59675
+  languageName: node
+  linkType: hard
+
+"@backstage-community/plugin-scaffolder-backend-module-dotnet@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@backstage-community/plugin-scaffolder-backend-module-dotnet@npm:0.4.0"
+  dependencies:
+    "@backstage/backend-plugin-api": ^1.4.0
+    "@backstage/plugin-scaffolder-node": ^0.9.0
+    fs-extra: ^11.3.0
+    yaml: ^2.6.0
+    zod: ^3.24.3
+  checksum: 0fe5967aee279f6568b513fda720980949055a07aa2d862a989e0ec7ff51543ea2b884d942d18b3b68641bc2ab5f7ad5a05e40bfb0b393c34fa4495faa0561cf
   languageName: node
   linkType: hard
 
@@ -5399,6 +5443,22 @@ __metadata:
     "@backstage/integration": ^1.17.1
     cross-fetch: ^4.0.0
   checksum: a92ce22e57f8ea84f99a51c644cda5f72400a4fc4b6571cf349aee311ce415ff62a9ababbbb17be91866353f071219ecce98c566db172c9b2e7328a612f5c370
+  languageName: node
+  linkType: hard
+
+"@backstage/plugin-catalog-backend-module-azure@npm:^0.3.7":
+  version: 0.3.7
+  resolution: "@backstage/plugin-catalog-backend-module-azure@npm:0.3.7"
+  dependencies:
+    "@azure/identity": ^4.0.0
+    "@azure/storage-blob": ^12.5.0
+    "@backstage/backend-plugin-api": ^1.4.1
+    "@backstage/config": ^1.3.3
+    "@backstage/integration": ^1.17.1
+    "@backstage/plugin-catalog-common": ^1.1.5
+    "@backstage/plugin-catalog-node": ^1.17.2
+    uuid: ^11.0.0
+  checksum: 477462196f2776644d9fbbb81c0e5e30ac807ae7cf5578412e54dcc1419eecfbf6fb262b861193e02f6bc2d6ad80b507bc99e6d629929a39a20b22736c0c17ee
   languageName: node
   linkType: hard
 
@@ -19473,7 +19533,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azure-devops-node-api@npm:^14.0.0":
+"azure-devops-node-api@npm:^14.0.0, azure-devops-node-api@npm:^14.1.0":
   version: 14.1.0
   resolution: "azure-devops-node-api@npm:14.1.0"
   dependencies:
@@ -19642,12 +19702,15 @@ __metadata:
   resolution: "backend@workspace:packages/backend"
   dependencies:
     "@backstage-community/plugin-azure-devops-backend": ^0.18.0
+    "@backstage-community/plugin-catalog-backend-module-azure-devops-annotator-processor": ^0.9.0
     "@backstage-community/plugin-catalog-backend-module-keycloak": ^3.12.1
     "@backstage-community/plugin-explore-backend": ^0.7.0
     "@backstage-community/plugin-explore-common": ^0.5.0
     "@backstage-community/plugin-rbac-backend": ^7.0.0
     "@backstage-community/plugin-rbac-node": ^1.12.0
     "@backstage-community/plugin-scaffolder-backend-module-annotator": ^2.8.0
+    "@backstage-community/plugin-scaffolder-backend-module-azure-devops": ^0.11.0
+    "@backstage-community/plugin-scaffolder-backend-module-dotnet": ^0.4.0
     "@backstage-community/plugin-sonarqube-backend": ^0.10.0
     "@backstage/backend-app-api": ^1.2.5
     "@backstage/backend-common": ^0.25.0
@@ -19669,6 +19732,7 @@ __metadata:
     "@backstage/plugin-auth-backend-module-oidc-provider": ^0.4.5
     "@backstage/plugin-auth-node": ^0.6.5
     "@backstage/plugin-catalog-backend": ^3.0.0
+    "@backstage/plugin-catalog-backend-module-azure": ^0.3.7
     "@backstage/plugin-catalog-backend-module-bitbucket-cloud": ^0.5.1
     "@backstage/plugin-catalog-backend-module-bitbucket-server": ^0.5.1
     "@backstage/plugin-catalog-backend-module-github": ^0.10.1
@@ -25608,7 +25672,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^11.0.0, fs-extra@npm:^11.2.0":
+"fs-extra@npm:^11.0.0, fs-extra@npm:^11.2.0, fs-extra@npm:^11.3.0":
   version: 11.3.0
   resolution: "fs-extra@npm:11.3.0"
   dependencies:
@@ -43092,6 +43156,13 @@ __metadata:
   version: 3.25.67
   resolution: "zod@npm:3.25.67"
   checksum: 56ab904d33b1cd00041ce64ae05b0628fcbfeb7e707fa31cd498a97b540135e4dfe685200c9c62aea307695ee132870b4bc34f035228ea728aa75cc96a4954cb
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.24.3":
+  version: 3.25.76
+  resolution: "zod@npm:3.25.76"
+  checksum: c9a403a62b329188a5f6bd24d5d935d2bba345f7ab8151d1baa1505b5da9f227fb139354b043711490c798e91f3df75991395e40142e6510a4b16409f302b849
   languageName: node
   linkType: hard
 

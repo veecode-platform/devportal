@@ -45,65 +45,6 @@ export interface Config {
    *
    * @visibility frontend
    */
-  enabledPlugins: {
-    /**
-     * vault launch control.
-     * @visibility frontend
-     */
-    rbac: boolean;
-    /**
-     * vault launch control.
-     * @visibility frontend
-     */
-    vault: boolean;
-
-    /**
-     * vault kubernetes control.
-     * @visibility frontend
-     */
-    kubernetes: boolean;
-
-    /**
-     * vault launch control.
-     * @visibility frontend
-     */
-    grafana: boolean;
-    /**
-     * gitlabPlugin launch control.
-     * @visibility frontend
-     */
-    gitlabPlugin: boolean;
-
-    /**
-     * keycloakPlugin launch control.
-     * @visibility frontend
-     */
-    keycloak: boolean;
-    /**
-     * AzureDevops Plugin launch control.
-     * @visibility frontend
-     */
-    azureDevops: boolean;
-    /**
-     * Kong Plugin launch control.
-     * @visibility frontend
-     */
-    kong: boolean;
-    /**
-     * Vee Plugin launch control.
-     * @visibility frontend
-     */
-    vee: boolean;
-    /**
-     * Sonarqube Plugin launch control.
-     * @visibility frontend
-     */
-    sonarqube: boolean;
-  };
-  /**
-   *
-   * @visibility frontend
-   */
   platform: {
     /**
      *
@@ -122,49 +63,48 @@ export interface Config {
        */
       demo: boolean;
     };
-    defaultGroup: {
+    enabledPlugins: {
       /**
-       *
+       * vault launch control.
        * @visibility frontend
        */
-      enabled: boolean;
+      vault: boolean;
+      /**
+       * vault launch control.
+       * @visibility frontend
+       */
+      grafana: boolean;
+      /**
+       * gitlabPlugin launch control.
+       * @visibility frontend
+       */
+      gitlabPlugin: boolean;
+
+      /**
+       * keycloakPlugin launch control.
+       * @visibility frontend
+       */
+      keycloak: boolean;
+      /**
+       * AzureDevops Plugin launch control.
+       * @visibility frontend
+       */
+      azureDevops: boolean;
+      /**
+       * Kong Plugin launch control.
+       * @visibility frontend
+       */
+      kong: boolean;
+      /**
+       * Vee Plugin launch control.
+       * @visibility frontend
+       */
+      vee: boolean;
+      /**
+       * Sonarqube Plugin launch control.
+       * @visibility frontend
+       */
+      sonarqube: boolean;
     };
-    groups: {
-      /**
-       *
-       * @visibility frontend
-       */
-      admin: string;
-      /**
-       *
-       * @visibility frontend
-       */
-      user: string;
-    };
-    apiManagement: {
-      /**
-       *
-       * @visibility frontend
-       */
-      enabled: boolean;
-    };
-  };
-  /**
-   * Configuration options for notifications-backend
-   */
-  notifications?: {
-    /**
-     * Concurrency limit for notification sending, defaults to 10
-     */
-    concurrencyLimit?: number;
-    /**
-     * Throttle duration between notification sending, defaults to 50ms
-     */
-    throttleInterval?: HumanDuration | string;
-    /**
-     * Time to keep the notifications in the database, defaults to 365 days.
-     * Can be disabled by setting to false.
-     */
-    retention?: HumanDuration | string | false;
   };
 }

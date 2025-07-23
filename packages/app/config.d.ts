@@ -135,10 +135,10 @@ export interface Config {
           config: {
             layout?: {
               [key: string]:
-                | string
-                | {
-                    [key: string]: string;
-                  };
+              | string
+              | {
+                [key: string]: string;
+              };
             };
             props?: {
               [key: string]: string;
@@ -146,20 +146,20 @@ export interface Config {
             if?: {
               allOf?: (
                 | {
-                    [key: string]: string | string[];
-                  }
+                  [key: string]: string | string[];
+                }
                 | string
               )[];
               anyOf?: (
                 | {
-                    [key: string]: string | string[];
-                  }
+                  [key: string]: string | string[];
+                }
                 | string
               )[];
               oneOf?: (
                 | {
-                    [key: string]: string | string[];
-                  }
+                  [key: string]: string | string[];
+                }
                 | string
               )[];
             };
@@ -235,27 +235,27 @@ export interface Config {
     endpoints?: {
       /** @visibility frontend */
       [key: string]:
-        | string
-        | {
-            /** @visibility frontend */
-            target: string;
-            /** @visibility frontend */
-            allowedHeaders?: string[];
-            /** @visibility frontend */
-            workspace?: string;
-            /** @visibility frontend */
-            headers?: {
-              /** @visibility secret */
-              Authorization?: string;
-              /** @visibility secret */
-              authorization?: string;
-              /** @visibility secret */
-              'X-Api-Key'?: string;
-              /** @visibility secret */
-              'x-api-key'?: string;
-              [key: string]: string | undefined;
-            };
-          };
+      | string
+      | {
+        /** @visibility frontend */
+        target: string;
+        /** @visibility frontend */
+        allowedHeaders?: string[];
+        /** @visibility frontend */
+        workspace?: string;
+        /** @visibility frontend */
+        headers?: {
+          /** @visibility secret */
+          Authorization?: string;
+          /** @visibility secret */
+          authorization?: string;
+          /** @visibility secret */
+          'X-Api-Key'?: string;
+          /** @visibility secret */
+          'x-api-key'?: string;
+          [key: string]: string | undefined;
+        };
+      };
     };
   };
   /**
@@ -434,61 +434,7 @@ export interface Config {
       baseUrl?: string;
     }>;
   };
-  /**
-   *
-   * @visibility frontend
-   */
-  enabledPlugins: {
-    /**
-     * vault launch control.
-     * @visibility frontend
-     */
-    vault: boolean;
 
-    /**
-     * kubernetes launch control.
-     * @visibility frontend
-     */
-    kubernetes: boolean;
-
-    /**
-     * grafana launch control.
-     * @visibility frontend
-     */
-    grafana: boolean;
-
-    /**
-     * gitlabPlugin launch control.
-     * @visibility frontend
-     */
-    gitlabPlugin: boolean;
-
-    /**
-     * KeycloakPlugin launch control.
-     * @visibility frontend
-     */
-    keycloak: boolean;
-    /**
-     * AzureDevops Plugin launch control.
-     * @visibility frontend
-     */
-    azureDevops: boolean;
-    /**
-     * Kong Plugin launch control.
-     * @visibility frontend
-     */
-    kong: boolean;
-    /**
-     * Vee Plugin launch control.
-     * @visibility frontend
-     */
-    vee: boolean;
-    /**
-     * Sonarqube Plugin launch control.
-     * @visibility frontend
-     */
-    sonarqube: boolean;
-  };
   /**
    *
    * @visibility frontend
@@ -534,74 +480,54 @@ export interface Config {
      */
     signInProviders: Array<string>;
     /**
-     *
-     * @visibility frontend
-     */
-    behaviour: {
+      *
+      * @visibility frontend
+      */
+    enabledPlugins: {
       /**
-       *
+       * vault launch control.
        * @visibility frontend
        */
-      mode: string;
+      vault: boolean;
       /**
-       *
+       * grafana launch control.
        * @visibility frontend
        */
-      home?: boolean;
+      grafana: boolean;
+
       /**
-       *
+       * gitlabPlugin launch control.
        * @visibility frontend
        */
-      catalog?: boolean;
+      gitlabPlugin: boolean;
+
       /**
-       *
+       * KeycloakPlugin launch control.
        * @visibility frontend
        */
-      apis?: boolean;
+      keycloak: boolean;
       /**
-       *
+       * AzureDevops Plugin launch control.
        * @visibility frontend
        */
-      clusters?: boolean;
+      azureDevops: boolean;
       /**
-       *
+       * Kong Plugin launch control.
        * @visibility frontend
        */
-      enviroments?: boolean;
+      kong: boolean;
       /**
-       *
+       * Vee Plugin launch control.
        * @visibility frontend
        */
-      create?: boolean;
+      vee: boolean;
       /**
-       *
+       * Sonarqube Plugin launch control.
        * @visibility frontend
        */
-      docs?: boolean;
-      /**
-       *
-       * @visibility frontend
-       */
-      groups?: boolean;
-      /**
-       *
-       * @visibility frontend
-       */
-      apiManagement?: boolean;
+      sonarqube: boolean;
     };
-    /**
-     * @visibility frontend
-     */
-    logo?: {
-      /**
-       * @visibility frontend
-       */
-      icon?: string;
-      /**
-       * @visibility frontend
-       */
-      full?: string;
-    };
+
     guest: {
       /**
        *
@@ -614,37 +540,9 @@ export interface Config {
        */
       demo: boolean;
     };
-    defaultGroup: {
-      /**
-       *
-       * @visibility frontend
-       */
-      enabled: boolean;
-    };
-    group: {
-      /**
-       *
-       *  @visibility frontend
-       */
-      admin: string;
-      /**
-       *
-       * @visibility frontend
-       */
-      user: string;
-    };
-    apiManagement: {
-      /**
-       *
-       * @visibility frontend
-       */
-      enabled: boolean;
-      /**
-       *
-       * @visibility frontend
-       */
-      readOnlyMode: boolean;
-    };
+
+
+
     support?: {
       /**
        *

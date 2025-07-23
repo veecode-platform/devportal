@@ -1,15 +1,6 @@
 import { createBackend } from '@backstage/backend-defaults';
-// import { scaffolderModuleCustomExtensions } from './modules/scaffolder/scaffolderExtension';
-// import { customGithubAuthProvider } from './modules/auth/githubCustomResolver';
-// import { customGitlabAuthProvider } from './modules/auth/gitlabCustomResolver';
 import customPluginsLoader from './modules/features/featureLoader';
-// import { MyRootHealthService } from './modules/healthcheck/health';
-// import {
-//   coreServices,
-//   createServiceFactory,
-// } from '@backstage/backend-plugin-api';
 import { catalogModuleVeeCodeProcessor } from '@veecode-platform/plugin-veecode-platform-module';
-import { keycloakBackendModuleTransformer } from './modules/keycloak/keycloakEntityTransformer';
 import exploreToolProviderModule from './modules/explore/exploreToolProviderModule';
 import { WinstonLogger } from '@backstage/backend-defaults/rootLogger';
 import { getDefaultServiceFactories } from './defaultServiceFactories';
@@ -138,9 +129,7 @@ backend.add(import('@backstage/plugin-catalog-backend-module-github'));
 backend.add(import('@backstage/plugin-catalog-backend-module-gitlab'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github-org'));
 backend.add(import('@backstage/plugin-catalog-backend-module-gitlab-org'));
-backend.add(import('@backstage-community/plugin-catalog-backend-module-keycloak'));
 backend.add(import('@backstage/plugin-catalog-backend-module-unprocessed'));
-backend.add(keycloakBackendModuleTransformer);
 backend.add(catalogModuleVeeCodeProcessor);
 
 // scaffolder
@@ -161,7 +150,6 @@ backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
-backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'));
 // backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
 
@@ -201,18 +189,9 @@ backend.add(import('@internal/plugin-about-backend'));
 // explore
 backend.add(exploreToolProviderModule);
 
-// healthcheck
-// backend.add(
-//   createServiceFactory({
-//     service: coreServices.rootHealth,
-//     deps: {},
-//     async factory({}) {
-//       return new MyRootHealthService();
-//     },
-//   }),
-// );
-
+//healthcheck
 backend.add(healthCheckPlugin);
+
 backend.add(import('@internal/plugin-dynamic-plugins-info-backend'));
 backend.add(import('@internal/plugin-scalprum-backend'));
 backend.add(import('@internal/plugin-licensed-users-info-backend'));

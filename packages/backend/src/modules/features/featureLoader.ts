@@ -2,7 +2,6 @@ import {
   createBackendFeatureLoader,
   coreServices,
 } from '@backstage/backend-plugin-api';
-//import { kubernetesModuleCustomExtension } from '../kubernetes/kubernetesExtension'; need refactor to
 import {
   catalogModuleInfracostProcessor,
   infracostPlugin,
@@ -10,6 +9,7 @@ import {
 import { catalogModuleCustomExtensions } from '../catalog/catalogExtension';
 import { gitlabPlugin } from '@immobiliarelabs/backstage-plugin-gitlab-backend';
 import { customGithubAuthProvider } from '../auth/githubCustomResolver';
+import { keycloakBackendModuleTransformer } from '../keycloak/keycloakEntityTransformer'
 
 export default createBackendFeatureLoader({
   deps: {
@@ -19,31 +19,38 @@ export default createBackendFeatureLoader({
   *loader({ config, logger }) {
     //yield import('@roadiehq/backstage-plugin-aws-auth');
     logger.info('---- Loading Feature Loader Plugins ----');
+
+    //azure devops
+    if (config.getBoolean('platform.enabledPlugins.azureDevops')) {
+      logger.info('Setting up Azure DevOps plugins');
+      yield import('@backstage-community/plugin-azure-devops-backend');
+      yield import('@backstage/plugin-catalog-backend-module-azure');
+      yield import('@backstage-community/plugin-scaffolder-backend-module-dotnet');
+      yield import('@backstage-community/plugin-catalog-backend-module-azure-devops-annotator-processor');
+      logger.info('Done setting up Azure DevOps plugins');
+    }
+
+    //keycloak
+    if (config.getBoolean('platform.enabledPlugins.keycloak')) {
+      logger.info('Setting up Keycloak plugins');
+      yield import('@backstage/plugin-auth-backend-module-oidc-provider');
+      yield import('@backstage-community/plugin-catalog-backend-module-keycloak');
+      yield keycloakBackendModuleTransformer ;
+      logger.info('Done setting up Keycloak plugins');
+    }
+
     //argocd
-    if (config.getBoolean('enabledPlugins.argocd')) {
+    if (config.getBoolean('platform.enabledPlugins.argocd')) {
       yield import('@roadiehq/backstage-plugin-argo-cd-backend/alpha');
       logger.info('@roadiehq/backstage-plugin-argo-cd-backend/alpha');
     }
 
     //vault
-    if (config.getBoolean('enabledPlugins.vault')) {
+    if (config.getBoolean('platform.enabledPlugins.vault')) {
       yield import('@internal/plugin-vault-backend');
       logger.info('@internal/plugin-vault-backend');
     }
 
-    //azure
-    if (config.getBoolean('enabledPlugins.azureDevops')) {
-      yield import('@backstage-community/plugin-azure-devops-backend');
-      logger.info('@backstage-community/plugin-azure-devops-backend');
-    }
-
-    //kubernetes
-    //if (config.getBoolean('enabledPlugins.kubernetes')) {
-    //  yield import('@backstage/plugin-kubernetes-backend/alpha');
-    //  logger.info('@backstage/plugin-kubernetes-backend/alpha');
-    //  yield kubernetesModuleCustomExtension;
-    //  logger.info('kubernetesModuleCustomExtension');
-    //}
     //guest
     if (config.getBoolean('platform.guest.enabled')) {
       yield import('@backstage/plugin-auth-backend-module-guest-provider');
@@ -51,7 +58,7 @@ export default createBackendFeatureLoader({
     }
 
     //infracost
-    if (config.getBoolean('enabledPlugins.infracost')) {
+    if (config.getBoolean('platform.enabledPlugins.infracost')) {
       yield catalogModuleInfracostProcessor;
       logger.info('catalogModuleInfracostProcessor');
       yield infracostPlugin;
@@ -59,7 +66,7 @@ export default createBackendFeatureLoader({
     }
 
     //kong
-    if (config.getBoolean('enabledPlugins.kong')) {
+    if (config.getBoolean('platform.enabledPlugins.kong')) {
       yield import('@veecode-platform/plugin-kong-service-manager-backend');
       logger.info('@veecode-platform/plugin-kong-service-manager-backend');
     }
@@ -71,13 +78,13 @@ export default createBackendFeatureLoader({
     //}
 
     // sonarqube
-    if (config.getBoolean('enabledPlugins.sonarqube')) {
+    if (config.getBoolean('platform.enabledPlugins.sonarqube')) {
       yield import('@backstage-community/plugin-sonarqube-backend');
       logger.info('@backstage-community/plugin-sonarqube-backend');
     }
 
     //gitlab
-    if (config.getBoolean('enabledPlugins.gitlab')) {
+    if (config.getBoolean('platform.enabledPlugins.gitlab')) {
       yield catalogModuleCustomExtensions;
       logger.info('catalogModuleCustomExtensions');
       yield gitlabPlugin;
