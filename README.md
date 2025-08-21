@@ -1,3 +1,14 @@
+### 🤔 Who we are?
+VeeCode DevPortal is a production-ready, open-source distribution of Backstage built for teams that want an Internal Developer Platform (IDP) up and running fast—without wiring every piece by hand. It ships with an opinionated configuration, a curated set of plugins, and first-class Dynamic Plugins, so you can turn capabilities on and off via YAML and evolve safely without deep, brittle forks.
+
+Out of the box, it centralizes your service catalog and ownership, standardizes project creation with reusable templates, and keeps documentation close to where engineers work through TechDocs. Integrations with common Git providers and CI/CD toolchains reduce context switching, while environment, cluster, and API/service management plugins bring day-to-day operations into one place. Because it stays close to Backstage upstream, upgrades are predictable and vendor lock-in isn’t a thing.
+
+You can run it locally with Node/Yarn, spin up a five-minute local cluster using VKDR for demos and onboarding, or deploy to Kubernetes via Helm for real workloads. Theming and branding are straightforward, and we provide practical auth examples (e.g., GitHub/Keycloak) so you can connect your organization’s identity quickly.
+
+VeeCode DevPortal is for Platform/DevEx, SRE, and Security teams who want golden paths, faster onboarding, shorter lead times, and governance that developers actually enjoy using. Expect fewer one-off setups, more consistency, and a smoother route from idea to production.
+
+This is an open project and contributions are welcome. If you’re new here, look for “good first issues.” If you’re proposing bigger changes, open a discussion or RFC. Bring your plugins, your use cases, and your feedback—let’s build an excellent developer experience together.
+
 ````markdown
 # VeeCode DevPortal — Open-source Backstage Distribution
 
@@ -5,7 +16,7 @@
 [![Docs](https://img.shields.io/badge/docs-DevPortal-informational.svg)](https://docs.platform.vee.codes/devportal/intro/)
 [![ArtifactHub](https://img.shields.io/badge/Helm-ArtifactHub-9cf.svg)](https://artifacthub.io/packages/helm/veecode-platform/devportal)
 
-**VeeCode DevPortal** is a production-ready, open-source distribution of **Backstage**. It ships with an opinionated setup, a curated plugin set, and **Dynamic Plugins** support to help you stand up an Internal Developer Platform (IDP) without assembling everything from scratch.
+VeeCode DevPortal is a production-ready, open-source distribution of Backstage. It ships with an opinionated setup, a curated plugin set, and Dynamic Plugins support to help you stand up an Internal Developer Platform (IDP) without assembling everything from scratch.
 
 
 ## ✨ Highlights
@@ -72,7 +83,7 @@ helm upgrade platform-devportal veecode-platform/devportal \
   -f values.yaml
 ```
 
-## ⚙️ Configuration & Dynamic Plugins
+### ⚙️ Configuration & Dynamic Plugins
 
 * **App config:** `app-config.yaml` (and `app-config.local.yaml` for local overrides)
 * **Dynamic plugins:** `dynamic-plugins.yaml` and `dynamic-plugins.default.yaml`
@@ -88,7 +99,7 @@ yarn dev          # start app
 yarn dev-local    # start app using local config
 ```
 
-## 🧩 What’s included
+### 🧩 What’s included
 
 * **Backstage base** — catalog, scaffolder, TechDocs
 * **VeeCode plugin set** (examples):
@@ -104,7 +115,7 @@ yarn dev-local    # start app using local config
 > Explore the wider plugin catalog in the VeeCode organization and documentation.
 
 
-## 🗂️ Repository layout (overview)
+### 🗂️ Repository layout (overview)
 
 ```
 chart/                      # Helm chart assets
@@ -122,7 +133,7 @@ DEV.md                      # Dev environment & detailed notes
 ```
 
 
-## 📚 Documentation
+### 📚 Documentation
 
 * **DevPortal Intro:** [https://docs.platform.vee.codes/devportal/intro/](https://docs.platform.vee.codes/devportal/intro/)
 * **Simple K8s Setup (GitHub/GitLab):** [https://docs.platform.vee.codes/devportal/installation-guide/simple-setup/](https://docs.platform.vee.codes/devportal/installation-guide/simple-setup/)
@@ -133,7 +144,7 @@ DEV.md                      # Dev environment & detailed notes
 * **Helm Chart (ArtifactHub):** [https://artifacthub.io/packages/helm/veecode-platform/devportal](https://artifacthub.io/packages/helm/veecode-platform/devportal)
 * **VeeCode Plugins:** [https://github.com/veecode-platform/platform-backstage-plugins](https://github.com/veecode-platform/platform-backstage-plugins)
 
-## 🤝 Contributing
+### 🤝 Contributing
 
 We welcome contributions!
 
@@ -143,18 +154,6 @@ We welcome contributions!
 * Add tests where applicable.
 
 > Be respectful and supportive. We follow a standard open-source code of conduct.
-
-
-## 🔒 Security
-
-If you discover a vulnerability, **do not** open a public issue.
-Please email **[security@vee.codes](mailto:security@vee.codes)** with details (and a PoC if possible).
-
-
-## 🙏 Acknowledgments
-
-* Thanks to the **Backstage** open-source community for the foundation.
-* Thanks to all **VeeCode** and community contributors who make this distribution better.
 
 ```
 
