@@ -5,10 +5,11 @@
 yarn build:backend
 ```
 ## Building docker 
+
 ```sh
-docker buildx build . -t veecode/devportal-bundle:latest --platform=linux/amd64 -f packages/backend/Dockerfile --push
+docker buildx build . -t veecode/devportal:latest -f docker/Dockerfile.dynamic
 ```
-docker build . -t veecode/devportal-bundle:1.0.11 -f packages/backend/Dockerfile
+
 # DevelopingHelm Chart Template
 
 ## Running in Dry run mode
