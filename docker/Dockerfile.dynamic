@@ -275,5 +275,10 @@ ENV NO_PROXY='localhost,127.0.0.1'
 #RUN chmod a=r ./instrumentation.js
 
 ENV NODE_OPTIONS="--no-node-snapshot"
+
+COPY --chmod=0755 entrypoint.sh /opt/
+
+ENTRYPOINT ["/opt/entrypoint.sh"]
+
 #ENTRYPOINT ["node", "--require", "./instrumentation.js", "packages/backend", "--config", "app-config.yaml"]
-ENTRYPOINT ["node", "packages/backend", "--config", "app-config.yaml"]
+CMD ["node", "packages/backend", "--config", "app-config.yaml"]

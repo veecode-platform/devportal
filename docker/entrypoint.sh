@@ -21,8 +21,12 @@ elif [ -n "$THEME_CUSTOM_JSON" ]; then
         echo "$THEME_CUSTOM_JSON" > /opt/app-root/src/packages/app/dist/theme.json
     else
         echo "Merging custom theme JSON from THEME_CUSTOM_JSON"
-        yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' \
-            <(echo "$THEME_CUSTOM_JSON") config.json -o=json /opt/app-root/src/packages/app/dist/theme.json
+        TARGET_JSON="/opt/app-root/src/packages/app/dist/theme.json"
+        TMP_JSON="$(mktemp)"
+        # Merge env-provided JSON with the existing JSON, output as JSON
+        yq -p=json -o=json eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' \
+            <(printf '%s' "$THEME_CUSTOM_JSON") "$TARGET_JSON" > "$TMP_JSON"
+        mv "$TMP_JSON" "$TARGET_JSON"
     fi
 fi
 # new "next" chart
@@ -30,6 +34,5 @@ if [ -n "$THEME_FAV_ICON" ]; then
     echo "Getting favicon.ico from $THEME_FAV_ICON"
     curl -L -o /opt/app-root/src/packages/app/dist/favicon.ico "$THEME_FAV_ICON"
 fi
-
 
 exec "$@"
