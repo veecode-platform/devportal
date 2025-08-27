@@ -276,7 +276,7 @@ ENV NO_PROXY='localhost,127.0.0.1'
 
 ENV NODE_OPTIONS="--no-node-snapshot"
 
-COPY --chmod=0755 entrypoint.sh /opt/
+COPY --chmod=0755 $EXTERNAL_SOURCE_NESTED/docker/entrypoint.sh /opt/
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
 
