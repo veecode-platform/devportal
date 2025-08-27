@@ -281,4 +281,4 @@ COPY --chmod=0755 $EXTERNAL_SOURCE_NESTED/docker/entrypoint.sh /opt/
 ENTRYPOINT ["/opt/entrypoint.sh"]
 
 #ENTRYPOINT ["node", "--require", "./instrumentation.js", "packages/backend", "--config", "app-config.yaml"]
-CMD ["node", "packages/backend", "--config", "app-config.yaml"]
+CMD ["--config", "app-config.yaml"]

@@ -35,4 +35,4 @@ if [ -n "$THEME_FAV_ICON" ]; then
     curl -L -o /opt/app-root/src/packages/app/dist/favicon.ico "$THEME_FAV_ICON"
 fi
 
-exec "$@"
+exec node packages/backend "$@"
