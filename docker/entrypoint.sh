@@ -23,10 +23,13 @@ elif [ -n "$THEME_CUSTOM_JSON" ]; then
         echo "Merging custom theme JSON from THEME_CUSTOM_JSON"
         TARGET_JSON="/opt/app-root/src/packages/app/dist/theme.json"
         TMP_JSON="$(mktemp)"
+        MERGED_JSON="$(mktemp)"
+        echo "$THEME_CUSTOM_JSON" > "$TMP_JSON"
         # Merge env-provided JSON with the existing JSON, output as JSON
         yq -p=json -o=json eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' \
-            <(printf '%s' "$THEME_CUSTOM_JSON") "$TARGET_JSON" > "$TMP_JSON"
-        mv "$TMP_JSON" "$TARGET_JSON"
+            "$TARGET_JSON" "$TMP_JSON" > "$MERGED_JSON"
+        mv "$MERGED_JSON" "$TARGET_JSON"
+        rm "$TMP_JSON"
     fi
 fi
 # new "next" chart
