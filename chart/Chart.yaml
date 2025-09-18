@@ -1,6 +1,6 @@
 apiVersion: v2
 name: devportal
-description: Platform devportal helm chart.
+description: Platform devportal helm chart. DEPRECATED, do not use.
 type: application
 version: "0.20.18"
 appVersion: "0.7.1"
