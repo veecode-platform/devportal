@@ -92,3 +92,5 @@ chart/README.md
 #python env
 bin/
 lib/
+pyvenv.cfg
+CACHEDIR.TAG

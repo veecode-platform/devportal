@@ -41,8 +41,8 @@ export default createBackendFeatureLoader({
 
     //argocd
     if (config.getBoolean('platform.enabledPlugins.argocd')) {
-      yield import('@roadiehq/backstage-plugin-argo-cd-backend/alpha');
-      logger.info('@roadiehq/backstage-plugin-argo-cd-backend/alpha');
+      yield import('@roadiehq/backstage-plugin-argo-cd-backend');
+      logger.info('@roadiehq/backstage-plugin-argo-cd-backend');
     }
 
     //vault
