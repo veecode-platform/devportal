@@ -1,15 +1,41 @@
 name: Publish New Devportal Release
-
+#
+# requires semver tag to be pushed
+#
 on:
   workflow_dispatch:
   push:
-    branches: ['main']
+    #branches: ['main']
+    tags:
+      - 'v*.*.*'
+      - '*.*.*'
 
 permissions:
   id-token: write
   contents: write
 
 jobs:
+
+  validate-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed if you want to delete a bad tag
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Ensure tag exists in main
+        run: |
+          git fetch origin main
+          TAG="${GITHUB_REF#refs/tags/}"
+          echo "Pushed TAG=$TAG"
+          SHA="$(git rev-parse "$TAG^{commit}")"
+          if git merge-base --is-ancestor "$SHA" origin/main; then
+            echo "OK: tag commit is reachable from main."
+          else
+            echo "ERROR: tag commit is not on main." >&2
+            exit 1
+          fi
 
   requirements:
     runs-on: ubuntu-latest
@@ -25,7 +51,6 @@ jobs:
           echo "app_version=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
           echo "chart_version=$(yq e '.version' chart/Chart.yaml)" >> $GITHUB_OUTPUT
           echo "node_version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
-
 
   #parallel build for x64 and amr64
   buildDevportal:
